@@ -4,10 +4,10 @@ using System.IO;
 using System.Security.Permissions;
 using System.Threading;
 using System.Xml;
+using AlarmWorkflow.Shared.Alarmfax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Jobs;
 using AlarmWorkflow.Shared.Logging;
-using AlarmWorkflow.Shared.Alarmfax;
 
 namespace AlarmWorkflow.Shared
 {
@@ -43,27 +43,27 @@ namespace AlarmWorkflow.Shared
             {
                 case "EVENTLOG":
                     {
-                        this.Logger = new EventLogLogger();
-                        this.Logger.IsEnabled = true;
+                        _logger = new EventLogLogger();
+                        _logger.IsEnabled = true;
                     }
 
                     break;
                 case "NONE":
                 default:
                     {
-                        this.Logger = new NoLogger();
-                        this.Logger.IsEnabled = false;
+                        _logger = new NoLogger();
+                        _logger.IsEnabled = false;
                     }
 
                     break;
             }
 
-            if (!this.Logger.Initialize())
+            if (!_logger.Initialize())
             {
                 throw new InvalidProgramException("Exepection occurred during Logger initiialization!");
             }
 
-            this.Logger.WriteInformation("Starting Service");
+            _logger.WriteInformation("Starting Service");
 
             // Thread Einstellungen initiieren
             node = doc.GetElementsByTagName("Service")[0];
@@ -74,22 +74,22 @@ namespace AlarmWorkflow.Shared
             string ocrpath = node.SelectSingleNode("OCRSoftware").Attributes["path"].InnerText;
             string parser = node.SelectSingleNode("AlarmfaxParser").InnerText;
 
-            this.WorkingThreadInstance = new WorkingThread();
+            _workingThreadInstance = new WorkingThread();
 
-            this.WorkingThreadInstance.FaxPath = faxPath;
-            this.WorkingThreadInstance.ArchievPath = archievPath;
-            this.WorkingThreadInstance.Logger = this.Logger;
-            this.WorkingThreadInstance.AnalysisPath = analysisPath;
+            _workingThreadInstance.FaxPath = faxPath;
+            _workingThreadInstance.ArchievPath = archievPath;
+            _workingThreadInstance.Logger = _logger;
+            _workingThreadInstance.AnalysisPath = analysisPath;
             if (ocr.ToUpperInvariant() == "TESSERACT")
             {
-                this.WorkingThreadInstance.UseOCRSoftware = OcrSoftware.Tesseract;
+                _workingThreadInstance.UseOCRSoftware = OcrSoftware.Tesseract;
             }
             else
             {
-                this.WorkingThreadInstance.UseOCRSoftware = OcrSoftware.Cuneiform;
+                _workingThreadInstance.UseOCRSoftware = OcrSoftware.Cuneiform;
             }
 
-            this.WorkingThreadInstance.OcrPath = ocrpath;
+            _workingThreadInstance.OcrPath = ocrpath;
 
             // AktiveJobs Options
             XmlNodeList aktiveJobsList = doc.GetElementsByTagName("AktiveJobs");
@@ -184,7 +184,7 @@ namespace AlarmWorkflow.Shared
                     rplist.Add(rps);
                 }
 
-                this.WorkingThreadInstance.ReplacingList = rplist;
+                _workingThreadInstance.ReplacingList = rplist;
             }
 
             // Import parser with the given name/alias
@@ -202,23 +202,23 @@ namespace AlarmWorkflow.Shared
             if (databaseAktive)
             {
                 // TODO: Hardcoded - to be defined in the job's settings!
-                this.WorkingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DatabaseJob"));
+                _workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DatabaseJob"));
             }
 
             if (displayWakeUpAktive)
             {
-                //this.WorkingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DisplayWakeUp"));
+                //_workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DisplayWakeUp"));
             }
 
             if (mailAktive)
             {
                 // TODO: Hardcoded - to be defined in the job's settings!
-                this.WorkingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("MailingJob"));
+                _workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("MailingJob"));
             }
 
             if (smsAktive)
             {
-                //this.WorkingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("SmsJob"));
+                //_workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("SmsJob"));
             }
 
             // Initialize all jobs
@@ -229,43 +229,13 @@ namespace AlarmWorkflow.Shared
         }
 
         /// <summary>
-        /// Gets or sets the workingThread object.
-        /// </summary>
-        /// <value>
-        /// Gets or sets the workingThread object.
-        /// </value>
-        public Thread WorkerThread
-        {
-            get { return this._workingThread; }
-            set { this._workingThread = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the workingThreadInstance object.
-        /// </summary>
-        internal WorkingThread WorkingThreadInstance
-        {
-            get { return this._workingThreadInstance; }
-            set { this._workingThreadInstance = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the logger object.
-        /// </summary>
-        internal ILogger Logger
-        {
-            get { return this._logger; }
-            set { this._logger = value; }
-        }
-
-        /// <summary>
         /// Starts the monitor thread, which is waiting for a new Alarm.
         /// </summary>
         public void Start()
         {
-            this.WorkerThread = new Thread(new ThreadStart(this.WorkingThreadInstance.DoWork));
-            this.WorkerThread.Start();
-            this.Logger.WriteInformation("Started Service");
+            _workingThread = new Thread(new ThreadStart(_workingThreadInstance.DoWork));
+            _workingThread.Start();
+            _logger.WriteInformation("Started Service");
         }
 
         /// <summary>
@@ -273,13 +243,13 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         public void Stop()
         {
-            this.Logger.WriteInformation("Stopping Service");
-            if (this.WorkerThread != null)
+            _logger.WriteInformation("Stopping Service");
+            if (_workingThread != null)
             {
-                this.WorkerThread.Abort();
+                _workingThread.Abort();
             }
 
-            this.Logger.WriteInformation("Stopped Service");
+            _logger.WriteInformation("Stopped Service");
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.Service", "AlarmWorkflow.Windows.Service\AlarmWorkflow.Windows.Service.csproj", "{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AnyCPU = Debug|AnyCPU
+		Release|AnyCPU = Release|AnyCPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}.Debug|AnyCPU.Build.0 = Debug|Any CPU
+		{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}.Release|AnyCPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
