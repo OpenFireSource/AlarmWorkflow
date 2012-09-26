@@ -1,0 +1,3 @@
+<StyleCopViolations>
+  <Violation Section="Root" LineNumber="81" Source="AlarmworkflowService.cs" RuleNamespace="Microsoft.StyleCop.CSharp.SpacingRules" Rule="KeywordsMustBeSpacedCorrectly" RuleId="SA1000">The spacing around the keyword 'catch' is invalid.</Violation>
+</StyleCopViolations>

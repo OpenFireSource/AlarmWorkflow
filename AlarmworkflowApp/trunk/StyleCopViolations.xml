@@ -1,0 +1,3 @@
+<StyleCopViolations>
+  <Violation Section="Root" LineNumber="45" Source="Properties\WPFAssemblyInfo.cs" RuleNamespace="Microsoft.StyleCop.CSharp.SpacingRules" Rule="ClosingParenthesisMustBeSpacedCorrectly" RuleId="SA1009">Invalid spacing around the closing parenthesis.</Violation>
+</StyleCopViolations>

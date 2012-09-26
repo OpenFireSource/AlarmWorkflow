@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AlarmWorkflow>
+  <replacing>
+    <replace old="straBe" new="straße" />
+	  <replace old="StraBe" new="Straße" />
+  </replacing>
+  <Jobs>
+    <DataBase>
+      <DBServer>ServerName</DBServer>
+      <DBName>DBName</DBName>
+      <UserID>DBUser</UserID>
+      <UserPWD>DBPassword</UserPWD>
+    </DataBase>
+    <Mailing>
+      <MailServer>MailServrURL</MailServer>
+      <User>MailServerUser</User>
+      <Pwd>MailServerPassowrd</Pwd>
+      <FromMail>FromMailAddress</FromMail>
+      <MailAdresses>
+        <MailAddress debug="true">andreas@openfiresource.de</MailAddress>
+      </MailAdresses>
+    </Mailing>
+    <SMS password="SMS77Pwd" username="SMS77User">
+      <Nummern>
+        <Nummer debug="true">123456789</Nummer>
+      </Nummern>
+    </SMS>
+    <DisplayWakeUp>
+      <Display ip="DisplayIP" user="DisplayUser" pwd="DisplayPassword" port="80"/>
+    </DisplayWakeUp>
+  </Jobs>
+  <Logging>
+    <!--<Logger type="none"/>-->
+    <Logger type="EventLog"/>
+  </Logging>
+  <Service>
+    <FaxPath>C:\Fax</FaxPath>
+    <ArchievPath>C:\Fax\Archiev\</ArchievPath>
+    <AnalysisPath>C:\Fax\Auswertungen\</AnalysisPath>
+  	<OCRSoftware type="cuneiform" path="" /><!-- if path is empty. Alarmworkflow will use the standard path. -->
+	<AlarmfaxParser>MucLandParser</AlarmfaxParser><!--Cuurently available: MucLandParser-->
+  </Service>
+  <AktiveJobs DebugMode="true" >
+	<Database aktive="false" />
+    <SMS aktive="false" />
+    <Mailing aktive="false" />
+    <Replacing aktive="false" />
+    <DisplayWakeUp aktive="false" />
+  </AktiveJobs>
+</AlarmWorkflow>
