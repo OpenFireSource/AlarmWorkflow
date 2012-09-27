@@ -1,0 +1,10 @@
+
+*.dll
+*.pdb
+*.XML
+*.lastcodeanalysissucceeded
+*.xml
+*.InstallLog
+*.exe
+*.manifest
+*.bat
