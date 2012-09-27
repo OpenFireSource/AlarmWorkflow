@@ -1,0 +1,38 @@
+﻿<Window x:Class="AlarmWorkflow.Windows.UI.EventWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"  d:DesignHeight="307" d:DesignWidth="708" SizeToContent="WidthAndHeight"
+        Title="EventWindow">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="btv" />
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Event list (only shown if more than one simultaneous events) -->
+        <ListBox Grid.Column="0" Margin="2"
+                 Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}"
+                 ItemsSource="{Binding AvailableEvents}">
+
+        </ListBox>
+
+        <!-- Details view -->
+        <Grid Grid.Column="1" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- -->
+            
+        </Grid>
+
+    </Grid>
+</Window>

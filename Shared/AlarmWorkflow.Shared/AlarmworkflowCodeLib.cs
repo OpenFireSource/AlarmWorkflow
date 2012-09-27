@@ -14,13 +14,22 @@ namespace AlarmWorkflow.Shared
     /// <summary>
     /// Description of AlarmworkflowCodeLib.
     /// </summary>
-    public class AlarmworkflowClass
+    public sealed class AlarmworkflowClass : IDisposable
     {
         #region Fields
 
         private ILogger _logger;
         private Thread _workingThread;
         private WorkingThread _workingThreadInstance;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets whether or not the AlarmWorkflow-process is running.
+        /// </summary>
+        public bool IsStarted { get; private set; }
 
         #endregion
 
@@ -34,39 +43,12 @@ namespace AlarmWorkflow.Shared
         public AlarmworkflowClass()
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Content\AlarmWorkflow.xml");
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
 
-            // Initialising Logger
-            XmlNode node = doc.GetElementsByTagName("Logging")[0];
-            string loggerstr = node.SelectSingleNode("Logger").Attributes["type"].Value;
-            switch (loggerstr.ToUpperInvariant())
-            {
-                case "EVENTLOG":
-                    {
-                        _logger = new EventLogLogger();
-                        _logger.IsEnabled = true;
-                    }
-
-                    break;
-                case "NONE":
-                default:
-                    {
-                        _logger = new NoLogger();
-                        _logger.IsEnabled = false;
-                    }
-
-                    break;
-            }
-
-            if (!_logger.Initialize())
-            {
-                throw new InvalidProgramException("Exepection occurred during Logger initiialization!");
-            }
-
-            _logger.WriteInformation("Starting Service");
+            InitializeLogger(doc);
 
             // Thread Einstellungen initiieren
-            node = doc.GetElementsByTagName("Service")[0];
+            XmlNode node = doc.GetElementsByTagName("Service")[0];
             string faxPath = node.SelectSingleNode("FaxPath").InnerText;
             string archievPath = node.SelectSingleNode("ArchievPath").InnerText;
             string analysisPath = node.SelectSingleNode("AnalysisPath").InnerText;
@@ -77,7 +59,7 @@ namespace AlarmWorkflow.Shared
             _workingThreadInstance = new WorkingThread();
 
             _workingThreadInstance.FaxPath = faxPath;
-            _workingThreadInstance.ArchievPath = archievPath;
+            _workingThreadInstance.ArchivePath = archievPath;
             _workingThreadInstance.Logger = _logger;
             _workingThreadInstance.AnalysisPath = analysisPath;
             if (ocr.ToUpperInvariant() == "TESSERACT")
@@ -110,61 +92,11 @@ namespace AlarmWorkflow.Shared
             {
                 switch (xnode.Name)
                 {
-                    case "Database":
-                        if (xnode.Attributes["aktive"].InnerText == "true")
-                        {
-                            databaseAktive = true;
-                        }
-                        else
-                        {
-                            databaseAktive = false;
-                        }
-
-                        break;
-                    case "SMS":
-                        if (xnode.Attributes["aktive"].InnerText == "true")
-                        {
-                            smsAktive = true;
-                        }
-                        else
-                        {
-                            smsAktive = false;
-                        }
-
-                        break;
-                    case "Mailing":
-                        if (xnode.Attributes["aktive"].InnerText == "true")
-                        {
-                            mailAktive = true;
-                        }
-                        else
-                        {
-                            mailAktive = false;
-                        }
-
-                        break;
-                    case "Replacing":
-                        if (xnode.Attributes["aktive"].InnerText == "true")
-                        {
-                            replaceAktive = true;
-                        }
-                        else
-                        {
-                            replaceAktive = false;
-                        }
-
-                        break;
-                    case "DisplayWakeUp":
-                        if (xnode.Attributes["aktive"].InnerText == "true")
-                        {
-                            displayWakeUpAktive = true;
-                        }
-                        else
-                        {
-                            displayWakeUpAktive = false;
-                        }
-
-                        break;
+                    case "Database": databaseAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
+                    case "SMS": smsAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
+                    case "Mailing": mailAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
+                    case "Replacing": replaceAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
+                    case "DisplayWakeUp": displayWakeUpAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
                     default:
                         break;
                 }
@@ -191,7 +123,26 @@ namespace AlarmWorkflow.Shared
             _workingThreadInstance.Parser = ExportedTypeLibrary.Import<IParser>(parser);
         }
 
+        private void InitializeLogger(XmlDocument doc)
+        {
+            // Initialising Logger
+            XmlNode node = doc.GetElementsByTagName("Logging")[0];
+            string loggerstr = node.SelectSingleNode("Logger").Attributes["type"].Value;
+
+            _logger = ExportedTypeLibrary.Import<ILogger>(loggerstr);
+
+            if (!_logger.Initialize())
+            {
+                // If logger initialization failed, use the null logger
+                _logger = new Logging.NoLogger();
+            }
+
+            _logger.WriteInformation("Starting Service");
+        }
+
         #endregion
+
+        #region Methods
 
         private void InitializeJobs(XmlDocument doc, bool debugaktive, bool databaseAktive, bool smsAktive, bool mailAktive, bool displayWakeUpAktive)
         {
@@ -233,9 +184,16 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         public void Start()
         {
+            if (IsStarted)
+            {
+                return;
+            }
+
             _workingThread = new Thread(new ThreadStart(_workingThreadInstance.DoWork));
             _workingThread.Start();
             _logger.WriteInformation("Started Service");
+
+            IsStarted = true;
         }
 
         /// <summary>
@@ -243,6 +201,11 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         public void Stop()
         {
+            if (!IsStarted)
+            {
+                return;
+            }
+
             _logger.WriteInformation("Stopping Service");
             if (_workingThread != null)
             {
@@ -250,6 +213,28 @@ namespace AlarmWorkflow.Shared
             }
 
             _logger.WriteInformation("Stopped Service");
+
+            IsStarted = false;
         }
+
+        #endregion
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Stop();
+
+            if (_workingThreadInstance != null)
+            {
+                _workingThreadInstance.Dispose();
+                _workingThreadInstance = null;
+            }
+        }
+
+        #endregion
     }
 }

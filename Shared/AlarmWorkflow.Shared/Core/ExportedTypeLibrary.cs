@@ -90,6 +90,11 @@ namespace AlarmWorkflow.Shared.Core
             return false;
         }
 
+        private static ExportedType GetExport(string alias, Type interfaceType)
+        {
+            return GetExports(interfaceType).Find(e => e.Attribute.Alias.Equals(alias));
+        }
+
         /// <summary>
         /// Searches the first exported occurrence of the given type and creates an instance of it.
         /// </summary>
@@ -124,6 +129,21 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
+        /// Imports all selected exports and creates instances out of them.
+        /// </summary>
+        /// <typeparam name="T">The type of the exported interface to get the export of.</typeparam>
+        /// <returns></returns>
+        public static List<T> ImportAll<T>()
+        {
+            List<T> list = new List<T>();
+            foreach (var item in GetExports(typeof(T)))
+            {
+                list.Add(item.CreateInstance<T>());
+            }
+            return list;
+        }
+
+        /// <summary>
         /// Returns a list containing all types that export the desired interface.
         /// </summary>
         /// <param name="interfaceType">The interface type to get all exports for.</param>
@@ -139,21 +159,6 @@ namespace AlarmWorkflow.Shared.Core
                 }
             }
             return exports;
-        }
-
-        public static ExportedType GetExport(string alias, Type interfaceType)
-        {
-            return GetExports(interfaceType).Find(e => e.Attribute.Alias.Equals(alias));
-        }
-
-        public static ExportAttribute GetExportAttribute(Type exportedType)
-        {
-            ExportAttribute[] attributes = (ExportAttribute[])exportedType.GetCustomAttributes(typeof(ExportAttribute), false);
-            if (attributes.Length == 1)
-            {
-                return attributes[0];
-            }
-            return null;
         }
 
         #endregion

@@ -111,64 +111,49 @@ namespace AlarmWorkflow.Shared.Jobs
             this.errormsg = string.Empty;
         }
 
-
         bool IJob.DoJob(Operation einsatz)
         {
             this.errormsg = string.Empty;
             SmtpClient client = new SmtpClient(this.server);
 
             // create the Mail
-            System.Net.Mail.MailMessage message = new MailMessage();
-            message.From = new MailAddress(this.fromEmail);
-            foreach (string ma in this.emaillist)
+            using (MailMessage message = new MailMessage())
             {
-                message.To.Add(ma);
-            }
+                message.From = new MailAddress(this.fromEmail);
+                foreach (string ma in this.emaillist)
+                {
+                    message.To.Add(ma);
+                }
 
-            message.Subject = "FFWPlanegg Einsatz";
-            message.Body += "Einsatznr: " + einsatz.Einsatznr + "\n";
-            message.Body += "Mitteiler: " + einsatz.Mitteiler + "\n";
-            message.Body += "Einsatzort: " + einsatz.Einsatzort + "\n";
-            message.Body += "Strasse: " + einsatz.Strasse + "\n";
-            message.Body += "Kreuzung: " + einsatz.Kreuzung + "\n";
-            message.Body += "Ort: " + einsatz.Ort + "\n";
-            message.Body += "Objekt: " + einsatz.Objekt + "\n";
-            message.Body += "Meldebild: " + einsatz.Meldebild + "\n";
-            message.Body += "Hinweis: " + einsatz.Hinweis + "\n";
-            message.Body += "Einsatzplan: " + einsatz.Einsatzplan + "\n";
+                message.Subject = "FFWPlanegg Einsatz";
+                message.Body += "Einsatznr: " + einsatz.Einsatznr + "\n";
+                message.Body += "Mitteiler: " + einsatz.Mitteiler + "\n";
+                message.Body += "Einsatzort: " + einsatz.Einsatzort + "\n";
+                message.Body += "Strasse: " + einsatz.Strasse + "\n";
+                message.Body += "Kreuzung: " + einsatz.Kreuzung + "\n";
+                message.Body += "Ort: " + einsatz.Ort + "\n";
+                message.Body += "Objekt: " + einsatz.Objekt + "\n";
+                message.Body += "Meldebild: " + einsatz.Meldebild + "\n";
+                message.Body += "Hinweis: " + einsatz.Hinweis + "\n";
+                message.Body += "Einsatzplan: " + einsatz.Einsatzplan + "\n";
 
-            message.BodyEncoding = Encoding.UTF8;
+                message.BodyEncoding = Encoding.UTF8;
 
-            // Authentifizierung
-            NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
-            client.Credentials = credential;
+                // Authentifizierung
+                NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
+                client.Credentials = credential;
 
-            // send
-            try
-            {
-                client.Send(message);
+                // send
+                try
+                {
+                    client.Send(message);
+                }
+                catch (Exception e)
+                {
+                    this.errormsg = e.ToString();
+                    return false;
+                }
             }
-            catch (ArgumentNullException e)
-            {
-                this.errormsg = e.ToString();
-                return false;
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                this.errormsg = e.ToString();
-                return false;
-            }
-            catch (InvalidOperationException e)
-            {
-                this.errormsg = e.ToString();
-                return false;
-            }
-            catch (SmtpException e)
-            {
-                this.errormsg = e.ToString();
-                return false;
-            }
-
             return true;
         }
 

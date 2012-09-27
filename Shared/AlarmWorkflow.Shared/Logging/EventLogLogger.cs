@@ -1,108 +1,84 @@
 ﻿using System;
 using System.Diagnostics;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Shared.Logging
 {
     /// <summary>
     /// The EventLogLogger class log all events to the windows event log.
     /// </summary>
-    public class EventLogLogger : ILogger
+    [Export("EventLog", typeof(ILogger))]
+    sealed class EventLogLogger : ILogger
     {
-        /// <summary>
-        /// The Eventlog, in which the logger logs.
-        /// </summary>
-        private EventLog eventLog1 = new EventLog("Application", ".");
+        #region Fields
+
+        private EventLog _eventLog;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
-        /// Gets/sets whether or not the Logger is enabled.
+        /// Initializes a new instance of the <see cref="EventLogLogger"/> class.
         /// </summary>
-        public bool IsEnabled { get; set; }
-
-        /// <summary>
-        /// Inherited by iLogger abstract class. Initializes the logger.
-        /// </summary>
-        /// <returns>False when an error occured, otherwise true.</returns>
-        public bool Initialize()
+        public EventLogLogger()
         {
-            if (IsEnabled)
-            {
-                try
-                {
-                    if (!System.Diagnostics.EventLog.SourceExists("AlarmWorkflow"))
-                    {
-                        System.Diagnostics.EventLog.CreateEventSource("AlarmWorkflow", "Application");
-                    }
+            _eventLog = new EventLog("Application", ".");
+        }
 
-                    this.eventLog1.Source = "AlarmWorkflow";
-                }
-                catch (Exception)
+        #endregion
+
+        #region ILogger Members
+
+        bool ILogger.Initialize()
+        {
+            try
+            {
+                if (!System.Diagnostics.EventLog.SourceExists("AlarmWorkflow"))
                 {
-                    IsEnabled = false;
-                    return false;
+                    System.Diagnostics.EventLog.CreateEventSource("AlarmWorkflow", "Application");
                 }
 
-                return true;
+                _eventLog.Source = "AlarmWorkflow";
             }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Inherited by iLogger abstract class. Write some information to the Log.
-        /// </summary>
-        /// <param name="info">The information which will be loged.</param>
-        public void WriteInformation(string info)
-        {
-            if (IsEnabled)
+            catch (Exception)
             {
-                this.eventLog1.WriteEntry(info, EventLogEntryType.Information);
+                return false;
             }
+
+            return true;
         }
 
-        /// <summary>
-        /// Inherited by iLogger abstract class. Write some warning to the Log.
-        /// </summary>
-        /// <param name="warning">The warning which will be loged.</param>
-        public void WriteWarning(string warning)
+        void ILogger.WriteInformation(string info)
         {
-            if (IsEnabled)
-            {
-                this.eventLog1.WriteEntry(warning, EventLogEntryType.Warning);
-            }
+            _eventLog.WriteEntry(info, EventLogEntryType.Information);
         }
 
-        /// <summary>
-        /// Inherited by iLogger abstract class. Write some error to the Log.
-        /// </summary>
-        /// <param name="errorMessage">The error which will be loged.</param>
-        public void WriteError(string errorMessage)
+        void ILogger.WriteWarning(string warning)
         {
-            if (IsEnabled)
-            {
-                this.eventLog1.WriteEntry(errorMessage, EventLogEntryType.Error);
-            }
+            _eventLog.WriteEntry(warning, EventLogEntryType.Warning);
         }
 
-        /// <summary>
-        /// Inherited by IDisposable interface.
-        /// </summary>
-        public void Dispose()
+        void ILogger.WriteError(string errorMessage)
         {
-            this.Dispose(true);
+            _eventLog.WriteEntry(errorMessage, EventLogEntryType.Error);
+        }
+
+        void IDisposable.Dispose()
+        {
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        /// Clean the object.
-        /// </summary>
-        /// <param name="alsoManaged">Indicates if also managed code shoud be cleaned up.</param>
-        protected virtual void Dispose(bool alsoManaged)
+        private void Dispose(bool alsoManaged)
         {
-            if (alsoManaged == true)
+            if (alsoManaged)
             {
-                this.eventLog1.Dispose();
-                this.eventLog1 = null;
+                _eventLog.Dispose();
+                _eventLog = null;
             }
         }
+
+        #endregion
     }
 }

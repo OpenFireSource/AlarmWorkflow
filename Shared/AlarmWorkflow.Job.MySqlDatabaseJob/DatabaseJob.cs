@@ -77,17 +77,19 @@ namespace AlarmWorkflow.Shared.Jobs
             this.errormsg = string.Empty;
             try
             {
-                MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd);
-                conn.Open();
-                if (conn.State != System.Data.ConnectionState.Open)
+                using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
                 {
-                    this.errormsg = "Coud not open SQL Connection";
-                    return false;
-                }
+                    conn.Open();
+                    if (conn.State != System.Data.ConnectionState.Open)
+                    {
+                        this.errormsg = "Coud not open SQL Connection";
+                        return false;
+                    }
 
-                string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.Einsatznr + "', '" + einsatz.Einsatzort + "', '" + einsatz.Einsatzplan + "', '" + einsatz.Hinweis + "', '" + einsatz.Kreuzung + "', '" + einsatz.Meldebild + "', '" + einsatz.Mitteiler + "', '" + einsatz.Objekt + "', '" + einsatz.Ort + "', '" + einsatz.Strasse + "', '" + einsatz.Stichwort + "')";
-                MySqlCommand cmd = new MySqlCommand(cmdText, conn);
-                cmd.ExecuteNonQuery();
+                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.Einsatznr + "', '" + einsatz.Einsatzort + "', '" + einsatz.Einsatzplan + "', '" + einsatz.Hinweis + "', '" + einsatz.Kreuzung + "', '" + einsatz.Meldebild + "', '" + einsatz.Mitteiler + "', '" + einsatz.Objekt + "', '" + einsatz.Ort + "', '" + einsatz.Strasse + "', '" + einsatz.Stichwort + "')";
+                    MySqlCommand cmd = new MySqlCommand(cmdText, conn);
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception ex)
             {
