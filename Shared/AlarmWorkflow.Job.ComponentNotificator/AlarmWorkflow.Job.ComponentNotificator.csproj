@@ -5,13 +5,14 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</ProjectGuid>
+    <ProjectGuid>{BF36221D-B237-49E0-87B6-A1D7174C40E9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Shared</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Shared</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Job.ComponentNotificator</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Job.ComponentNotificator</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,8 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,34 +31,23 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Shared.XML</DocumentationFile>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Alarmfax\IParser.cs" />
-    <Compile Include="AlarmworkflowCodeLib.cs" />
-    <Compile Include="Core\ExportAttribute.cs" />
-    <Compile Include="Core\ExportedType.cs" />
-    <Compile Include="Core\ExportedTypeLibrary.cs" />
-    <Compile Include="Core\Utilities.cs" />
-    <Compile Include="Core\Operation.cs" />
-    <Compile Include="Jobs\IJob.cs" />
-    <Compile Include="Logging\EventLogLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\NoLogger.cs" />
-    <Compile Include="WorkingThread.cs" />
+    <Compile Include="ComponentNotificatorJob.cs" />
+    <Compile Include="INotifyable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\AlarmWorkflow.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj">
+      <Project>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</Project>
+      <Name>AlarmWorkflow.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

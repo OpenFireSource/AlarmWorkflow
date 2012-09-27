@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -154,72 +155,19 @@ namespace AlarmWorkflow.Shared
     /// This class is started in a own thread, and do all that work.
     /// </summary>
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
-    internal class WorkingThread : IDisposable
+    internal sealed class WorkingThread : IDisposable
     {
-        #region private members
+        #region Fields
 
-        /// <summary>
-        /// Saves the path where the fax server, saves the faxes.
-        /// </summary>
-        private string faxPath;
-
-        /// <summary>
-        /// Saves the path to the fax archiev.
-        /// </summary>
-        private string archievPath;
-
-        /// <summary>
-        /// The logger instance.
-        /// </summary>
-        private ILogger logger;
-
-        /// <summary>
-        /// Path where all analyses are saved.
-        /// </summary>
-        private string analysisPath;
-
-        /// <summary>
-        /// A list where all jobs are listed.
-        /// </summary>
-        private List<IJob> jobList;
-
-        /// <summary>
-        /// A list where all replace strings are saved.
-        /// </summary>
-        private List<ReplaceString> replacingList;
-
-        /// <summary>
-        /// The FileSystemWatcher instance.
-        /// </summary>
         private FileSystemWatcher fileSystemWatcher;
 
-        /// <summary>
-        /// Indicates the ocr Software  that will be used.
-        /// </summary>
-        private OcrSoftware useOCRSoftware;
+        private DirectoryInfo _faxPath;
+        private DirectoryInfo _archivePath;
+        private DirectoryInfo _analysisPath;
 
-        /// <summary>
-        /// The Path, where Alarmworkflow finds the ocr software.
-        /// </summary>
-        private string ocrPath;
-
-        /// <summary>
-        /// This object is parsing the ocr text file.
-        /// </summary>
-        private IParser parser;
         #endregion
 
-        #region constrcutor
-        /// <summary>
-        /// Initializes a new instance of the WorkingThread class.
-        /// </summary>
-        public WorkingThread()
-        {
-            this.jobList = new List<IJob>();
-            this.useOCRSoftware = OcrSoftware.Cuneiform;
-            this.ocrPath = String.Empty;
-        }
-        #endregion
+        #region Properties
 
         /// <value>
         /// Gets the job list.
@@ -227,13 +175,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Gets the job list.
         /// </summary>
-        internal List<IJob> Jobs
-        {
-            get
-            {
-                return this.jobList;
-            }
-        }
+        internal List<IJob> Jobs { get; private set; }
 
         /// <value>
         /// Gets or sets the logger object.
@@ -241,18 +183,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Gets or sets the logger object.
         /// </summary>
-        internal ILogger Logger
-        {
-            get
-            {
-                return this.logger;
-            }
-
-            set
-            {
-                this.logger = value;
-            }
-        }
+        internal ILogger Logger { get; set; }
 
         /// <value>
         /// Sets the fax path.
@@ -262,10 +193,7 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         internal string FaxPath
         {
-            set
-            {
-                this.faxPath = value;
-            }
+            set { _faxPath = new DirectoryInfo(value); }
         }
 
         /// <value>
@@ -274,12 +202,9 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Sets the archiev path.
         /// </summary>
-        internal string ArchievPath
+        internal string ArchivePath
         {
-            set
-            {
-                this.archievPath = value;
-            }
+            set { _archivePath = new DirectoryInfo(value); }
         }
 
         /// <value>
@@ -290,10 +215,7 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         internal string AnalysisPath
         {
-            set
-            {
-                this.analysisPath = value;
-            }
+            set { _analysisPath = new DirectoryInfo(value); }
         }
 
         /// <value>
@@ -302,13 +224,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Sets the replacing list.
         /// </summary>
-        internal List<ReplaceString> ReplacingList
-        {
-            set
-            {
-                this.replacingList = value;
-            }
-        }
+        internal List<ReplaceString> ReplacingList { get; set; }
 
         /// <value>
         /// Sets the useOCRSoftware.
@@ -316,13 +232,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Sets the useOCRSoftware.
         /// </summary>
-        internal OcrSoftware UseOCRSoftware
-        {
-            set
-            {
-                this.useOCRSoftware = value;
-            }
-        }
+        internal OcrSoftware UseOCRSoftware { get; set; }
 
         /// <value>
         /// Sets the useOCRSoftware.
@@ -330,13 +240,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Sets the useOCRSoftware.
         /// </summary>
-        internal string OcrPath
-        {
-            set
-            {
-                this.ocrPath = value;
-            }
-        }
+        internal string OcrPath { get; set; }
 
         /// <value>
         /// Sets the parser.
@@ -344,12 +248,57 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Sets the parser.
         /// </summary>
-        internal IParser Parser
+        internal IParser Parser { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorkingThread"/> class.
+        /// </summary>
+        public WorkingThread()
         {
-            set
+            Jobs = new List<IJob>();
+            UseOCRSoftware = OcrSoftware.Cuneiform;
+            OcrPath = String.Empty;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Makes sure that the required directories exist.
+        /// </summary>
+        private void EnsureDirectoriesExist()
+        {
+            if (!_faxPath.Exists)
             {
-                this.parser = value;
+                _faxPath.Create();
             }
+            if (!_archivePath.Exists)
+            {
+                _archivePath.Create();
+            }
+            if (!_analysisPath.Exists)
+            {
+                _analysisPath.Create();
+            }
+        }
+
+        /// <summary>
+        /// This Methode is started with the thread start.
+        /// </summary>
+        internal void DoWork()
+        {
+            EnsureDirectoriesExist();
+
+            this.fileSystemWatcher = new FileSystemWatcher(_faxPath.FullName, "*.TIF");
+            this.fileSystemWatcher.IncludeSubdirectories = false;
+            this.fileSystemWatcher.Created += new FileSystemEventHandler(_fileSystemWatcher_Created);
+            this.fileSystemWatcher.EnableRaisingEvents = true;
+            this.fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Created);
         }
 
         /// <summary>
@@ -362,23 +311,23 @@ namespace AlarmWorkflow.Shared
         }
 
         /// <summary>
-        /// This Methode is started with the thread start.
+        /// Clean the object.
         /// </summary>
-        internal void DoWork()
+        /// <param name="alsoManaged">Indicates if also managed code shoud be cleaned up.</param>
+        private void Dispose(bool alsoManaged)
         {
-            this.fileSystemWatcher = new FileSystemWatcher(this.faxPath, "*.TIF");
-            this.fileSystemWatcher.IncludeSubdirectories = false;
-            this.fileSystemWatcher.Created += new FileSystemEventHandler(this._fileSystemWatcher_Created);
-            this.fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Created);
-            this.fileSystemWatcher.EnableRaisingEvents = true;
+            if (alsoManaged == true)
+            {
+                this.fileSystemWatcher.Dispose();
+                this.fileSystemWatcher = null;
+            }
         }
 
-        /// <summary>
-        /// This methode is called when a new fax arrievs.
-        /// </summary>
-        /// <param name="sender">Sender object.</param>
-        /// <param name="e">FileSystemEventArgs Parameter.</param>
-        internal void _fileSystemWatcher_Created(object sender, FileSystemEventArgs e)
+        #endregion
+
+        #region Event handlers
+
+        private void _fileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             this.fileSystemWatcher.EnableRaisingEvents = false;
             FileInfo f;
@@ -432,20 +381,20 @@ namespace AlarmWorkflow.Shared
                 tried++;
                 try
                 {
-                    f.MoveTo(this.archievPath + analyseFileName + ".TIF");
+                    f.MoveTo(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
                     fileIsMoved = true;
                 }
                 catch (IOException ex)
                 {
                     if (tried < 60)
                     {
-                        this.logger.WriteInformation("Coudn´t move file. Try " + tried.ToString(CultureInfo.InvariantCulture) + " of 10!");
+                        Logger.WriteInformation("Coudn´t move file. Try " + tried.ToString(CultureInfo.InvariantCulture) + " of 10!");
                         Thread.Sleep(1000);
                         fileIsMoved = false;
                     }
                     else
                     {
-                        this.logger.WriteError("Coundn't move file.\n" + ex.ToString());
+                        Logger.WriteError("Coundn't move file.\n" + ex.ToString());
                         this.fileSystemWatcher.EnableRaisingEvents = true;
                         return;
                     }
@@ -456,7 +405,7 @@ namespace AlarmWorkflow.Shared
 
             try
             {
-                img = System.Drawing.Image.FromFile(this.archievPath + analyseFileName + ".TIF");
+                img = System.Drawing.Image.FromFile(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
             }
             catch (OutOfMemoryException ex)
             {
@@ -479,7 +428,7 @@ namespace AlarmWorkflow.Shared
 
             try
             {
-                img.Save(this.archievPath + analyseFileName + ".bmp", System.Drawing.Imaging.ImageFormat.Bmp);
+                img.Save(Path.Combine(_archivePath.FullName, analyseFileName + ".bmp"), System.Drawing.Imaging.ImageFormat.Bmp);
             }
             catch (ArgumentNullException ex)
             {
@@ -494,94 +443,85 @@ namespace AlarmWorkflow.Shared
                 return;
             }
 
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.EnableRaisingEvents = false;
-            //proc.StartInfo.UseShellExecute = false;
-
-            switch (this.useOCRSoftware)
+            using (Process proc = new Process())
             {
-                case OcrSoftware.Tesseract:
-                    {
-                        proc.StartInfo.FileName = @"tesseract.exe";
-                        if (String.IsNullOrEmpty(this.ocrPath))
-                        {
-                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
-                        }
-                        else
-                        {
-                            proc.StartInfo.WorkingDirectory = this.ocrPath;
-                        }
+                proc.EnableRaisingEvents = false;
+                proc.StartInfo.UseShellExecute = true;
+                proc.StartInfo.CreateNoWindow = true;
 
-                        proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + this.analysisPath + analyseFileName + " -l deu";
-                    }
-
-                    break;
-                case OcrSoftware.Cuneiform:
-                default:
-                    {
-                        proc.StartInfo.FileName = @"cuneiform.exe";
-                        if (String.IsNullOrEmpty(this.ocrPath))
-                        {
-                            proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
-                        }
-                        else
-                        {
-                            proc.StartInfo.WorkingDirectory = this.ocrPath;
-                        }
-
-                        proc.StartInfo.Arguments = @"-l ger --singlecolumn -o " + this.analysisPath + analyseFileName + ".txt " + f.DirectoryName + @"\" + analyseFileName + ".bmp";
-                    }
-
-                    break;
-            }
-
-            try
-            {
-                proc.Start();
-                proc.WaitForExit();
-            }
-            catch (ObjectDisposedException ex)
-            {
-                this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (InvalidOperationException ex)
-            {
-                this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (Win32Exception ex)
-            {
-                this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-
-            Operation einsatz = this.parser.Parse(this.replacingList, this.analysisPath + analyseFileName + ".txt");
-            foreach (IJob job in this.jobList)
-            {
-                bool test = job.DoJob(einsatz);
-                if (test == false)
+                switch (UseOCRSoftware)
                 {
-                    this.Logger.WriteError(job.ErrorMessage);
+                    case OcrSoftware.Tesseract:
+                        {
+                            proc.StartInfo.FileName = @"tesseract.exe";
+                            if (String.IsNullOrEmpty(OcrPath))
+                            {
+                                proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
+                            }
+                            else
+                            {
+                                proc.StartInfo.WorkingDirectory = OcrPath;
+                            }
+
+                            proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + _analysisPath.FullName + analyseFileName + " -l deu";
+                        }
+
+                        break;
+                    case OcrSoftware.Cuneiform:
+                    default:
+                        {
+                            proc.StartInfo.FileName = @"cuneiform.exe";
+                            if (String.IsNullOrEmpty(OcrPath))
+                            {
+                                proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
+                            }
+                            else
+                            {
+                                proc.StartInfo.WorkingDirectory = OcrPath;
+                            }
+
+                            proc.StartInfo.Arguments = @"-l ger --singlecolumn -o " + _analysisPath.FullName + analyseFileName + ".txt " + f.DirectoryName + @"\" + analyseFileName + ".bmp";
+                        }
+
+                        break;
                 }
+
+                try
+                {
+                    proc.Start();
+                    proc.WaitForExit();
+                }
+                catch (ObjectDisposedException ex)
+                {
+                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
+                    this.fileSystemWatcher.EnableRaisingEvents = true;
+                    return;
+                }
+                catch (InvalidOperationException ex)
+                {
+                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
+                    this.fileSystemWatcher.EnableRaisingEvents = true;
+                    return;
+                }
+                catch (Win32Exception ex)
+                {
+                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
+                    this.fileSystemWatcher.EnableRaisingEvents = true;
+                    return;
+                }
+
+                Operation einsatz = Parser.Parse(ReplacingList, Path.Combine(_analysisPath.FullName, analyseFileName + ".txt"));
+                foreach (IJob job in Jobs)
+                {
+                    if (!job.DoJob(einsatz))
+                    {
+                        this.Logger.WriteError(job.ErrorMessage);
+                    }
+                }
+                this.fileSystemWatcher.EnableRaisingEvents = true;
             }
-            this.fileSystemWatcher.EnableRaisingEvents = true;
         }
 
-        /// <summary>
-        /// Clean the object.
-        /// </summary>
-        /// <param name="alsoManaged">Indicates if also managed code shoud be cleaned up.</param>
-        protected virtual void Dispose(bool alsoManaged)
-        {
-            if (alsoManaged == true)
-            {
-                this.fileSystemWatcher.Dispose();
-                this.fileSystemWatcher = null;
-            }
-        }
+        #endregion
     }
 }

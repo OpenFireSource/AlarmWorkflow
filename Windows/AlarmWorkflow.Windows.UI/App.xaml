@@ -1,0 +1,16 @@
+﻿<Application x:Class="AlarmWorkflow.Windows.UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:hc="http://www.hardcodet.net/taskbar">
+    <Application.Resources>
+        <hc:TaskbarIcon x:Key="notificationIcon">
+            <hc:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Start server" />
+                    <Separator />
+                    <MenuItem Header="Stop server" />
+                </ContextMenu>
+            </hc:TaskbarIcon.ContextMenu>
+        </hc:TaskbarIcon>
+    </Application.Resources>
+</Application>

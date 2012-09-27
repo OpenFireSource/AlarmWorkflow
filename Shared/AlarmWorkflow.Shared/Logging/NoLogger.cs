@@ -4,15 +4,13 @@ namespace AlarmWorkflow.Shared.Logging
     /// <summary>
     /// The NoLoger class, log all events to nothing.
     /// </summary>
-    public class NoLogger : ILogger
+    public sealed class NoLogger : ILogger
     {
         #region ILogger Members
 
-        bool ILogger.IsEnabled { get; set; }
-
         bool ILogger.Initialize()
         {
-            return false;
+            return true;
         }
 
         void ILogger.WriteInformation(string info)

@@ -8,10 +8,6 @@ namespace AlarmWorkflow.Shared.Logging
     public interface ILogger : IDisposable
     {
         /// <summary>
-        /// Gets/sets whether or not the Logger is enabled.
-        /// </summary>
-        bool IsEnabled { get; set; }
-        /// <summary>
         /// Initializes the logger. Must be called first.
         /// </summary>
         /// <returns>Indicates if an error occured.</returns>
