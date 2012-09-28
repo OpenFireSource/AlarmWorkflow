@@ -19,6 +19,7 @@ namespace AlarmWorkflow.Windows.Service
         #region Fields
 
         private AlarmworkflowClass _alarmWorkflow;
+        private WcfServices.WcfServicesHostManager _servicesHostManager;
 
         #endregion
 
@@ -52,6 +53,9 @@ namespace AlarmWorkflow.Windows.Service
             {
                 _alarmWorkflow = new AlarmworkflowClass();
                 _alarmWorkflow.Start();
+
+                _servicesHostManager = new WcfServices.WcfServicesHostManager();
+                _servicesHostManager.Initialize();
             }
             catch (Exception ex)
             {
@@ -65,6 +69,7 @@ namespace AlarmWorkflow.Windows.Service
         protected override void OnStop()
         {
             _alarmWorkflow.Stop();
+            _servicesHostManager.Shutdown();
         }
 
         #endregion

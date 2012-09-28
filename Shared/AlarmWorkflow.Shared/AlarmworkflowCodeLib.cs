@@ -227,11 +227,24 @@ namespace AlarmWorkflow.Shared
         public void Dispose()
         {
             Stop();
-
-            if (_workingThreadInstance != null)
+                
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        
+        /// <summary>
+        /// Clean the object.
+        /// </summary>
+        /// <param name="alsoManaged">Indicates if also managed code shoud be cleaned up.</param>
+        private void Dispose(bool alsoManaged)
+        {
+            if (alsoManaged == true)
             {
-                _workingThreadInstance.Dispose();
-                _workingThreadInstance = null;
+                if (_workingThreadInstance != null)
+                {
+                    _workingThreadInstance.Dispose();
+                    _workingThreadInstance = null;
+                }
             }
         }
 

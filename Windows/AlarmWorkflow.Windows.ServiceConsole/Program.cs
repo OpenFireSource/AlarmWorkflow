@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Windows.Service.WcfServices;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
 {
@@ -11,8 +12,6 @@ namespace AlarmWorkflow.Windows.ServiceConsole
     {
         static void Main(string[] args)
         {
-            Console.CursorVisible = false;
-
             Console.WriteLine("********************************************************");
             Console.WriteLine("*                                                      *");
             Console.WriteLine("*   AlarmWorkflow Service Console                      *");
@@ -26,36 +25,43 @@ namespace AlarmWorkflow.Windows.ServiceConsole
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            AlarmworkflowClass ac = new AlarmworkflowClass();
-            try
+            using (AlarmworkflowClass ac = new AlarmworkflowClass())
             {
-                ac.Start();
-                Console.WriteLine("Service started.");
+                WcfServicesHostManager shm = new WcfServicesHostManager();
 
-                while (true)
+
+                try
                 {
-                    if (Console.KeyAvailable)
+                    ac.Start();
+                    Console.WriteLine("Service started.");
+
+                    shm.Initialize();
+                    Console.WriteLine("Web Services hosted.");
+
+                    while (true)
                     {
-                        if (Console.ReadKey().Key == ConsoleKey.Escape)
+                        if (Console.KeyAvailable)
                         {
-                            Console.WriteLine("Shutting down service...");
-                            break;
+                            if (Console.ReadKey().Key == ConsoleKey.Escape)
+                            {
+                                break;
+                            }
                         }
-                    }
 
-                    Thread.Sleep(1);
+                        Thread.Sleep(1);
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                WriteExceptionInformation(ex);
-                Console.ReadLine();
-            }
-            finally
-            {
-                if (ac != null)
+                catch (Exception ex)
                 {
+                    WriteExceptionInformation(ex);
+                    Console.ReadLine();
+                }
+                finally
+                {
+                    Console.WriteLine("Shutting down service...");
                     ac.Stop();
+                    Console.WriteLine("Shutting down Web Services...");
+                    shm.Shutdown();
                 }
             }
 

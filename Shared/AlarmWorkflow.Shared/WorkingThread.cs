@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -15,142 +16,6 @@ using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Shared
 {
-    /// <summary>
-    /// List all availeble OCRSoftware.
-    /// </summary>
-    public enum OcrSoftware
-    {
-        /// <summary>
-        /// Tesseract OCR Software from http://code.google.com/p/tesseract-ocr/.
-        /// </summary>
-        Tesseract,
-
-        /// <summary>
-        /// Cuneiform for Linux. Mit Anpassungen für singlecolumn https://launchpad.net/cuneiform-linux.
-        /// </summary>
-        Cuneiform
-    }
-
-    /// <summary>
-    /// ReplaceString struct defines a toupl of two Strings. Searching for an string an replace it with an new one.
-    /// </summary>
-    public struct ReplaceString
-    {
-        /// <summary>
-        /// The new string.
-        /// </summary>
-        private string newString;
-
-        /// <summary>
-        /// The old string which will be replaced.
-        /// </summary>
-        private string oldString;
-
-        /// <value>
-        /// Gets or sets the old string.
-        /// </value>
-        /// <summary>
-        /// Gets or sets the old string.
-        /// </summary>
-        public string OldString
-        {
-            get
-            {
-                return this.oldString;
-            }
-
-            set
-            {
-                this.oldString = value;
-            }
-        }
-
-        /// <value>
-        /// Gets or sets the new string.
-        /// </value>
-        /// <summary>
-        /// Gets or sets the new string.
-        /// </summary>
-        public string NewString
-        {
-            get
-            {
-                return this.newString;
-            }
-
-            set
-            {
-                this.newString = value;
-            }
-        }
-
-        /// <summary>
-        /// Implements the == operator.
-        /// </summary>
-        /// <param name="str1">The first ReplaceString.</param>
-        /// <param name="str2">The second ReplaceString.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public static bool operator ==(ReplaceString str1, ReplaceString str2)
-        {
-            return str1.Equals(str2);
-        }
-
-        /// <summary>
-        /// Implements the != operator.
-        /// </summary>
-        /// <param name="str1">The first ReplaceString.</param>
-        /// <param name="str2">The second ReplaceString.</param>
-        /// <returns>Indicates if both are not equal.</returns>
-        public static bool operator !=(ReplaceString str1, ReplaceString str2)
-        {
-            return !str1.Equals(str2);
-        }
-
-        /// <summary>
-        /// Compares a ReplaceString struct with a object.
-        /// </summary>
-        /// <param name="obj">The object to compare the ReplaceString with.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is ReplaceString)
-            {
-                return this.Equals((ReplaceString)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Compares two ReplaceString structs.
-        /// </summary>
-        /// <param name="str">The ReplaceString to compare with.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public bool Equals(ReplaceString str)
-        {
-            if (str.NewString == this.NewString && str.OldString == this.OldString)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Overrides the getHashCode methode. 
-        /// </summary>
-        /// <returns>Returns the hash code.</returns>
-        public override int GetHashCode()
-        {
-            string str = this.OldString + this.NewString;
-            return str.GetHashCode();
-        }
-    }
-
     /// <summary>
     /// This class is started in a own thread, and do all that work.
     /// </summary>
@@ -177,17 +42,10 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         internal List<IJob> Jobs { get; private set; }
 
-        /// <value>
-        /// Gets or sets the logger object.
-        /// </value>
         /// <summary>
         /// Gets or sets the logger object.
         /// </summary>
         internal ILogger Logger { get; set; }
-
-        /// <value>
-        /// Sets the fax path.
-        /// </value>
         /// <summary>
         /// Sets the fax path.
         /// </summary>
@@ -195,10 +53,6 @@ namespace AlarmWorkflow.Shared
         {
             set { _faxPath = new DirectoryInfo(value); }
         }
-
-        /// <value>
-        /// Sets the archiev path.
-        /// </value>
         /// <summary>
         /// Sets the archiev path.
         /// </summary>
@@ -206,10 +60,6 @@ namespace AlarmWorkflow.Shared
         {
             set { _archivePath = new DirectoryInfo(value); }
         }
-
-        /// <value>
-        /// Sets the analysis path.
-        /// </value>
         /// <summary>
         /// Sets the analysis path.
         /// </summary>
@@ -217,36 +67,20 @@ namespace AlarmWorkflow.Shared
         {
             set { _analysisPath = new DirectoryInfo(value); }
         }
-
-        /// <value>
-        /// Sets the replacing list.
-        /// </value>
         /// <summary>
-        /// Sets the replacing list.
+        /// Gets/sets the replacing list.
         /// </summary>
         internal List<ReplaceString> ReplacingList { get; set; }
-
-        /// <value>
-        /// Sets the useOCRSoftware.
-        /// </value>
         /// <summary>
-        /// Sets the useOCRSoftware.
+        /// Gets/sets the useOCRSoftware.
         /// </summary>
         internal OcrSoftware UseOCRSoftware { get; set; }
-
-        /// <value>
-        /// Sets the useOCRSoftware.
-        /// </value>
         /// <summary>
-        /// Sets the useOCRSoftware.
+        /// Gets/sets the useOCRSoftware.
         /// </summary>
         internal string OcrPath { get; set; }
-
-        /// <value>
-        /// Sets the parser.
-        /// </value>
         /// <summary>
-        /// Sets the parser.
+        /// Gets/sets the parser to be used.
         /// </summary>
         internal IParser Parser { get; set; }
 
@@ -269,21 +103,28 @@ namespace AlarmWorkflow.Shared
         #region Methods
 
         /// <summary>
-        /// Makes sure that the required directories exist.
+        /// Makes sure that the required directories exist and we don't run into unnecessary exceptions.
         /// </summary>
         private void EnsureDirectoriesExist()
         {
-            if (!_faxPath.Exists)
+            try
             {
-                _faxPath.Create();
+                if (!_faxPath.Exists)
+                {
+                    _faxPath.Create();
+                }
+                if (!_archivePath.Exists)
+                {
+                    _archivePath.Create();
+                }
+                if (!_analysisPath.Exists)
+                {
+                    _analysisPath.Create();
+                }
             }
-            if (!_archivePath.Exists)
+            catch (IOException)
             {
-                _archivePath.Create();
-            }
-            if (!_analysisPath.Exists)
-            {
-                _analysisPath.Create();
+                this.Logger.WriteError("Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.");
             }
         }
 
@@ -297,8 +138,8 @@ namespace AlarmWorkflow.Shared
             this.fileSystemWatcher = new FileSystemWatcher(_faxPath.FullName, "*.TIF");
             this.fileSystemWatcher.IncludeSubdirectories = false;
             this.fileSystemWatcher.Created += new FileSystemEventHandler(_fileSystemWatcher_Created);
-            this.fileSystemWatcher.EnableRaisingEvents = true;
             this.fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Created);
+            this.fileSystemWatcher.EnableRaisingEvents = true;
         }
 
         /// <summary>
@@ -372,8 +213,7 @@ namespace AlarmWorkflow.Shared
                 return;
             }
 
-            string analyseFileName = DateTime.Now.ToString();
-            analyseFileName = analyseFileName.Replace(".", string.Empty).Replace(" ", string.Empty).Replace(":", string.Empty);
+            string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
             bool fileIsMoved = false;
             int tried = 0;
             while (!fileIsMoved)
@@ -399,13 +239,15 @@ namespace AlarmWorkflow.Shared
                         return;
                     }
                 }
-            }
-
-            System.Drawing.Image img;
+            }          
 
             try
             {
-                img = System.Drawing.Image.FromFile(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
+                using (Image img = Image.FromFile(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF")))
+                {
+                    // TODO: This will only work with cuneiform (bmp). Tesseract needs TIF!
+                    img.Save(Path.Combine(_archivePath.FullName, analyseFileName + ".bmp"), System.Drawing.Imaging.ImageFormat.Bmp);
+                }
             }
             catch (OutOfMemoryException ex)
             {
@@ -422,23 +264,6 @@ namespace AlarmWorkflow.Shared
             catch (ArgumentException ex)
             {
                 this.Logger.WriteError("Error while reading tif image: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-
-            try
-            {
-                img.Save(Path.Combine(_archivePath.FullName, analyseFileName + ".bmp"), System.Drawing.Imaging.ImageFormat.Bmp);
-            }
-            catch (ArgumentNullException ex)
-            {
-                this.Logger.WriteError("Error while saving tif to bmp: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (ExternalException ex)
-            {
-                this.Logger.WriteError("Error while saving tif to bmp: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
@@ -491,19 +316,7 @@ namespace AlarmWorkflow.Shared
                     proc.Start();
                     proc.WaitForExit();
                 }
-                catch (ObjectDisposedException ex)
-                {
-                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
-                    this.fileSystemWatcher.EnableRaisingEvents = true;
-                    return;
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
-                    this.fileSystemWatcher.EnableRaisingEvents = true;
-                    return;
-                }
-                catch (Win32Exception ex)
+                catch (Exception ex)
                 {
                     this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
                     this.fileSystemWatcher.EnableRaisingEvents = true;
@@ -513,15 +326,126 @@ namespace AlarmWorkflow.Shared
                 Operation einsatz = Parser.Parse(ReplacingList, Path.Combine(_analysisPath.FullName, analyseFileName + ".txt"));
                 foreach (IJob job in Jobs)
                 {
-                    if (!job.DoJob(einsatz))
+                    try
                     {
-                        this.Logger.WriteError(job.ErrorMessage);
+                        if (!job.DoJob(einsatz))
+                        {
+                            this.Logger.WriteError(job.ErrorMessage);
+                        }                    
+                    }
+                    catch (Exception ex)
+                    {
+                        // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                        this.Logger.WriteError(string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
                     }
                 }
                 this.fileSystemWatcher.EnableRaisingEvents = true;
             }
         }
 
+        #endregion
+    }
+    
+    /// <summary>
+    /// List all availeble OCRSoftware.
+    /// </summary>
+    public enum OcrSoftware
+    {
+        /// <summary>
+        /// Tesseract OCR Software from http://code.google.com/p/tesseract-ocr/.
+        /// </summary>
+        Tesseract,
+        /// <summary>
+        /// Cuneiform for Linux. Mit Anpassungen für singlecolumn https://launchpad.net/cuneiform-linux.
+        /// </summary>
+        Cuneiform
+    }
+
+    /// <summary>
+    /// ReplaceString struct defines a toupl of two Strings. Searching for an string an replace it with an new one.
+    /// </summary>
+    public struct ReplaceString
+    {
+        #region Properties
+        
+        /// <summary>
+        /// Gets or sets the old string.
+        /// </summary>
+        public string OldString { get; set; }
+        /// <summary>
+        /// Gets or sets the new string.
+        /// </summary>
+        public string NewString { get; set; }
+        
+        #endregion
+
+        #region Methods
+        
+        /// <summary>
+        /// Implements the == operator.
+        /// </summary>
+        /// <param name="str1">The first ReplaceString.</param>
+        /// <param name="str2">The second ReplaceString.</param>
+        /// <returns>Indicates if both are equal.</returns>
+        public static bool operator ==(ReplaceString str1, ReplaceString str2)
+        {
+            return str1.Equals(str2);
+        }
+
+        /// <summary>
+        /// Implements the != operator.
+        /// </summary>
+        /// <param name="str1">The first ReplaceString.</param>
+        /// <param name="str2">The second ReplaceString.</param>
+        /// <returns>Indicates if both are not equal.</returns>
+        public static bool operator !=(ReplaceString str1, ReplaceString str2)
+        {
+            return !str1.Equals(str2);
+        }
+
+        /// <summary>
+        /// Compares a ReplaceString struct with a object.
+        /// </summary>
+        /// <param name="obj">The object to compare the ReplaceString with.</param>
+        /// <returns>Indicates if both are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            if (obj is ReplaceString)
+            {
+                return this.Equals((ReplaceString)obj);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Compares two ReplaceString structs.
+        /// </summary>
+        /// <param name="str">The ReplaceString to compare with.</param>
+        /// <returns>Indicates if both are equal.</returns>
+        public bool Equals(ReplaceString str)
+        {
+            if (str.NewString == this.NewString && str.OldString == this.OldString)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Overrides the getHashCode methode. 
+        /// </summary>
+        /// <returns>Returns the hash code.</returns>
+        public override int GetHashCode()
+        {
+            return (this.OldString + this.NewString).GetHashCode();
+        }
+        
         #endregion
     }
 }
