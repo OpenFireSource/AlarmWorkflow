@@ -7,8 +7,9 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Shared.Jobs
+namespace AlarmWorkflow.Job.SmsJob
 {
     /// <summary>
     /// Implements a Job, that sends SMS with the sms77.de service.
@@ -16,79 +17,29 @@ namespace AlarmWorkflow.Shared.Jobs
     public class SmsJob : IJob
     {
         #region private member
-        /// <summary>
-        /// The errormsg, if an error occured.
-        /// </summary>
+
         private string errormsg;
-
-        /// <summary>
-        /// A list of numbers, which stores all mobile phone numbers to send a SMS to them.
-        /// </summary>
         private List<string> numbers;
-
-        /// <summary>
-        /// Username for SMS77.
-        /// </summary>
         private string username;
-
-        /// <summary>
-        /// Username for SMS77.
-        /// </summary>
         private string password;
+
         #endregion
 
-        #region constructors
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the SmsJob class.
+        /// Initializes a new instance of the <see cref="SmsJob"/> class.
         /// </summary>
-        /// <param name="settings">Xml node that has all the information to connect to the lan-power-adapter.</param>
-        /// <param name="debug">If true, sms will only send to debuging numbers.</param>
-        public SmsJob(IXPathNavigable settings, bool debug)
+        public SmsJob()
         {
             this.numbers = new List<string>();
-            XPathNavigator nav = settings.CreateNavigator();
-            if (nav.UnderlyingObject is XmlElement)
-            {
-                this.username = ((XmlElement)nav.UnderlyingObject).Attributes["username"].Value;
-                this.password = ((XmlElement)nav.UnderlyingObject).Attributes["password"].Value;
-                XmlNodeList list = ((XmlElement)nav.UnderlyingObject).FirstChild.SelectNodes("Nummer"); // HACK: FirstChild hier falsch
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (debug == true)
-                    {
-                        XmlAttribute atr = list.Item(i).Attributes["debug"];
-                        if (atr != null)
-                        {
-                            if (atr.InnerText.ToUpperInvariant() == "TRUE")
-                            {
-                                this.numbers.Add(list.Item(i).InnerText);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        this.numbers.Add(list.Item(i).InnerText);
-                    }
-                }
-            }
-            else
-            {
-                throw new ArgumentException("Settings is not an XmlElement");
-            }
-
-            this.errormsg = string.Empty;
         }
+
         #endregion
 
-        #region iJob Member
+        #region IJob Members
 
-        /// <summary>
-        /// Gets the error message.
-        /// </summary>
-        /// <value>
-        /// Gets the error message.
-        /// </value>
-        public string ErrorMessage
+        string IJob.ErrorMessage
         {
             get
             {
@@ -96,15 +47,10 @@ namespace AlarmWorkflow.Shared.Jobs
             }
         }
 
-        /// <summary>
-        /// Inherited by iJob interface. Sends sms with some operation information.
-        /// </summary>
-        /// <param name="einsatz">Current operation.</param>
-        /// <returns>False when an error occured, otherwise true.</returns>
-        public bool DoJob(Operation einsatz)
+        bool IJob.DoJob(Operation einsatz)
         {
             this.errormsg = string.Empty;
-            string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.Ort.Substring(0, einsatz.Ort.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString(einsatz.Meldebild) + "%20" + SmsJob.PrepareString(einsatz.Hinweis) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Strasse);
+            string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.City.Substring(0, einsatz.City.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString(einsatz.Picture) + "%20" + SmsJob.PrepareString(einsatz.Hint) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Street);
             foreach (string number in this.numbers)
             {
                 try
@@ -162,6 +108,39 @@ namespace AlarmWorkflow.Shared.Jobs
             return true;
         }
 
+        void IJob.Initialize(IXPathNavigable settings)
+        {
+            XPathNavigator nav = settings.CreateNavigator();
+            if (nav.UnderlyingObject is XmlElement)
+            {
+                this.username = ((XmlElement)nav.UnderlyingObject).Attributes["username"].Value;
+                this.password = ((XmlElement)nav.UnderlyingObject).Attributes["password"].Value;
+                XmlNodeList list = ((XmlElement)nav.UnderlyingObject).FirstChild.SelectNodes("Nummer"); // HACK: FirstChild hier falsch
+                for (int i = 0; i < list.Count; i++)
+                {
+                    //if (debug == true)
+                    //{
+                    //    XmlAttribute atr = list.Item(i).Attributes["debug"];
+                    //    if (atr != null)
+                    //    {
+                    //        if (atr.InnerText.ToUpperInvariant() == "TRUE")
+                    //        {
+                    //            this.numbers.Add(list.Item(i).InnerText);
+                    //        }
+                    //    }
+                    //}
+                    //else
+                    //{
+                    this.numbers.Add(list.Item(i).InnerText);
+                    //}
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Settings is not an XmlElement");
+            }
+        }
+
         /// <summary>
         /// This methode url encodes a given string.
         /// </summary>
@@ -169,9 +148,12 @@ namespace AlarmWorkflow.Shared.Jobs
         /// <returns>The URL encoded string.</returns>
         private static string PrepareString(string str)
         {
-            return HttpUtility.UrlEncode(str);
+            //return HttpUtility.UrlEncode(str);
+            // TODO: .Net 2.0-equivalent to UrlEncode??
+            return str;
         }
 
         #endregion
+
     }
 }

@@ -1,0 +1,4 @@
+<Extension>
+  <Name>(Your Extension name)</Name>
+  <DisplayName>(The name as shown in the UI)</DisplayName>
+</Extension>

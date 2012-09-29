@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
 using System.Threading;
-using AlarmWorkflow.Shared.Alarmfax;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Jobs;
+using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Shared
@@ -239,7 +236,7 @@ namespace AlarmWorkflow.Shared
                         return;
                     }
                 }
-            }          
+            }
 
             try
             {
@@ -271,14 +268,13 @@ namespace AlarmWorkflow.Shared
             using (Process proc = new Process())
             {
                 proc.EnableRaisingEvents = false;
-                proc.StartInfo.UseShellExecute = true;
+                proc.StartInfo.UseShellExecute = false;
                 proc.StartInfo.CreateNoWindow = true;
 
                 switch (UseOCRSoftware)
                 {
                     case OcrSoftware.Tesseract:
                         {
-                            proc.StartInfo.FileName = @"tesseract.exe";
                             if (String.IsNullOrEmpty(OcrPath))
                             {
                                 proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
@@ -288,6 +284,7 @@ namespace AlarmWorkflow.Shared
                                 proc.StartInfo.WorkingDirectory = OcrPath;
                             }
 
+                            proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
                             proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + _analysisPath.FullName + analyseFileName + " -l deu";
                         }
 
@@ -295,7 +292,6 @@ namespace AlarmWorkflow.Shared
                     case OcrSoftware.Cuneiform:
                     default:
                         {
-                            proc.StartInfo.FileName = @"cuneiform.exe";
                             if (String.IsNullOrEmpty(OcrPath))
                             {
                                 proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
@@ -305,6 +301,7 @@ namespace AlarmWorkflow.Shared
                                 proc.StartInfo.WorkingDirectory = OcrPath;
                             }
 
+                            proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
                             proc.StartInfo.Arguments = @"-l ger --singlecolumn -o " + _analysisPath.FullName + analyseFileName + ".txt " + f.DirectoryName + @"\" + analyseFileName + ".bmp";
                         }
 
@@ -323,29 +320,41 @@ namespace AlarmWorkflow.Shared
                     return;
                 }
 
-                Operation einsatz = Parser.Parse(ReplacingList, Path.Combine(_analysisPath.FullName, analyseFileName + ".txt"));
-                foreach (IJob job in Jobs)
+                Operation operation = null;
+                try
                 {
-                    try
+                    // Try to parse the operation. If parsing failed, ignore this but write to the log file!
+                    operation = Parser.Parse(ReplacingList, Path.Combine(_analysisPath.FullName, analyseFileName + ".txt"));
+
+                    foreach (IJob job in Jobs)
                     {
-                        if (!job.DoJob(einsatz))
+                        try
                         {
-                            this.Logger.WriteError(job.ErrorMessage);
-                        }                    
-                    }
-                    catch (Exception ex)
-                    {
-                        // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                        this.Logger.WriteError(string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                            // Run the job. If the job fails, ignore that exception as well but log it too!
+                            if (!job.DoJob(operation))
+                            {
+                                this.Logger.WriteError(job.ErrorMessage);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                            this.Logger.WriteError(string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    this.Logger.WriteError("An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
+                }
+
                 this.fileSystemWatcher.EnableRaisingEvents = true;
             }
         }
 
         #endregion
     }
-    
+
     /// <summary>
     /// List all availeble OCRSoftware.
     /// </summary>
@@ -361,91 +370,4 @@ namespace AlarmWorkflow.Shared
         Cuneiform
     }
 
-    /// <summary>
-    /// ReplaceString struct defines a toupl of two Strings. Searching for an string an replace it with an new one.
-    /// </summary>
-    public struct ReplaceString
-    {
-        #region Properties
-        
-        /// <summary>
-        /// Gets or sets the old string.
-        /// </summary>
-        public string OldString { get; set; }
-        /// <summary>
-        /// Gets or sets the new string.
-        /// </summary>
-        public string NewString { get; set; }
-        
-        #endregion
-
-        #region Methods
-        
-        /// <summary>
-        /// Implements the == operator.
-        /// </summary>
-        /// <param name="str1">The first ReplaceString.</param>
-        /// <param name="str2">The second ReplaceString.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public static bool operator ==(ReplaceString str1, ReplaceString str2)
-        {
-            return str1.Equals(str2);
-        }
-
-        /// <summary>
-        /// Implements the != operator.
-        /// </summary>
-        /// <param name="str1">The first ReplaceString.</param>
-        /// <param name="str2">The second ReplaceString.</param>
-        /// <returns>Indicates if both are not equal.</returns>
-        public static bool operator !=(ReplaceString str1, ReplaceString str2)
-        {
-            return !str1.Equals(str2);
-        }
-
-        /// <summary>
-        /// Compares a ReplaceString struct with a object.
-        /// </summary>
-        /// <param name="obj">The object to compare the ReplaceString with.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is ReplaceString)
-            {
-                return this.Equals((ReplaceString)obj);
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Compares two ReplaceString structs.
-        /// </summary>
-        /// <param name="str">The ReplaceString to compare with.</param>
-        /// <returns>Indicates if both are equal.</returns>
-        public bool Equals(ReplaceString str)
-        {
-            if (str.NewString == this.NewString && str.OldString == this.OldString)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// Overrides the getHashCode methode. 
-        /// </summary>
-        /// <returns>Returns the hash code.</returns>
-        public override int GetHashCode()
-        {
-            return (this.OldString + this.NewString).GetHashCode();
-        }
-        
-        #endregion
-    }
 }

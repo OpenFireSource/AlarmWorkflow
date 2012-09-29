@@ -1,12 +1,12 @@
-using AlarmWorkflow.Shared.Core;
 using System.Collections.Generic;
+using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Shared.Alarmfax
+namespace AlarmWorkflow.Shared.Extensibility
 {
     /// <summary>
     /// Defines a parser which parses an incoming alarmfax.
     /// </summary>
-    public interface IParser
+    public interface IParser : IExtensionObject
     {
         /// <summary>
         /// This Methode is parsing a ocr text file and fill an einsatz object.

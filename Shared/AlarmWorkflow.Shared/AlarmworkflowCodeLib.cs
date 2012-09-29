@@ -4,21 +4,22 @@ using System.IO;
 using System.Security.Permissions;
 using System.Threading;
 using System.Xml;
-using AlarmWorkflow.Shared.Alarmfax;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Jobs;
+using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Shared
 {
     /// <summary>
-    /// Description of AlarmworkflowCodeLib.
+    /// Represents the main entry point of the AlarmWorkflow application. This class manages the parsing of the Alarmfaxes and is responsible for calling the configured jobs.
     /// </summary>
     public sealed class AlarmworkflowClass : IDisposable
     {
         #region Fields
 
         private ILogger _logger;
+        private ExtensionManager _extensionManager;
+
         private Thread _workingThread;
         private WorkingThread _workingThreadInstance;
 
@@ -42,6 +43,8 @@ namespace AlarmWorkflow.Shared
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public AlarmworkflowClass()
         {
+            _extensionManager = new ExtensionManager();
+
             XmlDocument doc = new XmlDocument();
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
 
@@ -83,26 +86,18 @@ namespace AlarmWorkflow.Shared
                 debugaktive = true;
             }
 
-            bool databaseAktive = true;
-            bool smsAktive = true;
-            bool mailAktive = true;
             bool replaceAktive = true;
-            bool displayWakeUpAktive = true;
             foreach (XmlNode xnode in aktiveJobs.ChildNodes)
             {
                 switch (xnode.Name)
                 {
-                    case "Database": databaseAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
-                    case "SMS": smsAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
-                    case "Mailing": mailAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
                     case "Replacing": replaceAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
-                    case "DisplayWakeUp": displayWakeUpAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
                     default:
                         break;
                 }
             }
 
-            InitializeJobs(doc, debugaktive, databaseAktive, smsAktive, mailAktive, displayWakeUpAktive);
+            InitializeJobs(doc, debugaktive);
 
             List<ReplaceString> rplist = new List<ReplaceString>();
             if (replaceAktive)
@@ -120,8 +115,12 @@ namespace AlarmWorkflow.Shared
             }
 
             // Import parser with the given name/alias
-            _workingThreadInstance.Parser = ExportedTypeLibrary.Import<IParser>(parser);
+            _workingThreadInstance.Parser = _extensionManager.GetExtensionWithName<IParser>(parser);
         }
+
+        #endregion
+
+        #region Methods
 
         private void InitializeLogger(XmlDocument doc)
         {
@@ -140,41 +139,14 @@ namespace AlarmWorkflow.Shared
             _logger.WriteInformation("Starting Service");
         }
 
-        #endregion
-
-        #region Methods
-
-        private void InitializeJobs(XmlDocument doc, bool debugaktive, bool databaseAktive, bool smsAktive, bool mailAktive, bool displayWakeUpAktive)
+        private void InitializeJobs(XmlDocument doc, bool debugaktive)
         {
             // NOTE: TENTATIVE CODE until settings are stored more dynamical!
             XmlNode jobsSettings = doc.GetElementsByTagName("Jobs")[0];
 
-            // TODO: Jobs to be defined in settings dynamically! --> remove the hardcodings...
-            if (databaseAktive)
+            foreach (IJob job in _extensionManager.GetExtensionsOfType<IJob>())
             {
-                // TODO: Hardcoded - to be defined in the job's settings!
-                _workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DatabaseJob"));
-            }
-
-            if (displayWakeUpAktive)
-            {
-                //_workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("DisplayWakeUp"));
-            }
-
-            if (mailAktive)
-            {
-                // TODO: Hardcoded - to be defined in the job's settings!
-                _workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("MailingJob"));
-            }
-
-            if (smsAktive)
-            {
-                //_workingThreadInstance.Jobs.Add(ExportedTypeLibrary.Import<IJob>("SmsJob"));
-            }
-
-            // Initialize all jobs
-            foreach (IJob job in _workingThreadInstance.Jobs)
-            {
+                _workingThreadInstance.Jobs.Add(job);
                 job.Initialize(jobsSettings);
             }
         }
@@ -227,11 +199,11 @@ namespace AlarmWorkflow.Shared
         public void Dispose()
         {
             Stop();
-                
+
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-        
+
         /// <summary>
         /// Clean the object.
         /// </summary>

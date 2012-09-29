@@ -1,12 +1,14 @@
-﻿using AlarmWorkflow.Shared.Core;
-using System.Xml.XPath;
+﻿using System.Xml.XPath;
+using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Shared.Jobs
+// TODO: Support Shutdown() method!
+
+namespace AlarmWorkflow.Shared.Extensibility
 {
     /// <summary>
     /// Thid interface descibes an job interface. Every job has to implement this Interface.
     /// </summary>
-    public interface IJob
+    public interface IJob : IExtensionObject
     {
         /// <summary>
         /// Gets the error message.

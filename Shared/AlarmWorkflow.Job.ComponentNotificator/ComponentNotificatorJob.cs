@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Jobs;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.ComponentNotificator
 {
     /// <summary>
     /// Implements an <see cref="IJob"/> to notify custom plugins when a new operation has arrived.
     /// </summary>
-    [Export("ComponentNotificatorJob", typeof(IJob))]
     class ComponentNotificatorJob : IJob
     {
         #region Fields

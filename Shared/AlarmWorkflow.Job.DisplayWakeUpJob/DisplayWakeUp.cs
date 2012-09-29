@@ -5,13 +5,13 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Shared.Jobs
+namespace AlarmWorkflow.Job.DisplayWakeUpJob
 {
     /// <summary>
     /// Implements a Job, that turn on an Display/Monitor which is connected to a PowerAdapter.
     /// </summary>
-    [Export("DisplayWakeUp", typeof(IJob))]
     public class DisplayWakeUp : IJob
     {
         #region private members

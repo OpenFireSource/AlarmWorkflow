@@ -54,7 +54,6 @@ namespace AlarmWorkflow.Windows.ServiceConsole
                 catch (Exception ex)
                 {
                     WriteExceptionInformation(ex);
-                    Console.ReadLine();
                 }
                 finally
                 {
@@ -65,7 +64,8 @@ namespace AlarmWorkflow.Windows.ServiceConsole
                 }
             }
 
-            Console.WriteLine("Shutting down complete. Quitting...");
+            Console.WriteLine("Shutting down complete. Press any key to exit.");
+            Console.ReadLine();
         }
 
         private static void WriteExceptionInformation(Exception exception)

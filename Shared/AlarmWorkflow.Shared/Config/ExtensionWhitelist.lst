@@ -1,0 +1,5 @@
+﻿AlarmWorkflow.Job.MySqlDatabaseJob.Extension
+AlarmWorkflow.Job.MailingJob.Extension
+AlarmWorkflow.Job.ComponentNotificator.Extension
+
+AlarmWorkflow.Parser.MucLandParser.Extension

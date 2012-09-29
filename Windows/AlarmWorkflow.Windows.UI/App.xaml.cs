@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows.Media.Imaging;
+using System;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -7,18 +10,10 @@ namespace AlarmWorkflow.Windows.UI
     /// </summary>
     public partial class App : Application
     {
-        /// <summary>
-        /// Gets the app.
-        /// </summary>
-        /// <returns></returns>
-        internal static App GetApp()
-        {
-            return (App)App.Current;
-        }
-
         #region Fields
 
         private bool _isStartedThroughUINotifyable;
+        private TaskbarIcon _taskbarIcon;
 
         #endregion
 
@@ -57,6 +52,15 @@ namespace AlarmWorkflow.Windows.UI
         #region Methods
 
         /// <summary>
+        /// Gets the app.
+        /// </summary>
+        /// <returns></returns>
+        internal static App GetApp()
+        {
+            return (App)App.Current;
+        }
+
+        /// <summary>
         /// Raises the <see cref="E:System.Windows.Application.Startup"/> event.
         /// </summary>
         /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs"/> that contains the event data.</param>
@@ -69,7 +73,10 @@ namespace AlarmWorkflow.Windows.UI
 
             base.OnStartup(e);
 
-            //TaskbarIcon tb = (TaskbarIcon)FindResource("notificationIcon");
+            // Create taskbar icon
+            _taskbarIcon = new TaskbarIcon();
+            _taskbarIcon.IconSource = new BitmapImage(this.GetPackUri("Images/FaxHS.ico"));
+            _taskbarIcon.ToolTipText = "AlarmWorkflow-UI Application is running...";
         }
 
         #endregion

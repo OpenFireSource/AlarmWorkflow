@@ -1,6 +1,8 @@
 ﻿using System;
 using AlarmWorkflow.Shared.Core;
 
+// TODO: Support Shutdown() method!
+
 namespace AlarmWorkflow.Job.ComponentNotificator
 {
     /// <summary>
@@ -10,7 +12,7 @@ namespace AlarmWorkflow.Job.ComponentNotificator
     /// <remarks><para>In order for this interface to get called, you need to decorate the implementing type with:</para>
     /// <para>[Export("YOUR_ALIAS", typeof(INotifyable))]</para>
     /// <para>It will then get initialized automatically.</para></remarks>
-    public interface INotifyable : IDisposable
+    public interface INotifyable
     {
         /// <summary>
         /// Performs custom initialization work for this instance.

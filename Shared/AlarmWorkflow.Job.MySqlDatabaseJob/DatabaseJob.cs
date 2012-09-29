@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 using MySql.Data.MySqlClient;
 
-namespace AlarmWorkflow.Shared.Jobs
+namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
     /// <summary>
     /// Implements a job, who saves all the operation data to a MySQL database.
     /// </summary>
-    [Export("DatabaseJob", typeof(IJob))]
     public class DatabaseJob : IJob
     {
         #region private members
@@ -86,7 +86,7 @@ namespace AlarmWorkflow.Shared.Jobs
                         return false;
                     }
 
-                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.Einsatznr + "', '" + einsatz.Einsatzort + "', '" + einsatz.Einsatzplan + "', '" + einsatz.Hinweis + "', '" + einsatz.Kreuzung + "', '" + einsatz.Meldebild + "', '" + einsatz.Mitteiler + "', '" + einsatz.Objekt + "', '" + einsatz.Ort + "', '" + einsatz.Strasse + "', '" + einsatz.Stichwort + "')";
+                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.PlanOfAction + "', '" + einsatz.Hint + "', '" + einsatz.Intersection + "', '" + einsatz.Picture + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
                     MySqlCommand cmd = new MySqlCommand(cmdText, conn);
                     cmd.ExecuteNonQuery();
                 }

@@ -6,13 +6,13 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Shared.Jobs
+namespace AlarmWorkflow.Job.MailingJob
 {
     /// <summary>
     /// Implements a Job, that send emails with all the operation information.
     /// </summary>
-    [Export("MailingJob", typeof(IJob))]
     public class MailingJob : IJob
     {
         #region private member
@@ -126,16 +126,16 @@ namespace AlarmWorkflow.Shared.Jobs
                 }
 
                 message.Subject = "FFWPlanegg Einsatz";
-                message.Body += "Einsatznr: " + einsatz.Einsatznr + "\n";
-                message.Body += "Mitteiler: " + einsatz.Mitteiler + "\n";
-                message.Body += "Einsatzort: " + einsatz.Einsatzort + "\n";
-                message.Body += "Strasse: " + einsatz.Strasse + "\n";
-                message.Body += "Kreuzung: " + einsatz.Kreuzung + "\n";
-                message.Body += "Ort: " + einsatz.Ort + "\n";
-                message.Body += "Objekt: " + einsatz.Objekt + "\n";
-                message.Body += "Meldebild: " + einsatz.Meldebild + "\n";
-                message.Body += "Hinweis: " + einsatz.Hinweis + "\n";
-                message.Body += "Einsatzplan: " + einsatz.Einsatzplan + "\n";
+                message.Body += "Einsatznr: " + einsatz.OperationNumber + "\n";
+                message.Body += "Mitteiler: " + einsatz.Messenger + "\n";
+                message.Body += "Einsatzort: " + einsatz.Location + "\n";
+                message.Body += "Strasse: " + einsatz.Street + "\n";
+                message.Body += "Kreuzung: " + einsatz.Intersection + "\n";
+                message.Body += "Ort: " + einsatz.City + "\n";
+                message.Body += "Objekt: " + einsatz.Property + "\n";
+                message.Body += "Meldebild: " + einsatz.Picture + "\n";
+                message.Body += "Hinweis: " + einsatz.Hint + "\n";
+                message.Body += "Einsatzplan: " + einsatz.PlanOfAction + "\n";
 
                 message.BodyEncoding = Encoding.UTF8;
 

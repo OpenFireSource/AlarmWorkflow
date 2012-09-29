@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using AlarmWorkflow.Shared.Alarmfax;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Logging;
 
-namespace AlarmWorkflow.Shared.AlarmfaxParser
+namespace AlarmWorkflow.Parser.MucLandParser
 {
     /// <summary>
     /// Description of MucLandParser.
     /// </summary>
-    [Export("MucLandParser", typeof(IParser))]
     public class MucLandParser : IParser
     {
         #region Fields
@@ -20,7 +19,7 @@ namespace AlarmWorkflow.Shared.AlarmfaxParser
         /// <summary>
         /// The Logger object.
         /// </summary>
-        private ILogger logger = new Logging.NoLogger();
+        private ILogger logger = new NoLogger();
 
         #endregion
 
@@ -73,36 +72,36 @@ namespace AlarmWorkflow.Shared.AlarmfaxParser
                             switch (prefix)
                             {
                                 case "EINSATZNR":
-                                    einsatz.Einsatznr = msg;
+                                    einsatz.OperationNumber = msg;
                                     break;
                                 case "MITTEILER":
-                                    einsatz.Mitteiler = msg;
+                                    einsatz.Messenger = msg;
                                     break;
                                 case "EINSATZORT":
-                                    einsatz.Einsatzort = msg;
+                                    einsatz.Location = msg;
                                     break;
                                 case "STRAßE":
                                 case "STRABE":
-                                    einsatz.Strasse = msg;
+                                    einsatz.Street = msg;
                                     break;
                                 case "KREUZUNG":
-                                    einsatz.Kreuzung = msg;
+                                    einsatz.Intersection = msg;
                                     break;
                                 case "ORTSTEIL/ORT":
-                                    einsatz.Ort = msg;
+                                    einsatz.City = msg;
                                     break;
                                 case "OBJEKT":
                                 case "9BJEKT":
-                                    einsatz.Objekt = msg;
+                                    einsatz.Property = msg;
                                     break;
                                 case "MELDEBILD":
-                                    einsatz.Meldebild = msg;
+                                    einsatz.Picture = msg;
                                     break;
                                 case "HINWEIS":
-                                    einsatz.Hinweis = msg;
+                                    einsatz.Hint = msg;
                                     break;
                                 case "EINSATZPLAN":
-                                    einsatz.Einsatzplan = msg;
+                                    einsatz.PlanOfAction = msg;
                                     break;
                             }
                         }

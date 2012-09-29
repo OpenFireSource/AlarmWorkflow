@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using AlarmWorkflow.Job.ComponentNotificator;
 using AlarmWorkflow.Shared.Core;
 
@@ -15,6 +16,7 @@ namespace AlarmWorkflow.Windows.UI
 
         private readonly object Lock = new object();
 
+        private Thread _appThread;
         private App _app;
         private EventWindow _eventWindow;
 
@@ -27,7 +29,6 @@ namespace AlarmWorkflow.Windows.UI
         /// </summary>
         public UINotifyable()
         {
-            _app = new App(true);
         }
 
         #endregion
@@ -71,7 +72,13 @@ namespace AlarmWorkflow.Windows.UI
 
         void INotifyable.Initialize()
         {
-            _app.Run();
+            _appThread = new Thread(() =>
+            {
+                _app = new App(true);
+                _app.Run();
+            });
+            _appThread.SetApartmentState(ApartmentState.STA);
+            _appThread.Start();
         }
 
         void INotifyable.Notify(Operation operation)
@@ -79,18 +86,20 @@ namespace AlarmWorkflow.Windows.UI
             PushEvent(operation);
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        void System.IDisposable.Dispose()
-        {
-            if (_app != null)
-            {
-                _app.Shutdown();
-                _app = null;
-            }
-        }
+        // TODO
+        //void INotifyable.Shutdown()
+        //{
+        //    if (_appThread != null)
+        //    {
+        //        _appThread.Abort();
+        //        _appThread = null;
+        //    }
+        //    if (_app != null)
+        //    {
+        //        _app.Shutdown();
+        //        _app = null;
+        //    }
+        //}
 
         #endregion
     }

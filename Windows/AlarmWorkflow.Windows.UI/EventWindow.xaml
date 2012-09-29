@@ -20,7 +20,11 @@
         <ListBox Grid.Column="0" Margin="2"
                  Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}"
                  ItemsSource="{Binding AvailableEvents}">
-
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Black" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
         </ListBox>
 
         <!-- Details view -->
@@ -29,9 +33,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            
+
             <!-- -->
-            
+
         </Grid>
 
     </Grid>

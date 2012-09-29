@@ -16,47 +16,55 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets or sets the Einsatznr object.
         /// </summary>
-        public string Einsatznr { get; set; }
+        public string OperationNumber { get; set; }
         /// <summary>
         /// Gets or sets the Mitteiler object.
         /// </summary>
-        public string Mitteiler { get; set; }
+        public string Messenger { get; set; }
         /// <summary>
         /// Gets or sets the Einsatzort object.
         /// </summary>
-        public string Einsatzort { get; set; }
+        public string Location { get; set; }
         /// <summary>
-        /// Gets or sets the Strasse object.
+        /// Gets/sets the street. The street may contain the StreetNumber.
         /// </summary>
-        public string Strasse { get; set; }
+        public string Street { get; set; }
         /// <summary>
-        /// Gets or sets the Kreuzung object.
+        /// Gets/sets the street number. This may be empty and/or the street number may be merged into the Street-property.
         /// </summary>
-        public string Kreuzung { get; set; }
+        public string StreetNumber { get; set; }
+        /// <summary>
+        /// Gets/sets the Intersection, if any or applicable.
+        /// </summary>
+        public string Intersection { get; set; }
         /// <summary>
         /// Gets or sets the Ort object.
         /// </summary>
-        public string Ort { get; set; }
+        public string City { get; set; }
+        /// <summary>
+        /// Gets/sets the zip code of the City.
+        /// </summary>
+        public string ZipCode { get; set; }
         /// <summary>
         /// Gets or sets the Objekt object.
         /// </summary>
-        public string Objekt { get; set; }
+        public string Property { get; set; }
         /// <summary>
         /// Gets or sets the Meldebild object.
         /// </summary>
-        public string Meldebild { get; set; }
+        public string Picture { get; set; }
         /// <summary>
         /// Gets or sets the Hinweis object.
         /// </summary>
-        public string Hinweis { get; set; }
+        public string Hint { get; set; }
         /// <summary>
         /// Gets or sets the Einsatzplan object.
         /// </summary>
-        public string Einsatzplan { get; set; }
+        public string PlanOfAction { get; set; }
         /// <summary>
         /// Gets the Stichwort object.
         /// </summary>
-        public string Stichwort { get; set; }
+        public string Keyword { get; set; }
 
         /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
