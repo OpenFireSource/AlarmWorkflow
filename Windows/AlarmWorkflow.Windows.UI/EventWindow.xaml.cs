@@ -66,9 +66,14 @@ namespace AlarmWorkflow.Windows.UI
 
         #endregion
 
+        #region Event handlers
+
         private void Window_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-
+            // TODO
+            uiScaleSlider.Value += 0.01d * e.Delta;
         }
+
+        #endregion
     }
 }

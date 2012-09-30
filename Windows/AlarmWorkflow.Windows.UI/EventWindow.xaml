@@ -5,7 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"  d:DesignHeight="307" d:DesignWidth="708" SizeToContent="WidthAndHeight"
-        Icon="Images/Fax_32.png"
+        Icon="Images/Fax_32.png" MinWidth="640" MinHeight="480" 
         Title="EventWindow">
 
     <Window.Resources>
@@ -13,21 +13,45 @@
     </Window.Resources>
 
     <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform CenterX="0" CenterY="0"
+                            ScaleX="{Binding ElementName=uiScaleSlider,Path=Value}"
+                            ScaleY="{Binding ElementName=uiScaleSlider,Path=Value}" />
+        </Grid.LayoutTransform>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Event list (only shown if more than one simultaneous events) -->
-        <ListBox Grid.Column="0" Margin="2"
-                 Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}"
-                 ItemsSource="{Binding AvailableEvents}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Black" FontSize="16" />
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <Grid Grid.Column="0" Margin="2"
+              Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Event list (only shown if more than one simultaneous events) -->
+            <ListBox Grid.Row="0" 
+                 ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="16">
+                            <Run Text="{Binding OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold" />
+                            <Run Text=" on " />
+                            <Run Text="{Binding Timestamp}" />
+                        </TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Acknowledge Operation" Command="{Binding AcknowledgeOperationCommand}" />
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+
+            <Slider x:Name="uiScaleSlider" Grid.Row="1" Value="1" Minimum="1" Maximum="5" ToolTip="{Binding Value, ElementName=uiScaleSlider}" />
+        </Grid>
 
         <!-- Details view -->
         <Grid Grid.Column="1" Margin="2">
