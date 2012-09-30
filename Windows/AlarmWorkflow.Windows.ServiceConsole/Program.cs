@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
@@ -12,6 +13,12 @@ namespace AlarmWorkflow.Windows.ServiceConsole
     {
         static void Main(string[] args)
         {
+            // Register logger and listeners
+            Logger.Instance.Initialize();
+            Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
+            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
+
+            // Print welcome information :-)
             Console.WriteLine("********************************************************");
             Console.WriteLine("*                                                      *");
             Console.WriteLine("*   AlarmWorkflow Service Console                      *");
@@ -27,41 +34,34 @@ namespace AlarmWorkflow.Windows.ServiceConsole
 
             using (AlarmworkflowClass ac = new AlarmworkflowClass())
             {
-                WcfServicesHostManager shm = new WcfServicesHostManager();
-
+                // Host the WCF-services, too
+                WcfServicesHostManager shm = new WcfServicesHostManager(ac);
 
                 try
                 {
                     ac.Start();
-                    Console.WriteLine("Service started.");
-
                     shm.Initialize();
-                    Console.WriteLine("Web Services hosted.");
-
-                    while (true)
-                    {
-                        if (Console.KeyAvailable)
-                        {
-                            if (Console.ReadKey().Key == ConsoleKey.Escape)
-                            {
-                                break;
-                            }
-                        }
-
-                        Thread.Sleep(1);
-                    }
                 }
                 catch (Exception ex)
                 {
                     WriteExceptionInformation(ex);
                 }
-                finally
+
+                while (true)
                 {
-                    Console.WriteLine("Shutting down service...");
-                    ac.Stop();
-                    Console.WriteLine("Shutting down Web Services...");
-                    shm.Shutdown();
+                    if (Console.KeyAvailable)
+                    {
+                        if (Console.ReadKey().Key == ConsoleKey.Escape)
+                        {
+                            break;
+                        }
+                    }
+
+                    Thread.Sleep(1);
                 }
+
+                ac.Stop();
+                shm.Shutdown();
             }
 
             Console.WriteLine("Shutting down complete. Press any key to exit.");
@@ -84,5 +84,46 @@ namespace AlarmWorkflow.Windows.ServiceConsole
         {
             WriteExceptionInformation((Exception)e.ExceptionObject);
         }
+
+        #region Event handlers
+
+        private static void LoggingListener(LogEntry entry)
+        {
+            ConsoleColor back = ConsoleColor.Black;
+            ConsoleColor fore = ConsoleColor.White;
+
+            switch (entry.MessageType)
+            {
+                case LogType.None:
+                case LogType.Info:
+                    break;
+                case LogType.Console:
+                    fore = ConsoleColor.Blue;
+                    break;
+                case LogType.Debug:
+                    fore = ConsoleColor.Cyan;
+                    break;
+                case LogType.Error:
+                    fore = ConsoleColor.DarkYellow;
+                    break;
+                case LogType.Exception:
+                    fore = ConsoleColor.Red;
+                    break;
+                case LogType.Trace:
+                    fore = ConsoleColor.Gray;
+                    break;
+                case LogType.Warning:
+                    fore = ConsoleColor.Yellow;
+                    break;
+                default:
+                    break;
+            }
+
+            Console.BackgroundColor = back;
+            Console.ForegroundColor = fore;
+            Console.WriteLine("{0}", entry.Message);
+        }
+
+        #endregion
     }
 }

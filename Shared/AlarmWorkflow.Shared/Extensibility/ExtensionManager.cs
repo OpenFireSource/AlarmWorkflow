@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Extensibility
 {
@@ -63,16 +64,23 @@ namespace AlarmWorkflow.Shared.Extensibility
                     continue;
                 }
 
+                string extensionName = exportToCheck.Type.FullName;
+                Logger.Instance.LogFormat(LogType.Trace, this, "Hosting extension '{0}'...", extensionName);
+
                 // Safety-first...
                 try
                 {
                     IExtension extension = exportToCheck.CreateInstance<IExtension>();
                     extension.Initialize(this);
                     _extensions.Add(extension);
+
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Extension '{0}' successfully hosted.", extensionName);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // Don't throw an exception here - ignoring this extension is enough
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Extension '{0}' could not be hosted due to an error. See details.", extensionName);
+                    Logger.Instance.LogException(this, ex);
                 }
             }
         }
@@ -140,6 +148,14 @@ namespace AlarmWorkflow.Shared.Extensibility
             if (!_extensionObjects.Contains(parser))
             {
                 _extensionObjects.Add(parser);
+            }
+        }
+
+        void IExtensionHost.RegisterOperationStore(IOperationStore operationStore)
+        {
+            if (!_extensionObjects.Contains(operationStore))
+            {
+                _extensionObjects.Add(operationStore);
             }
         }
 

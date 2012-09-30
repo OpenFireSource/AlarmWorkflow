@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Windows.UI.Properties {
+namespace AlarmWorkflow.Shared.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Windows.UI.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UI.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Shared.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace AlarmWorkflow.Windows.UI.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Wenn Sie die Anwendung schließen, kann keine Benachrichtigung auf diesem System mehr angezeigt werden! Sind Sie sicher? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die The file path must be in absolute format! ähnelt.
         /// </summary>
-        internal static string UIServiceExitWarning {
+        internal static string FileNameMustBeAbsolute {
             get {
-                return ResourceManager.GetString("UIServiceExitWarning", resourceCulture);
+                return ResourceManager.GetString("FileNameMustBeAbsolute", resourceCulture);
             }
         }
     }

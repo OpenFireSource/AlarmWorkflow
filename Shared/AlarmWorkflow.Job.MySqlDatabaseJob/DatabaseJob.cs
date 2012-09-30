@@ -4,6 +4,8 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 using MySql.Data.MySqlClient;
 
+// TODO: needs to be updated (new "Id" and "Created" columns)!
+
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
     /// <summary>

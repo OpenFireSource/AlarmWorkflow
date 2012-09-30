@@ -16,5 +16,10 @@ namespace AlarmWorkflow.Shared.Extensibility
         /// </summary>
         /// <param name="parser">The parser to register.</param>
         void RegisterParser(IParser parser);
+        /// <summary>
+        /// Registers the given operation store at the extension host.
+        /// </summary>
+        /// <param name="parser">The operation store to register.</param>
+        void RegisterOperationStore(IOperationStore operationStore);
     }
 }

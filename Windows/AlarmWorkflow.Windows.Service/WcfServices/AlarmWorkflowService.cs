@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
+using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -14,14 +16,21 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
 #endif
     sealed class AlarmWorkflowService : IAlarmWorkflowService
     {
+        #region Fields
+
+        private IOperationStore _operationStore;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlarmWorkflowService"/> class.
         /// </summary>
-        public AlarmWorkflowService()
+        /// <param name="parent"></param>
+        public AlarmWorkflowService(AlarmworkflowClass parent)
         {
-
+            _operationStore = parent.GetOperationStore();
         }
 
         #endregion
@@ -30,7 +39,18 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
 
         IList<OperationItem> IAlarmWorkflowService.GetOperations(int maxAge, bool onlyNonAcknowledged, int limitAmount)
         {
-            throw new NotImplementedException();
+            var data = _operationStore.GetOperations(maxAge, onlyNonAcknowledged, limitAmount);
+            List<OperationItem> operations = new List<OperationItem>(data.Count);
+            foreach (Operation item in data)
+            {
+                operations.Add(new OperationItem(item));
+            }
+            return operations;
+        }
+
+        void IAlarmWorkflowService.AcknowledgeOperation(int operationId)
+        {
+            _operationStore.AcknowledgeOperation(operationId);
         }
 
         #endregion

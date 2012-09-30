@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using System.Text;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -33,5 +33,22 @@ namespace AlarmWorkflow.Shared.Core
             }
             return path;
         }
+
+        /// <summary>
+        /// Returns the first instance if available or the default value for T.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="enumerable"></param>
+        /// <returns></returns>
+        public static T FirstOrDefault<T>(IEnumerable<T> enumerable)
+        {
+            IEnumerator<T> enumerator = enumerable.GetEnumerator();
+            if (enumerator.MoveNext())
+            {
+                return enumerator.Current;
+            }
+            return default(T);
+        }
+
     }
 }

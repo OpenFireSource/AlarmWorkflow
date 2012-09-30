@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SQLCEDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="SQLCEDatabaseModelStoreContainer">
+          <EntitySet Name="Operation" EntityType="SQLCEDatabaseModel.Store.Operation" store:Type="Tables" />
+        </EntityContainer>
+        <EntityType Name="Operation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="OperationNumber" Type="nvarchar" MaxLength="255" />
+          <Property Name="Messenger" Type="nvarchar" MaxLength="255" />
+          <Property Name="Location" Type="nvarchar" MaxLength="255" />
+          <Property Name="Street" Type="nvarchar" MaxLength="255" />
+          <Property Name="StreetNumber" Type="nvarchar" MaxLength="255" />
+          <Property Name="Intersection" Type="nvarchar" MaxLength="255" />
+          <Property Name="City" Type="nvarchar" MaxLength="255" />
+          <Property Name="ZipCode" Type="nvarchar" MaxLength="100" />
+          <Property Name="Property" Type="nvarchar" MaxLength="512" />
+          <Property Name="Picture" Type="nvarchar" MaxLength="512" />
+          <Property Name="Hint" Type="nvarchar" MaxLength="512" />
+          <Property Name="PlanOfAction" Type="nvarchar" MaxLength="255" />
+          <Property Name="Keyword" Type="nvarchar" MaxLength="255" />
+          <Property Name="IsAcknowledged" Type="bit" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" Nullable="false" />
+          <Property Name="OperationId" Type="int" Nullable="false" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SQLCEDatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="SQLCEDatabaseEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Operations" EntityType="SQLCEDatabaseModel.OperationData" />
+        </EntityContainer>
+        <EntityType Name="OperationData">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Guid" Name="ID" Nullable="false" >
+            <Documentation>
+              <Summary>The unique Id. For identifying operations, please use the OperationId!</Summary>
+            </Documentation>
+          </Property>
+          <Property Type="String" Name="OperationNumber" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Messenger" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Location" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Street" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="StreetNumber" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Intersection" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="City" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ZipCode" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Property" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Picture" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Hint" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="PlanOfAction" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Keyword" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
+          <Property Type="DateTime" Name="Timestamp" Nullable="false" />
+          <Property Type="Int32" Name="OperationId" Nullable="false" >
+            <Documentation>
+              <Summary>Identifies one Operation.</Summary>
+            </Documentation>
+          </Property>
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SQLCEDatabaseModelStoreContainer" CdmEntityContainer="SQLCEDatabaseEntities" >
+          <EntitySetMapping Name="Operations">
+            <EntityTypeMapping TypeName="SQLCEDatabaseModel.OperationData">
+              <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="OperationId" ColumnName="OperationId" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
+                <ScalarProperty Name="Keyword" ColumnName="Keyword" />
+                <ScalarProperty Name="PlanOfAction" ColumnName="PlanOfAction" />
+                <ScalarProperty Name="Hint" ColumnName="Hint" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="Property" ColumnName="Property" />
+                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Intersection" ColumnName="Intersection" />
+                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
+                <ScalarProperty Name="Street" ColumnName="Street" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Messenger" ColumnName="Messenger" />
+                <ScalarProperty Name="OperationNumber" ColumnName="OperationNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="SQLCEDatabase" >
+        <EntityTypeShape EntityType="SQLCEDatabaseModel.OperationData" Width="1.5" PointX="0.75" PointY="0.75" Height="4.2879036458333326" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

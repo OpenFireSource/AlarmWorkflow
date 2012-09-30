@@ -41,8 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\ReplaceString.cs" />
+    <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
+    <Compile Include="Diagnostics\ILoggingListener.cs" />
+    <Compile Include="Diagnostics\LogEntry.cs" />
+    <Compile Include="Diagnostics\Logger.cs" />
+    <Compile Include="Diagnostics\LogType.cs" />
+    <Compile Include="Diagnostics\RelayLoggingListener.cs" />
     <Compile Include="Extensibility\IExtensionObject.cs" />
+    <Compile Include="Extensibility\IOperationStore.cs" />
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="AlarmworkflowCodeLib.cs" />
     <Compile Include="Core\ExportAttribute.cs" />
@@ -54,9 +62,11 @@
     <Compile Include="Extensibility\IExtension.cs" />
     <Compile Include="Extensibility\IExtensionHost.cs" />
     <Compile Include="Extensibility\IJob.cs" />
-    <Compile Include="Logging\EventLogLogger.cs" />
-    <Compile Include="Logging\ILogger.cs" />
-    <Compile Include="Logging\NoLogger.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WorkingThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -69,6 +79,12 @@
     <Content Include="Config\ExtensionWhitelist.lst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

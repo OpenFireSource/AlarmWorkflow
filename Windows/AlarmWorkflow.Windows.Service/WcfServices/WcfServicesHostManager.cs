@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using AlarmWorkflow.Shared;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -12,6 +13,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         #region Fields
 
         private List<ServiceHost> _services;
+        private AlarmworkflowClass _parent;
 
         #endregion
 
@@ -20,9 +22,11 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// <summary>
         /// Initializes a new instance of the <see cref="WcfServicesHostManager"/> class.
         /// </summary>
-        public WcfServicesHostManager()
+        /// <param name="parent"></param>
+        public WcfServicesHostManager(AlarmworkflowClass parent)
         {
             _services = new List<ServiceHost>();
+            _parent = parent;
         }
 
         #endregion
@@ -34,29 +38,23 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// </summary>
         public void Initialize()
         {
-            HostService(new ServiceConfiguration()
-            {
-                ContractType = typeof(IAlarmWorkflowService),
-                ServiceType = typeof(AlarmWorkflowService),
-                UrlPath = "AlarmWorkflowService"
-            });
+            HostService();
         }
 
         /// <summary>
-        /// Hosts the given service.
+        /// Hosts the main service.
         /// </summary>
-        /// <param name="configuration"></param>
-        private void HostService(ServiceConfiguration configuration)
+        private void HostService()
         {
             try
             {
                 // Create a new Singleton-instance
-                object instance = Activator.CreateInstance(configuration.ServiceType);
+                AlarmWorkflowService instance = new AlarmWorkflowService(_parent);
 
                 // Create a new host for the Singleton-instance
                 ServiceHost host = new ServiceHost(instance);
                 // Create endpoints for per-session instances (used by the clients)
-                host.AddServiceEndpoint(configuration.ContractType, ServiceConstants.ServicesBinding, ServiceConstants.GetServiceUrl(configuration.UrlPath));
+                host.AddServiceEndpoint(typeof(IAlarmWorkflowService), ServiceConstants.ServicesBinding, ServiceConstants.GetServiceUrl("AlarmWorkflowService"));
 
                 // Add the service to the services list...
                 _services.Add(host);
@@ -87,17 +85,6 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
                 });
                 _services = null;
             }
-        }
-
-        #endregion
-
-        #region Nested types
-
-        class ServiceConfiguration
-        {
-            public Type ContractType { get; set; }
-            public Type ServiceType { get; set; }
-            public string UrlPath { get; set; }
         }
 
         #endregion

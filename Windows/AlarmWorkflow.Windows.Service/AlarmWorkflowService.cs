@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.ServiceProcess;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -32,6 +32,8 @@ namespace AlarmWorkflow.Windows.Service
         {
             InitializeComponent();
 
+            Logger.Instance.Initialize();
+
             // This call requires Administrator rights. We don't put a Try-catch around because the Windows Service must run with Admin rights.
             if (!System.Diagnostics.EventLog.SourceExists(EventLogSourceName))
             {
@@ -44,6 +46,14 @@ namespace AlarmWorkflow.Windows.Service
         #region Methods
 
         /// <summary>
+        /// FOR DEBUGGING ONLY!
+        /// </summary>
+        internal void OnStart()
+        {
+            OnStart(new string[0]);
+        }
+
+        /// <summary>
         /// When implemented in a derived class, executes when a Start command is sent to the service by the Service Control Manager (SCM) or when the operating system starts (for a service that starts automatically). Specifies actions to take when the service starts.
         /// </summary>
         /// <param name="args">Data passed by the start command.</param>
@@ -54,12 +64,13 @@ namespace AlarmWorkflow.Windows.Service
                 _alarmWorkflow = new AlarmworkflowClass();
                 _alarmWorkflow.Start();
 
-                _servicesHostManager = new WcfServices.WcfServicesHostManager();
+                _servicesHostManager = new WcfServices.WcfServicesHostManager(_alarmWorkflow);
                 _servicesHostManager.Initialize();
             }
             catch (Exception ex)
             {
-                EventLog.WriteEntry(EventLogSourceName, string.Format(Properties.Resources.ServiceStartError_Message, ex.Message), EventLogEntryType.Error);
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ServiceStartError_Message, ex.Message);
+                Logger.Instance.LogException(this, ex);
             }
         }
 
@@ -70,6 +81,8 @@ namespace AlarmWorkflow.Windows.Service
         {
             _alarmWorkflow.Stop();
             _servicesHostManager.Shutdown();
+
+            Logger.Instance.Shutdown();
         }
 
         #endregion

@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Parser.MucLandParser
 {
@@ -14,15 +13,6 @@ namespace AlarmWorkflow.Parser.MucLandParser
     /// </summary>
     public class MucLandParser : IParser
     {
-        #region Fields
-
-        /// <summary>
-        /// The Logger object.
-        /// </summary>
-        private ILogger logger = new NoLogger();
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -43,11 +33,11 @@ namespace AlarmWorkflow.Parser.MucLandParser
             Operation einsatz = new Operation();
             string line = string.Empty;
             bool fileNotFound = true;
-            int trys = 0;
+            int tries = 0;
             while (fileNotFound)
             {
                 fileNotFound = false;
-                trys++;
+                tries++;
                 try
                 {
                     StreamReader reader = new StreamReader(file);
@@ -111,20 +101,20 @@ namespace AlarmWorkflow.Parser.MucLandParser
                 }
                 catch (FileNotFoundException ex)
                 {
-                    if (trys < 10)
+                    if (tries < 10)
                     {
                         fileNotFound = true;
                         Thread.Sleep(1000);
-                        this.logger.WriteWarning("Ocr file not found. Try " + trys.ToString(CultureInfo.InvariantCulture) + " of 10!");
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Ocr file not found. Try {0} of 10!", tries);
                     }
                     else
                     {
-                        this.logger.WriteError("Ocr File not found! " + ex.ToString());
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Ocr File not found! " + ex.ToString());
                     }
                 }
                 catch (Exception ex)
                 {
-                    this.logger.WriteError(ex.ToString());
+                    Logger.Instance.LogFormat(LogType.Warning, this, ex.ToString());
                 }
             }
 

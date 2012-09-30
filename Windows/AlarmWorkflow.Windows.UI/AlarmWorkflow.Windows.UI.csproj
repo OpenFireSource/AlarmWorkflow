@@ -74,7 +74,6 @@
     <Compile Include="EventWindowViewModel.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
-    <Compile Include="UINotifyable.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -114,6 +113,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\FaxHS.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlarmWorkflow.Windows.Service\AlarmWorkflow.Windows.Service.csproj">
+      <Project>{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}</Project>
+      <Name>AlarmWorkflow.Windows.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

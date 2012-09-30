@@ -41,6 +41,12 @@ namespace AlarmWorkflow.Windows.UI
         /// <param name="operation">The event to push.</param>
         public void PushEvent(Operation operation)
         {
+            // Sanity-check
+            if (AvailableEvents.Contains(operation))
+            {
+                return;
+            }
+
             AvailableEvents.Add(operation);
             OnPropertyChanged("AreMultipleEventsPresent");
         }

@@ -8,8 +8,8 @@ using System.Security;
 using System.Security.Permissions;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Shared
 {
@@ -39,10 +39,6 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         internal List<IJob> Jobs { get; private set; }
 
-        /// <summary>
-        /// Gets or sets the logger object.
-        /// </summary>
-        internal ILogger Logger { get; set; }
         /// <summary>
         /// Sets the fax path.
         /// </summary>
@@ -121,7 +117,7 @@ namespace AlarmWorkflow.Shared
             }
             catch (IOException)
             {
-                this.Logger.WriteError("Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.");
+                Logger.Instance.LogFormat(LogType.Warning, this, "Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.");
             }
         }
 
@@ -165,6 +161,8 @@ namespace AlarmWorkflow.Shared
 
         #region Event handlers
 
+        // TODO: This Routine is dangerous! If there is for whatever reason a delay in processing, and multiple faxes are incoming, they go unprocessed due to the fact...
+        // ... that the routine is busy processing the first fax! Change this to a loop which runs every three seconds or so (more than sufficient)!
         private void _fileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             this.fileSystemWatcher.EnableRaisingEvents = false;
@@ -175,37 +173,37 @@ namespace AlarmWorkflow.Shared
             }
             catch (ArgumentNullException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (SecurityException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (ArgumentException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (UnauthorizedAccessException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (PathTooLongException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (NotSupportedException ex)
             {
-                this.Logger.WriteError("Error while ceating File Info Object for new Fax: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
@@ -225,13 +223,13 @@ namespace AlarmWorkflow.Shared
                 {
                     if (tried < 60)
                     {
-                        Logger.WriteInformation("Coudn´t move file. Try " + tried.ToString(CultureInfo.InvariantCulture) + " of 10!");
-                        Thread.Sleep(1000);
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of 10!", tried);
+                        Thread.Sleep(200);
                         fileIsMoved = false;
                     }
                     else
                     {
-                        Logger.WriteError("Coundn't move file.\n" + ex.ToString());
+                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file.\n" + ex.ToString());
                         this.fileSystemWatcher.EnableRaisingEvents = true;
                         return;
                     }
@@ -248,19 +246,19 @@ namespace AlarmWorkflow.Shared
             }
             catch (OutOfMemoryException ex)
             {
-                this.Logger.WriteError("Error while reading tif image: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (FileNotFoundException ex)
             {
-                this.Logger.WriteError("Error while reading tif image: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
             catch (ArgumentException ex)
             {
-                this.Logger.WriteError("Error while reading tif image: " + ex.ToString());
+                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
                 return;
             }
@@ -315,7 +313,7 @@ namespace AlarmWorkflow.Shared
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.WriteError("Error while the ocr Prozess: " + ex.ToString());
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Error while the ocr Prozess: " + ex.ToString());
                     this.fileSystemWatcher.EnableRaisingEvents = true;
                     return;
                 }
@@ -333,19 +331,19 @@ namespace AlarmWorkflow.Shared
                             // Run the job. If the job fails, ignore that exception as well but log it too!
                             if (!job.DoJob(operation))
                             {
-                                this.Logger.WriteError(job.ErrorMessage);
+                                Logger.Instance.LogFormat(LogType.Warning, this, job.ErrorMessage);
                             }
                         }
                         catch (Exception ex)
                         {
                             // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                            this.Logger.WriteError(string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                            Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    this.Logger.WriteError("An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
+                    Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
                 }
 
                 this.fileSystemWatcher.EnableRaisingEvents = true;

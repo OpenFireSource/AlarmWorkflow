@@ -5,8 +5,8 @@ using System.Security.Permissions;
 using System.Threading;
 using System.Xml;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Logging;
 
 namespace AlarmWorkflow.Shared
 {
@@ -17,11 +17,11 @@ namespace AlarmWorkflow.Shared
     {
         #region Fields
 
-        private ILogger _logger;
         private ExtensionManager _extensionManager;
 
         private Thread _workingThread;
         private WorkingThread _workingThreadInstance;
+        private IOperationStore _operationStore;
 
         #endregion
 
@@ -48,8 +48,6 @@ namespace AlarmWorkflow.Shared
             XmlDocument doc = new XmlDocument();
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
 
-            InitializeLogger(doc);
-
             // Thread Einstellungen initiieren
             XmlNode node = doc.GetElementsByTagName("Service")[0];
             string faxPath = node.SelectSingleNode("FaxPath").InnerText;
@@ -63,7 +61,6 @@ namespace AlarmWorkflow.Shared
 
             _workingThreadInstance.FaxPath = faxPath;
             _workingThreadInstance.ArchivePath = archievPath;
-            _workingThreadInstance.Logger = _logger;
             _workingThreadInstance.AnalysisPath = analysisPath;
             if (ocr.ToUpperInvariant() == "TESSERACT")
             {
@@ -122,23 +119,6 @@ namespace AlarmWorkflow.Shared
 
         #region Methods
 
-        private void InitializeLogger(XmlDocument doc)
-        {
-            // Initialising Logger
-            XmlNode node = doc.GetElementsByTagName("Logging")[0];
-            string loggerstr = node.SelectSingleNode("Logger").Attributes["type"].Value;
-
-            _logger = ExportedTypeLibrary.Import<ILogger>(loggerstr);
-
-            if (!_logger.Initialize())
-            {
-                // If logger initialization failed, use the null logger
-                _logger = new Logging.NoLogger();
-            }
-
-            _logger.WriteInformation("Starting Service");
-        }
-
         private void InitializeJobs(XmlDocument doc, bool debugaktive)
         {
             // NOTE: TENTATIVE CODE until settings are stored more dynamical!
@@ -146,9 +126,35 @@ namespace AlarmWorkflow.Shared
 
             foreach (IJob job in _extensionManager.GetExtensionsOfType<IJob>())
             {
-                _workingThreadInstance.Jobs.Add(job);
-                job.Initialize(jobsSettings);
+                string jobName = job.GetType().Name;
+                Logger.Instance.LogFormat(LogType.Info, this, "Initializing job type '{0}'...", jobName);
+
+                try
+                {
+                    job.Initialize(jobsSettings);
+                    _workingThreadInstance.Jobs.Add(job);
+
+                    Logger.Instance.LogFormat(LogType.Info, this, "Job type '{0}' initialization successful.", jobName);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing job type '{0}'. The error message was: {1}", jobName, ex.Message);
+                }
             }
+        }
+
+        /// <summary>
+        /// Returns the instance of <see cref="IOperationStore"/> that was registered to be used.
+        /// </summary>
+        /// <returns></returns>
+        public IOperationStore GetOperationStore()
+        {
+            // TODO: Load from setings!
+            if (_operationStore == null)
+            {
+                _operationStore = Utilities.FirstOrDefault(_extensionManager.GetExtensionsOfType<IOperationStore>());
+            }
+            return _operationStore;
         }
 
         /// <summary>
@@ -163,7 +169,7 @@ namespace AlarmWorkflow.Shared
 
             _workingThread = new Thread(new ThreadStart(_workingThreadInstance.DoWork));
             _workingThread.Start();
-            _logger.WriteInformation("Started Service");
+            Logger.Instance.LogFormat(LogType.Info, this, "Started Service");
 
             IsStarted = true;
         }
@@ -178,13 +184,13 @@ namespace AlarmWorkflow.Shared
                 return;
             }
 
-            _logger.WriteInformation("Stopping Service");
+            Logger.Instance.LogFormat(LogType.Info, this, "Stopping Service");
             if (_workingThread != null)
             {
                 _workingThread.Abort();
             }
 
-            _logger.WriteInformation("Stopped Service");
+            Logger.Instance.LogFormat(LogType.Info, this, "Stopped Service");
 
             IsStarted = false;
         }
