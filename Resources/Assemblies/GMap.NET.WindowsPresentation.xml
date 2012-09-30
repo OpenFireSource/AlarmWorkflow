@@ -1,0 +1,616 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>GMap.NET.WindowsPresentation</name>
+    </assembly>
+    <members>
+        <member name="T:GMap.NET.WindowsPresentation.QuadTree`1">
+            <summary>
+            This class efficiently stores and retrieves arbitrarily sized and positioned
+            objects in a quad-tree data structure.  This can be used to do efficient hit
+            detection or visiblility checks on objects in a virtualized canvas.
+            The object does not need to implement any special interface because the Rect Bounds
+            of those objects is handled as a separate argument to Insert.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Insert(`0,System.Windows.Rect)">
+            <summary>
+            Insert a node with given bounds into this QuadTree.
+            </summary>
+            <param name="node">The node to insert</param>
+            <param name="bounds">The bounds of this node</param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.GetNodesInside(System.Windows.Rect)">
+            <summary>
+            Get a list of the nodes that intersect the given bounds.
+            </summary>
+            <param name="bounds">The bounds to test</param>
+            <returns>List of zero or mode nodes found inside the given bounds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.HasNodesInside(System.Windows.Rect)">
+            <summary>
+            Get a list of the nodes that intersect the given bounds.
+            </summary>
+            <param name="bounds">The bounds to test</param>
+            <returns>List of zero or mode nodes found inside the given bounds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.GetNodes(System.Windows.Rect)">
+            <summary>
+            Get list of nodes that intersect the given bounds.
+            </summary>
+            <param name="bounds">The bounds to test</param>
+            <returns>The list of nodes intersecting the given bounds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Remove(`0)">
+            <summary>
+            Remove the given node from this QuadTree.
+            </summary>
+            <param name="node">The node to remove</param>
+            <returns>True if the node was found and removed.</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.ReIndex">
+            <summary>
+            Rebuild all the Quadrants according to the current QuadTree Bounds.
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.Bounds">
+            <summary>
+            This determines the overall quad-tree indexing strategy, changing this bounds
+            is expensive since it has to re-divide the entire thing - like a re-hash operation.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:GMap.NET.WindowsPresentation.QuadTree`1.QuadNode" -->
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.QuadNode.#ctor(`0,System.Windows.Rect)">
+            <summary>
+            Construct new QuadNode to wrap the given node with given bounds
+            </summary>
+            <param name="node">The node</param>
+            <param name="bounds">The bounds of that node</param>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.QuadNode.Node">
+            <summary>
+            The node
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.QuadNode.Bounds">
+            <summary>
+            The Rect bounds of the node
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.QuadNode.Next">
+            <summary>
+            QuadNodes form a linked list in the Quadrant.
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant">
+            <summary>
+            The canvas is split up into four Quadrants and objects are stored in the quadrant that contains them
+            and each quadrant is split up into four child Quadrants recurrsively.  Objects that overlap more than
+            one quadrant are stored in the _nodes list for this Quadrant.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.#ctor(GMap.NET.WindowsPresentation.QuadTree{`0}.Quadrant,System.Windows.Rect)">
+            <summary>
+            Construct new Quadrant with a given bounds all nodes stored inside this quadrant
+            will fit inside this bounds.  
+            </summary>
+            <param name="parent">The parent quadrant (if any)</param>
+            <param name="bounds">The bounds of this quadrant</param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.Insert(`0,System.Windows.Rect)">
+            <summary>
+            Insert the given node
+            </summary>
+            <param name="node">The node </param>
+            <param name="bounds">The bounds of that node</param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.GetIntersectingNodes(System.Collections.Generic.List{GMap.NET.WindowsPresentation.QuadTree{`0}.QuadNode},System.Windows.Rect)">
+            <summary>
+            Returns all nodes in this quadrant that intersect the given bounds.
+            The nodes are returned in pretty much random order as far as the caller is concerned.
+            </summary>
+            <param name="nodes">List of nodes found in the given bounds</param>
+            <param name="bounds">The bounds that contains the nodes you want returned</param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.GetIntersectingNodes(GMap.NET.WindowsPresentation.QuadTree{`0}.QuadNode,System.Collections.Generic.List{GMap.NET.WindowsPresentation.QuadTree{`0}.QuadNode},System.Windows.Rect)">
+            <summary>
+            Walk the given linked list of QuadNodes and check them against the given bounds.
+            Add all nodes that intersect the bounds in to the list.
+            </summary>
+            <param name="last">The last QuadNode in a circularly linked list</param>
+            <param name="nodes">The resulting nodes are added to this list</param>
+            <param name="bounds">The bounds to test against each node</param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.HasIntersectingNodes(System.Windows.Rect)">
+            <summary>
+            Return true if there are any nodes in this Quadrant that intersect the given bounds.
+            </summary>
+            <param name="bounds">The bounds to test</param>
+            <returns>boolean</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.HasIntersectingNodes(GMap.NET.WindowsPresentation.QuadTree{`0}.QuadNode,System.Windows.Rect)">
+            <summary>
+            Walk the given linked list and test each node against the given bounds/
+            </summary>
+            <param name="last">The last node in the circularly linked list.</param>
+            <param name="bounds">Bounds to test</param>
+            <returns>Return true if a node in the list intersects the bounds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.RemoveNode(`0)">
+            <summary>
+            Remove the given node from this Quadrant.
+            </summary>
+            <param name="node">The node to remove</param>
+            <returns>Returns true if the node was found and removed.</returns>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.Parent">
+            <summary>
+            The parent Quadrant or null if this is the root
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.QuadTree`1.Quadrant.Bounds">
+            <summary>
+            The bounds of this quadrant
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.TilePrefetcher">
+            <summary>
+            form helping to prefetch tiles on local db
+            </summary>
+            <summary>
+            TilePrefetcher
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.TilePrefetcher.InitializeComponent">
+            <summary>
+            InitializeComponent
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.PerfTimer">
+            <summary>
+            This class implements a high precision timer using the Win32 QueryPerformanceCounter API.
+            Typical usage:
+            <code>
+                PerfTimer t = new PerfTimer();
+                t.Start();
+                ...
+                t.Stop();
+                long ms = t.GetDuration();
+            </code>
+            You can also use it to add up a bunch of times in a loop and report average, mininum
+            and maximum times.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Start">
+            <summary>
+            Set current time as the start time.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Stop">
+            <summary>
+            Set the current time as the end time.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.GetDuration">
+            <summary>
+            Get the time in milliseconds between Start() and Stop().
+            </summary>
+            <returns>Milliseconds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.GetMilliseconds(System.Int64)">
+            <summary>
+            Convert the given argument from "ticks" to milliseconds.
+            </summary>
+            <param name="ticks">Number of ticks returned from GetTicks()</param>
+            <returns>Milliseconds</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.GetDurationInTicks">
+            <summary>
+            Get the time between Start() and Stop() in the highest fidelity possible
+            as defined by Windows QueryPerformanceFrequency.  Usually this is nanoseconds.
+            </summary>
+            <returns>High fidelity tick count</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.GetCurrentTime">
+            <summary>
+            Get current time in ighest fidelity possible as defined by Windows QueryPerformanceCounter.  
+            Usually this is nanoseconds.
+            </summary>
+            <returns>High fidelity tick count</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Count(System.Int64)">
+            <summary>
+            Add the given time to a running total so we can compute minimum, maximum and average.
+            </summary>
+            <param name="time">The time to record</param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Minimum">
+            <summary>
+            Return the minimum time recorded by the Count() method since the last Clear
+            </summary>
+            <returns>The minimum value</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Max">
+            <summary>
+            Return the maximum time recorded by the Count() method since the last Clear
+            </summary>
+            <returns>The maximum value</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Median">
+            <summary>
+            Return the median of the values recorded by the Count() method since the last Clear
+            </summary>
+            <returns>The median value</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.PercentError">
+            <summary>
+            Return the variance in the numbers recorded by the Count() method since the last Clear
+            </summary>
+            <returns>Percentage between 0 and 100</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Average">
+            <summary>
+            Return the avergae of the values recorded by the Count() method since the last Clear
+            </summary>
+            <returns>The average value</returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.PerfTimer.Clear">
+            <summary>
+            Reset the timer to its initial state.
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.WindowsPresentationImage">
+            <summary>
+            image abstraction
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.WindowsPresentationImageProxy">
+            <summary>
+            image abstraction proxy
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.GMapMarker">
+            <summary>
+            GMap.NET marker
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapMarker.Tag">
+            <summary>
+            custom object
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapMarker.Route">
+            <summary>
+            if marker is a route that is a path of it's coordinates
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapMarker.Polygon">
+            <summary>
+            if marker is a polygon that is a path of it's coordinates
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapMarker.Clear">
+            <summary>
+            calls Dispose on shape if it implements IDisposable, sets shape to null and clears route
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapMarker.UpdateLocalPosition">
+            <summary>
+            updates marker position, internal access usualy
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapMarker.ForceUpdateLocalPosition(GMap.NET.WindowsPresentation.GMapControl)">
+            <summary>
+            forces to update local marker  position
+            dot not call it if you don't really need to ;}
+            </summary>
+            <param name="m"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapMarker.RegenerateRouteShape(GMap.NET.WindowsPresentation.GMapControl)">
+            <summary>
+            regenerates shape of route
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapMarker.RegeneratePolygonShape(GMap.NET.WindowsPresentation.GMapControl)">
+            <summary>
+            regenerates shape of polygon
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.Shape">
+            <summary>
+            marker visual
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.Position">
+            <summary>
+            coordinate of marker
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.Map">
+            <summary>
+            the map of this marker
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.Offset">
+            <summary>
+            offset of marker
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.LocalPositionX">
+            <summary>
+            local X position of marker
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.LocalPositionY">
+            <summary>
+            local Y position of marker
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapMarker.ZIndex">
+            <summary>
+            the index of Z, render order
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsPresentation.GMapControl">
+            <summary>
+            GMap.NET control for Windows Presentation
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.EmptyTileBorders">
+            <summary>
+            pen for empty tile borders
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.SelectionPen">
+            <summary>
+            pen for Selection
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.SelectedAreaFill">
+            <summary>
+            background of selected area
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:GMap.NET.WindowsPresentation.GMapControl.EmptytileBrush" -->
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.EmptyTileText">
+            <summary>
+            text on empty tiles
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.DragButton">
+            <summary>
+            map dragg button
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.SelectionUseCircle">
+            <summary>
+            use circle for selection
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.selectedArea">
+            <summary>
+            current selected area in map
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.TouchEnabled">
+            <summary>
+            is touch control enabled
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.BoundsOfMap">
+            <summary>
+            map boundaries
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.Markers">
+            <summary>
+            list of markers
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.MapRenderTransform">
+            <summary>
+            current map transformation
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.MapTranslateTransform">
+            <summary>
+            current markers overlay offset
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.InvalidateVisual">
+            <summary>
+            enque built-in thread safe invalidation
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.InvalidateVisual(System.Boolean)">
+            <summary>
+            Invalidates the rendering of the element, and forces a complete new layout
+            pass. System.Windows.UIElement.OnRender(System.Windows.Media.DrawingContext)
+            is called after the layout cycle is completed. If not forced enques built-in thread safe invalidation
+            </summary>
+            <param name="forced"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.GMapControl_Loaded(System.Object,System.Windows.RoutedEventArgs)">
+            <summary>
+            inits core system
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.GMapControl_SizeChanged(System.Object,System.Windows.SizeChangedEventArgs)">
+            <summary>
+            recalculates size
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.UpdateMarkersOffset">
+            <summary>
+            updates markers overlay offset
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.DrawMapWPF(System.Windows.Media.DrawingContext)">
+            <summary>
+            render map in WPF
+            </summary>
+            <param name="g"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.ToImageSource">
+            <summary>
+            gets image of the current view
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.CreateRoutePath(System.Collections.Generic.List{System.Windows.Point})">
+            <summary>
+            creates path from list of points
+            </summary>
+            <param name="pl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.CreatePolygonPath(System.Collections.Generic.List{System.Windows.Point})">
+            <summary>
+            creates path from list of points
+            </summary>
+            <param name="pl"></param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.SetZoomToFitRect(GMap.NET.RectLatLng)">
+            <summary>
+            sets zoom to max to fit rect
+            </summary>
+            <param name="rect">area</param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.ZoomAndCenterMarkers(System.Nullable{System.Int32})">
+            <summary>
+            sets to max zoom to fit all markers and centers them in map
+            </summary>
+            <param name="ZIndex">z index or null to check all</param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.GetRectOfAllMarkers(System.Nullable{System.Int32})">
+            <summary>
+            gets rectangle with all objects inside
+            </summary>
+            <param name="ZIndex">z index or null to check all</param>
+            <returns></returns>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.Offset(System.Int32,System.Int32)">
+            <summary>
+            offset position in pixels
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.UpdateRotationMatrix">
+            <summary>
+            updates rotation matrix
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.ApplyRotation(System.Double,System.Double)">
+            <summary>
+            apply transformation if in rotation mode
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.ApplyRotationInversion(System.Double,System.Double)">
+            <summary>
+            apply transformation if in rotation mode
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.InvertedMouseWheelZooming">
+            <summary>
+            reverses MouseWheel zooming direction
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsPresentation.GMapControl.IgnoreMarkerOnMouseWheel">
+            <summary>
+            lets you zoom by MouseWheel even when pointer is in area of marker
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:GMap.NET.WindowsPresentation.GMapControl.ReloadMap" -->
+        <member name="M:GMap.NET.WindowsPresentation.GMapControl.SetCurrentPositionByKeywords(System.String)">
+            <summary>
+            sets position using geocoder
+            </summary>
+            <param name="keys"></param>
+            <returns></returns>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.MapProvider">
+            <summary>
+            type of map
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.Zoom">
+            <summary>
+            map zoom
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.MaxZoom">
+            <summary>
+            max zoom
+            </summary>         
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.MinZoom">
+            <summary>
+            min zoom
+            </summary>      
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.MouseWheelZoomType">
+            <summary>
+            map zooming type for mouse wheel
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.ShowTileGridLines">
+            <summary>
+            shows tile gridlines
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.RetryLoadTile">
+            <summary>
+            retry count to get tile 
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.LevelsKeepInMemmory">
+            <summary>
+            how many levels of tiles are staying decompresed in memory
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.MapCanvas">
+            <summary>
+            markers overlay
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.IsRotated">
+            <summary>
+            returs true if map bearing is not zero
+            </summary>         
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.Bearing">
+            <summary>
+            bearing for rotation of the map
+            </summary>
+        </member>
+        <member name="P:GMap.NET.WindowsPresentation.GMapControl.Position">
+            <summary>
+            current coordinates of the map center
+            </summary>
+        </member>
+        <member name="E:GMap.NET.WindowsPresentation.GMapControl.OnMapTypeChanged">
+            <summary>
+            occures on map type changed
+            </summary>
+        </member>
+        <member name="E:GMap.NET.WindowsPresentation.GMapControl.OnEmptyTileError">
+            <summary>
+            occurs on empty tile displayed
+            </summary>
+        </member>
+    </members>
+</doc>

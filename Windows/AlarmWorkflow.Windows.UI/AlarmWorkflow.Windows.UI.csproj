@@ -46,8 +46,11 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="GMaps">
-      <HintPath>..\..\Resources\Assemblies\GMaps.dll</HintPath>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>..\..\Resources\Assemblies\GMap.NET.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsPresentation">
+      <HintPath>..\..\Resources\Assemblies\GMap.NET.WindowsPresentation.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>

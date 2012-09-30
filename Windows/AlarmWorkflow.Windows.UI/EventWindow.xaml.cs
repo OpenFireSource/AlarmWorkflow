@@ -65,5 +65,10 @@ namespace AlarmWorkflow.Windows.UI
         }
 
         #endregion
+
+        private void Window_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+
+        }
     }
 }
