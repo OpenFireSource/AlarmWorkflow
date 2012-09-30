@@ -105,7 +105,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
                 using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
                 {
-                    foreach (OperationData data in entities.Operations)
+                    foreach (OperationData data in entities.Operations.OrderByDescending(o => o.Timestamp))
                     {
                         // If we only want non-acknowledged ones
                         if (onlyNonAcknowledged && data.IsAcknowledged)

@@ -6,6 +6,8 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.Windows.Service.WcfServices;
 using Hardcodet.Wpf.TaskbarNotification;
 using AlarmWorkflow.Shared.Core;
+using System.ServiceModel;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -121,7 +123,8 @@ namespace AlarmWorkflow.Windows.UI
                     int maxAge = (_startedDate - DateTime.UtcNow).Minutes;
                     using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                     {
-                        var operations = service.Instance.GetOperations(maxAge, true, 0);
+                        // TODO: Make max entries customizable!
+                        var operations = service.Instance.GetOperations(maxAge, true, 9);
                         if (operations.Count == 0)
                         {
                             return;
@@ -141,9 +144,14 @@ namespace AlarmWorkflow.Windows.UI
                         }
                     }
                 }
-                catch (Exception)
+                catch (EndpointNotFoundException)
                 {
                     // This is ok, since it also occurs when the service is starting up.
+                }
+                catch (Exception ex)
+                {
+                    // This could be interesting though...
+                    Logger.Instance.LogException(this, ex);
                 }
 
             }
