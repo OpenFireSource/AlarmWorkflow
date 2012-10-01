@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 
-namespace AlarmWorkflow.Windows.UI
+namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     /// <summary>
     /// Provides helper methods for working with commands.

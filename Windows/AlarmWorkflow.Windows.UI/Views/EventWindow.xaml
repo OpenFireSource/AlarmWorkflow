@@ -1,7 +1,6 @@
-﻿<Window x:Class="AlarmWorkflow.Windows.UI.EventWindow"
+﻿<Window x:Class="AlarmWorkflow.Windows.UI.Views.EventWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:gm="clr-namespace:GMap.NET.WindowsPresentation;assembly=GMap.NET.WindowsPresentation"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"  d:DesignHeight="307" d:DesignWidth="708" SizeToContent="WidthAndHeight"
@@ -60,8 +59,11 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- -->
-            <gm:GMapControl x:Name="gmap" Grid.Row="1" />
+            <!-- Deployed vehicles list -->
+            <ItemsControl Grid.Row="0" Margin="2" />
+            
+            <!-- Route view -->
+            <Image Grid.Row="1" Margin="2" />
         </Grid>
 
     </Grid>

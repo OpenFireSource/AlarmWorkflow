@@ -1,7 +1,8 @@
 ﻿using System.Windows;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Windows.UI.ViewModels;
 
-namespace AlarmWorkflow.Windows.UI
+namespace AlarmWorkflow.Windows.UI.Views
 {
     /// <summary>
     /// Interaction logic for EventWindow.xaml

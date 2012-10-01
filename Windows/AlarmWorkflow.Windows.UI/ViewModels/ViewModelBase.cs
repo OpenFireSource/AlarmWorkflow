@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Globalization;
 using System.Windows;
 
-namespace AlarmWorkflow.Windows.UI
+namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     /// <summary>
     /// Base for all FireFighter Client ViewModels.

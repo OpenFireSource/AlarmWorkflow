@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace AlarmWorkflow.Windows.UI
+namespace AlarmWorkflow.Windows.UI.Models
 {
     /// <summary>
     /// Provides extensions for the UI.

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using AlarmWorkflow.Windows.Service.WcfServices;
-using Hardcodet.Wpf.TaskbarNotification;
 using AlarmWorkflow.Shared.Core;
-using System.ServiceModel;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.UI.Models;
+using AlarmWorkflow.Windows.UI.ViewModels;
+using AlarmWorkflow.Windows.UI.Views;
+using Hardcodet.Wpf.TaskbarNotification;
 
 namespace AlarmWorkflow.Windows.UI
 {

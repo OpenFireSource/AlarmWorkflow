@@ -46,12 +46,6 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.Core">
-      <HintPath>..\..\Resources\Assemblies\GMap.NET.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsPresentation">
-      <HintPath>..\..\Resources\Assemblies\GMap.NET.WindowsPresentation.dll</HintPath>
-    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -61,6 +55,8 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -70,19 +66,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Extensions.cs" />
-    <Compile Include="CommandHelper.cs" />
-    <Compile Include="EventWindow.xaml.cs">
+    <Compile Include="Models\Extensions.cs" />
+    <Compile Include="ViewModels\CommandHelper.cs" />
+    <Compile Include="Views\EventWindow.xaml.cs">
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EventWindowViewModel.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="ViewModels\EventWindowViewModel.cs" />
+    <Compile Include="Models\PropertyLocation.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Models\MapsServiceHelper.cs" />
+    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -110,7 +108,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="EventWindow.xaml">
+    <Page Include="Views\EventWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -126,6 +124,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Fax_32.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Config\UIConfiguration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

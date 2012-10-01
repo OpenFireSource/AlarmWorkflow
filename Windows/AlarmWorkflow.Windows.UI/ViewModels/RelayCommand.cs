@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace AlarmWorkflow.Windows.UI
+namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     /// <summary>
     /// Provides an implementation of the ICommand interface which allows for delegated commanding.
