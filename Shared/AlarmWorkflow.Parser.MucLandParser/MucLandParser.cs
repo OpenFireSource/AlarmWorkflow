@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -28,97 +25,67 @@ namespace AlarmWorkflow.Parser.MucLandParser
 
         #region IParser Members
 
-        Operation IParser.Parse(IList<ReplaceString> replaceList, string file)
+        Operation IParser.Parse(string[] lines)
         {
-            Operation einsatz = new Operation();
-            string line = string.Empty;
-            bool fileNotFound = true;
-            int tries = 0;
-            while (fileNotFound)
-            {
-                fileNotFound = false;
-                tries++;
-                try
-                {
-                    StreamReader reader = new StreamReader(file);
-                    while ((line = reader.ReadLine()) != null)
-                    {
-                        string msg;
-                        string prefix;
-                        int x = line.IndexOf(':');
-                        if (x != -1)
-                        {
-                            prefix = line.Substring(0, x);
-                            msg = line.Substring(x + 1).Trim();
-                            if (replaceList != null)
-                            {
-                                foreach (ReplaceString rps in replaceList)
-                                {
-                                    msg = msg.Replace(rps.OldString, rps.NewString);
-                                }
-                            }
+            Operation operation = new Operation();
 
-                            prefix = prefix.Trim().ToUpperInvariant();
-                            switch (prefix)
-                            {
-                                case "EINSATZNR":
-                                    einsatz.OperationNumber = msg;
-                                    break;
-                                case "MITTEILER":
-                                    einsatz.Messenger = msg;
-                                    break;
-                                case "EINSATZORT":
-                                    einsatz.Location = msg;
-                                    break;
-                                case "STRAßE":
-                                case "STRABE":
-                                    einsatz.Street = msg;
-                                    break;
-                                case "KREUZUNG":
-                                    einsatz.Intersection = msg;
-                                    break;
-                                case "ORTSTEIL/ORT":
-                                    einsatz.City = msg;
-                                    break;
-                                case "OBJEKT":
-                                case "9BJEKT":
-                                    einsatz.Property = msg;
-                                    break;
-                                case "MELDEBILD":
-                                    einsatz.Picture = msg;
-                                    break;
-                                case "HINWEIS":
-                                    einsatz.Hint = msg;
-                                    break;
-                                case "EINSATZPLAN":
-                                    einsatz.PlanOfAction = msg;
-                                    break;
-                            }
+            try
+            {
+                foreach (string line in lines)
+                {
+                    string msg;
+                    string prefix;
+                    int x = line.IndexOf(':');
+                    if (x != -1)
+                    {
+                        prefix = line.Substring(0, x);
+                        msg = line.Substring(x + 1).Trim();
+
+                        prefix = prefix.Trim().ToUpperInvariant();
+                        switch (prefix)
+                        {
+                            case "EINSATZNR":
+                                operation.OperationNumber = msg;
+                                break;
+                            case "MITTEILER":
+                                operation.Messenger = msg;
+                                break;
+                            case "EINSATZORT":
+                                operation.Location = msg;
+                                break;
+                            case "STRAßE":
+                            case "STRABE":
+                                operation.Street = msg;
+                                break;
+                            case "KREUZUNG":
+                                operation.Intersection = msg;
+                                break;
+                            case "ORTSTEIL/ORT":
+                                operation.City = msg;
+                                break;
+                            case "OBJEKT":
+                            case "9BJEKT":
+                                operation.Property = msg;
+                                break;
+                            case "MELDEBILD":
+                                operation.Picture = msg;
+                                break;
+                            case "HINWEIS":
+                                operation.Hint = msg;
+                                break;
+                            case "EINSATZPLAN":
+                                operation.PlanOfAction = msg;
+                                break;
                         }
                     }
-
-                    reader.Close();
-                }
-                catch (FileNotFoundException ex)
-                {
-                    if (tries < 10)
-                    {
-                        fileNotFound = true;
-                        Thread.Sleep(1000);
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Ocr file not found. Try {0} of 10!", tries);
-                    }
-                    else
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Ocr File not found! " + ex.ToString());
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, ex.ToString());
                 }
             }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
 
-            return einsatz;
+            return operation;
         }
 
         #endregion

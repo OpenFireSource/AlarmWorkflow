@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Security;
 using System.Security.Permissions;
@@ -10,6 +9,7 @@ using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using System.Xml;
 
 namespace AlarmWorkflow.Shared
 {
@@ -26,6 +26,8 @@ namespace AlarmWorkflow.Shared
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
+
+        private Dictionary<string, string> _replaceDictionary;
 
         #endregion
 
@@ -61,10 +63,6 @@ namespace AlarmWorkflow.Shared
             set { _analysisPath = new DirectoryInfo(value); }
         }
         /// <summary>
-        /// Gets/sets the replacing list.
-        /// </summary>
-        internal List<ReplaceString> ReplacingList { get; set; }
-        /// <summary>
         /// Gets/sets the useOCRSoftware.
         /// </summary>
         internal OcrSoftware UseOCRSoftware { get; set; }
@@ -89,11 +87,27 @@ namespace AlarmWorkflow.Shared
             Jobs = new List<IJob>();
             UseOCRSoftware = OcrSoftware.Cuneiform;
             OcrPath = String.Empty;
+
+            InitializeReplaceDictionary();
         }
 
         #endregion
 
         #region Methods
+
+        private void InitializeReplaceDictionary()
+        {
+            _replaceDictionary = new Dictionary<string, string>(16);
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\ReplaceDictionary.xml");
+
+            XmlNode replacingNode = doc.GetElementsByTagName("Dictionary")[0];
+            foreach (XmlNode rpn in replacingNode.ChildNodes)
+            {
+                _replaceDictionary[rpn.Attributes["Old"].InnerText] = rpn.Attributes["New"].InnerText;
+            }
+        }
 
         /// <summary>
         /// Makes sure that the required directories exist and we don't run into unnecessary exceptions.
@@ -163,6 +177,7 @@ namespace AlarmWorkflow.Shared
 
         // TODO: This Routine is dangerous! If there is for whatever reason a delay in processing, and multiple faxes are incoming, they go unprocessed due to the fact...
         // ... that the routine is busy processing the first fax! Change this to a loop which runs every three seconds or so (more than sufficient)!
+        // TODO: When debugging this routine is very unreliable! Sometimes it won't get called at all???!??!?!
         private void _fileSystemWatcher_Created(object sender, FileSystemEventArgs e)
         {
             this.fileSystemWatcher.EnableRaisingEvents = false;
@@ -321,8 +336,24 @@ namespace AlarmWorkflow.Shared
                 Operation operation = null;
                 try
                 {
-                    // Try to parse the operation. If parsing failed, ignore this but write to the log file!
-                    operation = Parser.Parse(ReplacingList, Path.Combine(_analysisPath.FullName, analyseFileName + ".txt"));
+                    // Read the analysis file...
+                    using (StreamReader reader = new StreamReader(Path.Combine(_analysisPath.FullName, analyseFileName + ".txt")))
+                    {
+                        // ... fetch all lines ...
+                        List<string> parsedLines = new List<string>();
+                        foreach (string preParsedLine in reader.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                        {
+                            string tmp = preParsedLine;
+                            foreach (var pair in _replaceDictionary)
+                            {
+                                tmp = tmp.Replace(pair.Key, pair.Value);
+                            }
+                            parsedLines.Add(tmp);
+                        }
+
+                        // Try to parse the operation. If parsing failed, ignore this but write to the log file!
+                        operation = Parser.Parse(parsedLines.ToArray());
+                    }
 
                     foreach (IJob job in Jobs)
                     {

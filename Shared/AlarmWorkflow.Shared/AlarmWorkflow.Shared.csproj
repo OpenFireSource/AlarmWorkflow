@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Assertions.cs" />
-    <Compile Include="Core\ReplaceString.cs" />
     <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
     <Compile Include="Diagnostics\ILoggingListener.cs" />
     <Compile Include="Diagnostics\LogEntry.cs" />
@@ -85,6 +84,11 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\ReplaceDictionary.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

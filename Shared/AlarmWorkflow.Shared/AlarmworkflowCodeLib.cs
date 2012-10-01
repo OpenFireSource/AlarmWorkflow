@@ -73,53 +73,18 @@ namespace AlarmWorkflow.Shared
 
             _workingThreadInstance.OcrPath = ocrpath;
 
-            // AktiveJobs Options
-            XmlNodeList aktiveJobsList = doc.GetElementsByTagName("AktiveJobs");
-            XmlNode aktiveJobs = aktiveJobsList[0];
-            string debugAktiveString = aktiveJobs.Attributes["DebugMode"].InnerText;
-            bool debugaktive = false;
-            if (debugAktiveString.ToUpperInvariant() == "TRUE")
-            {
-                debugaktive = true;
-            }
-
-            bool replaceAktive = true;
-            foreach (XmlNode xnode in aktiveJobs.ChildNodes)
-            {
-                switch (xnode.Name)
-                {
-                    case "Replacing": replaceAktive = xnode.Attributes["aktive"].InnerText == "true"; break;
-                    default:
-                        break;
-                }
-            }
-
-            InitializeJobs(doc, debugaktive);
-
-            List<ReplaceString> rplist = new List<ReplaceString>();
-            if (replaceAktive)
-            {
-                XmlNode replacingNode = doc.GetElementsByTagName("replacing")[0];
-                foreach (XmlNode rpn in replacingNode.ChildNodes)
-                {
-                    ReplaceString rps = new ReplaceString();
-                    rps.OldString = rpn.Attributes["old"].InnerText;
-                    rps.NewString = rpn.Attributes["new"].InnerText;
-                    rplist.Add(rps);
-                }
-
-                _workingThreadInstance.ReplacingList = rplist;
-            }
+            InitializeJobs(doc);
 
             // Import parser with the given name/alias
             _workingThreadInstance.Parser = _extensionManager.GetExtensionWithName<IParser>(parser);
+            Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _workingThreadInstance.Parser.GetType().FullName);
         }
 
         #endregion
 
         #region Methods
 
-        private void InitializeJobs(XmlDocument doc, bool debugaktive)
+        private void InitializeJobs(XmlDocument doc)
         {
             // NOTE: TENTATIVE CODE until settings are stored more dynamical!
             XmlNode jobsSettings = doc.GetElementsByTagName("Jobs")[0];

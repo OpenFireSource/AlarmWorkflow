@@ -1,0 +1,28 @@
+﻿<!-- This file stores common "misspellings" of OCR-software and replaces them with something useful
+ 
+     Like: "9INSATZ" makes no sense but we know that it means "EINSATZ" so we add an entry (see below).
+     
+ -->
+<Dictionary>
+  <Entry Old="straBe" New="straße" />
+  <Entry Old="StraBe" New="Straße" />
+  
+  <Entry Old="9INSATZ" New="EINSATZ" />
+  <Entry Old="An~bach" New="Ansbach" />
+  <Entry Old="Einsatznummer 1" New="Einsatznummer :" />
+  <Entry Old="NITTEILER" New="MITTEILER" />
+  <Entry Old="GmbH8cCo. KG" New="GmbH &amp; Co. KG" />
+  <Entry Old="Plannummer 1" New="Plannummer :" />
+  <Entry Old="Station 1" New="Station :" />
+  <Entry Old="Haus-Nr. 1" New="Haus-Nr.:" />
+  <Entry Old="Schlagw. 1" New="Schlagw.:" />
+  <Entry Old="Stichwort B1" New="Stichwort B:" />
+  <Entry Old="Stichwort R1" New="Stichwort R:" />
+  <Entry Old="Stichwort S1" New="Stichwort S:" />
+  <Entry Old="Stichwort T1" New="Stichwort T:" />
+  <Entry Old="Prio. :" New="Prio.:" />
+  <Entry Old="( 1satzmittel" New="Einsatzmittel" />
+  <Entry Old="IJbernahme" New="Übernahme" />
+  <Entry Old="Station 1" New="Station :" />
+  <Entry Old="Station 1" New="Station :" />
+</Dictionary>

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Shared.Extensibility
@@ -9,11 +8,10 @@ namespace AlarmWorkflow.Shared.Extensibility
     public interface IParser : IExtensionObject
     {
         /// <summary>
-        /// This Methode is parsing a ocr text file and fill an einsatz object.
+        /// Parses the contents of an analysed alarmfax into an <see cref="Operation"/>-representation.
         /// </summary>
-        /// <param name="replaceList">A list containing dictionary entries that define how one word should be replaced with another.</param>
-        /// <param name="file">Full path to the ocr file.</param>
+        /// <param name="lines">The line contents of the analysed file.</param>
         /// <returns>A filled einsatz object.</returns>
-        Operation Parse(IList<ReplaceString> replaceList, string file);
+        Operation Parse(string[] lines);
     }
 }

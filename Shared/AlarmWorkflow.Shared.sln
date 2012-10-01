@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.MucLan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.ComponentNotificator", "AlarmWorkflow.Job.ComponentNotificator\AlarmWorkflow.Job.ComponentNotificator.csproj", "{BF36221D-B237-49E0-87B6-A1D7174C40E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.IlsAnsbachParser", "AlarmWorkflow.Parser.IlsAnsbachParser\AlarmWorkflow.Parser.IlsAnsbachParser.csproj", "{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{BF36221D-B237-49E0-87B6-A1D7174C40E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF36221D-B237-49E0-87B6-A1D7174C40E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF36221D-B237-49E0-87B6-A1D7174C40E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,5 +70,6 @@ Global
 		{D3E75ABB-8816-4E2A-B107-87C393CE96F6} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
 		{BF36221D-B237-49E0-87B6-A1D7174C40E9} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
 		{CC847151-5D19-497D-B606-B55B4AC5B617} = {0F5ED02D-9230-4A65-B9F6-2D6F4D641C0B}
+		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0} = {0F5ED02D-9230-4A65-B9F6-2D6F4D641C0B}
 	EndGlobalSection
 EndGlobal
