@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Security;
 using System.Text;
+using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
@@ -58,81 +58,39 @@ namespace AlarmWorkflow.Job.SmsJob
                     HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri("http://gateway.sms77.de/?u=" + this.username + "&p=" + this.password + "&to=" + number + "&text=" + text + "&type=basicplus"));
                     HttpWebResponse resp = (HttpWebResponse)msg.GetResponse();
                     Stream resp_steam = resp.GetResponseStream();
-                    StreamReader streamreader = new StreamReader(resp_steam, Encoding.UTF8);
-                    string response = streamreader.ReadToEnd();
-                    streamreader.Close();
-                    if (response != "100")
+                    using (StreamReader streamreader = new StreamReader(resp_steam, Encoding.UTF8))
                     {
-                        this.errormsg += "Fehler von sms77: " + response;
+                        string response = streamreader.ReadToEnd();
+                        if (response != "100")
+                        {
+                            this.errormsg += "Fehler von sms77: " + response;
+                        }
                     }
                 }
-                catch (ArgumentNullException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (WebException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (NotSupportedException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (ProtocolViolationException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (InvalidOperationException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (SecurityException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (OutOfMemoryException ex)
-                {
-                    this.errormsg = ex.ToString();
-                }
-                catch (IOException ex)
+                catch (Exception ex)
                 {
                     this.errormsg = ex.ToString();
                 }
             }
 
-            if (string.IsNullOrEmpty(this.errormsg) == false)
-            {
-                return false;
-            }
-
-            return true;
+            return string.IsNullOrEmpty(this.errormsg);
         }
 
-        void IJob.Initialize(IXPathNavigable settings)
+        void IJob.Initialize()
         {
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\SmsJobConfiguration.xml");
+
+            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("SMS");
+
             XPathNavigator nav = settings.CreateNavigator();
             if (nav.UnderlyingObject is XmlElement)
             {
                 this.username = ((XmlElement)nav.UnderlyingObject).Attributes["username"].Value;
                 this.password = ((XmlElement)nav.UnderlyingObject).Attributes["password"].Value;
-                XmlNodeList list = ((XmlElement)nav.UnderlyingObject).FirstChild.SelectNodes("Nummer"); // HACK: FirstChild hier falsch
-                for (int i = 0; i < list.Count; i++)
+                foreach (XmlNode node in ((XmlElement)nav.UnderlyingObject).FirstChild.SelectNodes("Nummer")) // HACK: FirstChild hier falsch
                 {
-                    //if (debug == true)
-                    //{
-                    //    XmlAttribute atr = list.Item(i).Attributes["debug"];
-                    //    if (atr != null)
-                    //    {
-                    //        if (atr.InnerText.ToUpperInvariant() == "TRUE")
-                    //        {
-                    //            this.numbers.Add(list.Item(i).InnerText);
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    this.numbers.Add(list.Item(i).InnerText);
-                    //}
+                    this.numbers.Add(node.InnerText);
                 }
             }
             else
@@ -148,9 +106,7 @@ namespace AlarmWorkflow.Job.SmsJob
         /// <returns>The URL encoded string.</returns>
         private static string PrepareString(string str)
         {
-            //return HttpUtility.UrlEncode(str);
-            // TODO: .Net 2.0-equivalent to UrlEncode??
-            return str;
+            return HttpUtility.UrlEncode(str);
         }
 
         #endregion

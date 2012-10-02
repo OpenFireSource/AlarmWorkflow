@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -47,7 +48,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="AlarmWorkflow.Job.SmsJob.Extension.xml">
+    <None Include="Config\SmsJobConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

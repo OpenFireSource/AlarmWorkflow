@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Security.Permissions;
 using System.Threading;
@@ -49,13 +48,12 @@ namespace AlarmWorkflow.Shared
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
 
             // Thread Einstellungen initiieren
-            XmlNode node = doc.GetElementsByTagName("Service")[0];
-            string faxPath = node.SelectSingleNode("FaxPath").InnerText;
-            string archievPath = node.SelectSingleNode("ArchievPath").InnerText;
-            string analysisPath = node.SelectSingleNode("AnalysisPath").InnerText;
-            string ocr = node.SelectSingleNode("OCRSoftware").Attributes["type"].InnerText;
-            string ocrpath = node.SelectSingleNode("OCRSoftware").Attributes["path"].InnerText;
-            string parser = node.SelectSingleNode("AlarmfaxParser").InnerText;
+            string faxPath = doc.GetElementsByTagName("FaxPath")[0].InnerText;
+            string archievPath = doc.GetElementsByTagName("ArchivePath")[0].InnerText;
+            string analysisPath = doc.GetElementsByTagName("AnalysisPath")[0].InnerText;
+            string ocr = doc.GetElementsByTagName("OCRSoftware")[0].Attributes["type"].InnerText;
+            string ocrpath = doc.GetElementsByTagName("OCRSoftware")[0].Attributes["path"].InnerText;
+            string parser = doc.GetElementsByTagName("AlarmfaxParser")[0].InnerText;
 
             _workingThreadInstance = new WorkingThread();
 
@@ -73,7 +71,7 @@ namespace AlarmWorkflow.Shared
 
             _workingThreadInstance.OcrPath = ocrpath;
 
-            InitializeJobs(doc);
+            InitializeJobs();
 
             // Import parser with the given name/alias
             _workingThreadInstance.Parser = _extensionManager.GetExtensionWithName<IParser>(parser);
@@ -84,11 +82,8 @@ namespace AlarmWorkflow.Shared
 
         #region Methods
 
-        private void InitializeJobs(XmlDocument doc)
+        private void InitializeJobs()
         {
-            // NOTE: TENTATIVE CODE until settings are stored more dynamical!
-            XmlNode jobsSettings = doc.GetElementsByTagName("Jobs")[0];
-
             foreach (IJob job in _extensionManager.GetExtensionsOfType<IJob>())
             {
                 string jobName = job.GetType().Name;
@@ -96,7 +91,7 @@ namespace AlarmWorkflow.Shared
 
                 try
                 {
-                    job.Initialize(jobsSettings);
+                    job.Initialize();
                     _workingThreadInstance.Jobs.Add(job);
 
                     Logger.Instance.LogFormat(LogType.Info, this, "Job type '{0}' initialization successful.", jobName);

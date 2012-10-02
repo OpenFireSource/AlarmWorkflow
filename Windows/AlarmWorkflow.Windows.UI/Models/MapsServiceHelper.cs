@@ -3,6 +3,8 @@ using System.Text;
 using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
+// TODO: This belongs into AlarmWorkflow WorkingThread!
+
 namespace AlarmWorkflow.Windows.UI.Models
 {
     /// <summary>

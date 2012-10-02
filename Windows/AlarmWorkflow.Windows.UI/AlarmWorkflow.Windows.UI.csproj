@@ -66,8 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
+    <Compile Include="ViewModels\OperationViewModel.cs" />
     <Compile Include="Views\EventWindow.xaml.cs">
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>

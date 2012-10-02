@@ -38,9 +38,9 @@ namespace AlarmWorkflow.Job.ComponentNotificator
             get { return ""; }
         }
 
-        void IJob.Initialize(System.Xml.XPath.IXPathNavigable settings)
+        void IJob.Initialize()
         {
-            // TENTATIVE CODE
+
         }
 
         bool IJob.DoJob(Operation operation)

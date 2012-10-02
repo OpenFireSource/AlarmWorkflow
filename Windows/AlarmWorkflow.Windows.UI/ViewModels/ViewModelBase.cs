@@ -53,26 +53,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
         }
 
-        /// <summary>
-        /// Finalizing destructor, which will perform some cleanup work.
-        /// </summary>
-        ~ViewModelBase()
-        {
-            // the finalizer is there to cleanup if the user forgot to
-            // but only proceed if this instance wasn't already disposed
-            if (!this.IsDisposed)
-            {
-                this.Dispose();
-            }
-
-            // only when the application is alive, track this occurrence (see remark below)
-            if (Application.Current != null)
-            {
-                // trace this. one should always manually call Dispose(), which is faster since the GC doesn't need to do extra work then!
-                System.Diagnostics.Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, "Warning: The finalizer was called on object of type '{0}'. Please revise your code and see if you can call Dispose() manually!", this.GetType().Name));
-            }
-        }
-
         #endregion
 
         #region INotifyPropertyChanged Members

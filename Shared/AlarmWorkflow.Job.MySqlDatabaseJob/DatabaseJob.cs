@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
@@ -61,12 +63,12 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             }
         }
 
-        void IJob.Initialize(IXPathNavigable settings)
+        void IJob.Initialize()
         {
-            // NOTE: TENTATIVE CODE until settings are stored more dynamical!
-            // Navigate to Database settings
-            settings = settings.CreateNavigator().SelectSingleNode("DataBase");
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MySqlDatabaseJobConfiguration.xml");
 
+            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("DataBase");
             XPathNavigator nav = settings.CreateNavigator();
             this.database = nav.SelectSingleNode("DBName").InnerXml;
             this.user = nav.SelectSingleNode("UserID").InnerXml;

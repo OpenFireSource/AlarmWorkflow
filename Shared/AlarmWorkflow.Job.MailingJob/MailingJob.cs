@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -69,10 +70,12 @@ namespace AlarmWorkflow.Job.MailingJob
             }
         }
 
-        void IJob.Initialize(IXPathNavigable settings)
+        void IJob.Initialize()
         {
-            // NOTE: TENTATIVE CODE until settings are stored more dynamical!
-            settings = settings.CreateNavigator().SelectSingleNode("Mailing");
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MailingJobConfiguration.xml");
+
+            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("Mailing");
 
             this.emaillist = new List<string>();
             XPathNavigator nav = settings.CreateNavigator();

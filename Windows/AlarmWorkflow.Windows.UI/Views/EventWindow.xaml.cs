@@ -24,6 +24,8 @@ namespace AlarmWorkflow.Windows.UI.Views
         {
             InitializeComponent();
 
+            this.uiScaleSlider.Value = App.GetApp().Configuration.ScaleFactor;
+
             _viewModel = new EventWindowViewModel();
             this.DataContext = _viewModel;
         }

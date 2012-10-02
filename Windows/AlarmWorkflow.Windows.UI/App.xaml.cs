@@ -30,6 +30,15 @@ namespace AlarmWorkflow.Windows.UI
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the configuration for the UI.
+        /// </summary>
+        public UIConfiguration Configuration { get; private set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -40,12 +49,26 @@ namespace AlarmWorkflow.Windows.UI
         /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
-
+            LoadConfiguration();
         }
 
         #endregion
 
         #region Methods
+
+        private void LoadConfiguration()
+        {
+            try
+            {
+                Configuration = UIConfiguration.Load();
+                Logger.Instance.LogFormat(LogType.Info, this, "The UI-configuration was successfully loaded.");
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, "The UI-configuration could not be loaded!");
+                Logger.Instance.LogException(this, ex);
+            }
+        }
 
         /// <summary>
         /// Gets the app.

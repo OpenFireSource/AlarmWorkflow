@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\Operation.cs" />
     <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
     <Compile Include="Diagnostics\ILoggingListener.cs" />
     <Compile Include="Diagnostics\LogEntry.cs" />
@@ -57,7 +58,6 @@
     <Compile Include="Core\ExportedTypeLibrary.cs" />
     <Compile Include="Extensibility\ExtensionManager.cs" />
     <Compile Include="Core\Utilities.cs" />
-    <Compile Include="Core\Operation.cs" />
     <Compile Include="Extensibility\IExtension.cs" />
     <Compile Include="Extensibility\IExtensionHost.cs" />
     <Compile Include="Extensibility\IJob.cs" />

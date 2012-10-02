@@ -68,7 +68,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             get { return ""; }
         }
 
-        void IJob.Initialize(System.Xml.XPath.IXPathNavigable settings)
+        void IJob.Initialize()
         {
 
         }

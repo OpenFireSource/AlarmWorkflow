@@ -18,8 +18,7 @@ namespace AlarmWorkflow.Shared.Extensibility
         /// <summary>
         /// Called to initialize the job when it gets added to the job queue that runs on each processed fax.
         /// </summary>
-        /// <param name="settings">An XPath-navigator that resembles the settings file. Will be replaced in a future version by something more dynamic.</param>
-        void Initialize(IXPathNavigable settings);
+        void Initialize();
         /// <summary>
         /// This methode do the jobs job.
         /// </summary>

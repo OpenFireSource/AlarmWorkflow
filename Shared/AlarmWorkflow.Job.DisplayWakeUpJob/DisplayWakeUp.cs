@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Net;
 using System.Security;
 using System.Text;
@@ -62,16 +63,12 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             }
         }
 
-        void IJob.Initialize(IXPathNavigable settings)
+        void IJob.Initialize()
         {
-            // NOTE: TENTATIVE CODE until settings are stored more dynamical!
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\DisplayWakeUpJobConfiguration.xml");
 
-
-            //XmlNodeList displays = settings.CreateNavigator().GetElementsByTagName("Display");
-            //foreach (XmlNode display in displays)
-            //{
-            //    this.WorkingThreadInstance.Jobs.Add(new DisplayWakeUp(display));
-            //}
+            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("Display");
 
             XPathNavigator nav = settings.CreateNavigator();
             if (nav.UnderlyingObject is XmlElement)
