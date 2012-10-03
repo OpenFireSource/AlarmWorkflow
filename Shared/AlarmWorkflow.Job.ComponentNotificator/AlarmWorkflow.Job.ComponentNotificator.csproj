@@ -48,6 +48,7 @@
     <ProjectReference Include="..\AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj">
       <Project>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</Project>
       <Name>AlarmWorkflow.Shared</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

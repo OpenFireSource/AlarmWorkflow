@@ -42,9 +42,11 @@
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Job.ComponentNotificator">
       <HintPath>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -122,6 +124,7 @@
     <ProjectReference Include="..\AlarmWorkflow.Windows.Service\AlarmWorkflow.Windows.Service.csproj">
       <Project>{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}</Project>
       <Name>AlarmWorkflow.Windows.Service</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
