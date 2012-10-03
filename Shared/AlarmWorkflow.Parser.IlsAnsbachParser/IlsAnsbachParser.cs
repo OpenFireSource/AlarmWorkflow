@@ -27,7 +27,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         /// <param name="replaceList">The RreplaceList object.</param>
         public IlsAnsbachParser()
         {
-            //LoadKeywordsFile();
+            LoadKeywordsFile();
         }
 
         #endregion
@@ -36,8 +36,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         private void LoadKeywordsFile()
         {
-            System.Diagnostics.Debugger.Break();
-
             string kwdFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachFaxKeywords.lst");
             if (!File.Exists(kwdFile))
             {

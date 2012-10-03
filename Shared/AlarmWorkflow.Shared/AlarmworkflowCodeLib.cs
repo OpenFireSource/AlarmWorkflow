@@ -39,7 +39,6 @@ namespace AlarmWorkflow.Shared
         /// Initializes a new instance of the AlarmworkflowClass class.
         /// Constructor is reading the XML File, and safe the Settings in to the WorkingThread Instance.
         /// </summary>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         public AlarmworkflowClass()
         {
             _extensionManager = new ExtensionManager();
