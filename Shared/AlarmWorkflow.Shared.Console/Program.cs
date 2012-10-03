@@ -54,7 +54,7 @@ namespace AlarmWorkflow.Shared
                 ac.Stop();
             }
 
-            Console.WriteLine("Shutting down complete. Press any key to exit.");
+            Console.WriteLine("Shutting down complete. Press RETURN to exit.");
             Console.ReadLine();
         }
 

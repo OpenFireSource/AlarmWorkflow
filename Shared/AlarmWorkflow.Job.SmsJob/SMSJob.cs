@@ -50,7 +50,8 @@ namespace AlarmWorkflow.Job.SmsJob
         bool IJob.DoJob(Operation einsatz)
         {
             this.errormsg = string.Empty;
-            string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.City.Substring(0, einsatz.City.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString(einsatz.Picture) + "%20" + SmsJob.PrepareString(einsatz.Hint) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Street);
+            // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
+            string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.City.Substring(0, einsatz.City.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString((string)einsatz.CustomData["Picture"]) + "%20" + SmsJob.PrepareString(einsatz.Comment) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Street);
             foreach (string number in this.numbers)
             {
                 try

@@ -150,22 +150,25 @@ namespace AlarmWorkflow.Windows.UI
                     using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                     {
                         // TODO: Make max entries customizable!
-                        var operations = service.Instance.GetOperations(maxAge, true, 9);
+                        var operations = service.Instance.GetOperationIds(maxAge, true, 9);
                         if (operations.Count == 0)
                         {
                             return;
                         }
 
-                        foreach (OperationItem item in operations)
+                        foreach (int operationId in operations)
                         {
+                            // TODO: Make this better!
+                            OperationItem operation = service.Instance.GetOperationById(operationId);
+
                             // Push the event to the queue
-                            PushEvent(item);
+                            PushEvent(operation);
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
                             // TODO: Enable disabling this behavior?
-                            if (ShouldAutomaticallyAcknowledgeOperation(item))
+                            if (ShouldAutomaticallyAcknowledgeOperation(operation))
                             {
-                                service.Instance.AcknowledgeOperation(item.Id);
+                                service.Instance.AcknowledgeOperation(operation.Id);
                             }
                         }
                     }

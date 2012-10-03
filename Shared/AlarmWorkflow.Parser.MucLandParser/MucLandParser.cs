@@ -58,7 +58,7 @@ namespace AlarmWorkflow.Parser.MucLandParser
                                 operation.Street = msg;
                                 break;
                             case "KREUZUNG":
-                                operation.Intersection = msg;
+                                operation.CustomData["Intersection"] = msg;
                                 break;
                             case "ORTSTEIL/ORT":
                                 operation.City = msg;
@@ -68,13 +68,13 @@ namespace AlarmWorkflow.Parser.MucLandParser
                                 operation.Property = msg;
                                 break;
                             case "MELDEBILD":
-                                operation.Picture = msg;
+                                operation.CustomData["Picture"] = msg;
                                 break;
                             case "HINWEIS":
-                                operation.Hint = msg;
+                                operation.Comment = msg;
                                 break;
                             case "EINSATZPLAN":
-                                operation.PlanOfAction = msg;
+                                operation.CustomData["PlanOfAction"] = msg;
                                 break;
                         }
                     }

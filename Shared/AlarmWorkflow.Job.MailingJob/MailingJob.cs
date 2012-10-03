@@ -7,6 +7,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.MailingJob
@@ -14,41 +15,22 @@ namespace AlarmWorkflow.Job.MailingJob
     /// <summary>
     /// Implements a Job, that send emails with all the operation information.
     /// </summary>
-    public class MailingJob : IJob
+    sealed class MailingJob : IJob
     {
-        #region private member
-        /// <summary>
-        /// The errormsg, if an error occured.
-        /// </summary>
+        #region Fields
+
+        private SmtpClient _smptClient;
+
         private string errormsg;
-
-        /// <summary>
-        /// URL of the SMTP server.
-        /// </summary>
         private string server;
-
-        /// <summary>
-        /// Sender email address.
-        /// </summary>
         private string fromEmail;
-
-        /// <summary>
-        /// Username of the SMTP server.
-        /// </summary>
         private string user;
-
-        /// <summary>
-        /// Password of the SMTP server.
-        /// </summary>
         private string pwd;
-
-        /// <summary>
-        /// Stores all the Emails.
-        /// </summary>
         private List<string> emaillist;
+
         #endregion
 
-        #region constructors
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the MailingJob class.
@@ -56,6 +38,19 @@ namespace AlarmWorkflow.Job.MailingJob
         public MailingJob()
         {
 
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void SmptClient_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending the mail!");
+                Logger.Instance.LogException(this, e.Error);
+            }
         }
 
         #endregion
@@ -89,21 +84,7 @@ namespace AlarmWorkflow.Job.MailingJob
                 XmlNodeList emails = emailnode.SelectNodes("MailAddress");
                 for (int i = 0; i < emails.Count; i++)
                 {
-                    //if (debug == true)
-                    //{
-                    //    XmlAttribute atr = emails.Item(i).Attributes["debug"];
-                    //    if (atr != null)
-                    //    {
-                    //        if (atr.InnerText.ToUpperInvariant() == "TRUE")
-                    //        {
-                    //            this.emaillist.Add(emails.Item(i).InnerText);
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
                     this.emaillist.Add(emails.Item(i).InnerText);
-                    //}
                 }
             }
             else
@@ -112,12 +93,17 @@ namespace AlarmWorkflow.Job.MailingJob
             }
 
             this.errormsg = string.Empty;
+
+            // Create new SMTP client for sending mails
+            _smptClient = new SmtpClient(server);
+            _smptClient.SendCompleted += new SendCompletedEventHandler(SmptClient_SendCompleted);
+            NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
+            _smptClient.Credentials = credential;
         }
 
-        bool IJob.DoJob(Operation einsatz)
+        bool IJob.DoJob(Operation operation)
         {
             this.errormsg = string.Empty;
-            SmtpClient client = new SmtpClient(this.server);
 
             // create the Mail
             using (MailMessage message = new MailMessage())
@@ -128,28 +114,25 @@ namespace AlarmWorkflow.Job.MailingJob
                     message.To.Add(ma);
                 }
 
+                // TODO: Make this customizable...
                 message.Subject = "FFWPlanegg Einsatz";
-                message.Body += "Einsatznr: " + einsatz.OperationNumber + "\n";
-                message.Body += "Mitteiler: " + einsatz.Messenger + "\n";
-                message.Body += "Einsatzort: " + einsatz.Location + "\n";
-                message.Body += "Strasse: " + einsatz.Street + "\n";
-                message.Body += "Kreuzung: " + einsatz.Intersection + "\n";
-                message.Body += "Ort: " + einsatz.City + "\n";
-                message.Body += "Objekt: " + einsatz.Property + "\n";
-                message.Body += "Meldebild: " + einsatz.Picture + "\n";
-                message.Body += "Hinweis: " + einsatz.Hint + "\n";
-                message.Body += "Einsatzplan: " + einsatz.PlanOfAction + "\n";
+                message.Body += "Einsatznr: " + operation.OperationNumber + "\n";
+                message.Body += "Mitteiler: " + operation.Messenger + "\n";
+                message.Body += "Einsatzort: " + operation.Location + "\n";
+                message.Body += "Strasse: " + operation.Street + "\n";
+                message.Body += "Kreuzung: " + operation.CustomData["Intersection"] + "\n";
+                message.Body += "Ort: " + operation.City + "\n";
+                message.Body += "Objekt: " + operation.Property + "\n";
+                message.Body += "Meldebild: " + operation.CustomData["Picture"] + "\n";
+                message.Body += "Hinweis: " + operation.Comment + "\n";
+                message.Body += "Einsatzplan: " + operation.CustomData["PlanOfAction"] + "\n";
 
                 message.BodyEncoding = Encoding.UTF8;
 
-                // Authentifizierung
-                NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
-                client.Credentials = credential;
-
-                // send
+                // Send the message asynchronously
                 try
                 {
-                    client.Send(message);
+                    _smptClient.SendAsync(message, null);
                 }
                 catch (Exception e)
                 {

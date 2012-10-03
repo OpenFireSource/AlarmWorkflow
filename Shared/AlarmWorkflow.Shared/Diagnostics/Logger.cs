@@ -216,7 +216,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
         /// <summary>
         /// Logs a <see cref="Exception"/>.
         /// </summary>
-        /// <param name="source">The component from which this type comes. If this object is of type <see cref="ILogSource"/>, the name of the log source is used. Otherwise, the type name of the instance is used.</param>
+        /// <param name="source">The component from which this type comes. The type name of the instance is used.</param>
         /// <param name="exception">The exception.</param>
         public void LogException(object source, Exception exception)
         {
@@ -229,7 +229,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
         /// Logs formatted text.
         /// </summary>
         /// <param name="type">The message type.</param>
-        /// <param name="source">The component from which this type comes. If this object is of type <see cref="ILogSource"/>, the name of the log source is used. Otherwise, the type name of the instance is used.</param>
+        /// <param name="source">The component from which this type comes. The type name of the instance is used.</param>
         /// <param name="format">The text to use as the format string.</param>
         /// <param name="arguments">The arguments to use for the format string.</param>
         public void LogFormat(LogType type, object source, string format, params object[] arguments)

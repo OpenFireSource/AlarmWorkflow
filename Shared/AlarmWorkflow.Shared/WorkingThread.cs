@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Permissions;
 using System.Threading;
 using System.Xml;
 using AlarmWorkflow.Shared.Core;
@@ -14,18 +13,17 @@ namespace AlarmWorkflow.Shared
     /// <summary>
     /// This class is started in a own thread, and do all that work.
     /// </summary>
-    [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     internal sealed class WorkingThread : IDisposable
     {
         #region Fields
-
-        private FileSystemWatcher fileSystemWatcher;
 
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
 
         private Dictionary<string, string> _replaceDictionary;
+
+        private IOperationStore _operationStore;
 
         #endregion
 
@@ -80,13 +78,16 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Initializes a new instance of the <see cref="WorkingThread"/> class.
         /// </summary>
-        public WorkingThread()
+        /// <param name="parent"></param>
+        public WorkingThread(AlarmworkflowClass parent)
         {
             Jobs = new List<IJob>();
             UseOCRSoftware = OcrSoftware.Cuneiform;
             OcrPath = String.Empty;
 
             InitializeReplaceDictionary();
+
+            _operationStore = parent.GetOperationStore();
         }
 
         #endregion
@@ -140,11 +141,19 @@ namespace AlarmWorkflow.Shared
         {
             EnsureDirectoriesExist();
 
-            this.fileSystemWatcher = new FileSystemWatcher(_faxPath.FullName, "*.TIF");
-            this.fileSystemWatcher.IncludeSubdirectories = false;
-            this.fileSystemWatcher.Created += new FileSystemEventHandler(_fileSystemWatcher_Created);
-            this.fileSystemWatcher.WaitForChanged(WatcherChangeTypes.Created);
-            this.fileSystemWatcher.EnableRaisingEvents = true;
+            bool run = true;
+            while (run)
+            {
+                FileInfo[] files = _faxPath.GetFiles("*.tif", SearchOption.TopDirectoryOnly);
+                if (files.Length > 0)
+                {
+                    foreach (FileInfo file in files)
+                    {
+                        ProcessFile(file);
+                    }
+                }
+                Thread.Sleep(3000);
+            }
         }
 
         /// <summary>
@@ -164,33 +173,12 @@ namespace AlarmWorkflow.Shared
         {
             if (alsoManaged == true)
             {
-                this.fileSystemWatcher.Dispose();
-                this.fileSystemWatcher = null;
+
             }
         }
 
-        #endregion
-
-        #region Event handlers
-
-        // TODO: This Routine is dangerous! If there is for whatever reason a delay in processing, and multiple faxes are incoming, they go unprocessed due to the fact...
-        // ... that the routine is busy processing the first fax! Change this to a loop which runs every three seconds or so (more than sufficient)!
-        // TODO: When debugging this routine is very unreliable! Sometimes it won't get called at all???!??!?!
-        private void _fileSystemWatcher_Created(object sender, FileSystemEventArgs e)
+        private void ProcessFile(FileInfo file)
         {
-            this.fileSystemWatcher.EnableRaisingEvents = false;
-            FileInfo f;
-            try
-            {
-                f = new FileInfo(e.FullPath);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-
             string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
             bool fileIsMoved = false;
             int tried = 0;
@@ -199,7 +187,7 @@ namespace AlarmWorkflow.Shared
                 tried++;
                 try
                 {
-                    f.MoveTo(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
+                    file.MoveTo(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
                     fileIsMoved = true;
                 }
                 catch (IOException ex)
@@ -213,7 +201,6 @@ namespace AlarmWorkflow.Shared
                     else
                     {
                         Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file.\n" + ex.ToString());
-                        this.fileSystemWatcher.EnableRaisingEvents = true;
                         return;
                     }
                 }
@@ -250,7 +237,7 @@ namespace AlarmWorkflow.Shared
                                 }
 
                                 proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
-                                proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + intendedNewFileName + " -l deu";
+                                proc.StartInfo.Arguments = file.DirectoryName + "\\" + analyseFileName + ".bmp " + intendedNewFileName + " -l deu";
 
                                 // Correct txt path for tesseract (it will append .txt under windows always)
                                 intendedNewFileName += ".txt";
@@ -282,33 +269,38 @@ namespace AlarmWorkflow.Shared
                     catch (Exception ex)
                     {
                         Logger.Instance.LogFormat(LogType.Warning, this, "Error while the ocr Prozess: " + ex.ToString());
-                        this.fileSystemWatcher.EnableRaisingEvents = true;
                         return;
                     }
 
                     // After the file has been parsed, read it back in ...
-                    using (StreamReader reader = new StreamReader(intendedNewFileName))
+                    // ... fetch all lines ...
+                    foreach (string preParsedLine in File.ReadAllLines(intendedNewFileName))
                     {
-                        // ... fetch all lines ...
-                        foreach (string preParsedLine in reader.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
+                        string tmp = preParsedLine;
+                        foreach (var pair in _replaceDictionary)
                         {
-                            string tmp = preParsedLine;
-                            foreach (var pair in _replaceDictionary)
-                            {
-                                tmp = tmp.Replace(pair.Key, pair.Value);
-                            }
-                            // ... and add it to the list
-                            analyzedLines.Add(tmp);
+                            tmp = tmp.Replace(pair.Key, pair.Value);
                         }
+                        // ... and add it to the list
+                        analyzedLines.Add(tmp);
                     }
                 }
             }
 
             Operation operation = null;
+            Stopwatch sw = Stopwatch.StartNew();
             try
             {
                 // Try to parse the operation. If parsing failed, ignore this but write to the log file!
+                Logger.Instance.LogFormat(LogType.Info, this, "Begin parsing incoming operation...");
+
                 operation = Parser.Parse(analyzedLines.ToArray());
+
+                sw.Stop();
+                Logger.Instance.LogFormat(LogType.Debug, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                // Grant the operation a new Id
+                operation.Id = _operationStore.GetNextOperationId();
 
                 foreach (IJob job in Jobs)
                 {
@@ -323,16 +315,16 @@ namespace AlarmWorkflow.Shared
                     catch (Exception ex)
                     {
                         // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                        Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                        Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing job '{0}'!", job.GetType().Name));
+                        Logger.Instance.LogException(this, ex);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
+                Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
+                Logger.Instance.LogException(this, ex);
             }
-
-            this.fileSystemWatcher.EnableRaisingEvents = true;
         }
 
         #endregion

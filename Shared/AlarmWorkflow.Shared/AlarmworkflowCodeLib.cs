@@ -54,7 +54,7 @@ namespace AlarmWorkflow.Shared
             string ocrpath = doc.GetElementsByTagName("OCRSoftware")[0].Attributes["path"].InnerText;
             string parser = doc.GetElementsByTagName("AlarmfaxParser")[0].InnerText;
 
-            _workingThreadInstance = new WorkingThread();
+            _workingThreadInstance = new WorkingThread(this);
 
             _workingThreadInstance.FaxPath = faxPath;
             _workingThreadInstance.ArchivePath = archievPath;
@@ -70,11 +70,11 @@ namespace AlarmWorkflow.Shared
 
             _workingThreadInstance.OcrPath = ocrpath;
 
-            InitializeJobs();
-
             // Import parser with the given name/alias
             _workingThreadInstance.Parser = _extensionManager.GetExtensionWithName<IParser>(parser);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _workingThreadInstance.Parser.GetType().FullName);
+
+            InitializeJobs();
         }
 
         #endregion

@@ -48,10 +48,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string StreetNumber { get; set; }
         /// <summary>
-        /// Gets/sets the Intersection, if any or applicable.
-        /// </summary>
-        public string Intersection { get; set; }
-        /// <summary>
         /// Gets or sets the Ort object.
         /// </summary>
         public string City { get; set; }
@@ -64,27 +60,35 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Property { get; set; }
         /// <summary>
-        /// Gets or sets the Meldebild object.
+        /// Gets/sets the comment text. Usually this contains the result from the "Bemerkung" or "Hinweis" (etc.)-sections.
         /// </summary>
-        public string Picture { get; set; }
-        /// <summary>
-        /// Gets or sets the Hinweis object.
-        /// </summary>
-        public string Hint { get; set; }
-        /// <summary>
-        /// Gets or sets the Einsatzplan object.
-        /// </summary>
-        public string PlanOfAction { get; set; }
+        public string Comment { get; set; }
         /// <summary>
         /// Gets the Stichwort object.
         /// </summary>
         public string Keyword { get; set; }
+        /// <summary>
+        /// Gets/sets the custom data for this operation.
+        /// </summary>
+        public IDictionary<string, object> CustomData { get; set; }
         /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
         /// </summary>
         public bool IsAcknowledged { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Operation"/> class.
+        /// </summary>
+        public Operation()
+        {
+            CustomData = new Dictionary<string, object>();
+        }
 
         #endregion
 

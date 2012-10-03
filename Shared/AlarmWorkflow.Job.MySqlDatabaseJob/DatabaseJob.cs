@@ -90,7 +90,8 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                         return false;
                     }
 
-                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.PlanOfAction + "', '" + einsatz.Hint + "', '" + einsatz.Intersection + "', '" + einsatz.Picture + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
+                    // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
+                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.CustomData["PlanOfAction"] + "', '" + einsatz.Comment + "', '" + einsatz.CustomData["Intersection"] + "', '" + einsatz.CustomData["Picture"] + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
                     MySqlCommand cmd = new MySqlCommand(cmdText, conn);
                     cmd.ExecuteNonQuery();
                 }

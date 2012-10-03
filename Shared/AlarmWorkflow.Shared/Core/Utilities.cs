@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System;
+using System.IO;
+using System.Reflection;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -72,7 +73,7 @@ namespace AlarmWorkflow.Shared.Core
                 FrameDimension dimension = new FrameDimension(objGuid);
                 //Gets the total number of frames in the .tiff file 
                 int noOfPages = tiffImage.GetFrameCount(dimension);
-                
+
                 foreach (Guid guid in tiffImage.FrameDimensionsList)
                 {
                     for (int index = 0; index < noOfPages; index++)
@@ -85,6 +86,44 @@ namespace AlarmWorkflow.Shared.Core
                         yield return fileName;
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Trims all lines from the array, which means that lines with zero length will be omitted.
+        /// </summary>
+        /// <param name="lines"></param>
+        /// <returns></returns>
+        public static string[] Trim(string[] lines)
+        {
+            List<string> nl = new List<string>(lines.Length);
+            foreach (string item in lines)
+            {
+                if (!string.IsNullOrEmpty(item))
+                {
+                    nl.Add(item);
+                }
+            }
+            return nl.ToArray();
+        }
+
+        /// <summary>
+        /// Executes a delegate and swallows (ignores) all exceptions. Useful in scenarios where throwing exceptions are no option due to stability.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="action"></param>
+        /// <param name="parameter">An optional parameter.</param>
+        public static void Swallow<T>(Action<T> action, T parameter)
+        {
+            try
+            {
+                action(parameter);
+            }
+            catch (Exception ex)
+            {
+                // However still log this exception
+                Logger.Instance.LogFormat(LogType.Exception, "Utilities.Swallow", "An exception was swallowed while executing a delegate. The process will continue. See exception details following.");
+                Logger.Instance.LogException("Utilities.Swallow", ex);
             }
         }
     }

@@ -48,11 +48,6 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         [DataMember()]
         public string StreetNumber { get; set; }
         /// <summary>
-        /// Gets/sets the Intersection, if any or applicable.
-        /// </summary>
-        [DataMember()]
-        public string Intersection { get; set; }
-        /// <summary>
         /// Gets or sets the Ort object.
         /// </summary>
         [DataMember()]
@@ -68,20 +63,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         [DataMember()]
         public string Property { get; set; }
         /// <summary>
-        /// Gets or sets the Meldebild object.
-        /// </summary>
-        [DataMember()]
-        public string Picture { get; set; }
-        /// <summary>
         /// Gets or sets the Hinweis object.
         /// </summary>
         [DataMember()]
-        public string Hint { get; set; }
-        /// <summary>
-        /// Gets or sets the Einsatzplan object.
-        /// </summary>
-        [DataMember()]
-        public string PlanOfAction { get; set; }
+        public string Comment { get; set; }
         /// <summary>
         /// Gets the Stichwort object.
         /// </summary>
@@ -121,13 +106,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             this.Location = operation.Location;
             this.Street = operation.Street;
             this.StreetNumber = operation.StreetNumber;
-            this.Intersection = operation.Intersection;
             this.City = operation.City;
             this.ZipCode = operation.ZipCode;
             this.Property = operation.Property;
-            this.Picture = operation.Picture;
-            this.Hint = operation.Hint;
-            this.PlanOfAction = operation.PlanOfAction;
+            this.Comment = operation.Comment;
             this.Keyword = operation.Keyword;
             this.IsAcknowledged = operation.IsAcknowledged;
         }
@@ -150,13 +132,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             operation.Location = this.Location;
             operation.Street = this.Street;
             operation.StreetNumber = this.StreetNumber;
-            operation.Intersection = this.Intersection;
             operation.City = this.City;
             operation.ZipCode = this.ZipCode;
             operation.Property = this.Property;
-            operation.Picture = this.Picture;
-            operation.Hint = this.Hint;
-            operation.PlanOfAction = this.PlanOfAction;
+            operation.Comment = this.Comment;
             operation.Keyword = this.Keyword;
             operation.IsAcknowledged = this.IsAcknowledged;
             return operation;

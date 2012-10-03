@@ -28,22 +28,23 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                 {
                     using (SQLCEDatabaseEntities entities = this.CreateContext<SQLCEDatabaseEntities>())
                     {
-                        int newId = entities.Operations.Any() ? entities.Operations.Max(o => o.OperationId) + 1 : 1;
+                        int oid = operation.Id;
+                        if (operation.Id == 0)
+                        {
+                            oid = entities.Operations.Any() ? entities.Operations.Max(o => o.OperationId) + 1 : 1;
+                        }
                         OperationData data = new OperationData()
                         {
-                            OperationId = newId,
+                            OperationId = oid,
                             Timestamp = DateTime.UtcNow,
                             City = operation.City,
                             ZipCode = operation.ZipCode,
                             Location = operation.Location,
-                            Intersection = operation.Intersection,
                             OperationNumber = operation.OperationNumber,
                             Keyword = operation.Keyword,
-                            Hint = operation.Hint,
+                            Comment = operation.Comment,
                             IsAcknowledged = operation.IsAcknowledged,
                             Messenger = operation.Messenger,
-                            Picture = operation.Picture,
-                            PlanOfAction = operation.PlanOfAction,
                             Property = operation.Property,
                             Street = operation.Street,
                             StreetNumber = operation.StreetNumber,
@@ -77,6 +78,21 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
         #region IOperationStore Member
 
+        int IOperationStore.GetNextOperationId()
+        {
+            lock (Lock)
+            {
+                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                {
+                    if (entities.Operations.Any())
+                    {
+                        return entities.Operations.Max(o => o.OperationId) + 1;
+                    }
+                    return 1;
+                }
+            }
+        }
+
         void IOperationStore.AcknowledgeOperation(int operationId)
         {
             lock (Lock)
@@ -97,11 +113,44 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             }
         }
 
-        IList<Operation> IOperationStore.GetOperations(int maxAge, bool onlyNonAcknowledged, int limitAmount)
+        Operation IOperationStore.GetOperationById(int operationId)
         {
             lock (Lock)
             {
                 List<Operation> operations = new List<Operation>();
+
+                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                {
+                    OperationData data = entities.Operations.FirstOrDefault(d => d.OperationId == operationId);
+                    if (data == null)
+                    {
+                        return null;
+                    }
+
+                    return new Operation()
+                    {
+                        Id = data.OperationId,
+                        Timestamp = data.Timestamp,
+                        City = data.City,
+                        IsAcknowledged = data.IsAcknowledged,
+                        Keyword = data.Keyword,
+                        Location = data.Location,
+                        Messenger = data.Messenger,
+                        OperationNumber = data.OperationNumber,
+                        Property = data.Property,
+                        Street = data.Street,
+                        StreetNumber = data.StreetNumber,
+                        ZipCode = data.ZipCode,
+                    };
+                }
+            }
+        }
+
+        IList<int> IOperationStore.GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount)
+        {
+            lock (Lock)
+            {
+                List<int> operations = new List<int>();
 
                 using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
                 {
@@ -113,25 +162,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                             continue;
                         }
 
-                        operations.Add(new Operation()
-                        {
-                            Id = data.OperationId,
-                            Timestamp = data.Timestamp,
-                            City = data.City,
-                            Hint = data.Hint,
-                            Intersection = data.Intersection,
-                            IsAcknowledged = data.IsAcknowledged,
-                            Keyword = data.Keyword,
-                            Location = data.Location,
-                            Messenger = data.Messenger,
-                            OperationNumber = data.OperationNumber,
-                            Picture = data.Picture,
-                            PlanOfAction = data.PlanOfAction,
-                            Property = data.Property,
-                            Street = data.Street,
-                            StreetNumber = data.StreetNumber,
-                            ZipCode = data.ZipCode,
-                        });
+                        operations.Add(data.OperationId);
 
                         // If we need to limit operations
                         if (limitAmount > 0 && operations.Count >= limitAmount)

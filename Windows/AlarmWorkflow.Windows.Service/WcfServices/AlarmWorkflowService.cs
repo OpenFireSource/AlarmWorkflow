@@ -37,15 +37,20 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
 
         #region IAlarmWorkflowService Members
 
-        IList<OperationItem> IAlarmWorkflowService.GetOperations(int maxAge, bool onlyNonAcknowledged, int limitAmount)
+        IList<int> IAlarmWorkflowService.GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount)
         {
-            var data = _operationStore.GetOperations(maxAge, onlyNonAcknowledged, limitAmount);
-            List<OperationItem> operations = new List<OperationItem>(data.Count);
-            foreach (Operation item in data)
+            return _operationStore.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+        }
+
+        OperationItem IAlarmWorkflowService.GetOperationById(int operationId)
+        {
+            Operation operation = _operationStore.GetOperationById(operationId);
+            if (operation == null)
             {
-                operations.Add(new OperationItem(item));
+                return null;
             }
-            return operations;
+
+            return new OperationItem(operation);
         }
 
         void IAlarmWorkflowService.AcknowledgeOperation(int operationId)
