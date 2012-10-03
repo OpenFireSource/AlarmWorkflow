@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
-using System.Security;
 using System.Security.Permissions;
 using System.Threading;
+using System.Xml;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using System.Xml;
 
 namespace AlarmWorkflow.Shared
 {
@@ -186,37 +184,7 @@ namespace AlarmWorkflow.Shared
             {
                 f = new FileInfo(e.FullPath);
             }
-            catch (ArgumentNullException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (SecurityException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (ArgumentException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (PathTooLongException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (NotSupportedException ex)
+            catch (Exception ex)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, "Error while ceating File Info Object for new Fax: " + ex.ToString());
                 this.fileSystemWatcher.EnableRaisingEvents = true;
@@ -251,96 +219,77 @@ namespace AlarmWorkflow.Shared
                 }
             }
 
-            try
+            // One catch of TIFF is that it may contain multiple pages! This is by itself no problem, but the OCR software
+            // may not be able to recognize this. So we do the following:
+            // 1. We read the TIFF, and if it is a multipage-tiff-file...
+            // 2. ... we will split each page into an own file (done in the method) ...
+            // 3. ... and THEN we will scan each "page" and concat them together, so it appears to the parser as one file.
+            List<string> analyzedLines = new List<string>();
+            foreach (string imageFile in Utilities.GetMergedTifFileNames(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF")))
             {
-                using (Image img = Image.FromFile(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF")))
-                {
-                    // TODO: This will only work with cuneiform (bmp). Tesseract needs TIF!
-                    img.Save(Path.Combine(_archivePath.FullName, analyseFileName + ".bmp"), System.Drawing.Imaging.ImageFormat.Bmp);
-                }
-            }
-            catch (OutOfMemoryException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (FileNotFoundException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
-            catch (ArgumentException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Error while reading tif image: " + ex.ToString());
-                this.fileSystemWatcher.EnableRaisingEvents = true;
-                return;
-            }
+                string intendedNewFileName = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(imageFile) + ".txt");
 
-            using (Process proc = new Process())
-            {
-                proc.EnableRaisingEvents = false;
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.CreateNoWindow = true;
-
-                switch (UseOCRSoftware)
+                // Host the configured OCR-software in a new process and run it
+                using (Process proc = new Process())
                 {
-                    case OcrSoftware.Tesseract:
-                        {
-                            if (String.IsNullOrEmpty(OcrPath))
+                    proc.EnableRaisingEvents = false;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.CreateNoWindow = true;
+
+                    switch (UseOCRSoftware)
+                    {
+                        case OcrSoftware.Tesseract:
                             {
-                                proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
+                                if (String.IsNullOrEmpty(OcrPath))
+                                {
+                                    proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
+                                }
+                                else
+                                {
+                                    proc.StartInfo.WorkingDirectory = OcrPath;
+                                }
+
+                                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
+                                proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + intendedNewFileName + " -l deu";
+
+                                // Correct txt path for tesseract (it will append .txt under windows always)
+                                intendedNewFileName += ".txt";
                             }
-                            else
+                            break;
+                        case OcrSoftware.Cuneiform:
+                        default:
                             {
-                                proc.StartInfo.WorkingDirectory = OcrPath;
+                                if (String.IsNullOrEmpty(OcrPath))
+                                {
+                                    proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
+                                }
+                                else
+                                {
+                                    proc.StartInfo.WorkingDirectory = OcrPath;
+                                }
+
+                                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
+                                proc.StartInfo.Arguments = "-l ger --singlecolumn -o " + intendedNewFileName + " " + imageFile;
                             }
+                            break;
+                    }
 
-                            proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
-                            proc.StartInfo.Arguments = f.DirectoryName + "\\" + analyseFileName + ".bmp " + _analysisPath.FullName + analyseFileName + " -l deu";
-                        }
+                    try
+                    {
+                        proc.Start();
+                        proc.WaitForExit();
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Error while the ocr Prozess: " + ex.ToString());
+                        this.fileSystemWatcher.EnableRaisingEvents = true;
+                        return;
+                    }
 
-                        break;
-                    case OcrSoftware.Cuneiform:
-                    default:
-                        {
-                            if (String.IsNullOrEmpty(OcrPath))
-                            {
-                                proc.StartInfo.WorkingDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
-                            }
-                            else
-                            {
-                                proc.StartInfo.WorkingDirectory = OcrPath;
-                            }
-
-                            proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
-                            proc.StartInfo.Arguments = @"-l ger --singlecolumn -o " + _analysisPath.FullName + analyseFileName + ".txt " + f.DirectoryName + @"\" + analyseFileName + ".bmp";
-                        }
-
-                        break;
-                }
-
-                try
-                {
-                    proc.Start();
-                    proc.WaitForExit();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Error while the ocr Prozess: " + ex.ToString());
-                    this.fileSystemWatcher.EnableRaisingEvents = true;
-                    return;
-                }
-
-                Operation operation = null;
-                try
-                {
-                    // Read the analysis file...
-                    using (StreamReader reader = new StreamReader(Path.Combine(_analysisPath.FullName, analyseFileName + ".txt")))
+                    // After the file has been parsed, read it back in ...
+                    using (StreamReader reader = new StreamReader(intendedNewFileName))
                     {
                         // ... fetch all lines ...
-                        List<string> parsedLines = new List<string>();
                         foreach (string preParsedLine in reader.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.None))
                         {
                             string tmp = preParsedLine;
@@ -348,37 +297,42 @@ namespace AlarmWorkflow.Shared
                             {
                                 tmp = tmp.Replace(pair.Key, pair.Value);
                             }
-                            parsedLines.Add(tmp);
-                        }
-
-                        // Try to parse the operation. If parsing failed, ignore this but write to the log file!
-                        operation = Parser.Parse(parsedLines.ToArray());
-                    }
-
-                    foreach (IJob job in Jobs)
-                    {
-                        try
-                        {
-                            // Run the job. If the job fails, ignore that exception as well but log it too!
-                            if (!job.DoJob(operation))
-                            {
-                                Logger.Instance.LogFormat(LogType.Warning, this, job.ErrorMessage);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                            Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                            // ... and add it to the list
+                            analyzedLines.Add(tmp);
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
-                }
-
-                this.fileSystemWatcher.EnableRaisingEvents = true;
             }
+
+            Operation operation = null;
+            try
+            {
+                // Try to parse the operation. If parsing failed, ignore this but write to the log file!
+                operation = Parser.Parse(analyzedLines.ToArray());
+
+                foreach (IJob job in Jobs)
+                {
+                    try
+                    {
+                        // Run the job. If the job fails, ignore that exception as well but log it too!
+                        if (!job.DoJob(operation))
+                        {
+                            Logger.Instance.LogFormat(LogType.Warning, this, job.ErrorMessage);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                        Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing job '{0}'. The error message was: {1}", job.GetType().Name, ex.Message));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while parsing the alarmfax! The error message was: " + ex.Message);
+            }
+
+            this.fileSystemWatcher.EnableRaisingEvents = true;
         }
 
         #endregion
