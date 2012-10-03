@@ -15,6 +15,7 @@
   <Entry Old="Plannummer 1" New="Plannummer :" />
   <Entry Old="Station 1" New="Station :" />
   <Entry Old="Haus-Nr. 1" New="Haus-Nr.:" />
+  <Entry Old="Objekt 1" New="Objekt:" />
   <Entry Old="Schlagw. 1" New="Schlagw.:" />
   <Entry Old="Stichwort B1" New="Stichwort B:" />
   <Entry Old="Stichwort R1" New="Stichwort R:" />
@@ -24,4 +25,9 @@
   <Entry Old="( 1satzmittel" New="Einsatzmittel" />
   <Entry Old="IJbernahme" New="Übernahme" />
   <Entry Old="Spedi iton" New="Spedition" />
+  <Entry Old="Rufnummer 1" New="Rufnummer:" />
+  <Entry Old=" — " New="-" />
+  <Entry Old="—" New="-" />
+  <Entry Old="cinsatzmittel" New="Einsatzmittel" />
+  <Entry Old="Tragkraftspri.tze" New="Tragkraftspritze" />
 </Dictionary>
