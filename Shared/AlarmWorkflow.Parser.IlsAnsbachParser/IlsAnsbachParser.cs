@@ -222,7 +222,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                 switch (prefix)
                                 {
                                     case "ABSENDER":
-                                        operation.CustomData["Sender"] = msg;
+                                        operation.CustomData["Absender"] = msg;
                                         break;
                                     case "TERMIN":
                                         operation.CustomData["Termin"] = msg;
@@ -278,11 +278,11 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                         } break;
                                     case "PLANNUMMER":
                                         {
-                                            // TODO
+                                            operation.CustomData["Plannummer"] = msg;
                                         } break;
                                     case "STATION":
                                         {
-                                            // TODO
+                                            operation.CustomData["Station"] = msg;
                                         } break;
                                     default:
                                         break;
@@ -300,19 +300,19 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                         operation.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
-                                        operation.CustomData["StichwortB"] = msg;
+                                        operation.CustomData["Stichwort B"] = msg;
                                         break;
                                     case "STICHWORT R":
-                                        operation.CustomData["StichwortR"] = msg;
+                                        operation.CustomData["Stichwort R"] = msg;
                                         break;
                                     case "STICHWORT S":
-                                        operation.CustomData["StichwortS"] = msg;
+                                        operation.CustomData["Stichwort S"] = msg;
                                         break;
                                     case "STICHWORT T":
-                                        operation.CustomData["StichwortT"] = msg;
+                                        operation.CustomData["Stichwort T"] = msg;
                                         break;
                                     case "PRIO.":
-                                        operation.CustomData["Priority"] = msg;
+                                        operation.CustomData["Priorität"] = msg;
                                         break;
                                     default:
                                         break;
@@ -341,7 +341,8 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                         {
                                             msg = GetMessageText(fel, "Alarmiert");
 
-                                            DateTime dt;
+                                            // In case that parsing the time failed, we just assume that the resource got requested right away.
+                                            DateTime dt = operation.Timestamp;
                                             // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
                                             if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                                             {
@@ -367,6 +368,11 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                             finished = true;
                                             // Decrement index variable here because it gets incremented later
                                             i -= 2;
+                                        }
+                                        else
+                                        {
+                                            // Trace this for debugging aid
+                                            Logger.Instance.LogFormat(LogType.Warning, this, "Unrecognized prefx '{0}' in line '{1}'. The line contents are: '{2}'", prefix, i, fel);
                                         }
                                     }, null);
 

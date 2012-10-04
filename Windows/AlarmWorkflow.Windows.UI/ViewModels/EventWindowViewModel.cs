@@ -10,16 +10,30 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     class EventWindowViewModel : ViewModelBase
     {
+        #region Fields
+
+        private OperationViewModel _selectedEvent;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
         /// Gets a list of all available events.
         /// </summary>
-        public List<Operation> AvailableEvents { get; private set; }
+        public List<OperationViewModel> AvailableEvents { get; private set; }
         /// <summary>
         /// Gets/sets the selected event.
         /// </summary>
-        public Operation SelectedEvent { get; set; }
+        public OperationViewModel SelectedEvent
+        {
+            get { return _selectedEvent; }
+            set
+            {
+                _selectedEvent = value;
+                OnPropertyChanged("SelectedEvent");
+            }
+        }
         /// <summary>
         /// Gets whether or not there are multiple events present. That is, more than one in our case.
         /// </summary>
@@ -41,13 +55,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private bool AcknowledgeOperationCommand_CanExecute(object parameter)
         {
-            return SelectedEvent != null && !SelectedEvent.IsAcknowledged;
+            return SelectedEvent != null && !SelectedEvent.Operation.IsAcknowledged;
         }
 
         private void AcknowledgeOperationCommand_Execute(object parameter)
         {
             // Sanity-checks
-            if (SelectedEvent == null || SelectedEvent.IsAcknowledged)
+            if (SelectedEvent == null || SelectedEvent.Operation.IsAcknowledged)
             {
                 return;
             }
@@ -56,13 +70,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             {
                 using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                 {
-                    service.Instance.AcknowledgeOperation(SelectedEvent.Id);
+                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id);
                     // If we get here, acknowledging was successful --> update operation
-                    SelectedEvent.IsAcknowledged = true;
+                    SelectedEvent.Operation.IsAcknowledged = true;
 
                     OnPropertyChanged("SelectedEvent");
 
-                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Id);
+                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
                 }
             }
             catch (Exception ex)
@@ -84,7 +98,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// </summary>
         public EventWindowViewModel()
         {
-            AvailableEvents = new List<Operation>();
+            AvailableEvents = new List<OperationViewModel>();
         }
 
         #endregion
@@ -98,14 +112,15 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         public void PushEvent(Operation operation)
         {
             // Sanity-check
-            if (AvailableEvents.Contains(operation))
+            if (AvailableEvents.Any(o => o.Operation.Id == operation.Id))
             {
                 return;
             }
 
             // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
-            AvailableEvents.Add(operation);
-            AvailableEvents = new List<Operation>(AvailableEvents.OrderByDescending(o => o.Timestamp));
+            OperationViewModel ovm = new OperationViewModel(operation);
+            AvailableEvents.Add(ovm);
+            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
 
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");

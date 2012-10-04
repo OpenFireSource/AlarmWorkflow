@@ -35,10 +35,10 @@
                  ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock FontSize="16">
-                            <Run Text="{Binding OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold" />
+                        <TextBlock>
+                            <Run Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold" />
                             <Run Text=" on " />
-                            <Run Text="{Binding Timestamp}" />
+                            <Run Text="{Binding Operation.Timestamp}" />
                         </TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -54,16 +54,47 @@
 
         <!-- Details view -->
         <Grid Grid.Column="1" Margin="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Deployed vehicles list -->
+            <Grid Grid.Column="0" Margin="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Beschreibung:" FontWeight="Bold" />
+                <TextBlock Grid.Row="1" Text="{Binding SelectedEvent.Operation.Comment, TargetNullValue='Keine Beschreibung verfügbar!'}" />
+
+                <TextBlock Grid.Row="2" Text="Stichwort:" FontWeight="Bold" />
+                <TextBlock Grid.Row="3" Text="{Binding SelectedEvent.Operation.Keyword, TargetNullValue='-'}" />
+
+            </Grid>
 
             <!-- Deployed vehicles list -->
-            <ItemsControl Grid.Row="0" Margin="2" />
+            <ItemsControl Grid.Column="1" Margin="2" />
             
             <!-- Route view -->
-            <Image Grid.Row="1" Margin="2" />
+            <Image Grid.Column="2" Margin="2" />
         </Grid>
 
     </Grid>
