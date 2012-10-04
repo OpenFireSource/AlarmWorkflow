@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Component
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.IlsAnsbachParser", "AlarmWorkflow.Parser.IlsAnsbachParser\AlarmWorkflow.Parser.IlsAnsbachParser.csproj", "{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Shared.Console", "AlarmWorkflow.Shared.Console\AlarmWorkflow.Shared.Console.csproj", "{A8C89E27-A378-4AE6-8049-ACCACB82C909}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,16 +111,6 @@ Global
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|x86.ActiveCfg = Release|Any CPU
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Debug|x86.ActiveCfg = Debug|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Debug|x86.Build.0 = Debug|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Release|Any CPU.ActiveCfg = Release|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Release|Mixed Platforms.Build.0 = Release|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Release|x86.ActiveCfg = Release|x86
-		{A8C89E27-A378-4AE6-8049-ACCACB82C909}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
