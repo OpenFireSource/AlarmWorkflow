@@ -134,6 +134,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         City = data.City,
                         IsAcknowledged = data.IsAcknowledged,
                         Keyword = data.Keyword,
+                        Comment = data.Comment,
                         Location = data.Location,
                         Messenger = data.Messenger,
                         OperationNumber = data.OperationNumber,

@@ -5,54 +5,69 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BF36221D-B237-49E0-87B6-A1D7174C40E9}</ProjectGuid>
+    <ProjectGuid>{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Job.ComponentNotificator</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Job.ComponentNotificator</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Windows.IlsAnsbachOperationViewer</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Windows.IlsAnsbachOperationViewer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.XML</DocumentationFile>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.XML</DocumentationFile>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.Parser.IlsAnsbachParser">
+      <HintPath>..\..\Build\AlarmWorkflow.Parser.IlsAnsbachParser.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentNotificatorJob.cs" />
-    <Compile Include="Extension.cs" />
-    <Compile Include="INotifyable.cs" />
+    <Compile Include="IlsAnsbachOperationView.xaml.cs">
+      <DependentUpon>IlsAnsbachOperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="IlsAnsbachOperationViewer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj">
-      <Project>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</Project>
-      <Name>AlarmWorkflow.Shared</Name>
-      <Private>False</Private>
+    <ProjectReference Include="..\AlarmWorkflow.Windows.UI\AlarmWorkflow.Windows.UI.csproj">
+      <Project>{71CBE492-F506-4BA2-8C81-F6F268E55E53}</Project>
+      <Name>AlarmWorkflow.Windows.UI</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="IlsAnsbachOperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

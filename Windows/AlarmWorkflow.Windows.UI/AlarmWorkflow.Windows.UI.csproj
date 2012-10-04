@@ -68,10 +68,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensibility\IOperationViewer.cs" />
+    <Compile Include="Extensibility\OperationViewerAttribute.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
+    <Compile Include="Views\DefaultOperationView.xaml.cs">
+      <DependentUpon>DefaultOperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DefaultOperationViewer.cs" />
     <Compile Include="Views\EventWindow.xaml.cs">
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>
@@ -85,6 +91,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\GeneralInformationControl.xaml.cs">
+      <DependentUpon>GeneralInformationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RouteControl.xaml.cs">
+      <DependentUpon>RouteControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -112,9 +124,21 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DefaultOperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\EventWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GeneralInformationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RouteControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Jobs", "Jobs", "{F7484A1E-3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SQLCEDatabaseJob", "AlarmWorkflow.Job.SQLCEDatabaseJob\AlarmWorkflow.Job.SQLCEDatabaseJob.csproj", "{54F3EDF4-296E-4037-9D02-47742A9A1119}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{D5F4E2EB-66B7-4191-BDC8-FCD64E742491}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{8B134F16-E519-4B33-A5E2-F11F7A33A66A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OperationViewers", "OperationViewers", "{00557857-0F5B-48A3-916E-A365C08EE0F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.IlsAnsbachOperationViewer", "AlarmWorkflow.Windows.IlsAnsbachOperationViewer\AlarmWorkflow.Windows.IlsAnsbachOperationViewer.csproj", "{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,11 +83,27 @@ Global
 		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|x86.ActiveCfg = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{54F3EDF4-296E-4037-9D02-47742A9A1119} = {F7484A1E-3D35-42BE-B2BF-C9B7DA0C6B22}
+		{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3} = {D5F4E2EB-66B7-4191-BDC8-FCD64E742491}
+		{1A24FC36-E80D-423C-A43B-FA513AEFCD33} = {D5F4E2EB-66B7-4191-BDC8-FCD64E742491}
+		{71CBE492-F506-4BA2-8C81-F6F268E55E53} = {8B134F16-E519-4B33-A5E2-F11F7A33A66A}
+		{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A} = {00557857-0F5B-48A3-916E-A365C08EE0F1}
 	EndGlobalSection
 EndGlobal

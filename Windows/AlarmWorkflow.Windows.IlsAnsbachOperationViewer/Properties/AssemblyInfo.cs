@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AlarmWorkflow.Shared.Console")]
+[assembly: AssemblyTitle("AlarmWorkflow.Windows.IlsAnsbachOperationViewer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("AlarmWorkflow.Shared.Console")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("AlarmWorkflow.Windows.IlsAnsbachOperationViewer")]
+[assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0cdb1e23-cfb9-4146-8c6e-c1732872ec96")]
+[assembly: Guid("7d8d6bf1-c40a-43b4-932e-3139caef2cfb")]
 
 // Version information for an assembly consists of the following four values:
 //

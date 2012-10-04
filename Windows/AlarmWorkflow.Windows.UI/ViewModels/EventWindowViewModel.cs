@@ -1,16 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.UI.Extensibility;
+
+// TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     class EventWindowViewModel : ViewModelBase
     {
         #region Fields
+
+        private IOperationViewer _operationViewer;
+        private Lazy<FrameworkElement> _controlTemplate;
 
         private OperationViewModel _selectedEvent;
 
@@ -40,6 +47,14 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         public bool AreMultipleEventsPresent
         {
             get { return AvailableEvents.Count > 1; }
+        }
+
+        /// <summary>
+        /// Gets the control that is to be displayed in the 
+        /// </summary>
+        public FrameworkElement Template
+        {
+            get { return _controlTemplate.Value; }
         }
 
         #endregion
@@ -99,6 +114,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         public EventWindowViewModel()
         {
             AvailableEvents = new List<OperationViewModel>();
+
+            // TODO: Make retrieval dynamic...
+            _operationViewer = new Views.DefaultOperationViewer();
+            _controlTemplate = new Lazy<FrameworkElement>(() =>
+            {
+                return _operationViewer.CreateTemplate();
+            });
         }
 
         #endregion

@@ -7,7 +7,7 @@ namespace AlarmWorkflow.Windows.UI.Views
     /// <summary>
     /// Interaction logic for EventWindow.xaml
     /// </summary>
-    public partial class EventWindow : Window
+    internal partial class EventWindow : Window
     {
         #region Fields
 

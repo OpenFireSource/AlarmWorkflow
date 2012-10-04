@@ -348,7 +348,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             }
         }
         private global::System.String _Property;
-        partial void OnPropertyChanging(global::System.String value);
         partial void OnPropertyChanged();
     
         /// <summary>
