@@ -56,6 +56,7 @@
       <DependentUpon>IlsAnsbachOperationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlarmWorkflow.Windows.UI\AlarmWorkflow.Windows.UI.csproj">

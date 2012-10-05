@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Runtime.Serialization.Formatters.Binary;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Core
@@ -13,6 +14,58 @@ namespace AlarmWorkflow.Shared.Core
     /// </summary>
     public static class Utilities
     {
+        #region Fields
+
+        private static readonly BinaryFormatter Formatter;
+
+        #endregion
+
+        #region Constructors
+
+        static Utilities()
+        {
+            Formatter = new BinaryFormatter();
+        }
+
+        #endregion
+
+        #region Serialization
+
+        /// <summary>
+        /// Serializes a graph into a byte-array using binary serialization.
+        /// </summary>
+        /// <param name="graph"></param>
+        /// <returns></returns>
+        public static byte[] Serialize(object graph)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                Formatter.Serialize(stream, graph);
+                return stream.ToArray();
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a binary-serialized object.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="buffer"></param>
+        /// <returns></returns>
+        public static T Deserialize<T>(byte[] buffer)
+        {
+            if (buffer == null)
+            {
+                return default(T);
+            }
+
+            using (MemoryStream stream = new MemoryStream(buffer))
+            {
+                return (T)Formatter.Deserialize(stream);
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Returns the working directory of this assembly.
         /// </summary>

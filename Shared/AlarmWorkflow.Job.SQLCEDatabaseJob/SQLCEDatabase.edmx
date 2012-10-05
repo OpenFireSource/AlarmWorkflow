@@ -26,6 +26,7 @@
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
           <Property Name="OperationId" Type="int" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="512" />
+          <Property Name="CustomData" Type="image" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -60,6 +61,7 @@
             </Documentation>
           </Property>
           <Property Type="String" Name="Comment" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="Binary" Name="CustomData" MaxLength="Max" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -70,6 +72,7 @@
           <EntitySetMapping Name="Operations">
             <EntityTypeMapping TypeName="SQLCEDatabaseModel.OperationData">
               <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="CustomData" ColumnName="CustomData" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />

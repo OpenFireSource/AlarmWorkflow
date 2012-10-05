@@ -6,6 +6,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
     /// <summary>
     /// Represents a resource, which was was requested by the ILS.
     /// </summary>
+    [Serializable()]
     [DebuggerDisplay("{Einsatzmittel}, {Alarmiert}, {GeforderteAusstattung}")]
     public sealed class Resource
     {

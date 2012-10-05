@@ -348,6 +348,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             }
         }
         private global::System.String _Property;
+        partial void OnPropertyChanging(global::System.String value);
         partial void OnPropertyChanged();
     
         /// <summary>
@@ -469,6 +470,30 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         private global::System.String _Comment;
         partial void OnCommentChanging(global::System.String value);
         partial void OnCommentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.Byte[] CustomData
+        {
+            get
+            {
+                return StructuralObject.GetValidValue(_CustomData);
+            }
+            set
+            {
+                OnCustomDataChanging(value);
+                ReportPropertyChanging("CustomData");
+                _CustomData = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("CustomData");
+                OnCustomDataChanged();
+            }
+        }
+        private global::System.Byte[] _CustomData;
+        partial void OnCustomDataChanging(global::System.Byte[] value);
+        partial void OnCustomDataChanged();
 
         #endregion
 

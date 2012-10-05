@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using AlarmWorkflow.Shared.Core;
+using System.Collections.Generic;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -10,6 +11,13 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
     [DataContract()]
     public class OperationItem
     {
+        #region Fields
+
+        [DataMember()]
+        private byte[] _customData;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -79,6 +87,14 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// </summary>
         [DataMember()]
         public bool IsAcknowledged { get; set; }
+        /// <summary>
+        /// Gets/sets the custom data.
+        /// </summary>
+        public IDictionary<string, object> CustomData
+        {
+            get { return Utilities.Deserialize<IDictionary<string, object>>(_customData); }
+            set { _customData = Utilities.Serialize(value); }
+        }
 
         #endregion
 
@@ -111,6 +127,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             this.Property = operation.Property;
             this.Comment = operation.Comment;
             this.Keyword = operation.Keyword;
+            this.CustomData = operation.CustomData;
             this.IsAcknowledged = operation.IsAcknowledged;
         }
 
@@ -137,6 +154,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             operation.Property = this.Property;
             operation.Comment = this.Comment;
             operation.Keyword = this.Keyword;
+            operation.CustomData = this.CustomData;
             operation.IsAcknowledged = this.IsAcknowledged;
             return operation;
         }

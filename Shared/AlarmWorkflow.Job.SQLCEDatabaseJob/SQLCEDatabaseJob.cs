@@ -40,6 +40,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         Property = operation.Property,
                         Street = operation.Street,
                         StreetNumber = operation.StreetNumber,
+                        CustomData = Utilities.Serialize(operation.CustomData),
                     };
                     entities.Operations.AddObject(data);
                     entities.SaveChanges();

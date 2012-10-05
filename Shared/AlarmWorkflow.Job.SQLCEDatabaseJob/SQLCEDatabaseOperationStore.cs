@@ -84,6 +84,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         Street = data.Street,
                         StreetNumber = data.StreetNumber,
                         ZipCode = data.ZipCode,
+                        CustomData = Utilities.Deserialize<IDictionary<string, object>>(data.CustomData),
                     };
                 }
             }
