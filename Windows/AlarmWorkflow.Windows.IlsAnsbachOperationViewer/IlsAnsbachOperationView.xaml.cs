@@ -10,6 +10,12 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
     [Export("IlsAnsbachOperationViewer", typeof(IOperationViewer))]
     public partial class IlsAnsbachOperationView : UserControl, IOperationViewer
     {
+        #region Fields
+
+        private ViewModel _viewModel;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -18,6 +24,9 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         public IlsAnsbachOperationView()
         {
             InitializeComponent();
+
+            _viewModel = new ViewModel();
+            this.DataContext = _viewModel;
         }
 
         #endregion
@@ -31,7 +40,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
-
+            _viewModel.Operation = operation;
         }
 
         #endregion

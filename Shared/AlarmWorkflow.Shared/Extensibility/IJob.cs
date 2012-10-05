@@ -13,7 +13,8 @@ namespace AlarmWorkflow.Shared.Extensibility
         /// <summary>
         /// Called to initialize the job when it gets added to the job queue that runs on each processed fax.
         /// </summary>
-        void Initialize();
+        /// <returns>Whether or not initialization was successful.</returns>
+        bool Initialize();
         /// <summary>
         /// This methode do the jobs job.
         /// </summary>

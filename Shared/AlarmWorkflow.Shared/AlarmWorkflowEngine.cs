@@ -111,7 +111,11 @@ namespace AlarmWorkflow.Shared
 
                 try
                 {
-                    job.Initialize();
+                    if (!job.Initialize())
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Job type '{0}' initialization failed. The job will not be executed.", jobName);
+                        continue;
+                    }
                     _jobs.Add(job);
 
                     Logger.Instance.LogFormat(LogType.Info, this, "Job type '{0}' initialization successful.", jobName);
@@ -180,7 +184,7 @@ namespace AlarmWorkflow.Shared
                         ProcessFile(file);
                     }
                 }
-                Thread.Sleep(3000);
+                Thread.Sleep(1500);
             }
         }
 

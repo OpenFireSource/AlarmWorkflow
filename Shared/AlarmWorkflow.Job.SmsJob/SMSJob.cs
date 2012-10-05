@@ -68,7 +68,7 @@ namespace AlarmWorkflow.Job.SmsJob
             }
         }
 
-        void IJob.Initialize()
+        bool IJob.Initialize()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\SmsJobConfiguration.xml");
@@ -84,11 +84,9 @@ namespace AlarmWorkflow.Job.SmsJob
                 {
                     this.numbers.Add(node.InnerText);
                 }
+                return true;
             }
-            else
-            {
-                throw new ArgumentException("Settings is not an XmlElement");
-            }
+            return false;
         }
 
         /// <summary>

@@ -57,7 +57,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
         #region IJob Members
 
-        void IJob.Initialize()
+        bool IJob.Initialize()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MailingJobConfiguration.xml");
@@ -89,6 +89,8 @@ namespace AlarmWorkflow.Job.MailingJob
             _smptClient.SendCompleted += new SendCompletedEventHandler(SmptClient_SendCompleted);
             NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
             _smptClient.Credentials = credential;
+
+            return true;
         }
 
         void IJob.DoJob(Operation operation)

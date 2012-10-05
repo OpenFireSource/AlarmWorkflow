@@ -53,9 +53,9 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             }
         }
 
-        void IJob.Initialize()
+        bool IJob.Initialize()
         {
-
+            return true;
         }
 
         #endregion

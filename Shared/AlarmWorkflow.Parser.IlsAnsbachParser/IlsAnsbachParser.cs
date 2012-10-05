@@ -403,7 +403,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                         else
                                         {
                                             // Trace this for debugging aid
-                                            Logger.Instance.LogFormat(LogType.Warning, this, "Unrecognized prefx '{0}' in line '{1}'. The line contents are: '{2}'", prefix, i, fel);
+                                            Logger.Instance.LogFormat(LogType.Warning, this, "Unrecognized contents in line '{0}'. The parser ignores this line. The line contents are: '{1}'", i, fel);
                                         }
                                     }, null);
 

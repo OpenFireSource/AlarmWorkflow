@@ -52,7 +52,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         #region IJob Members
 
-        void IJob.Initialize()
+        bool IJob.Initialize()
         {
             XmlDocument doc = new XmlDocument();
             doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MySqlDatabaseJobConfiguration.xml");
@@ -63,6 +63,20 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             this.user = nav.SelectSingleNode("UserID").InnerXml;
             this.pwd = nav.SelectSingleNode("UserPWD").InnerXml;
             this.server = nav.SelectSingleNode("DBServer").InnerXml;
+
+            // Check whether we can connect properly...
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
+                {
+                    conn.Open();
+                }
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+            return true;
         }
 
         void IJob.DoJob(Operation einsatz)
