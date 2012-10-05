@@ -2,20 +2,20 @@
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UI.Extensibility;
 
-namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
+namespace AlarmWorkflow.Windows.UI.Views
 {
     /// <summary>
-    /// Interaction logic for IlsAnsbachOperationView.xaml
+    /// Interaction logic for DefaultOperationView.xaml
     /// </summary>
-    [Export("IlsAnsbachOperationViewer", typeof(IOperationViewer))]
-    public partial class IlsAnsbachOperationView : UserControl, IOperationViewer
+    [Export("DefaultOperationView", typeof(IOperationViewer))]
+    public partial class DefaultOperationView : UserControl, IOperationViewer
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="IlsAnsbachOperationView"/> class.
+        /// Initializes a new instance of the <see cref="DefaultOperationView"/> class.
         /// </summary>
-        public IlsAnsbachOperationView()
+        public DefaultOperationView()
         {
             InitializeComponent();
         }
@@ -29,7 +29,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             return this;
         }
 
-        void IOperationViewer.OnOperationChanged(Operation operation)
+        void IOperationViewer.OnOperationChanged(Shared.Core.Operation operation)
         {
 
         }

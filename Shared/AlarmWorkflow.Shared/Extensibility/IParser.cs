@@ -5,7 +5,7 @@ namespace AlarmWorkflow.Shared.Extensibility
     /// <summary>
     /// Defines a parser which parses an incoming alarmfax.
     /// </summary>
-    public interface IParser : IExtensionObject
+    public interface IParser
     {
         /// <summary>
         /// Parses the contents of an analysed alarmfax into an <see cref="Operation"/>-representation.

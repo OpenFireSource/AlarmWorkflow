@@ -1,7 +1,0 @@
-﻿AlarmWorkflow.Job.MailingJob.Extension
-AlarmWorkflow.Job.ComponentNotificator.Extension
-
-AlarmWorkflow.Parser.MucLandParser.Extension
-AlarmWorkflow.Parser.IlsAnsbachParser.Extension
-
-AlarmWorkflow.Job.SQLCEDatabaseJob.Extension

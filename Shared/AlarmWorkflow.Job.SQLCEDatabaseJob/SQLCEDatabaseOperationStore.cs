@@ -5,74 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 {
-    class SQLCEDatabaseJob : IJob, IOperationStore
+    [Export("SQLCEDatabaseOperationStore", typeof(IOperationStore))]
+    class SQLCEDatabaseOperationStore : IOperationStore
     {
         #region Fields
 
         private readonly object Lock = new object();
-
-        #endregion
-
-        #region IJob Member
-
-        bool IJob.DoJob(Operation operation)
-        {
-            try
-            {
-                lock (Lock)
-                {
-                    using (SQLCEDatabaseEntities entities = this.CreateContext<SQLCEDatabaseEntities>())
-                    {
-                        int oid = operation.Id;
-                        if (operation.Id == 0)
-                        {
-                            oid = entities.Operations.Any() ? entities.Operations.Max(o => o.OperationId) + 1 : 1;
-                        }
-                        OperationData data = new OperationData()
-                        {
-                            OperationId = oid,
-                            Timestamp = DateTime.UtcNow,
-                            City = operation.City,
-                            ZipCode = operation.ZipCode,
-                            Location = operation.Location,
-                            OperationNumber = operation.OperationNumber,
-                            Keyword = operation.Keyword,
-                            Comment = operation.Comment,
-                            IsAcknowledged = operation.IsAcknowledged,
-                            Messenger = operation.Messenger,
-                            Property = operation.Property,
-                            Street = operation.Street,
-                            StreetNumber = operation.StreetNumber,
-                        };
-                        entities.Operations.AddObject(data);
-                        entities.SaveChanges();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while trying to write the operation to the database!");
-                Logger.Instance.LogException(this, ex);
-                return false;
-            }
-
-            return true;
-        }
-
-        string IJob.ErrorMessage
-        {
-            get { return ""; }
-        }
-
-        void IJob.Initialize()
-        {
-
-        }
 
         #endregion
 

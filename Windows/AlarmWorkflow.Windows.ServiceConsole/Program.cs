@@ -32,7 +32,7 @@ namespace AlarmWorkflow.Windows.ServiceConsole
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            using (AlarmworkflowClass ac = new AlarmworkflowClass())
+            using (AlarmWorkflowEngine ac = new AlarmWorkflowEngine())
             {
                 // Host the WCF-services, too
                 WcfServicesHostManager shm = new WcfServicesHostManager(ac);

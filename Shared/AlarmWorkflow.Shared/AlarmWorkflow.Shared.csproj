@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\OcrSoftware.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
     <Compile Include="Diagnostics\ILoggingListener.cs" />
@@ -55,33 +56,23 @@
     <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="Diagnostics\LogType.cs" />
     <Compile Include="Diagnostics\RelayLoggingListener.cs" />
-    <Compile Include="Extensibility\IExtensionObject.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />
     <Compile Include="Extensibility\IParser.cs" />
-    <Compile Include="AlarmworkflowCodeLib.cs" />
+    <Compile Include="Extensibility\IJob.cs" />
+    <Compile Include="AlarmWorkflowEngine.cs" />
     <Compile Include="Core\ExportAttribute.cs" />
     <Compile Include="Core\ExportedType.cs" />
     <Compile Include="Core\ExportedTypeLibrary.cs" />
-    <Compile Include="Extensibility\ExtensionManager.cs" />
     <Compile Include="Core\Utilities.cs" />
-    <Compile Include="Extensibility\IExtension.cs" />
-    <Compile Include="Extensibility\IExtensionHost.cs" />
-    <Compile Include="Extensibility\IJob.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="WorkingThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Config\AlarmWorkflow.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\ExtensionWhitelist.lst">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

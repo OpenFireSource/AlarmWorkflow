@@ -18,7 +18,7 @@ namespace AlarmWorkflow.Windows.Service
 
         #region Fields
 
-        private AlarmworkflowClass _alarmWorkflow;
+        private AlarmWorkflowEngine _alarmWorkflow;
         private WcfServices.WcfServicesHostManager _servicesHostManager;
 
         #endregion
@@ -61,7 +61,7 @@ namespace AlarmWorkflow.Windows.Service
         {
             try
             {
-                _alarmWorkflow = new AlarmworkflowClass();
+                _alarmWorkflow = new AlarmWorkflowEngine();
                 _alarmWorkflow.Start();
 
                 _servicesHostManager = new WcfServices.WcfServicesHostManager(_alarmWorkflow);

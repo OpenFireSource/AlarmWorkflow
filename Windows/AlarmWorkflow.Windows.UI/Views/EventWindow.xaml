@@ -33,7 +33,17 @@
                  ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold" />
+                        <TextBlock Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold">
+                            <TextBlock.Style>
+                                <Style>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Operation.IsAcknowledged}" Value="True">
+                                            <Setter Property="TextBlock.Foreground" Value="Gray" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ContextMenu>

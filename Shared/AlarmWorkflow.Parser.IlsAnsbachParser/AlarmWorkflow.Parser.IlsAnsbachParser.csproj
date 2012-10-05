@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resource.cs" />
-    <Compile Include="Extension.cs" />
     <Compile Include="IlsAnsbachParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

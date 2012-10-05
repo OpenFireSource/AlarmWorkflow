@@ -4,9 +4,9 @@ using AlarmWorkflow.Shared.Core;
 namespace AlarmWorkflow.Shared.Extensibility
 {
     /// <summary>
-    /// Defines a means for a type that stores <see cref="Operation"/>
+    /// Defines a means for a type that stores <see cref="Operation"/> entries.
     /// </summary>
-    public interface IOperationStore : IExtensionObject
+    public interface IOperationStore
     {
         /// <summary>
         /// Returns the next free operation Id. This is used for new operations.

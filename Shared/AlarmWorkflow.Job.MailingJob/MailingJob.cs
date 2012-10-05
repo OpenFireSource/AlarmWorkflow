@@ -15,13 +15,13 @@ namespace AlarmWorkflow.Job.MailingJob
     /// <summary>
     /// Implements a Job, that send emails with all the operation information.
     /// </summary>
+    [Export("MailingJob", typeof(IJob))]
     sealed class MailingJob : IJob
     {
         #region Fields
 
         private SmtpClient _smptClient;
 
-        private string errormsg;
         private string server;
         private string fromEmail;
         private string user;
@@ -57,14 +57,6 @@ namespace AlarmWorkflow.Job.MailingJob
 
         #region IJob Members
 
-        string IJob.ErrorMessage
-        {
-            get
-            {
-                return this.errormsg;
-            }
-        }
-
         void IJob.Initialize()
         {
             XmlDocument doc = new XmlDocument();
@@ -92,8 +84,6 @@ namespace AlarmWorkflow.Job.MailingJob
                 throw new ArgumentException("Settings is not an XmlElement");
             }
 
-            this.errormsg = string.Empty;
-
             // Create new SMTP client for sending mails
             _smptClient = new SmtpClient(server);
             _smptClient.SendCompleted += new SendCompletedEventHandler(SmptClient_SendCompleted);
@@ -101,10 +91,8 @@ namespace AlarmWorkflow.Job.MailingJob
             _smptClient.Credentials = credential;
         }
 
-        bool IJob.DoJob(Operation operation)
+        void IJob.DoJob(Operation operation)
         {
-            this.errormsg = string.Empty;
-
             // create the Mail
             using (MailMessage message = new MailMessage())
             {
@@ -130,17 +118,8 @@ namespace AlarmWorkflow.Job.MailingJob
                 message.BodyEncoding = Encoding.UTF8;
 
                 // Send the message asynchronously
-                try
-                {
-                    _smptClient.SendAsync(message, null);
-                }
-                catch (Exception e)
-                {
-                    this.errormsg = e.ToString();
-                    return false;
-                }
+                _smptClient.SendAsync(message, null);
             }
-            return true;
         }
 
         #endregion

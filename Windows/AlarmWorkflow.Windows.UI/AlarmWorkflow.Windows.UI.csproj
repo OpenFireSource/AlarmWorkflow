@@ -39,11 +39,10 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Images\FaxHS.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Job.ComponentNotificator">
-      <HintPath>..\..\Build\AlarmWorkflow.Job.ComponentNotificator.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
       <Private>False</Private>
@@ -69,7 +68,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensibility\IOperationViewer.cs" />
-    <Compile Include="Extensibility\OperationViewerAttribute.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
@@ -77,7 +75,6 @@
     <Compile Include="Views\DefaultOperationView.xaml.cs">
       <DependentUpon>DefaultOperationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DefaultOperationViewer.cs" />
     <Compile Include="Views\EventWindow.xaml.cs">
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>

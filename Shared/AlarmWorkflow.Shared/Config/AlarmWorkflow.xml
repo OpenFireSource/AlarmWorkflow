@@ -6,5 +6,5 @@
   <!-- if path is empty. Alarmworkflow will use the standard path. -->
   <OCRSoftware type="cuneiform" path="" />
   <AlarmfaxParser>MucLandParser</AlarmfaxParser>
-  <OperationStore></OperationStore>
+  <OperationStore>SQLCEDatabaseOperationStore</OperationStore>
 </AlarmWorkflow>

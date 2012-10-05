@@ -1,10 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
-using System.Security;
 using System.Text;
-using System.Xml;
-using System.Xml.XPath;
+using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
@@ -13,13 +11,10 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     /// <summary>
     /// Implements a Job, that turn on an Display/Monitor which is connected to a PowerAdapter.
     /// </summary>
+    [Export("DisplayWakeUpJob", typeof(IJob))]
     public class DisplayWakeUp : IJob
     {
         #region private members
-        /// <summary>
-        /// The errormsg, if an error occured.
-        /// </summary>
-        private string errormsg;
 
         /// <summary>
         /// The IP of the PowerAdapter.
@@ -55,36 +50,21 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         #region IJob Members
 
-        string IJob.ErrorMessage
-        {
-            get
-            {
-                return this.errormsg;
-            }
-        }
-
         void IJob.Initialize()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\DisplayWakeUpJobConfiguration.xml");
+            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\DisplayWakeUpJobConfiguration.xml");
 
-            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("Display");
-
-            XPathNavigator nav = settings.CreateNavigator();
-            if (nav.UnderlyingObject is XmlElement)
+            // TODO: Allow multiple screens!
+            foreach (var item in doc.Root.Elements("Display"))
             {
-                this.ip = ((XmlElement)nav.UnderlyingObject).Attributes["ip"].InnerText;
-                this.user = ((XmlElement)nav.UnderlyingObject).Attributes["user"].InnerText;
-                this.pwd = ((XmlElement)nav.UnderlyingObject).Attributes["pwd"].InnerText;
-                this.port = ((XmlElement)nav.UnderlyingObject).Attributes["port"].InnerText;
-            }
-            else
-            {
-                throw new ArgumentException("Settings is not an XmlElement");
+                this.ip = item.Attribute("ip").Value;
+                this.user = item.Attribute("user").Value;
+                this.pwd = item.Attribute("pwd").Value;
+                this.port = item.Attribute("port").Value;
             }
         }
 
-        bool IJob.DoJob(Operation einsatz)
+        void IJob.DoJob(Operation einsatz)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -103,43 +83,9 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             builder.Append(":");
             builder.Append(this.port);
             builder.Append("/SWITCH.CGI?s1=1");
-            try
-            {
-                HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri(builder.ToString()));
-                msg.GetResponse();
-            }
-            catch (ArgumentNullException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
-            catch (WebException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
-            catch (NotSupportedException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
-            catch (ProtocolViolationException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
-            catch (InvalidOperationException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
-            catch (SecurityException ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
 
-            return true;
+            HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri(builder.ToString()));
+            msg.GetResponse();
         }
 
         #endregion

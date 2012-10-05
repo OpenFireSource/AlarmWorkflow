@@ -7,6 +7,7 @@ using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.SmsJob
@@ -14,11 +15,11 @@ namespace AlarmWorkflow.Job.SmsJob
     /// <summary>
     /// Implements a Job, that sends SMS with the sms77.de service.
     /// </summary>
-    public class SmsJob : IJob
+    [Export("SmsJob", typeof(IJob))]
+    sealed class SmsJob : IJob
     {
         #region private member
 
-        private string errormsg;
         private List<string> numbers;
         private string username;
         private string password;
@@ -39,17 +40,8 @@ namespace AlarmWorkflow.Job.SmsJob
 
         #region IJob Members
 
-        string IJob.ErrorMessage
+        void IJob.DoJob(Operation einsatz)
         {
-            get
-            {
-                return this.errormsg;
-            }
-        }
-
-        bool IJob.DoJob(Operation einsatz)
-        {
-            this.errormsg = string.Empty;
             // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
             string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.City.Substring(0, einsatz.City.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString((string)einsatz.CustomData["Picture"]) + "%20" + SmsJob.PrepareString(einsatz.Comment) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Street);
             foreach (string number in this.numbers)
@@ -64,17 +56,16 @@ namespace AlarmWorkflow.Job.SmsJob
                         string response = streamreader.ReadToEnd();
                         if (response != "100")
                         {
-                            this.errormsg += "Fehler von sms77: " + response;
+                            Logger.Instance.LogFormat(LogType.Warning, this, "Error from sms77! Status code = {0}.", response);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    this.errormsg = ex.ToString();
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending a Sms to '{0}'.", number);
+                    Logger.Instance.LogException(this, ex);
                 }
             }
-
-            return string.IsNullOrEmpty(this.errormsg);
         }
 
         void IJob.Initialize()

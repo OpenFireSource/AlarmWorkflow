@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extension.cs" />
     <Compile Include="MailingJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -13,7 +13,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         #region Fields
 
         private List<ServiceHost> _services;
-        private AlarmworkflowClass _parent;
+        private AlarmWorkflowEngine _parent;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// Initializes a new instance of the <see cref="WcfServicesHostManager"/> class.
         /// </summary>
         /// <param name="parent"></param>
-        public WcfServicesHostManager(AlarmworkflowClass parent)
+        public WcfServicesHostManager(AlarmWorkflowEngine parent)
         {
             _services = new List<ServiceHost>();
             _parent = parent;

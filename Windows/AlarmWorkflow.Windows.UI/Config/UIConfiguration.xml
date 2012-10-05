@@ -3,6 +3,9 @@
   <!-- This elements define the location of the fire department site (used for displaying route information) 
        If this information is empty, displaying route information will not be possible.
   -->
+
+  <OperationViewer></OperationViewer>
+  
   <FireDepartmentProperty>
     <City>a</City>
     <ZipCode>b</ZipCode>
@@ -18,11 +21,16 @@
   <RouteImageWidth>400</RouteImageWidth>
 
   <!-- Defines the display names of the vehicles.
+        
+       "MustContainAbbreviations" contains a comma-separated list of all abbreviations that must be contained in order to accept this vehicle.
+                                  This is helpful with huge lists of requested vehicles where not only our vehicles get requested, but ones
+                                  from other cities as well. If this list is empty, then any vehicle (configured below) will be shown.
+    
        "Identifier" is the text that is read from the fax
        "Name" is the text that is displayed in the UI
        "Image" is the path to the image/icon that is displayed for this vehicle (relative to the Application-directory)
   -->
-  <Vehicles>
+  <Vehicles MustContainAbbreviations="NEA">
     <Vehicle Identifier="40/2" Name="40.2" Image="Images/Vehicles/40_2.png" />
   </Vehicles>
 </UIConfiguration>

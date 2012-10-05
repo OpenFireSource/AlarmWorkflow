@@ -13,7 +13,8 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Ansbach.
     /// </summary>
-    public class IlsAnsbachParser : IParser
+    [Export("IlsAnsbachParser", typeof(IParser))]
+    sealed class IlsAnsbachParser : IParser
     {
         #region Fields
 
@@ -273,24 +274,54 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        {
-                                            operation.Property = msg;
-                                        } break;
+                                        operation.Property = msg;
+                                        break;
                                     case "PLANNUMMER":
-                                        {
-                                            operation.CustomData["Plannummer"] = msg;
-                                        } break;
+                                        operation.CustomData["Einsatzort Plannummer"] = msg;
+                                        break;
                                     case "STATION":
-                                        {
-                                            operation.CustomData["Station"] = msg;
-                                        } break;
+                                        operation.CustomData["Einsatzort Station"] = msg;
+                                        break;
                                     default:
                                         break;
                                 }
                             }
                             break;
                         case CurrentSection.DZielort:
-                            // TODO: In my faxes, the fields "Straﬂe", "Haus-Nr", "Ort", "Objekt" and "Station" were always empty. Do we need to parse them?
+                            // TODO: In most faxes it seems that the fields "Straﬂe", "Haus-Nr", "Ort", "Objekt" and "Station" were always empty???
+                            {
+                                switch (prefix)
+                                {
+                                    case "STRAﬂE":
+                                        {
+                                            // The street here is mangled together with the street number. Dissect them...
+                                            int streetNumberColonIndex = msg.LastIndexOf(':');
+                                            if (streetNumberColonIndex != -1)
+                                            {
+                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
+                                                operation.CustomData["Zielort Hausnummer"] = msg.Remove(0, streetNumberColonIndex + 1).Trim();
+                                            }
+
+                                            operation.CustomData["Zielort Straﬂe"] = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
+                                        }
+                                        break;
+                                    case "ORT":
+                                        {
+                                            string plz = ReadZipCodeFromCity(msg);
+                                            operation.CustomData["Zielort PLZ"] = plz;
+                                            operation.CustomData["Zielort Ort"] = msg.Remove(0, plz.Length).Trim();
+                                        }
+                                        break;
+                                    case "OBJEKT":
+                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        break;
+                                    case "STATION":
+                                        operation.CustomData["Zielort Station"] = msg;
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                             break;
                         case CurrentSection.EEinsatzgrund:
                             {

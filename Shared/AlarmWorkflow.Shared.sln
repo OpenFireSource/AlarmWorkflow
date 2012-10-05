@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.MucLan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.IlsAnsbachParser", "AlarmWorkflow.Parser.IlsAnsbachParser\AlarmWorkflow.Parser.IlsAnsbachParser.csproj", "{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SQLCEDatabaseJob", "AlarmWorkflow.Job.SQLCEDatabaseJob\AlarmWorkflow.Job.SQLCEDatabaseJob.csproj", "{54F3EDF4-296E-4037-9D02-47742A9A1119}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,16 @@ Global
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +120,7 @@ Global
 		{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
 		{AD86EEB7-1991-44C6-94C9-48381A33D63A} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
 		{D3E75ABB-8816-4E2A-B107-87C393CE96F6} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
+		{54F3EDF4-296E-4037-9D02-47742A9A1119} = {C2FDA0D7-1BF1-4849-8F1D-DA43704CB2FD}
 		{CC847151-5D19-497D-B606-B55B4AC5B617} = {0F5ED02D-9230-4A65-B9F6-2D6F4D641C0B}
 		{6D3D8F9C-12CD-4853-A235-29A1864AB0A0} = {0F5ED02D-9230-4A65-B9F6-2D6F4D641C0B}
 	EndGlobalSection

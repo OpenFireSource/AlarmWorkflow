@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// Initializes a new instance of the <see cref="AlarmWorkflowService"/> class.
         /// </summary>
         /// <param name="parent"></param>
-        public AlarmWorkflowService(AlarmworkflowClass parent)
+        public AlarmWorkflowService(AlarmWorkflowEngine parent)
         {
             _operationStore = parent.GetOperationStore();
         }

@@ -16,6 +16,11 @@ namespace AlarmWorkflow.Windows.UI.Models
         #region Properties
 
         /// <summary>
+        /// Gets/sets the alias of the operation viewer to use. Empty means that the default viewer shall be used.
+        /// </summary>
+        [XmlElement()]
+        public string OperationViewer { get; set; }
+        /// <summary>
         /// Gets/sets the location of the fire department. This is required for route calculation.
         /// </summary>
         [XmlElement()]

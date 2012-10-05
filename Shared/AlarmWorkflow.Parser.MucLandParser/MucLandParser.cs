@@ -8,7 +8,8 @@ namespace AlarmWorkflow.Parser.MucLandParser
     /// <summary>
     /// Description of MucLandParser.
     /// </summary>
-    public class MucLandParser : IParser
+    [Export("MucLandParser", typeof(IParser))]
+    sealed class MucLandParser : IParser
     {
         #region Constructors
 

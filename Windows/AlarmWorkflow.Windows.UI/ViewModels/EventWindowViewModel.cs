@@ -37,8 +37,15 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             get { return _selectedEvent; }
             set
             {
+                if (_selectedEvent == value)
+                {
+                    return;
+                }
+                
                 _selectedEvent = value;
                 OnPropertyChanged("SelectedEvent");
+                
+                _operationViewer.OnOperationChanged(_selectedEvent.Operation);
             }
         }
         /// <summary>
@@ -90,6 +97,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     SelectedEvent.Operation.IsAcknowledged = true;
 
                     OnPropertyChanged("SelectedEvent");
+                    OnPropertyChanged("SelectedEvent.Operation");
+                    OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
 
                     Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
                 }
@@ -115,17 +124,27 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             AvailableEvents = new List<OperationViewModel>();
 
-            // TODO: Make retrieval dynamic...
-            _operationViewer = new Views.DefaultOperationViewer();
-            _controlTemplate = new Lazy<FrameworkElement>(() =>
-            {
-                return _operationViewer.CreateTemplate();
-            });
+            InitializeOperationViewer();
         }
 
         #endregion
 
         #region Methods
+
+        private void InitializeOperationViewer()
+        {
+            string operationViewerAlias = App.GetApp().Configuration.OperationViewer;
+            if (string.IsNullOrWhiteSpace(operationViewerAlias))
+            {
+                operationViewerAlias = "DefaultOperationView";
+            }
+
+            _operationViewer = ExportedTypeLibrary.Import<IOperationViewer>(operationViewerAlias);
+            _controlTemplate = new Lazy<FrameworkElement>(() =>
+            {
+                return _operationViewer.Create();
+            });
+        }
 
         /// <summary>
         /// Pushes a new event to the window, either causing it to spawn, or to extend its list box by this event if already shown.

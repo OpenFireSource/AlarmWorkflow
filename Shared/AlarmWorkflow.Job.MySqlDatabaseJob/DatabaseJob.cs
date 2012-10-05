@@ -1,8 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 using MySql.Data.MySqlClient;
 
@@ -13,13 +13,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
     /// <summary>
     /// Implements a job, who saves all the operation data to a MySQL database.
     /// </summary>
-    public class DatabaseJob : IJob
+    [Export("MySqlDatabaseJob", typeof(IJob))]
+    sealed class DatabaseJob : IJob
     {
         #region private members
-        /// <summary>
-        /// Saves the errormsg, if an error occured.
-        /// </summary>
-        private string errormsg;
 
         /// <summary>
         /// The database user.
@@ -55,14 +52,6 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         #region IJob Members
 
-        string IJob.ErrorMessage
-        {
-            get
-            {
-                return this.errormsg;
-            }
-        }
-
         void IJob.Initialize()
         {
             XmlDocument doc = new XmlDocument();
@@ -76,33 +65,22 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             this.server = nav.SelectSingleNode("DBServer").InnerXml;
         }
 
-        bool IJob.DoJob(Operation einsatz)
+        void IJob.DoJob(Operation einsatz)
         {
-            this.errormsg = string.Empty;
-            try
+            using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
             {
-                using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
+                conn.Open();
+                if (conn.State != System.Data.ConnectionState.Open)
                 {
-                    conn.Open();
-                    if (conn.State != System.Data.ConnectionState.Open)
-                    {
-                        this.errormsg = "Coud not open SQL Connection";
-                        return false;
-                    }
-
-                    // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
-                    string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.CustomData["PlanOfAction"] + "', '" + einsatz.Comment + "', '" + einsatz.CustomData["Intersection"] + "', '" + einsatz.CustomData["Picture"] + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
-                    MySqlCommand cmd = new MySqlCommand(cmdText, conn);
-                    cmd.ExecuteNonQuery();
+                    Logger.Instance.LogFormat(LogType.Error, this, "Could not open SQL Connection!");
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
-                this.errormsg = ex.ToString();
-                return false;
-            }
 
-            return true;
+                // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
+                string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.CustomData["PlanOfAction"] + "', '" + einsatz.Comment + "', '" + einsatz.CustomData["Intersection"] + "', '" + einsatz.CustomData["Picture"] + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
+                MySqlCommand cmd = new MySqlCommand(cmdText, conn);
+                cmd.ExecuteNonQuery();
+            }
         }
 
         #endregion
