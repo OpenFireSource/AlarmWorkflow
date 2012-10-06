@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Xml.Linq;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -29,8 +30,31 @@ namespace AlarmWorkflow.Shared.Core
 
         #region Methods
 
+        /// <summary>
+        /// Initializes the exported types library.
+        /// </summary>
         private static void Initialize()
         {
+            // Load whitelist from configuration
+            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
+            XElement whitelist = doc.Root.Element("ExportWhitelist");
+
+            IList<string> allowedTypes = null;
+            if (whitelist != null)
+            {
+                allowedTypes = new List<string>();
+
+                foreach (XElement exportE in whitelist.Elements("Export"))
+                {
+                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
+                    {
+                        continue;
+                    }
+
+                    allowedTypes.Add(exportE.Attribute("Name").Value);
+                }
+            }
+
             // if there are no desired assemblies then we take all assemblies we can find in the working directory
             List<string> assembliesToScan = new List<string>();
             string directoryToScan = Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly());
@@ -45,7 +69,7 @@ namespace AlarmWorkflow.Shared.Core
                 {
                     Assembly assembly = Assembly.Load(AssemblyName.GetAssemblyName(file));
 
-                    ScanAssembly(assembly);
+                    ScanAssembly(assembly, allowedTypes);
                 }
                 catch (Exception)
                 {
@@ -54,7 +78,7 @@ namespace AlarmWorkflow.Shared.Core
             }
         }
 
-        private static void ScanAssembly(Assembly assembly)
+        private static void ScanAssembly(Assembly assembly, IList<string> allowedTypes)
         {
             int amount = 0;
 
@@ -68,6 +92,11 @@ namespace AlarmWorkflow.Shared.Core
                 if (exports.Length == 1)
                 {
                     ExportAttribute export = exports[0] as ExportAttribute;
+                    // Only add the export if it is whitelisted
+                    if (allowedTypes != null && !allowedTypes.Contains(export.Alias))
+                    {
+                        continue;
+                    }
                     _exports.Add(new ExportedType(export, t));
                 }
 

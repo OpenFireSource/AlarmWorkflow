@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Xml;
+using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -64,17 +65,16 @@ namespace AlarmWorkflow.Shared
 
         private void InitializeSettings()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
+            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
 
             // Thread Einstellungen initiieren
-            string faxPath = doc.GetElementsByTagName("FaxPath")[0].InnerText;
-            string archivePath = doc.GetElementsByTagName("ArchivePath")[0].InnerText;
-            string analysisPath = doc.GetElementsByTagName("AnalysisPath")[0].InnerText;
-            string ocr = doc.GetElementsByTagName("OCRSoftware")[0].Attributes["type"].InnerText;
-            string ocrpath = doc.GetElementsByTagName("OCRSoftware")[0].Attributes["path"].InnerText;
-            string parser = doc.GetElementsByTagName("AlarmfaxParser")[0].InnerText;
-            string operationStore = doc.GetElementsByTagName("OperationStore")[0].InnerText;
+            string faxPath = doc.Root.Element("FaxPath").Value;
+            string archivePath = doc.Root.Element("ArchivePath").Value;
+            string analysisPath = doc.Root.Element("AnalysisPath").Value;
+            string ocr = doc.Root.Element("OCRSoftware").Attribute("type").Value;
+            string ocrpath = doc.Root.Element("OCRSoftware").Attribute("path").Value;
+            string parser = doc.Root.Element("AlarmfaxParser").Value;
+            string operationStore = doc.Root.Element("OperationStore").Value;
 
             _faxPath = new DirectoryInfo(faxPath);
             _archivePath = new DirectoryInfo(archivePath);
@@ -94,7 +94,7 @@ namespace AlarmWorkflow.Shared
             {
                 throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", _useOCRSoftware, _ocrPath.FullName));
             }
-
+            
             // Import parser with the given name/alias
             _parser = ExportedTypeLibrary.Import<IParser>(parser);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
