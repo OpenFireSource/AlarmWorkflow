@@ -75,48 +75,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
         }
 
-        /// <summary>
-        /// Manually raises the PropertyChanged event, and looks up the appropriate property using stack trace.
-        /// See documentation for further (important) information.
-        /// </summary>
-        /// <remarks><list type="bullet">
-        /// <item><description>Use as scarcely as possible!</description></item>
-        /// <item><description>This does only work when it is executed right inside the setter of the property!</description></item>
-        /// <item><description>Calling this method takes some time because of using the stack trace (around 0 - 5 ms depending on performance).</description></item>
-        /// </list></remarks>
-        protected void OnPropertyChanged()
-        {
-#if DEBUG
-            Stopwatch sw = Stopwatch.StartNew();
-#endif
-
-            // retrieve calling property method (the setter) via stack trace
-            var st = new StackTrace();
-            if (st.FrameCount < 2)
-            {
-                throw new InvalidOperationException("Encountered stack trace that seems to be invalid!");
-            }
-            // retrieve the calling method (which is number 2)
-            var sf = st.GetFrame(1);
-            // retrieve the calling method, and hope it's a setter
-            var m = sf.GetMethod();
-
-            // ensure we come from a setter
-            if (!m.Name.StartsWith("set_"))
-            {
-                throw new InvalidOperationException("Invalid usage of OnPropertyChanged(void)! Method call must be placed inside the setter of the affected property!");
-            }
-
-            // get the property name, and then we win!
-            string propertyName = m.Name.Remove(0, 4);
-            OnPropertyChanged(propertyName);
-
-#if DEBUG
-            sw.Stop();
-            Trace.WriteLine(string.Format(CultureInfo.InvariantCulture, "Call to 'OnPropertyChanged()' (from {0}) took {1} ms.", this.GetType().Name, sw.ElapsedMilliseconds));
-#endif
-        }
-
         #endregion
 
         #region IDisposable Members

@@ -56,13 +56,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
             else
             {
-                _routeImage = new Lazy<ImageSource>(() =>
-                {
-                    return Models.MapsServiceHelper.GetRouteImage(pls, 
-                        GetDestination(), 
-                        App.GetApp().Configuration.RouteImageWidth,
-                        App.GetApp().Configuration.RouteImageHeight);
-                });
+                //_routeImage = new Lazy<ImageSource>(() =>
+                //{
+                //    return MapsServiceHelper.GetRouteImage(pls, 
+                //        GetDestination(), 
+                //        App.GetApp().Configuration.RouteImageWidth,
+                //        App.GetApp().Configuration.RouteImageHeight);
+                //});
             }
         }
 

@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                     OperationData data = new OperationData()
                     {
                         OperationId = oid,
-                        Timestamp = DateTime.UtcNow,
+                        Timestamp = operation.Timestamp,
                         City = operation.City,
                         ZipCode = operation.ZipCode,
                         Location = operation.Location,
@@ -41,6 +41,8 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         Street = operation.Street,
                         StreetNumber = operation.StreetNumber,
                         CustomData = Utilities.Serialize(operation.CustomData),
+                        // TODO: Compress route image!?
+                        RouteImage = operation.RouteImage,
                     };
                     entities.Operations.AddObject(data);
                     entities.SaveChanges();

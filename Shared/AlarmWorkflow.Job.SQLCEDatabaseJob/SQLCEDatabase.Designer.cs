@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 
 using System;
-using System.ComponentModel;
-using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Linq;
-using System.Runtime.Serialization;
+using System.Data.EntityClient;
+using System.ComponentModel;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
+
 namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 {
     #region Contexts
@@ -82,7 +82,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         private ObjectSet<OperationData> _Operations;
 
         #endregion
-
         #region AddTo Methods
     
         /// <summary>
@@ -94,11 +93,11 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         }
 
         #endregion
-
     }
+    
 
     #endregion
-
+    
     #region Entities
     
     /// <summary>
@@ -129,7 +128,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         }
 
         #endregion
-
         #region Primitive Properties
     
         /// <summary>
@@ -494,13 +492,35 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         private global::System.Byte[] _CustomData;
         partial void OnCustomDataChanging(global::System.Byte[] value);
         partial void OnCustomDataChanged();
+    
+        /// <summary>
+        /// May contain the image-data of the route image. If this data is empty, then the route image must be loaded from scratch each time.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.Byte[] RouteImage
+        {
+            get
+            {
+                return StructuralObject.GetValidValue(_RouteImage);
+            }
+            set
+            {
+                OnRouteImageChanging(value);
+                ReportPropertyChanging("RouteImage");
+                _RouteImage = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("RouteImage");
+                OnRouteImageChanged();
+            }
+        }
+        private global::System.Byte[] _RouteImage;
+        partial void OnRouteImageChanging(global::System.Byte[] value);
+        partial void OnRouteImageChanged();
 
         #endregion
-
     
     }
 
     #endregion
-
     
 }

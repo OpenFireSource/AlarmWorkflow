@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Xml;
-using System.Xml.Linq;
+using AlarmWorkflow.Shared.Config;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -24,7 +24,6 @@ namespace AlarmWorkflow.Shared
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
 
-        private OcrSoftware _useOCRSoftware;
         private DirectoryInfo _ocrPath;
         private IParser _parser;
 
@@ -65,40 +64,29 @@ namespace AlarmWorkflow.Shared
 
         private void InitializeSettings()
         {
-            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
+            _faxPath = new DirectoryInfo(Configuration.Instance.FaxPath);
+            _archivePath = new DirectoryInfo(Configuration.Instance.ArchivePath);
+            _analysisPath = new DirectoryInfo(Configuration.Instance.AnalysisPath);
 
-            // Thread Einstellungen initiieren
-            string faxPath = doc.Root.Element("FaxPath").Value;
-            string archivePath = doc.Root.Element("ArchivePath").Value;
-            string analysisPath = doc.Root.Element("AnalysisPath").Value;
-            string ocr = doc.Root.Element("OCRSoftware").Attribute("type").Value;
-            string ocrpath = doc.Root.Element("OCRSoftware").Attribute("path").Value;
-            string parser = doc.Root.Element("AlarmfaxParser").Value;
-            string operationStore = doc.Root.Element("OperationStore").Value;
-
-            _faxPath = new DirectoryInfo(faxPath);
-            _archivePath = new DirectoryInfo(archivePath);
-            _analysisPath = new DirectoryInfo(analysisPath);
-            if (ocr.ToUpperInvariant() == "TESSERACT")
+            string ocrPath = null;
+            if (Configuration.Instance.OCRSoftware == OcrSoftware.Tesseract)
             {
-                _useOCRSoftware = OcrSoftware.Tesseract;
-                if (string.IsNullOrWhiteSpace(ocrpath)) { ocrpath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract"; }
+                if (string.IsNullOrWhiteSpace(Configuration.Instance.OCRSoftwarePath)) { ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract"; }
             }
             else
             {
-                _useOCRSoftware = OcrSoftware.Cuneiform;
-                if (string.IsNullOrWhiteSpace(ocrpath)) { ocrpath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform"; }
+                if (string.IsNullOrWhiteSpace(Configuration.Instance.OCRSoftwarePath)) { ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform"; }
             }
-            _ocrPath = new DirectoryInfo(ocrpath);
+            _ocrPath = new DirectoryInfo(ocrPath);
             if (!_ocrPath.Exists)
             {
-                throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", _useOCRSoftware, _ocrPath.FullName));
+                throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", Configuration.Instance.OCRSoftware, _ocrPath.FullName));
             }
-            
+
             // Import parser with the given name/alias
-            _parser = ExportedTypeLibrary.Import<IParser>(parser);
+            _parser = ExportedTypeLibrary.Import<IParser>(Configuration.Instance.AlarmFaxParserAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
-            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(operationStore);
+            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(Configuration.Instance.OperationStoreAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using operation store '{0}'.", _operationStore.GetType().FullName);
         }
 
@@ -235,7 +223,7 @@ namespace AlarmWorkflow.Shared
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.WorkingDirectory = _ocrPath.FullName;
 
-                    switch (_useOCRSoftware)
+                    switch (Configuration.Instance.OCRSoftware)
                     {
                         case OcrSoftware.Tesseract:
                             {
@@ -286,12 +274,15 @@ namespace AlarmWorkflow.Shared
             try
             {
                 // Try to parse the operation. If parsing failed, ignore this but write to the log file!
-                Logger.Instance.LogFormat(LogType.Info, this, "Begin parsing incoming operation...");
+                Logger.Instance.LogFormat(LogType.Trace, this, "Begin parsing incoming operation...");
 
                 operation = _parser.Parse(analyzedLines.ToArray());
 
                 sw.Stop();
-                Logger.Instance.LogFormat(LogType.Debug, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+                Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                // Download the route plan information (if data is meaningful)
+                DownloadRoutePlan(operation);
 
                 // Grant the operation a new Id
                 operation.Id = _operationStore.GetNextOperationId();
@@ -313,8 +304,55 @@ namespace AlarmWorkflow.Shared
             }
             catch (Exception ex)
             {
+                sw.Stop();
                 Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
                 Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        /// <summary>
+        /// Downloads the route planning info if it is enabled and the location datas are meaningful enough.
+        /// </summary>
+        /// <param name="operation"></param>
+        private void DownloadRoutePlan(Operation operation)
+        {
+            if (!Configuration.Instance.DownloadRoutePlan)
+            {
+                return;
+            }
+
+            // Get start address and check if it is meaningful enough (if not then bail out)
+            PropertyLocation source = Configuration.Instance.FDInformation.Location;
+            if (!source.IsMeaningful)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "Cannot download route plan because the location information for this fire department is not meaningful enough: '{0}'. Please fill the correct address!", source);
+                return;
+            }
+
+            // Get destination address and check if it is meaningful enough (if not then bail out)
+            PropertyLocation destination = operation.GetDestinationLocation();
+            if (!operation.GetDestinationLocation().IsMeaningful)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "Destination location is unknown! Cannot download route plan!");
+            }
+            else
+            {
+                Logger.Instance.LogFormat(LogType.Trace, this, "Downloading route plan to destination '{0}'...", destination.ToString());
+
+                Stopwatch sw = Stopwatch.StartNew();
+                try
+                {
+                    operation.RouteImage = Core.MapsServiceHelper.GetRouteImage(source, destination, Configuration.Instance.RouteImageWidth, Configuration.Instance.RouteImageHeight);
+
+                    sw.Stop();
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Downloaded route plan in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+                }
+                catch (Exception ex)
+                {
+                    sw.Stop();
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while trying to download the route plan! The image will not be available.");
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 

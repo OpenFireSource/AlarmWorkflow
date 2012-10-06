@@ -6,19 +6,8 @@
 
   <OperationViewer></OperationViewer>
   
-  <FireDepartmentProperty>
-    <City>a</City>
-    <ZipCode>b</ZipCode>
-    <Street>c</Street>
-    <StreetNumber>d</StreetNumber>
-  </FireDepartmentProperty>
-
   <!-- Defines the scaling factor for the UI. Higher values equal to larger font size. Min: 1, Max: 1000. Too high values might distort the layout! -->
   <ScaleFactor>2.0</ScaleFactor>
-
-  <!-- Defines the size of the route image -->
-  <RouteImageHeight>400</RouteImageHeight>
-  <RouteImageWidth>400</RouteImageWidth>
 
   <!-- Defines the display names of the vehicles.
         

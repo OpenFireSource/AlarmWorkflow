@@ -1,18 +1,28 @@
-﻿using System.Net;
+﻿using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Text;
-using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
-// TODO: This belongs into AlarmWorkflow WorkingThread!
-
-namespace AlarmWorkflow.Windows.UI.Models
+namespace AlarmWorkflow.Shared.Core
 {
     /// <summary>
     /// Provides functionality to retrieve the maps data from the internet.
     /// </summary>
-    static class MapsServiceHelper
+    public static class MapsServiceHelper
     {
-        internal static BitmapImage GetRouteImage(PropertyLocation source, PropertyLocation destination, int width, int height)
+        /// <summary>
+        /// Connects to Google Maps and queries an image displaying the route from the given start to finish position.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>When using this method, make sure that the <paramref name="source"/> and <paramref name="destination"/>-parameters contain meaningful data!
+        /// You can check this by calling <see cref="PropertyLocation.IsMeaningful"/> to see if the data is meaningful enough to return a good result.</remarks>
+        /// <param name="source"></param>
+        /// <param name="destination"></param>
+        /// <param name="width">The desired width of the image. A value of '800' is recommended.</param>
+        /// <param name="height">The desired height of the image. A value of '800' is recommended.</param>
+        /// <returns>The resulting PNG-image as a buffer.</returns>
+        public static byte[] GetRouteImage(PropertyLocation source, PropertyLocation destination, int width, int height)
         {
             // https://developers.google.com/maps/documentation/directions/?hl=de
 
@@ -33,6 +43,11 @@ namespace AlarmWorkflow.Windows.UI.Models
                 // Load the response XML
                 // TODO: Read "status" element!
                 string status = docResponse.Root.Element("status").Value;
+                switch (status)
+                {
+                    default:
+                        break;
+                }
             }
 
             // Get the path data
@@ -47,12 +62,14 @@ namespace AlarmWorkflow.Windows.UI.Models
             WebRequest wr1 = WebRequest.Create(sbContinuationRequest.ToString());
             WebResponse res1 = wr1.GetResponse();
 
-            BitmapImage img = new BitmapImage();
-            img.BeginInit();
-            img.StreamSource = res1.GetResponseStream();
-            img.EndInit();
+            // Save the image as PNG
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Image image = System.Drawing.Image.FromStream(res1.GetResponseStream());
 
-            return img;
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                return ms.ToArray();
+            }
         }
     }
 }

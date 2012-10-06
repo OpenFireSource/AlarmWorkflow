@@ -27,6 +27,7 @@
           <Property Name="OperationId" Type="int" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="512" />
           <Property Name="CustomData" Type="image" />
+          <Property Name="RouteImage" Type="image" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -62,6 +63,11 @@
           </Property>
           <Property Type="String" Name="Comment" MaxLength="512" FixedLength="false" Unicode="true" />
           <Property Type="Binary" Name="CustomData" MaxLength="Max" FixedLength="false" />
+          <Property Type="Binary" Name="RouteImage" MaxLength="Max" FixedLength="false" >
+            <Documentation>
+              <Summary>May contain the image-data of the route image. If this data is empty, then the route image must be loaded from scratch each time.</Summary>
+            </Documentation>
+          </Property>
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -72,6 +78,7 @@
           <EntitySetMapping Name="Operations">
             <EntityTypeMapping TypeName="SQLCEDatabaseModel.OperationData">
               <MappingFragment StoreEntitySet="Operation">
+                <ScalarProperty Name="RouteImage" ColumnName="RouteImage" />
                 <ScalarProperty Name="CustomData" ColumnName="CustomData" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />

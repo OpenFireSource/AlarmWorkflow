@@ -4,9 +4,26 @@
   <ArchivePath>C:\Fax\Archive\</ArchivePath>
   <AnalysisPath>C:\Fax\Analysis\</AnalysisPath>
   <!-- if path is empty. Alarmworkflow will use the standard path. -->
-  <OCRSoftware type="cuneiform" path="" />
+  <OCRSoftware type="Cuneiform" path="" />
   <AlarmfaxParser>MucLandParser</AlarmfaxParser>
   <OperationStore>SQLCEDatabaseOperationStore</OperationStore>
+  
+  <!-- This section configures YOUR fire department site :) 
+       This information is needed for some jobs and some tasks.
+  -->
+  <FDInformation>
+    <Name>The name of your Fire Department</Name>
+    <City>Musterstadt</City>
+    <ZipCode>12345</ZipCode>
+    <Street>Musterstraße</Street>
+    <StreetNumber>1a</StreetNumber>
+  </FDInformation>
+
+  <!-- Whether or not to download the route plan when parsing a new operation (suggested = True)-->
+  <DownloadRoutePlan>True</DownloadRoutePlan>
+  <!-- Defines the size of the route image -->
+  <RouteImageHeight>800</RouteImageHeight>
+  <RouteImageWidth>800</RouteImageWidth>
   
   <!-- This section states which exports are enabled and can be used.
        You should manually add and enable only those you trust and need.
