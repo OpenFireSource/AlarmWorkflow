@@ -32,11 +32,22 @@
         <TextBlock Grid.Row="2" Text="Stichwort:" FontWeight="Bold" />
         <TextBlock Grid.Row="3" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
-        <TextBlock Grid.Row="4" Text="Melder:" FontWeight="Bold" />
-        <TextBlock Grid.Row="5" Text="{Binding Operation.Messenger, TargetNullValue='(Nicht bekannt)'}" TextWrapping="WrapWithOverflow" />
+        <TextBlock Grid.Row="4" Text="Einsatzort:" FontWeight="Bold" />
+        <TextBlock Grid.Row="5" TextWrapping="WrapWithOverflow">
+            <Run Text="{Binding Operation.ZipCode}" />
+            <Run Text=" " />
+            <Run Text="{Binding Operation.City}" />
+            <Run Text=", " />
+            <Run Text="{Binding Operation.Street}" />
+            <Run Text=" " />
+            <Run Text="{Binding Operation.StreetNumber}" />
+        </TextBlock>
+        
+        <TextBlock Grid.Row="6" Text="Melder:" FontWeight="Bold" />
+        <TextBlock Grid.Row="7" Text="{Binding Operation.Messenger, TargetNullValue='(Nicht bekannt)'}" TextWrapping="WrapWithOverflow" />
 
-        <TextBlock Grid.Row="6" Text="Zeitstempel:" FontWeight="Bold" />
-        <TextBlock Grid.Row="7" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
+        <TextBlock Grid.Row="8" Text="Zeitstempel:" FontWeight="Bold" />
+        <TextBlock Grid.Row="9" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
 
     </Grid>
     

@@ -270,7 +270,22 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                     case "ORT":
                                         {
                                             operation.ZipCode = ReadZipCodeFromCity(msg);
+                                            if (string.IsNullOrWhiteSpace(operation.ZipCode))
+                                            {
+                                                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find a zip code for city '{0}'. Route planning may fail or yield wrong results!", operation.City);
+                                            }
+
                                             operation.City = msg.Remove(0, operation.ZipCode.Length).Trim();
+
+                                            // You know whats a lot of bull? The City is weirdly assembled often times which makes planning hard :-(
+                                            // Often (90%?) it contains a dash after which the administrative city appears multiple times - bsh*t!
+                                            // But the good news is that it seems we can (with google maps) omit this information without problems!
+                                            int dashIndex = operation.City.IndexOf('-');
+                                            if (dashIndex != -1)
+                                            {
+                                                // Ignore everything after the dash
+                                                operation.City = operation.City.Substring(0, dashIndex);
+                                            }
                                         }
                                         break;
                                     case "OBJEKT":
@@ -288,7 +303,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             }
                             break;
                         case CurrentSection.DZielort:
-                            // TODO: In most faxes it seems that the fields "Straﬂe", "Haus-Nr", "Ort", "Objekt" and "Station" were always empty???
                             {
                                 switch (prefix)
                                 {
