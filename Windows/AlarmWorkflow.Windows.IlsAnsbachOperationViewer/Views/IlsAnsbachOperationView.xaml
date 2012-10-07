@@ -24,21 +24,29 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <!-- Vehicle Icon -->
-                            <Image Grid.Column="0" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" />
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding VehicleName}" FontWeight="Bold" TextAlignment="Center" />
+
+                                <!-- Vehicle Icon -->
+                                <Image Grid.Row="1" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" />
+                                
+                            </Grid>
 
                             <!-- Righthandside grid -->
                             <Grid Grid.Column="1">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Text="{Binding VehicleName}" FontWeight="Bold" />
-                                <TextBlock Grid.Row="1" Text="Gef. Ausstattung:" TextWrapping="WrapWithOverflow" />
-                                <TextBlock Grid.Row="2" Text="{Binding RequestedEquipment}" TextWrapping="WrapWithOverflow" />
+                                <TextBlock Grid.Row="0" Text="Gef. Ausstattung:" FontWeight="Bold" TextWrapping="WrapWithOverflow" />
+                                <TextBlock Grid.Row="1" Text="{Binding RequestedEquipment}" TextWrapping="WrapWithOverflow" />
                             </Grid>
 
                         </Grid>
