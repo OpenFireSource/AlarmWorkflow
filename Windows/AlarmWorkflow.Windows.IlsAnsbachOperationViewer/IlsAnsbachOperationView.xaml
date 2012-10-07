@@ -9,10 +9,12 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
         <uiviews:GeneralInformationControl Grid.Column="0" Margin="2" />
+        
+        <uiviews:RouteControl Grid.Column="2" Margin="2" />
     </Grid>
 </UserControl>

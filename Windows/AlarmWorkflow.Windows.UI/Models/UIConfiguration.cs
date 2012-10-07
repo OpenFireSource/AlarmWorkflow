@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Windows;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using AlarmWorkflow.Shared.Core;
-using System.Xml.Linq;
 
 namespace AlarmWorkflow.Windows.UI.Models
 {
@@ -18,34 +17,15 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// <summary>
         /// Gets/sets the alias of the operation viewer to use. Empty means that the default viewer shall be used.
         /// </summary>
-        [XmlElement()]
         public string OperationViewer { get; set; }
-        /// <summary>
-        /// Gets/sets the location of the fire department. This is required for route calculation.
-        /// </summary>
-        [XmlElement()]
-        public PropertyLocation FireDepartmentProperty { get; set; }
         /// <summary>
         /// Gets/sets the scale factor of the UI.
         /// </summary>
-        [XmlElement()]
         public double ScaleFactor { get; set; }
         /// <summary>
-        /// Gets/sets the dimensions of the route image.
+        /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
-        [XmlElement()]
-        public int RouteImageHeight { get; set; }
-        /// <summary>
-        /// Gets/sets the dimensions of the route image.
-        /// </summary>
-        [XmlElement()]
-        public int RouteImageWidth { get; set; }
-        /// <summary>
-        /// Gets/sets the configuration of each vehicle.
-        /// </summary>
-        [XmlArray()]
-        [XmlArrayItem(typeof(Vehicle))]
-        public List<Vehicle> Vehicles { get; set; }
+        public AutomaticOperationAcknowledgementSettings AutomaticOperationAcknowledgement { get; set; }
 
         #endregion
 
@@ -56,8 +36,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public UIConfiguration()
         {
-            FireDepartmentProperty = new PropertyLocation();
-            Vehicles = new List<Vehicle>();
+            AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
         }
 
         #endregion
@@ -76,11 +55,15 @@ namespace AlarmWorkflow.Windows.UI.Models
                 return null;
             }
 
-            using (Stream stream = File.OpenRead(configFile))
-            {
-                XmlSerializer serializer = new XmlSerializer(typeof(UIConfiguration));
-                return (UIConfiguration)serializer.Deserialize(stream);
-            }
+            XDocument doc = XDocument.Load(configFile);
+
+            UIConfiguration configuration = new UIConfiguration();
+            configuration.OperationViewer = doc.Root.Element("OperationViewer").Value;
+            configuration.ScaleFactor = double.Parse(doc.Root.Element("ScaleFactor").Value, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture);
+            configuration.AutomaticOperationAcknowledgement.IsEnabled = bool.Parse(doc.Root.Element("AutomaticOperationAcknowledgement").Attribute("IsEnabled").Value);
+            configuration.AutomaticOperationAcknowledgement.MaxAge = int.Parse(doc.Root.Element("AutomaticOperationAcknowledgement").Attribute("MaxAge").Value);
+
+            return configuration;
         }
 
         #endregion
@@ -88,33 +71,26 @@ namespace AlarmWorkflow.Windows.UI.Models
         #region Nested types
 
         /// <summary>
-        /// Provides detail for each of the fire department's vehicles.
+        /// Configures the automatic operation acknowledgement.
         /// </summary>
-        public class Vehicle
+        public class AutomaticOperationAcknowledgementSettings
         {
             /// <summary>
-            /// Gets/sets the identifier of this vehicle as it appears in the alarmfax.
+            /// Gets/sets whether or not the automatic operation acknowledgement is enabled.
             /// </summary>
             [XmlAttribute()]
-            public string Identifier { get; set; }
+            public bool IsEnabled { get; set; }
             /// <summary>
-            /// Gets/sets the display name of the vehicle, if it differs from the <see cref="Identifier"/>-name.
-            /// If this is null or empty, the name from <see cref="Identifier"/> is used in the UI.
+            /// Gets/sets the maximum age in minutes until an operation is automatically acknowleded.
             /// </summary>
             [XmlAttribute()]
-            public string Name { get; set; }
-            /// <summary>
-            /// Gets/sets the path to the image that is used for this vehicle in the UI.
-            /// </summary>
-            [XmlAttribute()]
-            public string Image { get; set; }
+            public int MaxAge { get; set; }
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Vehicle"/> class.
+            /// Initializes a new instance of the <see cref="AutomaticOperationAcknowledgementSettings"/> class.
             /// </summary>
-            public Vehicle()
+            public AutomaticOperationAcknowledgementSettings()
             {
-
             }
         }
 

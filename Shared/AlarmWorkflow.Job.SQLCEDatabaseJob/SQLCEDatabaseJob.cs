@@ -25,10 +25,14 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                     {
                         oid = entities.Operations.Any() ? entities.Operations.Max(o => o.OperationId) + 1 : 1;
                     }
+
+                    // We need to see if the timestamp could be parsed. It will cause a Overflow in SQL Server if we allow DateTime.MinValue!
+                    DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
+
                     OperationData data = new OperationData()
                     {
                         OperationId = oid,
-                        Timestamp = operation.Timestamp,
+                        Timestamp = timestamp,
                         City = operation.City,
                         ZipCode = operation.ZipCode,
                         Location = operation.Location,

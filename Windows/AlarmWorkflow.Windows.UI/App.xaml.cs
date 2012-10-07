@@ -128,7 +128,14 @@ namespace AlarmWorkflow.Windows.UI
 
         private bool ShouldAutomaticallyAcknowledgeOperation(OperationItem operationItem)
         {
-            return !operationItem.IsAcknowledged && (DateTime.UtcNow - operationItem.Timestamp) > Operation.DefaultAcknowledgingTimespan;
+            if (!Configuration.AutomaticOperationAcknowledgement.IsEnabled)
+            {
+                return false;
+            }
+
+            int daage = Configuration.AutomaticOperationAcknowledgement.MaxAge;
+            TimeSpan dat = daage > 0 ? TimeSpan.FromMinutes(daage) : Operation.DefaultAcknowledgingTimespan;
+            return !operationItem.IsAcknowledged && (DateTime.UtcNow - operationItem.Timestamp) > dat;
         }
 
         #endregion
@@ -161,14 +168,17 @@ namespace AlarmWorkflow.Windows.UI
                             // TODO: Make this better!
                             OperationItem operation = service.Instance.GetOperationById(operationId);
 
-                            // Push the event to the queue
-                            PushEvent(operation);
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
-                            // TODO: Enable disabling this behavior?
+                            // TODO: Enable disabling of this behavior?
                             if (ShouldAutomaticallyAcknowledgeOperation(operation))
                             {
                                 service.Instance.AcknowledgeOperation(operation.Id);
+                            }
+                            else
+                            {
+                                // Push the event to the queue
+                                PushEvent(operation);
                             }
                         }
                     }

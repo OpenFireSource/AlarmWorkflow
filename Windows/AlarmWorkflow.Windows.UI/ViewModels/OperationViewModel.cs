@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Media;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Windows.UI.Models;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
@@ -49,17 +48,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             this.Operation = operation;
 
             // Lazy-load route image?
-            PropertyLocation pls = GetSource();
-            if (pls == null || !pls.IsMeaningful)
-            {
-                // TODO: Log message etc. and display "cannot show route"-jabber
-            }
-            else
+            if (operation.RouteImage != null)
             {
                 //_routeImage = new Lazy<ImageSource>(() =>
                 //{
-                //    return MapsServiceHelper.GetRouteImage(pls, 
-                //        GetDestination(), 
+                //    return MapsServiceHelper.GetRouteImage(pls,
+                //        GetDestination(),
                 //        App.GetApp().Configuration.RouteImageWidth,
                 //        App.GetApp().Configuration.RouteImageHeight);
                 //});
@@ -68,24 +62,5 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         #endregion
 
-        #region Methods
-
-        private PropertyLocation GetSource()
-        {
-            return App.GetApp().Configuration.FireDepartmentProperty;
-        }
-
-        private PropertyLocation GetDestination()
-        {
-            return new PropertyLocation()
-            {
-                City = this.Operation.City,
-                ZipCode = this.Operation.ZipCode,
-                Street = this.Operation.Street,
-                StreetNumber = this.Operation.StreetNumber,
-            };
-        }
-
-        #endregion
     }
 }

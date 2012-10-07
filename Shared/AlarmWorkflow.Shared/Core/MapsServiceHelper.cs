@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
+using System;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -22,6 +23,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="width">The desired width of the image. A value of '800' is recommended.</param>
         /// <param name="height">The desired height of the image. A value of '800' is recommended.</param>
         /// <returns>The resulting PNG-image as a buffer.</returns>
+        /// <exception cref="T:StatusCodeException">An error occurred while downloading the route image.</exception>
         public static byte[] GetRouteImage(PropertyLocation source, PropertyLocation destination, int width, int height)
         {
             // https://developers.google.com/maps/documentation/directions/?hl=de
@@ -41,11 +43,22 @@ namespace AlarmWorkflow.Shared.Core
                 docResponse = XDocument.Load(wresInitial.GetResponseStream());
 
                 // Load the response XML
-                // TODO: Read "status" element!
                 string status = docResponse.Root.Element("status").Value;
                 switch (status)
                 {
+                    // TODO: Handle the errors!
+                    case "NOT_FOUND":
+                    case "ZERO_RESULTS":
+                    case "MAX_WAYPOINTS_EXCEEDED":
+                    case "INVALID_REQUEST":
+                    case "OVER_QUERY_LIMIT":
+                    case "REQUEST_DENIED":
+                    case "UNKNOWN_ERROR":
+                        break;
+
+                    case "OK":
                     default:
+                        // Everything ok.
                         break;
                 }
             }

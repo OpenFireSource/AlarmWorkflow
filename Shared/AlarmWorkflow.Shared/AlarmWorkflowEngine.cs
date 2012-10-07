@@ -167,10 +167,14 @@ namespace AlarmWorkflow.Shared
                 FileInfo[] files = _faxPath.GetFiles("*.tif", SearchOption.TopDirectoryOnly);
                 if (files.Length > 0)
                 {
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Processing '{0}' new faxes...", files.Length);
+
                     foreach (FileInfo file in files)
                     {
                         ProcessFile(file);
                     }
+
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Processing finished.");
                 }
                 Thread.Sleep(1500);
             }

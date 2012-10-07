@@ -27,16 +27,16 @@
         </Grid.RowDefinitions>
 
         <TextBlock Grid.Row="0" Text="Beschreibung:" FontWeight="Bold" />
-        <TextBlock Grid.Row="1" Text="{Binding Operation.Comment, TargetNullValue='(Keine Beschreibung verfügbar)'}" />
+        <TextBlock Grid.Row="1" Text="{Binding Operation.Comment, TargetNullValue='(Keine Beschreibung verfügbar)'}" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Grid.Row="2" Text="Stichwort:" FontWeight="Bold" />
-        <TextBlock Grid.Row="3" Text="{Binding Operation.Keyword, TargetNullValue='-'}" />
+        <TextBlock Grid.Row="3" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Grid.Row="4" Text="Melder:" FontWeight="Bold" />
-        <TextBlock Grid.Row="5" Text="{Binding Operation.Messenger, TargetNullValue='(Nicht bekannt)'}" />
+        <TextBlock Grid.Row="5" Text="{Binding Operation.Messenger, TargetNullValue='(Nicht bekannt)'}" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Grid.Row="6" Text="Zeitstempel:" FontWeight="Bold" />
-        <TextBlock Grid.Row="7" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" />
+        <TextBlock Grid.Row="7" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
 
     </Grid>
     
