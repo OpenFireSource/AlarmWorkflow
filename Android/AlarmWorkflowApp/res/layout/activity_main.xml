@@ -4,7 +4,7 @@
     android:layout_height="fill_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/lblConnectServerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -12,27 +12,34 @@
         android:text="@string/ConnectServerUriLabel"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <ListView
+        android:id="@+id/lsvOperations"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/btnRefreshList" >
+
+    </ListView>
+
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/txtConnectServerUri"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/lblConnectServerLabel"
         android:ems="10"
         android:hint="@string/ConnectServerUri"
-        android:inputType="textUri" >
+        android:inputType="textUri" />
 
-        <requestFocus />
-    </EditText>
-
-    <ListView
-        android:id="@+id/listView1"
-        android:layout_width="fill_parent"
+    <Button
+        android:id="@+id/btnRefreshList"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/editText1"
-        android:layout_marginTop="18dp" >
-    </ListView>
+        android:layout_below="@+id/txtConnectServerUri"
+        android:onClick="txtConnectServerUri_onClick"
+        android:text="@string/btnRefreshListCaption" />
 
 </RelativeLayout>

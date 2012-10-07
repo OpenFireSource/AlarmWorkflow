@@ -2,6 +2,9 @@
 bin
 obj
 
+# Java Folders
+gen
+
 # mstest test results
 TestResults
 *.suo
