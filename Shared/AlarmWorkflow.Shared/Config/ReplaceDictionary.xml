@@ -30,4 +30,5 @@
   <Entry Old="—" New="-" />
   <Entry Old="cinsatzmittel" New="Einsatzmittel" />
   <Entry Old="Tragkraftspri.tze" New="Tragkraftspritze" />
+  <Entry Old="41 /1" New="41/1" />
 </Dictionary>

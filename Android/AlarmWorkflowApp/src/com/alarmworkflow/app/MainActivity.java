@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void txtConnectServerUri_onClick(View view) {
+		// Check if the server Uri is entered (a better check would involve checking the correctness) 
 		String serverUri = _connectServerUri.getEditableText().toString();
 		if (serverUri == null || serverUri.length() == 0)
 		{

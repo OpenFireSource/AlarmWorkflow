@@ -2,7 +2,7 @@
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UI.Extensibility;
 
-namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
+namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
 {
     /// <summary>
     /// Interaction logic for IlsAnsbachOperationView.xaml
@@ -16,6 +16,15 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets the configuration.
+        /// </summary>
+        internal UIConfiguration Configuration { get; private set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -25,7 +34,9 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         {
             InitializeComponent();
 
-            _viewModel = new ViewModel();
+            Configuration = UIConfiguration.Load();
+
+            _viewModel = new ViewModel(Configuration);
             this.DataContext = _viewModel;
         }
 

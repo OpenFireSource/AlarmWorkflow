@@ -168,9 +168,7 @@ namespace AlarmWorkflow.Windows.UI
                             // TODO: Make this better!
                             OperationItem operation = service.Instance.GetOperationById(operationId.ToString());
 
-
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
-                            // TODO: Enable disabling of this behavior?
                             if (ShouldAutomaticallyAcknowledgeOperation(operation))
                             {
                                 service.Instance.AcknowledgeOperation(operation.Id.ToString());

@@ -3,6 +3,9 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 using AlarmWorkflow.Shared.Core;
+using System.Xml.Linq;
+using System.Linq;
+using System;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 {
@@ -14,11 +17,13 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         #region Properties
 
         /// <summary>
-        /// Gets/sets the configuration of each vehicle.
+        /// Gets the abbreviations that must be contained within the resource name.
         /// </summary>
-        [XmlArray()]
-        [XmlArrayItem(typeof(Vehicle))]
-        public List<Vehicle> Vehicles { get; set; }
+        public string[] VehicleMustContainAbbreviations { get; private set; }
+        /// <summary>
+        /// Gets the configuration of each vehicle.
+        /// </summary>
+        public IList<Vehicle> Vehicles { get; private set; }
 
         #endregion
 
@@ -36,23 +41,42 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         #region Methods
 
+        public Vehicle ResourceMatches(string resourceName)
+        {
+            return Vehicles.FirstOrDefault(v => resourceName.ToUpperInvariant().Contains(v.Identifier));
+        }
+
         /// <summary>
         /// Loads the UIConfiguration from its default path.
         /// </summary>
         /// <returns></returns>
         public static UIConfiguration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\UIConfiguration.xml");
+            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachOperationViewerConfig.xml");
             if (configFile == null)
             {
                 return null;
             }
 
-            using (Stream stream = File.OpenRead(configFile))
+            UIConfiguration configuration = new UIConfiguration();
+
+            XDocument doc = XDocument.Load(configFile);
+
+            XElement vehicleE = doc.Root.Element("Vehicles");
+            configuration.VehicleMustContainAbbreviations = vehicleE.Attribute("MustContainAbbreviations").Value.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (XElement resE in vehicleE.Elements("Vehicle"))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(UIConfiguration));
-                return (UIConfiguration)serializer.Deserialize(stream);
+                Vehicle vehicle = new Vehicle();
+                vehicle.Identifier = resE.Attribute("Identifier").Value;
+                vehicle.Name = resE.Attribute("Name").Value;
+
+                FileInfo imageFile = new FileInfo(Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), resE.Attribute("Image").Value));
+                vehicle.Image = imageFile.FullName;
+
+                configuration.Vehicles.Add(vehicle);
             }
+
+            return configuration;
         }
 
         #endregion

@@ -53,11 +53,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\UIConfiguration.cs" />
-    <Compile Include="IlsAnsbachOperationView.xaml.cs">
+    <Compile Include="ViewModels\ResourceViewModel.cs" />
+    <Compile Include="Views\IlsAnsbachOperationView.xaml.cs">
       <DependentUpon>IlsAnsbachOperationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModel.cs" />
+    <Compile Include="ViewModels\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlarmWorkflow.Windows.UI\AlarmWorkflow.Windows.UI.csproj">
@@ -66,7 +67,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="IlsAnsbachOperationView.xaml">
+    <Page Include="Views\IlsAnsbachOperationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

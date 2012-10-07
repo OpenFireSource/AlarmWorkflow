@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
@@ -12,6 +15,8 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         #region Fields
 
         private Operation _operation;
+
+        private UIConfiguration _configuration;
 
         #endregion
 
@@ -41,6 +46,14 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         public ImageSource RoutePlanImage
         {
             get { return GetRoutePlanImage(); }
+        }
+
+        /// <summary>
+        /// Gets a list containing the resources requested for this operation.
+        /// </summary>
+        public IEnumerable<ResourceViewModel> VehicleResources
+        {
+            get { return GetResources(); }
         }
 
         /// <summary>
@@ -170,9 +183,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewModel"/> class.
         /// </summary>
-        public ViewModel()
+        /// <param name="configuration"></param>
+        public ViewModel(UIConfiguration configuration)
         {
-
+            _configuration = configuration;
         }
 
         #endregion
@@ -212,13 +226,44 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             }
         }
 
-        #endregion
-
-        #region Nested types
-
-        class ResourceViewModel : ViewModelBase
+        private IEnumerable<ResourceViewModel> GetResources()
         {
+            List<ResourceViewModel> resources = new List<ResourceViewModel>();
 
+            List<Resource> dataSource = GetOperationCustomData<List<Resource>>("Einsatzmittel", null);
+            if (dataSource != null)
+            {
+                foreach (Resource resource in dataSource)
+                {
+                    // Check if the filter matches
+                    var vehicle = _configuration.ResourceMatches(resource.Einsatzmittel);
+                    if (vehicle == null)
+                    {
+                        continue;
+                    }
+
+                    ResourceViewModel rvm = resources.FirstOrDefault(t => t.VehicleName == vehicle.Name);
+                    if (rvm == null)
+                    {
+                        // Sometimes the vehicles get requested multiple times and it differs only in the equipment needed
+                        // So we just create the vehicle once and add the equipment to that
+                        rvm = new ResourceViewModel();
+                        rvm.VehicleName = vehicle.Name;
+                        rvm.SetImage(vehicle.Image);
+                        resources.Add(rvm);
+                    }
+
+                    if (rvm.RequestedEquipment != null)
+                    {
+                        // Add newline when adding equipment to already existing vehicle
+                        rvm.RequestedEquipment += "\n";
+                    }
+                    rvm.RequestedEquipment += resource.GeforderteAusstattung;
+
+                }
+            }
+
+            return resources.OrderBy(r => r.VehicleName);
         }
 
         #endregion
