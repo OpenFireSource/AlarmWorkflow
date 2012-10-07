@@ -157,7 +157,7 @@ namespace AlarmWorkflow.Windows.UI
                     using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                     {
                         // TODO: Make max entries customizable!
-                        var operations = service.Instance.GetOperationIds(maxAge, true, 9);
+                        var operations = service.Instance.GetOperationIds(maxAge.ToString(), true.ToString(), 9.ToString());
                         if (operations.Count == 0)
                         {
                             return;
@@ -166,14 +166,14 @@ namespace AlarmWorkflow.Windows.UI
                         foreach (int operationId in operations)
                         {
                             // TODO: Make this better!
-                            OperationItem operation = service.Instance.GetOperationById(operationId);
+                            OperationItem operation = service.Instance.GetOperationById(operationId.ToString());
 
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
                             // TODO: Enable disabling of this behavior?
                             if (ShouldAutomaticallyAcknowledgeOperation(operation))
                             {
-                                service.Instance.AcknowledgeOperation(operation.Id);
+                                service.Instance.AcknowledgeOperation(operation.Id.ToString());
                             }
                             else
                             {

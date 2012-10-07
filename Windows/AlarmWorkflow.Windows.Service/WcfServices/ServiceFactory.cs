@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -47,6 +48,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             EndpointAddress endpointAddress = new EndpointAddress(ServiceConstants.GetServiceUrl(serviceName));
 
             ChannelFactory<T> d = new ChannelFactory<T>(ServiceConstants.ServicesBinding, endpointAddress);
+            d.Endpoint.Behaviors.Add(new WebHttpBehavior());
             return d.CreateChannel();
         }
 

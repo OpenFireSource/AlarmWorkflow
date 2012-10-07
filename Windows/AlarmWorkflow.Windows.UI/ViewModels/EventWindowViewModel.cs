@@ -92,7 +92,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             {
                 using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                 {
-                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id);
+                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id.ToString());
                     // If we get here, acknowledging was successful --> update operation
                     SelectedEvent.Operation.IsAcknowledged = true;
 

@@ -37,14 +37,31 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
 
         #region IAlarmWorkflowService Members
 
-        IList<int> IAlarmWorkflowService.GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount)
+        IList<int> IAlarmWorkflowService.GetOperationIds(string maxAge, string onlyNonAcknowledged, string limitAmount)
         {
-            return _operationStore.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+            // Cast to correct values
+            int rMaxAge = 8;
+            bool rOnlyNonAcknowledged = true;
+            int rLimitAmount = 10;
+
+            // Try to parse the values (if one fails to pass just go on and take the default values from above)
+            int.TryParse(maxAge, out rMaxAge);
+            bool.TryParse(onlyNonAcknowledged, out rOnlyNonAcknowledged);
+            int.TryParse(limitAmount, out rLimitAmount);
+
+            return _operationStore.GetOperationIds(rMaxAge, rOnlyNonAcknowledged, rLimitAmount);
         }
 
-        OperationItem IAlarmWorkflowService.GetOperationById(int operationId)
+        OperationItem IAlarmWorkflowService.GetOperationById(string operationId)
         {
-            Operation operation = _operationStore.GetOperationById(operationId);
+            int rOperationId = -1;
+            if (!int.TryParse(operationId, out rOperationId))
+            {
+                // Invalid case
+                return null;
+            }
+
+            Operation operation = _operationStore.GetOperationById(rOperationId);
             if (operation == null)
             {
                 return null;
@@ -53,9 +70,16 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             return new OperationItem(operation);
         }
 
-        void IAlarmWorkflowService.AcknowledgeOperation(int operationId)
+        void IAlarmWorkflowService.AcknowledgeOperation(string operationId)
         {
-            _operationStore.AcknowledgeOperation(operationId);
+            int rOperationId = -1;
+            if (!int.TryParse(operationId, out rOperationId))
+            {
+                // Invalid case
+                return;
+            }
+
+            _operationStore.AcknowledgeOperation(rOperationId);
         }
 
         #endregion

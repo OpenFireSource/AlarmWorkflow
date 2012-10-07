@@ -20,9 +20,9 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// </summary>
         static ServiceConstants()
         {
-            ServicesBinding = new BasicHttpBinding()
+            ServicesBinding = new WebHttpBinding()
             {
-                //ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max,
+                HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.WeakWildcard,
                 MaxReceivedMessageSize = int.MaxValue
             };
         }

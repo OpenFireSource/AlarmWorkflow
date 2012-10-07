@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using AlarmWorkflow.Shared;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
@@ -48,13 +49,17 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         {
             try
             {
+                // See http://www.codeproject.com/Articles/358867/WCF-and-Android-Part-I for information
+
                 // Create a new Singleton-instance
                 AlarmWorkflowService instance = new AlarmWorkflowService(_parent);
 
                 // Create a new host for the Singleton-instance
                 ServiceHost host = new ServiceHost(instance);
                 // Create endpoints for per-session instances (used by the clients)
-                host.AddServiceEndpoint(typeof(IAlarmWorkflowService), ServiceConstants.ServicesBinding, ServiceConstants.GetServiceUrl("AlarmWorkflowService"));
+                ServiceEndpoint endpoint = host.AddServiceEndpoint(typeof(IAlarmWorkflowService), ServiceConstants.ServicesBinding, ServiceConstants.GetServiceUrl("AlarmWorkflowService"));
+                // Add behaviors
+                endpoint.Behaviors.Add(new WebHttpBehavior() { HelpEnabled = true, AutomaticFormatSelectionEnabled = true });
 
                 // Add the service to the services list...
                 _services.Add(host);
