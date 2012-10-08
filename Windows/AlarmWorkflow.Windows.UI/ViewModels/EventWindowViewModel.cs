@@ -41,11 +41,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 {
                     return;
                 }
-                
+
                 _selectedEvent = value;
                 OnPropertyChanged("SelectedEvent");
-                
-                _operationViewer.OnOperationChanged(_selectedEvent.Operation);
+
+                Operation operationNew = _selectedEvent != null ? _selectedEvent.Operation : null;
+                _operationViewer.OnOperationChanged(operationNew);
             }
         }
         /// <summary>
@@ -88,6 +89,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 return;
             }
 
+            string parameterS = parameter as string;
+            bool goToNextAfterwards = parameterS == "NextOperation";
+
             try
             {
                 using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
@@ -96,12 +100,19 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     // If we get here, acknowledging was successful --> update operation
                     SelectedEvent.Operation.IsAcknowledged = true;
 
-                    OnPropertyChanged("SelectedEvent");
-                    OnPropertyChanged("SelectedEvent.Operation");
-                    OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
-
                     Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
                 }
+
+                // If we shall go to the next operation afterwards
+                if (goToNextAfterwards)
+                {
+                    RemoveEvent(SelectedEvent);
+                    SelectedEvent = AvailableEvents.FirstOrDefault();
+                }
+
+                OnPropertyChanged("SelectedEvent");
+                OnPropertyChanged("SelectedEvent.Operation");
+                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
             }
             catch (Exception ex)
             {
@@ -166,20 +177,20 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
 
-            // If no event is selected yet, select the newest one
-            if (SelectedEvent == null)
+            // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
+            if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.Timestamp < AvailableEvents[0].Operation.Timestamp))
             {
                 SelectedEvent = AvailableEvents[0];
                 OnPropertyChanged("SelectedEvent");
             }
         }
 
-        /// <summary>
-        /// Clears all events.
-        /// </summary>
-        public void ClearEvents()
+        private void RemoveEvent(OperationViewModel operation)
         {
-            AvailableEvents.Clear();
+            AvailableEvents.Remove(operation);
+            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
+
+            OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
         }
 

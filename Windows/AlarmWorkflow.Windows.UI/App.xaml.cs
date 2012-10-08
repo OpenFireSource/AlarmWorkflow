@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.Timers;
 using System.Windows;
@@ -35,6 +36,10 @@ namespace AlarmWorkflow.Windows.UI
         #region Properties
 
         /// <summary>
+        /// Gets whether or not the event window should be Topmost.
+        /// </summary>
+        public bool ShouldEventWindowBeTopmost { get; private set; }
+        /// <summary>
         /// Gets the configuration for the UI.
         /// </summary>
         public UIConfiguration Configuration { get; private set; }
@@ -52,6 +57,9 @@ namespace AlarmWorkflow.Windows.UI
         public App()
         {
             LoadConfiguration();
+
+            // Don't set Topmost when the Debugger is attached. This is so damn annoying!
+            this.ShouldEventWindowBeTopmost = !Debugger.IsAttached;
         }
 
         #endregion
@@ -159,7 +167,7 @@ namespace AlarmWorkflow.Windows.UI
                     using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                     {
                         // TODO: Make max entries customizable!
-                        var operations = service.Instance.GetOperationIds(maxAge.ToString(), true.ToString(), 9.ToString());
+                        var operations = service.Instance.GetOperationIds(maxAge.ToString(), true.ToString(), 16.ToString());
                         if (operations.Count == 0)
                         {
                             return;
@@ -213,8 +221,8 @@ namespace AlarmWorkflow.Windows.UI
             }
             else
             {
-                // Then re-enable topmost again
-                MainWindow.Topmost = true;
+                // Then re-enable topmost again... or not
+                MainWindow.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
             }
 
             _isMessageBoxShown = false;

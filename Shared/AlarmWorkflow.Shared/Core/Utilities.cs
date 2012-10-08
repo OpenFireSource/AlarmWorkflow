@@ -77,6 +77,25 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
+        /// Returns the working directory of this assembly.
+        /// </summary>
+        /// <returns>The working directory of this assembly.</returns>
+        public static string GetWorkingDirectory()
+        {
+            return GetWorkingDirectory(Assembly.GetExecutingAssembly());
+        }
+
+        /// <summary>
+        /// Gets the absolute path from the relative path.
+        /// </summary>
+        /// <param name="relativePath">The relative path.</param>
+        /// <returns></returns>
+        public static string GetAbsolutePath(string relativePath)
+        {
+            return Path.Combine(GetWorkingDirectory(), relativePath);
+        }
+
+        /// <summary>
         /// Combines many paths.
         /// </summary>
         /// <param name="paths"></param>

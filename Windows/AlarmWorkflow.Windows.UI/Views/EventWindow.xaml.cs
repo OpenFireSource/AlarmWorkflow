@@ -27,7 +27,10 @@ namespace AlarmWorkflow.Windows.UI.Views
             this.uiScaleSlider.Value = App.GetApp().Configuration.ScaleFactor;
 
             _viewModel = new EventWindowViewModel();
+            _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(ViewModel_PropertyChanged);
             this.DataContext = _viewModel;
+
+            this.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
         }
 
         #endregion
@@ -59,14 +62,6 @@ namespace AlarmWorkflow.Windows.UI.Views
             _viewModel.PushEvent(operation);
         }
 
-        /// <summary>
-        /// Clears all events.
-        /// </summary>
-        public void ClearEvents()
-        {
-            _viewModel.ClearEvents();
-        }
-
         #endregion
 
         #region Event handlers
@@ -74,6 +69,15 @@ namespace AlarmWorkflow.Windows.UI.Views
         private void Window_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             uiScaleSlider.Value += 0.001d * e.Delta;
+        }
+
+        // Don't try this at home!
+        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "AvailableEvents" && _viewModel.AvailableEvents.Count == 0)
+            {
+                this.Close();
+            }
         }
 
         #endregion
