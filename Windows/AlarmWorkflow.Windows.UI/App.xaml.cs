@@ -28,6 +28,8 @@ namespace AlarmWorkflow.Windows.UI
         private EventWindow _eventWindow;
         private Timer _timer;
 
+        private bool _isMessageBoxShown;
+
         #endregion
 
         #region Properties
@@ -101,8 +103,8 @@ namespace AlarmWorkflow.Windows.UI
                 Command = new RelayCommand(LeftClickCommand_Execute),
             });
 
-            // Create timer with an interval of 3 seconds
-            _timer = new Timer(3000d);
+            // Create timer with an interval of 2 seconds
+            _timer = new Timer(2000d);
             _timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
             _timer.Start();
         }
@@ -196,10 +198,26 @@ namespace AlarmWorkflow.Windows.UI
 
         private void LeftClickCommand_Execute(object parameter)
         {
+            if (_isMessageBoxShown)
+            {
+                return;
+            }
+
+            _isMessageBoxShown = true;
+            // We need to disable Topmost otherwise the user can't see the 
+            MainWindow.Topmost = false;
+
             if (MessageBox.Show(AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 this.Shutdown();
             }
+            else
+            {
+                // Then re-enable topmost again
+                MainWindow.Topmost = true;
+            }
+
+            _isMessageBoxShown = false;
         }
 
         #endregion
