@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -22,6 +21,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets/sets the scale factor of the UI.
         /// </summary>
         public double ScaleFactor { get; set; }
+        /// <summary>
+        /// Gets/sets the Id of the screen to show the window at. Set to 0 (zero) to pick the primary screen.
+        /// </summary>
+        public int ScreenId { get; set; }
         /// <summary>
         /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
@@ -58,10 +61,13 @@ namespace AlarmWorkflow.Windows.UI.Models
             XDocument doc = XDocument.Load(configFile);
 
             UIConfiguration configuration = new UIConfiguration();
-            configuration.OperationViewer = doc.Root.Element("OperationViewer").Value;
-            configuration.ScaleFactor = double.Parse(doc.Root.Element("ScaleFactor").Value, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture);
-            configuration.AutomaticOperationAcknowledgement.IsEnabled = bool.Parse(doc.Root.Element("AutomaticOperationAcknowledgement").Attribute("IsEnabled").Value);
-            configuration.AutomaticOperationAcknowledgement.MaxAge = int.Parse(doc.Root.Element("AutomaticOperationAcknowledgement").Attribute("MaxAge").Value);
+            configuration.OperationViewer = doc.Root.TryGetElementValue("OperationViewer", null);
+            configuration.ScaleFactor = (double)doc.Root.TryGetElementValue("ScaleFactor", 2.0f);
+            configuration.ScreenId = doc.Root.TryGetElementValue("ScreenId", 0);
+
+            XElement aoaE = doc.Root.Element("AutomaticOperationAcknowledgementSettings");
+            configuration.AutomaticOperationAcknowledgement.IsEnabled = aoaE.TryGetAttributeValue("IsEnabled", true);
+            configuration.AutomaticOperationAcknowledgement.MaxAge = aoaE.TryGetAttributeValue("MaxAge", 480);
 
             return configuration;
         }

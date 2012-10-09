@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Linq;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Core
@@ -66,6 +68,151 @@ namespace AlarmWorkflow.Shared.Core
 
         #endregion
 
+        #region XDocument
+
+        /// <summary>
+        /// Tries to get the element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static string TryGetElementValue(this XElement element, string elementName, string defaultValue)
+        {
+            XElement e = element.Element(elementName);
+            if (e != null)
+            {
+                return e.Value;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Tries to get the bool element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static bool TryGetElementValue(this XElement element, string elementName, bool defaultValue)
+        {
+            string value = TryGetElementValue(element, elementName, defaultValue.ToString());
+            bool returnValue = false;
+            bool.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Tries to get the int element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static int TryGetElementValue(this XElement element, string elementName, int defaultValue)
+        {
+            string value = TryGetElementValue(element, elementName, defaultValue.ToString());
+            int returnValue = -1;
+            int.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Tries to get the float element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static float TryGetElementValue(this XElement element, string elementName, float defaultValue)
+        {
+            string value = TryGetElementValue(element, elementName, defaultValue.ToString());
+            float returnValue = -1.0f;
+            float.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Tries to get the attribute value of an attribute from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the attribute value from.</param>
+        /// <param name="attributeName">The name of the attribute to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the attribute did not exist.</param>
+        /// <returns></returns>
+        public static string TryGetAttributeValue(this XElement element, string attributeName, string defaultValue)
+        {
+            XAttribute attribute = element.Attribute(attributeName);
+            if (attribute != null)
+            {
+                return attribute.Value;
+            }
+            return defaultValue;
+        }
+
+        /// <summary>
+        /// Tries to get the boolean element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="attributeName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static bool TryGetAttributeValue(this XElement element, string attributeName, bool defaultValue)
+        {
+            string value = TryGetAttributeValue(element, attributeName, defaultValue.ToString());
+            bool returnValue = false;
+            bool.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Tries to get the integer element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="attributeName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static int TryGetAttributeValue(this XElement element, string attributeName, int defaultValue)
+        {
+            string value = TryGetAttributeValue(element, attributeName, defaultValue.ToString());
+            int returnValue = -1;
+            int.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Tries to get the float element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="attributeName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static float TryGetAttributeValue(this XElement element, string attributeName, float defaultValue)
+        {
+            string value = TryGetAttributeValue(element, attributeName, defaultValue.ToString());
+            float returnValue = -1.0f;
+            float.TryParse(value, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
+        /// Looks up whether or not an element with the given name exists in the list of elements and returns its value then.
+        /// </summary>
+        /// <param name="elements"></param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return if the element didn't exist.</param>
+        /// <returns></returns>
+        public static string TryGetElementValue(this IList<XElement> elements, string elementName, string defaultValue)
+        {
+            var el = elements.FirstOrDefault(e => string.Equals(e.Name.LocalName, elementName, StringComparison.InvariantCulture));
+            if (el != null)
+            {
+                return el.Value;
+            }
+            return defaultValue;
+        }
+
+        #endregion
+        
         /// <summary>
         /// Returns the working directory of this assembly.
         /// </summary>

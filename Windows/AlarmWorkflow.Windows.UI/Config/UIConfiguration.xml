@@ -2,6 +2,8 @@
 <UIConfiguration>
   
   <OperationViewer></OperationViewer>
+  <!-- The Id of the screen to display the Event window on. Use 0 (zero) to display it on the primary screen, otherwise the number of the screen + 1. -->
+  <ScreenId>0</ScreenId>
   <!-- Automatically acknowledge Operations older than a predefined timespan -->
   <AutomaticOperationAcknowledgementSettings IsEnabled="True" MaxAge="480" />
   <!-- Defines the scaling factor for the UI. Higher values equal to larger font size. Min: 1, Max: 1000. Too high values might distort the layout! -->
