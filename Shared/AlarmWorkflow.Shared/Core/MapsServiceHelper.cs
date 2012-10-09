@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
-using System;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -22,8 +22,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="destination"></param>
         /// <param name="width">The desired width of the image. A value of '800' is recommended.</param>
         /// <param name="height">The desired height of the image. A value of '800' is recommended.</param>
-        /// <returns>The resulting PNG-image as a buffer.</returns>
-        /// <exception cref="T:StatusCodeException">An error occurred while downloading the route image.</exception>
+        /// <returns>The resulting PNG-image as a buffer. -or- null, if an error occurred during download of the image.</returns>
         public static byte[] GetRouteImage(PropertyLocation source, PropertyLocation destination, int width, int height)
         {
             // https://developers.google.com/maps/documentation/directions/?hl=de
@@ -49,12 +48,18 @@ namespace AlarmWorkflow.Shared.Core
                     // TODO: Handle the errors!
                     case "NOT_FOUND":
                     case "ZERO_RESULTS":
+                        Logger.Instance.LogFormat(LogType.Warning, null, "The maps-request failed with status '{0}'. This is an indication that the location could not be retrieved. Sorry, but there's no workaround.", status);
+                        return null;
+                    case "OVER_QUERY_LIMIT":
+                        Logger.Instance.LogFormat(LogType.Error, null, "The maps-request failed with status 'OVER_QUERY_LIMIT'. This indicates too many queries within a short timeframe.");
+                        return null;
+
                     case "MAX_WAYPOINTS_EXCEEDED":
                     case "INVALID_REQUEST":
-                    case "OVER_QUERY_LIMIT":
                     case "REQUEST_DENIED":
                     case "UNKNOWN_ERROR":
-                        break;
+                        Logger.Instance.LogFormat(LogType.Error, null, "The maps-request failed with status '{0}'. Please contact the developers!", status);
+                        return null;
 
                     case "OK":
                     default:

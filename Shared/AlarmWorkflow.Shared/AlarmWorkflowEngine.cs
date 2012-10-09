@@ -347,9 +347,16 @@ namespace AlarmWorkflow.Shared
                 try
                 {
                     operation.RouteImage = Core.MapsServiceHelper.GetRouteImage(source, destination, Configuration.Instance.RouteImageWidth, Configuration.Instance.RouteImageHeight);
-
                     sw.Stop();
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Downloaded route plan in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                    if (operation.RouteImage == null)
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, "The download of the route plan did not succeed. Please check the log for information!");
+                    }
+                    else
+                    {
+                        Logger.Instance.LogFormat(LogType.Trace, this, "Downloaded route plan in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+                    }
                 }
                 catch (Exception ex)
                 {
