@@ -40,7 +40,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/txtConnectServerUri"
-        android:onClick="txtConnectServerUri_onClick"
+        android:onClick="btnRefreshList_onClick"
         android:text="@string/btnRefreshListCaption" />
 
 </RelativeLayout>
