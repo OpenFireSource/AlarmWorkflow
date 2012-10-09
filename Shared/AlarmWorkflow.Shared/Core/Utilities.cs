@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Diagnostics;
+using System.Globalization;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -133,6 +134,21 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
+        /// Tries to get the double element value of an element from the requested XElement.
+        /// </summary>
+        /// <param name="element">The XElement to get the element value from.</param>
+        /// <param name="elementName">The name of the element to get its value.</param>
+        /// <param name="defaultValue">The default value to return, if the element did not exist.</param>
+        /// <returns></returns>
+        public static double TryGetElementValue(this XElement element, string elementName, double defaultValue)
+        {
+            string value = TryGetElementValue(element, elementName, defaultValue.ToString());
+            double returnValue = -1.0f;
+            double.TryParse(value, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out returnValue);
+            return returnValue;
+        }
+
+        /// <summary>
         /// Tries to get the attribute value of an attribute from the requested XElement.
         /// </summary>
         /// <param name="element">The XElement to get the attribute value from.</param>
@@ -212,7 +228,7 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         #endregion
-        
+
         /// <summary>
         /// Returns the working directory of this assembly.
         /// </summary>
