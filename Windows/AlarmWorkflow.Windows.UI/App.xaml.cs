@@ -213,7 +213,10 @@ namespace AlarmWorkflow.Windows.UI
 
             _isMessageBoxShown = true;
             // We need to disable Topmost otherwise the user can't see the 
-            MainWindow.Topmost = false;
+            if (MainWindow != null)
+            {
+                MainWindow.Topmost = false;
+            }
 
             if (MessageBox.Show(AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
@@ -222,7 +225,10 @@ namespace AlarmWorkflow.Windows.UI
             else
             {
                 // Then re-enable topmost again... or not
-                MainWindow.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
+                if (MainWindow != null)
+                {
+                    MainWindow.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
+                }
             }
 
             _isMessageBoxShown = false;
