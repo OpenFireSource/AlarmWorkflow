@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using AlarmWorkflow.Shared.Core;
-using System.Collections.Generic;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -117,7 +117,8 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// Initializes a new instance of the <see cref="OperationItem"/> class.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> to clone.</param>
-        public OperationItem(Operation operation)
+        /// <param name="detailLevel">The level of detail of the copied information.</param>
+        public OperationItem(Operation operation, OperationItemDetailLevel detailLevel)
             : this()
         {
             this.Id = operation.Id;
@@ -132,9 +133,14 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             this.Property = operation.Property;
             this.Comment = operation.Comment;
             this.Keyword = operation.Keyword;
-            this.RouteImage = operation.RouteImage;
-            this.CustomData = operation.CustomData;
             this.IsAcknowledged = operation.IsAcknowledged;
+
+            // Copy the expensive information only if requested
+            if (detailLevel == OperationItemDetailLevel.Full)
+            {
+                this.RouteImage = operation.RouteImage;
+                this.CustomData = operation.CustomData;
+            }
         }
 
         #endregion

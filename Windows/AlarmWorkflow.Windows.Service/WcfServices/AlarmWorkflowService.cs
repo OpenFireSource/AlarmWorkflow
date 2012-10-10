@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
@@ -52,14 +53,16 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             return _operationStore.GetOperationIds(rMaxAge, rOnlyNonAcknowledged, rLimitAmount);
         }
 
-        OperationItem IAlarmWorkflowService.GetOperationById(string operationId)
+        OperationItem IAlarmWorkflowService.GetOperationById(string operationId, string detailLevel)
         {
+            int rDetailLevel = 0;
             int rOperationId = -1;
             if (!int.TryParse(operationId, out rOperationId))
             {
                 // Invalid case
                 return null;
             }
+            int.TryParse(detailLevel, out rDetailLevel);
 
             Operation operation = _operationStore.GetOperationById(rOperationId);
             if (operation == null)
@@ -67,7 +70,13 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
                 return null;
             }
 
-            return new OperationItem(operation);
+            OperationItemDetailLevel detail = OperationItemDetailLevel.Minimum;
+            if (rDetailLevel >= 0 && rDetailLevel <= 1)
+            {
+                detail = (OperationItemDetailLevel)rDetailLevel;
+            }
+
+            return new OperationItem(operation, detail);
         }
 
         void IAlarmWorkflowService.AcknowledgeOperation(string operationId)

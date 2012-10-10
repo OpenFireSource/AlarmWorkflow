@@ -102,6 +102,8 @@ public class AlarmWorkflowServiceWrapper {
 		sb.append(serverUri);
 		sb.append("AlarmWorkflow/AlarmWorkflowService/GetOperationById/");
 		sb.append(String.valueOf(operationID));
+		sb.append("&");
+		sb.append("0");		// < A value of "0" represents "minimum" detail level, which contains everything except the Custom Data and the Route image.
 
 		DefaultHttpClient client = new DefaultHttpClient();
 		try {

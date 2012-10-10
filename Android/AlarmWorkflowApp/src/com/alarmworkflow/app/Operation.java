@@ -68,16 +68,17 @@ public class Operation {
 	 * are usually past operations.
 	 */
 	public boolean IsAcknowledged;
-
-	// TODO Unsupported!
-	/*
-	 * public IDictionary<string, object> CustomData; public byte[] RouteImage;
-	 */
 	
 	/**
 	 * Default constructor
 	 */
 	public Operation(){
 		this.Timestamp = new Date();
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return super.toString();
 	}
 }

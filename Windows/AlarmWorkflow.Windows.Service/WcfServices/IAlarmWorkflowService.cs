@@ -25,10 +25,11 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// Returns an Operation by its Id. If there is no operation with the given id, null is returned.
         /// </summary>
         /// <param name="operationId">The Id of the operation to get.</param>
+        /// <param name="detailLevel">The detail level. Currently supported are 0 (minimum detail) and 1 (full detail). For mobile phones, 0 is recommended; otherwise, 1.</param>
         /// <returns>An Operation by its Id. If there is no operation with the given id, null is returned.</returns>
         [OperationContract()]
-        [WebGet(UriTemplate = "GetOperationById/{operationId}", ResponseFormat = WebMessageFormat.Json)]
-        OperationItem GetOperationById(string operationId);
+        [WebGet(UriTemplate = "GetOperationById/{operationId}&{detailLevel}", ResponseFormat = WebMessageFormat.Json)]
+        OperationItem GetOperationById(string operationId, string detailLevel);
         /// <summary>
         /// Acknowledges the given operation. If the operation is already acknowledged, it will do nothing.
         /// Setting an operation to be acknowledged will not cause it to be displayed in the UIs (an acknowledged operation is "done").

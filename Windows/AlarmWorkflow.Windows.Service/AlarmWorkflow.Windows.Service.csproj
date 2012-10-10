@@ -67,6 +67,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WcfServices\AlarmWorkflowService.cs" />
+    <Compile Include="WcfServices\OperationItemDetailLevel.cs" />
     <Compile Include="WcfServices\ServiceConstants.cs" />
     <Compile Include="WcfServices\IAlarmWorkflowService.cs" />
     <Compile Include="WcfServices\OperationItem.cs" />

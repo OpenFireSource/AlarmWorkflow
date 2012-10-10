@@ -177,7 +177,8 @@ namespace AlarmWorkflow.Windows.UI
 
                         foreach (int operationId in operations)
                         {
-                            OperationItem operation = service.Instance.GetOperationById(operationId.ToString());
+                            // Second parameter determines the detail level. Here, we can use "1" (full detail).
+                            OperationItem operation = service.Instance.GetOperationById(operationId.ToString(), "1");
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
                             if (ShouldAutomaticallyAcknowledgeOperation(operation))
