@@ -145,12 +145,15 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private void InitializeOperationViewer()
         {
             string operationViewerAlias = App.GetApp().Configuration.OperationViewer;
-            if (string.IsNullOrWhiteSpace(operationViewerAlias))
+            _operationViewer = ExportedTypeLibrary.Import<IOperationViewer>(operationViewerAlias);
+
+            // If there is no operation viewer defined or it could not be found, use the default one and log it
+            if (_operationViewer == null)
             {
-                operationViewerAlias = "DefaultOperationView";
+                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find operation viewer with alias '{0}'. Using the default one. Please check the configuration file!", operationViewerAlias);
+                _operationViewer = new Views.DefaultOperationView();
             }
 
-            _operationViewer = ExportedTypeLibrary.Import<IOperationViewer>(operationViewerAlias);
             _controlTemplate = new Lazy<FrameworkElement>(() =>
             {
                 return _operationViewer.Create();

@@ -62,7 +62,7 @@ namespace AlarmWorkflow.Windows.UI.Models
 
             UIConfiguration configuration = new UIConfiguration();
             configuration.OperationViewer = doc.Root.TryGetElementValue("OperationViewer", null);
-            configuration.ScaleFactor = (double)doc.Root.TryGetElementValue("ScaleFactor", 2.0f);
+            configuration.ScaleFactor = doc.Root.TryGetElementValue("ScaleFactor", 2.0d);
             configuration.ScreenId = doc.Root.TryGetElementValue("ScreenId", 0);
 
             XElement aoaE = doc.Root.Element("AutomaticOperationAcknowledgementSettings");
