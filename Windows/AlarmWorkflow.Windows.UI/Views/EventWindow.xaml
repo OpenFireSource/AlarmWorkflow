@@ -35,21 +35,24 @@
             </Grid.RowDefinitions>
 
             <!-- Event list (only shown if more than one simultaneous events) -->
-            <ListBox Grid.Row="0" 
+            <ListBox Grid.Row="0" MaxWidth="150"
                  ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold">
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Operation.IsAcknowledged}" Value="True">
-                                            <Setter Property="TextBlock.Foreground" Value="Gray" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Operation.IsAcknowledged}" Value="True">
+                                                <Setter Property="TextBlock.FontStyle" Value="Italic" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Operation.Keyword, TargetNullValue='(Kein Stichwort)'}" />
+                        </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ContextMenu>
