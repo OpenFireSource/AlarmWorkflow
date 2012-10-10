@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
+using AlarmWorkflow.Windows.UI;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
@@ -205,10 +206,14 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         private ImageSource GetRoutePlanImage()
         {
-            if (_operation == null || _operation.RouteImage == null)
+            if (_operation == null)
             {
-                // TODO: Return dummy?
                 return null;
+            }
+            if (_operation.RouteImage == null)
+            {
+                // Return dummy image
+                return Helper.GetNoRouteImage();
             }
 
             BitmapImage image = new BitmapImage();

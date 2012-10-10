@@ -112,7 +112,7 @@ namespace AlarmWorkflow.Windows.UI
             });
 
             // Create timer with an interval of 2 seconds
-            _timer = new Timer(2000d);
+            _timer = new Timer(Configuration.OperationFetchingArguments.Interval);
             _timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
             _timer.Start();
         }
@@ -163,11 +163,13 @@ namespace AlarmWorkflow.Windows.UI
             {
                 try
                 {
-                    int maxAge = (_startedDate - DateTime.UtcNow).Minutes;
                     using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
                     {
-                        // TODO: Make max entries customizable!
-                        var operations = service.Instance.GetOperationIds(maxAge.ToString(), true.ToString(), 16.ToString());
+                        string maxAge = Configuration.OperationFetchingArguments.MaxAge.ToString();
+                        string onlyNonAcknowledged = Configuration.OperationFetchingArguments.OnlyNonAcknowledged.ToString();
+                        string limitAmount = Configuration.OperationFetchingArguments.LimitAmount.ToString();
+
+                        var operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
                         if (operations.Count == 0)
                         {
                             return;
@@ -175,7 +177,6 @@ namespace AlarmWorkflow.Windows.UI
 
                         foreach (int operationId in operations)
                         {
-                            // TODO: Make this better!
                             OperationItem operation = service.Instance.GetOperationById(operationId.ToString());
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up

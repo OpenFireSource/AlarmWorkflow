@@ -1,7 +1,5 @@
 ﻿using System.IO;
-using System.Reflection;
 using System.Xml.Linq;
-using System.Xml.Serialization;
 using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Windows.UI.Models
@@ -29,6 +27,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
         public AutomaticOperationAcknowledgementSettings AutomaticOperationAcknowledgement { get; set; }
+        /// <summary>
+        /// Gets/sets the operation fetching parameters used by the worker thread.
+        /// </summary>
+        public OperationFetchingParameters OperationFetchingArguments { get; set; }
 
         #endregion
 
@@ -40,6 +42,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         public UIConfiguration()
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
+            OperationFetchingArguments = new OperationFetchingParameters();
         }
 
         #endregion
@@ -52,7 +55,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// <returns></returns>
         public static UIConfiguration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\UIConfiguration.xml");
+            string configFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config\\UIConfiguration.xml");
             if (configFile == null)
             {
                 return null;
@@ -69,6 +72,12 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.AutomaticOperationAcknowledgement.IsEnabled = aoaE.TryGetAttributeValue("IsEnabled", true);
             configuration.AutomaticOperationAcknowledgement.MaxAge = aoaE.TryGetAttributeValue("MaxAge", 480);
 
+            XElement ofpE = doc.Root.Element("OperationFetchingParameters");
+            configuration.OperationFetchingArguments.Interval = ofpE.TryGetAttributeValue("Interval", 2000);
+            configuration.OperationFetchingArguments.MaxAge = ofpE.TryGetAttributeValue("MaxAge", 7);
+            configuration.OperationFetchingArguments.OnlyNonAcknowledged = ofpE.TryGetAttributeValue("OnlyNonAcknowledged", true);
+            configuration.OperationFetchingArguments.LimitAmount = ofpE.TryGetAttributeValue("LimitAmount", 10);
+
             return configuration;
         }
 
@@ -84,20 +93,34 @@ namespace AlarmWorkflow.Windows.UI.Models
             /// <summary>
             /// Gets/sets whether or not the automatic operation acknowledgement is enabled.
             /// </summary>
-            [XmlAttribute()]
             public bool IsEnabled { get; set; }
             /// <summary>
             /// Gets/sets the maximum age in minutes until an operation is automatically acknowleded.
             /// </summary>
-            [XmlAttribute()]
             public int MaxAge { get; set; }
+        }
 
+        /// <summary>
+        /// Describes how operations shall be fetched by the worker thread.
+        /// </summary>
+        public class OperationFetchingParameters
+        {
             /// <summary>
-            /// Initializes a new instance of the <see cref="AutomaticOperationAcknowledgementSettings"/> class.
+            /// Gets/sets the interval in milliseconds when to check for new operations. Sane values range between 1500-3000.
             /// </summary>
-            public AutomaticOperationAcknowledgementSettings()
-            {
-            }
+            public int Interval { get; set; }
+            /// <summary>
+            /// Gets/sets the maximum age of operations to get. Used to limit traffic and keep the interface clean. Set to '0' for no maximum age (not recommended).
+            /// </summary>
+            public int MaxAge { get; set; }
+            /// <summary>
+            /// Gets/sets whether or not to limit operation retrieval to non-acknowledged operations. An operation is acknowledged after it is "done".
+            /// </summary>
+            public bool OnlyNonAcknowledged { get; set; }
+            /// <summary>
+            /// Gets/sets the limit of the overall amount of operations. Used to limit traffic and keep the interface clean.Set to '0' for no limit (not recommended).
+            /// </summary>
+            public int LimitAmount { get; set; }
         }
 
         #endregion

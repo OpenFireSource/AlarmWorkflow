@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Xml;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -23,7 +24,8 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             ServicesBinding = new WebHttpBinding()
             {
                 HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.WeakWildcard,
-                MaxReceivedMessageSize = int.MaxValue
+                MaxReceivedMessageSize = int.MaxValue,
+                ReaderQuotas = XmlDictionaryReaderQuotas.Max,
             };
         }
 

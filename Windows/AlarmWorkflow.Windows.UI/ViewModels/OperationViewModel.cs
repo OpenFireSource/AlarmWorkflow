@@ -55,7 +55,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 // Lazy-load route image?
                 if (operation.RouteImage == null)
                 {
-                    return null;
+                    return Helper.GetNoRouteImage();
                 }
 
                 BitmapImage image = new BitmapImage();
