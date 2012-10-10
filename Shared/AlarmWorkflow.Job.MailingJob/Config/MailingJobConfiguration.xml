@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Mailing>
   <MailServer>MailServrURL</MailServer>
-  <User>MailServerUser</User>
-  <Pwd>MailServerPassowrd</Pwd>
-  <FromMail>FromMailAddress</FromMail>
-  <MailAdresses>
-    <MailAddress debug="true">andreas@openfiresource.de</MailAddress>
-  </MailAdresses>
+  <UserName>MailServerUser</UserName>
+  <Password>MailServerPassowrd</Password>
+  <SenderAddress>FromMailAddress</SenderAddress>
+  <Recipients>
+    <Recipient Address="Address" />
+  </Recipients>
 </Mailing>

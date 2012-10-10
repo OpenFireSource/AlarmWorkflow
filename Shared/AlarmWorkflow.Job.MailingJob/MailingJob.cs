@@ -4,8 +4,9 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Xml;
-using System.Xml.XPath;
+using System.Threading;
+using System.Xml.Linq;
+using AlarmWorkflow.Shared.Config;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -13,7 +14,7 @@ using AlarmWorkflow.Shared.Extensibility;
 namespace AlarmWorkflow.Job.MailingJob
 {
     /// <summary>
-    /// Implements a Job, that send emails with all the operation information.
+    /// Implements a Job that send emails with the common alarm information.
     /// </summary>
     [Export("MailingJob", typeof(IJob))]
     sealed class MailingJob : IJob
@@ -22,11 +23,11 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private SmtpClient _smptClient;
 
-        private string server;
-        private string fromEmail;
-        private string user;
-        private string pwd;
-        private List<string> emaillist;
+        private string _server;
+        private string _userName;
+        private string _userPassword;
+        private MailAddress _senderEmail;
+        private List<MailAddress> _recipients;
 
         #endregion
 
@@ -37,20 +38,7 @@ namespace AlarmWorkflow.Job.MailingJob
         /// </summary>
         public MailingJob()
         {
-
-        }
-
-        #endregion
-
-        #region Event handlers
-
-        private void SmptClient_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending the mail!");
-                Logger.Instance.LogException(this, e.Error);
-            }
+            _recipients = new List<MailAddress>();
         }
 
         #endregion
@@ -59,35 +47,41 @@ namespace AlarmWorkflow.Job.MailingJob
 
         bool IJob.Initialize()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MailingJobConfiguration.xml");
-
-            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("Mailing");
-
-            this.emaillist = new List<string>();
-            XPathNavigator nav = settings.CreateNavigator();
-            if (nav.UnderlyingObject is XmlElement)
+            string configFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MailingJobConfiguration.xml";
+            if (!File.Exists(configFile))
             {
-                this.server = nav.SelectSingleNode("MailServer").InnerXml;
-                this.fromEmail = nav.SelectSingleNode("FromMail").InnerXml;
-                this.user = nav.SelectSingleNode("User").InnerXml;
-                this.pwd = nav.SelectSingleNode("Pwd").InnerXml;
-                XmlNode emailnode = ((XmlElement)nav.UnderlyingObject).SelectSingleNode("MailAdresses");
-                XmlNodeList emails = emailnode.SelectNodes("MailAddress");
-                for (int i = 0; i < emails.Count; i++)
-                {
-                    this.emaillist.Add(emails.Item(i).InnerText);
-                }
+                return false;
             }
-            else
+
+            XDocument doc = XDocument.Load(configFile);
+            _server = doc.Root.TryGetElementValue("MailServer", "localhost");
+            _userName = doc.Root.TryGetElementValue("UserName", "johndoe");
+            _userPassword = doc.Root.TryGetElementValue("Password", null);
+
+            _senderEmail = new MailAddress(doc.Root.TryGetElementValue("SenderAddress", "johndoe@domain.com"));
+
+            foreach (XElement recipientE in doc.Root.Element("Recipients").Elements("Recipient"))
             {
-                throw new ArgumentException("Settings is not an XmlElement");
+                string address = recipientE.TryGetAttributeValue("Address", null);
+                try
+                {
+                    MailAddress ma = new MailAddress(address);
+                    _recipients.Add(ma);
+                }
+                catch (FormatException)
+                {
+                    // The address failed to parse.
+                    Logger.Instance.LogFormat(LogType.Warning, this, "The address '{0}' failed to parse. This is usually an indication that the E-Mail address is invalid formatted.", address);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogException(this, ex);
+                }
             }
 
             // Create new SMTP client for sending mails
-            _smptClient = new SmtpClient(server);
-            _smptClient.SendCompleted += new SendCompletedEventHandler(SmptClient_SendCompleted);
-            NetworkCredential credential = new NetworkCredential(this.user, this.pwd);
+            _smptClient = new SmtpClient(_server);
+            NetworkCredential credential = new NetworkCredential(this._userName, this._userPassword);
             _smptClient.Credentials = credential;
 
             return true;
@@ -95,32 +89,51 @@ namespace AlarmWorkflow.Job.MailingJob
 
         void IJob.DoJob(Operation operation)
         {
-            // create the Mail
             using (MailMessage message = new MailMessage())
             {
-                message.From = new MailAddress(this.fromEmail);
-                foreach (string ma in this.emaillist)
+                message.From = _senderEmail;
+                foreach (MailAddress ma in _recipients)
                 {
                     message.To.Add(ma);
                 }
 
                 // TODO: Make this customizable...
-                message.Subject = "FFWPlanegg Einsatz";
-                message.Body += "Einsatznr: " + operation.OperationNumber + "\n";
-                message.Body += "Mitteiler: " + operation.Messenger + "\n";
-                message.Body += "Einsatzort: " + operation.Location + "\n";
-                message.Body += "Strasse: " + operation.Street + "\n";
-                message.Body += "Kreuzung: " + operation.CustomData["Intersection"] + "\n";
-                message.Body += "Ort: " + operation.City + "\n";
-                message.Body += "Objekt: " + operation.Property + "\n";
-                message.Body += "Meldebild: " + operation.CustomData["Picture"] + "\n";
-                message.Body += "Hinweis: " + operation.Comment + "\n";
-                message.Body += "Einsatzplan: " + operation.CustomData["PlanOfAction"] + "\n";
+                message.Subject = Configuration.Instance.FDInformation.Name + " - New alarm";
+                StringBuilder bodyBuilder = new StringBuilder();
+                bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
+                bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
+                bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
+                bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
+                bodyBuilder.AppendLine("Strasse: " + operation.Street + " " + operation.StreetNumber);
+                bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
+                bodyBuilder.AppendLine("Objekt: " + operation.Property);
+                bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
 
+                message.Body = bodyBuilder.ToString();
                 message.BodyEncoding = Encoding.UTF8;
+                message.Priority = MailPriority.High;
+                // No HTML is needed
+                message.IsBodyHtml = false;
 
                 // Send the message asynchronously
-                _smptClient.SendAsync(message, null);
+                try
+                {
+                    _smptClient.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    SmtpException smtpException = ex as SmtpException;
+                    if (smtpException != null)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, "An SMTP error occurred while sending the mail! Status code: {0}, Message: {1}", smtpException.StatusCode, smtpException.Message);
+                    }
+                    else
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, "An unknown error occurred while sending the mail! Please check the log for more information.");
+                    }
+
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 
