@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
@@ -47,17 +49,21 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             this.Operation = operation;
 
-            // Lazy-load route image?
-            if (operation.RouteImage != null)
+            // This property is to be used with the RouteControl.
+            _routeImage = new Lazy<ImageSource>(() =>
             {
-                //_routeImage = new Lazy<ImageSource>(() =>
-                //{
-                //    return MapsServiceHelper.GetRouteImage(pls,
-                //        GetDestination(),
-                //        App.GetApp().Configuration.RouteImageWidth,
-                //        App.GetApp().Configuration.RouteImageHeight);
-                //});
-            }
+                // Lazy-load route image?
+                if (operation.RouteImage == null)
+                {
+                    return null;
+                }
+
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = new MemoryStream(operation.RouteImage);
+                image.EndInit();
+                return image;
+            });
         }
 
         #endregion

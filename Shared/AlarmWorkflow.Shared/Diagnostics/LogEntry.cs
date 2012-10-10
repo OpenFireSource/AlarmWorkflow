@@ -148,7 +148,8 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 return "";
             }
 
-            return string.Format("Type = {0}; Message = {1}; Stack Trace = {2}", Exception.GetType().Name, Exception.Message, Exception.StackTrace.Replace(Environment.NewLine, "/r/"));
+            string stackTrace = Exception.StackTrace ?? "(no stack trace)";
+            return string.Format("Type = {0}; Message = {1}; Stack Trace = {2}", Exception.GetType().Name, Exception.Message, stackTrace.Replace(Environment.NewLine, "/r/"));
         }
 
         #endregion
