@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
@@ -45,6 +47,8 @@ namespace AlarmWorkflow.Shared.Config
 
         public FireDepartmentInfo FDInformation { get; private set; }
 
+        internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -83,6 +87,28 @@ namespace AlarmWorkflow.Shared.Config
                 this.FDInformation.Location.City = fdInfoE.Element("City").Value;
                 this.FDInformation.Location.Street = fdInfoE.Element("Street").Value;
                 this.FDInformation.Location.StreetNumber = fdInfoE.Element("StreetNumber").Value;
+            }
+
+            // Jobs configuration
+            {
+                XElement jobsConfigE = doc.Root.Element("JobsConfiguration");
+                List<string> jobs = new List<string>();
+                foreach (XElement exportE in jobsConfigE.Elements("Job"))
+                {
+                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
+                    {
+                        continue;
+                    }
+
+                    string jobName = exportE.TryGetAttributeValue("Name", null);
+                    if (string.IsNullOrWhiteSpace(jobName))
+                    {
+                        continue;
+                    }
+                    jobs.Add(jobName);
+                }
+
+                this.EnabledJobs = new ReadOnlyCollection<string>(jobs);
             }
 
             _instance = this;

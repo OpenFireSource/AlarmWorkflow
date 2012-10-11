@@ -24,24 +24,17 @@
   <!-- Defines the size of the route image -->
   <RouteImageHeight>800</RouteImageHeight>
   <RouteImageWidth>800</RouteImageWidth>
-  
-  <!-- This section states which exports are enabled and can be used.
-       You should manually add and enable only those you trust and need.
+
+  <!-- This section states which jobs are enabled and can be used.
+       You should manually add and enable only those you need.
   -->
-  <ExportWhitelist>
-    <Export Name="DisplayWakeUpJob" IsEnabled="False" />
-    <Export Name="MailingJob" IsEnabled="False" />
-    <Export Name="MySqlDatabaseJob" IsEnabled="False" />
-    <Export Name="SmsJob" IsEnabled="False" />
-    <Export Name="DisplayWakeUpJob" IsEnabled="False" />
-
-    <Export Name="IlsAnsbachParser" IsEnabled="True" />
-    <Export Name="MucLandParser" IsEnabled="True" />
-
-    <Export Name="SQLCEDatabaseJob" IsEnabled="True" />
-    <Export Name="SQLCEDatabaseOperationStore" IsEnabled="True" />
-
-    <Export Name="IlsAnsbachOperationViewer" IsEnabled="True" />
-  </ExportWhitelist>
+  <JobsConfiguration>
+    <Job Name="DisplayWakeUpJob" IsEnabled="False" />
+    <Job Name="MailingJob" IsEnabled="False" />
+    <Job Name="MySqlDatabaseJob" IsEnabled="False" />
+    <Job Name="SmsJob" IsEnabled="False" />
+    <Job Name="DisplayWakeUpJob" IsEnabled="False" />
+    <Job Name="SQLCEDatabaseJob" IsEnabled="True" />
+  </JobsConfiguration>
 
 </AlarmWorkflow>

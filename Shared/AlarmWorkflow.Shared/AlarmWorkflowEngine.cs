@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Xml;
 using AlarmWorkflow.Shared.Config;
@@ -92,8 +93,10 @@ namespace AlarmWorkflow.Shared
 
         private void InitializeJobs()
         {
-            foreach (IJob job in ExportedTypeLibrary.ImportAll<IJob>())
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IJob)).Where(j => Configuration.Instance.EnabledJobs.Contains(j.Attribute.Alias)))
             {
+                IJob job = export.CreateInstance<IJob>();
+
                 string jobName = job.GetType().Name;
                 Logger.Instance.LogFormat(LogType.Info, this, "Initializing job type '{0}'...", jobName);
 
@@ -284,6 +287,13 @@ namespace AlarmWorkflow.Shared
 
                 sw.Stop();
                 Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
+                if (operation.Timestamp == DateTime.MinValue)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                    operation.Timestamp = DateTime.Now;
+                }
 
                 // Download the route plan information (if data is meaningful)
                 DownloadRoutePlan(operation);

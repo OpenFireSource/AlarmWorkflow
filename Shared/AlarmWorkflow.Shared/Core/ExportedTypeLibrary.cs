@@ -37,23 +37,6 @@ namespace AlarmWorkflow.Shared.Core
         {
             // Load whitelist from configuration
             XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
-            XElement whitelist = doc.Root.Element("ExportWhitelist");
-
-            IList<string> allowedTypes = null;
-            if (whitelist != null)
-            {
-                allowedTypes = new List<string>();
-
-                foreach (XElement exportE in whitelist.Elements("Export"))
-                {
-                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
-                    {
-                        continue;
-                    }
-
-                    allowedTypes.Add(exportE.Attribute("Name").Value);
-                }
-            }
 
             // if there are no desired assemblies then we take all assemblies we can find in the working directory
             List<string> assembliesToScan = new List<string>();
@@ -69,7 +52,7 @@ namespace AlarmWorkflow.Shared.Core
                 {
                     Assembly assembly = Assembly.Load(AssemblyName.GetAssemblyName(file));
 
-                    ScanAssembly(assembly, allowedTypes);
+                    ScanAssembly(assembly);
                 }
                 catch (Exception)
                 {
@@ -78,7 +61,7 @@ namespace AlarmWorkflow.Shared.Core
             }
         }
 
-        private static void ScanAssembly(Assembly assembly, IList<string> allowedTypes)
+        private static void ScanAssembly(Assembly assembly)
         {
             int amount = 0;
 
@@ -92,11 +75,6 @@ namespace AlarmWorkflow.Shared.Core
                 if (exports.Length == 1)
                 {
                     ExportAttribute export = exports[0] as ExportAttribute;
-                    // Only add the export if it is whitelisted
-                    if (allowedTypes != null && !allowedTypes.Contains(export.Alias))
-                    {
-                        continue;
-                    }
                     _exports.Add(new ExportedType(export, t));
                 }
 

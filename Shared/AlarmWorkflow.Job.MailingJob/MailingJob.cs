@@ -113,10 +113,11 @@ namespace AlarmWorkflow.Job.MailingJob
                 }
 
                 // Construct message subject
-                message.Subject = Configuration.Instance.FDInformation.Name + " - ^new alarm";
+                message.Subject = Configuration.Instance.FDInformation.Name + " - new alarm";
 
                 // Construct body text
                 StringBuilder bodyBuilder = new StringBuilder();
+                bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString());
                 bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
                 bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
                 bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
