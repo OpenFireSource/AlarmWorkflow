@@ -65,7 +65,7 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             }
 
             Console.WriteLine("Shutting down complete. Press any key to exit.");
-            Console.ReadLine();
+            Console.ReadKey();
         }
 
         private static void WriteExceptionInformation(Exception exception)

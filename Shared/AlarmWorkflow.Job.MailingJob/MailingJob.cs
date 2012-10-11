@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Config;
 using AlarmWorkflow.Shared.Core;
@@ -23,11 +22,8 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private SmtpClient _smptClient;
 
-        private string _server;
-        private string _userName;
-        private string _userPassword;
         private MailAddress _senderEmail;
-        private List<MailAddress> _recipients;
+        private Dictionary<string, MailAddress> _recipients;
 
         #endregion
 
@@ -38,7 +34,7 @@ namespace AlarmWorkflow.Job.MailingJob
         /// </summary>
         public MailingJob()
         {
-            _recipients = new List<MailAddress>();
+            _recipients = new Dictionary<string, MailAddress>();
         }
 
         #endregion
@@ -54,19 +50,24 @@ namespace AlarmWorkflow.Job.MailingJob
             }
 
             XDocument doc = XDocument.Load(configFile);
-            _server = doc.Root.TryGetElementValue("MailServer", "localhost");
-            _userName = doc.Root.TryGetElementValue("UserName", "johndoe");
-            _userPassword = doc.Root.TryGetElementValue("Password", null);
-
             _senderEmail = new MailAddress(doc.Root.TryGetElementValue("SenderAddress", "johndoe@domain.com"));
 
+            // Add all recipients with their reception type (To, CC, BCC)
             foreach (XElement recipientE in doc.Root.Element("Recipients").Elements("Recipient"))
             {
                 string address = recipientE.TryGetAttributeValue("Address", null);
+                string type = recipientE.TryGetAttributeValue("Type", "To").ToUpperInvariant();
                 try
                 {
                     MailAddress ma = new MailAddress(address);
-                    _recipients.Add(ma);
+
+                    // Allow only To, CC and Bcc
+                    if (type != "TO" && type != "CC" && type != "BCC")
+                    {
+                        type = "TO";
+                    }
+
+                    _recipients.Add(type, ma);
                 }
                 catch (FormatException)
                 {
@@ -79,11 +80,19 @@ namespace AlarmWorkflow.Job.MailingJob
                 }
             }
 
-            // Create new SMTP client for sending mails
-            _smptClient = new SmtpClient(_server);
-            NetworkCredential credential = new NetworkCredential(this._userName, this._userPassword);
-            _smptClient.Credentials = credential;
+            XElement serverSettingsE = doc.Root.Element("MailServer");
+            string smtpHostName = serverSettingsE.TryGetElementValue("HostName", "localhost");
+            string userName = serverSettingsE.TryGetElementValue("UserName", "johndoe");
+            string userPassword = serverSettingsE.TryGetElementValue("Password", null);
+            int smtpPort = serverSettingsE.TryGetElementValue("Port", 25);
+            bool smtpAuthenticate = serverSettingsE.TryGetElementValue("Authenticate", true);
 
+            // Create new SMTP client for sending mails
+            _smptClient = new SmtpClient(smtpHostName, smtpPort);
+            if (smtpAuthenticate)
+            {
+                _smptClient.Credentials = new NetworkCredential(userName, userPassword);
+            }
             return true;
         }
 
@@ -92,25 +101,34 @@ namespace AlarmWorkflow.Job.MailingJob
             using (MailMessage message = new MailMessage())
             {
                 message.From = _senderEmail;
-                foreach (MailAddress ma in _recipients)
+                foreach (var addr in _recipients)
                 {
-                    message.To.Add(ma);
+                    switch (addr.Key)
+                    {
+                        case "CC": message.CC.Add(addr.Value); break;
+                        case "BCC": message.Bcc.Add(addr.Value); break;
+                        default:
+                        case "TO": message.To.Add(addr.Value); break;
+                    }
                 }
 
-                // TODO: Make this customizable...
-                message.Subject = Configuration.Instance.FDInformation.Name + " - New alarm";
+                // Construct message subject
+                message.Subject = Configuration.Instance.FDInformation.Name + " - ^new alarm";
+
+                // Construct body text
                 StringBuilder bodyBuilder = new StringBuilder();
                 bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
                 bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
+                bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
                 bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
                 bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
-                bodyBuilder.AppendLine("Strasse: " + operation.Street + " " + operation.StreetNumber);
+                bodyBuilder.AppendLine("Straße: " + operation.Street + " " + operation.StreetNumber);
                 bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
                 bodyBuilder.AppendLine("Objekt: " + operation.Property);
-                bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
 
                 message.Body = bodyBuilder.ToString();
                 message.BodyEncoding = Encoding.UTF8;
+
                 message.Priority = MailPriority.High;
                 // No HTML is needed
                 message.IsBodyHtml = false;

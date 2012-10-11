@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Mailing>
-  <MailServer>MailServrURL</MailServer>
-  <UserName>MailServerUser</UserName>
-  <Password>MailServerPassowrd</Password>
+  <MailServer>
+    <HostName>MailServerURL</HostName>
+    <UserName>MailServerUser</UserName>
+    <Password>MailServerPassowrd</Password>
+    <Authenticate>True</Authenticate>
+    <Port>25</Port>
+  </MailServer>
   <SenderAddress>FromMailAddress</SenderAddress>
   <Recipients>
-    <Recipient Address="Address" />
+    <Recipient Address="Address" Type="To/CC/BCC" />
   </Recipients>
 </Mailing>
