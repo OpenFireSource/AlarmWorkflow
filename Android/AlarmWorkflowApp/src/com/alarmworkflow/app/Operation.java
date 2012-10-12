@@ -81,4 +81,19 @@ public class Operation {
 		// TODO Auto-generated method stub
 		return super.toString();
 	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object o) {
+
+		if(o.getClass() == this.getClass()){
+			Operation oo = (Operation)o;
+			return oo.OperationID == this.OperationID;
+		}
+		
+		return super.equals(o);
+	}
+	
 }

@@ -1,5 +1,6 @@
 package com.alarmworkflow.app;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,9 @@ public class MainActivity extends Activity {
         
 	private EditText _txtConnectServerUri;
 	private ListView _lsvOperations;
+	
+	private OperationsAdapter _adapter;
+	private List<Operation> _adapterList;
 
 	public MainActivity() {
 
@@ -33,11 +37,25 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		// Retrieve controls from layout
 		_txtConnectServerUri = (EditText) findViewById(R.id.txtConnectServerUri);
 		_lsvOperations = (ListView) findViewById(R.id.lsvOperations);
 		
+		// Load shared preferences
 		SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
 		_txtConnectServerUri.setText(prefs.getString(PREF_SERVERURI, "http://10.0.2.2:60002/"));
+
+		// Load the persisted cache
+		try {
+			OperationCache.getInstance().loadPersistedCache(openFileInput(OperationCache.PERSISTENT_STORAGE_FILENAME));
+		} catch (FileNotFoundException e) {
+			// It's ok if the file does not exist --> ignore exception
+		}
+		
+		// Now create a new adapter for our list view and host the data in it
+		_adapterList = new ArrayList<Operation>();
+		_adapter = new OperationsAdapter(getApplicationContext(), R.layout.operationitemlayout, _adapterList);
+		_lsvOperations.setAdapter(_adapter);
 	}
 
 	@Override
@@ -50,11 +68,20 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		super.onDestroy();
 
+		// Store shared preferences
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PREF_SERVERURI, _txtConnectServerUri.getEditableText().toString());
         
         editor.commit();
+        
+        // Persist operation cache
+        try {
+			OperationCache.getInstance().persistCache(openFileOutput(OperationCache.PERSISTENT_STORAGE_FILENAME, MODE_PRIVATE));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -71,8 +98,7 @@ public class MainActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 
-		outState.putString("serverUri", _txtConnectServerUri.getEditableText()
-				.toString());
+		outState.putString("serverUri", _txtConnectServerUri.getEditableText().toString());
 	}
 
 	public void btnRefreshList_onClick(View view) {
@@ -86,18 +112,34 @@ public class MainActivity extends Activity {
 		// Get all operation IDs
 		int[] operationIDs = AlarmWorkflowServiceWrapper.getOperationIds(serverUri, SERVICE_MAXAGE, SERVICE_ONLYNONACKNOWLEDGED, SERVICE_LIMITAMOUNT);
 
-		List<Operation> operations = new ArrayList<Operation>();
-		
-		// TODO Check which operations we have cached (caching not implemented yet!) and don't retrieve those!
 		for (int i : operationIDs) {
-			Operation operation = AlarmWorkflowServiceWrapper.getOperationByID(serverUri, i);
-			if (operation != null){
-				operations.add(operation);
-			}
+			Operation operation = OperationCache.getInstance().getCachedOperation(i);
+			
+			if(operation == null){				
+				// Now retrieve the operation from the web service and store it in the cache for next time
+				operation = AlarmWorkflowServiceWrapper.getOperationByID(serverUri, i);
+				if(operation != null){
+					OperationCache.getInstance().addCachedOperation(operation);
+				}
+			}							
+			
+			// Add the operation to the list (if it is not already present) and update it
+			checkAndAddOperationToList(operation);
+		}
+	}
+	
+	private void checkAndAddOperationToList(Operation operation){
+		if (operation == null){
+			return;
+		}
+
+		if (_adapterList.contains(operation)){
+			return;
 		}
 		
-		// Now create a new adapter for our list view and host the data in it
-		OperationsAdapter adapter = new OperationsAdapter(getApplicationContext(), R.layout.operationitemlayout, operations);
-		_lsvOperations.setAdapter(adapter);
+		// Add the operation to the adapter and notify
+		_adapter.add(operation);		
+		_adapter.notifyDataSetChanged();
 	}
+
 }
