@@ -7,6 +7,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
 using AlarmWorkflow.Windows.UI.Extensibility;
+using AlarmWorkflow.Windows.UI.Services;
 
 // TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 
@@ -89,6 +90,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 return;
             }
 
+            // Require confirmation of this action
+            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("AcknowledgeOperation"))
+            {
+                return;
+            }
+
             string parameterS = parameter as string;
             bool goToNextAfterwards = parameterS == "NextOperation";
 
@@ -164,12 +171,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// Pushes a new event to the window, either causing it to spawn, or to extend its list box by this event if already shown.
         /// </summary>
         /// <param name="operation">The event to push.</param>
-        public void PushEvent(Operation operation)
+        /// <returns>Whether or not the event was pushed. This is true if the event was a new one, and false if the event did already exist.</returns>
+        public bool PushEvent(Operation operation)
         {
             // Sanity-check
             if (AvailableEvents.Any(o => o.Operation.Id == operation.Id))
             {
-                return;
+                return false;
             }
 
             // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
@@ -186,6 +194,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 SelectedEvent = AvailableEvents[0];
                 OnPropertyChanged("SelectedEvent");
             }
+
+            return true;
         }
 
         private void RemoveEvent(OperationViewModel operation)

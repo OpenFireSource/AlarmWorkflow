@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using System.Timers;
@@ -43,11 +42,7 @@ namespace AlarmWorkflow.Windows.UI
         #endregion
 
         #region Properties
-
-        /// <summary>
-        /// Gets whether or not the event window should be Topmost.
-        /// </summary>
-        public bool ShouldEventWindowBeTopmost { get; private set; }
+            
         /// <summary>
         /// Gets the configuration for the UI.
         /// </summary>
@@ -71,7 +66,6 @@ namespace AlarmWorkflow.Windows.UI
                 Mutex.OpenExisting(MutexName);
 
                 // error: since the mutex could be openend, this means another instance is already open!
-                // TODO: We cannot really show a message box, because if the window is opened and is topmost, the message would "disappear" but block!
                 App.Current.Shutdown();
                 return;
             }
@@ -82,9 +76,6 @@ namespace AlarmWorkflow.Windows.UI
             }
 
             LoadConfiguration();
-
-            // Don't set Topmost when the Debugger is attached. This is so damn annoying!
-            this.ShouldEventWindowBeTopmost = !Debugger.IsAttached;
         }
 
         #endregion
@@ -148,6 +139,8 @@ namespace AlarmWorkflow.Windows.UI
             _timer = new System.Timers.Timer(Configuration.OperationFetchingArguments.Interval);
             _timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
             _timer.Start();
+
+            InitializeServices();
         }
 
         /// <summary>
@@ -161,7 +154,16 @@ namespace AlarmWorkflow.Windows.UI
             if (_mutex != null)
             {
                 _mutex.Dispose();
-            }   
+            }
+        }
+
+        /// <summary>
+        /// Initializes the services and registers them at the ServiceProvider.
+        /// </summary>
+        private void InitializeServices()
+        {
+            // Credentials-confirmation dialog service
+            ServiceProvider.Instance.AddService(typeof(Services.ICredentialConfirmationDialogService), new Services.CredentialConfirmationDialogService());
         }
 
         private void PushEvent(OperationItem operation)
@@ -261,11 +263,6 @@ namespace AlarmWorkflow.Windows.UI
             }
 
             _isMessageBoxShown = true;
-            // We need to disable Topmost otherwise the user can't see the 
-            if (MainWindow != null)
-            {
-                MainWindow.Topmost = false;
-            }
 
             if (MessageBox.Show(AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
@@ -276,7 +273,7 @@ namespace AlarmWorkflow.Windows.UI
                 // Then re-enable topmost again... or not
                 if (MainWindow != null)
                 {
-                    MainWindow.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
+                    MainWindow.Activate();
                 }
             }
 

@@ -32,7 +32,6 @@ namespace AlarmWorkflow.Windows.UI.Views
             _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(ViewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
-            this.Topmost = App.GetApp().ShouldEventWindowBeTopmost;
             SetLocationToScreen();
         }
 
@@ -87,7 +86,11 @@ namespace AlarmWorkflow.Windows.UI.Views
         /// <param name="operation">The event to push.</param>
         public void PushEvent(Operation operation)
         {
-            _viewModel.PushEvent(operation);
+            if (_viewModel.PushEvent(operation))
+            {
+                // If the event was new, bring the window to front (sanity)
+                this.Activate();
+            }
         }
 
         #endregion

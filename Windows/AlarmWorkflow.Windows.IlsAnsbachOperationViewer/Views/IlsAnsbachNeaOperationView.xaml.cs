@@ -57,7 +57,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
                 return;
             }
 
-            _viewModel.AddManuallyDeployedVehicles(vehicle.Name);
+            _viewModel.ToggleManuallyDeployedVehicles(vehicle.Name);
         }
 
         #endregion

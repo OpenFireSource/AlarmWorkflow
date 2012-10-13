@@ -8,6 +8,7 @@ using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI;
+using AlarmWorkflow.Windows.UI.Services;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
@@ -240,7 +241,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// <summary>
         /// Adds a new manually deployed vehicle to the list.
         /// </summary>
-        internal void AddManuallyDeployedVehicles(string resourceName)
+        internal void ToggleManuallyDeployedVehicles(string resourceName)
         {
             List<Resource> dataSource = GetOperationCustomData<List<Resource>>("Einsatzmittel", null);
             if (dataSource != null)
@@ -253,7 +254,13 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                     if (rvm != null)
                     {
                         // If this resource is already manually deployed, "undeploy" it.
-                        // TODO: Require authentication/confirmation!!!
+
+                        // Require confirmation of this action
+                        if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("RemoveManuallyDeployedVehicle"))
+                        {
+                            return;
+                        }
+
                         ManuallyDeployedVehicles.Remove(rvm);
                     }
                     else

@@ -361,5 +361,17 @@ namespace AlarmWorkflow.Shared.Core
                 Logger.Instance.LogException("Utilities.Swallow", ex);
             }
         }
+
+        /// <summary>
+        /// Gets the service object of the specified type.
+        /// </summary>
+        /// <typeparam name="T">The type of the service to return.</typeparam>
+        /// <param name="serviceProvider">The <see cref="IServiceProvider"/>-instance to get the service from.</param>
+        /// <returns>The service object of the specified type.</returns>
+        /// <exception cref="System.InvalidOperationException">The specified service could not be found.</exception>
+        public static T GetService<T>(this IServiceProvider serviceProvider)
+        {
+            return (T)serviceProvider.GetService(typeof(T));
+        }
     }
 }
