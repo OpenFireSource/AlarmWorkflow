@@ -81,6 +81,16 @@ namespace AlarmWorkflow.Windows.UI.Views
         }
 
         /// <summary>
+        /// Returns whether or not the window contains an operation with the given id.
+        /// </summary>
+        /// <param name="operationId"></param>
+        /// <returns></returns>
+        public bool ContainsEvent(int operationId)
+        {
+            return _viewModel.AvailableEvents.Any(o => o.Operation.Id == operationId);
+        }
+
+        /// <summary>
         /// Pushes a new event to the window, either causing it to spawn, or to extend its list box by this event if already shown.
         /// </summary>
         /// <param name="operation">The event to push.</param>

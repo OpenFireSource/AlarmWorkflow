@@ -25,7 +25,7 @@ namespace AlarmWorkflow.Windows.UI.Services
             if (dialog.ShowDialog() == true)
             {
                 // TODO: Validate password
-                
+                return true;
             }
 
             return false;

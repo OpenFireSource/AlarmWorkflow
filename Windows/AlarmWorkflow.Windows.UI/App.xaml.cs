@@ -42,7 +42,7 @@ namespace AlarmWorkflow.Windows.UI
         #endregion
 
         #region Properties
-            
+
         /// <summary>
         /// Gets the configuration for the UI.
         /// </summary>
@@ -166,6 +166,14 @@ namespace AlarmWorkflow.Windows.UI
             ServiceProvider.Instance.AddService(typeof(Services.ICredentialConfirmationDialogService), new Services.CredentialConfirmationDialogService());
         }
 
+        private bool ContainsEvent(int operationId)
+        {
+            lock (Lock)
+            {
+                return _eventWindow != null && _eventWindow.ContainsEvent(operationId);
+            }
+        }
+
         private void PushEvent(OperationItem operation)
         {
             lock (Lock)
@@ -226,6 +234,12 @@ namespace AlarmWorkflow.Windows.UI
 
                         foreach (int operationId in operations)
                         {
+                            // Check if we already have this event (in this case don't retrieve it all over again)
+                            if (ContainsEvent(operationId))
+                            {
+                                continue;
+                            }
+
                             // Second parameter determines the detail level. Here, we can use "1" (full detail).
                             OperationItem operation = service.Instance.GetOperationById(operationId.ToString(), "1");
 

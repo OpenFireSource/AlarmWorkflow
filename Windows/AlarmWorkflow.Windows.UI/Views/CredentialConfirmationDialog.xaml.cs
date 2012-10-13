@@ -15,6 +15,10 @@ namespace AlarmWorkflow.Windows.UI.Views
         public CredentialConfirmationDialog()
         {
             InitializeComponent();
+            if (App.Current.MainWindow != null)
+            {
+                this.Owner = App.Current.MainWindow;
+            }
 
             this.Loaded += CredentialConfirmationDialog_Loaded;
         }

@@ -20,15 +20,15 @@
                 <DataTemplate>
                     <Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" Margin="1" Focusable="False">
                         <Grid Focusable="False">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
 
-                            <TextBlock Grid.Row="0" Text="{Binding VehicleName}" FontWeight="Bold" TextAlignment="Center" Focusable="False" />
+                            <TextBlock Grid.Column="0" Text="{Binding VehicleName}" FontWeight="Bold" TextAlignment="Center" Focusable="False" VerticalAlignment="Center" />
 
                             <!-- Vehicle Icon -->
-                            <Image Grid.Row="1" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" Focusable="False" />
+                            <Image Grid.Column="1" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" Focusable="False" />
 
                         </Grid>
                     </Border>
@@ -112,7 +112,7 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <Separator DockPanel.Dock="Top" Foreground="Black" />
+                                    <Separator DockPanel.Dock="Top" Foreground="Black" SnapsToDevicePixels="True" />
                                     <TextBlock Text="{Binding ResourceName}" TextWrapping="WrapWithOverflow" />
                                 </DockPanel>
                             </DataTemplate>
