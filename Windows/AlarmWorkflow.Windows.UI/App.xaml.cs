@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceModel;
+using System.Threading;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,14 +21,22 @@ namespace AlarmWorkflow.Windows.UI
     /// </summary>
     public partial class App : Application
     {
+        #region Constants
+
+        private const string MutexName = "$AlarmWorkflow.Windows.UI";
+
+        #endregion
+
         #region Fields
+
+        private System.Threading.Mutex _mutex;
 
         private TaskbarIcon _taskbarIcon;
         private DateTime _startedDate;
 
         private readonly object Lock = new object();
         private EventWindow _eventWindow;
-        private Timer _timer;
+        private System.Timers.Timer _timer;
 
         private bool _isMessageBoxShown;
 
@@ -56,6 +65,22 @@ namespace AlarmWorkflow.Windows.UI
         /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
+            // Check mutex for existence (in which case we quit --> only one instance allowed!)
+            try
+            {
+                Mutex.OpenExisting(MutexName);
+
+                // error: since the mutex could be openend, this means another instance is already open!
+                // TODO: We cannot really show a message box, because if the window is opened and is topmost, the message would "disappear" but block!
+                App.Current.Shutdown();
+                return;
+            }
+            catch (WaitHandleCannotBeOpenedException)
+            {
+                // yay! let's create a mutex now! oh yeah, and start the app too.
+                _mutex = new Mutex(false, MutexName);
+            }
+
             LoadConfiguration();
 
             // Don't set Topmost when the Debugger is attached. This is so damn annoying!
@@ -95,7 +120,15 @@ namespace AlarmWorkflow.Windows.UI
         /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs"/> that contains the event data.</param>
         protected override void OnStartup(StartupEventArgs e)
         {
+            if (_mutex == null)
+            {
+                return;
+            }
+
             base.OnStartup(e);
+
+            // Set shutdown mode to explicit to allow our application to run even if there are no windows open anymore.
+            ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
 
             _startedDate = DateTime.UtcNow;
 
@@ -111,10 +144,24 @@ namespace AlarmWorkflow.Windows.UI
                 Command = new RelayCommand(LeftClickCommand_Execute),
             });
 
-            // Create timer with an interval of 2 seconds
-            _timer = new Timer(Configuration.OperationFetchingArguments.Interval);
+            // Create timer with a custom interval from configuration
+            _timer = new System.Timers.Timer(Configuration.OperationFetchingArguments.Interval);
             _timer.Elapsed += new ElapsedEventHandler(Timer_Elapsed);
             _timer.Start();
+        }
+
+        /// <summary>
+        /// Called when the application shuts down.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            if (_mutex != null)
+            {
+                _mutex.Dispose();
+            }   
         }
 
         private void PushEvent(OperationItem operation)
