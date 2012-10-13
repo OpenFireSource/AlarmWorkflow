@@ -1,5 +1,5 @@
 ﻿
-namespace AlarmWorkflow.Windows.UI.Services
+namespace AlarmWorkflow.Windows.UI.Security
 {
     class CredentialConfirmationDialogService : ICredentialConfirmationDialogService
     {
@@ -17,9 +17,10 @@ namespace AlarmWorkflow.Windows.UI.Services
 
         #region ICredentialConfirmationDialogService Members
 
-        bool ICredentialConfirmationDialogService.Invoke(string functionName)
+        bool ICredentialConfirmationDialogService.Invoke(string functionName, AuthorizationMode authorizationMode)
         {
-            Views.CredentialConfirmationDialog dialog = new Views.CredentialConfirmationDialog();
+            CredentialConfirmationDialog dialog = new CredentialConfirmationDialog();
+            dialog.AuthorizationMode = authorizationMode;
             dialog.txtFunctionName.Text = functionName;
 
             if (dialog.ShowDialog() == true)

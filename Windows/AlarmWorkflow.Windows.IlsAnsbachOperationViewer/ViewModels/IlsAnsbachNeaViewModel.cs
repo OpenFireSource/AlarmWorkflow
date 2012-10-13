@@ -8,7 +8,7 @@ using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI;
-using AlarmWorkflow.Windows.UI.Services;
+using AlarmWorkflow.Windows.UI.Security;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
@@ -256,7 +256,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                         // If this resource is already manually deployed, "undeploy" it.
 
                         // Require confirmation of this action
-                        if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("RemoveManuallyDeployedVehicle"))
+                        if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Eingesetztes Fahrzeug entfernen", AuthorizationMode.SimpleConfirmation))
                         {
                             return;
                         }

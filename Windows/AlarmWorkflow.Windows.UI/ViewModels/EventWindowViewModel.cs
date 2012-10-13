@@ -7,7 +7,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
 using AlarmWorkflow.Windows.UI.Extensibility;
-using AlarmWorkflow.Windows.UI.Services;
+using AlarmWorkflow.Windows.UI.Security;
 
 // TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 
@@ -91,7 +91,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
 
             // Require confirmation of this action
-            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("AcknowledgeOperation"))
+            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.Password))
             {
                 return;
             }
@@ -187,6 +187,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
+
+            _operationViewer.OnNewOperation(operation);
 
             // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
             if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.Timestamp < AvailableEvents[0].Operation.Timestamp))

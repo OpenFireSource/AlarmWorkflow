@@ -39,6 +39,10 @@ namespace AlarmWorkflow.Windows.UI.Views
             return this;
         }
 
+        void IOperationViewer.OnNewOperation(Operation operation)
+        {
+        }
+
         void IOperationViewer.OnOperationChanged(Shared.Core.Operation operation)
         {
             _viewModel.Operation = operation;
@@ -87,7 +91,8 @@ namespace AlarmWorkflow.Windows.UI.Views
 
             #endregion
 
-        #endregion
         }
+
+        #endregion
     }
 }

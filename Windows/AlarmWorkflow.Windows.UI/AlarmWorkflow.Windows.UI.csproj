@@ -73,11 +73,12 @@
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="Services\CredentialConfirmationDialogService.cs" />
-    <Compile Include="Services\ICredentialConfirmationDialogService.cs" />
+    <Compile Include="Security\AuthorizationMode.cs" />
+    <Compile Include="Security\CredentialConfirmationDialogService.cs" />
+    <Compile Include="Security\ICredentialConfirmationDialogService.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
-    <Compile Include="Views\CredentialConfirmationDialog.xaml.cs">
+    <Compile Include="Security\CredentialConfirmationDialog.xaml.cs">
       <DependentUpon>CredentialConfirmationDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DefaultOperationView.xaml.cs">
@@ -126,7 +127,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Views\CredentialConfirmationDialog.xaml">
+    <Page Include="Security\CredentialConfirmationDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

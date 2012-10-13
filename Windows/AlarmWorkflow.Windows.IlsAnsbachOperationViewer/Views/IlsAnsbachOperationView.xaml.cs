@@ -38,6 +38,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
             return this;
         }
 
+        void IOperationViewer.OnNewOperation(Operation operation)
+        {
+        }
+
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
             _viewModel.Operation = operation;

@@ -15,6 +15,11 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
         /// <returns></returns>
         FrameworkElement Create();
         /// <summary>
+        /// Called when a new operation is coming in, prior to it <see cref="OnOperationChanged(Operation)"/> being called.
+        /// </summary>
+        /// <param name="operation">The new operation that is about being changed over to.</param>
+        void OnNewOperation(Operation operation);
+        /// <summary>
         /// Called when the selected operation has changed and we need to display the given one.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> that was selected and is now being displayed.</param>

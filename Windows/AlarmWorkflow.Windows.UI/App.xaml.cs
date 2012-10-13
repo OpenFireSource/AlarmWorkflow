@@ -163,7 +163,7 @@ namespace AlarmWorkflow.Windows.UI
         private void InitializeServices()
         {
             // Credentials-confirmation dialog service
-            ServiceProvider.Instance.AddService(typeof(Services.ICredentialConfirmationDialogService), new Services.CredentialConfirmationDialogService());
+            ServiceProvider.Instance.AddService(typeof(Security.ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
         }
 
         private bool ContainsEvent(int operationId)
