@@ -444,6 +444,12 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                 }
             }
 
+            // Post-processing the operation if needed
+            if (!string.IsNullOrWhiteSpace(operation.Comment) && operation.Comment.EndsWith("\n"))
+            {
+                operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
+            }
+
             return operation;
         }
 

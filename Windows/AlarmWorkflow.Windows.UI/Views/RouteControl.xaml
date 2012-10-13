@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.UI.Views.RouteControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
-    <Image Source="{Binding RoutePlanImage}" Stretch="Uniform" />
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Focusable="False">
+
+    <Image Source="{Binding RoutePlanImage}" Stretch="Uniform" Focusable="False" />
            
 </UserControl>

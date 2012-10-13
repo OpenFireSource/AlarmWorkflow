@@ -10,28 +10,26 @@
         </Grid.RowDefinitions>
 
         <!-- Display vehicles -->
-        <ItemsControl Grid.Row="0" Margin="1" ItemsSource="{Binding ManuallyDeployedVehicles}">
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding ManuallyDeployedVehicles}" Focusable="False">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal" />
+                    <WrapPanel Orientation="Horizontal" Focusable="False" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" Margin="1">
-                        <Grid>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                    <Border CornerRadius="2" BorderThickness="1" BorderBrush="Black" Margin="1" Focusable="False">
+                        <Grid Focusable="False">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0" Text="{Binding VehicleName}" FontWeight="Bold" TextAlignment="Center"  />
+                            <TextBlock Grid.Row="0" Text="{Binding VehicleName}" FontWeight="Bold" TextAlignment="Center" Focusable="False" />
 
-                                <!-- Vehicle Icon -->
-                                <Image Grid.Row="1" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" />
+                            <!-- Vehicle Icon -->
+                            <Image Grid.Row="1" Source="{Binding Image}" Width="48" Height="48" Stretch="Uniform" Focusable="False" />
 
-                            </Grid>
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -49,9 +47,6 @@
             <Border Grid.Column="0" BorderThickness="1,1,1,1" BorderBrush="Black" CornerRadius="1,0,0,1">
                 <Grid Margin="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
 
@@ -90,11 +85,8 @@
                         <Run Text="{Binding Operation.StreetNumber}" />
                     </TextBlock>
 
-                    <TextBlock Grid.Row="8" Text="Mitteiler:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="9" Text="{Binding Operation.Messenger, TargetNullValue='(Nicht bekannt)'}" TextWrapping="WrapWithOverflow" />
-
-                    <TextBlock Grid.Row="10" Text="Zeitstempel:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="11" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="8" Text="Zeitstempel:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="9" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
 
                 </Grid>
             </Border>
