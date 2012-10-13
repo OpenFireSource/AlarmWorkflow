@@ -82,7 +82,6 @@
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EventWindowViewModel.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

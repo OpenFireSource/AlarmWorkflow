@@ -12,16 +12,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
     {
         #region Fields
 
-        private ViewModel _viewModel;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        internal UIConfiguration Configuration { get; private set; }
+        private IlsAnsbachViewModel _viewModel;
 
         #endregion
 
@@ -34,9 +25,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
         {
             InitializeComponent();
 
-            Configuration = UIConfiguration.Load();
-
-            _viewModel = new ViewModel(Configuration);
+            _viewModel = new IlsAnsbachViewModel();
             this.DataContext = _viewModel;
         }
 

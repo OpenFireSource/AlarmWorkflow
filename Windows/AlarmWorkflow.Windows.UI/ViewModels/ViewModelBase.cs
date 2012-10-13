@@ -7,7 +7,7 @@ using System.Windows;
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     /// <summary>
-    /// Base for all FireFighter Client ViewModels.
+    /// ViewModel base class.
     /// </summary>
     public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable
     {

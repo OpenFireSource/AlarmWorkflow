@@ -11,7 +11,7 @@ using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 {
-    class ViewModel : ViewModelBase
+    class IlsAnsbachViewModel : ViewModelBase
     {
         #region Fields
 
@@ -182,12 +182,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ViewModel"/> class.
+        /// Initializes a new instance of the <see cref="IlsAnsbachViewModel"/> class.
         /// </summary>
-        /// <param name="configuration"></param>
-        public ViewModel(UIConfiguration configuration)
+        public IlsAnsbachViewModel()
         {
-            _configuration = configuration;
+            _configuration = UIConfiguration.Load();
         }
 
         #endregion
