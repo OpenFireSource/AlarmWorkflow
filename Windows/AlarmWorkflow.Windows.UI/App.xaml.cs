@@ -77,6 +77,7 @@ namespace AlarmWorkflow.Windows.UI
                 Mutex.OpenExisting(MutexName);
 
                 // error: since the mutex could be openend, this means another instance is already open!
+                MessageBox.Show("Anwendung kann nicht zweimal gestartet werden!");
                 App.Current.Shutdown();
                 return;
             }

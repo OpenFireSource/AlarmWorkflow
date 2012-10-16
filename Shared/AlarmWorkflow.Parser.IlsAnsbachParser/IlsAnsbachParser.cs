@@ -277,9 +277,8 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
                                             operation.City = msg.Remove(0, operation.ZipCode.Length).Trim();
 
-                                            // You know whats a lot of bull? The City is weirdly assembled often times which makes planning hard :-(
-                                            // Often (90%?) it contains a dash after which the administrative city appears multiple times - bsh*t!
-                                            // But the good news is that it seems we can (with google maps) omit this information without problems!
+                                            // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
+                                            // However we can (at least with google maps) omit this information without problems!
                                             int dashIndex = operation.City.IndexOf('-');
                                             if (dashIndex != -1)
                                             {

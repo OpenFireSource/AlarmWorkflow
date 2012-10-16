@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AlarmWorkflow.Parser.IlsAnsbachParser;
@@ -199,7 +201,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         public IlsAnsbachNeaViewModel(UIConfigurationNea configuration)
         {
             _configuration = configuration;
+
+            // Create binding source for manually deployed vehicles and add sort description so they sort automatically
             ManuallyDeployedVehicles = new ObservableCollection<ResourceViewModel>();
+            ICollectionView mdvdv = CollectionViewSource.GetDefaultView(ManuallyDeployedVehicles);
+            mdvdv.SortDescriptions.Add(new SortDescription("VehicleName", ListSortDirection.Ascending));
         }
 
         #endregion
