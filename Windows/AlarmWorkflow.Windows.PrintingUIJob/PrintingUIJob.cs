@@ -116,25 +116,22 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return;
             }
 
-            ThreadPool.QueueUserWorkItem(o =>
-            {
-                // We need to wait for a bit to let the UI "catch a breath".
-                // Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
-                Thread.Sleep(_configuration.WaitInterval);
+            // We need to wait for a bit to let the UI "catch a breath".
+            // Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
+            Thread.Sleep(_configuration.WaitInterval);
 
-                // After waiting, invoke the action on the UI thread
-                Application.Current.Dispatcher.BeginInvoke((Action)(() =>
-                {
+            PrintDialog dialog = new PrintDialog();
+            dialog.PrintQueue = _printQueue.Value;
+            dialog.PrintTicket = dialog.PrintQueue.DefaultPrintTicket;
+            dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
+            dialog.PrintTicket.CopyCount = _configuration.CopyCount;
 
-                    PrintDialog dialog = new PrintDialog();
-                    dialog.PrintQueue = _printQueue.Value;
-                    dialog.PrintTicket = dialog.PrintQueue.DefaultPrintTicket;
-                    dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
-                    dialog.PrintTicket.CopyCount = _configuration.CopyCount;
+            FrameworkElement visual = operationViewer.Visual;
+            // Measure and arrange the visual before printing otherwise it looks unpredictably weird and may not fit on the page
+            visual.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
+            visual.Arrange(new Rect(new Point(0, 0), visual.DesiredSize));
 
-                    dialog.PrintVisual(operationViewer.Visual, "New alarm " + operation.OperationNumber);
-                }));
-            });
+            dialog.PrintVisual(visual, "New alarm " + operation.OperationNumber);
         }
 
         #endregion

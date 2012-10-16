@@ -180,6 +180,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 return false;
             }
 
+            // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)
+            if (!operation.IsAcknowledged)
+            {
+                _operationViewer.OnNewOperation(operation);
+            }
+
             // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
             OperationViewModel ovm = new OperationViewModel(operation);
             AvailableEvents.Add(ovm);
@@ -188,17 +194,17 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
 
-            _operationViewer.OnNewOperation(operation);
-
             // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
             if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.Timestamp < AvailableEvents[0].Operation.Timestamp))
             {
                 SelectedEvent = AvailableEvents[0];
-                OnPropertyChanged("SelectedEvent");
             }
 
-            // Call the UI-jobs now
+            // Call the UI-jobs now on this specific job
             App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
+
+            // When the jobs are done, change over to the job (necessary in most cases albeit not perfect solution :-/ )
+            _operationViewer.OnOperationChanged(SelectedEvent.Operation);
 
             return true;
         }
