@@ -32,6 +32,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             get { return _operation; }
             set
             {
+                if (value == _operation)
+                {
+                    return;
+                }
+
                 _operation = value;
 
                 // Set operation itself

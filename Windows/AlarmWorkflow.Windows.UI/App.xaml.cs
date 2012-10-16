@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.Threading;
 using System.Timers;
@@ -8,6 +9,7 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.ViewModels;
 using AlarmWorkflow.Windows.UI.Views;
@@ -46,7 +48,11 @@ namespace AlarmWorkflow.Windows.UI
         /// <summary>
         /// Gets the configuration for the UI.
         /// </summary>
-        public UIConfiguration Configuration { get; private set; }
+        internal UIConfiguration Configuration { get; private set; }
+        /// <summary>
+        /// Gets the extension manager instance.
+        /// </summary>
+        internal ExtensionManager ExtensionManager { get; private set; }
 
         #endregion
 
@@ -60,6 +66,11 @@ namespace AlarmWorkflow.Windows.UI
         /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
+            if (Debugger.IsAttached)
+            {
+                Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
+            }
+
             // Check mutex for existence (in which case we quit --> only one instance allowed!)
             try
             {
@@ -82,6 +93,15 @@ namespace AlarmWorkflow.Windows.UI
 
         #region Methods
 
+        /// <summary>
+        /// Gets the app.
+        /// </summary>
+        /// <returns></returns>
+        internal static App GetApp()
+        {
+            return (App)App.Current;
+        }
+
         private void LoadConfiguration()
         {
             try
@@ -91,18 +111,12 @@ namespace AlarmWorkflow.Windows.UI
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "The UI-configuration could not be loaded!");
+                Logger.Instance.LogFormat(LogType.Error, this, "The UI-configuration could not be loaded! Using default configuration.");
                 Logger.Instance.LogException(this, ex);
-            }
-        }
 
-        /// <summary>
-        /// Gets the app.
-        /// </summary>
-        /// <returns></returns>
-        internal static App GetApp()
-        {
-            return (App)App.Current;
+                // Use default configuration
+                Configuration = new UIConfiguration();
+            }
         }
 
         /// <summary>
@@ -141,6 +155,7 @@ namespace AlarmWorkflow.Windows.UI
             _timer.Start();
 
             InitializeServices();
+            ExtensionManager = new ExtensionManager();
         }
 
         /// <summary>
@@ -187,6 +202,7 @@ namespace AlarmWorkflow.Windows.UI
                         _eventWindow.Show();
                     }
 
+                    // Call the event window on this operation
                     _eventWindow.PushEvent(operation.ToOperation());
 
                 }));

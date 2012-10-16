@@ -69,7 +69,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensibility\ExtensionManager.cs" />
     <Compile Include="Extensibility\IOperationViewer.cs" />
+    <Compile Include="Extensibility\IUIJob.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Helper.cs" />
@@ -169,6 +171,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

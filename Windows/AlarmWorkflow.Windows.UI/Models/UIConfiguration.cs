@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
@@ -7,7 +9,7 @@ namespace AlarmWorkflow.Windows.UI.Models
     /// <summary>
     /// Represents the configuration for the Windows UI.
     /// </summary>
-    public sealed class UIConfiguration
+    internal sealed class UIConfiguration
     {
         #region Properties
 
@@ -31,6 +33,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets/sets the operation fetching parameters used by the worker thread.
         /// </summary>
         public OperationFetchingParameters OperationFetchingArguments { get; set; }
+        /// <summary>
+        /// Gets the names of the jobs that are enabled.
+        /// </summary>
+        public ReadOnlyCollection<string> EnabledJobs { get; private set; }
 
         #endregion
 
@@ -43,6 +49,8 @@ namespace AlarmWorkflow.Windows.UI.Models
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
             OperationFetchingArguments = new OperationFetchingParameters();
+            
+            ScaleFactor = 2.0d;
         }
 
         #endregion
@@ -77,6 +85,28 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.OperationFetchingArguments.MaxAge = ofpE.TryGetAttributeValue("MaxAge", 7);
             configuration.OperationFetchingArguments.OnlyNonAcknowledged = ofpE.TryGetAttributeValue("OnlyNonAcknowledged", true);
             configuration.OperationFetchingArguments.LimitAmount = ofpE.TryGetAttributeValue("LimitAmount", 10);
+
+            // Jobs configuration
+            {
+                XElement jobsConfigE = doc.Root.Element("JobsConfiguration");
+                List<string> jobs = new List<string>();
+                foreach (XElement exportE in jobsConfigE.Elements("Job"))
+                {
+                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
+                    {
+                        continue;
+                    }
+
+                    string jobName = exportE.TryGetAttributeValue("Name", null);
+                    if (string.IsNullOrWhiteSpace(jobName))
+                    {
+                        continue;
+                    }
+                    jobs.Add(jobName);
+                }
+
+                configuration.EnabledJobs = new ReadOnlyCollection<string>(jobs);
+            }
 
             return configuration;
         }
@@ -121,6 +151,17 @@ namespace AlarmWorkflow.Windows.UI.Models
             /// Gets/sets the limit of the overall amount of operations. Used to limit traffic and keep the interface clean.Set to '0' for no limit (not recommended).
             /// </summary>
             public int LimitAmount { get; set; }
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="OperationFetchingParameters"/> class.
+            /// </summary>
+            public OperationFetchingParameters()
+            {
+                Interval = 2000;
+                MaxAge = 7;
+                OnlyNonAcknowledged = true;
+                LimitAmount = 5;
+            }
         }
 
         #endregion

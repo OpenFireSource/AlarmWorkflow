@@ -34,9 +34,9 @@ namespace AlarmWorkflow.Windows.UI.Views
 
         #region IOperationViewer Members
 
-        System.Windows.FrameworkElement IOperationViewer.Create()
+        System.Windows.FrameworkElement IOperationViewer.Visual
         {
-            return this;
+            get { return this; }
         }
 
         void IOperationViewer.OnNewOperation(Operation operation)

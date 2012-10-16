@@ -9,11 +9,9 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
     public interface IOperationViewer
     {
         /// <summary>
-        /// Returns a new instance of an <see cref="FrameworkElement"/> which is used to represent the operation.
-        /// This method is called once during initialization of the UI.
+        /// Gets the <see cref="FrameworkElement"/> which is used to represent the operation.
         /// </summary>
-        /// <returns></returns>
-        FrameworkElement Create();
+        FrameworkElement Visual { get; }
         /// <summary>
         /// Called when a new operation is coming in, prior to it <see cref="OnOperationChanged(Operation)"/> being called.
         /// </summary>

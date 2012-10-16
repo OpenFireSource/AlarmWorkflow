@@ -163,7 +163,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             _controlTemplate = new Lazy<FrameworkElement>(() =>
             {
-                return _operationViewer.Create();
+                return _operationViewer.Visual;
             });
         }
 
@@ -196,6 +196,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 SelectedEvent = AvailableEvents[0];
                 OnPropertyChanged("SelectedEvent");
             }
+
+            // Call the UI-jobs now
+            App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
 
             return true;
         }
