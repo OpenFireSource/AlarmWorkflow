@@ -68,71 +68,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         #endregion
 
-        #region Commands
-
-        #region Command "AcknowledgeOperationCommand"
-
-        /// <summary>
-        /// The AcknowledgeOperationCommand command.
-        /// </summary>
-        public ICommand AcknowledgeOperationCommand { get; private set; }
-
-        private bool AcknowledgeOperationCommand_CanExecute(object parameter)
-        {
-            return SelectedEvent != null && !SelectedEvent.Operation.IsAcknowledged;
-        }
-
-        private void AcknowledgeOperationCommand_Execute(object parameter)
-        {
-            // Sanity-checks
-            if (SelectedEvent == null || SelectedEvent.Operation.IsAcknowledged)
-            {
-                return;
-            }
-
-            // Require confirmation of this action
-            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.Password))
-            {
-                return;
-            }
-
-            string parameterS = parameter as string;
-            bool goToNextAfterwards = parameterS == "NextOperation";
-
-            try
-            {
-                using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
-                {
-                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id.ToString());
-                    // If we get here, acknowledging was successful --> update operation
-                    SelectedEvent.Operation.IsAcknowledged = true;
-
-                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
-                }
-
-                // If we shall go to the next operation afterwards
-                if (goToNextAfterwards)
-                {
-                    RemoveEvent(SelectedEvent);
-                    SelectedEvent = AvailableEvents.FirstOrDefault();
-                }
-
-                OnPropertyChanged("SelectedEvent");
-                OnPropertyChanged("SelectedEvent.Operation");
-                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
-            }
-            catch (Exception ex)
-            {
-                // Safety first (defensive coding) - don't throw anything here. Instead leave it as it is!
-                Logger.Instance.LogFormat(LogType.Error, this, "Could not set operation to 'acknowledged'. Most likely a connection issue or internal error.");
-                Logger.Instance.LogException(this, ex);
-            }
-        }
-
-        #endregion
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -216,6 +151,54 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
+        }
+
+        /// <summary>
+        /// Acknowledges the selected (current) operation.
+        /// </summary>
+        /// <param name="gotoNextOperation">Whether or not to change to the next operation (recommended).</param>
+        public void AcknowledgeCurrentOperation(bool gotoNextOperation)
+        {
+            // Sanity-checks
+            if (SelectedEvent == null || SelectedEvent.Operation.IsAcknowledged)
+            {
+                return;
+            }
+
+            // Require confirmation of this action
+            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.Password))
+            {
+                return;
+            }
+
+            try
+            {
+                using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
+                {
+                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id.ToString());
+                    // If we get here, acknowledging was successful --> update operation
+                    SelectedEvent.Operation.IsAcknowledged = true;
+
+                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
+                }
+
+                // If we shall go to the next operation afterwards
+                if (gotoNextOperation)
+                {
+                    RemoveEvent(SelectedEvent);
+                    SelectedEvent = AvailableEvents.FirstOrDefault();
+                }
+
+                OnPropertyChanged("SelectedEvent");
+                OnPropertyChanged("SelectedEvent.Operation");
+                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
+            }
+            catch (Exception ex)
+            {
+                // Safety first (defensive coding) - don't throw anything here. Instead leave it as it is!
+                Logger.Instance.LogFormat(LogType.Error, this, "Could not set operation to 'acknowledged'. Most likely a connection issue or internal error.");
+                Logger.Instance.LogException(this, ex);
+            }
         }
 
         #endregion

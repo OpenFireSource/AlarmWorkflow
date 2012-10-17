@@ -112,6 +112,17 @@ namespace AlarmWorkflow.Windows.UI.Views
             uiScaleSlider.Value += 0.001d * e.Delta;
         }
 
+        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            // If this is the "acknowledge operation" key
+            if (e.Key == System.Windows.Input.Key.A)
+            {
+                _viewModel.AcknowledgeCurrentOperation(true);
+
+                e.Handled = true;
+            }
+        }
+
         // Don't try this at home!
         private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {

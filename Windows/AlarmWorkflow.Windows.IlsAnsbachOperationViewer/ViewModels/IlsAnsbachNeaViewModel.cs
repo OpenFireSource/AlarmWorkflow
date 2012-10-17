@@ -17,10 +17,23 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 {
     class IlsAnsbachNeaViewModel : ViewModelBase
     {
+        #region Static
+
+        private static readonly OperationInformationLibrary _operationLibrary;
+
+        static IlsAnsbachNeaViewModel()
+        {
+            _operationLibrary = new OperationInformationLibrary();
+        }
+
+        #endregion
+
         #region Fields
 
         private Operation _operation;
         private UIConfigurationNea _configuration;
+
+        private ObservableCollection<ResourceViewModel> _manuallyDeployedVehicles;
 
         #endregion
 
@@ -45,6 +58,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                 OnPropertyChanged("Operation");
 
                 // Update all other properties
+                UpdateManuallyDeployedVehicles();
                 UpdateProperties();
             }
         }
@@ -60,7 +74,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// <summary>
         /// Gets a list containing all vehicles that have been manually deployed by pressing their associated shortkeys.
         /// </summary>
-        public ObservableCollection<ResourceViewModel> ManuallyDeployedVehicles { get; private set; }
+        public ObservableCollection<ResourceViewModel> ManuallyDeployedVehicles
+        {
+            get { return _manuallyDeployedVehicles; }
+        }
 
         /// <summary>
         /// Gets a list containing the requested resources (only the names, without vehicles).
@@ -202,10 +219,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         {
             _configuration = configuration;
 
-            // Create binding source for manually deployed vehicles and add sort description so they sort automatically
-            ManuallyDeployedVehicles = new ObservableCollection<ResourceViewModel>();
-            ICollectionView mdvdv = CollectionViewSource.GetDefaultView(ManuallyDeployedVehicles);
-            mdvdv.SortDescriptions.Add(new SortDescription("VehicleName", ListSortDirection.Ascending));
+            _manuallyDeployedVehicles = new ObservableCollection<ResourceViewModel>();
         }
 
         #endregion
@@ -241,12 +255,51 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             return image;
         }
 
+        private void UpdateManuallyDeployedVehicles()
+        {
+            // Create binding source for manually deployed vehicles and add sort description so they sort automatically
+            _manuallyDeployedVehicles = new ObservableCollection<ResourceViewModel>();
+
+            if (_operation == null)
+            {
+                return;
+            }
+
+            ICollectionView mdvdv = CollectionViewSource.GetDefaultView(ManuallyDeployedVehicles);
+            mdvdv.SortDescriptions.Add(new SortDescription("VehicleName", ListSortDirection.Ascending));
+
+            OperationInformation entry = _operationLibrary.GetInfoEntry(_operation.OperationNumber);
+            if (entry != null)
+            {
+                foreach (string vehicleName in entry.ManuallyDeployedVehicleNames)
+                {
+                    AddManuallyDeployedVehicle(vehicleName);
+                }
+            }
+        }
+
         private void UpdateProperties()
         {
             foreach (var pi in this.GetType().GetProperties().Where(p => p.Name != "Operation"))
             {
                 OnPropertyChanged(pi.Name);
             }
+        }
+
+        private void AddManuallyDeployedVehicle(string resourceName)
+        {
+            var vehicle = _configuration.Vehicles.FirstOrDefault(v => v.Name == resourceName);
+            if (vehicle == null)
+            {
+                return;
+            }
+
+            // Otherwise set a new resource as deployed
+            ResourceViewModel rvm = new ResourceViewModel();
+            rvm.VehicleName = vehicle.Name;
+            rvm.SetImage(vehicle.Image);
+
+            _manuallyDeployedVehicles.Add(rvm);
         }
 
         /// <summary>
@@ -272,7 +325,8 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                             return;
                         }
 
-                        ManuallyDeployedVehicles.Remove(rvm);
+                        _manuallyDeployedVehicles.Remove(rvm);
+                        _operationLibrary.RemoveFromInfoEntry(_operation.OperationNumber, vehicle.Name);
                     }
                     else
                     {
@@ -280,7 +334,9 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                         rvm = new ResourceViewModel();
                         rvm.VehicleName = vehicle.Name;
                         rvm.SetImage(vehicle.Image);
-                        ManuallyDeployedVehicles.Add(rvm);
+
+                        _manuallyDeployedVehicles.Add(rvm);
+                        _operationLibrary.AddToInfoEntry(_operation.OperationNumber, vehicle.Name);
                     }
                 }
             }
@@ -332,6 +388,161 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             /// Gets/sets the name of the requested resource.
             /// </summary>
             public string ResourceName { get; set; }
+        }
+
+        /// <summary>
+        /// Holds some additional information per operation.
+        /// </summary>
+        sealed class OperationInformationLibrary
+        {
+            #region Constants
+
+            private static readonly string FilePath = Path.Combine(Utilities.GetWorkingDirectory(), "Config", "OperationInformationLibrary.csv");
+
+            #endregion
+
+            #region Fields
+
+            private Dictionary<string, OperationInformation> _information;
+
+            #endregion
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="OperationInformationLibrary"/> class.
+            /// </summary>
+            public OperationInformationLibrary()
+            {
+                _information = new Dictionary<string, OperationInformation>();
+                Load();
+            }
+
+            #endregion
+
+            #region Methods
+
+            private OperationInformation GetInfoEntry(string operationNumber, bool addIfMissing)
+            {
+                if (!_information.ContainsKey(operationNumber))
+                {
+                    if (!addIfMissing)
+                    {
+                        return null;
+                    }
+
+                    _information.Add(operationNumber, new OperationInformation() { OperationNumber = operationNumber });
+                }
+
+                return _information[operationNumber];
+            }
+
+            internal OperationInformation GetInfoEntry(string operationNumber)
+            {
+                return GetInfoEntry(operationNumber, false);
+            }
+
+            internal void AddToInfoEntry(string operationNumber, string vehicleName)
+            {
+                OperationInformation oi = GetInfoEntry(operationNumber, true);
+                oi.AddVehicleName(vehicleName);
+
+                Save();
+            }
+
+            internal void RemoveFromInfoEntry(string operationNumber, string vehicleName)
+            {
+                OperationInformation oi = GetInfoEntry(operationNumber, true);
+                oi.RemoveVehicleName(vehicleName);
+
+                Save();
+            }
+
+            private void Save()
+            {
+                // TODO: Primitive - currently the whole file is saved over... not the best...
+                string[] lines = new string[_information.Count];
+                int i = 0;
+                foreach (OperationInformation entry in _information.Values)
+                {
+                    lines[i] = string.Format("{0};{1}", entry.OperationNumber, string.Join(";", entry.ManuallyDeployedVehicleNames));
+                    i++;
+                }
+
+                File.WriteAllLines(FilePath, lines);
+            }
+
+            private void Load()
+            {
+                if (!File.Exists(FilePath))
+                {
+                    return;
+                }
+
+                foreach (string line in File.ReadAllLines(FilePath))
+                {
+                    string[] tokens = line.Split(new string[] { ";" }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                    OperationInformation entry = new OperationInformation();
+                    entry.OperationNumber = tokens[0];
+                    entry.ManuallyDeployedVehicleNames.AddRange(tokens.Skip(1));
+
+                    _information[entry.OperationNumber] = entry;
+                }
+            }
+
+            #endregion
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        sealed class OperationInformation
+        {
+            #region Properties
+
+            /// <summary>
+            /// Gets/sets the operation number of the associated operation.
+            /// </summary>
+            public string OperationNumber { get; set; }
+            /// <summary>
+            /// Gets/sets the names of the deployed vehicles.
+            /// </summary>
+            public List<string> ManuallyDeployedVehicleNames { get; set; }
+
+            #endregion
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="OperationInformation"/> class.
+            /// </summary>
+            public OperationInformation()
+            {
+                ManuallyDeployedVehicleNames = new List<string>();
+            }
+
+            #endregion
+
+            #region Methods
+
+            internal void AddVehicleName(string name)
+            {
+                if (!ManuallyDeployedVehicleNames.Contains(name))
+                {
+                    ManuallyDeployedVehicleNames.Add(name);
+                }
+            }
+
+            internal void RemoveVehicleName(string name)
+            {
+                if (ManuallyDeployedVehicleNames.Contains(name))
+                {
+                    ManuallyDeployedVehicleNames.Remove(name);
+                }
+            }
+
+            #endregion
         }
 
         #endregion

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Timers;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UI.Extensibility;
@@ -15,6 +17,8 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
 
         private UIConfigurationNea _configuration;
         private IlsAnsbachNeaViewModel _viewModel;
+
+        private Timer _focusTimer;
 
         #endregion
 
@@ -39,6 +43,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
 
         #region Event handlers
 
+        private void FocusTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke((Action)(() => this.Focus()));
+        }
+
         private void IlsAnsbachNeaOperationView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             this.Loaded -= IlsAnsbachNeaOperationView_Loaded;
@@ -46,6 +55,13 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
             // Set focus on the user control to true to allow us to handle (keyboard) events
             this.Focusable = true;
             this.Focus();
+
+            // Cheat: Due to the (good) way WPF handles focussing, we need to manually force the focus on this control,
+            // otherwise the focus may go anywhere in a leaf node of the visual/logical tree and we cannot bring it back here
+            // again to use (Preview)KeyDown events (like if the focus gets stuck in the operation list).
+            _focusTimer = new Timer(1000d);
+            _focusTimer.Elapsed += FocusTimer_Elapsed;
+            _focusTimer.Start();
         }
 
         private void UserControl_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
