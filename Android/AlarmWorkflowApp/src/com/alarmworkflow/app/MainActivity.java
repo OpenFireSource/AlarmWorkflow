@@ -4,25 +4,25 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.view.Menu;
-import android.view.View;
-import android.widget.EditText;
+import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private static final String PREFS_NAME = "AlarmWorkflowAppPrefs";
-    private static final String PREF_SERVERURI = "ServerUri";
+    private static final String PREF_KEY_SERVER_URI = "pref_key_server_uri";
     
     private static final int SERVICE_MAXAGE = 7;
     private static final boolean SERVICE_ONLYNONACKNOWLEDGED = true;
     private static final int SERVICE_LIMITAMOUNT = 5;
-        
-	private EditText _txtConnectServerUri;
+
 	private ListView _lsvOperations;
 	
 	private OperationsAdapter _adapter;
@@ -37,14 +37,11 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		PreferenceManager.setDefaultValues(this, R.xml.activity_preferences, false);
+		
 		// Retrieve controls from layout
-		_txtConnectServerUri = (EditText) findViewById(R.id.txtConnectServerUri);
 		_lsvOperations = (ListView) findViewById(R.id.lsvOperations);
 		
-		// Load shared preferences
-		SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-		_txtConnectServerUri.setText(prefs.getString(PREF_SERVERURI, "http://10.0.2.2:60002/"));
-
 		// Load the persisted cache
 		try {
 			OperationCache.getInstance().loadPersistedCache(openFileInput(OperationCache.PERSISTENT_STORAGE_FILENAME));
@@ -63,17 +60,27 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
 	}
-    
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+			case R.id.menu_refresh:
+				refreshOperationsList();
+				return true;
+			case R.id.menu_settings:
+				Intent intent = new Intent(MainActivity.this, SettingsPreferenceActivity.class);
+			    startActivity(intent);
+				return true;
+
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-
-		// Store shared preferences
-        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(PREF_SERVERURI, _txtConnectServerUri.getEditableText().toString());
-        
-        editor.commit();
         
         // Persist operation cache
         try {
@@ -88,27 +95,33 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		super.onRestoreInstanceState(savedInstanceState);
-
-		if (savedInstanceState != null) {
-			_txtConnectServerUri.setText(savedInstanceState.getString("serverUri"));
-		}
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-
-		outState.putString("serverUri", _txtConnectServerUri.getEditableText().toString());
 	}
-
-	public void btnRefreshList_onClick(View view) {
-		// Check if the server URI is entered (a better check would involve checking the correctness )
-		String serverUri = _txtConnectServerUri.getEditableText().toString();
-		if (serverUri == null || serverUri.length() == 0) {
-			Toast.makeText(this, R.string.ConnectServerUriInvalidAddress, Toast.LENGTH_LONG).show();
+	
+	private boolean isNetworkAvailable(boolean showToastIfUnavailable){
+		ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
+		 
+		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+		boolean isConnected = activeNetwork.isConnectedOrConnecting();
+		if(!isConnected && showToastIfUnavailable){
+			Toast.makeText(this, R.string.toast_no_network_connection, Toast.LENGTH_LONG).show();
+		}
+		return isConnected;
+	}
+	
+	private void refreshOperationsList(){
+		// Check if we have network connection.
+		if(!isNetworkAvailable(true)){
 			return;
 		}
-				
+		
+		// Check if the server URI is entered (a better check would involve checking the correctness )
+		String serverUri = PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY_SERVER_URI, "http://10.0.2.2:60002/");
+					
 		// Get all operation IDs
 		int[] operationIDs = AlarmWorkflowServiceWrapper.getOperationIds(serverUri, SERVICE_MAXAGE, SERVICE_ONLYNONACKNOWLEDGED, SERVICE_LIMITAMOUNT);
 
@@ -121,8 +134,8 @@ public class MainActivity extends Activity {
 				if(operation != null){
 					OperationCache.getInstance().addCachedOperation(operation);
 				}
-			}							
-			
+			}	
+
 			// Add the operation to the list (if it is not already present) and update it
 			checkAndAddOperationToList(operation);
 		}

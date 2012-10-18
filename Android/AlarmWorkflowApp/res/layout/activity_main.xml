@@ -2,45 +2,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-
+
     <TextView
-        android:id="@+id/lblConnectServerLabel"
+        android:id="@+id/lblHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/ConnectServerUriLabel"
+        android:text="@string/text_lblHeader"
         android:textAppearance="?android:attr/textAppearanceSmall" />
-
+
     <ListView
         android:id="@+id/lsvOperations"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnRefreshList" >
+        android:layout_below="@+id/lblHeader" >
 
     </ListView>
-
-    <EditText
-        android:id="@+id/txtConnectServerUri"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/lblConnectServerLabel"
-        android:ems="10"
-        android:hint="@string/ConnectServerUri"
-        android:inputType="textUri" />
-
-    <Button
-        android:id="@+id/btnRefreshList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/txtConnectServerUri"
-        android:onClick="btnRefreshList_onClick"
-        android:text="@string/btnRefreshListCaption" />
 
 </RelativeLayout>

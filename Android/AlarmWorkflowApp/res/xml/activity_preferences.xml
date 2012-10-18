@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="pref_key_server_category"
+        android:title="@string/pref_server_category_title" >
+        <EditTextPreference
+            android:defaultValue="@string/pref_default_server_uri"
+            android:key="pref_key_server_uri"
+            android:summary="@string/pref_summary_server_uri"
+            android:title="@string/pref_title_server_uri" />
+
+        <ListPreference
+            android:key="pref_key_update_interval"
+            android:summary="@string/pref_summary_update_interval"
+            android:title="@string/pref_title_update_interval" android:entries="@array/array_values_human_update_interval" android:entryValues="@array/array_values_android_update_interval" android:defaultValue="@string/pref_default_update_interval"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
