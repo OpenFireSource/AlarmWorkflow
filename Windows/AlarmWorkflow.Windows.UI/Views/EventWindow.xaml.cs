@@ -115,7 +115,7 @@ namespace AlarmWorkflow.Windows.UI.Views
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             // If this is the "acknowledge operation" key
-            if (e.Key == System.Windows.Input.Key.A)
+            if (e.Key == App.GetApp().Configuration.AcknowledgeOperationKey)
             {
                 _viewModel.AcknowledgeCurrentOperation(true);
 

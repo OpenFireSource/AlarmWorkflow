@@ -18,6 +18,8 @@
   <AutomaticOperationAcknowledgementSettings IsEnabled="True" MaxAge="480" />
   <!-- Defines the scaling factor for the UI. Higher values equal to larger font size. Min: 1, Max: 1000. Too high values might distort the layout! -->
   <ScaleFactor>2.0</ScaleFactor>
+  <!-- The key to press to acknowledge operations -->
+  <AcknowledgeOperationKey>B</AcknowledgeOperationKey>
 
   <!-- This section states which jobs are enabled and can be used.
        You should manually add and enable only those you need.

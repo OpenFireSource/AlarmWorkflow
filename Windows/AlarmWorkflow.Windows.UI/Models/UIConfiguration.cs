@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Windows.Input;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
@@ -37,6 +39,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets the names of the jobs that are enabled.
         /// </summary>
         public ReadOnlyCollection<string> EnabledJobs { get; private set; }
+        /// <summary>
+        /// Gets the key to press to acknowledge operations.
+        /// </summary>
+        public Key AcknowledgeOperationKey { get; private set; }
 
         #endregion
 
@@ -49,8 +55,9 @@ namespace AlarmWorkflow.Windows.UI.Models
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
             OperationFetchingArguments = new OperationFetchingParameters();
-            
+
             ScaleFactor = 2.0d;
+            AcknowledgeOperationKey = System.Windows.Input.Key.B;
         }
 
         #endregion
@@ -75,6 +82,11 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.OperationViewer = doc.Root.TryGetElementValue("OperationViewer", null);
             configuration.ScaleFactor = doc.Root.TryGetElementValue("ScaleFactor", 2.0d);
             configuration.ScreenId = doc.Root.TryGetElementValue("ScreenId", 0);
+
+            string acknowledgeOperationKeyS = doc.Root.TryGetElementValue("AcknowledgeOperationKey", "B");
+            Key acknowledgeOperationKey = Key.B;
+            Enum.TryParse<Key>(acknowledgeOperationKeyS, out acknowledgeOperationKey);
+            configuration.AcknowledgeOperationKey = acknowledgeOperationKey;
 
             XElement aoaE = doc.Root.Element("AutomaticOperationAcknowledgementSettings");
             configuration.AutomaticOperationAcknowledgement.IsEnabled = aoaE.TryGetAttributeValue("IsEnabled", true);
