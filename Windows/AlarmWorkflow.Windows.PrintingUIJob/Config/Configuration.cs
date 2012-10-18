@@ -12,9 +12,9 @@ namespace AlarmWorkflow.Windows.PrintingUIJob.Config
         #region Properties
 
         /// <summary>
-        /// Gets whether or not this job is enabled.
+        /// Gets the Uri of the print server. Leave blank to use the local print server.
         /// </summary>
-        public bool IsEnabled { get; private set; }
+        public string PrintServer { get; private set; }
         /// <summary>
         /// Gets the name of the printer to use for printing. Blank uses the printer marked as default.
         /// </summary>
@@ -54,6 +54,12 @@ namespace AlarmWorkflow.Windows.PrintingUIJob.Config
             Configuration configuration = new Configuration();
 
             XDocument doc = XDocument.Load(configFile);
+            configuration.PrintServer = doc.Root.TryGetElementValue("PrintServer", null);
+            // If there is no value indicate that (needed for job)
+            if (string.IsNullOrWhiteSpace(configuration.PrintServer))
+            {
+                configuration.PrintServer = null;
+            }
             configuration.PrinterName = doc.Root.TryGetElementValue("PrinterName", null);
             configuration.CopyCount = doc.Root.TryGetElementValue("CopyCount", 1);
             configuration.WaitInterval = doc.Root.TryGetElementValue("WaitInterval", 50);

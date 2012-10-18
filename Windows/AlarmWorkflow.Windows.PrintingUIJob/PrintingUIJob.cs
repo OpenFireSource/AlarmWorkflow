@@ -33,33 +33,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
         /// </summary>
         public PrintingUIJob()
         {
-            _printQueue = new Lazy<PrintQueue>(() =>
-            {
-                if (_configuration == null)
-                {
-                    return null;
-                }
-
-                LocalPrintServer printServer = new LocalPrintServer();
-
-                // Pick the desired printer (even if none is selected, for convenience)
-                PrintQueue queue = printServer.GetPrintQueues().FirstOrDefault(pq => pq.FullName.Equals(_configuration.PrinterName));
-
-                // If there was a printer found, return that one
-                if (queue != null)
-                {
-                    return queue;
-                }
-
-                // Otherwise see if we are supposed to return a custom named printer ...
-                if (!string.IsNullOrWhiteSpace(_configuration.PrinterName))
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Did not find a printer with name '{0}'. Using the default printer.", _configuration.PrinterName);
-                }
-
-                // Return the (desired) default printer
-                return printServer.DefaultPrintQueue;
-            });
+            _printQueue = new Lazy<PrintQueue>(GetPrintQueue);
         }
 
         #endregion
@@ -98,6 +72,45 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             return false;
         }
 
+        private PrintQueue GetPrintQueue()
+        {
+            if (_configuration == null)
+            {
+                return null;
+            }
+
+            // Connect to the print server
+            PrintServer printServer = null;
+            try
+            {
+                printServer = new PrintServer(_configuration.PrintServer);
+            }
+            catch (PrintServerException ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, "Invalid print server name! Make sure that the print server under '{0}' is running or correct the print server name (leave blank to use local computer's print server).", ex.ServerName);
+                return null;
+            }
+
+            // Pick the desired printer (even if none is selected, for convenience)
+            var enpqt = new[] { EnumeratedPrintQueueTypes.Connections, EnumeratedPrintQueueTypes.Local };
+            PrintQueue queue = printServer.GetPrintQueues(enpqt).FirstOrDefault(pq => pq.FullName.Equals(_configuration.PrinterName));
+
+            // If there was a printer found, return that one
+            if (queue != null)
+            {
+                return queue;
+            }
+
+            // Otherwise see if we are supposed to return a custom named printer ...
+            if (!string.IsNullOrWhiteSpace(_configuration.PrinterName))
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "Did not find a printer with name '{0}'. Using the default, local printer.", _configuration.PrinterName);
+            }
+
+            // Return the default, local printer (there is no default print queue for a print server other than the local server!).
+            return LocalPrintServer.GetDefaultPrintQueue();
+        }
+
         #endregion
 
         #region IUIJob Members
@@ -116,12 +129,20 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return;
             }
 
+            PrintQueue printQueue = _printQueue.Value;
+            // If printing is not possible (an error occurred because the print server is not available etc.).
+            if (printQueue == null)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "Cannot print job because the configured printer seems not available! Check log entries.");
+                return;
+            }
+
             // We need to wait for a bit to let the UI "catch a breath".
             // Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
             Thread.Sleep(_configuration.WaitInterval);
 
             PrintDialog dialog = new PrintDialog();
-            dialog.PrintQueue = _printQueue.Value;
+            dialog.PrintQueue = printQueue;
             dialog.PrintTicket = dialog.PrintQueue.DefaultPrintTicket;
             dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
             dialog.PrintTicket.CopyCount = _configuration.CopyCount;
