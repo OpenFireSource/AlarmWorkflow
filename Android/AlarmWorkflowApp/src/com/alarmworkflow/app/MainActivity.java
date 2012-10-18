@@ -17,11 +17,11 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private static final String PREF_KEY_SERVER_URI = "pref_key_server_uri";
+    private static final String PREF_KEY_FETCH_AMOUNT = "pref_key_fetch_amount";
+	private static final String PREF_KEY_SERVER_URI = "pref_key_server_uri";
     
     private static final int SERVICE_MAXAGE = 7;
     private static final boolean SERVICE_ONLYNONACKNOWLEDGED = true;
-    private static final int SERVICE_LIMITAMOUNT = 5;
 
 	private ListView _lsvOperations;
 	
@@ -121,9 +121,10 @@ public class MainActivity extends Activity {
 		
 		// Check if the server URI is entered (a better check would involve checking the correctness )
 		String serverUri = PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY_SERVER_URI, "http://10.0.2.2:60002/");
-					
+		int limitAmount = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY_FETCH_AMOUNT, "5"));
+
 		// Get all operation IDs
-		int[] operationIDs = AlarmWorkflowServiceWrapper.getOperationIds(serverUri, SERVICE_MAXAGE, SERVICE_ONLYNONACKNOWLEDGED, SERVICE_LIMITAMOUNT);
+		int[] operationIDs = AlarmWorkflowServiceWrapper.getOperationIds(serverUri, SERVICE_MAXAGE, SERVICE_ONLYNONACKNOWLEDGED, limitAmount);
 
 		for (int i : operationIDs) {
 			Operation operation = OperationCache.getInstance().getCachedOperation(i);

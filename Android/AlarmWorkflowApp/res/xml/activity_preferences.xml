@@ -11,9 +11,28 @@
             android:title="@string/pref_title_server_uri" />
 
         <ListPreference
+            android:defaultValue="@string/pref_default_update_interval"
+            android:entries="@array/array_values_human_update_interval"
+            android:entryValues="@array/array_values_android_update_interval"
             android:key="pref_key_update_interval"
             android:summary="@string/pref_summary_update_interval"
-            android:title="@string/pref_title_update_interval" android:entries="@array/array_values_human_update_interval" android:entryValues="@array/array_values_android_update_interval" android:defaultValue="@string/pref_default_update_interval"/>
+            android:title="@string/pref_title_update_interval" />
     </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="pref_key_misc_category"
+        android:title="@string/pref_misc_category_title">
+        
+        <ListPreference
+        	android:defaultValue="@string/pref_default_fetch_amount"
+        	android:entries="@array/array_values_human_fetch_amount" 
+        	android:entryValues="@array/array_values_android_fetch_amount"
+        	android:key="pref_key_fetch_amount"
+        	android:summary="@string/pref_summary_fetch_amount"
+        	android:title="@string/pref_title_fetch_amount" />
+        
+    </PreferenceCategory>
+    
+    
 
 </PreferenceScreen>

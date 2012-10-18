@@ -5,35 +5,52 @@
     <string name="menu_settings">Einstellungen</string>
     <string name="title_activity_main">AlarmWorkflow App</string>
     <string name="title_activity_settings">Einstellungen</string>
-	<string name="pref_server_category_title">AlarmWorkflow-Server</string>
-	<string name="pref_summary_server_uri">Die IP-Adresse oder Hostname (inkl. Portnummer) Ihres AlarmWorkflow-Servers</string>
-	<string name="pref_title_server_uri">Serveradresse</string>
-	<string name="pref_title_update_interval">Aktualisierungsintervall</string>
-	<string name="pref_summary_update_interval">Der Abstand in Minuten, wann auf neue Einsätze geprüft werden soll.</string>
-	<string name="pref_default_server_uri">http://10.0.2.2:60002/</string>
-	<string name="pref_default_update_interval">5</string>
-	
-	<string-array name="array_values_human_update_interval">
-	    <item>1 Minute</item>
-	    <item>5 Minuten</item>
-	    <item>10 Minuten</item>
-	    <item>30 Minuten</item>
-	    <item>1 Stunde</item>
-	    <item>4 Stunden</item>
-	    <item>12 Stunden</item>
-	    <item>24 Stunden</item>
-	</string-array>
-	<string-array name="array_values_android_update_interval">
-	    <item>1</item>
-	    <item>5 </item>
-	    <item>10</item>
-	    <item>30</item>
-	    <item>60</item>
-	    <item>240</item>
-	    <item>720</item>
-	    <item>1440</item>
-	</string-array>
-	    <string name="text_lblHeader">Einsätze:</string>
-	    <string name="toast_no_network_connection">Sie sind nicht mit dem Internet verbunden!</string>
-	
+    <string name="pref_server_category_title">AlarmWorkflow-Server</string>
+	<string name="pref_misc_category_title">Sonstiges</string>
+    <string name="pref_summary_server_uri">Die Adresse Ihres AlarmWorkflow-Servers</string>
+    <string name="pref_title_server_uri">Serveradresse</string>
+    <string name="pref_default_server_uri">http://10.0.2.2:60002/</string>
+    <string name="pref_title_update_interval">Aktualisierungsintervall</string>
+    <string name="pref_summary_update_interval">Der Abstand in Minuten, wann auf neue Einsätze geprüft werden soll.</string>
+    <string name="pref_default_update_interval">5</string>
+    <string name="pref_title_fetch_amount">Einsatzlimit</string>
+	<string name="pref_summary_fetch_amount">Anzahl der Einsätze, die max. zurückgegeben werden sollen.</string>
+    <string name="pref_default_fetch_amount">5</string>
+
+    <string-array name="array_values_human_update_interval">
+        <item>1 Minute</item>
+        <item>5 Minuten</item>
+        <item>10 Minuten</item>
+        <item>30 Minuten</item>
+        <item>1 Stunde</item>
+        <item>4 Stunden</item>
+        <item>12 Stunden</item>
+        <item>24 Stunden</item>
+    </string-array>
+    <string-array name="array_values_android_update_interval">
+        <item>1</item>
+        <item>5 </item>
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+        <item>240</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+    <string-array name="array_values_human_fetch_amount">
+        <item>1 Einsatz</item>
+        <item>3 Einsätze</item>
+        <item>5 Einsätze</item>
+        <item>10 Einsätze</item>
+    </string-array>
+    <string-array name="array_values_android_fetch_amount">
+        <item>1</item>
+        <item>3 </item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string name="text_lblHeader">Einsätze:</string>
+    <string name="toast_no_network_connection">Sie sind nicht mit dem Internet verbunden!</string>
+
 </resources>
