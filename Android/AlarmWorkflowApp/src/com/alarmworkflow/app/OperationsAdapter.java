@@ -30,8 +30,7 @@ public class OperationsAdapter extends ArrayAdapter<Operation> {
 		// Inflate the view
 		if (convertView == null) {
 			operationView = new LinearLayout(getContext());
-			String inflater = Context.LAYOUT_INFLATER_SERVICE;
-			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(inflater);
+			LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			vi.inflate(_resource, operationView, true);
 		} 
 		else
@@ -43,18 +42,27 @@ public class OperationsAdapter extends ArrayAdapter<Operation> {
 		TextView headlineDate = (TextView) operationView.findViewById(R.id.txtTimestamp);
 
 		// Assign the appropriate data from our alert object above
-		// TODO More elaborate please (or override toString()-function).
 		StringBuilder sbHeadlineText = new StringBuilder();
 		sbHeadlineText.append(operation.OperationNumber);
 		sbHeadlineText.append(", ");
-		sbHeadlineText.append(operation.Location);
-		sbHeadlineText.append(", ");
-		sbHeadlineText.append(operation.Street);
-		sbHeadlineText.append(", ");
-		sbHeadlineText.append(operation.ZipCode);
-		sbHeadlineText.append(" ");
-		sbHeadlineText.append(operation.City);			
-		
+		if (operation.Location != "" && operation.Location != "null") {
+			sbHeadlineText.append(operation.Location);
+			sbHeadlineText.append(", ");
+		}
+		if (operation.Street != "" && operation.Street != "null") {
+			sbHeadlineText.append(operation.Street);
+			if (operation.StreetNumber != "" && operation.StreetNumber != "null"){
+				sbHeadlineText.append(" ");
+				sbHeadlineText.append(operation.StreetNumber);
+			}
+			sbHeadlineText.append(", ");
+		}
+		if (operation.ZipCode != "" && operation.ZipCode != "null") {
+			sbHeadlineText.append(operation.ZipCode);
+			sbHeadlineText.append(" ");
+		}
+		sbHeadlineText.append(operation.City);
+
 		headlineText.setText(sbHeadlineText.toString());
 		headlineDate.setText(operation.Timestamp.toString());
 

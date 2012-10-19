@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.util.SparseArray;
@@ -43,6 +45,35 @@ public class OperationCache {
 	}
 
 	/**
+	 * Returns a configurable amount of operations that are the most recent (if any).
+	 * @param maxAge The maximum age in days.
+	 * @param amount The amount of operations to return.
+	 * @return The most recent operations (if any), limited by amount.
+	 */
+	public Operation[] getRecentOperations(int maxAge, int amount){
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, -maxAge);
+		
+		ArrayList<Operation> list = new ArrayList<Operation>();
+		for (int i = 0; i < _operations.size(); i++) {
+			int key = _operations.keyAt(i);
+			Operation value = _operations.get(key);
+			
+			if(value.Timestamp.before(cal.getTime())) {
+				continue;
+			}
+			
+			list.add(value);
+			
+			if(amount > 0 && (list.size() >= amount)){
+				break;
+			}
+		}	
+		
+		return list.toArray(new Operation[0]);
+	}
+	
+	/**
 	 * Returns the cached operation, if present. Otherwise returns null.
 	 * @param operationID The ID of the operation to return.
 	 * @return The cached operation, if present. Otherwise null.
@@ -72,6 +103,8 @@ public class OperationCache {
 
 			StringBuilder sb = new StringBuilder();
 			sb.append(String.valueOf(operation.OperationID));
+			sb.append(";");
+			sb.append(String.valueOf(operation.OperationNumber));
 			sb.append(";");
 			sb.append(String.valueOf(operation.Timestamp));
 			sb.append(";");
@@ -118,15 +151,16 @@ public class OperationCache {
             	try {
 	            	Operation operation = new Operation();
 	            	operation.OperationID = Integer.parseInt(tokens[0]);
-	            	operation.Timestamp = new Date(Date.parse(tokens[1]));
-	            	operation.IsAcknowledged = Boolean.parseBoolean(tokens[2]);
-	            	operation.ZipCode = tokens[3];
-	            	operation.City = tokens[4];
-	            	operation.Street = tokens[5];
-	            	operation.StreetNumber = tokens[6];
-	            	operation.Comment = tokens[7];
-	            	operation.Keyword = tokens[8];
-	            	operation.Location = tokens[9];
+	            	operation.OperationNumber = tokens[1];
+	            	operation.Timestamp = new Date(Date.parse(tokens[2]));
+	            	operation.IsAcknowledged = Boolean.parseBoolean(tokens[3]);
+	            	operation.ZipCode = tokens[4];
+	            	operation.City = tokens[5];
+	            	operation.Street = tokens[6];
+	            	operation.StreetNumber = tokens[7];
+	            	operation.Comment = tokens[8];
+	            	operation.Keyword = tokens[9];
+	            	operation.Location = tokens[10];
 	            	
 	            	addCachedOperation(operation);					
         		} catch	(Exception e){

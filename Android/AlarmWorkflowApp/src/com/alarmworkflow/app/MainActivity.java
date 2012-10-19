@@ -3,6 +3,9 @@ package com.alarmworkflow.app;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,12 +20,11 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private static final String PREF_KEY_FETCH_AMOUNT = "pref_key_fetch_amount";
-	private static final String PREF_KEY_SERVER_URI = "pref_key_server_uri";
-    
+	private static final int FETCH_OPERATIONS_TIMEOUT = 10; 
     private static final int SERVICE_MAXAGE = 7;
-    private static final boolean SERVICE_ONLYNONACKNOWLEDGED = true;
-
+    
+    private boolean _isFetchingOperations;
+	
 	private ListView _lsvOperations;
 	
 	private OperationsAdapter _adapter;
@@ -46,13 +48,18 @@ public class MainActivity extends Activity {
 		try {
 			OperationCache.getInstance().loadPersistedCache(openFileInput(OperationCache.PERSISTENT_STORAGE_FILENAME));
 		} catch (FileNotFoundException e) {
-			// It's ok if the file does not exist --> ignore exception
+			// It's OK if the file does not exist --> ignore exception
 		}
 		
 		// Now create a new adapter for our list view and host the data in it
 		_adapterList = new ArrayList<Operation>();
 		_adapter = new OperationsAdapter(getApplicationContext(), R.layout.operationitemlayout, _adapterList);
 		_lsvOperations.setAdapter(_adapter);
+		
+		// Load in all operations if there are any
+		for (Operation operation : OperationCache.getInstance().getRecentOperations(SERVICE_MAXAGE, 5)) {
+			checkAndAddOperationToList(operation);
+		}
 	}
 
 	@Override
@@ -118,31 +125,38 @@ public class MainActivity extends Activity {
 		if(!isNetworkAvailable(true)){
 			return;
 		}
-		
-		// Check if the server URI is entered (a better check would involve checking the correctness )
-		String serverUri = PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY_SERVER_URI, "http://10.0.2.2:60002/");
-		int limitAmount = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString(PREF_KEY_FETCH_AMOUNT, "5"));
-
-		// Get all operation IDs
-		int[] operationIDs = AlarmWorkflowServiceWrapper.getOperationIds(serverUri, SERVICE_MAXAGE, SERVICE_ONLYNONACKNOWLEDGED, limitAmount);
-
-		for (int i : operationIDs) {
-			Operation operation = OperationCache.getInstance().getCachedOperation(i);
-			
-			if(operation == null){				
-				// Now retrieve the operation from the web service and store it in the cache for next time
-				operation = AlarmWorkflowServiceWrapper.getOperationByID(serverUri, i);
-				if(operation != null){
-					OperationCache.getInstance().addCachedOperation(operation);
-				}
-			}	
-
-			// Add the operation to the list (if it is not already present) and update it
-			checkAndAddOperationToList(operation);
+		// If the process is already running
+		if (_isFetchingOperations){
+			return;
 		}
+		
+		// Execute the fetching in a separate thread to avoid unlimited wait
+		FetchOperationsTask task = new FetchOperationsTask(this);
+		// The task doesn't need a parameter so we just give zero
+		task.execute(0);
+		// Mark the process as busy
+		_isFetchingOperations = true;
+		// Constrain the task duration to not wait indefinitely
+		try {
+			task.get((long)FETCH_OPERATIONS_TIMEOUT, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TimeoutException e) {
+			Toast.makeText(this, R.string.toast_fetching_operations_timed_out, Toast.LENGTH_LONG).show();
+		}
+		
+		_isFetchingOperations = false;
 	}
 	
-	private void checkAndAddOperationToList(Operation operation){
+	/**
+	 * Adds an operation to the list in case it doesn't exist yet, and updates the UI.
+	 * @param operation The operation to check and add.
+	 */
+	public void checkAndAddOperationToList(Operation operation){
 		if (operation == null){
 			return;
 		}

@@ -52,5 +52,6 @@
 
     <string name="text_lblHeader">Einsätze:</string>
     <string name="toast_no_network_connection">Sie sind nicht mit dem Internet verbunden!</string>
+    <string name="toast_fetching_operations_timed_out">Zeitüberschreitung! Bitte versuchen Sie es erneut!</string>
 
 </resources>
