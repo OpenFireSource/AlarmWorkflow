@@ -7,26 +7,31 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.alarmworkflow.app.util.Constants;
+import com.alarmworkflow.app.util.FetchOperationsTask;
+import com.alarmworkflow.app.util.Operation;
+import com.alarmworkflow.app.util.OperationCache;
+import com.alarmworkflow.app.util.OperationsAdapter;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ListActivity {
 
 	private static final int FETCH_OPERATIONS_TIMEOUT = 5; 
     private static final int SERVICE_MAXAGE = 7;
     
     private boolean _isFetchingOperations;
-	
-	private ListView _lsvOperations;
-	
+		
 	private OperationsAdapter _adapter;
 	private List<Operation> _adapterList;
 
@@ -40,21 +45,19 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		PreferenceManager.setDefaultValues(this, R.xml.activity_preferences, false);
-		
-		// Retrieve controls from layout
-		_lsvOperations = (ListView) findViewById(R.id.lsvOperations);
-		
+				
 		// Load the persisted cache
 		try {
-			OperationCache.getInstance().loadPersistedCache(openFileInput(OperationCache.PERSISTENT_STORAGE_FILENAME));
+			OperationCache.getInstance().loadPersistedCache(openFileInput(Constants.PERSISTENT_STORAGE_FILENAME));
 		} catch (FileNotFoundException e) {
 			// It's OK if the file does not exist --> ignore exception
 		}
 		
 		// Now create a new adapter for our list view and host the data in it
 		_adapterList = new ArrayList<Operation>();
+		
 		_adapter = new OperationsAdapter(getApplicationContext(), R.layout.operationitemlayout, _adapterList);
-		_lsvOperations.setAdapter(_adapter);
+		setListAdapter(_adapter);
 		
 		// Load in all operations if there are any
 		for (Operation operation : OperationCache.getInstance().getRecentOperations(SERVICE_MAXAGE, 5)) {
@@ -91,22 +94,28 @@ public class MainActivity extends Activity {
         
         // Persist operation cache
         try {
-			OperationCache.getInstance().persistCache(openFileOutput(OperationCache.PERSISTENT_STORAGE_FILENAME, MODE_PRIVATE));
+			OperationCache.getInstance().persistCache(openFileOutput(Constants.PERSISTENT_STORAGE_FILENAME, MODE_PRIVATE));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		
+		// Switch to details activity for this operation
+		Operation operation = (Operation)l.getItemAtPosition(position);
+		
+		// Create bundle to tell the detail activity which operation to detail
+		Bundle bundle = new Bundle();
+		bundle.putSerializable("Operation", operation);
+		
+		// Create intent to switch to detail activity
+		Intent intent = new Intent(MainActivity.this, OperationDetailActivity.class);
+		intent.putExtras(bundle);
+		startActivity(intent);
 	}
 	
 	private boolean isNetworkAvailable(boolean showToastIfUnavailable){
@@ -140,10 +149,8 @@ public class MainActivity extends Activity {
 		try {
 			task.get((long)FETCH_OPERATIONS_TIMEOUT, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ExecutionException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (TimeoutException e) {
 			Toast.makeText(this, R.string.toast_fetching_operations_timed_out, Toast.LENGTH_LONG).show();

@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="SettingsPreferenceActivity" android:label="@string/title_activity_settings"></activity>
+        <activity android:name="OperationDetailActivity" android:label="@string/title_activity_operationdetail"></activity>
     </application>
 
 </manifest>

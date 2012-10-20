@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
-        /// Returns a string describing the property location like: "[ZipCode] City, Street [StreetNumber]".
+        /// Returns a string describing the property location like: "[[Street] [StreetNumber]], [ZipCode] [City]".
         /// </summary>
         /// <returns></returns>
         public override string ToString()

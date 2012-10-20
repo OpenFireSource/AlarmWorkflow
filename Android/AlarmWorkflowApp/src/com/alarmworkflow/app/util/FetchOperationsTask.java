@@ -1,6 +1,9 @@
-package com.alarmworkflow.app;
+package com.alarmworkflow.app.util;
 
 import java.util.ArrayList;
+
+import com.alarmworkflow.app.MainActivity;
+import com.alarmworkflow.app.services.AlarmWorkflowServiceWrapper;
 
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;

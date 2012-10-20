@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alarmworkflow.app;
+package com.alarmworkflow.app.services;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,6 +17,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+
+import com.alarmworkflow.app.util.Operation;
 
 /**
  * Contains wrappers to access the web services which are hosted by the AlarmWorkflow Windows Service. 

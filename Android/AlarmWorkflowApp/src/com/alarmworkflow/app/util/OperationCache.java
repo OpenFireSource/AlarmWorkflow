@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.alarmworkflow.app;
+package com.alarmworkflow.app.util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -22,8 +22,6 @@ import android.util.SparseArray;
  *
  */
 public class OperationCache {
-
-    static final String PERSISTENT_STORAGE_FILENAME = "AlarmWorkflowAppOperationCache.txt";
 	
 	private static OperationCache _instance;
 	/**

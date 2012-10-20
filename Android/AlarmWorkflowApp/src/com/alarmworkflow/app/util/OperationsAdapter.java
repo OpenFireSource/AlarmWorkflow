@@ -1,6 +1,8 @@
-package com.alarmworkflow.app;
+package com.alarmworkflow.app.util;
 
 import java.util.List;
+
+import com.alarmworkflow.app.R;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -45,27 +47,20 @@ public class OperationsAdapter extends ArrayAdapter<Operation> {
 		StringBuilder sbHeadlineText = new StringBuilder();
 		sbHeadlineText.append(operation.OperationNumber);
 		sbHeadlineText.append(", ");
-		if (operation.Location != "" && operation.Location != "null") {
-			sbHeadlineText.append(operation.Location);
+		if (operation.Keyword != "" && operation.Keyword != "null") {
+			sbHeadlineText.append(operation.Keyword);
 			sbHeadlineText.append(", ");
 		}
-		if (operation.Street != "" && operation.Street != "null") {
-			sbHeadlineText.append(operation.Street);
-			if (operation.StreetNumber != "" && operation.StreetNumber != "null"){
-				sbHeadlineText.append(" ");
-				sbHeadlineText.append(operation.StreetNumber);
-			}
+		if (operation.Comment != "" && operation.Comment != "null") {
+			sbHeadlineText.append(operation.Comment);
 			sbHeadlineText.append(", ");
 		}
-		if (operation.ZipCode != "" && operation.ZipCode != "null") {
-			sbHeadlineText.append(operation.ZipCode);
-			sbHeadlineText.append(" ");
-		}
-		sbHeadlineText.append(operation.City);
 
 		headlineText.setText(sbHeadlineText.toString());
 		headlineDate.setText(operation.Timestamp.toString());
 
 		return operationView;
 	}
+	
+	
 }
