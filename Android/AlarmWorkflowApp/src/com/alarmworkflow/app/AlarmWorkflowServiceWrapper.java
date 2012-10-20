@@ -6,6 +6,8 @@ package com.alarmworkflow.app;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -26,7 +28,6 @@ public class AlarmWorkflowServiceWrapper {
 
 	/*
 	 * TODO Make web service accessors more robust and generalize them!
-	 * TODO Include a static method which checks for connectivity and Toast if there is no network available!
 	 * TODO Use Gson for deserialization from JSON? See http://code.google.com/p/google-gson/downloads/list 
 	 */
 	
@@ -132,14 +133,18 @@ public class AlarmWorkflowServiceWrapper {
 			operation.Keyword = finalResult.getString("Keyword");
 			operation.IsAcknowledged = finalResult.getBoolean("IsAcknowledged");
 
-			// HINT Date Format: "2012-10-09T18:43:13.543" --> "YYYY-MM-DDTHH:mm:ss.
-			// TODO Somehow (through JSON?) the timestamp string gets messed up into like "2346798783209834+0200" which they can't parse.
-			/*
-			String timestamp = finalResult.getString("Timestamp");
-			SimpleDateFormat format = new SimpleDateFormat();
-			operation.Timestamp = format.parse(timestamp);
-			*/
-			
+			// HINT: .Net transfers Dates like 1234567890+0200, so we cut off the +0200 and add two hours afterwards.
+			// See http://weblogs.asp.net/bleroy/archive/2008/01/18/dates-and-json.aspx
+			String timestampS = finalResult.getString("Timestamp");
+			timestampS = timestampS.substring(6, timestampS.indexOf("+"));
+ 
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(new Date(Long.valueOf(timestampS)));
+			// TODO: Hard-coded offset of 2 hours (Germany).
+			cal.add(Calendar.HOUR_OF_DAY, 2);
+
+			operation.Timestamp = cal.getTime();
+
 			return operation;
 
 		} catch (ClientProtocolException e) {
