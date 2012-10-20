@@ -12,7 +12,7 @@
     <string name="pref_default_server_uri">http://10.0.2.2:60002/</string>
     <string name="pref_title_update_interval">Aktualisierungsintervall</string>
     <string name="pref_summary_update_interval">Der Abstand in Minuten, wann auf neue Einsätze geprüft werden soll.</string>
-    <string name="pref_default_update_interval">5</string>
+    <string name="pref_default_update_interval">10</string>
     <string name="pref_title_fetch_amount">Einsatzlimit</string>
 	<string name="pref_summary_fetch_amount">Anzahl der Einsätze, die max. zurückgegeben werden sollen.</string>
     <string name="pref_default_fetch_amount">5</string>

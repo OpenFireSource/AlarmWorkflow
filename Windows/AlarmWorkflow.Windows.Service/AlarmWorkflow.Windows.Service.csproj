@@ -67,11 +67,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="WcfServices\AlarmWorkflowService.cs" />
+    <Compile Include="WcfServices\AlarmWorkflowServiceInternal.cs" />
+    <Compile Include="WcfServices\IAlarmWorkflowServiceInternal.cs" />
     <Compile Include="WcfServices\OperationItemDetailLevel.cs" />
-    <Compile Include="WcfServices\ServiceConstants.cs" />
     <Compile Include="WcfServices\IAlarmWorkflowService.cs" />
     <Compile Include="WcfServices\OperationItem.cs" />
-    <Compile Include="WcfServices\ServiceFactory.cs" />
     <Compile Include="WcfServices\WcfServicesHostManager.cs" />
     <Compile Include="WcfServices\WrappedService.cs" />
   </ItemGroup>

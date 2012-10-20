@@ -100,7 +100,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// Initializes a new instance of the <see cref="WrappedService&lt;TService&gt;"/> class.
         /// </summary>
         /// <param name="serviceInstance">The service instance.</param>
-        internal WrappedService(TService serviceInstance)
+        public WrappedService(TService serviceInstance)
             : base()
         {
             _instance = serviceInstance;

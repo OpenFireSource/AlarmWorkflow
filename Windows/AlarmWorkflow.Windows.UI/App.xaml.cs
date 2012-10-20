@@ -237,11 +237,11 @@ namespace AlarmWorkflow.Windows.UI
             {
                 try
                 {
-                    using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
+                    using (var service = InternalServiceProxy.GetServiceInstance())
                     {
-                        string maxAge = Configuration.OperationFetchingArguments.MaxAge.ToString();
-                        string onlyNonAcknowledged = Configuration.OperationFetchingArguments.OnlyNonAcknowledged.ToString();
-                        string limitAmount = Configuration.OperationFetchingArguments.LimitAmount.ToString();
+                        int maxAge = Configuration.OperationFetchingArguments.MaxAge;
+                        bool onlyNonAcknowledged = Configuration.OperationFetchingArguments.OnlyNonAcknowledged;
+                        int limitAmount = Configuration.OperationFetchingArguments.LimitAmount;
 
                         var operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
                         if (operations.Count == 0)
@@ -258,12 +258,12 @@ namespace AlarmWorkflow.Windows.UI
                             }
 
                             // Second parameter determines the detail level. Here, we can use "1" (full detail).
-                            OperationItem operation = service.Instance.GetOperationById(operationId.ToString(), "1");
+                            OperationItem operation = service.Instance.GetOperationById(operationId, OperationItemDetailLevel.Full);
 
                             // If the event is too old, do display it this time, but acknowledge it so it won't show up
                             if (ShouldAutomaticallyAcknowledgeOperation(operation))
                             {
-                                service.Instance.AcknowledgeOperation(operation.Id.ToString());
+                                service.Instance.AcknowledgeOperation(operation.Id);
                             }
                             else
                             {

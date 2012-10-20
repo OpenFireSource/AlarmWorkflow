@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.Service.WcfServices;
 using AlarmWorkflow.Windows.UI.Extensibility;
+using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.Security;
 
 // TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
@@ -173,9 +172,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             try
             {
-                using (var service = ServiceFactory.GetServiceWrapper<IAlarmWorkflowService>())
+                using (var service = InternalServiceProxy.GetServiceInstance())
                 {
-                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id.ToString());
+                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id);
                     // If we get here, acknowledging was successful --> update operation
                     SelectedEvent.Operation.IsAcknowledged = true;
 

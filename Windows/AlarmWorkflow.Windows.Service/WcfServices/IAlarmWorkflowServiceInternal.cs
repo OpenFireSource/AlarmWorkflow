@@ -5,10 +5,10 @@ using System.ServiceModel.Web;
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
     /// <summary>
-    /// Defines the web service for the Windows-implementation of the AlarmWorkflow application.
+    /// Defines the contract for the internal, local-machine service used between Windows Service and Clients (not exposed to external).
     /// </summary>
     [ServiceContract()]
-    public interface IAlarmWorkflowService
+    public interface IAlarmWorkflowServiceInternal
     {
         /// <summary>
         /// Returns a list containing the Identifiers of all operations using a predefined set of filter criteria.
@@ -19,8 +19,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// <param name="limitAmount">The amount of operations to retrieve. Higher limits may take longer to fetch. Use 0 (zero) for no limit.</param>
         /// <returns>A list containing the Identifiers of all operations using a predefined set of filter criteria.</returns>
         [OperationContract()]
-        [WebGet(UriTemplate = "GetOperationIds/maxAge={maxAge}&ona={onlyNonAcknowledged}&limit={limitAmount}", ResponseFormat = WebMessageFormat.Json)]
-        IList<int> GetOperationIds(string maxAge, string onlyNonAcknowledged, string limitAmount);
+        IList<int> GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount);
         /// <summary>
         /// Returns an Operation by its Id. If there is no operation with the given id, null is returned.
         /// </summary>
@@ -28,7 +27,13 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// <param name="detailLevel">The detail level. Currently supported are 0 (minimum detail) and 1 (full detail). For mobile phones, 0 is recommended; otherwise, 1.</param>
         /// <returns>An Operation by its Id. If there is no operation with the given id, null is returned.</returns>
         [OperationContract()]
-        [WebGet(UriTemplate = "GetOperationById/id={operationId}&detail={detailLevel}", ResponseFormat = WebMessageFormat.Json)]
-        OperationItem GetOperationById(string operationId, string detailLevel);
+        OperationItem GetOperationById(int operationId, OperationItemDetailLevel detailLevel);
+        /// <summary>
+        /// Acknowledges the given operation. If the operation is already acknowledged, it will do nothing.
+        /// Setting an operation to be acknowledged will not cause it to be displayed in the UIs (an acknowledged operation is "done").
+        /// </summary>
+        /// <param name="operationId">The Id of the <see cref="Operation"/> to set to "acknowledged".</param>
+        [OperationContract()]
+        void AcknowledgeOperation(int operationId);
     }
 }

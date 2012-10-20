@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
@@ -77,18 +76,6 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             }
 
             return new OperationItem(operation, detail);
-        }
-
-        void IAlarmWorkflowService.AcknowledgeOperation(string operationId)
-        {
-            int rOperationId = -1;
-            if (!int.TryParse(operationId, out rOperationId))
-            {
-                // Invalid case
-                return;
-            }
-
-            _operationStore.AcknowledgeOperation(rOperationId);
         }
 
         #endregion
