@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private static final int FETCH_OPERATIONS_TIMEOUT = 10; 
+	private static final int FETCH_OPERATIONS_TIMEOUT = 5; 
     private static final int SERVICE_MAXAGE = 7;
     
     private boolean _isFetchingOperations;
@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
 		ConnectivityManager cm = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
 		 
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		boolean isConnected = activeNetwork.isConnectedOrConnecting();
+		boolean isConnected = (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
 		if(!isConnected && showToastIfUnavailable){
 			Toast.makeText(this, R.string.toast_no_network_connection, Toast.LENGTH_LONG).show();
 		}
