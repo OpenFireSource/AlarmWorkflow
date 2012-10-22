@@ -68,6 +68,10 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Keyword { get; set; }
         /// <summary>
+        /// Gets/sets the list of all resources requested by the call center. May be null or empty.
+        /// </summary>
+        public IList<OperationResource> Resources { get; set; }
+        /// <summary>
         /// Gets/sets the custom data for this operation.
         /// </summary>
         public IDictionary<string, object> CustomData { get; set; }

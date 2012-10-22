@@ -54,6 +54,7 @@
     <Compile Include="Core\OcrSoftware.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Core\PropertyLocation.cs" />
+    <Compile Include="Core\OperationResource.cs" />
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
     <Compile Include="Diagnostics\ILoggingListener.cs" />

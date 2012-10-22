@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI;
@@ -234,13 +233,13 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         {
             List<ResourceViewModel> resources = new List<ResourceViewModel>();
 
-            List<Resource> dataSource = GetOperationCustomData<List<Resource>>("Einsatzmittel", null);
+            List<OperationResource> dataSource = GetOperationCustomData<List<OperationResource>>("Einsatzmittel", null);
             if (dataSource != null)
             {
-                foreach (Resource resource in dataSource)
+                foreach (OperationResource resource in dataSource)
                 {
                     // Check if the filter matches
-                    var vehicle = _configuration.ResourceMatches(resource.Einsatzmittel);
+                    var vehicle = _configuration.ResourceMatches(resource.FullName);
                     if (vehicle == null)
                     {
                         continue;
@@ -262,7 +261,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                         // Add newline when adding equipment to already existing vehicle
                         rvm.RequestedEquipment += "\n";
                     }
-                    rvm.RequestedEquipment += resource.GeforderteAusstattung;
+                    rvm.RequestedEquipment += string.Join("\n", resource.RequestedEquipment);
 
                 }
             }

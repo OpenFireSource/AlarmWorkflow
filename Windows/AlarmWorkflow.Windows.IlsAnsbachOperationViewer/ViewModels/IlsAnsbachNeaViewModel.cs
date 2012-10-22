@@ -307,7 +307,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// </summary>
         internal void ToggleManuallyDeployedVehicles(string resourceName)
         {
-            List<Resource> dataSource = GetOperationCustomData<List<Resource>>("Einsatzmittel", null);
+            List<OperationResource> dataSource = GetOperationCustomData<List<OperationResource>>("Einsatzmittel", null);
             if (dataSource != null)
             {
                 // Get resource by its name
@@ -346,22 +346,22 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         {
             List<RequestedResourceViewModel> resources = new List<RequestedResourceViewModel>();
 
-            List<Resource> dataSource = GetOperationCustomData<List<Resource>>("Einsatzmittel", null);
+            List<OperationResource> dataSource = GetOperationCustomData<List<OperationResource>>("Einsatzmittel", null);
             if (dataSource != null)
             {
-                foreach (Resource resource in dataSource)
+                foreach (OperationResource resource in dataSource)
                 {
                     // Check if the filter matches
-                    var vehicle = _configuration.ResourceMatches(resource.Einsatzmittel);
+                    var vehicle = _configuration.ResourceMatches(resource.FullName);
                     if (vehicle == null)
                     {
                         continue;
                     }
 
                     RequestedResourceViewModel rvm = new RequestedResourceViewModel();
-                    if (!string.IsNullOrWhiteSpace(resource.GeforderteAusstattung))
+                    if (resource.RequestedEquipment != null && resource.RequestedEquipment.Count > 0)
                     {
-                        rvm.ResourceName = resource.GeforderteAusstattung;
+                        rvm.ResourceName = string.Join("\n", resource.RequestedEquipment);
                     }
                     else
                     {

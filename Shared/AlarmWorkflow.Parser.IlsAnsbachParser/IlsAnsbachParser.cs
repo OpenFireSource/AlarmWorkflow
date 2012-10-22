@@ -156,6 +156,8 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
+            List<OperationResource> resources = new List<OperationResource>();
+            OperationResource last = new OperationResource();
 
             lines = Utilities.Trim(lines);
 
@@ -365,62 +367,40 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             break;
                         case CurrentSection.FEinsatzmittel:
                             {
-                                // Create sub-parser for this section
-                                List<Resource> resources = new List<Resource>();
-                                Resource last = new Resource();
-
-                                bool finished = false;
-                                while (!finished)
+                                if (line.StartsWith("EINSATZMITTEL", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    // Execute within security (no exceptions)
-                                    Utilities.Swallow<object>(o =>
+                                    msg = GetMessageText(line, "EINSATZMITTEL");
+                                    last.FullName = msg;
+                                }
+                                else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
+                                {
+                                    msg = GetMessageText(line, "Alarmiert");
+
+                                    // In case that parsing the time failed, we just assume that the resource got requested right away.
+                                    DateTime dt = operation.Timestamp;
+                                    // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
+                                    if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                                     {
-                                        string fel = lines[i];
-                                        if (fel.StartsWith("Einsatzmittel"))
-                                        {
-                                            msg = GetMessageText(fel, "Einsatzmittel");
-                                            last.Einsatzmittel = msg;
-                                        }
-                                        else if (fel.StartsWith("Alarmiert") && !string.IsNullOrEmpty(msg))
-                                        {
-                                            msg = GetMessageText(fel, "Alarmiert");
+                                        // If this is NOT the case and it was parsed correctly, try it here
+                                        DateTime.TryParseExact(msg, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
+                                    }
 
-                                            // In case that parsing the time failed, we just assume that the resource got requested right away.
-                                            DateTime dt = operation.Timestamp;
-                                            // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
-                                            if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
-                                            {
-                                                // If this is NOT the case and it was parsed correctly, try it here
-                                                DateTime.TryParseExact(msg, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
-                                            }
+                                    last.Timestamp = dt.ToString();
+                                }
+                                else if (line.StartsWith("GEFORDERTE AUSSTATTUNG", StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    msg = GetMessageText(line, "Geforderte Ausstattung");
 
-                                            last.Alarmiert = dt.ToString();
-                                        }
-                                        else if (fel.StartsWith("Geforderte Ausstattung"))
-                                        {
-                                            msg = GetMessageText(fel, "Geforderte Ausstattung");
+                                    // Only add to requested equipment if there is some text,
+                                    // otherwise the whole vehicle is the requested equipment
+                                    if (!string.IsNullOrWhiteSpace(msg))
+                                    {
+                                        last.RequestedEquipment.Add(msg);
+                                    }
 
-                                            last.GeforderteAusstattung = msg;
-
-                                            // This line will end the construction of this resource. Add it to the list and go to the next.
-                                            resources.Add(last);
-                                            last = new Resource();
-                                        }
-                                        else if (fel.StartsWith("Bemerkung", StringComparison.InvariantCultureIgnoreCase))
-                                        {
-                                            operation.CustomData["Einsatzmittel"] = resources;
-                                            finished = true;
-                                            // Decrement index variable here because it gets incremented later
-                                            i -= 2;
-                                        }
-                                        else
-                                        {
-                                            // Trace this for debugging aid
-                                            Logger.Instance.LogFormat(LogType.Warning, this, "Unrecognized contents in line '{0}'. The parser ignores this line. The line contents are: '{1}'", i, fel);
-                                        }
-                                    }, null);
-
-                                    i++;
+                                    // This line will end the construction of this resource. Add it to the list and go to the next.
+                                    resources.Add(last);
+                                    last = new OperationResource();
                                 }
                             }
                             break;
@@ -449,6 +429,9 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                 operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
             }
 
+            // Apply resources before leaving
+            operation.CustomData["Einsatzmittel"] = resources;
+            operation.Resources = resources;
             return operation;
         }
 
