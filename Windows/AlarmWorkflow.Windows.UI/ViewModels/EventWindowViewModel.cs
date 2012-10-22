@@ -165,7 +165,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
 
             // Require confirmation of this action
-            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.Password))
+            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.SimpleConfirmation))
             {
                 return;
             }
