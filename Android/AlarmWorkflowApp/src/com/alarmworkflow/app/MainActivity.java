@@ -27,8 +27,7 @@ import android.widget.Toast;
 
 public class MainActivity extends ListActivity {
 
-	private static final int FETCH_OPERATIONS_TIMEOUT = 5; 
-    private static final int SERVICE_MAXAGE = 7;
+	private static final int FETCH_OPERATIONS_TIMEOUT = 5;
     
     private boolean _isFetchingOperations;
 		
@@ -60,7 +59,11 @@ public class MainActivity extends ListActivity {
 		setListAdapter(_adapter);
 		
 		// Load in all operations if there are any
-		for (Operation operation : OperationCache.getInstance().getRecentOperations(SERVICE_MAXAGE, 5)) {
+
+		int limitAmount = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_KEY_FETCH_AMOUNT, "5"));
+		int maxAge = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString(Constants.PREF_KEY_FETCH_MAXAGE, "7"));
+		
+		for (Operation operation : OperationCache.getInstance().getRecentOperations(maxAge, limitAmount)) {
 			checkAndAddOperationToList(operation);
 		}
 	}

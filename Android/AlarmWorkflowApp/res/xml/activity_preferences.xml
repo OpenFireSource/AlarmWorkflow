@@ -30,6 +30,8 @@
         	android:key="pref_key_fetch_amount"
         	android:summary="@string/pref_summary_fetch_amount"
         	android:title="@string/pref_title_fetch_amount" />
+        <CheckBoxPreference android:key="pref_key_fetch_only_nonacknowledged" android:title="@string/pref_title_fetch_only_nonacknowledged" android:summary="@string/pref_summary_fetch_only_nonacknowledged" android:defaultValue="@string/pref_default_fetch_only_nonacknowledged"/>
+        <ListPreference android:key="pref_key_fetch_maxage" android:summary="@string/pref_summary_fetch_max_age" android:title="@string/pref_title_fetch_max_age" android:entries="@array/array_values_human_fetch_max_age" android:entryValues="@array/array_values_android_fetch_max_age" android:defaultValue="@string/pref_default_fetch_max_age"/>
         
     </PreferenceCategory>
     

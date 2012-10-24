@@ -17,7 +17,13 @@
     <string name="pref_title_fetch_amount">Einsatzlimit</string>
 	<string name="pref_summary_fetch_amount">Anzahl der Einsätze, die max. zurückgegeben werden sollen.</string>
     <string name="pref_default_fetch_amount">5</string>
-
+    <string name="pref_title_fetch_only_nonacknowledged">Nur Neue Einsätze</string>
+	<string name="pref_summary_fetch_only_nonacknowledged">Ob nur nicht-erledigte (neue) Einsätze gesucht werden sollen.</string>
+    <string name="pref_default_fetch_only_nonacknowledged">true</string>
+    <string name="pref_title_fetch_max_age">Max. Alter</string>
+	<string name="pref_summary_fetch_max_age">Maximales Alter der Einsätze die gesucht werden sollen.</string>
+    <string name="pref_default_fetch_max_age">7</string>
+   
     <string-array name="array_values_human_update_interval">
         <item>1 Minute</item>
         <item>5 Minuten</item>
@@ -49,6 +55,18 @@
         <item>3 </item>
         <item>5</item>
         <item>10</item>
+    </string-array>
+    <string-array name="array_values_human_fetch_max_age">
+        <item>1 Tag</item>
+        <item>7 Tage</item>
+        <item>14 Tage</item>
+        <item>30 Tage</item>
+    </string-array>
+    <string-array name="array_values_android_fetch_max_age">
+        <item>1</item>
+        <item>7 </item>
+        <item>14</item>
+        <item>30</item>
     </string-array>
 
     <string name="text_lblHeader">Einsätze:</string>
