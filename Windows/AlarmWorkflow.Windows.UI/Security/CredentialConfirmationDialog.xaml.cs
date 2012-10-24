@@ -1,12 +1,11 @@
 ﻿using System.Windows;
-using AlarmWorkflow.Windows.UI.Contracts.Security;
 
 namespace AlarmWorkflow.Windows.UI.Security
 {
     /// <summary>
     /// Interaction logic for CredentialConfirmationDialog.xaml
     /// </summary>
-    internal sealed partial class CredentialConfirmationDialog : Window
+    internal partial class CredentialConfirmationDialog : Window
     {
         #region Properties
 

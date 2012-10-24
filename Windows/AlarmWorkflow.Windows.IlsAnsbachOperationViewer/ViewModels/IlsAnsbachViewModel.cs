@@ -239,7 +239,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                 foreach (OperationResource resource in dataSource)
                 {
                     // Check if the filter matches
-                    var vehicle = _configuration.ResourceMatches(resource.FullName);
+                    var vehicle = _configuration.FindMatchingResource(resource.FullName);
                     if (vehicle == null)
                     {
                         continue;

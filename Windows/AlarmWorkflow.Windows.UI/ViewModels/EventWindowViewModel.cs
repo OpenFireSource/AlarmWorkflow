@@ -4,20 +4,21 @@ using System.Linq;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
-using AlarmWorkflow.Windows.UI.Contracts.Security;
+using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
+using AlarmWorkflow.Windows.UI.Security;
+
+// TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
-    /// <summary>
-    /// ViewModel for the EventsWindow.
-    /// </summary>
     class EventWindowViewModel : ViewModelBase
     {
         #region Fields
 
         private IOperationViewer _operationViewer;
+        private Lazy<FrameworkElement> _controlTemplate;
+
         private OperationViewModel _selectedEvent;
 
         #endregion
@@ -55,20 +56,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             get { return AvailableEvents.Count > 1; }
         }
-        /// <summary>
-        /// Gets the control that is to be displayed in the EventsWindow Content area.
-        /// </summary>
-        public FrameworkElement OperationViewerVisual
-        {
-            get
-            {
-                if (_operationViewer == null)
-                {
-                    throw new InvalidOperationException("No operation viewer defined! Cannot return its Visual!");
-                }
 
-                return _operationViewer.Visual;
-            }
+        /// <summary>
+        /// Gets the control that is to be displayed in the 
+        /// </summary>
+        public FrameworkElement Template
+        {
+            get { return _controlTemplate.Value; }
         }
 
         #endregion
@@ -100,6 +94,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 Logger.Instance.LogFormat(LogType.Warning, this, "Could not find operation viewer with alias '{0}'. Using the default one. Please check the configuration file!", operationViewerAlias);
                 _operationViewer = new Views.DefaultOperationView();
             }
+
+            _controlTemplate = new Lazy<FrameworkElement>(() =>
+            {
+                return _operationViewer.Visual;
+            });
         }
 
         /// <summary>
@@ -115,8 +114,10 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 return false;
             }
 
+            bool isOperationNew = !operation.IsAcknowledged;
+
             // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)
-            if (!operation.IsAcknowledged)
+            if (isOperationNew)
             {
                 _operationViewer.OnNewOperation(operation);
             }
@@ -135,8 +136,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 SelectedEvent = AvailableEvents[0];
             }
 
-            // Call the UI-jobs now on this specific job
-            App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
+            // Call the UI-jobs now on this specific job (only if the operation is not acknowledged and thus new)
+            if (isOperationNew)
+            {
+                App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
+            }
 
             // When the jobs are done, change over to the job (necessary in most cases albeit not perfect solution :-/ )
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);

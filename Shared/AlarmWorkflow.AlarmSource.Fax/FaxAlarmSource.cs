@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Xml.Linq;
+using AlarmWorkflow.AlarmSource.Fax.Config;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.AlarmSource.Fax.Config;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
@@ -19,6 +20,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         #region Fields
 
         private FaxConfiguration _configuration;
+        private Dictionary<string, string> _replaceDictionary;
 
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
@@ -39,6 +41,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _configuration = new FaxConfiguration();
 
             InitializeSettings();
+            InitializeReplaceDictionary();
         }
 
         #endregion
@@ -71,6 +74,18 @@ namespace AlarmWorkflow.AlarmSource.Fax
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
         }
 
+        private void InitializeReplaceDictionary()
+        {
+            _replaceDictionary = new Dictionary<string, string>(16);
+
+            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\ReplaceDictionary.xml");
+
+            foreach (XElement rpn in doc.Root.Elements())
+            {
+                _replaceDictionary[rpn.Attribute("Old").Value] = rpn.Attribute("New").Value;
+            }
+        }
+
         /// <summary>
         /// Makes sure that the required directories exist and we don't run into unnecessary exceptions.
         /// </summary>
@@ -96,7 +111,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 Logger.Instance.LogFormat(LogType.Warning, this, "Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.");
             }
         }
-        
+
         private void ProcessFile(FileInfo file)
         {
             string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
@@ -208,6 +223,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
                     operation.Timestamp = DateTime.Now;
                 }
+
+                // Raise event...
+                OnNewAlarm(operation);
 
             }
             catch (Exception ex)

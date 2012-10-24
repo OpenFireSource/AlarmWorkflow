@@ -3,7 +3,7 @@ using System.Linq;
 using System.Timers;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
+using AlarmWorkflow.Windows.UI.Extensibility;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer.Views
 {

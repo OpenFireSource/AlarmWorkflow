@@ -9,12 +9,15 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI;
-using AlarmWorkflow.Windows.UI.Contracts.Security;
+using AlarmWorkflow.Windows.UI.Security;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 {
-    class IlsAnsbachNeaViewModel : ViewModelBase
+    /// <summary>
+    /// ViewModel that provides the data for the NEA-customized ILS-Ansbach-Operation Viewer.
+    /// </summary>
+    sealed class IlsAnsbachNeaViewModel : ViewModelBase
     {
         #region Static
 
@@ -351,20 +354,28 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                 foreach (OperationResource resource in dataSource)
                 {
                     // Check if the filter matches
-                    var vehicle = _configuration.ResourceMatches(resource.FullName);
+                    var vehicle = _configuration.FindMatchingResource(resource.FullName);
                     if (vehicle == null)
                     {
                         continue;
                     }
 
+                    // Construct new requested resource.
                     RequestedResourceViewModel rvm = new RequestedResourceViewModel();
+                    // Find out the vehicle type or specification (if any).
+                    rvm.ResourceType = GetVehicleType(resource);
+                    // Allocate the requested equipment (if any).
                     if (resource.RequestedEquipment != null && resource.RequestedEquipment.Count > 0)
                     {
                         rvm.ResourceName = string.Join("\n", resource.RequestedEquipment);
                     }
                     else
                     {
-                        rvm.ResourceName = vehicle.Name;
+                        // If there is no requested equipment, and the resource type wasn't found, set the vehicle name.
+                        if (!rvm.HasResourceType)
+                        {
+                            rvm.ResourceName = vehicle.Name;
+                        }
                     }
 
                     resources.Add(rvm);
@@ -372,6 +383,29 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             }
 
             return resources.OrderBy(r => r.ResourceName);
+        }
+
+        /// <summary>
+        /// Gets the vehicle type or specification (RW, DLK 23/12 etc.) from the resource name.
+        /// </summary>
+        /// <param name="resource">The resource to get the type or specification from.</param>
+        /// <returns>The type or specification string. -or- null, if none found.</returns>
+        private string GetVehicleType(OperationResource resource)
+        {
+            // Find the type/spec name entrenched between the brackets.
+            int iOpenBracket = resource.FullName.LastIndexOf('(');
+            int iClosingBracket = resource.FullName.LastIndexOf(')');
+
+            // Check invalid conditions.
+            if (iOpenBracket == -1 || iClosingBracket == -1 || (iOpenBracket > iClosingBracket))
+            {
+                return null;
+            }
+
+            // Cut out the middle part "1312fghasldkjf 30/1 (DLK 23/12)" ==> "DLK 23/12".
+            int start = iOpenBracket + 1;
+            int length = (iClosingBracket - 1) - iOpenBracket;
+            return resource.FullName.Substring(start, length);
         }
 
         #endregion
@@ -384,9 +418,28 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         public class RequestedResourceViewModel : ViewModelBase
         {
             /// <summary>
+            /// Gets/sets the requested resource type or specification, if any.
+            /// </summary>
+            public string ResourceType { get; set; }
+            /// <summary>
+            /// Returns whether or not to show the resource type string
+            /// </summary>
+            public bool HasResourceType
+            {
+                get { return !string.IsNullOrWhiteSpace(ResourceType); }
+            }
+
+            /// <summary>
             /// Gets/sets the name of the requested resource.
             /// </summary>
             public string ResourceName { get; set; }
+            /// <summary>
+            /// Returns whether or not to show the resource name string
+            /// </summary>
+            public bool HasResourceName
+            {
+                get { return !string.IsNullOrWhiteSpace(ResourceName); }
+            }
         }
 
         /// <summary>

@@ -34,20 +34,20 @@ namespace AlarmWorkflow.Shared.Config
 
         #region Properties
 
-        internal string FaxPath { get; private set; }
-        internal string ArchivePath { get; private set; }
-        internal string AnalysisPath { get; private set; }
-        internal OcrSoftware OCRSoftware { get; private set; }
-        internal string OCRSoftwarePath { get; private set; }
-        internal string AlarmFaxParserAlias { get; private set; }
         internal string OperationStoreAlias { get; private set; }
+        internal string RoutePlanProviderAlias { get; private set; }
         internal bool DownloadRoutePlan { get; private set; }
         internal int RouteImageHeight { get; private set; }
         internal int RouteImageWidth { get; private set; }
 
+        /// <summary>
+        /// Gets the information about the current fire department site.
+        /// </summary>
+        /// <remarks>This information is used (among others) to provide the route information to the operation destination.</remarks>
         public FireDepartmentInfo FDInformation { get; private set; }
 
         internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
+        internal ReadOnlyCollection<string> EnabledAlarmSources { get; private set; }
 
         #endregion
 
@@ -63,15 +63,8 @@ namespace AlarmWorkflow.Shared.Config
 
             XDocument doc = XDocument.Load(fileName);
 
-            string ocr = doc.Root.Element("OCRSoftware").Attribute("type").Value;
-            this.OCRSoftware = (OcrSoftware)Enum.Parse(typeof(OcrSoftware), ocr);
-            this.OCRSoftwarePath = doc.Root.Element("OCRSoftware").Attribute("path").Value;
-
-            this.FaxPath = doc.Root.Element("FaxPath").Value;
-            this.ArchivePath = doc.Root.Element("ArchivePath").Value;
-            this.AnalysisPath = doc.Root.Element("AnalysisPath").Value;
-            this.AlarmFaxParserAlias = doc.Root.Element("AlarmfaxParser").Value;
             this.OperationStoreAlias = doc.Root.Element("OperationStore").Value;
+            this.RoutePlanProviderAlias = doc.Root.Element("RoutePlanProvider").Value;
 
             this.DownloadRoutePlan = bool.Parse(doc.Root.Element("DownloadRoutePlan").Value);
             this.RouteImageHeight = int.Parse(doc.Root.Element("RouteImageHeight").Value);
@@ -109,6 +102,27 @@ namespace AlarmWorkflow.Shared.Config
                 }
 
                 this.EnabledJobs = new ReadOnlyCollection<string>(jobs);
+            }
+            // AlarmSources configuration
+            {
+                XElement sourcesConfigE = doc.Root.Element("AlarmSourcesConfiguration");
+                List<string> sources = new List<string>();
+                foreach (XElement exportE in sourcesConfigE.Elements("AlarmSource"))
+                {
+                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
+                    {
+                        continue;
+                    }
+
+                    string sourceName = exportE.TryGetAttributeValue("Name", null);
+                    if (string.IsNullOrWhiteSpace(sourceName))
+                    {
+                        continue;
+                    }
+                    sources.Add(sourceName);
+                }
+
+                this.EnabledAlarmSources = new ReadOnlyCollection<string>(sources);
             }
 
             _instance = this;

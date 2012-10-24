@@ -50,7 +50,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assertions.cs" />
-    <Compile Include="Core\MapsServiceHelper.cs" />
     <Compile Include="Core\OcrSoftware.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Core\PropertyLocation.cs" />
@@ -62,6 +61,8 @@
     <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="Diagnostics\LogType.cs" />
     <Compile Include="Diagnostics\RelayLoggingListener.cs" />
+    <Compile Include="Extensibility\AlarmSourceEventArgs.cs" />
+    <Compile Include="Extensibility\IAlarmSource.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="Extensibility\IJob.cs" />
@@ -70,6 +71,9 @@
     <Compile Include="Core\ExportedType.cs" />
     <Compile Include="Core\ExportedTypeLibrary.cs" />
     <Compile Include="Core\Utilities.cs" />
+    <Compile Include="Extensibility\IRoutePlanProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -87,11 +91,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Config\ReplaceDictionary.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

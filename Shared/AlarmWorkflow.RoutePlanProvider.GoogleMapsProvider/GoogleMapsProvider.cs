@@ -3,14 +3,17 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Xml.Linq;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Shared.Core
+namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
 {
     /// <summary>
     /// Provides functionality to retrieve the maps data from the internet.
     /// </summary>
-    public static class MapsServiceHelper
+    [Export("GoogleMapsProvider", typeof(IRoutePlanProvider))]
+    sealed class GoogleMapsProvider : IRoutePlanProvider
     {
         /// <summary>
         /// Connects to Google Maps and queries an image displaying the route from the given start to finish position.
@@ -20,11 +23,12 @@ namespace AlarmWorkflow.Shared.Core
         /// You can check this by calling <see cref="PropertyLocation.IsMeaningful"/> to see if the data is meaningful enough to return a good result.</remarks>
         /// <param name="source"></param>
         /// <param name="destination"></param>
-        /// <param name="width">The desired width of the image. A value of '800' is recommended.</param>
-        /// <param name="height">The desired height of the image. A value of '800' is recommended.</param>
         /// <returns>The resulting PNG-image as a buffer. -or- null, if an error occurred during download of the image.</returns>
-        public static byte[] GetRouteImage(PropertyLocation source, PropertyLocation destination, int width, int height)
+        public Image GetRouteImage(PropertyLocation source, PropertyLocation destination)
         {
+            int width = 800;
+            int height = 800;
+
             // https://developers.google.com/maps/documentation/directions/?hl=de
 
             // Create initial request
@@ -83,10 +87,7 @@ namespace AlarmWorkflow.Shared.Core
             // Save the image as PNG
             using (MemoryStream ms = new MemoryStream())
             {
-                Image image = System.Drawing.Image.FromStream(res1.GetResponseStream());
-
-                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-                return ms.ToArray();
+                return Image.FromStream(res1.GetResponseStream());
             }
         }
     }

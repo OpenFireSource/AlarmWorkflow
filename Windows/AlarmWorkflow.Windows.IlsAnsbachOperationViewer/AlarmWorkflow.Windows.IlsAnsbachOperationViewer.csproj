@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.Parser.IlsAnsbachParser">
+      <HintPath>..\..\Build\AlarmWorkflow.Parser.IlsAnsbachParser.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
@@ -61,10 +64,6 @@
     <Compile Include="ViewModels\IlsAnsbachViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlarmWorkflow.Windows.UI.Contracts\AlarmWorkflow.Windows.UI.Contracts.csproj">
-      <Project>{98561A79-2B38-4B46-BE5C-ADD71B85F8ED}</Project>
-      <Name>AlarmWorkflow.Windows.UI.Contracts</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AlarmWorkflow.Windows.UI\AlarmWorkflow.Windows.UI.csproj">
       <Project>{71CBE492-F506-4BA2-8C81-F6F268E55E53}</Project>
       <Name>AlarmWorkflow.Windows.UI</Name>

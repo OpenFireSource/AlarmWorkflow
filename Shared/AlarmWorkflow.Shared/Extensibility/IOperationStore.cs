@@ -15,7 +15,7 @@ namespace AlarmWorkflow.Shared.Extensibility
         int GetNextOperationId();
         /// <summary>
         /// Returns a list containing the Identifiers of all operations using a predefined set of filter criteria.
-        /// The real <see cref="OperationItem"/>s can then be retrieved by using <see cref="M:GetOperationById(int)"/>.
+        /// The real <see cref="T:Operation"/>s can then be retrieved by using <see cref="M:GetOperationById(int)"/>.
         /// </summary>
         /// <param name="maxAge">The maximum age of the operations to retrieve, in minutes. Use 0 (zero) for no maximum age.</param>
         /// <param name="onlyNonAcknowledged">Whether or not only to fetch non-acknowledged "new" operations.</param>

@@ -9,7 +9,6 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Service.WcfServices;
-using AlarmWorkflow.Windows.UI.Contracts.Security;
 using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.ViewModels;
@@ -180,7 +179,7 @@ namespace AlarmWorkflow.Windows.UI
         private void InitializeServices()
         {
             // Credentials-confirmation dialog service
-            ServiceProvider.Instance.AddService(typeof(ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
+            ServiceProvider.Instance.AddService(typeof(Security.ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
         }
 
         private bool ContainsEvent(int operationId)

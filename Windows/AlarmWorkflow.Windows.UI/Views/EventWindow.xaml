@@ -29,12 +29,12 @@
             </Grid.RowDefinitions>
 
             <!-- Event list (only shown if more than one simultaneous events) -->
-            <ListBox Grid.Row="0" MaxWidth="150" Focusable="False"
+            <ListBox Grid.Row="0" MaxWidth="100" Focusable="False"
                  ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Focusable="False">
-                            <TextBlock Text="{Binding Operation.OperationNumber, TargetNullValue='(Unbekannte Einsatznummer)'}" FontWeight="Bold" Focusable="False">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Operation.Keyword, TargetNullValue='(Kein Stichwort)'}" FontSize="9" TextWrapping="WrapWithOverflow">
                                 <TextBlock.Style>
                                     <Style>
                                         <Style.Triggers>
@@ -45,7 +45,7 @@
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
-                            <TextBlock Text="{Binding Operation.Keyword, TargetNullValue='(Kein Stichwort)'}" Focusable="False" />
+                            <TextBlock Text="{Binding Operation.Timestamp}" Focusable="False" FontSize="8"  />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -54,8 +54,8 @@
             <Slider x:Name="uiScaleSlider" Grid.Row="1" Value="1" Minimum="1" Maximum="5" ToolTip="{Binding Value, ElementName=uiScaleSlider}" Focusable="False" />
         </Grid>
 
-        <!-- Details view, contains the IOperationViewer.Visual -->
-        <ContentControl Grid.Column="1" Margin="2" Content="{Binding OperationViewerVisual}" />
+        <!-- Details view -->
+        <ContentControl Grid.Column="1" Margin="2" Content="{Binding Template}" />
 
     </Grid>
 </Window>

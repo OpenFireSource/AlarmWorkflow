@@ -7,6 +7,7 @@
 
     <UserControl.Resources>
         <conv:OperationToDestinationStringConverter x:Key="otdsConv" />
+        <BooleanToVisibilityConverter x:Key="btvConv" />
     </UserControl.Resources>
     
     <Grid>
@@ -68,23 +69,29 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
 
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Grid.Row="0" Text="Beschreibung:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="1" Text="{Binding Operation.Comment, TargetNullValue='(Keine Beschreibung verfügbar)'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="0" Text="Schlagwort:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
-                    <TextBlock Grid.Row="2" Text="Stichwort:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="3" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="2" Text="Stichwort B:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Text="{Binding StichwortB, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
-                    <TextBlock Grid.Row="4" Text="Stichwort B:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="5" Text="{Binding StichwortB, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
-
+                    <TextBlock Grid.Row="4" Text="Stichwort T:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="5" Text="{Binding StichwortT, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    
                     <TextBlock Grid.Row="6" Text="Einsatzort:" FontWeight="Bold" />
                     <TextBlock Grid.Row="7" Text="{Binding Operation, Converter={StaticResource otdsConv}}" TextWrapping="WrapWithOverflow" />
 
-                    <TextBlock Grid.Row="8" Text="Zeitstempel:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="9" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="8" Text="Beschreibung:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="9" Text="{Binding Operation.Comment, TargetNullValue='(Keine Beschreibung verfügbar)'}" TextWrapping="WrapWithOverflow" />
+
+                    <TextBlock Grid.Row="10" Text="Zeitstempel:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="11" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
 
                 </Grid>
             </Border>
@@ -111,7 +118,8 @@
                             <DataTemplate>
                                 <DockPanel>
                                     <Separator DockPanel.Dock="Top" Foreground="Black" SnapsToDevicePixels="True" />
-                                    <TextBlock Text="{Binding ResourceName}" TextWrapping="WrapWithOverflow" />
+                                    <TextBlock DockPanel.Dock="Top" Text="{Binding ResourceType}" FontWeight="Bold" Visibility="{Binding HasResourceType, Converter={StaticResource btvConv}}" />
+                                    <TextBlock Text="{Binding ResourceName}" Visibility="{Binding HasResourceName, Converter={StaticResource btvConv}}" TextWrapping="WrapWithOverflow" />
                                 </DockPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

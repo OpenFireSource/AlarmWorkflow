@@ -41,8 +41,20 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         #region Methods
 
-        public Vehicle ResourceMatches(string resourceName)
+        /// <summary>
+        /// Searches for the <see cref="Vehicle"/>-instance that is configured for the given resource name string.
+        /// </summary>
+        /// <param name="resourceName">The full name of the resource to find the vehicle for.</param>
+        /// <returns>The <see cref="Vehicle"/>-instance representing the resource.
+        /// -or- null, if the resource is either not allowed (does not contain the mandatory abbreviation) or is not configured.</returns>
+        public Vehicle FindMatchingResource(string resourceName)
         {
+            // If the resource does not contain any of the abbreviations, don't go further.
+            if(!VehicleMustContainAbbreviations.Any(v => resourceName.Contains(v)))
+            {
+                return null;
+            }
+            // Even if the resource name seems allowed, check if this resource is configured, and return it if it is (otherwise null).
             return Vehicles.FirstOrDefault(v => resourceName.ToUpperInvariant().Contains(v.Identifier));
         }
 
