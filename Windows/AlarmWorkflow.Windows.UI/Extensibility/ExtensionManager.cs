@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.UI.Extensibility
 {

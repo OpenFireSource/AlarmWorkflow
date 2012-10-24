@@ -54,8 +54,8 @@
             <Slider x:Name="uiScaleSlider" Grid.Row="1" Value="1" Minimum="1" Maximum="5" ToolTip="{Binding Value, ElementName=uiScaleSlider}" Focusable="False" />
         </Grid>
 
-        <!-- Details view -->
-        <ContentControl Grid.Column="1" Margin="2" Content="{Binding Template}" />
+        <!-- Details view, contains the IOperationViewer.Visual -->
+        <ContentControl Grid.Column="1" Margin="2" Content="{Binding OperationViewerVisual}" />
 
     </Grid>
 </Window>

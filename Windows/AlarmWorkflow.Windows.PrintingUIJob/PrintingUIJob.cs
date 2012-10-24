@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.PrintingUIJob.Config;
-using AlarmWorkflow.Windows.UI.Extensibility;
+using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.PrintingUIJob
 {

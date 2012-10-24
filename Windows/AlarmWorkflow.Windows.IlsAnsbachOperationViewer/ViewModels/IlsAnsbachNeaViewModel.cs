@@ -6,11 +6,10 @@ using System.Linq;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AlarmWorkflow.Parser.IlsAnsbachParser;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UI;
-using AlarmWorkflow.Windows.UI.Security;
+using AlarmWorkflow.Windows.UI.Contracts.Security;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer

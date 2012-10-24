@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Windows.UI.Extensibility;
+using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.UI.Views

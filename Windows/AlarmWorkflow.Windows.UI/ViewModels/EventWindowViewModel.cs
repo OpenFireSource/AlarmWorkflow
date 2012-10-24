@@ -4,21 +4,20 @@ using System.Linq;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.UI.Extensibility;
+using AlarmWorkflow.Windows.UI.Contracts.Extensibility;
+using AlarmWorkflow.Windows.UI.Contracts.Security;
 using AlarmWorkflow.Windows.UI.Models;
-using AlarmWorkflow.Windows.UI.Security;
-
-// TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
+    /// <summary>
+    /// ViewModel for the EventsWindow.
+    /// </summary>
     class EventWindowViewModel : ViewModelBase
     {
         #region Fields
 
         private IOperationViewer _operationViewer;
-        private Lazy<FrameworkElement> _controlTemplate;
-
         private OperationViewModel _selectedEvent;
 
         #endregion
@@ -56,13 +55,20 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             get { return AvailableEvents.Count > 1; }
         }
-
         /// <summary>
-        /// Gets the control that is to be displayed in the 
+        /// Gets the control that is to be displayed in the EventsWindow Content area.
         /// </summary>
-        public FrameworkElement Template
+        public FrameworkElement OperationViewerVisual
         {
-            get { return _controlTemplate.Value; }
+            get
+            {
+                if (_operationViewer == null)
+                {
+                    throw new InvalidOperationException("No operation viewer defined! Cannot return its Visual!");
+                }
+
+                return _operationViewer.Visual;
+            }
         }
 
         #endregion
@@ -94,11 +100,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 Logger.Instance.LogFormat(LogType.Warning, this, "Could not find operation viewer with alias '{0}'. Using the default one. Please check the configuration file!", operationViewerAlias);
                 _operationViewer = new Views.DefaultOperationView();
             }
-
-            _controlTemplate = new Lazy<FrameworkElement>(() =>
-            {
-                return _operationViewer.Visual;
-            });
         }
 
         /// <summary>

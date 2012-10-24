@@ -1,4 +1,5 @@
-﻿
+﻿using AlarmWorkflow.Windows.UI.Contracts.Security;
+
 namespace AlarmWorkflow.Windows.UI.Security
 {
     class CredentialConfirmationDialogService : ICredentialConfirmationDialogService
