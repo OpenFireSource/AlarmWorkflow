@@ -4,7 +4,7 @@
 namespace AlarmWorkflow.Shared.Diagnostics
 {
     /// <summary>
-    /// Defines the mechanisms for any listener that is used by the <see cref="ILogging"/> interface.
+    /// Defines the mechanisms for any listener that is used by the <see cref="T:Logger"/> interface.
     /// </summary>
     public interface ILoggingListener
     {
@@ -14,7 +14,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
         /// <param name="entry">The log entry to write.</param>
         void Write(LogEntry entry);
         /// <summary>
-        /// Called when the parental <see cref="ILogging"/>-instance is shutting down.
+        /// Called when the parental <see cref="T:Logger"/>-instance is shutting down.
         /// </summary>
         void Shutdown();
     }

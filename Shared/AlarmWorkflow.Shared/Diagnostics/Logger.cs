@@ -17,7 +17,9 @@ namespace AlarmWorkflow.Shared.Diagnostics
         #region Singleton
 
         private static Logger _instance;
-
+        /// <summary>
+        /// Gets the singleton <see cref="T:Logger"/> instance.
+        /// </summary>
         public static Logger Instance
         {
             get

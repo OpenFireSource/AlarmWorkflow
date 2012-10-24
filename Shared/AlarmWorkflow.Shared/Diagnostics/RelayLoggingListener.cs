@@ -54,7 +54,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
         }
 
         /// <summary>
-        /// Called when the parental <see cref="ILogging"/>-instance is shutting down.
+        /// Called when the parental <see cref="T:Logger"/>-instance is shutting down.
         /// </summary>
         protected virtual void Shutdown()
         {
