@@ -34,6 +34,9 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>../../Build/AlarmWorkflow.Shared.dll</HintPath>
+	</Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -41,13 +44,6 @@
   <ItemGroup>
     <Compile Include="MucLandParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj">
-      <Project>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</Project>
-      <Name>AlarmWorkflow.Shared</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
