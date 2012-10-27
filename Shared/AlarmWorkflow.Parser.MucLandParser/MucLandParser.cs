@@ -16,8 +16,6 @@ namespace AlarmWorkflow.Parser.MucLandParser
         /// <summary>
         /// Initializes a new instance of the MucLandParser class.
         /// </summary>
-        /// <param name="logger">The logger object.</param>
-        /// <param name="replaceList">The RreplaceList object.</param>
         public MucLandParser()
         {
         }
@@ -59,7 +57,7 @@ namespace AlarmWorkflow.Parser.MucLandParser
                                 operation.Street = msg;
                                 break;
                             case "KREUZUNG":
-                                operation.CustomData["Intersection"] = msg;
+                                operation.CustomData["Kreuzung"] = msg;
                                 break;
                             case "ORTSTEIL/ORT":
                                 operation.City = msg;
@@ -69,13 +67,13 @@ namespace AlarmWorkflow.Parser.MucLandParser
                                 operation.Property = msg;
                                 break;
                             case "MELDEBILD":
-                                operation.CustomData["Picture"] = msg;
+                                operation.CustomData["Meldebild"] = msg;
                                 break;
                             case "HINWEIS":
                                 operation.Comment = msg;
                                 break;
                             case "EINSATZPLAN":
-                                operation.CustomData["PlanOfAction"] = msg;
+                                operation.CustomData["Einsatzplan"] = msg;
                                 break;
                         }
                     }
