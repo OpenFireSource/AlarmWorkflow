@@ -30,6 +30,7 @@
     <Job Name="SmsJob" IsEnabled="False" />
     <Job Name="DisplayWakeUpJob" IsEnabled="False" />
     <Job Name="SQLCEDatabaseJob" IsEnabled="True" />
+    <Job Name="ProwlJob" IsEnabled="False" />
   </JobsConfiguration>
   
   <!-- This section states which alarm sources are enabled and can be used.
