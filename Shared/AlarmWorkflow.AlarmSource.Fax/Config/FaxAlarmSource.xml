@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<FaxAlarmSourceConfig>
-  <FaxPath>C:\Fax</FaxPath>
-  <ArchivePath>C:\Fax\Archive\</ArchivePath>
-  <AnalysisPath>C:\Fax\Analysis\</AnalysisPath>
-  <!-- if path is empty. Alarmworkflow will use the standard path. -->
-  <OCRSoftware type="Cuneiform" path="" />
-  <AlarmfaxParser>MucLandParser</AlarmfaxParser>
-</FaxAlarmSourceConfig>

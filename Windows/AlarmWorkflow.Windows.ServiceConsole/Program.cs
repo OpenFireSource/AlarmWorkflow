@@ -2,6 +2,7 @@
 using System.Threading;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Service.WcfServices;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
@@ -13,11 +14,6 @@ namespace AlarmWorkflow.Windows.ServiceConsole
     {
         static void Main(string[] args)
         {
-            // Register logger and listeners
-            Logger.Instance.Initialize();
-            Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
-            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
-
             // Print welcome information :-)
             Console.WriteLine("********************************************************");
             Console.WriteLine("*                                                      *");
@@ -30,8 +26,19 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             Console.WriteLine();
             Console.WriteLine("Starting service...");
 
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            // Catch all unhandled exceptions and display them.
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            // TODO: This is duplex code! Rather create and instance of "AlarmWorkflow.Windows.Service.AlarmWorkflowService" (start and stop it)!
+
+            // Register logger and listeners
+            Logger.Instance.Initialize();
+            Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
+            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
+            // Then initialize the settings.
+            SettingsManager.Instance.Initialize();
+
+            // Create the engine manually
             using (AlarmWorkflowEngine ac = new AlarmWorkflowEngine())
             {
                 // Host the WCF-services, too
@@ -63,6 +70,8 @@ namespace AlarmWorkflow.Windows.ServiceConsole
                 ac.Stop();
                 shm.Shutdown();
             }
+
+            SettingsManager.Instance.SaveSettings();
 
             Console.WriteLine("Shutting down complete. Press any key to exit.");
             Console.ReadKey();

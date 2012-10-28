@@ -1,4 +1,16 @@
-﻿<!-- This file stores common "misspellings" of OCR-software and replaces them with something useful
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="FaxAlarmSource">
+
+  <Setting Name="FaxPath" Type="System.String" IsNull="False">C:\Fax</Setting>
+  <Setting Name="ArchivePath" Type="System.String" IsNull="False">C:\Fax\Archive\</Setting>
+  <Setting Name="AnalysisPath" Type="System.String" IsNull="False">C:\Fax\Analysis\</Setting>
+  <Setting Name="OCR.Software" Type="System.String" IsNull="False">Cuneiform</Setting>
+  <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
+  
+  <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">MucLandParser</Setting>
+
+  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False" Editor="ReplaceDictionaryEditor">
+    <![CDATA[<!-- This file stores common "misspellings" of OCR-software and replaces them with something useful
  
      Like: "9INSATZ" makes no sense but we know that it means "EINSATZ" so we add an entry (see below).
      
@@ -34,4 +46,7 @@
   <Entry Old="Tragkraftspri.tze" New="Tragkraftspritze" />
   <Entry Old="41 /1" New="41/1" />
   <Entry Old="4-0/2" New="40/2" />
-</Dictionary>
+</Dictionary>]]>
+  </Setting>
+  
+</SettingsConfiguration>

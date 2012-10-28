@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using System.Xml.Linq;
-using AlarmWorkflow.AlarmSource.Fax.Config;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -20,7 +18,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         #region Fields
 
         private FaxConfiguration _configuration;
-        private Dictionary<string, string> _replaceDictionary;
 
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
@@ -41,7 +38,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _configuration = new FaxConfiguration();
 
             InitializeSettings();
-            InitializeReplaceDictionary();
         }
 
         #endregion
@@ -72,18 +68,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             // Import parser with the given name/alias
             _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
-        }
-
-        private void InitializeReplaceDictionary()
-        {
-            _replaceDictionary = new Dictionary<string, string>(16);
-
-            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\ReplaceDictionary.xml");
-
-            foreach (XElement rpn in doc.Root.Elements())
-            {
-                _replaceDictionary[rpn.Attribute("Old").Value] = rpn.Attribute("New").Value;
-            }
         }
 
         /// <summary>
@@ -194,13 +178,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     // ... fetch all lines ...
                     foreach (string preParsedLine in File.ReadAllLines(intendedNewFileName))
                     {
-                        string tmp = preParsedLine;
-                        foreach (var pair in _replaceDictionary)
-                        {
-                            tmp = tmp.Replace(pair.Key, pair.Value);
-                        }
-                        // ... and add it to the list
-                        analyzedLines.Add(tmp);
+                        // ... and add it to the list (
+                        analyzedLines.Add(_configuration.PerformReplace(preParsedLine));
                     }
                 }
             }

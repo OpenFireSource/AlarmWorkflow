@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<UserSettings Version="1">
+  <Section Identifier="FaxAlarmSource">
+    <UserSetting Name="FaxPath" Value="D:\Fax" />
+    <UserSetting Name="ArchivePath" Value="D:\Fax\Archive\" />
+    <UserSetting Name="AnalysisPath" Value="D:\Fax\Analysis\" />
+    <UserSetting Name="OCR.Software" Value="Cuneiform" />
+    <UserSetting Name="OCR.Path" IsNull="true" Value="" />
+    <UserSetting Name="AlarmfaxParser" Value="IlsAnsbachParser" />
+    <UserSetting Name="ReplaceDictionary" Value="&lt;!-- This file stores common &quot;misspellings&quot; of OCR-software and replaces them with something useful&#xA; &#xA;     Like: &quot;9INSATZ&quot; makes no sense but we know that it means &quot;EINSATZ&quot; so we add an entry (see below).&#xA;     &#xA; --&gt;&#xA;&lt;Dictionary&gt;&#xA;  &lt;Entry Old=&quot;straBe&quot; New=&quot;straße&quot; /&gt;&#xA;  &lt;Entry Old=&quot;StraBe&quot; New=&quot;Straße&quot; /&gt;&#xA;  &#xA;  &lt;Entry Old=&quot;9INSATZ&quot; New=&quot;EINSATZ&quot; /&gt;&#xA;  &lt;Entry Old=&quot;An~bach&quot; New=&quot;Ansbach&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Einsatznummer 1&quot; New=&quot;Einsatznummer :&quot; /&gt;&#xA;  &lt;Entry Old=&quot;NITTEILER&quot; New=&quot;MITTEILER&quot; /&gt;&#xA;  &lt;Entry Old=&quot;GmbH8cCo. KG&quot; New=&quot;GmbH &amp;amp; Co. KG&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Plannummer 1&quot; New=&quot;Plannummer :&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Station 1&quot; New=&quot;Station :&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Haus-Nr. 1&quot; New=&quot;Haus-Nr.:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Objekt 1&quot; New=&quot;Objekt:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Schlagw. 1&quot; New=&quot;Schlagw.:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Stichwort B1&quot; New=&quot;Stichwort B:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Stichwort R1&quot; New=&quot;Stichwort R:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Stichwort S1&quot; New=&quot;Stichwort S:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Stichwort T1&quot; New=&quot;Stichwort T:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Stichwort Tc&quot; New=&quot;Stichwort T:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Prio. :&quot; New=&quot;Prio.:&quot; /&gt;&#xA;  &lt;Entry Old=&quot;( 1satzmittel&quot; New=&quot;Einsatzmittel&quot; /&gt;&#xA;  &lt;Entry Old=&quot;IJbernahme&quot; New=&quot;Übernahme&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Spedi iton&quot; New=&quot;Spedition&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Rufnummer 1&quot; New=&quot;Rufnummer:&quot; /&gt;&#xA;  &lt;Entry Old=&quot; — &quot; New=&quot;-&quot; /&gt;&#xA;  &lt;Entry Old=&quot;—&quot; New=&quot;-&quot; /&gt;&#xA;  &lt;Entry Old=&quot;cinsatzmittel&quot; New=&quot;Einsatzmittel&quot; /&gt;&#xA;  &lt;Entry Old=&quot;EINSATZNITTEL&quot; New=&quot;EINSATZMITTEL&quot; /&gt;&#xA;  &lt;Entry Old=&quot;Tragkraftspri.tze&quot; New=&quot;Tragkraftspritze&quot; /&gt;&#xA;  &lt;Entry Old=&quot;41 /1&quot; New=&quot;41/1&quot; /&gt;&#xA;  &lt;Entry Old=&quot;4-0/2&quot; New=&quot;40/2&quot; /&gt;&#xA;&lt;/Dictionary&gt;" />
+  </Section>
+  <Section Identifier="Shared">
+    <UserSetting Name="OperationStore" Value="SQLCEDatabaseOperationStore" />
+    <UserSetting Name="RoutePlanProvider" Value="GoogleMapsProvider" />
+    <UserSetting Name="FD.Name" Value="Name Ihrer Feuerwehr" />
+    <UserSetting Name="FD.City" Value="Musterstadt" />
+    <UserSetting Name="FD.ZipCode" Value="12345" />
+    <UserSetting Name="FD.Street" Value="Musterstraße" />
+    <UserSetting Name="FD.StreetNumber" Value="1" />
+    <UserSetting Name="DownloadRoutePlan" Value="True" />
+    <UserSetting Name="RouteImageHeight" Value="800" />
+    <UserSetting Name="RouteImageWidth" Value="800" />
+    <UserSetting Name="JobsConfiguration" Value="&lt;JobsConfiguration&gt;&#xA;    &lt;Job Name=&quot;DisplayWakeUpJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;    &lt;Job Name=&quot;MailingJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;    &lt;Job Name=&quot;MySqlDatabaseJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;    &lt;Job Name=&quot;SmsJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;    &lt;Job Name=&quot;DisplayWakeUpJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;    &lt;Job Name=&quot;SQLCEDatabaseJob&quot; IsEnabled=&quot;True&quot; /&gt;&#xA;    &lt;Job Name=&quot;ProwlJob&quot; IsEnabled=&quot;False&quot; /&gt;&#xA;  &lt;/JobsConfiguration&gt;" />
+    <UserSetting Name="AlarmSourcesConfiguration" Value="&lt;AlarmSourcesConfiguration&gt;&#xA;    &lt;AlarmSource Name=&quot;FaxAlarmSource&quot; IsEnabled=&quot;True&quot; /&gt;&#xA;  &lt;/AlarmSourcesConfiguration&gt;" />
+  </Section>
+</UserSettings>

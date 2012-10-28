@@ -2,6 +2,7 @@
 using System.ServiceProcess;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -32,7 +33,10 @@ namespace AlarmWorkflow.Windows.Service
         {
             InitializeComponent();
 
+            // Then initialize the logger.
             Logger.Instance.Initialize();
+            // Then initialize the settings.
+            SettingsManager.Instance.Initialize();
 
             // This call requires Administrator rights. We don't put a Try-catch around because the Windows Service must run with Admin rights.
             if (!System.Diagnostics.EventLog.SourceExists(EventLogSourceName))
@@ -83,6 +87,7 @@ namespace AlarmWorkflow.Windows.Service
             _servicesHostManager.Shutdown();
 
             Logger.Instance.Shutdown();
+            SettingsManager.Instance.SaveSettings();
         }
 
         #endregion

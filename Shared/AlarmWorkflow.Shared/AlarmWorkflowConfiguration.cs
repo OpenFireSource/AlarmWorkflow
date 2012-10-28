@@ -1,30 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.Shared.Config
+namespace AlarmWorkflow.Shared
 {
     /// <summary>
     /// Represents the current configuration.
     /// </summary>
-    public sealed class Configuration
+    public sealed class AlarmWorkflowConfiguration
     {
         #region Fields
 
-        private static Configuration _instance;
+        private static AlarmWorkflowConfiguration _instance;
         /// <summary>
         /// Gets the current Configuration.
         /// </summary>
-        public static Configuration Instance
+        public static AlarmWorkflowConfiguration Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new Configuration();
+                    _instance = new AlarmWorkflowConfiguration();
                 }
                 return _instance;
             }
@@ -53,40 +52,32 @@ namespace AlarmWorkflow.Shared.Config
 
         #region Constructors
 
-        private Configuration()
+        /// <summary>
+        /// Prevents a default instance of the <see cref="AlarmWorkflowConfiguration"/> class from being created.
+        /// </summary>
+        private AlarmWorkflowConfiguration()
         {
-            string fileName = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml";
-            if (!File.Exists(fileName))
-            {
-                return;
-            }
+            this.OperationStoreAlias = SettingsManager.Instance.GetSetting("Shared", "OperationStore").GetString();
+            this.RoutePlanProviderAlias = SettingsManager.Instance.GetSetting("Shared", "RoutePlanProvider").GetString();
 
-            XDocument doc = XDocument.Load(fileName);
-
-            this.OperationStoreAlias = doc.Root.Element("OperationStore").Value;
-            this.RoutePlanProviderAlias = doc.Root.Element("RoutePlanProvider").Value;
-
-            this.DownloadRoutePlan = bool.Parse(doc.Root.Element("DownloadRoutePlan").Value);
-            this.RouteImageHeight = int.Parse(doc.Root.Element("RouteImageHeight").Value);
-            this.RouteImageWidth = int.Parse(doc.Root.Element("RouteImageWidth").Value);
+            this.DownloadRoutePlan = SettingsManager.Instance.GetSetting("Shared", "DownloadRoutePlan").GetBoolean();
+            this.RouteImageHeight = SettingsManager.Instance.GetSetting("Shared", "RouteImageHeight").GetInt32();
+            this.RouteImageWidth = SettingsManager.Instance.GetSetting("Shared", "RouteImageWidth").GetInt32();
 
             // FD Information
-            {
-                XElement fdInfoE = doc.Root.Element("FDInformation");
-                this.FDInformation = new FireDepartmentInfo();
-                this.FDInformation.Name = fdInfoE.Element("Name").Value;
-                this.FDInformation.Location = new PropertyLocation();
-                this.FDInformation.Location.ZipCode = fdInfoE.Element("ZipCode").Value;
-                this.FDInformation.Location.City = fdInfoE.Element("City").Value;
-                this.FDInformation.Location.Street = fdInfoE.Element("Street").Value;
-                this.FDInformation.Location.StreetNumber = fdInfoE.Element("StreetNumber").Value;
-            }
+            this.FDInformation = new FireDepartmentInfo();
+            this.FDInformation.Name = SettingsManager.Instance.GetSetting("Shared", "FD.Name").GetString();
+            this.FDInformation.Location = new PropertyLocation();
+            this.FDInformation.Location.ZipCode = SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetInt32().ToString();
+            this.FDInformation.Location.City = SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
+            this.FDInformation.Location.Street = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString();
+            this.FDInformation.Location.StreetNumber = SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString();
 
             // Jobs configuration
             {
-                XElement jobsConfigE = doc.Root.Element("JobsConfiguration");
+                XDocument docJC = XDocument.Parse(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetString());
                 List<string> jobs = new List<string>();
-                foreach (XElement exportE in jobsConfigE.Elements("Job"))
+                foreach (XElement exportE in docJC.Root.Elements("Job"))
                 {
                     if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
                     {
@@ -103,11 +94,12 @@ namespace AlarmWorkflow.Shared.Config
 
                 this.EnabledJobs = new ReadOnlyCollection<string>(jobs);
             }
+
             // AlarmSources configuration
             {
-                XElement sourcesConfigE = doc.Root.Element("AlarmSourcesConfiguration");
+                XDocument docAS = XDocument.Parse(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetString());
                 List<string> sources = new List<string>();
-                foreach (XElement exportE in sourcesConfigE.Elements("AlarmSource"))
+                foreach (XElement exportE in docAS.Root.Elements("AlarmSource"))
                 {
                     if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
                     {

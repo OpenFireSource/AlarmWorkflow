@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Xml.Linq;
-using AlarmWorkflow.Shared.Config;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -113,7 +113,7 @@ namespace AlarmWorkflow.Job.MailingJob
                 }
 
                 // Construct message subject
-                message.Subject = Configuration.Instance.FDInformation.Name + " - new alarm";
+                message.Subject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - new alarm";
 
                 // Construct body text
                 StringBuilder bodyBuilder = new StringBuilder();

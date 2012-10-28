@@ -112,12 +112,33 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FileNameMustBeAbsolute" xml:space="preserve">
     <value>The file path must be in absolute format!</value>
+  </data>
+  <data name="SettingItemEmptyType" xml:space="preserve">
+    <value>The setting '{0}' has no type defined! Skipping setting.</value>
+  </data>
+  <data name="SettingItemInvalidName" xml:space="preserve">
+    <value>Encountered setting with no name! Setting index (one-based): {0}. Skipping setting.</value>
+  </data>
+  <data name="SettingItemInvalidType" xml:space="preserve">
+    <value>The setting '{0}' has an invalid type! Supported types are: {1}. Skipping setting.</value>
+  </data>
+  <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
+    <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
+  </data>
+  <data name="SettingsConfigurationEmbResLoaded" xml:space="preserve">
+    <value>Loaded settings configuration from assembly '{0}'.</value>
+  </data>
+  <data name="SettingsConfigurationEmbResParseFailed" xml:space="preserve">
+    <value>Parsing of settings configuration file from assembly '{0}' failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version.</value>
+  </data>
+  <data name="SettingsConfigurationEmbResXmlException" xml:space="preserve">
+    <value>The settings configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
   </data>
 </root>

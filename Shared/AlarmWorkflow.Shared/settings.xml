@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="Shared">
+
+  <!-- Generic -->
+  <Setting Name="OperationStore" Type="System.String" IsNull="False">SQLCEDatabaseOperationStore</Setting>
+  <Setting Name="RoutePlanProvider" Type="System.String" IsNull="False">GoogleMapsProvider</Setting>
+
+  <!-- Fire department information -->
+  <Setting Name="FD.Name" Type="System.String">Name Ihrer Feuerwehr</Setting>
+  <Setting Name="FD.City" Type="System.String">Musterstadt</Setting>
+  <Setting Name="FD.ZipCode" Type="System.Int32">12345</Setting>
+  <Setting Name="FD.Street" Type="System.String">Musterstraße</Setting>
+  <Setting Name="FD.StreetNumber" Type="System.String">1</Setting>
+
+  <!-- Route plan -->
+  <Setting Name="DownloadRoutePlan" Type="System.Boolean">True</Setting>
+  <Setting Name="RouteImageHeight" Type="System.Int32">800</Setting>
+  <Setting Name="RouteImageWidth" Type="System.Int32">800</Setting>
+  
+  <!-- Jobs configuration -->
+  <Setting Name="JobsConfiguration" Type="System.String" Editor="SimpleXmlEditor">
+    <![CDATA[<JobsConfiguration>
+    <Job Name="DisplayWakeUpJob" IsEnabled="False" />
+    <Job Name="MailingJob" IsEnabled="False" />
+    <Job Name="MySqlDatabaseJob" IsEnabled="False" />
+    <Job Name="SmsJob" IsEnabled="False" />
+    <Job Name="DisplayWakeUpJob" IsEnabled="False" />
+    <Job Name="SQLCEDatabaseJob" IsEnabled="True" />
+    <Job Name="ProwlJob" IsEnabled="False" />
+  </JobsConfiguration>]]></Setting>
+  
+  <!-- Alarm sources configuration -->
+  <Setting Name="AlarmSourcesConfiguration" Type="System.String" Editor="SimpleXmlEditor">
+    <![CDATA[<AlarmSourcesConfiguration>
+    <AlarmSource Name="FaxAlarmSource" IsEnabled="True" />
+  </AlarmSourcesConfiguration>]]>
+  </Setting>
+
+</SettingsConfiguration>

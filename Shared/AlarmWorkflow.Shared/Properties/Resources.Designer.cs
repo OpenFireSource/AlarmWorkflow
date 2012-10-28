@@ -68,5 +68,68 @@ namespace AlarmWorkflow.Shared.Properties {
                 return ResourceManager.GetString("FileNameMustBeAbsolute", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The setting &apos;{0}&apos; has no type defined! Skipping setting..
+        /// </summary>
+        internal static string SettingItemEmptyType {
+            get {
+                return ResourceManager.GetString("SettingItemEmptyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encountered setting with no name! Setting index (one-based): {0}. Skipping setting..
+        /// </summary>
+        internal static string SettingItemInvalidName {
+            get {
+                return ResourceManager.GetString("SettingItemInvalidName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The setting &apos;{0}&apos; has an invalid type! Supported types are: {1}. Skipping setting..
+        /// </summary>
+        internal static string SettingItemInvalidType {
+            get {
+                return ResourceManager.GetString("SettingItemInvalidType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encountered not supported node type of &apos;{0}&apos; in setting &apos;{1}&apos;. Only plain values and CDATA-nodes are currently supported!.
+        /// </summary>
+        internal static string SettingsConfigurationEmbResInvalidValueContent {
+            get {
+                return ResourceManager.GetString("SettingsConfigurationEmbResInvalidValueContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loaded settings configuration from assembly &apos;{0}&apos;..
+        /// </summary>
+        internal static string SettingsConfigurationEmbResLoaded {
+            get {
+                return ResourceManager.GetString("SettingsConfigurationEmbResLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parsing of settings configuration file from assembly &apos;{0}&apos; failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version..
+        /// </summary>
+        internal static string SettingsConfigurationEmbResParseFailed {
+            get {
+                return ResourceManager.GetString("SettingsConfigurationEmbResParseFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings configuration file found in assembly &apos;{0}&apos; contains invalid XML data! The error message was: {1}.
+        /// </summary>
+        internal static string SettingsConfigurationEmbResXmlException {
+            get {
+                return ResourceManager.GetString("SettingsConfigurationEmbResXmlException", resourceCulture);
+            }
+        }
     }
 }

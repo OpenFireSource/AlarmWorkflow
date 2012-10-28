@@ -5,7 +5,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using AlarmWorkflow.Shared.Config;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -61,16 +60,16 @@ namespace AlarmWorkflow.Shared
 
         private void InitializeSettings()
         {
-            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(Configuration.Instance.OperationStoreAlias);
+            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using operation store '{0}'.", _operationStore.GetType().FullName);
 
-            _routePlanProvider = ExportedTypeLibrary.Import<IRoutePlanProvider>(Configuration.Instance.RoutePlanProviderAlias);
+            _routePlanProvider = ExportedTypeLibrary.Import<IRoutePlanProvider>(AlarmWorkflowConfiguration.Instance.RoutePlanProviderAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using route plan provider '{0}'.", _routePlanProvider.GetType().FullName);
         }
 
         private void InitializeJobs()
         {
-            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IJob)).Where(j => Configuration.Instance.EnabledJobs.Contains(j.Attribute.Alias)))
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IJob)).Where(j => AlarmWorkflowConfiguration.Instance.EnabledJobs.Contains(j.Attribute.Alias)))
             {
                 IJob job = export.CreateInstance<IJob>();
 
@@ -97,7 +96,7 @@ namespace AlarmWorkflow.Shared
 
         private void InitializeAlarmSources()
         {
-            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IAlarmSource)).Where(j => Configuration.Instance.EnabledAlarmSources.Contains(j.Attribute.Alias)))
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IAlarmSource)).Where(j => AlarmWorkflowConfiguration.Instance.EnabledAlarmSources.Contains(j.Attribute.Alias)))
             {
                 Logger.Instance.LogFormat(LogType.Info, this, "Enabling alarm source '{0}'...", export.Type.Name);
 
@@ -114,13 +113,13 @@ namespace AlarmWorkflow.Shared
         /// <param name="operation"></param>
         private void DownloadRoutePlan(Operation operation)
         {
-            if (!Configuration.Instance.DownloadRoutePlan)
+            if (!AlarmWorkflowConfiguration.Instance.DownloadRoutePlan)
             {
                 return;
             }
 
             // Get start address and check if it is meaningful enough (if not then bail out)
-            PropertyLocation source = Configuration.Instance.FDInformation.Location;
+            PropertyLocation source = AlarmWorkflowConfiguration.Instance.FDInformation.Location;
             if (!source.IsMeaningful)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, "Cannot download route plan because the location information for this fire department is not meaningful enough: '{0}'. Please fill the correct address!", source);
