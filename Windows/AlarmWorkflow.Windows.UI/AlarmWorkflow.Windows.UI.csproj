@@ -43,9 +43,8 @@
     <ApplicationIcon>Images\FaxHS.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
+    <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>

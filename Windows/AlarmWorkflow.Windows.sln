@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.IlsAn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.PrintingUIJob", "AlarmWorkflow.Windows.PrintingUIJob\AlarmWorkflow.Windows.PrintingUIJob.csproj", "{CAE3C967-E37D-49A6-BFDA-FCA3FF081187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.Configuration", "AlarmWorkflow.Windows.Configuration\AlarmWorkflow.Windows.Configuration.csproj", "{6B1BE39A-E772-4FE3-A552-0149A58F58E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.ConfigurationContracts", "AlarmWorkflow.Windows.ConfigurationContracts\AlarmWorkflow.Windows.ConfigurationContracts.csproj", "{074FB127-C2E8-4B81-9579-EBB0D496659B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,30 @@ Global
 		{CAE3C967-E37D-49A6-BFDA-FCA3FF081187}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CAE3C967-E37D-49A6-BFDA-FCA3FF081187}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CAE3C967-E37D-49A6-BFDA-FCA3FF081187}.Release|x86.ActiveCfg = Release|Any CPU
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|AnyCPU.ActiveCfg = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|x86.ActiveCfg = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Debug|x86.Build.0 = Debug|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|Any CPU.ActiveCfg = Release|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|AnyCPU.ActiveCfg = Release|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|Mixed Platforms.Build.0 = Release|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|x86.ActiveCfg = Release|x86
+		{6B1BE39A-E772-4FE3-A552-0149A58F58E3}.Release|x86.Build.0 = Release|x86
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|AnyCPU.ActiveCfg = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|AnyCPU.ActiveCfg = Release|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,17 +7,8 @@ namespace AlarmWorkflow.Shared.Settings
     /// Represents a single setting that was read from the configuration and may have a custom value defined.
     /// </summary>
     [DebuggerDisplay("Name = {Name}, Value = {Value} (is modified = {IsModified}, is default = {IsValueDefault})")]
-    public sealed class SettingItem
+    public sealed class SettingItem : ICloneable
     {
-        #region Fields
-
-        /// <summary>
-        /// The type of the setting. This is used to avoid that the user settings invalid values.
-        /// </summary>
-        private Type _settingType;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -39,6 +30,10 @@ namespace AlarmWorkflow.Shared.Settings
         /// Gets whether or not the value has been modified.
         /// </summary>
         public bool IsModified { get; private set; }
+        /// <summary>
+        /// Gets the type of this setting.
+        /// </summary>
+        public Type SettingType { get; private set; }
         /// <summary>
         /// Gets the name of the editor that is used to edit this setting.
         /// If this is null or empty, then the default editor for this type is used.
@@ -78,7 +73,7 @@ namespace AlarmWorkflow.Shared.Settings
             this.Name = name;
             this.Value = value;
             this.DefaultValue = defaultValue;
-            _settingType = type;
+            this.SettingType = type;
             this.EditorName = editorName;
         }
 
@@ -144,7 +139,7 @@ namespace AlarmWorkflow.Shared.Settings
         internal void SetValue(object value, bool setIsModified)
         {
             // Only set the value if it the types match
-            if (value != null && value.GetType().IsSubclassOf(_settingType))
+            if (value != null && value.GetType().IsSubclassOf(SettingType))
             {
                 return;
             }
@@ -173,7 +168,7 @@ namespace AlarmWorkflow.Shared.Settings
             object valueNew = null;
             if (!isNull)
             {
-                valueNew = Convert.ChangeType(value, _settingType);
+                valueNew = Convert.ChangeType(value, SettingType);
             }
             this.SetValue(valueNew, setIsModified);
         }
@@ -198,7 +193,28 @@ namespace AlarmWorkflow.Shared.Settings
         /// <returns></returns>
         public static bool CanBeNull(SettingItem settingItem)
         {
-            return !settingItem._settingType.IsValueType;
+            return !settingItem.SettingType.IsValueType;
+        }
+
+        #endregion
+
+        #region ICloneable Members
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
+        public object Clone()
+        {
+            SettingItem clone = new SettingItem();
+            clone.SettingType = this.SettingType;
+            clone.DefaultValue = this.DefaultValue;
+            clone.EditorName = this.EditorName;
+            clone.IsModified = this.IsModified;
+            clone.Name = this.Name;
+            clone.Value = this.Value;
+
+            return clone;
         }
 
         #endregion

@@ -12,7 +12,7 @@ namespace AlarmWorkflow.Shared.Settings
     /// <summary>
     /// Manages the settings in the scope of the application.
     /// </summary>
-    public sealed class SettingsManager
+    public sealed class SettingsManager : IEnumerable<SettingDescriptor>
     {
         #region Constants
 
@@ -236,6 +236,30 @@ namespace AlarmWorkflow.Shared.Settings
 
             // Save to disk
             doc.Save(userConfigurationFile);
+        }
+
+        #endregion
+
+        #region IEnumerable<SettingDescriptor> Members
+
+        IEnumerator<SettingDescriptor> IEnumerable<SettingDescriptor>.GetEnumerator()
+        {
+            foreach (var pair in _settings)
+            {
+                foreach (SettingItem item in pair.Value)
+                {
+                    yield return new SettingDescriptor(pair.Key, item);
+                }
+            }
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            throw new NotSupportedException();
         }
 
         #endregion
