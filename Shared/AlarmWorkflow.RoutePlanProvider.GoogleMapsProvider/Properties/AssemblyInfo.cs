@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Retrieves the route information from Google Maps.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2012")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

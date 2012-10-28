@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("AlarmWorkflow.Windows.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.Windows.UI")]
-[assembly: AssemblyCopyright("Copyright ©  2012")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

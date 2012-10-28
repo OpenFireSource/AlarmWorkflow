@@ -9,7 +9,7 @@ using System.Resources;
 [assembly: AssemblyTitle("AlarmWorkflow.Shared")]
 [assembly: AssemblyDescription("Shared library containing all platform-neutral types.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("AlarmWorkflow-team")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.Shared")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
