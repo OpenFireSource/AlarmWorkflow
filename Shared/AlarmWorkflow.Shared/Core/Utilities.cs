@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Diagnostics;
-using System.Globalization;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -225,6 +225,39 @@ namespace AlarmWorkflow.Shared.Core
                 return el.Value;
             }
             return defaultValue;
+        }
+
+        #endregion
+
+        #region Resources Utilities
+
+        /// <summary>
+        /// Looks for a file with build action set to "Embedded resource" in a given assembly
+        /// and returns its contents as a string.
+        /// </summary>
+        /// <param name="assembly">The assembly to get the embedded resource from.</param>
+        /// <param name="resourceName">The resource name. This name is case-sensitive!</param>
+        /// <returns>The contents of the embedded resource file as a string.</returns>
+        public static string GetEmbeddedResourceText(this Assembly assembly, string resourceName)
+        {
+            try
+            {
+                string fullResourceName = assembly.GetName().Name + "." + resourceName;
+
+                Stream stream = assembly.GetManifestResourceStream(fullResourceName);
+                if (stream != null)
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return null;
         }
 
         #endregion

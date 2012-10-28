@@ -134,22 +134,19 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         {
             try
             {
-                string resourceName = this.GetType().Assembly.GetName().Name + ".app.config";
-                using (Stream stream = this.GetType().Assembly.GetManifestResourceStream(resourceName))
-                {
+                string appConfigText = this.GetType().Assembly.GetEmbeddedResourceText("app.config");
 
-                    XDocument appConfig = XDocument.Load(stream);
+                XDocument appConfig = XDocument.Parse(appConfigText);
 
-                    XElement connectionStrings = appConfig.Root.Element("connectionStrings");
+                XElement connectionStrings = appConfig.Root.Element("connectionStrings");
 
-                    // get first connection string
-                    XElement connectionStringE = connectionStrings.Elements("add").Where(n => n.Attribute("name").Value == "SQLCEDatabaseEntities").FirstOrDefault();
+                // get first connection string
+                XElement connectionStringE = connectionStrings.Elements("add").Where(n => n.Attribute("name").Value == "SQLCEDatabaseEntities").FirstOrDefault();
 
-                    string name = connectionStringE.Attribute("name").Value;
-                    string connectionString = connectionStringE.Attribute("connectionString").Value;
+                string name = connectionStringE.Attribute("name").Value;
+                string connectionString = connectionStringE.Attribute("connectionString").Value;
 
-                    return (T)Activator.CreateInstance(typeof(T), connectionString);
-                }
+                return (T)Activator.CreateInstance(typeof(T), connectionString);
             }
             catch (Exception)
             {
