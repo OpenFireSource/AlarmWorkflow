@@ -26,7 +26,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
 
-            <DataGrid Grid.Column="1" Margin="2" AutoGenerateColumns="False" SelectionMode="Single"
+            <DataGrid Grid.Column="1" Margin="2" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True"
                       ItemsSource="{Binding SelectedItem.SettingItems, ElementName=lstSections}" AlternatingRowBackground="#5BFA0000">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontWeight="Bold" Binding="{Binding SettingDescriptor.SettingItem.Name, Mode=OneWay}" Width="0.3*" />
