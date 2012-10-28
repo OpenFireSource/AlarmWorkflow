@@ -33,7 +33,7 @@
                     <DataGridTemplateColumn Header="Wert" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ContentPresenter Content="{Binding TypeEditor}" />
+                                <ContentPresenter Content="{Binding TypeEditor}" MaxHeight="250" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

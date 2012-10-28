@@ -61,6 +61,9 @@
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
       <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\DoubleTypeEditor.xaml.cs">
+      <DependentUpon>DoubleTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\DefaultTypeEditor.cs" />
     <Compile Include="TypeEditors\Int32TypeEditor.xaml.cs">
       <DependentUpon>Int32TypeEditor.xaml</DependentUpon>
@@ -98,6 +101,10 @@
     <Page Include="TypeEditors\BooleanTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DoubleTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TypeEditors\Int32TypeEditor.xaml">
       <SubType>Designer</SubType>

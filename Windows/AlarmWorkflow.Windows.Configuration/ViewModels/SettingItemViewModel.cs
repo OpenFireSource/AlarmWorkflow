@@ -22,6 +22,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             TypeEditors["System.Int32"] = typeof(TypeEditors.Int32TypeEditor);
             TypeEditors["System.Boolean"] = typeof(TypeEditors.BooleanTypeEditor);
             TypeEditors["StringArrayEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
+            // TODO: Better editors!
+            TypeEditors["System.Double"] = typeof(TypeEditors.DoubleTypeEditor);
+            TypeEditors["SimpleXmlTextEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
         }
 
         #endregion
