@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows.Input;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Windows.UI.Models
 {
@@ -70,39 +70,29 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// <returns></returns>
         public static UIConfiguration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config\\UIConfiguration.xml");
-            if (configFile == null)
-            {
-                return null;
-            }
-
-            XDocument doc = XDocument.Load(configFile);
-
             UIConfiguration configuration = new UIConfiguration();
-            configuration.OperationViewer = doc.Root.TryGetElementValue("OperationViewer", null);
-            configuration.ScaleFactor = doc.Root.TryGetElementValue("ScaleFactor", 2.0d);
-            configuration.ScreenId = doc.Root.TryGetElementValue("ScreenId", 0);
+            configuration.OperationViewer = SettingsManager.Instance.GetSetting("UIConfiguration", "OperationViewer").GetString();
+            configuration.ScaleFactor = SettingsManager.Instance.GetSetting("UIConfiguration", "ScaleFactor").GetValue<Double>();
+            configuration.ScreenId = SettingsManager.Instance.GetSetting("UIConfiguration", "ScreenId").GetInt32();
 
-            string acknowledgeOperationKeyS = doc.Root.TryGetElementValue("AcknowledgeOperationKey", "B");
+            string acknowledgeOperationKeyS = SettingsManager.Instance.GetSetting("UIConfiguration", "AcknowledgeOperationKey").GetString();
             Key acknowledgeOperationKey = Key.B;
             Enum.TryParse<Key>(acknowledgeOperationKeyS, out acknowledgeOperationKey);
             configuration.AcknowledgeOperationKey = acknowledgeOperationKey;
 
-            XElement aoaE = doc.Root.Element("AutomaticOperationAcknowledgementSettings");
-            configuration.AutomaticOperationAcknowledgement.IsEnabled = aoaE.TryGetAttributeValue("IsEnabled", true);
-            configuration.AutomaticOperationAcknowledgement.MaxAge = aoaE.TryGetAttributeValue("MaxAge", 480);
+            configuration.AutomaticOperationAcknowledgement.IsEnabled = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.IsEnabled").GetBoolean();
+            configuration.AutomaticOperationAcknowledgement.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.MaxAge").GetInt32();
 
-            XElement ofpE = doc.Root.Element("OperationFetchingParameters");
-            configuration.OperationFetchingArguments.Interval = ofpE.TryGetAttributeValue("Interval", 2000);
-            configuration.OperationFetchingArguments.MaxAge = ofpE.TryGetAttributeValue("MaxAge", 7);
-            configuration.OperationFetchingArguments.OnlyNonAcknowledged = ofpE.TryGetAttributeValue("OnlyNonAcknowledged", true);
-            configuration.OperationFetchingArguments.LimitAmount = ofpE.TryGetAttributeValue("LimitAmount", 10);
+            configuration.OperationFetchingArguments.Interval = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.Interval").GetInt32();
+            configuration.OperationFetchingArguments.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.MaxAge").GetInt32();
+            configuration.OperationFetchingArguments.OnlyNonAcknowledged = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.OnlyNonAcknowledged").GetBoolean();
+            configuration.OperationFetchingArguments.LimitAmount = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.LimitAmount").GetInt32();
 
             // Jobs configuration
             {
-                XElement jobsConfigE = doc.Root.Element("JobsConfiguration");
+                XDocument jobsConfigE = XDocument.Parse(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetString());
                 List<string> jobs = new List<string>();
-                foreach (XElement exportE in jobsConfigE.Elements("Job"))
+                foreach (XElement exportE in jobsConfigE.Root.Elements("Job"))
                 {
                     if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
                     {

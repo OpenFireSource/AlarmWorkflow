@@ -129,6 +129,9 @@
   <data name="SettingItemInvalidType" xml:space="preserve">
     <value>The setting '{0}' has an invalid type! Supported types are: {1}. Skipping setting.</value>
   </data>
+  <data name="SettingNotFoundExceptionMessage" xml:space="preserve">
+    <value>No setting with the name '{0}' has been found!</value>
+  </data>
   <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
     <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
   </data>

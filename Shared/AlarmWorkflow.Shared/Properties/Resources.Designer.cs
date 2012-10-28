@@ -97,6 +97,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No setting with the name &apos;{0}&apos; has been found!.
+        /// </summary>
+        internal static string SettingNotFoundExceptionMessage {
+            get {
+                return ResourceManager.GetString("SettingNotFoundExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Encountered not supported node type of &apos;{0}&apos; in setting &apos;{1}&apos;. Only plain values and CDATA-nodes are currently supported!.
         /// </summary>
         internal static string SettingsConfigurationEmbResInvalidValueContent {

@@ -111,11 +111,14 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         private void WriteToFile(params string[] textLines)
         {
-            using (StreamWriter strmWrite = new StreamWriter(OutputFileName, true))
+            using (FileStream stream = new FileStream(OutputFileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
             {
-                foreach (string line in textLines)
+                using (StreamWriter strmWrite = new StreamWriter(stream))
                 {
-                    strmWrite.WriteLine(line);
+                    foreach (string line in textLines)
+                    {
+                        strmWrite.WriteLine(line);
+                    }
                 }
             }
         }

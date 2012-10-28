@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace AlarmWorkflow.Shared.Settings
 {
@@ -168,7 +169,7 @@ namespace AlarmWorkflow.Shared.Settings
             object valueNew = null;
             if (!isNull)
             {
-                valueNew = Convert.ChangeType(value, SettingType);
+                valueNew = Convert.ChangeType(value, SettingType, CultureInfo.InvariantCulture);
             }
             this.SetValue(valueNew, setIsModified);
         }

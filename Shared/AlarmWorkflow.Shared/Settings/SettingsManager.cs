@@ -170,14 +170,13 @@ namespace AlarmWorkflow.Shared.Settings
         }
 
         /// <summary>
-        /// Returns the setting by its name.
-        /// See documentation for further information.
+        /// Returns a specific setting by its parental identifier and name.
         /// </summary>
-        /// <remarks>If a setting by </remarks>
         /// <param name="identifier">The identifier of the setting. This is used to distinguish between the different setting configurations available.</param>
         /// <param name="settingName">The name of the setting within the configuration defined by <paramref name="identifier"/>.</param>
         /// <returns>The setting by its name.
         /// -or- null, if there was no setting by this name within the configuration defined by <paramref name="identifier"/>.</returns>
+        /// <exception cref="SettingNotFoundException">A setting with the name <paramref name="settingName"/> has not been found.</exception>
         public SettingItem GetSetting(string identifier, string settingName)
         {
             if (!_settings.ContainsKey(identifier))
@@ -185,7 +184,12 @@ namespace AlarmWorkflow.Shared.Settings
                 return null;
             }
 
-            return _settings[identifier].GetSetting(settingName);
+            SettingItem settingItem = _settings[identifier].GetSetting(settingName);
+            if (settingItem == null)
+            {
+                throw new SettingNotFoundException(settingName);
+            }
+            return settingItem;
         }
 
         /// <summary>

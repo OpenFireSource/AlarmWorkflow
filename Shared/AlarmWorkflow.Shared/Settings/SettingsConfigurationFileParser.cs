@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using System.Globalization;
 
 namespace AlarmWorkflow.Shared.Settings
 {
@@ -12,7 +13,7 @@ namespace AlarmWorkflow.Shared.Settings
     /// </summary>
     static class SettingsConfigurationFileParser
     {
-        private static readonly string[] SupportedSettingTypes = new[] { "System.String", "System.Int32", "System.Boolean" };
+        private static readonly string[] SupportedSettingTypes = new[] { "System.String", "System.Int32", "System.Boolean", "System.Single", "System.Double" };
 
         /// <summary>
         /// Parses the settings configuration XML-document according to its version.
@@ -86,7 +87,7 @@ namespace AlarmWorkflow.Shared.Settings
 
                 // TODO: This will work only with primitive types (String, Boolean etc.). This could be made extensible to allow storing other types as well.
                 Type type = Type.GetType(typeName);
-                object defaultValue = Convert.ChangeType(valueString, type);
+                object defaultValue = Convert.ChangeType(valueString, type, CultureInfo.InvariantCulture);
 
                 SettingItem settingItem = new SettingItem(name, defaultValue, defaultValue, type, editorName);
                 settings.Add(settingItem);

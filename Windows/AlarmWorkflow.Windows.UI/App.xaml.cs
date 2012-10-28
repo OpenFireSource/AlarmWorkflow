@@ -87,6 +87,7 @@ namespace AlarmWorkflow.Windows.UI
                 _mutex = new Mutex(false, MutexName);
             }
 
+            AlarmWorkflow.Shared.Settings.SettingsManager.Instance.Initialize();
             LoadConfiguration();
         }
 
