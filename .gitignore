@@ -10,3 +10,4 @@ TestResults
 *.suo
 *.user
 /Build/AlarmWorkflow
+/Build/Config
