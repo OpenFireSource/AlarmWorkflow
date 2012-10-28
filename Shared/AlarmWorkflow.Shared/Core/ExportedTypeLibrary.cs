@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Xml.Linq;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -35,9 +34,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         private static void Initialize()
         {
-            // Load whitelist from configuration
-            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\AlarmWorkflow.xml");
-
             // if there are no desired assemblies then we take all assemblies we can find in the working directory
             List<string> assembliesToScan = new List<string>();
             string directoryToScan = Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly());
