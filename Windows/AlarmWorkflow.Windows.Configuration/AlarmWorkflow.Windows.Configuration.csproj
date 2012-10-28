@@ -65,6 +65,9 @@
     <Compile Include="TypeEditors\Int32TypeEditor.xaml.cs">
       <DependentUpon>Int32TypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
+      <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\StringTypeEditor.xaml.cs">
       <DependentUpon>StringTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -97,6 +100,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\Int32TypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\StringArrayTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

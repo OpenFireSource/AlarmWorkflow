@@ -161,7 +161,7 @@ namespace AlarmWorkflow.Shared.Settings
                     }
 
                     bool isNull = userSettingE.TryGetAttributeValue("IsNull", false);
-                    string value = userSettingE.TryGetAttributeValue("Value", null);
+                    string value = userSettingE.Value;
 
                     SettingItem affectedSettingItem = GetSetting(identifier, name);
                     affectedSettingItem.SetStringValue(value, isNull, false);
@@ -176,12 +176,13 @@ namespace AlarmWorkflow.Shared.Settings
         /// <param name="settingName">The name of the setting within the configuration defined by <paramref name="identifier"/>.</param>
         /// <returns>The setting by its name.
         /// -or- null, if there was no setting by this name within the configuration defined by <paramref name="identifier"/>.</returns>
+        /// <exception cref="SettingIdentifierNotFoundException">A setting identifier by the name of <paramref name="identifier"/> has not been found.</exception>
         /// <exception cref="SettingNotFoundException">A setting with the name <paramref name="settingName"/> has not been found.</exception>
         public SettingItem GetSetting(string identifier, string settingName)
         {
             if (!_settings.ContainsKey(identifier))
             {
-                return null;
+                throw new SettingIdentifierNotFoundException(identifier);
             }
 
             SettingItem settingItem = _settings[identifier].GetSetting(settingName);
@@ -230,7 +231,8 @@ namespace AlarmWorkflow.Shared.Settings
                     {
                         value = Convert.ToString(item.Value);
                     }
-                    settingE.Add(new XAttribute("Value", value));
+
+                    settingE.Value = value;
 
                     identifyableE.Add(settingE);
                 }

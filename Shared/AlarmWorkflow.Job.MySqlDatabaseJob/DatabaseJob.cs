@@ -1,12 +1,10 @@
-﻿using System.IO;
-using System.Xml;
-using System.Xml.XPath;
-using AlarmWorkflow.Shared.Core;
+﻿using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 using MySql.Data.MySqlClient;
 
-// TODO: needs to be updated (new "Id" and "Created" columns)!
+// TODO: needs to be updated!!!
 
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
@@ -54,15 +52,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         bool IJob.Initialize()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MySqlDatabaseJobConfiguration.xml");
-
-            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("DataBase");
-            XPathNavigator nav = settings.CreateNavigator();
-            this.database = nav.SelectSingleNode("DBName").InnerXml;
-            this.user = nav.SelectSingleNode("UserID").InnerXml;
-            this.pwd = nav.SelectSingleNode("UserPWD").InnerXml;
-            this.server = nav.SelectSingleNode("DBServer").InnerXml;
+            this.database = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBName").GetString();
+            this.user = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
+            this.pwd = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
+            this.server = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServer").GetString();
 
             // Check whether we can connect properly...
             try

@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.IlsAnsbachParser
 {
@@ -40,14 +41,17 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         private void LoadKeywordsFile()
         {
-            string kwdFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachFaxKeywords.lst");
-            if (!File.Exists(kwdFile))
-            {
-                throw new FileNotFoundException("Could not load keywords file!", kwdFile);
-            }
+            //string kwdFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachFaxKeywords.lst");
+            //if (!File.Exists(kwdFile))
+            //{
+            //    throw new FileNotFoundException("Could not load keywords file!", kwdFile);
+            //}
+
+            string keywords = SettingsManager.Instance.GetSetting("IlsAnsbachParser", "Keywords").GetString();
 
             _keywords = new List<string>();
-            foreach (string line in File.ReadAllLines(kwdFile))
+
+            foreach (string line in keywords.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
                 if (string.IsNullOrEmpty(line))
                 {

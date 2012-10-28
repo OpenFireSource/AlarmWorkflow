@@ -70,6 +70,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No setting identifier with the name &apos;{0}&apos; has been found!.
+        /// </summary>
+        internal static string SettingIdentifierNotFoundExceptionMessage {
+            get {
+                return ResourceManager.GetString("SettingIdentifierNotFoundExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The setting &apos;{0}&apos; has no type defined! Skipping setting..
         /// </summary>
         internal static string SettingItemEmptyType {

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="PrintingUIJob">
+
+  <Setting Name="PrintServer" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="PrinterName" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="CopyCount" Type="System.Int32" IsNull="False">1</Setting>
+  <Setting Name="WaitInterval" Type="System.Int32" IsNull="False">50</Setting>
+  <Setting Name="RememberPrintedOperations" Type="System.Boolean" IsNull="False">True</Setting>
+
+</SettingsConfiguration>

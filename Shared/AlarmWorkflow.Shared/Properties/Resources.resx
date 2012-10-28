@@ -120,6 +120,9 @@
   <data name="FileNameMustBeAbsolute" xml:space="preserve">
     <value>The file path must be in absolute format!</value>
   </data>
+  <data name="SettingIdentifierNotFoundExceptionMessage" xml:space="preserve">
+    <value>No setting identifier with the name '{0}' has been found!</value>
+  </data>
   <data name="SettingItemEmptyType" xml:space="preserve">
     <value>The setting '{0}' has no type defined! Skipping setting.</value>
   </data>

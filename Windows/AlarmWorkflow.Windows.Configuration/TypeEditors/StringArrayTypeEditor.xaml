@@ -1,0 +1,5 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.StringArrayTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TextBox x:Name="txtLines" TextWrapping="NoWrap" VerticalScrollBarVisibility="Visible"  HorizontalScrollBarVisibility="Visible" AcceptsReturn="True" />
+</UserControl>

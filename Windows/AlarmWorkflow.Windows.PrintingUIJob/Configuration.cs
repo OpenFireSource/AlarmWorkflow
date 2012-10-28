@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Xml.Linq;
-using AlarmWorkflow.Shared.Core;
+﻿using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.Windows.PrintingUIJob.Config
+namespace AlarmWorkflow.Windows.PrintingUIJob
 {
     /// <summary>
     /// Represents the configuration of this job.
@@ -45,25 +43,12 @@ namespace AlarmWorkflow.Windows.PrintingUIJob.Config
         /// <returns></returns>
         public static Configuration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config\\PrintingUIJobConfiguration.xml");
-            if (configFile == null)
-            {
-                return null;
-            }
-
             Configuration configuration = new Configuration();
-
-            XDocument doc = XDocument.Load(configFile);
-            configuration.PrintServer = doc.Root.TryGetElementValue("PrintServer", null);
-            // If there is no value indicate that (needed for job)
-            if (string.IsNullOrWhiteSpace(configuration.PrintServer))
-            {
-                configuration.PrintServer = null;
-            }
-            configuration.PrinterName = doc.Root.TryGetElementValue("PrinterName", null);
-            configuration.CopyCount = doc.Root.TryGetElementValue("CopyCount", 1);
-            configuration.WaitInterval = doc.Root.TryGetElementValue("WaitInterval", 50);
-            configuration.RememberPrintedOperations = doc.Root.TryGetElementValue("RememberPrintedOperations", true);
+            configuration.PrintServer = SettingsManager.Instance.GetSetting("PrintingUIJob", "PrintServer").GetString();
+            configuration.PrinterName = SettingsManager.Instance.GetSetting("PrintingUIJob", "PrinterName").GetString();
+            configuration.CopyCount = SettingsManager.Instance.GetSetting("PrintingUIJob", "CopyCount").GetInt32();
+            configuration.WaitInterval = SettingsManager.Instance.GetSetting("PrintingUIJob", "WaitInterval").GetInt32();
+            configuration.RememberPrintedOperations = SettingsManager.Instance.GetSetting("PrintingUIJob", "RememberPrintedOperations").GetBoolean();
 
             return configuration;
         }

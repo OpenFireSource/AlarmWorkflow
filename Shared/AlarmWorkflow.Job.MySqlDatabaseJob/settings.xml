@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="MySqlDatabaseJob">
+
+  <Setting Name="DBServer" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="DBName" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="UserID" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="UserPWD" Type="System.String" IsNull="True"></Setting>
+
+</SettingsConfiguration>
