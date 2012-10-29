@@ -7,7 +7,12 @@ gen
 
 # mstest test results
 TestResults
+
+# Misc files
 *.suo
 *.user
+*.db
+
+# Folders
 /Build/AlarmWorkflow
 /Build/Config
