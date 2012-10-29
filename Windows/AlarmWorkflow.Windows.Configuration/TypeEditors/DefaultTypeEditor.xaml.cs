@@ -4,20 +4,18 @@ using AlarmWorkflow.Windows.ConfigurationContracts;
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
     /// <summary>
-    /// Interaction logic for Int32TypeEditor.xaml
+    /// Interaction logic for DefaultTypeEditor.xaml
     /// </summary>
-    public partial class Int32TypeEditor : UserControl, ITypeEditor
+    public partial class DefaultTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Int32TypeEditor"/> class.
+        /// Initializes a new instance of the <see cref="DefaultTypeEditor"/> class.
         /// </summary>
-        public Int32TypeEditor()
+        public DefaultTypeEditor()
         {
             InitializeComponent();
-
-            this.DataContext = this;
         }
 
         #endregion

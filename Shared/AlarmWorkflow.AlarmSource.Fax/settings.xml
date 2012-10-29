@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="FaxAlarmSource">
 
-  <Setting Name="FaxPath" Type="System.String" IsNull="False">C:\Fax</Setting>
-  <Setting Name="ArchivePath" Type="System.String" IsNull="False">C:\Fax\Archive\</Setting>
-  <Setting Name="AnalysisPath" Type="System.String" IsNull="False">C:\Fax\Analysis\</Setting>
-  <Setting Name="OCR.Software" Type="System.String" IsNull="False">Cuneiform</Setting>
-  <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
+  <Setting Name="FaxPath" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor">C:\Fax</Setting>
+  <Setting Name="ArchivePath" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor">C:\Fax\Archive\</Setting>
+  <Setting Name="AnalysisPath" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor">C:\Fax\Analysis\</Setting>
+  <Setting Name="OCR.Software" Type="System.String" IsNull="False" >Cuneiform</Setting>
+  <Setting Name="OCR.Path" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor"></Setting>
   
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">MucLandParser</Setting>
 

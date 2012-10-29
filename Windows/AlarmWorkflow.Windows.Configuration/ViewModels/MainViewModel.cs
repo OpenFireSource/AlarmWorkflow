@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.UI.ViewModels;
+using System.Windows;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -49,6 +50,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
             // Second, save the settings.
             _manager.SaveSettings();
+
+            MessageBox.Show("Die Einstellungen wurden erfolgreich gespeichert!", "Speichern", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         #endregion

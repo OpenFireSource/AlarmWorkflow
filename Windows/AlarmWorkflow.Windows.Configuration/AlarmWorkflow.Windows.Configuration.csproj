@@ -41,6 +41,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,10 +62,15 @@
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
       <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\DirectoryTypeEditor.xaml.cs">
+      <DependentUpon>DirectoryTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DefaultTypeEditor.xaml.cs">
+      <DependentUpon>DefaultTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\DoubleTypeEditor.xaml.cs">
       <DependentUpon>DoubleTypeEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TypeEditors\DefaultTypeEditor.cs" />
     <Compile Include="TypeEditors\Int32TypeEditor.xaml.cs">
       <DependentUpon>Int32TypeEditor.xaml</DependentUpon>
     </Compile>
@@ -74,6 +80,8 @@
     <Compile Include="TypeEditors\StringTypeEditor.xaml.cs">
       <DependentUpon>StringTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\TypeEditorCache.cs" />
+    <Compile Include="Validation\Int32ValidationRule.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\SettingItemViewModel.cs" />
@@ -98,7 +106,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TypeEditors\BooleanTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DirectoryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\DefaultTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UI.ViewModels;
@@ -10,25 +8,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
     [DebuggerDisplay("Setting = {SettingDescriptor.Identifier}/{SettingDescriptor.SettingItem.Name}")]
     class SettingItemViewModel : ViewModelBase
     {
-        #region Static
-
-        private static readonly Dictionary<string, Type> TypeEditors;
-
-        static SettingItemViewModel()
-        {
-            TypeEditors = new Dictionary<string, Type>();
-            TypeEditors[""] = typeof(TypeEditors.DefaultTypeEditor);
-            TypeEditors["System.String"] = typeof(TypeEditors.StringTypeEditor);
-            TypeEditors["System.Int32"] = typeof(TypeEditors.Int32TypeEditor);
-            TypeEditors["System.Boolean"] = typeof(TypeEditors.BooleanTypeEditor);
-            TypeEditors["StringArrayEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
-            // TODO: Better editors!
-            TypeEditors["System.Double"] = typeof(TypeEditors.DoubleTypeEditor);
-            TypeEditors["SimpleXmlTextEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
-        }
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -59,12 +38,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 editorName = settingDescriptor.SettingItem.EditorName;
             }
 
-            if (!TypeEditors.ContainsKey(editorName))
-            {
-                editorName = "";
-            }
-
-            this.TypeEditor = (ITypeEditor)Activator.CreateInstance(TypeEditors[editorName]);
+            this.TypeEditor = TypeEditors.TypeEditorCache.CreateTypeEditor(editorName);
             this.TypeEditor.Value = settingDescriptor.SettingItem.Value;
         }
 

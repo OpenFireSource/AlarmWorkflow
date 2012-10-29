@@ -1,7 +1,7 @@
 ﻿<Window x:Class="AlarmWorkflow.Windows.Configuration.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Konfigurationseditor" Height="350" Width="525">
+        Title="Konfigurationseditor" Height="398" Width="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -27,7 +27,7 @@
             </ListBox>
 
             <DataGrid Grid.Column="1" Margin="2" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True"
-                      ItemsSource="{Binding SelectedItem.SettingItems, ElementName=lstSections}" AlternatingRowBackground="#5BFA0000">
+                      ItemsSource="{Binding SelectedItem.SettingItems, ElementName=lstSections}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Name" FontWeight="Bold" Binding="{Binding SettingDescriptor.SettingItem.Name, Mode=OneWay}" Width="0.3*" />
                     <DataGridTemplateColumn Header="Wert" Width="*">
