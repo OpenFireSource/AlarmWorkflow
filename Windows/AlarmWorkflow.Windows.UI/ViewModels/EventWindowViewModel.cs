@@ -115,6 +115,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
 
             bool isOperationNew = !operation.IsAcknowledged;
+            if (!isOperationNew && App.GetApp().Configuration.TreatOldOperationsAsNew)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "Debug option activated - treating operation '{0}' as a new operation!", operation.OperationNumber);
+                isOperationNew = true;
+            }
 
             // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)
             if (isOperationNew)

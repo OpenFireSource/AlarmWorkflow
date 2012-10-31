@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Settings;
 
@@ -48,6 +49,20 @@ namespace AlarmWorkflow.Shared.Core
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Enumerates through all configured exports and returns the names of all enabled exports.
+        /// </summary>
+        /// <returns>The names of all enabled exports.</returns>
+        public IList<string> GetEnabledExports()
+        {
+            List<string> exports = new List<string>();
+            foreach (var export in Exports.Where(exp => exp.IsEnabled))
+            {
+                exports.Add(export.Name);
+            }
+            return exports;
+        }
 
         /// <summary>
         /// Parses an XML-content and returns the <see cref="ExportConfiguration"/> from it.

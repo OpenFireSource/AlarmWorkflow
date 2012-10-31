@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -43,6 +41,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets the key to press to acknowledge operations.
         /// </summary>
         public Key AcknowledgeOperationKey { get; private set; }
+        /// <summary>
+        /// Gets whether or not old operations shall be treated as new ones. Intended for debugging only!
+        /// </summary>
+        public bool TreatOldOperationsAsNew { get; private set; }
 
         #endregion
 
@@ -88,27 +90,10 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.OperationFetchingArguments.OnlyNonAcknowledged = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.OnlyNonAcknowledged").GetBoolean();
             configuration.OperationFetchingArguments.LimitAmount = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.LimitAmount").GetInt32();
 
+            configuration.TreatOldOperationsAsNew = SettingsManager.Instance.GetSetting("UIConfiguration", "TreatOldOperationsAsNew").GetBoolean();
+
             // Jobs configuration
-            {
-                XDocument jobsConfigE = XDocument.Parse(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetString());
-                List<string> jobs = new List<string>();
-                foreach (XElement exportE in jobsConfigE.Root.Elements("Job"))
-                {
-                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
-                    {
-                        continue;
-                    }
-
-                    string jobName = exportE.TryGetAttributeValue("Name", null);
-                    if (string.IsNullOrWhiteSpace(jobName))
-                    {
-                        continue;
-                    }
-                    jobs.Add(jobName);
-                }
-
-                configuration.EnabledJobs = new ReadOnlyCollection<string>(jobs);
-            }
+            configuration.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
 
             return configuration;
         }

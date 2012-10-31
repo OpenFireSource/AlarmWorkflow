@@ -164,7 +164,12 @@ namespace AlarmWorkflow.Shared.Settings
                     bool isNull = userSettingE.TryGetAttributeValue("IsNull", false);
                     string value = userSettingE.Value;
 
-                    SettingItem affectedSettingItem = GetSetting(identifier, name);
+                    // Try to retrieve the setting. Ignore if the setting does not exist.
+                    SettingItem affectedSettingItem = GetSetting(identifier, name, false);
+                    if (affectedSettingItem == null)
+                    {
+                        continue;
+                    }
                     affectedSettingItem.SetStringValue(value, isNull, false);
                 }
             }
@@ -181,13 +186,18 @@ namespace AlarmWorkflow.Shared.Settings
         /// <exception cref="SettingNotFoundException">A setting with the name <paramref name="settingName"/> has not been found.</exception>
         public SettingItem GetSetting(string identifier, string settingName)
         {
-            if (!_settings.ContainsKey(identifier))
+            return GetSetting(identifier, settingName, true);
+        }
+
+        private SettingItem GetSetting(string identifier, string settingName, bool throwExceptionIfMissing)
+        {
+            if (!_settings.ContainsKey(identifier) && throwExceptionIfMissing)
             {
                 throw new SettingIdentifierNotFoundException(identifier);
             }
 
             SettingItem settingItem = _settings[identifier].GetSetting(settingName);
-            if (settingItem == null)
+            if (settingItem == null && throwExceptionIfMissing)
             {
                 throw new SettingNotFoundException(settingName);
             }

@@ -14,7 +14,8 @@
 
   <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>
   <Setting Name="AcknowledgeOperationKey" Type="System.String" IsNull="False">B</Setting>
-  
+  <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
+
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False" Editor="ExportConfigurationTypeEditor">
     <![CDATA[<ExportConfiguration Type="AlarmWorkflow.Windows.UI.Extensibility.IUIJob">
     <Export Name="PrintingUIJob" IsEnabled="False" />

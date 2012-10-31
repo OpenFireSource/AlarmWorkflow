@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -72,17 +71,9 @@ namespace AlarmWorkflow.Shared
             this.FDInformation.Location.Street = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString();
             this.FDInformation.Location.StreetNumber = SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString();
 
-            // Jobs configuration
-            {
-                ExportConfiguration expConf = SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>();
-                this.EnabledJobs = new ReadOnlyCollection<string>(expConf.Exports.Where(exp => exp.IsEnabled).Select(exp => exp.Name).ToList());
-            }
-
-            // AlarmSources configuration
-            {
-                ExportConfiguration expConf = SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>();
-                this.EnabledAlarmSources = new ReadOnlyCollection<string>(expConf.Exports.Where(exp => exp.IsEnabled).Select(exp => exp.Name).ToList());
-            }
+            // Jobs and AlarmSources configuration
+            this.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
+            this.EnabledAlarmSources = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
 
             _instance = this;
         }

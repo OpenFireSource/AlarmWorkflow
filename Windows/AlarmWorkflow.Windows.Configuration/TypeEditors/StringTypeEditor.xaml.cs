@@ -8,6 +8,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// </summary>
     public partial class StringTypeEditor : UserControl, ITypeEditor
     {
+        #region Fields
+
+        private bool _isNull;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -27,8 +33,23 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// </summary>
         public object Value
         {
-            get { return txtValue.Text; }
-            set { txtValue.Text = (string)value; }
+            get
+            {
+                if (_isNull)
+                {
+                    return null;
+                }
+
+                return txtValue.Text;
+            }
+            set
+            {
+                string v = (string)value;
+                // We need to remember null since the textbox turns it into ""
+                _isNull = v == null;
+
+                txtValue.Text = v;
+            }
         }
 
         /// <summary>
