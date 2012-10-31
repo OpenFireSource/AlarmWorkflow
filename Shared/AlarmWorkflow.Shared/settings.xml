@@ -18,21 +18,21 @@
   <Setting Name="RouteImageWidth" Type="System.Int32">800</Setting>
   
   <!-- Jobs configuration -->
-  <Setting Name="JobsConfiguration" Type="System.String" Editor="SimpleXmlEditor">
-    <![CDATA[<JobsConfiguration>
-    <Job Name="DisplayWakeUpJob" IsEnabled="False" />
-    <Job Name="MailingJob" IsEnabled="False" />
-    <Job Name="MySqlDatabaseJob" IsEnabled="False" />
-    <Job Name="SmsJob" IsEnabled="False" />
-    <Job Name="SQLCEDatabaseJob" IsEnabled="True" />
-    <Job Name="ProwlJob" IsEnabled="False" />
-  </JobsConfiguration>]]></Setting>
+  <Setting Name="JobsConfiguration" Type="System.String" Editor="ExportConfigurationTypeEditor">
+    <![CDATA[<ExportConfiguration Type="AlarmWorkflow.Shared.Extensibility.IJob">
+    <Export Name="DisplayWakeUpJob" IsEnabled="False" />
+    <Export Name="MailingJob" IsEnabled="False" />
+    <Export Name="MySqlDatabaseJob" IsEnabled="False" />
+    <Export Name="SmsJob" IsEnabled="False" />
+    <Export Name="SQLCEDatabaseJob" IsEnabled="True" />
+    <Export Name="ProwlJob" IsEnabled="False" />
+  </ExportConfiguration>]]></Setting>
   
   <!-- Alarm sources configuration -->
-  <Setting Name="AlarmSourcesConfiguration" Type="System.String" Editor="SimpleXmlEditor">
-    <![CDATA[<AlarmSourcesConfiguration>
-    <AlarmSource Name="FaxAlarmSource" IsEnabled="True" />
-  </AlarmSourcesConfiguration>]]>
+  <Setting Name="AlarmSourcesConfiguration" Type="System.String" Editor="ExportConfigurationTypeEditor">
+    <![CDATA[<ExportConfiguration Type="AlarmWorkflow.Shared.Extensibility.IAlarmSource">
+    <Export Name="FaxAlarmSource" IsEnabled="True" />
+  </ExportConfiguration>]]>
   </Setting>
 
 </SettingsConfiguration>

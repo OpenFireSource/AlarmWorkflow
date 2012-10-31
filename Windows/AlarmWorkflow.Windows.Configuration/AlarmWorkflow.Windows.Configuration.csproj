@@ -80,6 +80,9 @@
     <Compile Include="TypeEditors\StringTypeEditor.xaml.cs">
       <DependentUpon>StringTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\ExportConfigurationTypeEditor.xaml.cs">
+      <DependentUpon>ExportConfigurationTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\TypeEditorCache.cs" />
     <Compile Include="Validation\Int32ValidationRule.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -135,6 +138,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\StringTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ExportConfigurationTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

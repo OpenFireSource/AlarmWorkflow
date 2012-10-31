@@ -1,0 +1,12 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.ExportConfigurationTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Expander Header="Bearbeiten...">
+        <DataGrid ItemsSource="{Binding Exports}" AutoGenerateColumns="False" CanUserDeleteRows="False" CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Exportname" Width="*" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Binding="{Binding IsEnabled}" Header="Aktiviert" Width="Auto" IsReadOnly="False" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Expander>
+</UserControl>

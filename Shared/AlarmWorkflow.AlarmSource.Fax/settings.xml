@@ -6,8 +6,13 @@
   <Setting Name="AnalysisPath" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor">C:\Fax\Analysis\</Setting>
   <Setting Name="OCR.Software" Type="System.String" IsNull="False" >Cuneiform</Setting>
   <Setting Name="OCR.Path" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor"></Setting>
-  
+  <Setting Name="Routine.Interval" Type="System.Int32" IsNull="False">1500</Setting>
+
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">MucLandParser</Setting>
+  <Setting Name="TestFaxKeywords" Type="System.String" IsNull="False" Editor="StringArrayTypeEditor">
+    <![CDATA[Testfax
+Test]]>
+  </Setting>
 
   <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False" Editor="ReplaceDictionaryEditor">
     <![CDATA[<!-- This file stores common "misspellings" of OCR-software and replaces them with something useful
@@ -48,5 +53,5 @@
   <Entry Old="4-0/2" New="40/2" />
 </Dictionary>]]>
   </Setting>
-  
+
 </SettingsConfiguration>

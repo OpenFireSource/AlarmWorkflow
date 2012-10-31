@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
+using System.Reflection;
 
 namespace AlarmWorkflow.Shared.Settings
 {
@@ -85,7 +87,8 @@ namespace AlarmWorkflow.Shared.Settings
         /// <summary>
         /// Returns the value of this setting casted to its desired type.
         /// </summary>
-        /// <typeparam name="T">The type to cast the setting to.</typeparam>
+        /// <typeparam name="T">The type to cast the setting to. If this type is a type that implements <see cref="T:IStringSettingConvertible"/>,
+        /// an automatic conversion as defined in that type will be performed.</typeparam>
         /// <returns>The value of this setting casted to its desired type. If the value is null then the default value for <typeparamref name="T"/> is returned.</returns>
         public T GetValue<T>()
         {
@@ -93,6 +96,19 @@ namespace AlarmWorkflow.Shared.Settings
             {
                 return default(T);
             }
+
+            // If the value is a string
+            if (Value is string && typeof(T).GetInterface(typeof(IStringSettingConvertible).Name) != null)
+            {
+                // Look for an empty constructor, even if it is private (only then we can instantiate this type)
+                if (typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Any(ci => ci.GetParameters().Length == 0))
+                {
+                    IStringSettingConvertible convertible = (IStringSettingConvertible)Activator.CreateInstance(typeof(T), true);
+                    convertible.Convert((string)Value);
+                    return (T)convertible;
+                }
+            }
+
             return (T)Value;
         }
 
@@ -126,7 +142,8 @@ namespace AlarmWorkflow.Shared.Settings
         /// <summary>
         /// Sets the value of this setting.
         /// </summary>
-        /// <param name="value">The new value of this setting.</param>
+        /// <param name="value">The new value of this setting. If the type of this object is a type that implements <see cref="T:IStringSettingConvertible"/>,
+        /// an automatic conversion as defined in that type will be performed.</param>
         public void SetValue(object value)
         {
             SetValue(value, true);
@@ -135,7 +152,8 @@ namespace AlarmWorkflow.Shared.Settings
         /// <summary>
         /// Sets the value of this setting.
         /// </summary>
-        /// <param name="value">The new value of this setting.</param>
+        /// <param name="value">The new value of this setting. If the type of this object is a type that implements <see cref="T:IStringSettingConvertible"/>,
+        /// an automatic conversion as defined in that type will be performed.</param>
         /// <param name="setIsModified">Whether or not to set the "IsModified" property if the value is modified.</param>
         internal void SetValue(object value, bool setIsModified)
         {
@@ -149,7 +167,16 @@ namespace AlarmWorkflow.Shared.Settings
                 return;
             }
 
-            this.Value = value;
+            object valueToSave = value;
+
+            // If the value implements the IStringSettingConvertible-interface, we can do custom conversion into the string type.
+            IStringSettingConvertible convertible = value as IStringSettingConvertible;
+            if (convertible != null)
+            {
+                valueToSave = convertible.ConvertBack();
+            }
+
+            this.Value = valueToSave;
 
             if (setIsModified)
             {

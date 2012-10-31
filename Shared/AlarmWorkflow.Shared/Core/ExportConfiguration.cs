@@ -1,0 +1,127 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Xml.Linq;
+using AlarmWorkflow.Shared.Settings;
+
+namespace AlarmWorkflow.Shared.Core
+{
+    /// <summary>
+    /// Configures which exports for a given type shall be enabled.
+    /// </summary>
+    [DebuggerDisplay("Type = {ExportType} (Count = {Exports.Count})")]
+    public sealed class ExportConfiguration : IStringSettingConvertible
+    {
+        #region Properties
+
+        /// <summary>
+        /// Gets the full name of the exported type that this configuration is for.
+        /// </summary>
+        public string ExportType { get; private set; }
+        /// <summary>
+        /// Gets the list of configured exports.
+        /// </summary>
+        public List<ExportEntry> Exports { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Prevents a default instance of the <see cref="ExportConfiguration"/> class from being created.
+        /// </summary>
+        private ExportConfiguration()
+        {
+            Exports = new List<ExportEntry>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExportConfiguration"/> class.
+        /// </summary>
+        /// <param name="exportType">The type of the export.</param>
+        public ExportConfiguration(Type exportType)
+            : this()
+        {
+            ExportType = exportType.FullName;
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Parses an XML-content and returns the <see cref="ExportConfiguration"/> from it.
+        /// </summary>
+        /// <param name="value">The XML-contents to parse.</param>
+        /// <returns></returns>
+        public static ExportConfiguration Parse(string value)
+        {
+            ExportConfiguration configuration = new ExportConfiguration();
+            ((IStringSettingConvertible)configuration).Convert(value);
+
+            return configuration;
+        }
+
+        /// <summary>
+        /// Creates the XML-representation of the current instance.
+        /// </summary>
+        /// <returns></returns>
+        public string ToXml()
+        {
+            return ((IStringSettingConvertible)this).ConvertBack();
+        }
+
+        #endregion
+
+        #region IStringSettingConvertible Members
+
+        void IStringSettingConvertible.Convert(string settingValue)
+        {
+            XDocument doc = XDocument.Parse(settingValue);
+
+            ExportType = doc.Root.Attribute("Type").Value;
+            foreach (var exportE in doc.Root.Elements("Export"))
+            {
+                ExportEntry evm = new ExportEntry();
+                evm.Name = exportE.Attribute("Name").Value;
+                evm.IsEnabled = bool.Parse(exportE.Attribute("IsEnabled").Value);
+                Exports.Add(evm);
+            }
+        }
+
+        string IStringSettingConvertible.ConvertBack()
+        {
+            XDocument doc = new XDocument();
+            XElement rootE = new XElement("ExportConfiguration");
+            rootE.Add(new XAttribute("Type", ExportType));
+            foreach (ExportEntry export in Exports)
+            {
+                XElement exportE = new XElement("Export");
+                exportE.Add(new XAttribute("Name", export.Name));
+                exportE.Add(new XAttribute("IsEnabled", export.IsEnabled));
+                rootE.Add(exportE);
+            }
+
+            doc.Add(rootE);
+            return doc.ToString();
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Configures one export.
+        /// </summary>
+        [DebuggerDisplay("Name = {Name}, IsEnabled = {IsEnabled}")]
+        public sealed class ExportEntry
+        {
+            /// <summary>
+            /// Gets/sets the name (alias) of the export.
+            /// </summary>
+            public string Name { get; set; }
+            /// <summary>
+            /// Gets/sets whether or not this export is enabled.
+            /// </summary>
+            public bool IsEnabled { get; set; }
+        }
+    }
+}

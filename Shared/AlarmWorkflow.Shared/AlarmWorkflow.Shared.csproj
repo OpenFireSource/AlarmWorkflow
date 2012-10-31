@@ -50,6 +50,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\ExportConfiguration.cs" />
     <Compile Include="Core\OcrSoftware.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Core\PropertyLocation.cs" />
@@ -80,6 +81,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\IStringSettingConvertible.cs" />
     <Compile Include="Settings\SettingIdentifierNotFoundException.cs" />
     <Compile Include="Settings\SettingDescriptor.cs" />
     <Compile Include="Settings\SettingItem.cs" />
@@ -89,7 +91,9 @@
     <Compile Include="Settings\SettingsManager.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.xml" />
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

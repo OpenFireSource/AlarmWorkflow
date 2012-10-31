@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -191,7 +192,16 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 // Try to parse the operation. If parsing failed, ignore this but write to the log file!
                 Logger.Instance.LogFormat(LogType.Trace, this, "Begin parsing incoming operation...");
 
-                operation = _parser.Parse(analyzedLines.ToArray());
+                string[] lines = analyzedLines.ToArray();
+                // Find out if the fax is a test-fax
+                if (IsTestFax(lines))
+                {
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Operation is a test-fax. Parsing is skipped.");
+                }
+                else
+                {
+                    operation = _parser.Parse(lines);
+                }
 
                 sw.Stop();
                 Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
@@ -213,6 +223,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
                 Logger.Instance.LogException(this, ex);
             }
+        }
+
+        // Checks the raw line contents for any occurrences of test-fax keywords.
+        private bool IsTestFax(string[] lines)
+        {
+            return lines.Any(l => _configuration.TestFaxKeywords.Any(kw => l.Contains(kw)));
         }
 
         #endregion
@@ -257,7 +273,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                     Logger.Instance.LogFormat(LogType.Trace, this, "Processing finished.");
                 }
-                Thread.Sleep(1500);
+                Thread.Sleep(_configuration.RoutineInterval);
             }
         }
 

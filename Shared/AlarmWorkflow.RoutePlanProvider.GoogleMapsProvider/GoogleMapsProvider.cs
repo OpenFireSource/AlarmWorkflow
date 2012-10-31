@@ -62,11 +62,11 @@ namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
                     case "INVALID_REQUEST":
                     case "REQUEST_DENIED":
                     case "UNKNOWN_ERROR":
+                    default:
                         Logger.Instance.LogFormat(LogType.Error, null, "The maps-request failed with status '{0}'. Please contact the developers!", status);
                         return null;
 
                     case "OK":
-                    default:
                         // Everything ok.
                         break;
                 }

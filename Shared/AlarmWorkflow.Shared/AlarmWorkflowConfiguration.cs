@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Xml.Linq;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -75,46 +74,14 @@ namespace AlarmWorkflow.Shared
 
             // Jobs configuration
             {
-                XDocument docJC = XDocument.Parse(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetString());
-                List<string> jobs = new List<string>();
-                foreach (XElement exportE in docJC.Root.Elements("Job"))
-                {
-                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
-                    {
-                        continue;
-                    }
-
-                    string jobName = exportE.TryGetAttributeValue("Name", null);
-                    if (string.IsNullOrWhiteSpace(jobName))
-                    {
-                        continue;
-                    }
-                    jobs.Add(jobName);
-                }
-
-                this.EnabledJobs = new ReadOnlyCollection<string>(jobs);
+                ExportConfiguration expConf = SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>();
+                this.EnabledJobs = new ReadOnlyCollection<string>(expConf.Exports.Where(exp => exp.IsEnabled).Select(exp => exp.Name).ToList());
             }
 
             // AlarmSources configuration
             {
-                XDocument docAS = XDocument.Parse(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetString());
-                List<string> sources = new List<string>();
-                foreach (XElement exportE in docAS.Root.Elements("AlarmSource"))
-                {
-                    if (!bool.Parse(exportE.Attribute("IsEnabled").Value))
-                    {
-                        continue;
-                    }
-
-                    string sourceName = exportE.TryGetAttributeValue("Name", null);
-                    if (string.IsNullOrWhiteSpace(sourceName))
-                    {
-                        continue;
-                    }
-                    sources.Add(sourceName);
-                }
-
-                this.EnabledAlarmSources = new ReadOnlyCollection<string>(sources);
+                ExportConfiguration expConf = SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>();
+                this.EnabledAlarmSources = new ReadOnlyCollection<string>(expConf.Exports.Where(exp => exp.IsEnabled).Select(exp => exp.Name).ToList());
             }
 
             _instance = this;

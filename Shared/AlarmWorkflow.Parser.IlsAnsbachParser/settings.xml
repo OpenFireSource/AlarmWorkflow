@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="IlsAnsbachParser">
 
-  <Setting Name="Keywords" Type="System.String" IsNull="False" Editor="StringArrayEditor">
+  <Setting Name="Keywords" Type="System.String" IsNull="False" Editor="StringArrayTypeEditor">
     <![CDATA[Absender
 Fax
 Termin

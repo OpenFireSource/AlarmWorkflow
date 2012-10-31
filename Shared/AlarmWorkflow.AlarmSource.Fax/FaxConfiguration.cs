@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
@@ -19,6 +20,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal OcrSoftware OCRSoftware { get; private set; }
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
+        internal int RoutineInterval { get; private set; }
+        internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
         private Dictionary<string, string> ReplaceDictionary { get; set; }
 
         #endregion
@@ -38,6 +41,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
             string ocr = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Software").GetString();
             this.OCRSoftware = (OcrSoftware)Enum.Parse(typeof(OcrSoftware), ocr);
             this.OCRSoftwarePath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Path").GetString();
+
+            this.RoutineInterval = SettingsManager.Instance.GetSetting("FaxAlarmSource", "Routine.Interval").GetInt32();
+            this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 
             // Parse replace dictionary
             this.ReplaceDictionary = new Dictionary<string, string>(16);
