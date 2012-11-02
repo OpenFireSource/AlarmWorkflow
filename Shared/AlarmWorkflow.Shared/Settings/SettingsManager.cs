@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
@@ -19,6 +20,8 @@ namespace AlarmWorkflow.Shared.Settings
 
         private const string SettingsConfigurationEmbeddedResourceFileName = "settings.xml";
         private const string UserSettingsFileName = "user.settings";
+
+        private static readonly string UserSettingsFilePath = Path.Combine(Utilities.GetWorkingDirectory(), "Config", UserSettingsFileName);
 
         #endregion
 
@@ -133,15 +136,18 @@ namespace AlarmWorkflow.Shared.Settings
         /// </summary>
         private void LoadUserConfigurationFile()
         {
-            string userConfigurationFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config", UserSettingsFileName);
             // If the file does not exist, there is nothing to do yet.
-            if (!File.Exists(userConfigurationFile))
+            if (!File.Exists(UserSettingsFilePath))
             {
                 return;
             }
 
             // Read the XML-Document
-            XDocument doc = XDocument.Load(userConfigurationFile);
+            XDocument doc = null;
+            using (StreamReader reader = new StreamReader(UserSettingsFilePath, Encoding.UTF8))
+            {
+                doc = XDocument.Load(reader);
+            }
 
             foreach (XElement sectionE in doc.Root.Elements("Section"))
             {
@@ -209,8 +215,6 @@ namespace AlarmWorkflow.Shared.Settings
         /// </summary>
         public void SaveSettings()
         {
-            string userConfigurationFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config", UserSettingsFileName);
-
             XDocument doc = new XDocument();
 
             XElement rootE = new XElement("UserSettings");
@@ -251,8 +255,11 @@ namespace AlarmWorkflow.Shared.Settings
                 rootE.Add(identifyableE);
             }
 
-            // Save to disk
-            doc.Save(userConfigurationFile);
+            // Save to disk using explicit encoding
+            using (StreamWriter writer = new StreamWriter(UserSettingsFilePath, false, Encoding.UTF8))
+            {
+                doc.Save(writer);
+            }
         }
 
         #endregion
