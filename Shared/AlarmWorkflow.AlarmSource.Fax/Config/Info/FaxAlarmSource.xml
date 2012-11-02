@@ -10,7 +10,9 @@
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Description="Wenn leer gelassen wird das Standardverzeichnis genommen." Category="OCR-Software" Editor="DirectoryTypeEditor" />
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared" />
-    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuh" Category="Parser" Editor="ReplaceDictionaryEditor" />
+    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Parser" Editor="ReplaceDictionaryEditor" />
+
+    <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert" />
 
     <Setting Name="TestFaxKeywords" DisplayText="'Testfax' Schlüsselwörter" Category="Testfax" Editor="StringArrayTypeEditor" />
 

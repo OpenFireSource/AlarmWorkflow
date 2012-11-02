@@ -94,6 +94,7 @@
     </Compile>
     <Compile Include="TypeEditors\TypeEditorCache.cs" />
     <Compile Include="Validation\Int32ValidationRule.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\SettingItemViewModel.cs" />
@@ -193,7 +194,9 @@
       <Name>AlarmWorkflow.Windows.ConfigurationContracts</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Info_16.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-using AlarmWorkflow.Windows.UI.ViewModels;
+using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Configuration.Config;
+using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -37,7 +38,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <summary>
         /// Gets a list of all setting item VMs.
         /// </summary>
-        public List<SettingItemViewModel> SettingItems { get; private set; }
+        public List<CategoryViewModel> CategoryItems { get; private set; }
 
         #endregion
 
@@ -45,7 +46,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private SectionViewModel()
         {
-            SettingItems = new List<SettingItemViewModel>();
+            CategoryItems = new List<CategoryViewModel>();
         }
 
         /// <summary>
@@ -59,5 +60,23 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         }
 
         #endregion
+
+        #region Methods
+
+        internal void Add(SettingDescriptor descriptor, SettingInfo setting)
+        {
+            CategoryViewModel cvm = CategoryItems.Find(c => c.Category == setting.Category);
+            if (cvm == null)
+            {
+                cvm = new CategoryViewModel();
+                cvm.Category = setting.Category;
+                CategoryItems.Add(cvm);
+            }
+
+            cvm.SettingItems.Add(new SettingItemViewModel(descriptor, setting));
+        }
+
+        #endregion
+
     }
 }

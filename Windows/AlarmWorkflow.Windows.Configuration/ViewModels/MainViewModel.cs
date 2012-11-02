@@ -43,10 +43,13 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             // First apply the setting values from the editors back to their setting items.
             foreach (SectionViewModel svm in _sections.Values)
             {
-                foreach (SettingItemViewModel sivm in svm.SettingItems)
+                foreach (CategoryViewModel cvm in svm.CategoryItems)
                 {
-                    SettingItem item = _manager.GetSetting(sivm.SettingDescriptor.Identifier, sivm.SettingDescriptor.SettingItem.Name);
-                    item.SetValue(sivm.TypeEditor.Value);
+                    foreach (SettingItemViewModel sivm in cvm.SettingItems)
+                    {
+                        SettingItem item = _manager.GetSetting(sivm.SettingDescriptor.Identifier, sivm.SettingDescriptor.SettingItem.Name);
+                        item.SetValue(sivm.TypeEditor.Value);
+                    }
                 }
             }
 
@@ -85,7 +88,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 }
 
                 SettingInfo setting = _displayConfiguration.GetSetting(descriptor.Identifier, descriptor.SettingItem.Name);
-                svm.SettingItems.Add(new SettingItemViewModel(descriptor, setting));
+                if (setting == null)
+                {
+                    // TODO Log warning
+                    continue;
+                }
+                svm.Add(descriptor, setting);
             }
 
             // TODO: Sort the list afterwards

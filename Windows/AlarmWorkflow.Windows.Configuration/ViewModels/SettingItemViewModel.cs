@@ -39,6 +39,20 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 return _setting.DisplayText;
             }
         }
+        /// <summary>
+        /// Gets the description of this setting.
+        /// </summary>
+        public string Description
+        {
+            get
+            {
+                if (_setting == null || string.IsNullOrWhiteSpace(_setting.Description))
+                {
+                    return "(Keine Beschreibung vorhanden)";
+                }
+                return _setting.Description;
+            }
+        }
 
         private string Editor
         {
