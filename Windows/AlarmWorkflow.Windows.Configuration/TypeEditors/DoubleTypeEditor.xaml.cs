@@ -17,6 +17,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public DoubleTypeEditor()
         {
             InitializeComponent();
+
+            this.DataContext = this;
         }
 
         #endregion
@@ -26,11 +28,11 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// <summary>
         /// Gets/sets the value that is edited.
         /// </summary>
-        public object Value
-        {
-            get { return double.Parse(txtValue.Text, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture); }
-            set { txtValue.Text = ((double)value).ToString(CultureInfo.InvariantCulture); }
-        }
+        public object Value { get; set; }
+        //{
+        //    get { return double.Parse(txtValue.Text, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture); }
+        //    set { txtValue.Text = ((double)value).ToString(CultureInfo.InvariantCulture); }
+        //}
 
         /// <summary>
         /// Gets the visual element that is editing the value.
