@@ -35,7 +35,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         {
             get
             {
-                if (_isNull)
+                if (_isNull && string.IsNullOrEmpty(txtValue.Text))
                 {
                     return null;
                 }
