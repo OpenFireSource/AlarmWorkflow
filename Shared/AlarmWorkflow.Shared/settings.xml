@@ -18,8 +18,8 @@
   <Setting Name="RouteImageWidth" Type="System.Int32">800</Setting>
   
   <!-- Jobs configuration -->
-  <Setting Name="JobsConfiguration" Type="System.String" Editor="ExportConfigurationTypeEditor">
-    <![CDATA[<ExportConfiguration Type="AlarmWorkflow.Shared.Extensibility.IJob">
+  <Setting Name="JobsConfiguration" Type="System.String">
+    <![CDATA[<ExportConfiguration>
     <Export Name="DisplayWakeUpJob" IsEnabled="False" />
     <Export Name="MailingJob" IsEnabled="False" />
     <Export Name="MySqlDatabaseJob" IsEnabled="False" />
@@ -29,8 +29,8 @@
   </ExportConfiguration>]]></Setting>
   
   <!-- Alarm sources configuration -->
-  <Setting Name="AlarmSourcesConfiguration" Type="System.String" Editor="ExportConfigurationTypeEditor">
-    <![CDATA[<ExportConfiguration Type="AlarmWorkflow.Shared.Extensibility.IAlarmSource">
+  <Setting Name="AlarmSourcesConfiguration" Type="System.String">
+    <![CDATA[<ExportConfiguration>
     <Export Name="FaxAlarmSource" IsEnabled="True" />
   </ExportConfiguration>]]>
   </Setting>

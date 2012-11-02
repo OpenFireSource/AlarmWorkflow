@@ -1,0 +1,23 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="UIConfiguration" DisplayText="Windows-UI">
+    
+    <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UI.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UI" />
+    <Setting Name="ScreenId" DisplayText="Zielbildschirms-Nummer" Description="Null-basierte Nummer (0..n) des Bildschirms" Category="Generell" />
+    <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell" />
+    <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell" Editor="KeyInputTypeEditor" />
+    <Setting Name="TreatOldOperationsAsNew" DisplayText="Alte Alarme als Neu behandeln" Category="Debug" />
+
+    <Setting Name="OFP.Interval" DisplayText="Aktualisierungsinterval" Category="Alarmabfrage" />
+    <Setting Name="OFP.MaxAge" DisplayText="Max. Alter" Category="Alarmabfrage" />
+    <Setting Name="OFP.OnlyNonAcknowledged" DisplayText="Nur neue Alarme" Category="Alarmabfrage" />
+    <Setting Name="OFP.LimitAmount" DisplayText="Limit" Category="Alarmabfrage" />
+
+    <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme" />
+    <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme" />
+
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

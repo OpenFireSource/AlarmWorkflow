@@ -38,11 +38,6 @@ namespace AlarmWorkflow.Shared.Settings
         /// </summary>
         public Type SettingType { get; private set; }
         /// <summary>
-        /// Gets the name of the editor that is used to edit this setting.
-        /// If this is null or empty, then the default editor for this type is used.
-        /// </summary>
-        public string EditorName { get; private set; }
-        /// <summary>
         /// Gets whether or not the value in this setting is the default value.
         /// </summary>
         public bool IsValueDefault
@@ -69,15 +64,13 @@ namespace AlarmWorkflow.Shared.Settings
         /// <param name="value">The value of this setting.</param>
         /// <param name="defaultValue">The default value of this setting. Used to reset the setting.</param>
         /// <param name="type">The type of the setting.</param>
-        /// <param name="editorName">The name of the editor used to edit this setting.</param>
-        internal SettingItem(string name, object value, object defaultValue, Type type, string editorName)
+        internal SettingItem(string name, object value, object defaultValue, Type type)
             : this()
         {
             this.Name = name;
             this.Value = value;
             this.DefaultValue = defaultValue;
             this.SettingType = type;
-            this.EditorName = editorName;
         }
 
         #endregion
@@ -237,7 +230,6 @@ namespace AlarmWorkflow.Shared.Settings
             SettingItem clone = new SettingItem();
             clone.SettingType = this.SettingType;
             clone.DefaultValue = this.DefaultValue;
-            clone.EditorName = this.EditorName;
             clone.IsModified = this.IsModified;
             clone.Name = this.Name;
             clone.Value = this.Value;

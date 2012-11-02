@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Windows.Configuration.Config;
 using AlarmWorkflow.Windows.UI.ViewModels;
-using System.Windows;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -11,6 +12,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #region Fields
 
         private SettingsManager _manager;
+        private SettingsDisplayConfiguration _displayConfiguration;
         private Dictionary<string, SectionViewModel> _sections;
 
         #endregion
@@ -68,6 +70,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             _manager = SettingsManager.Instance;
             _manager.Initialize();
 
+            _displayConfiguration = SettingsDisplayConfiguration.Load();
+
             _sections = new Dictionary<string, SectionViewModel>();
 
             foreach (SettingDescriptor descriptor in _manager)
@@ -75,13 +79,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 SectionViewModel svm = null;
                 if (!_sections.TryGetValue(descriptor.Identifier, out svm))
                 {
-                    svm = new SectionViewModel();
+                    svm = new SectionViewModel(_displayConfiguration.GetIdentifier(descriptor.Identifier));
                     svm.Identifier = descriptor.Identifier;
                     _sections.Add(svm.Identifier, svm);
                 }
 
-                svm.SettingItems.Add(new SettingItemViewModel(descriptor));
+                SettingInfo setting = _displayConfiguration.GetSetting(descriptor.Identifier, descriptor.SettingItem.Name);
+                svm.SettingItems.Add(new SettingItemViewModel(descriptor, setting));
             }
+
+            // TODO: Sort the list afterwards
         }
 
         #endregion

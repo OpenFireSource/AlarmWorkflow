@@ -45,7 +45,17 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
         {
             Configuration configuration = new Configuration();
             configuration.PrintServer = SettingsManager.Instance.GetSetting("PrintingUIJob", "PrintServer").GetString();
+            if (string.IsNullOrWhiteSpace(configuration.PrintServer))
+            {
+                configuration.PrintServer = null;
+            }
+
             configuration.PrinterName = SettingsManager.Instance.GetSetting("PrintingUIJob", "PrinterName").GetString();
+            if (string.IsNullOrWhiteSpace(configuration.PrinterName))
+            {
+                configuration.PrinterName = null;
+            }
+
             configuration.CopyCount = SettingsManager.Instance.GetSetting("PrintingUIJob", "CopyCount").GetInt32();
             configuration.WaitInterval = SettingsManager.Instance.GetSetting("PrintingUIJob", "WaitInterval").GetInt32();
             configuration.RememberPrintedOperations = SettingsManager.Instance.GetSetting("PrintingUIJob", "RememberPrintedOperations").GetBoolean();

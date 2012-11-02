@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.KeyInputTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TextBox x:Name="txtKeyInput" PreviewKeyDown="txtKeyInput_PreviewKeyDown" IsReadOnly="True">
+        <TextBox.Style>
+            <Style TargetType="TextBox">
+                <Style.Triggers>
+                    <Trigger Property="IsFocused" Value="True">
+                        <Setter Property="Background" Value="Yellow" />
+                    </Trigger>
+                </Style.Triggers>
+                <Setter Property="Background" Value="LightGray" />
+            </Style>
+        </TextBox.Style>
+    </TextBox>
+</UserControl>

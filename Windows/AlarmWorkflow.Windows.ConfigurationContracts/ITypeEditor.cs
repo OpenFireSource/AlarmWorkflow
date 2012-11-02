@@ -16,5 +16,11 @@ namespace AlarmWorkflow.Windows.ConfigurationContracts
         /// Gets the visual element that is editing the value.
         /// </summary>
         UIElement Visual { get; }
+
+        /// <summary>
+        /// Initializes this TypeEditor-instance.
+        /// </summary>
+        /// <param name="editorParameter">An optional editor parameter.</param>
+        void Initialize(string editorParameter);
     }
 }

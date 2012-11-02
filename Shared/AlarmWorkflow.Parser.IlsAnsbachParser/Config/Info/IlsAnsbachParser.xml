@@ -1,0 +1,9 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="IlsAnsbachParser" DisplayText="ILS-Ansbach (Parser)">
+    
+    <Setting Name="Keywords" DisplayText="Schlüsselwörter" Category="Erweitert" Editor="StringArrayTypeEditor" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

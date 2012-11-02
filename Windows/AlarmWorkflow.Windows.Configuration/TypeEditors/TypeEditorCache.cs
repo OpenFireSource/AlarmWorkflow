@@ -18,6 +18,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             TypeEditors["StringArrayTypeEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
             TypeEditors["DirectoryTypeEditor"] = typeof(TypeEditors.DirectoryTypeEditor);
             TypeEditors["ExportConfigurationTypeEditor"] = typeof(TypeEditors.ExportConfigurationTypeEditor);
+            TypeEditors["ExportTypeEditor"] = typeof(TypeEditors.ExportTypeEditor);
+            TypeEditors["KeyInputTypeEditor"] = typeof(TypeEditors.KeyInputTypeEditor);
             // TODO: Better editors!
             TypeEditors["System.Double"] = typeof(TypeEditors.DoubleTypeEditor);
             TypeEditors["SimpleXmlTextEditor"] = typeof(TypeEditors.StringArrayTypeEditor);

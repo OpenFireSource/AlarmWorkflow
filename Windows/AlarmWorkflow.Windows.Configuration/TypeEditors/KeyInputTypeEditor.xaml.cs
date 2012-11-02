@@ -1,19 +1,21 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
+using System.Windows.Input;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
     /// <summary>
-    /// Interaction logic for DirectoryTypeEditor.xaml
+    /// Interaction logic for KeyInputTypeEditor.xaml
     /// </summary>
-    public partial class DirectoryTypeEditor : UserControl, ITypeEditor
+    public partial class KeyInputTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoryTypeEditor"/> class.
+        /// Initializes a new instance of the <see cref="KeyInputTypeEditor"/> class.
         /// </summary>
-        public DirectoryTypeEditor()
+        public KeyInputTypeEditor()
         {
             InitializeComponent();
         }
@@ -22,15 +24,19 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         #region Event handlers
 
-        private void Browse_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void txtKeyInput_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
-            fbd.ShowNewFolderButton = true;
-            fbd.SelectedPath = (string)this.Value;
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            e.Handled = true;
+
+            if (e.Key == Key.Escape ||
+                e.Key == Key.Tab ||
+                e.Key == Key.Return)
             {
-                this.Value = fbd.SelectedPath;
+                MoveFocus(new TraversalRequest(FocusNavigationDirection.Previous));
+                return;
             }
+
+            txtKeyInput.Text = Enum.GetName(typeof(Key), e.Key);
         }
 
         #endregion
@@ -42,8 +48,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// </summary>
         public object Value
         {
-            get { return txtValue.Text; }
-            set { txtValue.Text = (string)value; }
+            get { return txtKeyInput.Text; }
+            set { txtKeyInput.Text = (string)value; }
         }
 
         /// <summary>

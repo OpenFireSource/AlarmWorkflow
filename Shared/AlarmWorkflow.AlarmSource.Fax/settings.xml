@@ -9,12 +9,12 @@
   <Setting Name="Routine.Interval" Type="System.Int32" IsNull="False">1500</Setting>
 
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">MucLandParser</Setting>
-  <Setting Name="TestFaxKeywords" Type="System.String" IsNull="False" Editor="StringArrayTypeEditor">
+  <Setting Name="TestFaxKeywords" Type="System.String" IsNull="False">
     <![CDATA[Testfax
 Test]]>
   </Setting>
 
-  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False" Editor="ReplaceDictionaryEditor">
+  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False">
     <![CDATA[<!-- This file stores common "misspellings" of OCR-software and replaces them with something useful
  
      Like: "9INSATZ" makes no sense but we know that it means "EINSATZ" so we add an entry (see below).

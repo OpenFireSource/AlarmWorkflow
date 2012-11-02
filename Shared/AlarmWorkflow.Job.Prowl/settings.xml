@@ -3,6 +3,6 @@
 
   <Setting Name="ProviderKey" Type="System.String" IsNull="True"></Setting>
   <Setting Name="ApplicationName" Type="System.String" IsNull="True"></Setting>
-  <Setting Name="API" Type="System.String" IsNull="False">aa376117e9ff69932c4bc329d5330ed3dd8f543d</Setting>
+  <Setting Name="API" Type="System.String" IsNull="False"></Setting>
 
 </SettingsConfiguration>

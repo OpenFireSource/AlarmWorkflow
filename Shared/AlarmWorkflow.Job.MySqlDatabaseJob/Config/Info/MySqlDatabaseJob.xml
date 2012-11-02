@@ -1,0 +1,13 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="MySqlDatabaseJob" DisplayText="MySQL (Aufgabe)">
+
+    <Setting Name="DBServer" DisplayText="Servername" Category="Server" />
+    <Setting Name="DBServerPort" DisplayText="Port" Category="Server" />
+    <Setting Name="DBName" DisplayText="Datenbankname" Category="Datenbank" />
+    <Setting Name="UserID" DisplayText="Benutzer-ID" Category="Datenbank" />
+    <Setting Name="UserPWD" DisplayText="Passwort" Category="Datenbank" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

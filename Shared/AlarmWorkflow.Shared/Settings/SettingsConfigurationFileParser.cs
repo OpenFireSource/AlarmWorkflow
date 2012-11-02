@@ -66,7 +66,6 @@ namespace AlarmWorkflow.Shared.Settings
                 }
 
                 bool isNull = settingE.TryGetAttributeValue("IsNull", false);
-                string editorName = settingE.TryGetAttributeValue("Editor", null);
 
                 // Read the setting value. If it contains a CDATA, then we need to process that first.
                 string valueString = null;
@@ -89,7 +88,7 @@ namespace AlarmWorkflow.Shared.Settings
                 Type type = Type.GetType(typeName);
                 object defaultValue = Convert.ChangeType(valueString, type, CultureInfo.InvariantCulture);
 
-                SettingItem settingItem = new SettingItem(name, defaultValue, defaultValue, type, editorName);
+                SettingItem settingItem = new SettingItem(name, defaultValue, defaultValue, type);
                 settings.Add(settingItem);
 
                 iSetting++;

@@ -21,7 +21,7 @@
             <ListBox x:Name="lstSections" Grid.Column="0" Margin="2" ItemsSource="{Binding Sections}" SelectedIndex="0">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Identifier}" />
+                        <TextBlock Text="{Binding DisplayText}" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -29,7 +29,7 @@
             <DataGrid Grid.Column="1" Margin="2" AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True"
                       ItemsSource="{Binding SelectedItem.SettingItems, ElementName=lstSections}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" FontWeight="Bold" Binding="{Binding SettingDescriptor.SettingItem.Name, Mode=OneWay}" Width="0.3*" />
+                    <DataGridTextColumn Header="Name" FontWeight="Bold" Binding="{Binding DisplayText, Mode=OneWay}" Width="0.3*" />
                     <DataGridTemplateColumn Header="Wert" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -39,8 +39,6 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
-
-
         </Grid>
     </Grid>
 </Window>

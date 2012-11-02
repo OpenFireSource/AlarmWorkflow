@@ -2,6 +2,7 @@
 <SettingsConfiguration Version="1" Identifier="MySqlDatabaseJob">
 
   <Setting Name="DBServer" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="DBServerPort" Type="System.Int32" IsNull="False">3306</Setting>
   <Setting Name="DBName" Type="System.String" IsNull="True"></Setting>
   <Setting Name="UserID" Type="System.String" IsNull="True"></Setting>
   <Setting Name="UserPWD" Type="System.String" IsNull="True"></Setting>

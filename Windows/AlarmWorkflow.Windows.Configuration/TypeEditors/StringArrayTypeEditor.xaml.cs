@@ -40,6 +40,10 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             get { return this; }
         }
 
+        void ITypeEditor.Initialize(string editorParameter)
+        {
+        }
+
         #endregion
     }
 }

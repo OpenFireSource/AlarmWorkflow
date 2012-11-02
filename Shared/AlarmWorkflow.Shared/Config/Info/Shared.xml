@@ -1,0 +1,22 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="Shared" DisplayText="Generell">
+    
+    <Setting Name="FD.Name" DisplayText="Feuerwehrname" Category="Feuerwehr" />
+    <Setting Name="FD.City" DisplayText="Stadt" Category="Feuerwehr" />
+    <Setting Name="FD.ZipCode" DisplayText="PLZ" Category="Feuerwehr" />
+    <Setting Name="FD.Street" DisplayText="Straße" Category="Feuerwehr" />
+    <Setting Name="FD.StreetNumber" DisplayText="Hausnummer" Category="Feuerwehr" />
+
+    <Setting Name="OperationStore" DisplayText="Operation Store" Category="Erweitert" />
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IJob" />
+    <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource" />
+
+    <Setting Name="RoutePlanProvider" DisplayText="Routenplananbieter" Category="Routenplan" />
+    <Setting Name="DownloadRoutePlan" DisplayText="Routenplan herunterladen" Category="Routenplan" />
+    <Setting Name="RouteImageHeight" DisplayText="Höhe (pixel)" Category="Routenplan" />
+    <Setting Name="RouteImageWidth" DisplayText="Breite (pixel)" Category="Routenplan" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

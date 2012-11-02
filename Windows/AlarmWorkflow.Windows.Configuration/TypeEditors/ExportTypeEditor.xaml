@@ -1,0 +1,5 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.ExportTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ComboBox x:Name="cboExport" IsEditable="False" />
+</UserControl>
