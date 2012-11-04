@@ -17,24 +17,50 @@
             android:key="pref_key_update_interval"
             android:summary="@string/pref_summary_update_interval"
             android:title="@string/pref_title_update_interval" />
+
+        <EditTextPreference
+            android:key="pref_key_server_username"
+            android:summary="@string/pref_summary_server_username"
+            android:title="@string/pref_title_server_username" />
+        <EditTextPreference
+            android:key="pref_key_server_password"
+            android:summary="@string/pref_summary_server_password"
+            android:title="@string/pref_title_server_password"
+            android:inputType="textPassword" />
     </PreferenceCategory>
-    
     <PreferenceCategory
         android:key="pref_key_misc_category"
-        android:title="@string/pref_misc_category_title">
-        
+        android:title="@string/pref_misc_category_title" >
         <ListPreference
-        	android:defaultValue="@string/pref_default_fetch_amount"
-        	android:entries="@array/array_values_human_fetch_amount" 
-        	android:entryValues="@array/array_values_android_fetch_amount"
-        	android:key="pref_key_fetch_amount"
-        	android:summary="@string/pref_summary_fetch_amount"
-        	android:title="@string/pref_title_fetch_amount" />
-        <CheckBoxPreference android:key="pref_key_fetch_only_nonacknowledged" android:title="@string/pref_title_fetch_only_nonacknowledged" android:summary="@string/pref_summary_fetch_only_nonacknowledged" android:defaultValue="@string/pref_default_fetch_only_nonacknowledged"/>
-        <ListPreference android:key="pref_key_fetch_maxage" android:summary="@string/pref_summary_fetch_max_age" android:title="@string/pref_title_fetch_max_age" android:entries="@array/array_values_human_fetch_max_age" android:entryValues="@array/array_values_android_fetch_max_age" android:defaultValue="@string/pref_default_fetch_max_age"/>
-        
+            android:defaultValue="@string/pref_default_fetch_amount"
+            android:entries="@array/array_values_human_fetch_amount"
+            android:entryValues="@array/array_values_android_fetch_amount"
+            android:key="pref_key_fetch_amount"
+            android:summary="@string/pref_summary_fetch_amount"
+            android:title="@string/pref_title_fetch_amount" />
+
+        <CheckBoxPreference
+            android:defaultValue="@string/pref_default_fetch_only_nonacknowledged"
+            android:key="pref_key_fetch_only_nonacknowledged"
+            android:summary="@string/pref_summary_fetch_only_nonacknowledged"
+            android:title="@string/pref_title_fetch_only_nonacknowledged" />
+
+        <ListPreference
+            android:defaultValue="@string/pref_default_fetch_max_age"
+            android:entries="@array/array_values_human_fetch_max_age"
+            android:entryValues="@array/array_values_android_fetch_max_age"
+            android:key="pref_key_fetch_maxage"
+            android:summary="@string/pref_summary_fetch_max_age"
+            android:title="@string/pref_title_fetch_max_age" />
     </PreferenceCategory>
-    
-    
+    <PreferenceCategory
+        android:key="pref_key_app_category"
+        android:title="@string/pref_title_app_category" >
+        <Preference
+            android:enabled="false"
+            android:key="pref_key_app_version"
+            android:summary="@string/pref_summary_app_version"
+            android:title="@string/pref_title_app_version" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
