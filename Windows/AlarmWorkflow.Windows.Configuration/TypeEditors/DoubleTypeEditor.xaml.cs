@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -6,6 +7,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for DoubleTypeEditor.xaml
     /// </summary>
+    [Export("DoubleTypeEditor", typeof(ITypeEditor))]
+    [ConfigurationTypeEditor(typeof(System.Double))]
     public partial class DoubleTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

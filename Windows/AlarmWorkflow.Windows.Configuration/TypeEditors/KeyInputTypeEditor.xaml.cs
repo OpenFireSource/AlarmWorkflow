@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Controls;
 using System.Windows.Input;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -8,6 +9,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for KeyInputTypeEditor.xaml
     /// </summary>
+    [Export("KeyInputTypeEditor", typeof(ITypeEditor))]
     public partial class KeyInputTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

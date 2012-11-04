@@ -9,6 +9,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for ExportTypeEditor.xaml
     /// </summary>
+    [Export("ExportTypeEditor", typeof(ITypeEditor))]
     public partial class ExportTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

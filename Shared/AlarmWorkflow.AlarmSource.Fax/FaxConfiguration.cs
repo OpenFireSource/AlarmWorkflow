@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -22,7 +20,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
         internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
-        private Dictionary<string, string> ReplaceDictionary { get; set; }
+        private ReplaceDictionary ReplaceDictionary { get; set; }
 
         #endregion
 
@@ -46,15 +44,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
 
             // Parse replace dictionary
-            this.ReplaceDictionary = new Dictionary<string, string>(16);
-
-            string replaceDictionaryRaw = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ReplaceDictionary").GetString();
-            XDocument doc = XDocument.Parse(replaceDictionaryRaw);
-
-            foreach (XElement rpn in doc.Root.Elements())
-            {
-                this.ReplaceDictionary[rpn.Attribute("Old").Value] = rpn.Attribute("New").Value;
-            }
+            this.ReplaceDictionary = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ReplaceDictionary").GetValue<ReplaceDictionary>();
         }
 
         #endregion
@@ -68,7 +58,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         /// <returns></returns>
         internal string PerformReplace(string line)
         {
-            foreach (var pair in this.ReplaceDictionary)
+            foreach (var pair in this.ReplaceDictionary.Pairs)
             {
                 line = line.Replace(pair.Key, pair.Value);
             }

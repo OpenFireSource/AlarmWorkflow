@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -6,6 +7,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for Int32TypeEditor.xaml
     /// </summary>
+    [Export("Int32TypeEditor", typeof(ITypeEditor))]
+    [ConfigurationTypeEditor(typeof(System.Int32))]
     public partial class Int32TypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

@@ -1,12 +1,13 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
-using System.IO;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
     /// <summary>
     /// Interaction logic for StringArrayTypeEditor.xaml
     /// </summary>
+    [Export("StringArrayTypeEditor", typeof(ITypeEditor))]
     public partial class StringArrayTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

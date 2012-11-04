@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -12,16 +14,20 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         {
             TypeEditors = new Dictionary<string, Type>();
             TypeEditors[""] = typeof(TypeEditors.DefaultTypeEditor);
-            TypeEditors["System.String"] = typeof(TypeEditors.StringTypeEditor);
-            TypeEditors["System.Int32"] = typeof(TypeEditors.Int32TypeEditor);
-            TypeEditors["System.Boolean"] = typeof(TypeEditors.BooleanTypeEditor);
-            TypeEditors["StringArrayTypeEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
-            TypeEditors["DirectoryTypeEditor"] = typeof(TypeEditors.DirectoryTypeEditor);
-            TypeEditors["ExportConfigurationTypeEditor"] = typeof(TypeEditors.ExportConfigurationTypeEditor);
-            TypeEditors["ExportTypeEditor"] = typeof(TypeEditors.ExportTypeEditor);
-            TypeEditors["KeyInputTypeEditor"] = typeof(TypeEditors.KeyInputTypeEditor);
+
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(ITypeEditor)))
+            {
+                // 1. Use alias.
+                TypeEditors[export.Attribute.Alias] = export.Type;
+
+                // 2. Use attribute if available.
+                ConfigurationTypeEditorAttribute attribute = (ConfigurationTypeEditorAttribute)export.Type.GetCustomAttributes(typeof(ConfigurationTypeEditorAttribute), false).FirstOrDefault();
+                if (attribute != null)
+                {
+                    TypeEditors[attribute.SourceType.FullName] = export.Type;
+                }
+            }
             // TODO: Better editors!
-            TypeEditors["System.Double"] = typeof(TypeEditors.DoubleTypeEditor);
             TypeEditors["SimpleXmlTextEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
         }
 

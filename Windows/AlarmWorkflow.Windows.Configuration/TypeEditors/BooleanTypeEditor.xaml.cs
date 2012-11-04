@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -6,6 +7,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for BooleanTypeEditorVisual.xaml
     /// </summary>
+    [Export("BooleanTypeEditor", typeof(ITypeEditor))]
+    [ConfigurationTypeEditor(typeof(System.Boolean))]
     public partial class BooleanTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

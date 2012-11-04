@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -6,6 +7,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for DirectoryTypeEditor.xaml
     /// </summary>
+    [Export("DirectoryTypeEditor", typeof(ITypeEditor))]
     public partial class DirectoryTypeEditor : UserControl, ITypeEditor
     {
         #region Constructors

@@ -8,6 +8,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// <summary>
     /// Interaction logic for ExportConfigurationTypeEditor.xaml
     /// </summary>
+    [Export("ExportConfigurationTypeEditor", typeof(ITypeEditor))]
     public partial class ExportConfigurationTypeEditor : UserControl, ITypeEditor
     {
         #region Fields
@@ -74,7 +75,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
-            
+
         }
 
         #endregion
