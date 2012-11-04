@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Xml.Linq;
@@ -16,10 +15,6 @@ namespace AlarmWorkflow.Shared.Core
         #region Properties
 
         /// <summary>
-        /// Gets the full name of the exported type that this configuration is for.
-        /// </summary>
-        public string ExportType { get; private set; }
-        /// <summary>
         /// Gets the list of configured exports.
         /// </summary>
         public List<ExportEntry> Exports { get; private set; }
@@ -34,16 +29,6 @@ namespace AlarmWorkflow.Shared.Core
         private ExportConfiguration()
         {
             Exports = new List<ExportEntry>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExportConfiguration"/> class.
-        /// </summary>
-        /// <param name="exportType">The type of the export.</param>
-        public ExportConfiguration(Type exportType)
-            : this()
-        {
-            ExportType = exportType.FullName;
         }
 
         #endregion
@@ -94,7 +79,6 @@ namespace AlarmWorkflow.Shared.Core
         {
             XDocument doc = XDocument.Parse(settingValue);
 
-            ExportType = doc.Root.Attribute("Type").Value;
             foreach (var exportE in doc.Root.Elements("Export"))
             {
                 ExportEntry evm = new ExportEntry();
@@ -108,7 +92,6 @@ namespace AlarmWorkflow.Shared.Core
         {
             XDocument doc = new XDocument();
             XElement rootE = new XElement("ExportConfiguration");
-            rootE.Add(new XAttribute("Type", ExportType));
             foreach (ExportEntry export in Exports)
             {
                 XElement exportE = new XElement("Export");

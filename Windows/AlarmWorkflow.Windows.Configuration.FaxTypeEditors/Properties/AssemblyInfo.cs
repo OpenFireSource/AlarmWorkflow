@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AlarmWorkflow.Windows.ConfigurationContracts")]
+[assembly: AssemblyTitle("AlarmWorkflow.Windows.Configuration.FaxTypeEditors")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The AlarmWorkflow-Team")]
-[assembly: AssemblyProduct("AlarmWorkflow.Windows.ConfigurationContracts")]
+[assembly: AssemblyProduct("AlarmWorkflow.Windows.Configuration.FaxTypeEditors")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("0dea27b6-2ef5-4859-8f48-cf520965452f")]
+[assembly: Guid("e72ed373-f5f9-4de9-b59a-745f35c9a6d8")]
 
 // Version information for an assembly consists of the following four values:
 //
