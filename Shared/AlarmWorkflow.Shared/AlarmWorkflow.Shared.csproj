@@ -81,13 +81,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\IdentifierInfo.cs" />
     <Compile Include="Settings\IStringSettingConvertible.cs" />
     <Compile Include="Settings\SettingIdentifierNotFoundException.cs" />
     <Compile Include="Settings\SettingDescriptor.cs" />
+    <Compile Include="Settings\SettingInfo.cs" />
     <Compile Include="Settings\SettingItem.cs" />
     <Compile Include="Settings\SettingNotFoundException.cs" />
     <Compile Include="Settings\SettingsConfigurationFile.cs" />
     <Compile Include="Settings\SettingsConfigurationFileParser.cs" />
+    <Compile Include="Settings\SettingsDisplayConfiguration.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,10 +105,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Info\Shared.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="settings.info.xml">
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

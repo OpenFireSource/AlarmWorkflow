@@ -80,7 +80,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         Location = data.Location,
                         Messenger = data.Messenger,
                         OperationNumber = data.OperationNumber,
-                        Property = data.Property,
+                        Property = data.Building,
                         Street = data.Street,
                         StreetNumber = data.StreetNumber,
                         ZipCode = data.ZipCode,

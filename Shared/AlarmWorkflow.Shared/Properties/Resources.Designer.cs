@@ -149,5 +149,32 @@ namespace AlarmWorkflow.Shared.Properties {
                 return ResourceManager.GetString("SettingsConfigurationEmbResXmlException", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Loaded settings display configuration from assembly &apos;{0}&apos;..
+        /// </summary>
+        internal static string SettingsDisplayConfigurationEmbResLoaded {
+            get {
+                return ResourceManager.GetString("SettingsDisplayConfigurationEmbResLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The settings display configuration file found in assembly &apos;{0}&apos; contains invalid XML data! The error message was: {1}.
+        /// </summary>
+        internal static string SettingsDisplayConfigurationEmbResXmlException {
+            get {
+                return ResourceManager.GetString("SettingsDisplayConfigurationEmbResXmlException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was no SettingsDisplayConfiguration found in this instance. Perhaps this instance was not initialized with &quot;IncludeDisplayConfiguration&quot; or it was and the configuration is not available at this point..
+        /// </summary>
+        internal static string SettingsDisplayConfigurationNotFoundException {
+            get {
+                return ResourceManager.GetString("SettingsDisplayConfigurationNotFoundException", resourceCulture);
+            }
+        }
     }
 }

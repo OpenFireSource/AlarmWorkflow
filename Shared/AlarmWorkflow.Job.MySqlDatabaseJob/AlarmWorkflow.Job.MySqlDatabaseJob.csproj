@@ -59,10 +59,9 @@
     <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\Info\MySqlDatabaseJob.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    <EmbeddedResource Include="settings.info.xml">
       <SubType>Designer</SubType>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

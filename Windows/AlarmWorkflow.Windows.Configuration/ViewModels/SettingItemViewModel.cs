@@ -2,7 +2,6 @@
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UI.ViewModels;
-using AlarmWorkflow.Windows.Configuration.Config;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {

@@ -47,7 +47,9 @@ namespace AlarmWorkflow.Shared.Settings
 
         #region Fields
 
+        private bool _isInitialized;
         private Dictionary<string, SettingsConfigurationFile> _settings;
+        private SettingsDisplayConfiguration _displayConfiguration;
 
         #endregion
 
@@ -66,20 +68,41 @@ namespace AlarmWorkflow.Shared.Settings
         #region Methods
 
         /// <summary>
-        /// Initializes this instance.
+        /// Initializes this instance and loads only the settings (no display configuration).
         /// </summary>
         public void Initialize()
         {
-            LoadSettings();
+            Initialize(SettingsInitialization.OnlySettings);
         }
 
-        private void LoadSettings()
+        /// <summary>
+        /// Initializes this instance and loads only the settings (no display configuration).
+        /// </summary>
+        /// <param name="settingsInitialization"></param>
+        public void Initialize(SettingsInitialization settingsInitialization)
         {
+            if (_isInitialized)
+            {
+                throw new InvalidOperationException("Instance is already initialized!");
+            }
+
             // Scan all assemblies within the current path and try to read their "settings.xml" file (must be named like that!).
             List<string> assemblyFiles = new List<string>();
             assemblyFiles.AddRange(Directory.GetFiles(Utilities.GetWorkingDirectory(), "*.dll", SearchOption.TopDirectoryOnly));
             assemblyFiles.AddRange(Directory.GetFiles(Utilities.GetWorkingDirectory(), "*.exe", SearchOption.TopDirectoryOnly));
 
+            LoadSettings(assemblyFiles);
+            // If we shall also initialize the display configuration
+            if (settingsInitialization == SettingsInitialization.IncludeDisplayConfiguration)
+            {
+                LoadSettingsDisplayConfiguration(assemblyFiles);
+            }
+
+            _isInitialized = true;
+        }
+
+        private void LoadSettings(IList<string> assemblyFiles)
+        {
             foreach (string assemblyFile in assemblyFiles)
             {
                 string assemblyLocation = null;
@@ -129,6 +152,51 @@ namespace AlarmWorkflow.Shared.Settings
             // After the configuration files have been parsed, we need to see if there are any user-configuration files and read those values in.
             // User values override default values.
             LoadUserConfigurationFile();
+        }
+
+        private void LoadSettingsDisplayConfiguration(IList<string> assemblyFiles)
+        {
+            SettingsDisplayConfiguration config = new SettingsDisplayConfiguration();
+
+            foreach (string assemblyFile in assemblyFiles)
+            {
+                string assemblyLocation = null;
+                try
+                {
+                    Assembly assembly = Assembly.LoadFile(assemblyFile);
+                    assemblyLocation = assembly.Location;
+
+                    // Try to locate and load the embedded resource file
+                    string embResText = assembly.GetEmbeddedResourceText(SettingsDisplayConfiguration.EmbeddedResourceFileName);
+                    // If the assembly has no such settings configuration, skip further processing.
+                    if (string.IsNullOrWhiteSpace(embResText))
+                    {
+                        continue;
+                    }
+
+
+                    XDocument doc = XDocument.Parse(embResText);
+                    config.ParseAdd(doc);
+
+                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.SettingsDisplayConfigurationEmbResLoaded, assemblyLocation);
+                }
+                catch (XmlException ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsDisplayConfigurationEmbResLoaded, assemblyLocation, ex.Message);
+                }
+                catch (BadImageFormatException)
+                {
+                    // We can ignore this exception because it may occur with unmanaged dlls.
+                }
+                catch (Exception)
+                {
+                    // Ignore parsing this file.
+                    Logger.Instance.LogFormat(LogType.Warning, null, "Could not parse settings-info file '{0}'. It either is no settings-info-file or it is in an invalid format.", assemblyLocation);
+                }
+            }
+
+            // Done loading!
+            _displayConfiguration = config;
         }
 
         /// <summary>
@@ -262,6 +330,20 @@ namespace AlarmWorkflow.Shared.Settings
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="SettingsDisplayConfiguration"/>, if it was included in initialization.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="System.InvalidOperationException">This instance was not initialized with "IncludeDisplayConfiguration" or the display configuration is not available at this point.</exception>
+        public SettingsDisplayConfiguration GetSettingsDisplayConfiguration()
+        {
+            if (_displayConfiguration == null)
+            {
+                throw new InvalidOperationException(Properties.Resources.SettingsDisplayConfigurationNotFoundException);
+            }
+            return _displayConfiguration;
+        }
+
         #endregion
 
         #region IEnumerable<SettingDescriptor> Members
@@ -284,6 +366,26 @@ namespace AlarmWorkflow.Shared.Settings
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             throw new NotSupportedException();
+        }
+
+        #endregion
+
+        #region Nested types
+
+        /// <summary>
+        /// Specifies how to initialize a <see cref="SettingsManager"/>-instance.
+        /// </summary>
+        public enum SettingsInitialization
+        {
+            /// <summary>
+            /// Initializes only the settings (default value).
+            /// </summary>
+            OnlySettings = 0,
+            /// <summary>
+            /// Includes the settings display configuration when initializing.
+            /// Should be done only if needed to keep memory and initialization time low.
+            /// </summary>
+            IncludeDisplayConfiguration = 1,
         }
 
         #endregion

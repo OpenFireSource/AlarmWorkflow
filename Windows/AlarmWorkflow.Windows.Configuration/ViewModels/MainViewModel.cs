@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Settings;
-using AlarmWorkflow.Windows.Configuration.Config;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
@@ -89,9 +88,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         public MainViewModel()
         {
             _manager = SettingsManager.Instance;
-            _manager.Initialize();
+            _manager.Initialize(SettingsManager.SettingsInitialization.IncludeDisplayConfiguration);
 
-            _displayConfiguration = SettingsDisplayConfiguration.Load();
+            _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
 
             _sections = new Dictionary<string, SectionViewModel>();
 

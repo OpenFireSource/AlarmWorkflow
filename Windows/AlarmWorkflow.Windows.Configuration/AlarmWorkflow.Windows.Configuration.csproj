@@ -59,9 +59,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Config\IdentifierInfo.cs" />
-    <Compile Include="Config\SettingInfo.cs" />
-    <Compile Include="Config\SettingsDisplayConfiguration.cs" />
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
       <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
     </Compile>

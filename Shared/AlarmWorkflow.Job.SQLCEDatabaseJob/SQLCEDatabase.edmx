@@ -52,7 +52,11 @@
           <Property Type="String" Name="StreetNumber" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="City" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="String" Name="ZipCode" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Property" MaxLength="512" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Building" MaxLength="512" FixedLength="false" Unicode="true" >
+            <Documentation>
+              <Summary>(Original name: 'Property') Renamed to fix compiler warning.</Summary>
+            </Documentation>
+          </Property>
           <Property Type="String" Name="Keyword" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
           <Property Type="DateTime" Name="Timestamp" Nullable="false" />
@@ -85,7 +89,7 @@
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
                 <ScalarProperty Name="Keyword" ColumnName="Keyword" />
-                <ScalarProperty Name="Property" ColumnName="Property" />
+                <ScalarProperty Name="Building" ColumnName="Property" />
                 <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
                 <ScalarProperty Name="City" ColumnName="City" />
                 <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />

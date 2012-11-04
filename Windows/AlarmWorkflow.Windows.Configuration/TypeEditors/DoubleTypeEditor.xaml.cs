@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -29,10 +28,6 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// Gets/sets the value that is edited.
         /// </summary>
         public object Value { get; set; }
-        //{
-        //    get { return double.Parse(txtValue.Text, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture); }
-        //    set { txtValue.Text = ((double)value).ToString(CultureInfo.InvariantCulture); }
-        //}
 
         /// <summary>
         /// Gets the visual element that is editing the value.

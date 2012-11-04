@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
-using AlarmWorkflow.Windows.Configuration.Config;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels

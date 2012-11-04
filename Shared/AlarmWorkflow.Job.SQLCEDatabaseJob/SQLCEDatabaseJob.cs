@@ -40,7 +40,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         Comment = operation.Comment,
                         IsAcknowledged = operation.IsAcknowledged,
                         Messenger = operation.Messenger,
-                        Property = operation.Property,
+                        Building = operation.Property,
                         Street = operation.Street,
                         StreetNumber = operation.StreetNumber,
                         CustomData = Utilities.Serialize(operation.CustomData),

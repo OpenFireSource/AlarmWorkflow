@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace AlarmWorkflow.Windows.Configuration.Config
+namespace AlarmWorkflow.Shared.Settings
 {
     /// <summary>
     /// Display configuration for a single setting.

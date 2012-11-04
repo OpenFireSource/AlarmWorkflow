@@ -326,28 +326,28 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         partial void OnZipCodeChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// (Original name: &apos;Property&apos;) Renamed to fix compiler warning.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Property
+        public global::System.String Building
         {
             get
             {
-                return _Property;
+                return _Building;
             }
             set
             {
-                OnPropertyChanging(value);
-                ReportPropertyChanging("Property");
-                _Property = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Property");
-                OnPropertyChanged();
+                OnBuildingChanging(value);
+                ReportPropertyChanging("Building");
+                _Building = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Building");
+                OnBuildingChanged();
             }
         }
-        private global::System.String _Property;
-        partial void OnPropertyChanging(global::System.String value);
-        partial void OnPropertyChanged();
+        private global::System.String _Building;
+        partial void OnBuildingChanging(global::System.String value);
+        partial void OnBuildingChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
