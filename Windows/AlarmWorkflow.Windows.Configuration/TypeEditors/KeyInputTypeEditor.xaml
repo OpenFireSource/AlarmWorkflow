@@ -9,7 +9,6 @@
                         <Setter Property="Background" Value="Yellow" />
                     </Trigger>
                 </Style.Triggers>
-                <Setter Property="Background" Value="LightGray" />
             </Style>
         </TextBox.Style>
     </TextBox>
