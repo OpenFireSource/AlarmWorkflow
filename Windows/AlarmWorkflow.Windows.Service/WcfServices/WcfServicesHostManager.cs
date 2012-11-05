@@ -5,6 +5,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.Xml;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -104,10 +105,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
                 // ... and try to open the host
                 host.Open();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Logger.Instance.LogFormat(LogType.Warning, this, "Could not host service '{0}'. Maybe registering this service requires administrator rights. Please check the log file.", address);
+                Logger.Instance.LogException(this, ex);
             }
         }
 
