@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
-using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -282,47 +281,6 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
-        /// Gets the absolute path from the relative path.
-        /// </summary>
-        /// <param name="relativePath">The relative path.</param>
-        /// <returns></returns>
-        public static string GetAbsolutePath(string relativePath)
-        {
-            return Path.Combine(GetWorkingDirectory(), relativePath);
-        }
-
-        /// <summary>
-        /// Combines many paths.
-        /// </summary>
-        /// <param name="paths"></param>
-        /// <returns></returns>
-        public static string Combine(params string[] paths)
-        {
-            string path = "";
-            for (int i = 0; i < paths.Length; i++)
-            {
-                path = Path.Combine(path, paths[i]);
-            }
-            return path;
-        }
-
-        /// <summary>
-        /// Returns the first instance if available or the default value for T.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="enumerable"></param>
-        /// <returns></returns>
-        public static T FirstOrDefault<T>(IEnumerable<T> enumerable)
-        {
-            IEnumerator<T> enumerator = enumerable.GetEnumerator();
-            if (enumerator.MoveNext())
-            {
-                return enumerator.Current;
-            }
-            return default(T);
-        }
-
-        /// <summary>
         /// Analyzes a TIFF-file, extracts all pages (1..n) to a bitmap file, and returns the full file name for each.
         /// </summary>
         /// <param name="tiffFileName"></param>
@@ -373,26 +331,6 @@ namespace AlarmWorkflow.Shared.Core
                 }
             }
             return nl.ToArray();
-        }
-
-        /// <summary>
-        /// Executes a delegate and swallows (ignores) all exceptions. Useful in scenarios where throwing exceptions are no option due to stability.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="action"></param>
-        /// <param name="parameter">An optional parameter.</param>
-        public static void Swallow<T>(Action<T> action, T parameter)
-        {
-            try
-            {
-                action(parameter);
-            }
-            catch (Exception ex)
-            {
-                // However still log this exception
-                Logger.Instance.LogFormat(LogType.Exception, "Utilities.Swallow", "An exception was swallowed while executing a delegate. The process will continue. See exception details following.");
-                Logger.Instance.LogException("Utilities.Swallow", ex);
-            }
         }
 
         /// <summary>

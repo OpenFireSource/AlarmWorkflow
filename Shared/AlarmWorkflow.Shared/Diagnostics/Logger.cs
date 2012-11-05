@@ -36,8 +36,8 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         #region Constants
 
-        private static readonly string DefaultLogPath = Utilities.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "AlarmWorkflow");
-        private static readonly string DefaultLogPathFallback = Utilities.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AlarmWorkflow");
+        private static readonly string DefaultLogPath = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "AlarmWorkflow");
+        private static readonly string DefaultLogPathFallback = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AlarmWorkflow");
         /// <summary>
         /// The maximum length of the full type name until it gets truncated at the beginning.
         /// This only applies if the source is inferred from the type name.
