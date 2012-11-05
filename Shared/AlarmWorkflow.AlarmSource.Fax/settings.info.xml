@@ -2,19 +2,25 @@
 
   <Identifier Name="FaxAlarmSource" DisplayText="Fax (Alarmquelle)">
 
-    <Setting Name="FaxPath" DisplayText="'Eingehende Faxe' Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor" />
-    <Setting Name="ArchivePath" DisplayText="Archiv-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor" />
-    <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor" />
+    <Setting Name="FaxPath" DisplayText="Faxeingang-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
+             Description="Verzeichnis, in dem die Windows-Faxkonsole die Faxe ablegt." />
+    <Setting Name="ArchivePath" DisplayText="Archiv-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
+             Description="Verzeichnis für verarbeitete Faxe." />
+    <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
+             Description="Verzeichnis für analysierte Faxe." />
 
     <Setting Name="OCR.Software" DisplayText="OCR-Software-Kennung" Category="OCR-Software" />
-    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Description="Wenn leer gelassen wird das Standardverzeichnis genommen." Category="OCR-Software" Editor="DirectoryTypeEditor" />
+    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Description="Wenn leer gelassen, wird das Standardverzeichnis genommen." Category="OCR-Software" Editor="DirectoryTypeEditor" />
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared" />
-    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Parser" Editor="ReplaceDictionaryTypeEditor" />
+    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Parser" Editor="ReplaceDictionaryTypeEditor"
+             Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
-    <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert" />
+    <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"
+             Description="Der Abstand (in Millisekunden) zur Überprüfung auf neue Faxe." />
 
-    <Setting Name="TestFaxKeywords" DisplayText="'Testfax' Schlüsselwörter" Category="Testfax" Editor="StringArrayTypeEditor" />
+    <Setting Name="TestFaxKeywords" DisplayText="'Testfax'-Schlüsselwörter" Category="Testfax" Editor="StringArrayTypeEditor"
+             Description="Faxe mit einem oder mehreren dieser Worte werden nicht ausgewertet." />
 
   </Identifier>
 
