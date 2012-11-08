@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
@@ -24,7 +21,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         {
             lock (Lock)
             {
-                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                 {
                     if (entities.Operations.Any())
                     {
@@ -39,7 +36,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         {
             lock (Lock)
             {
-                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                 {
                     OperationData data = entities.Operations.FirstOrDefault(d => d.OperationId == operationId);
                     // If either there is no operation by this id, or the operation exists and is already acknowledged, do nothing
@@ -61,7 +58,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             {
                 List<Operation> operations = new List<Operation>();
 
-                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                 {
                     OperationData data = entities.Operations.FirstOrDefault(d => d.OperationId == operationId);
                     if (data == null)
@@ -97,7 +94,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
             {
                 List<int> operations = new List<int>();
 
-                using (SQLCEDatabaseEntities entities = CreateContext<SQLCEDatabaseEntities>())
+                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                 {
                     foreach (OperationData data in entities.Operations.OrderByDescending(o => o.Timestamp))
                     {
@@ -123,34 +120,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                 }
 
                 return operations;
-            }
-        }
-
-        #endregion
-
-        #region Methods
-
-        private T CreateContext<T>() where T : ObjectContext
-        {
-            try
-            {
-                string appConfigText = this.GetType().Assembly.GetEmbeddedResourceText("app.config");
-
-                XDocument appConfig = XDocument.Parse(appConfigText);
-
-                XElement connectionStrings = appConfig.Root.Element("connectionStrings");
-
-                // get first connection string
-                XElement connectionStringE = connectionStrings.Elements("add").Where(n => n.Attribute("name").Value == "SQLCEDatabaseEntities").FirstOrDefault();
-
-                string name = connectionStringE.Attribute("name").Value;
-                string connectionString = connectionStringE.Attribute("connectionString").Value;
-
-                return (T)Activator.CreateInstance(typeof(T), connectionString);
-            }
-            catch (Exception)
-            {
-                throw;
             }
         }
 

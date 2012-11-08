@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Data.Objects;
 using System.Linq;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -17,7 +15,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         {
             try
             {
-                using (SQLCEDatabaseEntities entities = this.CreateContext<SQLCEDatabaseEntities>())
+                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                 {
                     int oid = operation.Id;
                     if (operation.Id == 0)
@@ -31,7 +29,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                     OperationData data = new OperationData()
                     {
                         OperationId = oid,
-                        Timestamp = timestamp,
+                        Timestamp = Helpers.EnsureSaneTimestamp(timestamp),
                         City = operation.City,
                         ZipCode = operation.ZipCode,
                         Location = operation.Location,
@@ -61,34 +59,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         bool IJob.Initialize()
         {
             return true;
-        }
-
-        #endregion
-
-        #region Methods
-
-        private T CreateContext<T>() where T : ObjectContext
-        {
-            try
-            {
-                string appConfigText = this.GetType().Assembly.GetEmbeddedResourceText("app.config");
-
-                XDocument appConfig = XDocument.Parse(appConfigText);
-
-                XElement connectionStrings = appConfig.Root.Element("connectionStrings");
-
-                // get first connection string
-                XElement connectionStringE = connectionStrings.Elements("add").Where(n => n.Attribute("name").Value == "SQLCEDatabaseEntities").FirstOrDefault();
-
-                string name = connectionStringE.Attribute("name").Value;
-                string connectionString = connectionStringE.Attribute("connectionString").Value;
-
-                return (T)Activator.CreateInstance(typeof(T), connectionString);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         #endregion

@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No display configurations have been found!.
+        /// </summary>
+        internal static string NoConfigurationsFoundError {
+            get {
+                return ResourceManager.GetString("NoConfigurationsFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error parsing the URIs from line &apos;{0}&apos;. Skipping this line..
         /// </summary>
         internal static string ParseConfigFileUriFormatError {

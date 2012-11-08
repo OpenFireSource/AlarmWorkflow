@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
@@ -74,6 +76,20 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
             string message2 = (iFailedSettings == 0) ? Properties.Resources.SavingSettingsSuccess : Properties.Resources.SavingSettingsWithErrors;
             MessageBox.Show(message2, "Speichern", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        #endregion
+
+        #region Command "OpenAppDataDirectoryCommand"
+
+        /// <summary>
+        /// The OpenAppDataDirectoryCommand command.
+        /// </summary>
+        public ICommand OpenAppDataDirectoryCommand { get; private set; }
+
+        private void OpenAppDataDirectoryCommand_Execute(object parameter)
+        {
+            Process.Start(Utilities.GetLocalAppDataFolderPath());
         }
 
         #endregion

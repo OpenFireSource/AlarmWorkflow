@@ -11,6 +11,7 @@
 
         <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
             <Button Content="Änderungen speichern" Command="{Binding SaveChangesCommand}" />
+            <Button Margin="10,0,0,0" Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" />
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="2">

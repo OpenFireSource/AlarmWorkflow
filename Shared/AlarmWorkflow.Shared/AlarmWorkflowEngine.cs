@@ -48,23 +48,23 @@ namespace AlarmWorkflow.Shared
 
             _alarmSources = new List<IAlarmSource>();
             _alarmSourcesThreads = new Dictionary<IAlarmSource, Thread>();
-
-            InitializeSettings();
-            InitializeJobs();
-            InitializeAlarmSources();
         }
 
         #endregion
 
         #region Methods
 
-        private void InitializeSettings()
+        private void InitializeRoutePlanProvider()
         {
-            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
-            Logger.Instance.LogFormat(LogType.Info, this, "Using operation store '{0}'.", _operationStore.GetType().FullName);
 
             _routePlanProvider = ExportedTypeLibrary.Import<IRoutePlanProvider>(AlarmWorkflowConfiguration.Instance.RoutePlanProviderAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using route plan provider '{0}'.", _routePlanProvider.GetType().FullName);
+        }
+
+        private void InitializeOperationStore()
+        {
+            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
+            Logger.Instance.LogFormat(LogType.Info, this, "Using operation store '{0}'.", _operationStore.GetType().FullName);
         }
 
         private void InitializeJobs()
@@ -182,6 +182,11 @@ namespace AlarmWorkflow.Shared
                 return;
             }
 
+            InitializeOperationStore();
+            InitializeRoutePlanProvider();
+            InitializeJobs();
+            InitializeAlarmSources();
+
             // Initialize each alarm source and register event handler
             int iInitializedSources = 0;
             foreach (IAlarmSource alarmSource in _alarmSources)
@@ -279,6 +284,14 @@ namespace AlarmWorkflow.Shared
                 }
             }
 
+            // TODO: Dispose jobs!
+            _jobs.Clear();
+
+            // Dispose operation store
+            _operationStore = null;
+            // Dispose route plan provider
+            _routePlanProvider = null;
+
             Logger.Instance.LogFormat(LogType.Info, this, "Stopped Service");
 
             IsStarted = false;
@@ -311,7 +324,7 @@ namespace AlarmWorkflow.Shared
             try
             {
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
-                if (e.Operation.Timestamp == DateTime.MinValue)
+                if (e.Operation.Timestamp.Year == 1)
                 {
                     Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
                     e.Operation.Timestamp = DateTime.Now;
@@ -355,9 +368,6 @@ namespace AlarmWorkflow.Shared
         public void Dispose()
         {
             Stop();
-
-            // TODO: Dispose jobs!
-
             GC.SuppressFinalize(this);
         }
 

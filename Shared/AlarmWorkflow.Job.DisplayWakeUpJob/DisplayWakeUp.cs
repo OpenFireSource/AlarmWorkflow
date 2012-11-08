@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -42,12 +43,12 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
             if (_configurations.Count == 0)
             {
-                // TODO: Log warning
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NoConfigurationsFoundError);
                 return false;
             }
 
-            int turnOffInterval = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffInterval").GetInt32();
-            if (turnOffInterval > 0)
+            int turnOffTimeout = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffTimeout").GetInt32();
+            if (turnOffTimeout > 0)
             {
                 // TODO: Start background thread which checks all 60 seconds for automatically turning
             }
@@ -74,6 +75,8 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         class DisplayConfiguration
         {
+            private const int WebRequestTimeout = 5000;
+
             internal Uri TurnOnMonitorUri { get; private set; }
             internal Uri TurnOffMonitorUri { get; private set; }
 
@@ -93,17 +96,22 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
             private void SendRequest(bool state)
             {
-                try
+                // Send the request asynchronously, we don't want to block the main thread!
+                ThreadPool.QueueUserWorkItem((o) =>
                 {
                     Uri uri = state ? TurnOnMonitorUri : TurnOffMonitorUri;
+                    try
+                    {
 
-                    HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(uri);
-                    msg.GetResponse();
-                }
-                catch (Exception)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, "Could not connect to the display!");
-                }
+                        HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(uri);
+                        msg.Timeout = WebRequestTimeout;
+                        msg.GetResponse();
+                    }
+                    catch (Exception)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, "Could not connect to the display for Uri '{0}'!", uri.ToString());
+                    }
+                });
             }
 
             internal static IEnumerable<DisplayConfiguration> ParseSettingString(string value)
