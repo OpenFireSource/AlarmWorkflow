@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.DisplayWakeUpJob
 {
@@ -15,24 +15,20 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     [Export("DisplayWakeUpJob", typeof(IJob))]
     class DisplayWakeUp : IJob
     {
-        #region private members
+        #region Fields
 
-        private string ip = string.Empty;
-        private string pwd = string.Empty;
-        private string user = string.Empty;
-        private string port = string.Empty;
-
-        private string _httpRequest;
+        private List<DisplayConfiguration> _configurations;
 
         #endregion
 
-        #region constructors
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the DisplayWakeUp class.
         /// </summary>
         public DisplayWakeUp()
         {
+            _configurations = new List<DisplayConfiguration>();
         }
 
         #endregion
@@ -41,56 +37,112 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         bool IJob.Initialize()
         {
-            XDocument doc = XDocument.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\DisplayWakeUpJobConfiguration.xml");
+            string settingString = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "DisplayConfiguration").GetString();
+            _configurations.AddRange(DisplayConfiguration.ParseSettingString(settingString));
 
-            // TODO: Allow multiple screens!
-            foreach (var item in doc.Root.Elements("Display"))
+            if (_configurations.Count == 0)
             {
-                this.ip = item.Attribute("ip").Value;
-                this.user = item.Attribute("user").Value;
-                this.pwd = item.Attribute("pwd").Value;
-                this.port = item.Attribute("port").Value;
+                // TODO: Log warning
+                return false;
             }
 
-            StringBuilder builder = new StringBuilder();
-
-            //// http://admin:TFTPowerControl@192.168.0.243:80/SWITCH.CGI?s1=1
-
-            builder.Append("http://");
-            if (string.IsNullOrEmpty(this.user) == false)
+            int turnOffInterval = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffInterval").GetInt32();
+            if (turnOffInterval > 0)
             {
-                builder.Append(this.user);
-                builder.Append(":");
-                builder.Append(this.pwd);
-                builder.Append("@");
+                // TODO: Start background thread which checks all 60 seconds for automatically turning
             }
 
-            builder.Append(this.ip);
-            builder.Append(":");
-            builder.Append(this.port);
-            builder.Append("/SWITCH.CGI?s1=1");
-
-            _httpRequest = builder.ToString();
             return true;
         }
 
-        void IJob.DoJob(Operation einsatz)
+        void IJob.DoJob(Operation operation)
         {
-            if (_httpRequest == null)
+            if (_configurations.Count == 0)
             {
                 return;
             }
 
-            try
+            foreach (DisplayConfiguration dc in _configurations)
             {
-                HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri(_httpRequest));
-                msg.GetResponse();
+                dc.TurnOn();
             }
-            catch (Exception)
+        }
+
+        #endregion
+
+        #region Nested types
+
+        class DisplayConfiguration
+        {
+            internal Uri TurnOnMonitorUri { get; private set; }
+            internal Uri TurnOffMonitorUri { get; private set; }
+
+            internal bool IsTurnedOn { get; set; }
+            internal DateTime TurnOnTimestamp { get; set; }
+
+            internal void TurnOn()
             {
-                _httpRequest = null;
-                Logger.Instance.LogFormat(LogType.Error, this, "Could not connect to the display. Disabling job!");
+                SendRequest(true);
+                TurnOnTimestamp = DateTime.UtcNow;
             }
+
+            internal void TurnOff()
+            {
+                SendRequest(false);
+            }
+
+            private void SendRequest(bool state)
+            {
+                try
+                {
+                    Uri uri = state ? TurnOnMonitorUri : TurnOffMonitorUri;
+
+                    HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(uri);
+                    msg.GetResponse();
+                }
+                catch (Exception)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, "Could not connect to the display!");
+                }
+            }
+
+            internal static IEnumerable<DisplayConfiguration> ParseSettingString(string value)
+            {
+                using (StringReader reader = new StringReader(value))
+                {
+                    string line = null;
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        if (line.Trim().Length == 0
+                            || line.StartsWith("-"))
+                        {
+                            continue;
+                        }
+
+                        string[] tokens = line.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (tokens.Length != 2)
+                        {
+                            // TODO: Log warning
+                            continue;
+                        }
+
+                        DisplayConfiguration dc = new DisplayConfiguration();
+                        try
+                        {
+                            dc.TurnOnMonitorUri = new Uri(tokens[0]);
+                            dc.TurnOffMonitorUri = new Uri(tokens[1]);
+                        }
+                        catch (UriFormatException)
+                        {
+                            Logger.Instance.LogFormat(LogType.Warning, null, Properties.Resources.ParseConfigFileUriFormatError, line);
+                            continue;
+                        }
+
+                        yield return dc;
+                    }
+                }
+            }
+
         }
 
         #endregion

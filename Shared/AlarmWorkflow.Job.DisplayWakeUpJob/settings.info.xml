@@ -1,0 +1,12 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="DisplayWakeUpJob" DisplayText="Display-Wake Up (Job)">
+    
+    <Setting Name="TurnOffTimeout" DisplayText="Ausschalten nach (Minuten)" Category="Generell"
+             Description="Nach wie vielen Minuten die Bildschirme wieder ausgeschaltet werden sollen (0 für kein Timeout)." />
+    <Setting Name="DisplayConfiguration" DisplayText="Anzeigenkonfiguration" Category="Erweitert" Editor="StringArrayTypeEditor"
+             Description="Die Konfiguration der Anzeigen (ein Eintrag pro Zeile)." />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>
