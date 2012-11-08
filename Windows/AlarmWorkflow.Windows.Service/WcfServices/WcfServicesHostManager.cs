@@ -6,6 +6,7 @@ using System.ServiceModel.Description;
 using System.Xml;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Windows.Service.WcfServices
 {
@@ -19,6 +20,9 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         private List<ServiceHost> _services;
         private AlarmWorkflowEngine _parent;
 
+        private Lazy<bool> _settingWSIsEnabled;
+        private Lazy<int> _settingWSPort;
+
         #endregion
 
         #region Constructors
@@ -31,6 +35,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         {
             _services = new List<ServiceHost>();
             _parent = parent;
+
+            // Load settings
+            _settingWSIsEnabled = new Lazy<bool>(() => SettingsManager.Instance.GetSetting("WindowsService", "WSIsActivated").GetBoolean());
+            _settingWSPort = new Lazy<int>(() => SettingsManager.Instance.GetSetting("WindowsService", "WSPort").GetInt32());
         }
 
         #endregion
@@ -43,8 +51,9 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         public void Initialize()
         {
             // Host the public web service
+            if (_settingWSIsEnabled.Value)
             {
-                string address = "http://localhost:60002/AlarmWorkflow/AlarmWorkflowService";
+                string address = string.Format("http://localhost:{0}/AlarmWorkflow/AlarmWorkflowService", _settingWSPort.Value);
                 Binding binding = new WebHttpBinding()
                 {
                     HostNameComparisonMode = System.ServiceModel.HostNameComparisonMode.WeakWildcard,

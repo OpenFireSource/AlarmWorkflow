@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="WindowsService">
+
+  <Setting Name="WSIsActivated" Type="System.Boolean" IsNull="False">True</Setting>
+  <Setting Name="WSPort" Type="System.Int32" IsNull="False">60002</Setting>
+
+</SettingsConfiguration>

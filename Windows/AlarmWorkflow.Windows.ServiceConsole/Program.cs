@@ -71,8 +71,6 @@ namespace AlarmWorkflow.Windows.ServiceConsole
                 shm.Shutdown();
             }
 
-            SettingsManager.Instance.SaveSettings();
-
             Console.WriteLine("Shutting down complete. Press any key to exit.");
             Console.ReadKey();
         }

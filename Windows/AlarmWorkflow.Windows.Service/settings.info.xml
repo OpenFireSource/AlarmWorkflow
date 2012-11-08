@@ -1,0 +1,12 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="WindowsService" DisplayText="Windows Service">
+
+    <Setting Name="WSIsActivated" DisplayText="Aktiviert" Category="Web Service" 
+             Description="Stellt ein, ob der Web-Service aktiviert werden soll. Falls Sie keine Apps verwenden oder maximale Sicherheit sicherstellen wollen kann er deaktiviert werden." />
+
+    <Setting Name="WSPort" DisplayText="Port" Category="Web Service" Description="Der Port auf dem der Web-Service registriert ist." />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

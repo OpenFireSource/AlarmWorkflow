@@ -87,7 +87,6 @@ namespace AlarmWorkflow.Windows.Service
             _servicesHostManager.Shutdown();
 
             Logger.Instance.Shutdown();
-            SettingsManager.Instance.SaveSettings();
         }
 
         #endregion
