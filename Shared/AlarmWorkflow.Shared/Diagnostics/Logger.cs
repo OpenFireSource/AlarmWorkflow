@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 
@@ -36,8 +35,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         #region Constants
 
-        private static readonly string DefaultLogPath = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "AlarmWorkflow");
-        private static readonly string DefaultLogPathFallback = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AlarmWorkflow");
+        private static readonly string DefaultLogPath = Utilities.GetLocalAppDataFolderPath();
         /// <summary>
         /// The maximum length of the full type name until it gets truncated at the beginning.
         /// This only applies if the source is inferred from the type name.
@@ -94,15 +92,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
             _listeners = new List<ILoggingListener>();
 
-            try
-            {
-                SetOutputFileName(Path.Combine(DefaultLogPath, "Log." + LogExtension));
-            }
-            catch (Exception)
-            {
-                // Try fallback path
-                SetOutputFileName(Path.Combine(DefaultLogPathFallback, "Log." + LogExtension));
-            }
+            SetOutputFileName(Path.Combine(DefaultLogPath, "Log." + LogExtension));
         }
 
         #endregion

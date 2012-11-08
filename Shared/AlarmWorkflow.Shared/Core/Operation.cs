@@ -6,6 +6,7 @@ namespace AlarmWorkflow.Shared.Core
     /// <summary>
     /// Represents an operation, which was created by analyzing and parsing an incoming alarmfax.
     /// </summary>
+    [Serializable()]
     public sealed class Operation : IEquatable<Operation>
     {
         #region Constants

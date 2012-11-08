@@ -344,5 +344,23 @@ namespace AlarmWorkflow.Shared.Core
         {
             return (T)serviceProvider.GetService(typeof(T));
         }
+
+        /// <summary>
+        /// Returns the full path name of the directory that shall store all user-specific application data.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLocalAppDataFolderPath()
+        {
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenFireSource", "AlarmWorkflow");
+        }
+
+        /// <summary>
+        /// Returns the full name of a file that is located within the directory that shall store all user-specific application data.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLocalAppDataFolderFileName(string fileName)
+        {
+            return Path.Combine(GetLocalAppDataFolderPath(), fileName);
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Shared.Settings
         private const string SettingsConfigurationEmbeddedResourceFileName = "settings.xml";
         private const string UserSettingsFileName = "user.settings";
 
-        private static readonly string UserSettingsFilePath = Path.Combine(Utilities.GetWorkingDirectory(), "Config", UserSettingsFileName);
+        private static readonly string UserSettingsFilePath = Utilities.GetLocalAppDataFolderFileName(UserSettingsFileName);
 
         #endregion
 
