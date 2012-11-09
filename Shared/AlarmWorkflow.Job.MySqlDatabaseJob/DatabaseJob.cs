@@ -1,4 +1,5 @@
-﻿using AlarmWorkflow.Shared.Core;
+﻿using System.Text;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
@@ -14,27 +15,19 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
     [Export("MySqlDatabaseJob", typeof(IJob))]
     sealed class DatabaseJob : IJob
     {
+        #region Constants
+
+        private const string TableName = "tb_einsatz";
+
+        #endregion
+
         #region private members
 
-        /// <summary>
-        /// The database user.
-        /// </summary>
         private string user;
-
-        /// <summary>
-        /// The database users passoword.
-        /// </summary>
         private string pwd;
-
-        /// <summary>
-        /// Name of the database.
-        /// </summary>
         private string database;
-
-        /// <summary>
-        /// URL o the MySQL server.
-        /// </summary>
         private string server;
+
         #endregion
 
         #region Constructor
@@ -44,6 +37,15 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
         /// </summary>
         public DatabaseJob()
         {
+        }
+
+        #endregion
+
+        #region Methods
+
+        private MySqlConnection CreateConnection()
+        {
+            return new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd);
         }
 
         #endregion
@@ -60,7 +62,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             // Check whether we can connect properly...
             try
             {
-                using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
+                using (MySqlConnection conn = CreateConnection())
                 {
                     conn.Open();
                 }
@@ -74,7 +76,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         void IJob.DoJob(Operation einsatz)
         {
-            using (MySqlConnection conn = new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd))
+            using (MySqlConnection conn = CreateConnection())
             {
                 conn.Open();
                 if (conn.State != System.Data.ConnectionState.Open)
@@ -84,8 +86,24 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 }
 
                 // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
-                string cmdText = "INSERT INTO tb_einstaz (Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) VALUES ('" + einsatz.OperationNumber + "', '" + einsatz.Location + "', '" + einsatz.CustomData["PlanOfAction"] + "', '" + einsatz.Comment + "', '" + einsatz.CustomData["Intersection"] + "', '" + einsatz.CustomData["Picture"] + "', '" + einsatz.Messenger + "', '" + einsatz.Property + "', '" + einsatz.City + "', '" + einsatz.Street + "', '" + einsatz.Keyword + "')";
-                MySqlCommand cmd = new MySqlCommand(cmdText, conn);
+                StringBuilder queryText = new StringBuilder();
+                queryText.AppendFormat("INSERT INTO {0} ", TableName);
+                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) ");
+                queryText.Append("VALUES (");
+                queryText.AppendFormat("'{0}', ", einsatz.OperationNumber);
+                queryText.AppendFormat("'{0}', ", einsatz.Location);
+                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Einsatzplan"]);
+                queryText.AppendFormat("'{0}', ", einsatz.Comment);
+                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Kreuzung"]);
+                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Meldebild"]);
+                queryText.AppendFormat("'{0}', ", einsatz.Messenger);
+                queryText.AppendFormat("'{0}', ", einsatz.Property);
+                queryText.AppendFormat("'{0}', ", einsatz.City);
+                queryText.AppendFormat("'{0}', ", einsatz.Street);
+                queryText.AppendFormat("'{0}'", einsatz.Keyword);
+                queryText.Append(")");
+
+                MySqlCommand cmd = new MySqlCommand(queryText.ToString(), conn);
                 cmd.ExecuteNonQuery();
             }
         }

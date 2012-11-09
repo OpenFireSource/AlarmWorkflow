@@ -56,7 +56,9 @@
     <None Include="Readme.txt" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.xml" />
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml">
