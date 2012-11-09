@@ -9,4 +9,8 @@ echo Build Windows-specific stuff...
 msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Debug /verbosity:minimal
 
+echo
+echo Copy Files for the Setup
+copy "Build" "Installer"
+
 pause
