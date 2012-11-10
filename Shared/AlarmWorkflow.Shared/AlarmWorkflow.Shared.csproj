@@ -57,6 +57,7 @@
     <Compile Include="Core\OperationResource.cs" />
     <Compile Include="Core\ServiceProvider.cs" />
     <Compile Include="Diagnostics\DiagnosticsLoggingListener.cs" />
+    <Compile Include="Diagnostics\EventLogLoggingListener.cs" />
     <Compile Include="Diagnostics\ILoggingListener.cs" />
     <Compile Include="Diagnostics\LogEntry.cs" />
     <Compile Include="Diagnostics\Logger.cs" />
@@ -109,6 +110,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

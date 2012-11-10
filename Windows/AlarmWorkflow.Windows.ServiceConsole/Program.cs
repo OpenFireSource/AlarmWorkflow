@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Threading;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
-using AlarmWorkflow.Windows.Service.WcfServices;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
 {
@@ -29,31 +26,17 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             // Catch all unhandled exceptions and display them.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            // TODO: This is duplex code! Rather create and instance of "AlarmWorkflow.Windows.Service.AlarmWorkflowService" (start and stop it)!
-
-            // Register logger and listeners
-            Logger.Instance.Initialize();
-            Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
-            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
-            // Then initialize the settings.
-            SettingsManager.Instance.Initialize();
-
-            // Create the engine manually
-            using (AlarmWorkflowEngine ac = new AlarmWorkflowEngine())
+            // Initialize the service
+            using (var service = new AlarmWorkflow.Windows.Service.AlarmWorkflowServiceManager())
             {
-                // Host the WCF-services, too
-                WcfServicesHostManager shm = new WcfServicesHostManager(ac);
+                // Register listeners
+                Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
+                Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
 
-                try
-                {
-                    ac.Start();
-                    shm.Initialize();
-                }
-                catch (Exception ex)
-                {
-                    WriteExceptionInformation(ex);
-                }
+                // Start the service
+                service.OnStart();
 
+                // Wait for user exit
                 while (true)
                 {
                     if (Console.KeyAvailable)
@@ -67,8 +50,8 @@ namespace AlarmWorkflow.Windows.ServiceConsole
                     Thread.Sleep(1);
                 }
 
-                ac.Stop();
-                shm.Shutdown();
+                // Stop service
+                service.OnStop();
             }
 
             Console.WriteLine("Shutting down complete. Press any key to exit.");

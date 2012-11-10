@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System.Diagnostics;
+using System.ServiceProcess;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -9,11 +10,20 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         static void Main()
         {
+            if (Debugger.IsAttached)
+            {
+                AlarmWorkflowService service = new AlarmWorkflowService();
+                service.OnStart();
+                service.Stop();
+                service.Dispose();
+                return;
+            }
+
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[] 
-			{ 
-				new AlarmWorkflowService() 
-			};
+            { 
+                new AlarmWorkflowService() 
+            };
             ServiceBase.Run(ServicesToRun);
         }
     }

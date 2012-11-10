@@ -101,6 +101,16 @@ namespace AlarmWorkflow.Shared.Settings
             _isInitialized = true;
         }
 
+        /// <summary>
+        /// Invalidates all current settings (without saving them). 
+        /// When this method has finished, you need to call Initialize() again.
+        /// </summary>
+        public void Invalidate()
+        {
+            _displayConfiguration = null;
+            _settings.Clear();
+        }
+
         private void LoadSettings(IList<string> assemblyFiles)
         {
             foreach (string assemblyFile in assemblyFiles)

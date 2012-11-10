@@ -1,8 +1,4 @@
-﻿using System;
-using System.ServiceProcess;
-using AlarmWorkflow.Shared;
-using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
+﻿using System.ServiceProcess;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -11,16 +7,9 @@ namespace AlarmWorkflow.Windows.Service
     /// </summary>
     public partial class AlarmWorkflowService : ServiceBase
     {
-        #region Constants
-
-        private const string EventLogSourceName = "AlarmWorkflow";
-
-        #endregion
-
         #region Fields
 
-        private AlarmWorkflowEngine _alarmWorkflow;
-        private WcfServices.WcfServicesHostManager _servicesHostManager;
+        private AlarmWorkflowServiceManager _manager;
 
         #endregion
 
@@ -33,16 +22,7 @@ namespace AlarmWorkflow.Windows.Service
         {
             InitializeComponent();
 
-            // Then initialize the logger.
-            Logger.Instance.Initialize();
-            // Then initialize the settings.
-            SettingsManager.Instance.Initialize();
-
-            // This call requires Administrator rights. We don't put a Try-catch around because the Windows Service must run with Admin rights.
-            if (!System.Diagnostics.EventLog.SourceExists(EventLogSourceName))
-            {
-                System.Diagnostics.EventLog.CreateEventSource(EventLogSourceName, "Application");
-            }
+            _manager = new AlarmWorkflowServiceManager();
         }
 
         #endregion
@@ -63,19 +43,7 @@ namespace AlarmWorkflow.Windows.Service
         /// <param name="args">Data passed by the start command.</param>
         protected override void OnStart(string[] args)
         {
-            try
-            {
-                _alarmWorkflow = new AlarmWorkflowEngine();
-                _alarmWorkflow.Start();
-
-                _servicesHostManager = new WcfServices.WcfServicesHostManager(_alarmWorkflow);
-                _servicesHostManager.Initialize();
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ServiceStartError_Message, ex.Message);
-                Logger.Instance.LogException(this, ex);
-            }
+            _manager.OnStart();
         }
 
         /// <summary>
@@ -83,10 +51,17 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         protected override void OnStop()
         {
-            _alarmWorkflow.Stop();
-            _servicesHostManager.Shutdown();
+            _manager.OnStop();
+        }
 
-            Logger.Instance.Shutdown();
+        /// <summary>
+        /// When implemented in a derived class, executes when the system is shutting down. Specifies what should occur immediately prior to the system shutting down.
+        /// </summary>
+        protected override void OnShutdown()
+        {
+            base.OnShutdown();
+
+            _manager.Dispose();
         }
 
         #endregion

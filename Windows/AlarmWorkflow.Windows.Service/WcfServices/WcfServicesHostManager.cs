@@ -86,6 +86,8 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// <param name="contractType">Type of the contract.</param>
         private void HostService(string address, Binding binding, Type contractType, object instance)
         {
+            Logger.Instance.LogFormat(LogType.Info, this, "Hosting service '{0}' on local machine...", address);
+
             try
             {
                 // See http://www.codeproject.com/Articles/358867/WCF-and-Android-Part-I for information
@@ -113,6 +115,8 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
 
                 // ... and try to open the host
                 host.Open();
+
+                Logger.Instance.LogFormat(LogType.Info, this, "Successfully hosted service '{0}' on local machine.", address);
             }
             catch (Exception ex)
             {

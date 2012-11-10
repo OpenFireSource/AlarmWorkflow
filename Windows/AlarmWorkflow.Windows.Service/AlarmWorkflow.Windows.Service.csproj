@@ -53,6 +53,7 @@
     <Compile Include="AlarmWorkflowService.Designer.cs">
       <DependentUpon>AlarmWorkflowService.cs</DependentUpon>
     </Compile>
+    <Compile Include="AlarmWorkflowServiceManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>
