@@ -43,15 +43,21 @@ namespace AlarmWorkflow.Job.Prowl
 
         bool IJob.Initialize()
         {
-            pcconfig = new ProwlClientConfiguration();
+            try
+            {
+                pcconfig = new ProwlClientConfiguration();
 
-            pcconfig.ApplicationName = SettingsManager.Instance.GetSetting("ProwlJob", "ApplicationName").GetString();
-            pcconfig.ProviderKey = SettingsManager.Instance.GetSetting("ProwlJob", "ProviderKey").GetString();
-            pcconfig.ApiKeychain = SettingsManager.Instance.GetSetting("ProwlJob", "API").GetString();
+                pcconfig.ApplicationName = SettingsManager.Instance.GetSetting("ProwlJob", "ApplicationName").GetString();
+                pcconfig.ProviderKey = SettingsManager.Instance.GetSetting("ProwlJob", "ProviderKey").GetString();
+                pcconfig.ApiKeychain = SettingsManager.Instance.GetSetting("ProwlJob", "API").GetString();
 
-            pclient = new ProwlClient(pcconfig);
-
-            return false;
+                pclient = new ProwlClient(pcconfig);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         void IJob.DoJob(Operation operation)
