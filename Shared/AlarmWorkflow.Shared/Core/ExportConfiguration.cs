@@ -77,6 +77,11 @@ namespace AlarmWorkflow.Shared.Core
 
         void IStringSettingConvertible.Convert(string settingValue)
         {
+            if (string.IsNullOrWhiteSpace(settingValue))
+            {
+                return;
+            }
+
             XDocument doc = XDocument.Parse(settingValue);
 
             foreach (var exportE in doc.Root.Elements("Export"))
