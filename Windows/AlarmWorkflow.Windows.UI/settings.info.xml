@@ -16,7 +16,7 @@
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme" />
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme" />
 
-    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" />
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.UI.Extensibility.IUIJob, AlarmWorkflow.Windows.UI" />
 
   </Identifier>
 

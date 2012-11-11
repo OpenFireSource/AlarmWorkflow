@@ -97,7 +97,8 @@ namespace AlarmWorkflow.Shared.Core
         {
             XDocument doc = new XDocument();
             XElement rootE = new XElement("ExportConfiguration");
-            foreach (ExportEntry export in Exports)
+            // Write only the enabled exports
+            foreach (ExportEntry export in Exports.Where(e => e.IsEnabled))
             {
                 XElement exportE = new XElement("Export");
                 exportE.Add(new XAttribute("Name", export.Name));
