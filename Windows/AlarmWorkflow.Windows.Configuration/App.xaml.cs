@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.Configuration
 {
@@ -12,5 +8,13 @@ namespace AlarmWorkflow.Windows.Configuration
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="App"/> class.
+        /// </summary>
+        /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
+        public App()
+        {
+            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
+        }
     }
 }

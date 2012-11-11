@@ -56,11 +56,6 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             get { return _configuration; }
             set
             {
-                if (_value == value)
-                {
-                    return;
-                }
-
                 _value = value;
 
                 // Parse the export configuration

@@ -2,6 +2,7 @@
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UI.ViewModels;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -101,7 +102,15 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
             this.TypeEditor = TypeEditors.TypeEditorCache.CreateTypeEditor(editorName);
             this.TypeEditor.Initialize(this.EditorParameter);
-            this.TypeEditor.Value = settingDescriptor.SettingItem.Value;
+            try
+            {
+                this.TypeEditor.Value = settingDescriptor.SettingItem.Value;
+            }
+            catch (System.Exception)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingItemViewModelSetSettingError, settingDescriptor.SettingItem.Name, settingDescriptor.Identifier);
+                this.TypeEditor.Value = settingDescriptor.SettingItem.DefaultValue;
+            }
         }
 
         #endregion

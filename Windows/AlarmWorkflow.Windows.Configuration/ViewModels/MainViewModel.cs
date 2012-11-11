@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.UI.ViewModels;
 
@@ -123,7 +124,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 SettingInfo setting = _displayConfiguration.GetSetting(descriptor.Identifier, descriptor.SettingItem.Name);
                 if (setting == null)
                 {
-                    // TODO Log warning
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingNotFoundInDisplayConfiguration, descriptor.SettingItem.Name, descriptor.Identifier);
                     continue;
                 }
                 svm.Add(descriptor, setting);

@@ -79,6 +79,24 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while setting the user-value to settign &apos;{0}&apos;(Identifier &apos;{1}&apos;). Using the default value..
+        /// </summary>
+        internal static string SettingItemViewModelSetSettingError {
+            get {
+                return ResourceManager.GetString("SettingItemViewModelSetSettingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Die Einstellung &apos;{0}&apos; (in &apos;{1}&apos;) hat keine Anzeigekonfiguration und kann daher nicht angezeigt werden. Bitte beheben Sie das in der entsprechenden settings.info.xml..
+        /// </summary>
+        internal static string SettingNotFoundInDisplayConfiguration {
+            get {
+                return ResourceManager.GetString("SettingNotFoundInDisplayConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ein Fehler trat beim Speichern der Einstellung &apos;{0}&apos; auf. Wahrscheinlich ist der Wert für die Einstellung falsch, oder der Editor hat einen Fehler gemacht. Der neue Wert wurde nicht übernommen. Nachricht:.
         /// </summary>
         internal static string SettingSaveError {
