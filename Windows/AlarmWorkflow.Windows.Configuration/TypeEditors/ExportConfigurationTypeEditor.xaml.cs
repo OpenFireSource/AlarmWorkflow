@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
@@ -14,6 +16,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         #region Fields
 
         private object _value;
+        private Type _exportedType;
         private ExportConfiguration _configuration;
 
         #endregion
@@ -60,7 +63,25 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
                 _value = value;
 
+                // Parse the export configuration
                 _configuration = ExportConfiguration.Parse((string)_value);
+                // Add/Remove exports from the ETL (if exported type is available)
+                if (_exportedType != null)
+                {
+                    List<ExportedType> validExports = ExportedTypeLibrary.GetExports(_exportedType);
+
+                    // Find out which exports are new to show in the list ...
+                    var newExports = validExports.Select(e => e.Attribute.Alias).Except(_configuration.Exports.Select(e => e.Name));
+                    // ... and which exports are no longer needed.
+                    var obsoleteExports = _configuration.Exports.Select(e => e.Name).Except(validExports.Select(e => e.Attribute.Alias));
+
+                    // Remove the ones we no longer need ...
+                    _configuration.Exports.RemoveAll(e => obsoleteExports.Contains(e.Name));
+                    // ... and add those we do need.
+                    _configuration.Exports.AddRange(newExports.Select(e => new ExportConfiguration.ExportEntry() { Name = e }));
+                }
+
+                // Set reference to exports list for UI
                 this.Exports = _configuration.Exports;
             }
         }
@@ -75,7 +96,13 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
+            if (string.IsNullOrWhiteSpace(editorParameter))
+            {
+                return;
+            }
 
+            // Find out the type - if the type could not be found, go out.
+            _exportedType = Type.GetType(editorParameter);
         }
 
         #endregion
