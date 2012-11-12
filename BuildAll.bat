@@ -10,6 +10,10 @@ msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Debug /verbosity:mini
 msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Debug /verbosity:minimal
 
 echo
+echo Build Website(s)...
+msbuild Website\AlarmWorkflow.Website.Asp\AlarmWorkflow.Website.Asp.sln /p:Configuration=Debug /verbosity:minimal
+
+echo
 echo Copy Files for the Setup
 copy "Build" "Installer"
 
