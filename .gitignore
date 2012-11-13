@@ -14,5 +14,5 @@ TestResults
 *.db
 
 # Folders
-/Build/AlarmWorkflow
 /Build/Config
+/Installer/Build
