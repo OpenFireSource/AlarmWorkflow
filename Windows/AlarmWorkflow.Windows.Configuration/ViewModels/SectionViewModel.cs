@@ -69,6 +69,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             {
                 cvm = new CategoryViewModel();
                 cvm.Category = setting.Category;
+                if (string.IsNullOrWhiteSpace(cvm.Category))
+                {
+                    cvm.Category = "(Sonstige)";
+                }
                 CategoryItems.Add(cvm);
             }
 
