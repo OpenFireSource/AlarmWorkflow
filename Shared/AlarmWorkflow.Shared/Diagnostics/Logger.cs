@@ -164,11 +164,23 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 ThreadPool.QueueUserWorkItem(o =>
                 {
                     // Create a copy of the listeners to avoid having a lock
-                    var copy = _listeners;
+                    var copy = _listeners.ToArray();
 
                     foreach (ILoggingListener listener in copy)
                     {
-                        listener.Write(entry);
+                        try
+                        {
+                            listener.Write(entry);
+                        }
+                        catch (Exception ex)
+                        {
+                            // Some listeners may not be robust enough. Trace information about the culprit.
+                            // Then remove him from the list to avoid more errors.
+                            _listeners.Remove(listener);
+
+                            LogFormat(LogType.Error, this, "The log listener with type '{0}' caused an exception while writing. The logger will be disabled. Please see the log file.", listener.GetType().Name);
+                            LogException(this, ex);
+                        }
                     }
                 });
             }

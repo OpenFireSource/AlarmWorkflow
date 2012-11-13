@@ -70,10 +70,12 @@ namespace AlarmWorkflow.Shared.Diagnostics
             EventLogEntryType type = EventLogEntryType.Information;
             switch (entry.MessageType)
             {
+                case LogType.None:
                 case LogType.Console:
                 case LogType.Trace:
                 case LogType.Debug:
                 case LogType.Info:
+                default:
                     type = EventLogEntryType.Information;
                     break;
                 case LogType.Warning:
@@ -83,12 +85,14 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 case LogType.Exception:
                     type = EventLogEntryType.Error;
                     break;
-                case LogType.None:
-                default:
-                    return;
             }
 
             _eventLog.WriteEntry(entry.Message, type);
+            // If the entry is an exception, write a separate entry for this case
+            if (entry.Exception != null)
+            {
+                _eventLog.WriteEntry(entry.Exception.Message, EventLogEntryType.Error);
+            }
         }
 
         void ILoggingListener.Shutdown()
