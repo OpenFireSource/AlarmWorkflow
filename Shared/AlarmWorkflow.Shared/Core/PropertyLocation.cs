@@ -7,8 +7,10 @@ namespace AlarmWorkflow.Shared.Core
     /// Defines the location of a property.
     /// </summary>
     [Serializable()]
-    public class PropertyLocation
+    public class PropertyLocation : IEquatable<PropertyLocation>
     {
+        #region Properties
+
         /// <summary>
         /// Gets/sets the zip code of the city.
         /// </summary>
@@ -37,6 +39,10 @@ namespace AlarmWorkflow.Shared.Core
                     && !string.IsNullOrWhiteSpace(Street));
             }
         }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Returns a string describing the property location like: "[[Street] [StreetNumber]], [ZipCode] [City]".
@@ -76,5 +82,21 @@ namespace AlarmWorkflow.Shared.Core
 
             return sb.ToString().Trim();
         }
+
+        #endregion
+
+        #region IEquatable<PropertyLocation> Members
+
+        /// <summary>
+        /// Returns whether or not this object and some other are equal.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(PropertyLocation other)
+        {
+            return other.ToString() == this.ToString();
+        }
+
+        #endregion
     }
 }

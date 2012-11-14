@@ -280,7 +280,11 @@ namespace AlarmWorkflow.Shared.Settings
                 throw new SettingIdentifierNotFoundException(identifier);
             }
 
-            SettingItem settingItem = _settings[identifier].GetSetting(settingName);
+            SettingItem settingItem = null;
+            if (_settings.ContainsKey(identifier))
+            {
+                settingItem = _settings[identifier].GetSetting(settingName);
+            }
             if (settingItem == null && throwExceptionIfMissing)
             {
                 throw new SettingNotFoundException(settingName);
