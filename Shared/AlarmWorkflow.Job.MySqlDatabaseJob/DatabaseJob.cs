@@ -86,20 +86,23 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 }
 
                 // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
+
                 StringBuilder queryText = new StringBuilder();
                 queryText.AppendFormat("INSERT INTO {0} ", TableName);
-                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Stichwort) ");
+                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Einsatzstichwort,Stichwort) ");
                 queryText.Append("VALUES (");
                 queryText.AppendFormat("'{0}', ", einsatz.OperationNumber);
                 queryText.AppendFormat("'{0}', ", einsatz.Location);
-                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Einsatzplan"]);
+                queryText.AppendFormat("'{0}', ", einsatz.OperationPlan);
                 queryText.AppendFormat("'{0}', ", einsatz.Comment);
-                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Kreuzung"]);
-                queryText.AppendFormat("'{0}', ", einsatz.CustomData["Meldebild"]);
+                queryText.AppendFormat("'{0}', ", einsatz.Intersection);
+                queryText.AppendFormat("'{0}', ", einsatz.Picture);
                 queryText.AppendFormat("'{0}', ", einsatz.Messenger);
                 queryText.AppendFormat("'{0}', ", einsatz.Property);
                 queryText.AppendFormat("'{0}', ", einsatz.City);
                 queryText.AppendFormat("'{0}', ", einsatz.Street);
+                queryText.AppendFormat("'{0}', ", einsatz.Vehicles);
+                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);
                 queryText.AppendFormat("'{0}'", einsatz.Keyword);
                 queryText.Append(")");
 
