@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.IO;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -110,30 +109,6 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 MySqlCommand cmd = new MySqlCommand(queryText.ToString(), conn);
                 cmd.ExecuteNonQuery();
             }
-
-            //Streamwriter für File write
-
-            UTF8Encoding encoding = new UTF8Encoding(false);
-            StreamWriter sw = new StreamWriter("C:\\alarmtext.txt", false, encoding);
-
-            sw.WriteLine(einsatz.OperationNumber);
-            sw.WriteLine(einsatz.Location);
-            sw.WriteLine(einsatz.OperationPlan);
-            sw.WriteLine(einsatz.Comment);
-            sw.WriteLine(einsatz.Intersection);
-            sw.WriteLine(einsatz.Picture);
-            sw.WriteLine(einsatz.Messenger);
-            sw.WriteLine(einsatz.Property);
-            sw.WriteLine(einsatz.City);
-            sw.WriteLine(einsatz.Street);
-            sw.WriteLine(einsatz.Vehicles);
-            sw.WriteLine(einsatz.EmergencyKeyword);
-            sw.WriteLine(einsatz.Keyword);
-
-
-            //close the file
-            sw.Close();
-
         }
 
         #endregion
