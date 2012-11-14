@@ -67,6 +67,30 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets the Stichwort object.
         /// </summary>
+		public string Intersection { get; set; }
+        /// <summary>
+        /// Gets the Kreuzung object.
+        /// </summary>
+        public string Picture { get; set; }
+        /// <summary>
+        /// Gets the Meldebild object.
+        /// </summary>
+        public string OperationPlan { get; set; }
+        /// <summary>
+        /// Gets the Einsatzplan object.
+        /// </summary>
+        public string OtherFD { get; set; }
+        /// <summary>
+        /// Gets the andere Feuerwehren object.
+        /// </summary>
+        public string Vehicles { get; set; }
+        /// <summary>
+        /// Gets the Fahrzeuge object.
+        /// </summary>
+        public string EmergencyKeyword { get; set; }
+        /// <summary>
+        /// Gets the Einsatzstichwort object.
+        /// </summary> 
         public string Keyword { get; set; }
         /// <summary>
         /// Gets/sets the list of all resources requested by the call center. May be null or empty.
