@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Alarmfaxviw</title>
+    <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAA91hd7qkkXmu_DKVThZp3nhSuRcb93pVnRhGk57Q2-2NOKpAD5RTl69uF-Le_dWCLGvAzB2m0I9Y8Kg"></script>
+	<script type="text/javascript">
+  		google.load("maps", "2.x");
+  		google.setOnLoadCallback(initialize);
+   
+		// Call this function when the page has been loaded
+		var directions;
+		var map;
+		
+		function initialize() {
+	  		map = new google.maps.Map2(document.getElementById("map"));
+	  		directions = GDirections(map);
+			map.setCenter(new google.maps.LatLng(48.1059833,11.4237051), 14);
+		}
+		
+		
+		function buttonPushed()
+		{
+			directions.load("from: planegg to:krailling");
+		}
+	</script>
+  </head>
+
+  <body onunload="GUnload()">
+    <div id="map" style="width: 640px; height: 480px; float:left; border: 1px solid black;"></div>
+	<div id="route" style="width: 25%; height:480px; float:right; border; 1px solid black;"></div>
+
+    <br clear="all"/>
+    <br/>
+    <br/>
+    <form>
+    	<input type="button" name="cmd_button" value="PushMe" onclick="buttonPushed();">
+    </form>
+  </body>
+</html>
