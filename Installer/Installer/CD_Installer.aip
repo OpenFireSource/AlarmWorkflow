@@ -201,7 +201,7 @@
     <ROW File="fon32.exp" Component_="ccom.exp" FileName="fon32.exp" Attributes="0" SourcePath="..\Build\cuneiform\fon32.exp" SelfReg="false" NextFile="fon32.idb"/>
     <ROW File="fon32.idb" Component_="ccom.exp" FileName="fon32.idb" Attributes="0" SourcePath="..\Build\cuneiform\fon32.idb" SelfReg="false" NextFile="fon32.lib"/>
     <ROW File="fon32.lib" Component_="ccom.exp" FileName="fon32.lib" Attributes="0" SourcePath="..\Build\cuneiform\fon32.lib" SelfReg="false" NextFile="leo32.dll"/>
-    <ROW File="gpl3.0.rtf" Component_="SQLCEDatabase.sdf" FileName="gpl-30~1.rtf|gpl-3.0.rtf" Attributes="0" SourcePath="..\..\gpl-3.0.rtf" SelfReg="false"/>
+    <ROW File="gpl3.0.rtf" Component_="SQLCEDatabase.sdf" FileName="gpl-30~1.rtf|gpl-3.0.rtf" Attributes="0" SourcePath="gpl-3.0.rtf" SelfReg="false"/>
     <ROW File="leo32.dll" Component_="leo32.dll" FileName="leo32.dll" Attributes="0" SourcePath="..\Build\cuneiform\leo32.dll" SelfReg="false" NextFile="leo32.exp"/>
     <ROW File="leo32.exp" Component_="ccom.exp" FileName="leo32.exp" Attributes="0" SourcePath="..\Build\cuneiform\leo32.exp" SelfReg="false" NextFile="leo32.idb"/>
     <ROW File="leo32.idb" Component_="ccom.exp" FileName="leo32.idb" Attributes="0" SourcePath="..\Build\cuneiform\leo32.idb" SelfReg="false" NextFile="leo32.lib"/>
@@ -484,7 +484,7 @@
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
-    <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="20" Y="60" Width="330" Height="120" Attributes="7" Text="..\..\gpl-3.0.rtf" Order="400" TextLocId="Control.Text.LicenseAgreementDlg#AgreementText" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="20" Y="60" Width="330" Height="120" Attributes="7" Text="gpl-3.0.rtf" Order="400" TextLocId="Control.Text.LicenseAgreementDlg#AgreementText" MsiKey="LicenseAgreementDlg#AgreementText"/>
     <ATTRIBUTE name="FixedSizeBitmaps" value="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">

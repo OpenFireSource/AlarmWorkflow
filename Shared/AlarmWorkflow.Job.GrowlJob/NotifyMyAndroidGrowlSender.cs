@@ -24,44 +24,6 @@ namespace AlarmWorkflow.Job.GrowlJob
 
         #region IGrowlSender Members
 
-        bool IGrowlSender.IsConfigured(IGrowlJob growl)
-        {
-            string[] apiKeys = growl.GetApiKeys();
-            if (apiKeys.Length == 0)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NMANoApiKeysProvided);
-                return false;
-            }
-
-            int iFailed = 0;
-
-            // Send requests for each API Key
-            foreach (string apiKey in apiKeys)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append("https://www.notifymyandroid.com/publicapi/verify?apikey=");
-                sb.Append(apiKey);
-
-                WebRequest apiKeyRequest = WebRequest.Create(sb.ToString());
-                WebResponse apiKeyResponse = apiKeyRequest.GetResponse();
-
-                NMAResponse logicalResponse = NMAResponse.ReadResponse(apiKeyResponse);
-                if (!logicalResponse.IsSuccess)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NMAApiKeyIsInvalid, logicalResponse.Message);
-                    iFailed++;
-                }
-                if (!logicalResponse.CanSendAnotherRequest)
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NMANoRemainingRequestsLeft, logicalResponse.ResetTimer);
-                    return false;
-                }
-            }
-
-            // It is only then not-configured if ALL API-Keys are invalid.
-            return ((apiKeys.Length - iFailed) > 0);
-        }
-
         void IGrowlSender.SendNotification(IGrowlJob growl, string headline, string text)
         {
             StringBuilder sb = new StringBuilder();

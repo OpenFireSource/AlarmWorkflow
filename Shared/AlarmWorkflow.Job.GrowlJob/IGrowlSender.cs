@@ -9,12 +9,6 @@ namespace AlarmWorkflow.Job.GrowlJob
     public interface IGrowlSender
     {
         /// <summary>
-        /// Checks whether or not this instance is properly configured to be able to send Growl notifications.
-        /// </summary>
-        /// <param name="growl">The parent IGrowlJob.</param>
-        /// <returns>Whether or not this instance is properly configured to be able to send Growl notifications.</returns>
-        bool IsConfigured(IGrowlJob growl);
-        /// <summary>
         /// Sends a notification to the growl target.
         /// </summary>
         /// <param name="growl">The parent IGrowlJob.</param>

@@ -74,13 +74,6 @@ namespace AlarmWorkflow.Job.GrowlJob
                 {
                     IGrowlSender growlSender = ExportedTypeLibrary.Import<IGrowlSender>(exportAlias);
 
-                    if (!growlSender.IsConfigured(this))
-                    {
-                        // This plug-in is not properly configured.
-                        Logger.Instance.LogFormat(LogType.Info, this, "Skipping growl sender '{0}' because it reported not being properly configured. See log for information.", exportAlias);
-                        continue;
-                    }
-
                     // This one has passed!
                     _growlSender.Add(growlSender);
                     Logger.Instance.LogFormat(LogType.Info, this, "Added growl sender '{0}'.", exportAlias);

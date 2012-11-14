@@ -41,12 +41,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         private void LoadKeywordsFile()
         {
-            //string kwdFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachFaxKeywords.lst");
-            //if (!File.Exists(kwdFile))
-            //{
-            //    throw new FileNotFoundException("Could not load keywords file!", kwdFile);
-            //}
-
             string keywords = SettingsManager.Instance.GetSetting("IlsAnsbachParser", "Keywords").GetString();
 
             _keywords = new List<string>();
