@@ -14,13 +14,16 @@
                 <asp:AsyncPostBackTrigger ControlID="UpdateTimer" EventName="Tick" />
             </Triggers>
             <ContentTemplate>
+                <asp:Panel runat="server" Visible="true" ID="pnlProgress">
+                    <asp:Label runat="server" ID="lblProgressText" Text="Verbindung..." />
+                </asp:Panel>
                 <asp:Panel runat="server" Visible="false" ID="pnlNoAlarm">
                     <asp:Label ID="Label1" runat="server" Text="Aktuelle Uhrzeit: " />
                     <asp:Label runat="server" ID="DateStampLabel" />
                     <p />
                     <b>Kein aktueller Alarm!</b>
                 </asp:Panel>
-                <asp:Panel runat="server" Visible="true" ID="pnlAlarm">
+                <asp:Panel runat="server" Visible="false" ID="pnlAlarm">
                     <asp:Table runat="server">
                         <asp:TableRow runat="server">
                             <asp:TableCell runat="server" Text="Einsatznummer: " />

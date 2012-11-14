@@ -124,16 +124,6 @@ first child of the left and right table columns */
     min-height: 200px;
 }
 
-.footer
-{
-    color: #4e5766;
-    padding: 8px 0px 0px 0px;
-    margin: 0px auto;
-    text-align: center;
-    line-height: normal;
-}
-
-
 /* TAB MENU   
 ----------------------------------------------------------*/
 
@@ -182,50 +172,6 @@ div.menu ul li a:active
     text-decoration: none;
 }
 
-/* FORM ELEMENTS   
-----------------------------------------------------------*/
-
-fieldset
-{
-    margin: 1em 0px;
-    padding: 1em;
-    border: 1px solid #ccc;
-}
-
-fieldset p 
-{
-    margin: 2px 12px 10px 10px;
-}
-
-fieldset label.inline 
-{
-    display: inline;
-}
-
-legend 
-{
-    font-size: 1.1em;
-    font-weight: 600;
-    padding: 2px 4px 8px 4px;
-}
-
-input.textEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-input.passwordEntry 
-{
-    width: 320px;
-    border: 1px solid #ccc;
-}
-
-div.accountInfo
-{
-    width: 42%;
-}
-
 /* MISC  
 ----------------------------------------------------------*/
 
@@ -242,19 +188,7 @@ div.accountInfo
     width: auto;
 }
 
-.failureNotification
-{
-    font-size: 1.2em;
-    color: Red;
-}
-
 .bold
 {
     font-weight: bold;
-}
-
-.submitButton
-{
-    text-align: right;
-    padding-right: 10px;
 }

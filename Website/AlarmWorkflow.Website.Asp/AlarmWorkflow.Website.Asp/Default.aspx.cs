@@ -4,6 +4,7 @@ using System.ServiceModel;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.Service.WcfServices;
 using AlarmWorkflow.Windows.UI.Models;
+using System.Threading;
 
 namespace AlarmWorkflow.Website.Asp
 {
@@ -31,24 +32,33 @@ namespace AlarmWorkflow.Website.Asp
             DateStampLabel.Text = DateTime.Now.ToString();
 
             // Access internal service to see if we have new alarms
-            Operation operation = GetLatestOperation();
-            if (operation == null)
+            Operation operation = null;
+            if (!TryGetLatestOperation(out operation))
             {
-                SetContentToNoAlarm();
+                SetContentToConnectionError();
             }
             else
             {
-                SetContentToLatestAlarm(operation);
+                if (operation == null)
+                {
+                    SetContentToNoAlarm();
+                }
+                else
+                {
+                    SetContentToLatestAlarm(operation);
+                }
             }
         }
 
-        private Operation GetLatestOperation()
+        private bool TryGetLatestOperation(out Operation operation)
         {
             // TODO: We may read the values from the settings?
             const int maxAgeInMinutes = 800 * 60;
             const bool onlyNonAcknowledged = false;
             // For the moment, we are only interested about the latest operation (if any).
             const int limitAmount = 1;
+
+            operation = null;
 
             try
             {
@@ -58,8 +68,9 @@ namespace AlarmWorkflow.Website.Asp
                     if (ids.Count > 0)
                     {
                         OperationItem operationItem = service.Instance.GetOperationById(ids[0], OperationItemDetailLevel.Minimum);
-                        return operationItem.ToOperation();
+                        operation = operationItem.ToOperation();
                     }
+                    return true;
                 }
             }
             catch (EndpointNotFoundException)
@@ -67,12 +78,24 @@ namespace AlarmWorkflow.Website.Asp
                 // We can ignore this exception. It usually occurs if the service is just starting up.
                 // TODO: But we may show this information in a red label on the website, still?
             }
-            return null;
+            return false;
+        }
+
+        private void SetContentToConnectionError()
+        {
+            // TODO: Find a more elegant way than just switching the panels' visibility!
+            pnlProgress.Visible = true;
+            pnlAlarm.Visible = false;
+            pnlNoAlarm.Visible = false;
+
+            lblProgressText.Text = "Verbindungsfehler! Server nicht erreichbar!";
+            lblProgressText.ForeColor = System.Drawing.Color.Red;
         }
 
         private void SetContentToNoAlarm()
         {
             // TODO: Find a more elegant way than just switching the panels' visibility!
+            pnlProgress.Visible = false;
             pnlAlarm.Visible = false;
             pnlNoAlarm.Visible = true;
         }
@@ -80,6 +103,7 @@ namespace AlarmWorkflow.Website.Asp
         private void SetContentToLatestAlarm(Operation operation)
         {
             // TODO: Find a more elegant way than just switching the panels' visibility!
+            pnlProgress.Visible = false;
             pnlAlarm.Visible = true;
             pnlNoAlarm.Visible = false;
 
@@ -103,7 +127,11 @@ namespace AlarmWorkflow.Website.Asp
                 return;
             }
 
-            CheckAndDisplayLatestAlarm();
+            // Make it asynchronous
+            ThreadPool.QueueUserWorkItem(c =>
+            {
+                CheckAndDisplayLatestAlarm();
+            });
         }
 
         #endregion

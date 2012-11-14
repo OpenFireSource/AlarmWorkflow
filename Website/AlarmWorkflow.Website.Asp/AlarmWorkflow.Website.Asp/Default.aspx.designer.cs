@@ -40,6 +40,24 @@ namespace AlarmWorkflow.Website.Asp {
         protected global::System.Web.UI.UpdatePanel TimedPanel;
         
         /// <summary>
+        /// pnlProgress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlProgress;
+        
+        /// <summary>
+        /// lblProgressText control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProgressText;
+        
+        /// <summary>
         /// pnlNoAlarm control.
         /// </summary>
         /// <remarks>
