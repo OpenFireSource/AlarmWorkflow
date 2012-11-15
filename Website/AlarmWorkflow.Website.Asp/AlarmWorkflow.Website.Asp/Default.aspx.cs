@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.ServiceModel;
+using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.Service.WcfServices;
 using AlarmWorkflow.Windows.UI.Models;
-using System.Threading;
 
 namespace AlarmWorkflow.Website.Asp
 {
@@ -20,7 +21,6 @@ namespace AlarmWorkflow.Website.Asp
         /// </summary>
         public _Default()
         {
-
         }
 
         #endregion
@@ -67,7 +67,8 @@ namespace AlarmWorkflow.Website.Asp
                     IList<int> ids = service.Instance.GetOperationIds(maxAgeInMinutes, onlyNonAcknowledged, limitAmount);
                     if (ids.Count > 0)
                     {
-                        OperationItem operationItem = service.Instance.GetOperationById(ids[0], OperationItemDetailLevel.Minimum);
+                        // Retrieve the operation with full detail to allow us to access the route image
+                        OperationItem operationItem = service.Instance.GetOperationById(ids[0], OperationItemDetailLevel.Full);
                         operation = operationItem.ToOperation();
                     }
                     return true;
@@ -111,6 +112,46 @@ namespace AlarmWorkflow.Website.Asp
             tcOperationNumber.Text = operation.OperationNumber;
             tcTimestamp.Text = operation.Timestamp.ToLocalTime().ToString();
             tcDestinationLocation.Text = operation.GetDestinationLocation().ToString();
+            tcKeyword.Text = operation.Keyword;
+            tcMessenger.Text = operation.Messenger;
+            tcComment.Text = operation.Comment;
+
+            LoadOperationRouteImage(operation);
+        }
+
+        private void LoadOperationRouteImage(Operation operation)
+        {
+            string fileUrl = string.Format("~/Cache/RouteImages/{0}.png", Regex.Replace(operation.OperationNumber, "[^a-zA-Z0-9]", "").ToString());
+            string filePath = MapPath(fileUrl);
+
+            if (!File.Exists(filePath))
+            {
+                string directory = Path.GetDirectoryName(filePath);
+                if (!Directory.Exists(directory))
+                {
+                    Directory.CreateDirectory(directory);
+                }
+
+                // Write the route image
+                if (operation.RouteImage != null && operation.RouteImage.Length > 0)
+                {
+                    File.WriteAllBytes(filePath, operation.RouteImage);
+                }
+                else
+                {
+                    // Write empty file to designate that no image is available
+                    File.WriteAllText(filePath, "");
+                }
+            }
+
+            // If it is a zero-sized file, then no route image existed (see above).
+            FileInfo fileInfo = new FileInfo(filePath);
+            if (fileInfo.Length == 0L)
+            {
+                return;
+            }
+
+            this.imgRouteImage.ImageUrl = fileUrl;
         }
 
         /// <summary>
@@ -127,11 +168,7 @@ namespace AlarmWorkflow.Website.Asp
                 return;
             }
 
-            // Make it asynchronous
-            ThreadPool.QueueUserWorkItem(c =>
-            {
-                CheckAndDisplayLatestAlarm();
-            });
+            CheckAndDisplayLatestAlarm();
         }
 
         #endregion

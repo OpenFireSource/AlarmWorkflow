@@ -1,29 +1,13 @@
 ﻿/* DEFAULTS
 ----------------------------------------------------------*/
 
-body   
+body
 {
     font-size: .80em;
-    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    font-family: "Helvetica Neue" , "Lucida Grande" , "Segoe UI" , Arial, Helvetica, Verdana, sans-serif;
     margin: 0px;
     padding: 0px;
     color: #000;
-}
-
-a:link, a:visited
-{
-    color: #034af3;
-}
-
-a:hover
-{
-    color: #1d60ff;
-    text-decoration: none;
-}
-
-a:active
-{
-    color: #034af3;
 }
 
 p
@@ -116,69 +100,8 @@ first child of the left and right table columns */
     margin: 12px 8px 8px 8px;
 }
 
-.leftCol
-{
-    padding: 6px 0px;
-    margin: 12px 8px 8px 8px;
-    width: 200px;
-    min-height: 200px;
-}
-
-/* TAB MENU   
-----------------------------------------------------------*/
-
-div.hideSkiplink
-{
-    background-color:#3a4f63;
-    width:100%;
-}
-
-div.menu
-{
-    padding: 4px 0px 4px 8px;
-}
-
-div.menu ul
-{
-    list-style: none;
-    margin: 0px;
-    padding: 0px;
-    width: auto;
-}
-
-div.menu ul li a, div.menu ul li a:visited
-{
-    background-color: #465c71;
-    border: 1px #4e667d solid;
-    color: #dde4ec;
-    display: block;
-    line-height: 1.35em;
-    padding: 4px 20px;
-    text-decoration: none;
-    white-space: nowrap;
-}
-
-div.menu ul li a:hover
-{
-    background-color: #bfcbd6;
-    color: #465c71;
-    text-decoration: none;
-}
-
-div.menu ul li a:active
-{
-    background-color: #465c71;
-    color: #cfdbe6;
-    text-decoration: none;
-}
-
 /* MISC  
 ----------------------------------------------------------*/
-
-.clear
-{
-    clear: both;
-}
 
 .title
 {
@@ -186,9 +109,4 @@ div.menu ul li a:active
     float: left;
     text-align: left;
     width: auto;
-}
-
-.bold
-{
-    font-weight: bold;
 }

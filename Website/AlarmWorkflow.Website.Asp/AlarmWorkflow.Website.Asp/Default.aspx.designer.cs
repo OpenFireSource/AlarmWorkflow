@@ -103,6 +103,15 @@ namespace AlarmWorkflow.Website.Asp {
         protected global::System.Web.UI.WebControls.TableCell tcOperationNumber;
         
         /// <summary>
+        /// tcKeyword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell tcKeyword;
+        
+        /// <summary>
         /// tcTimestamp control.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace AlarmWorkflow.Website.Asp {
         protected global::System.Web.UI.WebControls.TableCell tcTimestamp;
         
         /// <summary>
+        /// tcMessenger control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell tcMessenger;
+        
+        /// <summary>
         /// tcDestinationLocation control.
         /// </summary>
         /// <remarks>
@@ -119,5 +137,23 @@ namespace AlarmWorkflow.Website.Asp {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TableCell tcDestinationLocation;
+        
+        /// <summary>
+        /// tcComment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TableCell tcComment;
+        
+        /// <summary>
+        /// imgRouteImage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image imgRouteImage;
     }
 }
