@@ -44,8 +44,6 @@ Test]]>
   <Entry Old="IJbernahme" New="Übernahme" />
   <Entry Old="Spedi iton" New="Spedition" />
   <Entry Old="Rufnummer 1" New="Rufnummer:" />
-  <Entry Old=" — " New="-" />
-  <Entry Old="—" New="-" />
   <Entry Old="cinsatzmittel" New="Einsatzmittel" />
   <Entry Old="EINSATZNITTEL" New="EINSATZMITTEL" />
   <Entry Old="Tragkraftspri.tze" New="Tragkraftspritze" />
