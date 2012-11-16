@@ -29,7 +29,7 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public DateTime Timestamp { get; set; }
         /// <summary>
-        /// Gets or sets the Einsatznr object.
+        /// Gets or sets the Einsatznummer object.
         /// </summary>
         public string OperationNumber { get; set; }
         /// <summary>
@@ -37,7 +37,7 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Messenger { get; set; }
         /// <summary>
-        /// Gets or sets the Einsatzort object.
+        /// Gets or sets the Ort object.
         /// </summary>
         public string Location { get; set; }
         /// <summary>
@@ -65,31 +65,31 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Comment { get; set; }
         /// <summary>
-        /// Gets the Stichwort object.
+        /// Gets the Kreuzung object.
         /// </summary>
 		public string Intersection { get; set; }
         /// <summary>
-        /// Gets the Kreuzung object.
+        /// Gets the Meldebild object.
         /// </summary>
         public string Picture { get; set; }
         /// <summary>
-        /// Gets the Meldebild object.
+        /// Gets the Einsatzplan object.
         /// </summary>
         public string OperationPlan { get; set; }
         /// <summary>
-        /// Gets the Einsatzplan object.
+        /// Gets the andere Feuerwehren object.
         /// </summary>
         public string OtherFD { get; set; }
         /// <summary>
-        /// Gets the andere Feuerwehren object.
+        /// Gets the Fahrzeuge object.
         /// </summary>
         public string Vehicles { get; set; }
         /// <summary>
-        /// Gets the Fahrzeuge object.
+        /// Gets the Einsatzstichwort object.
         /// </summary>
         public string EmergencyKeyword { get; set; }
         /// <summary>
-        /// Gets the Einsatzstichwort object.
+        /// Gets the Stichwort object.
         /// </summary> 
         public string Keyword { get; set; }
         /// <summary>
