@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="MailingJob">
+  <Setting Name="HostName" Type="System.String"></Setting>
+  <Setting Name="UserName" Type="System.String"></Setting>
+  <Setting Name="Password" Type="System.String"></Setting>
+  <Setting Name="Authenticate" Type="System.Boolean">False</Setting>
+  <Setting Name="Port" Type="System.Int32">25</Setting>
+  <Setting Name="SenderAddress" Type="System.String" IsNull="False"></Setting>
+</SettingsConfiguration>

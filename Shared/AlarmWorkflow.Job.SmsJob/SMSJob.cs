@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using System.Xml;
-using System.Xml.XPath;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.SmsJob
 {
@@ -18,11 +19,11 @@ namespace AlarmWorkflow.Job.SmsJob
     [Export("SmsJob", typeof(IJob))]
     sealed class SmsJob : IJob
     {
-        #region private member
+        #region Fields
 
-        private List<string> numbers;
-        private string username;
-        private string password;
+        private List<MobilePhoneEntryObject> _recipients;
+        private string _userName;
+        private string _password;
 
         #endregion
 
@@ -33,22 +34,39 @@ namespace AlarmWorkflow.Job.SmsJob
         /// </summary>
         public SmsJob()
         {
-            this.numbers = new List<string>();
+            _recipients = new List<MobilePhoneEntryObject>();
         }
 
         #endregion
 
         #region IJob Members
 
-        void IJob.DoJob(Operation einsatz)
+        void IJob.DoJob(Operation operation)
         {
             // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
-            string text = "Einsatz:%20" + SmsJob.PrepareString(einsatz.City.Substring(0, einsatz.City.IndexOf(" ", StringComparison.Ordinal))) + "%20" + SmsJob.PrepareString((string)einsatz.CustomData["Picture"]) + "%20" + SmsJob.PrepareString(einsatz.Comment) + "%20Strasse:%20" + SmsJob.PrepareString(einsatz.Street);
-            foreach (string number in this.numbers)
+            string text = "Einsatz:%20" + PrepareString(operation.City.Substring(0, operation.City.IndexOf(" ", StringComparison.Ordinal)))
+                + "%20" + PrepareString((string)operation.CustomData["Picture"])
+                + "%20" + PrepareString(operation.Comment)
+                + "%20Strasse:%20" + PrepareString(operation.Street);
+
+
+            foreach (MobilePhoneEntryObject recipient in _recipients)
             {
+                StringBuilder uriBuilder = new StringBuilder();
+                uriBuilder.Append("http://gateway.sms77.de/?u=");
+                uriBuilder.Append(_userName);
+                uriBuilder.Append("&p=");
+                uriBuilder.Append(_password);
+                uriBuilder.Append("&to=");
+                uriBuilder.Append(recipient.PhoneNumber);
+                uriBuilder.Append("&text=");
+                uriBuilder.Append(HttpUtility.HtmlEncode(text));
+                uriBuilder.Append("&type=");
+                uriBuilder.Append("basicplus");
+
                 try
                 {
-                    HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri("http://gateway.sms77.de/?u=" + this.username + "&p=" + this.password + "&to=" + number + "&text=" + text + "&type=basicplus"));
+                    HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri(uriBuilder.ToString()));
                     HttpWebResponse resp = (HttpWebResponse)msg.GetResponse();
                     Stream resp_steam = resp.GetResponseStream();
                     using (StreamReader streamreader = new StreamReader(resp_steam, Encoding.UTF8))
@@ -56,13 +74,13 @@ namespace AlarmWorkflow.Job.SmsJob
                         string response = streamreader.ReadToEnd();
                         if (response != "100")
                         {
-                            Logger.Instance.LogFormat(LogType.Warning, this, "Error from sms77! Status code = {0}.", response);
+                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMS77ErrorMessage, response);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending a Sms to '{0}'.", number);
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendToRecipientGenericErrorMessage, recipient.PhoneNumber);
                     Logger.Instance.LogException(this, ex);
                 }
             }
@@ -70,23 +88,19 @@ namespace AlarmWorkflow.Job.SmsJob
 
         bool IJob.Initialize()
         {
-            XmlDocument doc = new XmlDocument();
-            doc.Load(Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\SmsJobConfiguration.xml");
+            _userName = SettingsManager.Instance.GetSetting("SMSJob", "UserName").GetString();
+            _password = SettingsManager.Instance.GetSetting("SMSJob", "Password").GetString();
 
-            IXPathNavigable settings = doc.CreateNavigator().SelectSingleNode("SMS");
+            var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MobilePhoneEntryObject>("MobilePhone");
+            _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
-            XPathNavigator nav = settings.CreateNavigator();
-            if (nav.UnderlyingObject is XmlElement)
+            if (_recipients.Count == 0)
             {
-                this.username = ((XmlElement)nav.UnderlyingObject).Attributes["username"].Value;
-                this.password = ((XmlElement)nav.UnderlyingObject).Attributes["password"].Value;
-                foreach (XmlNode node in ((XmlElement)nav.UnderlyingObject).FirstChild.SelectNodes("Nummer")) // HACK: FirstChild hier falsch
-                {
-                    this.numbers.Add(node.InnerText);
-                }
-                return true;
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NoRecipientsErrorMessage);
+                return false;
             }
-            return false;
+
+            return true;
         }
 
         /// <summary>

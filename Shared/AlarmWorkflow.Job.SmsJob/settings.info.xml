@@ -1,0 +1,6 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="SMSJob" DisplayText="SMS (Aufgabe)">
+    <Setting Name="UserName" DisplayText="Benutzername" />
+    <Setting Name="Password" DisplayText="Passwort" />
+  </Identifier>
+</SettingsDisplayConfiguration>

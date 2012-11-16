@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="SMSJob">
+  <Setting Name="UserName" Type="System.String"></Setting>
+  <Setting Name="Password" Type="System.String"></Setting>
+</SettingsConfiguration>

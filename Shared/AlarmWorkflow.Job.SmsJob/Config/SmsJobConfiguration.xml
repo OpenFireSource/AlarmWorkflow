@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<SMS password="SMS77Pwd" username="SMS77User">
-   <Nummern>
-     <Nummer debug="true">123456789</Nummer>
-   </Nummern>
- </SMS>

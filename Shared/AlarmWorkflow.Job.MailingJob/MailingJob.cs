@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Xml.Linq;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.MailingJob
 {
@@ -21,9 +21,9 @@ namespace AlarmWorkflow.Job.MailingJob
         #region Fields
 
         private SmtpClient _smptClient;
-
         private MailAddress _senderEmail;
-        private Dictionary<string, MailAddress> _recipients;
+
+        private List<MailingEntryObject> _recipients;
 
         #endregion
 
@@ -34,7 +34,28 @@ namespace AlarmWorkflow.Job.MailingJob
         /// </summary>
         public MailingJob()
         {
-            _recipients = new Dictionary<string, MailAddress>();
+            _recipients = new List<MailingEntryObject>();
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void _smptClient_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            if (e.Error != null)
+            {
+                SmtpException smtpException = e.Error as SmtpException;
+                if (smtpException != null)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionSMTPMessage, smtpException.StatusCode, smtpException.Message);
+                }
+                else
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
+                }
+                Logger.Instance.LogException(this, e.Error);
+            }
         }
 
         #endregion
@@ -43,49 +64,18 @@ namespace AlarmWorkflow.Job.MailingJob
 
         bool IJob.Initialize()
         {
-            string configFile = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\Config\MailingJobConfiguration.xml";
-            if (!File.Exists(configFile))
+            string smtpHostName = SettingsManager.Instance.GetSetting("MailingJob", "HostName").GetString();
+            string userName = SettingsManager.Instance.GetSetting("MailingJob", "UserName").GetString();
+            string userPassword = SettingsManager.Instance.GetSetting("MailingJob", "Password").GetString();
+            int smtpPort = SettingsManager.Instance.GetSetting("MailingJob", "Port").GetInt32();
+            bool smtpAuthenticate = SettingsManager.Instance.GetSetting("MailingJob", "Authenticate").GetBoolean();
+
+            _senderEmail = Helpers.ParseAddress(SettingsManager.Instance.GetSetting("MailingJob", "SenderAddress").GetString());
+            if (_senderEmail == null)
             {
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoSenderAddressMessage);
                 return false;
             }
-
-            XDocument doc = XDocument.Load(configFile);
-            _senderEmail = new MailAddress(doc.Root.TryGetElementValue("SenderAddress", "johndoe@domain.com"));
-
-            // Add all recipients with their reception type (To, CC, BCC)
-            foreach (XElement recipientE in doc.Root.Element("Recipients").Elements("Recipient"))
-            {
-                string address = recipientE.TryGetAttributeValue("Address", null);
-                string type = recipientE.TryGetAttributeValue("Type", "To").ToUpperInvariant();
-                try
-                {
-                    MailAddress ma = new MailAddress(address);
-
-                    // Allow only To, CC and Bcc
-                    if (type != "TO" && type != "CC" && type != "BCC")
-                    {
-                        type = "TO";
-                    }
-
-                    _recipients.Add(type, ma);
-                }
-                catch (FormatException)
-                {
-                    // The address failed to parse.
-                    Logger.Instance.LogFormat(LogType.Warning, this, "The address '{0}' failed to parse. This is usually an indication that the E-Mail address is invalid formatted.", address);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogException(this, ex);
-                }
-            }
-
-            XElement serverSettingsE = doc.Root.Element("MailServer");
-            string smtpHostName = serverSettingsE.TryGetElementValue("HostName", "localhost");
-            string userName = serverSettingsE.TryGetElementValue("UserName", "johndoe");
-            string userPassword = serverSettingsE.TryGetElementValue("Password", null);
-            int smtpPort = serverSettingsE.TryGetElementValue("Port", 25);
-            bool smtpAuthenticate = serverSettingsE.TryGetElementValue("Authenticate", true);
 
             // Create new SMTP client for sending mails
             _smptClient = new SmtpClient(smtpHostName, smtpPort);
@@ -93,6 +83,19 @@ namespace AlarmWorkflow.Job.MailingJob
             {
                 _smptClient.Credentials = new NetworkCredential(userName, userPassword);
             }
+            _smptClient.SendCompleted += _smptClient_SendCompleted;
+
+            // Get recipients
+            var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MailingEntryObject>("Mail");
+            _recipients.AddRange(recipients.Select(ri => ri.Item2));
+
+            // Require at least one recipient for initialization to succeed
+            if (_recipients.Count == 0)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoRecipientsMessage);
+                return false;
+            }
+
             return true;
         }
 
@@ -101,14 +104,14 @@ namespace AlarmWorkflow.Job.MailingJob
             using (MailMessage message = new MailMessage())
             {
                 message.From = _senderEmail;
-                foreach (var addr in _recipients)
+                foreach (var recipient in _recipients)
                 {
-                    switch (addr.Key)
+                    switch (recipient.Type)
                     {
-                        case "CC": message.CC.Add(addr.Value); break;
-                        case "BCC": message.Bcc.Add(addr.Value); break;
+                        case MailingEntryObject.ReceiptType.CC: message.CC.Add(recipient.Address); break;
+                        case MailingEntryObject.ReceiptType.Bcc: message.Bcc.Add(recipient.Address); break;
                         default:
-                        case "TO": message.To.Add(addr.Value); break;
+                        case MailingEntryObject.ReceiptType.To: message.To.Add(recipient.Address); break;
                     }
                 }
 
@@ -137,20 +140,11 @@ namespace AlarmWorkflow.Job.MailingJob
                 // Send the message asynchronously
                 try
                 {
-                    _smptClient.Send(message);
+                    _smptClient.SendAsync(message, null);
                 }
                 catch (Exception ex)
                 {
-                    SmtpException smtpException = ex as SmtpException;
-                    if (smtpException != null)
-                    {
-                        Logger.Instance.LogFormat(LogType.Error, this, "An SMTP error occurred while sending the mail! Status code: {0}, Message: {1}", smtpException.StatusCode, smtpException.Message);
-                    }
-                    else
-                    {
-                        Logger.Instance.LogFormat(LogType.Error, this, "An unknown error occurred while sending the mail! Please check the log for more information.");
-                    }
-
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
                     Logger.Instance.LogException(this, ex);
                 }
             }
