@@ -122,13 +122,19 @@ namespace AlarmWorkflow.Job.MailingJob
                 StringBuilder bodyBuilder = new StringBuilder();
                 bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString());
                 bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
+                bodyBuilder.AppendLine("Einsatzstichwort: " + operation.EmergencyKeyword);
+                bodyBuilder.AppendLine("Meldebild: " + operation.Picture);
                 bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
                 bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
                 bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
                 bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
                 bodyBuilder.AppendLine("Straße: " + operation.Street + " " + operation.StreetNumber);
+                bodyBuilder.AppendLine("Kreuzung: " + operation.Intersection);
                 bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
                 bodyBuilder.AppendLine("Objekt: " + operation.Property);
+                bodyBuilder.AppendLine("Objekt: " + operation.OperationPlan);
+                bodyBuilder.AppendLine("Fahrzeuge: " + operation.Vehicles);
+                         
 
                 message.Body = bodyBuilder.ToString();
                 message.BodyEncoding = Encoding.UTF8;
