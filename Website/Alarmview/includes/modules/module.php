@@ -12,6 +12,8 @@ interface FahrzeughallenModule
 
 include "Status/statusModule.php";
 include "alarmDetails/alarmDetailsModule.php";
+include "fahrzeuge/Fahrzeugemodule.php";
+
 
 class moduleHandler
 {
@@ -24,7 +26,9 @@ class moduleHandler
 		$this->modules["status"] = new statusModule();
 		$this->modules["status"]->configure($db);
 		$this->modules["details"] = new alarmDetailsModule();
-		$this->modules["details"]->configure($db);	
+		$this->modules["details"]->configure($db);
+		$this->modules["fahrzeuge"] = new FahrzeugeModule();
+		$this->modules["fahrzeuge"]->configure($db);
 	}
 	
 	function getModule($Name)

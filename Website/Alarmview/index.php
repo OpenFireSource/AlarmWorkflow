@@ -113,12 +113,16 @@ function myFunction($arg)
 	// Instantiate the xajaxResponse object
 	$objResponse = new xajaxResponse();
 	$status = $moduleHandler2->getModule("status");
-	$details = $moduleHandler2->getModule("details");
+	$fahrzeuge = $moduleHandler2->getModule("fahrzeuge");
+    $details = $moduleHandler2->getModule("details");
+	
 	
 	//$objResponse->assign("AlarmHistoryBereich","innerHTML", $alarmHistory->postContent());
 	//$objResponse->assign("FMSHistoryBereich","innerHTML", $fmsHistory->postContent());
 	$objResponse = $status->update($objResponse, $arg);
 	$objResponse = $details->update($objResponse, $arg);
+	$objResponse = $fahrzeuge->update ($objResponse, $arg);
+
 	
 	//return the  xajaxResponse object
 	return $objResponse;
