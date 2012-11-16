@@ -59,6 +59,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         prefix = prefix.Trim().ToUpperInvariant();
                         switch (prefix)
                         {
+                            // Auslesen der Standardinformation Alarmfax ILS FFB
                             case "EINSATZNR":
                             case "E — NR":
                                 operation.OperationNumber = msg;
@@ -98,12 +99,14 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         }
                     }
 
+                    //TODO
                     //if ((line.StartsWith("EINSATZSTICHWORT")) && (getEinsatzort == false))
                     //{
                     //    operation.EmergencyKeyword = line.Substring(4);
                     //    getEinsatzort = true;
                     //}
 
+                    //Auslesen der Fahrzeuge FF Germering und teile FF Unterpfaffenhofen
                     int x0 = line.IndexOf("FF Germering");
                     if (x0 != -1)
                     {
@@ -252,6 +255,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                     }
 
+                    //Auswerten zusätzlich alarmierter Nachbarfeuerwehren
                     int x12 = line.IndexOf("FF Unterpf");
                     if (x12 != -1)
                     {
