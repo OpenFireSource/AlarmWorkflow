@@ -45,9 +45,10 @@ namespace AlarmWorkflow.Job.SmsJob
         {
             // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
             string text = "Einsatz:%20" + PrepareString(operation.City.Substring(0, operation.City.IndexOf(" ", StringComparison.Ordinal)))
+                + "%20Strasse:%20" + PrepareString(operation.Street)
                 + "%20" + PrepareString((string)operation.CustomData["Picture"])
-                + "%20" + PrepareString(operation.Comment)
-                + "%20Strasse:%20" + PrepareString(operation.Street);
+                + "%20" + PrepareString(operation.Comment);
+                
 
 
             foreach (MobilePhoneEntryObject recipient in _recipients)
