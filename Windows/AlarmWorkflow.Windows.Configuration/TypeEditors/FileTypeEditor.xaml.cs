@@ -10,6 +10,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     [Export("FileTypeEditor", typeof(ITypeEditor))]
     public partial class FileTypeEditor : UserControl, ITypeEditor
     {
+        #region Fields
+
+        private string _filterString;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -18,6 +24,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public FileTypeEditor()
         {
             InitializeComponent();
+
+            _filterString = "Alle Dateien (*.*)|*.*";
         }
 
         #endregion
@@ -27,6 +35,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         private void Browse_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
+            sfd.Filter = _filterString;
             if (this.Value != null)
             {
                 sfd.FileName = (string)this.Value;
@@ -60,6 +69,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
+            if (string.IsNullOrWhiteSpace(editorParameter))
+            {
+                return;
+            }
+
+            _filterString = editorParameter;
         }
 
         #endregion

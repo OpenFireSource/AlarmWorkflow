@@ -1,0 +1,14 @@
+﻿<ControlInformation Name="Beispiel">
+  <Section>
+    <IntroducedBy IsContained="True">Alarmfax</IntroducedBy>
+    <Area>
+      <IntroducedBy IsContained="True" Text="Einsatznummer" MapTo="OperationNumber" />
+    </Area>
+  </Section>
+  <Section>
+    <IntroducedBy IsContained="True">Mitteiler</IntroducedBy>
+    <Area>
+      <IntroducedBy IsContained="True" Text="Name" MapTo="Messenger" />
+    </Area>
+  </Section>
+</ControlInformation>
