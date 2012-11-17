@@ -64,19 +64,22 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         internal void Add(SettingDescriptor descriptor, SettingInfo setting)
         {
-            CategoryViewModel cvm = CategoryItems.Find(c => c.Category == setting.Category);
+            string categoryText = GetCategoryText(setting.Category);
+
+            CategoryViewModel cvm = CategoryItems.Find(c => c.Category == categoryText);
             if (cvm == null)
             {
                 cvm = new CategoryViewModel();
-                cvm.Category = setting.Category;
-                if (string.IsNullOrWhiteSpace(cvm.Category))
-                {
-                    cvm.Category = "(Sonstige)";
-                }
+                cvm.Category = categoryText;
                 CategoryItems.Add(cvm);
             }
 
             cvm.SettingItems.Add(new SettingItemViewModel(descriptor, setting));
+        }
+
+        private string GetCategoryText(string categoryText)
+        {
+            return string.IsNullOrWhiteSpace(categoryText) ? "(Sonstige)" : categoryText;
         }
 
         #endregion
