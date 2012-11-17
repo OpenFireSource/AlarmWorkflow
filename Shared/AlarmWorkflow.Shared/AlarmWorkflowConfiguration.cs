@@ -71,7 +71,7 @@ namespace AlarmWorkflow.Shared
             this.FDInformation = new FireDepartmentInfo();
             this.FDInformation.Name = SettingsManager.Instance.GetSetting("Shared", "FD.Name").GetString();
             this.FDInformation.Location = new PropertyLocation();
-            this.FDInformation.Location.ZipCode = SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetInt32().ToString();
+            this.FDInformation.Location.ZipCode = SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetString();
             this.FDInformation.Location.City = SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
             this.FDInformation.Location.Street = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString();
             this.FDInformation.Location.StreetNumber = SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString();

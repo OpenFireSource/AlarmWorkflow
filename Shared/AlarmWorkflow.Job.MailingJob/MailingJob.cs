@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Threading;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -39,27 +40,6 @@ namespace AlarmWorkflow.Job.MailingJob
 
         #endregion
 
-        #region Event handlers
-
-        private void _smptClient_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            if (e.Error != null)
-            {
-                SmtpException smtpException = e.Error as SmtpException;
-                if (smtpException != null)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionSMTPMessage, smtpException.StatusCode, smtpException.Message);
-                }
-                else
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
-                }
-                Logger.Instance.LogException(this, e.Error);
-            }
-        }
-
-        #endregion
-
         #region IJob Members
 
         bool IJob.Initialize()
@@ -83,7 +63,6 @@ namespace AlarmWorkflow.Job.MailingJob
             {
                 _smptClient.Credentials = new NetworkCredential(userName, userPassword);
             }
-            _smptClient.SendCompleted += _smptClient_SendCompleted;
 
             // Get recipients
             var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MailingEntryObject>("Mail");
@@ -100,6 +79,12 @@ namespace AlarmWorkflow.Job.MailingJob
         }
 
         void IJob.DoJob(Operation operation)
+        {
+            // Send it asynchronously because it may take a while!
+            ThreadPool.QueueUserWorkItem(o => SendMailThread(operation));
+        }
+
+        private void SendMailThread(Operation operation)
         {
             using (MailMessage message = new MailMessage())
             {
@@ -134,7 +119,7 @@ namespace AlarmWorkflow.Job.MailingJob
                 bodyBuilder.AppendLine("Objekt: " + operation.Property);
                 bodyBuilder.AppendLine("Objekt: " + operation.OperationPlan);
                 bodyBuilder.AppendLine("Fahrzeuge: " + operation.Vehicles);
-                         
+
 
                 message.Body = bodyBuilder.ToString();
                 message.BodyEncoding = Encoding.UTF8;
@@ -146,11 +131,19 @@ namespace AlarmWorkflow.Job.MailingJob
                 // Send the message asynchronously
                 try
                 {
-                    _smptClient.SendAsync(message, null);
+                    _smptClient.Send(message);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
+                    SmtpException smtpException = ex as SmtpException;
+                    if (smtpException != null)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionSMTPMessage, smtpException.StatusCode, smtpException.Message);
+                    }
+                    else
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
+                    }
                     Logger.Instance.LogException(this, ex);
                 }
             }
