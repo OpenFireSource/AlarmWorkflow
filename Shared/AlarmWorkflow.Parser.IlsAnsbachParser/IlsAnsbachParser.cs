@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.IlsAnsbachParser
 {
@@ -17,9 +14,12 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
     [Export("IlsAnsbachParser", typeof(IParser))]
     sealed class IlsAnsbachParser : IParser
     {
-        #region Fields
+        #region Constants
 
-        private List<string> _keywords;
+        private static readonly string[] Keywords = new[] { 
+            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
+            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
+            "EINSATZMITTEL", "ALARMIERT", "GEFORDERTE AUSSTATTUNG" };
 
         #endregion
 
@@ -32,32 +32,12 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         /// <param name="replaceList">The RreplaceList object.</param>
         public IlsAnsbachParser()
         {
-            LoadKeywordsFile();
+
         }
 
         #endregion
 
         #region Methods
-
-        private void LoadKeywordsFile()
-        {
-            string keywords = SettingsManager.Instance.GetSetting("IlsAnsbachParser", "Keywords").GetString();
-
-            _keywords = new List<string>();
-
-            foreach (string line in keywords.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries))
-            {
-                if (string.IsNullOrEmpty(line))
-                {
-                    continue;
-                }
-                string keyword = line.ToUpperInvariant().Trim();
-                if (!_keywords.Contains(keyword))
-                {
-                    _keywords.Add(keyword);
-                }
-            }
-        }
 
         private DateTime ReadFaxTimestamp(string line, DateTime fallback)
         {
@@ -81,7 +61,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         private bool StartsWithKeyword(string line, out string keyword)
         {
             line = line.ToUpperInvariant();
-            foreach (string kwd in _keywords)
+            foreach (string kwd in Keywords)
             {
                 if (line.StartsWith(kwd))
                 {
