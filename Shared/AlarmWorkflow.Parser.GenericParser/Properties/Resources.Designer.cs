@@ -60,6 +60,22 @@ namespace AlarmWorkflow.Parser.GenericParser.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Steuerungsdateien (*.xml)|*.xml.
+        /// </summary>
+        internal static string Controlfile_FilterText {
+            get {
+                return ResourceManager.GetString("Controlfile_FilterText", resourceCulture);
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DownArrow {
+            get {
+                object obj = ResourceManager.GetObject("DownArrow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap Minus {
             get {
                 object obj = ResourceManager.GetObject("Minus", resourceCulture);
@@ -70,6 +86,13 @@ namespace AlarmWorkflow.Parser.GenericParser.Properties {
         internal static System.Drawing.Bitmap Plus {
             get {
                 object obj = ResourceManager.GetObject("Plus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap UpArrow {
+            get {
+                object obj = ResourceManager.GetObject("UpArrow", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

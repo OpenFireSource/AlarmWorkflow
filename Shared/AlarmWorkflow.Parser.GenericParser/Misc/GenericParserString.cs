@@ -1,5 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing.Design;
+using AlarmWorkflow.Parser.GenericParser.Forms;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
 {
@@ -7,6 +10,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// Represents a string which can be controlled to be equal to another string if it is contained in it.
     /// </summary>
     [DebuggerDisplay("String = {String} (IsContained = {IsContained})")]
+    [Editor(typeof(GenericParserStringUITypeEditorImpl), typeof(UITypeEditor))]
     class GenericParserString : IEquatable<string>
     {
         #region Properties
@@ -23,7 +27,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         /// </summary>
         public GenericParserString()
         {
-
+            this.IsContained = true;
         }
 
         /// <summary>

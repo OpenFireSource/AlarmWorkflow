@@ -53,17 +53,23 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Compile Include="Forms\AddSectionOrAreaForm.cs">
-      <SubType>Form</SubType>
+    <Compile Include="Forms\GenericParserStringUITypeEditor.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Forms\AddSectionOrAreaForm.Designer.cs">
-      <DependentUpon>AddSectionOrAreaForm.cs</DependentUpon>
+    <Compile Include="Forms\GenericParserStringUITypeEditor.Designer.cs">
+      <DependentUpon>GenericParserStringUITypeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MapToPropertyUITypeEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\MapToPropertyUITypeEditor.Designer.cs">
+      <DependentUpon>MapToPropertyUITypeEditor.cs</DependentUpon>
     </Compile>
     <Compile Include="GenericParser.cs" />
     <Compile Include="Misc\AreaDefinition.cs" />
@@ -83,11 +89,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\AddSectionOrAreaForm.resx">
-      <DependentUpon>AddSectionOrAreaForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\GenericParserStringUITypeEditor.resx">
+      <DependentUpon>GenericParserStringUITypeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\MapToPropertyUITypeEditor.resx">
+      <DependentUpon>MapToPropertyUITypeEditor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -105,6 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\112_Plus_Green_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_DownArrowShort_Blue_16x16_72.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

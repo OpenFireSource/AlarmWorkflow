@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using AlarmWorkflow.Parser.GenericParser.Forms;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
 {
@@ -16,13 +15,20 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
 
         public abstract bool IsDeleteAllowed();
         public abstract bool IsAddAllowed();
-        public abstract void InvokeAdd();
+        public abstract FaxHierarchyTreeNode InvokeAdd();
+        public virtual void InvokeDelete() { }
 
         #endregion
     }
 
     class RootTreeNode : FaxHierarchyTreeNode
     {
+        #region Properties
+
+        public ControlInformation ControlInformation { get; set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -42,42 +48,19 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public override bool IsAddAllowed() { return true; }
         public override bool IsDeleteAllowed() { return false; }
 
-        public override void InvokeAdd()
+        public override FaxHierarchyTreeNode InvokeAdd()
         {
-            AddSectionOrAreaForm form = new AddSectionOrAreaForm(new[] { FaxHierarchyTreeNodeType.Area, FaxHierarchyTreeNodeType.Section });
-            if (form.ShowDialog() == DialogResult.OK)
-            {
-                TreeNode node = CreateNode(form.NodeType, form.IntroductoryText, form.IntroductoryTextIsContained);
-                this.Nodes.Add(node);
-                this.ExpandAll();
-            }
-        }
+            SectionTreeNode sectionNode = new SectionTreeNode();
+            this.Nodes.Add(sectionNode);
+            this.ExpandAll();
 
-        private FaxHierarchyTreeNode CreateNode(FaxHierarchyTreeNodeType type, string text, bool isContained)
-        {
-            GenericParserString gpString = new GenericParserString(text, isContained);
-            switch (type)
+            // Add to control information
+            if (ControlInformation != null)
             {
-                case FaxHierarchyTreeNodeType.Section:
-                    return new SectionTreeNode()
-                    {
-                        Definition = new SectionDefinition()
-                        {
-                            SectionString = gpString
-                        }
-                    };
-                case FaxHierarchyTreeNodeType.Area:
-                    return new AreaTreeNode()
-                    {
-                        Definition = new AreaDefinition()
-                        {
-                            AreaString = gpString
-                        }
-                    };
-                case FaxHierarchyTreeNodeType.Root:
-                default:
-                    throw new NotSupportedException();
+                ControlInformation.Sections.Add(sectionNode.Definition);
             }
+
+            return sectionNode;
         }
 
         #endregion
@@ -100,6 +83,10 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             : base()
         {
             NodeType = FaxHierarchyTreeNodeType.Section;
+            this.Text = "Abschnitt";
+
+            Definition = new SectionDefinition();
+            this.Tag = Definition;
         }
 
         #endregion
@@ -109,12 +96,25 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public override bool IsAddAllowed() { return true; }
         public override bool IsDeleteAllowed() { return true; }
 
-        public override void InvokeAdd()
+        public override FaxHierarchyTreeNode InvokeAdd()
         {
-            AddSectionOrAreaForm form = new AddSectionOrAreaForm(new[] { FaxHierarchyTreeNodeType.Area });
-            if (form.ShowDialog() == DialogResult.OK)
+            AreaTreeNode areaNode = new AreaTreeNode();
+            this.Nodes.Add(areaNode);
+            this.ExpandAll();
+
+            // Add to section
+            if (Definition != null)
             {
+                Definition.Areas.Add(areaNode.Definition);
             }
+
+            return areaNode;
+        }
+
+        public override void InvokeDelete()
+        {
+            RootTreeNode parent = (RootTreeNode)this.Parent;
+            parent.ControlInformation.Sections.Remove(this.Definition);
         }
 
         #endregion
@@ -137,6 +137,10 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             : base()
         {
             NodeType = FaxHierarchyTreeNodeType.Area;
+            this.Text = "Bereich";
+
+            this.Definition = new AreaDefinition();
+            this.Tag = Definition;
         }
 
         #endregion
@@ -146,7 +150,16 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public override bool IsAddAllowed() { return false; }
         public override bool IsDeleteAllowed() { return true; }
 
-        public override void InvokeAdd() { }
+        public override FaxHierarchyTreeNode InvokeAdd()
+        {
+            return null;
+        }
+
+        public override void InvokeDelete()
+        {
+            SectionTreeNode parent = (SectionTreeNode)this.Parent;
+            parent.Definition.Areas.Remove(this.Definition);
+        }
 
         #endregion
     }

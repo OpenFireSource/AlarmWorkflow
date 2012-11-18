@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
@@ -7,11 +8,13 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// <summary>
     /// Represents the control information used to analyze a fax.
     /// </summary>
-    class ControlInformation
+    sealed class ControlInformation
     {
         #region Properties
 
+        [DisplayName("Fax-Name")]
         public string FaxName { get; set; }
+        [Browsable(false)]
         public List<SectionDefinition> Sections { get; set; }
 
         #endregion
@@ -44,6 +47,12 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             XDocument doc = new XDocument();
             XElement root = new XElement("ControlInformation");
             doc.Add(root);
+
+            root.Add(new XAttribute("Name", this.FaxName));
+            foreach (SectionDefinition section in this.Sections)
+            {
+                root.Add(section.CreateXElement());
+            }
 
 
             doc.Save(fileName);
