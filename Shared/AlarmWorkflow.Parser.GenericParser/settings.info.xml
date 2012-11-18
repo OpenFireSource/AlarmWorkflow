@@ -1,0 +1,9 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="GenericParser" DisplayText="Universalparser (Parser)">
+    
+    <Setting Name="ControlFile" DisplayText="Steuerungsdatei" Editor="FileTypeEditor" EditorParameter="Steuerungsdateien (*.xml)|*.xml" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>
