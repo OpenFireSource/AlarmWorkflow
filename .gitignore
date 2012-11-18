@@ -2,8 +2,9 @@
 bin
 obj
 
-# Java Folders
+# Java Folders/Files
 gen
+*.apk
 
 # mstest test results
 TestResults

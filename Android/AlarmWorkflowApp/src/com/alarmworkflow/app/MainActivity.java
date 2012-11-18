@@ -93,15 +93,16 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
         
         // Persist operation cache
         try {
 			OperationCache.getInstance().persistCache(openFileOutput(Constants.PERSISTENT_STORAGE_FILENAME, MODE_PRIVATE));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			Toast.makeText(this, R.string.toast_error_persisting_cache, Toast.LENGTH_LONG).show();
 		}
+        
+		super.onDestroy();
 	}
 	
 	@Override
@@ -141,13 +142,14 @@ public class MainActivity extends ListActivity {
 		if (_isFetchingOperations){
 			return;
 		}
+
+		// Mark the process as busy
+		_isFetchingOperations = true;
 		
 		// Execute the fetching in a separate thread to avoid unlimited wait
 		FetchOperationsTask task = new FetchOperationsTask(this);
 		// The task doesn't need a parameter so we just give zero
 		task.execute(0);
-		// Mark the process as busy
-		_isFetchingOperations = true;
 		// Constrain the task duration to not wait indefinitely
 		try {
 			task.get((long)FETCH_OPERATIONS_TIMEOUT, TimeUnit.SECONDS);

@@ -89,5 +89,6 @@
     <string name="text_details_commentdefault">(Keine Bemerkung vorhanden)</string>
     <string name="text_details_destination">Einsatzort:</string>
     <string name="text_details_destinationdefault">(Kein Einsatzort vorhanden)</string>
+    <string name="toast_error_persisting_cache">Error while persisting cache! Please contact the developers!</string>
 
 </resources>
