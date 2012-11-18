@@ -45,11 +45,10 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public AreaDefinition(XElement element)
             : this()
         {
-            XElement ibaE = element.Element("IntroducedBy");
-            this.AreaString.String = ibaE.TryGetAttributeValue("Text", null);
-            this.AreaString.IsContained = ibaE.TryGetAttributeValue("IsContained", false);
-            this.MapToPropertyName = ibaE.TryGetAttributeValue("MapTo", null);
-            this.Separator = ibaE.TryGetAttributeValue("Separator", ":");
+            this.AreaString.String = element.TryGetAttributeValue("Text", null);
+            this.AreaString.IsContained = element.TryGetAttributeValue("Text-IsContained", true);
+            this.MapToPropertyName = element.TryGetAttributeValue("MapTo", null);
+            this.Separator = element.TryGetAttributeValue("Separator", ":");
         }
 
         #endregion
@@ -62,6 +61,17 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
                 AreaString == null ||
                 string.IsNullOrWhiteSpace(AreaString.String) ||
                 string.IsNullOrWhiteSpace(MapToPropertyName));
+        }
+
+        public XElement CreateXElement()
+        {
+            XElement element = new XElement("Area");
+            element.Add(new XAttribute("Text", this.AreaString.String));
+            element.Add(new XAttribute("Text-IsContained", this.AreaString.IsContained));
+            element.Add(new XAttribute("MapTo", this.MapToPropertyName));
+            element.Add(new XAttribute("Separator", this.Separator));
+
+            return element;
         }
 
         #endregion

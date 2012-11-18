@@ -6,6 +6,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 using System.Reflection;
+using System.Collections.Generic;
 
 namespace AlarmWorkflow.Parser.GenericParser
 {
@@ -73,7 +74,8 @@ namespace AlarmWorkflow.Parser.GenericParser
             }
             else
             {
-                // TODO: This goes into the custom data instead!
+                PropertyInfo piCustomData = operation.GetType().GetProperty("CustomData");
+                WriteValueToCustomData(value, area, piCustomData, operation);
             }
         }
 
@@ -90,6 +92,19 @@ namespace AlarmWorkflow.Parser.GenericParser
                 Logger.Instance.LogFormat(LogType.Warning, this, "Could not write area to mapped property '{0}'. Please check for typos and a correct mapping!", property.Name);
                 throw;
             }
+        }
+
+        private void WriteValueToCustomData(string value, AreaDefinition area, PropertyInfo piCustomData, Operation operation)
+        {
+            // We know that the CustomData-object is a dictionary with string, object...
+            IDictionary<string, object> customData = (IDictionary<string, object>)piCustomData.GetValue(operation, null);
+
+            // If the custom data entry already exists, give a warning and overwrite it
+            if (customData.ContainsKey(area.MapToPropertyName))
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, "The custom data entry '{0}' does already exist and is being overwritten. Please check your control file if this is the intended behavior!", area.MapToPropertyName);
+            }
+            customData[area.MapToPropertyName] = value;
         }
 
         #endregion

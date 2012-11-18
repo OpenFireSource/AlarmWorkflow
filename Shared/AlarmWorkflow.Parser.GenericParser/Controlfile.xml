@@ -1,14 +1,50 @@
-﻿<ControlInformation Name="Beispiel">
-  <Section>
-    <IntroducedBy IsContained="True">Alarmfax</IntroducedBy>
-    <Area>
-      <IntroducedBy IsContained="True" Text="Einsatznummer" MapTo="OperationNumber" />
-    </Area>
+﻿<ControlInformation Name="ILS Ansbach Fax">
+  
+  <Section Text="Alarmfax">
+    <Area Text="Einsatznummer" MapTo="OperationNumber" />
   </Section>
-  <Section>
-    <IntroducedBy IsContained="True">Mitteiler</IntroducedBy>
-    <Area>
-      <IntroducedBy IsContained="True" Text="Name" MapTo="Messenger" />
-    </Area>
+
+  <Section Text="Mitteiler">
+    <Area Text="Name" MapTo="Messenger" />
   </Section>
+
+  <Section Text="Einsatzort">
+    <!-- Hinweis: Faxe der ILS Ansbach haben eine zweite Spalte "Haus-Nr.". Hier nicht berücksichtigt! -->
+    <Area Text="Straße" MapTo="Street" />
+    <!-- Hinweis: Die PLZ ist enthalten.  -->
+    <Area Text="Ort" MapTo="City" />
+    <Area Text="Objekt" MapTo="Property" />
+    <Area Text="Station" MapTo="Einsatzort Station" />
+  </Section>
+
+  <Section Text="Zielort">
+    <Area Text="Straße" MapTo="Zielort Straße" />
+    <Area Text="Ort" MapTo="Zielort Ort" />
+    <Area Text="Objekt" MapTo="Zielort Objekt" />
+    <Area Text="Station" MapTo="Zielort Station" />
+  </Section>
+
+  <Section Text="Einsatzgrund">
+    <Area Text="Schlagw" MapTo="Keyword" />
+    <Area Text="Stichwort B" MapTo="Stichwort B" />
+    <Area Text="Stichwort R" MapTo="Stichwort R" />
+    <Area Text="Stichwort S" MapTo="Stichwort S" />
+    <Area Text="Stichwort T" MapTo="Stichwort T" />
+    <Area Text="Prio" MapTo="Priorität" />
+  </Section>
+
+  <Section Text="Einsatzmittel">
+    <!-- "Einsatzmittel" ist ein Abschnitt dynamischer Größe, derzeit nicht auswertbar im
+          Universalparser. Kommt mit einem zukünftigen Update! -->
+  </Section>
+
+  <Section Text="Bemerkung">
+    <!-- "Bemerkung" ist ein Abschnitt dynamischer Größe, derzeit nicht auswertbar im
+          Universalparser. Kommt mit einem zukünftigen Update! -->
+  </Section>
+
+  <Section Text="Ende fax">
+    <!-- Dieser Abschnitt wird ignoriert. -->
+  </Section>
+  
 </ControlInformation>

@@ -33,10 +33,8 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public SectionDefinition(XElement element)
             : this()
         {
-            XElement ibsE = element.Element("IntroducedBy");
-
-            this.SectionString.String = ibsE.Value;
-            this.SectionString.IsContained = ibsE.TryGetAttributeValue("IsContained", false);
+            this.SectionString.String = element.TryGetAttributeValue("Text", null);
+            this.SectionString.IsContained = element.TryGetAttributeValue("Text-IsContained", true);
 
             // Parse the areas...
             foreach (XElement areaE in element.Elements("Area"))
