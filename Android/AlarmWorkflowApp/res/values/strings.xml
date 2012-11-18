@@ -25,7 +25,7 @@
     <string name="pref_default_fetch_max_age">7</string>
     <string name="pref_title_app_category">Anwendung</string>
     <string name="pref_title_app_version">Version</string>
-    <string name="pref_summary_app_version">0.7.1.9</string>
+    <string name="pref_summary_app_version">0.7.1.10</string>
     <string name="pref_title_server_username">Benutzername</string>
     <string name="pref_summary_server_username">Benutzername auf dem Server</string>
     <string name="pref_title_server_password">Passwort</string>
