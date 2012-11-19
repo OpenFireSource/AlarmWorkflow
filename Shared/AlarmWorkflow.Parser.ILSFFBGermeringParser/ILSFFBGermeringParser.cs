@@ -62,6 +62,8 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                             // Auslesen der Standardinformation Alarmfax ILS FFB
                             case "EINSATZNR":
                             case "E — NR":
+                            case "E-NR":
+                            case "E-Nr":
                                 operation.OperationNumber = msg;
                                 break;
                             case "MITTEILER":
