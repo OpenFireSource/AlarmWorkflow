@@ -7,11 +7,8 @@ using MySql.Data.MySqlClient;
 
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
-    /// <summary>
-    /// Implements a job, who saves all the operation data to a MySQL database.
-    /// </summary>
     [Export("MySqlDatabaseJob", typeof(IJob))]
-    sealed class DatabaseJob : IJob
+    sealed class MySqlDatabaseJob : IJob
     {
         #region Constants
 
@@ -19,12 +16,12 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         #endregion
 
-        #region private members
+        #region Fields
 
-        private string user;
-        private string pwd;
-        private string database;
-        private string server;
+        private string _user;
+        private string _password;
+        private string _databaseName;
+        private string _serverName;
 
         #endregion
 
@@ -33,7 +30,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
         /// <summary>
         /// Initializes a new instance of the DatabaseJob class.
         /// </summary>
-        public DatabaseJob()
+        public MySqlDatabaseJob()
         {
         }
 
@@ -43,7 +40,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         private MySqlConnection CreateConnection()
         {
-            return new MySqlConnection("Persist Security Info=False;database=" + this.database + ";server=" + this.server + ";user id=" + this.user + ";Password=" + this.pwd);
+            return new MySqlConnection("Persist Security Info=False;database=" + this._databaseName + ";server=" + this._serverName + ";user id=" + this._user + ";Password=" + this._password);
         }
 
         #endregion
@@ -52,10 +49,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         bool IJob.Initialize()
         {
-            this.database = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBName").GetString();
-            this.user = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
-            this.pwd = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
-            this.server = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServer").GetString();
+            _databaseName = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBName").GetString();
+            _user = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
+            _password = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
+            _serverName = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServer").GetString();
 
             // Check whether we can connect properly...
             try
