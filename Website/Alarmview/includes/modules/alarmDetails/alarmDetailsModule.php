@@ -70,7 +70,7 @@ class alarmDetailsModule implements FahrzeughallenModule
 
                         $return .= "<td id=\"AlarmOrt\">" . $zeile[Ort] . "<br />" . $zeile["Strasse"] . "<br />" .$zeile["Kreuzung"] .  "</td>";
 
-                        $return .= "<td id=\"AlarmObjekt\">" . $zeile[Mitteiler] . "<br />" . $zeile["Objekt"] . "<br />" .$zeile["Einsatzplan"] .  "</td>";
+                        $return .= "<td id=\"AlarmObjekt\">" . $zeile[Alarmtime] . "<br />" . $zeile[Mitteiler] . "<br />" . $zeile["Objekt"] . "<br />" .$zeile["Einsatzplan"] .  "</td>";
 
                         // $return .= "<td id=\"AlarmObjekt\">" ;
                         // if($zeile[Objekt] == "")
@@ -92,9 +92,9 @@ class alarmDetailsModule implements FahrzeughallenModule
                         if($test == 0)
                                 $strasseArray[0] = str_replace("ß", "ss", $zeile["Strasse"]);
                         if($array[0] == "Hebertshausen")
-                                $objResponse->script("directions1.load(\"from: Germering, Augsburger Strasse 11 to: ". $array[0] .", ". $strasseArray[0] ."\", { \"preserveViewport\": \"false\" });");
+                                $objResponse->script("directions1.load(\"from: 48.06618,11.38507 to: ". $array[0] .", ". $strasseArray[0] ."\", { \"preserveViewport\": \"false\" });");
                         else
-                                $objResponse->script("directions1.load(\"from: Germering, Augsburger Strasse 11 to: ". $array[0] .", ". $strasseArray[0] ."\");");
+                                $objResponse->script("directions1.load(\"from: 48.06618,11.38507 to: ". $array[0] .", ". $strasseArray[0] ."\");");
 
 
             $objResponse->assign("AlarmDetails", "innerHTML", $return);
@@ -105,9 +105,9 @@ class alarmDetailsModule implements FahrzeughallenModule
                         if($test == 0)
                                 $strasseArray[0] = str_replace("ß", "ss", $zeile["Strasse"]);
                         if($array[0] == "Hebertshausen")
-                                $objResponse->script("gdir.load(\"from: Germering, Augsburger Strasse 11 to: ". $array[0] .", ". $strasseArray[0] ."\", { \"preserveViewport\": \"false\" });");
+                                $objResponse->script("gdir.load(\"from: 48.06618,11.38507 to: ". $array[0] .", ". $strasseArray[0] ."\", { \"preserveViewport\": \"false\" });");
                         else
-                                $objResponse->script("gdir.load(\"from: Germering, Augsburger Strasse 11 to: ". $array[0] .", ". $strasseArray[0] ."\");");
+                                $objResponse->script("gdir.load(\"from: 48.06618,11.38507 to: ". $array[0] .", ". $strasseArray[0] ."\");");
 
 
 

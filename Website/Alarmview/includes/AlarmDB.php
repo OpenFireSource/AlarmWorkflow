@@ -24,7 +24,7 @@ class AlarmDB
         {
                 $val = $this->getLastAlarmID();
                 $this->db->Execute("SET NAMES 'utf8'");
-                $result = $this->db->Execute("SELECT Meldebild, Hinweis, Objekt, Einsatzplan, Ort, Strasse, Kreuzung, Einsatzort, Einsatznr, Einsatzstichwort, Stichwort, Fahrzeuge, Mitteiler FROM tb_einsatz WHERE ID = " . $val);
+                $result = $this->db->Execute("SELECT Meldebild, Hinweis, Objekt, Einsatzplan, Ort, Strasse, Kreuzung, Einsatzort, Einsatznr, Einsatzstichwort, Stichwort, Fahrzeuge, Mitteiler, Alarmtime FROM tb_einsatz WHERE ID = " . $val);
                  if ($result === false) die("Failed loading last Alarm - " . $val);
                  $zeile = array();
                          $zeile["Meldebild"] = $result->fields[0];
@@ -40,6 +40,7 @@ class AlarmDB
                         $zeile["Stichwort"] = $result->fields[10];
                         $zeile["Fahrzeuge"] = $result->fields[11];
                         $zeile["Mitteiler"] = $result->fields[12];
+                        $zeile["Alarmtime"] = $result->fields[13];
                         return $zeile;
         }
 

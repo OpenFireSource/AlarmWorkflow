@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS `tb_einsatz` (
   `Ort` varchar(255) default NULL,
   `Strasse` varchar(255) default NULL,
   `Fahrzeuge` varchar(255) default NULL,
+  `Alarmtime` varchar(255) default NULL,
+  `Faxtime` varchar(255) default NULL,
   `Stichwort` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=129 ;
