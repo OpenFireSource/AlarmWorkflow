@@ -114,11 +114,11 @@ namespace AlarmWorkflow.Job.MailingJob
                 bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
                 bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
                 bodyBuilder.AppendLine("Straße: " + operation.Street + " " + operation.StreetNumber);
-                bodyBuilder.AppendLine("Kreuzung: " + operation.Intersection);
+                bodyBuilder.AppendLine("Kreuzung: " + operation.GetCustomData<string>("Intersection"));
                 bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
                 bodyBuilder.AppendLine("Objekt: " + operation.Property);
                 bodyBuilder.AppendLine("Objekt: " + operation.OperationPlan);
-                bodyBuilder.AppendLine("Fahrzeuge: " + operation.Vehicles);
+                bodyBuilder.AppendLine("Fahrzeuge: " + operation.GetCustomData<string>("Vehicles"));
 
 
                 message.Body = bodyBuilder.ToString();

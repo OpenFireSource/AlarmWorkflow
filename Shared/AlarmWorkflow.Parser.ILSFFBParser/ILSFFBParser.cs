@@ -5,9 +5,6 @@ using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
-    /// <summary>
-    /// Description of ILSFFBParser.
-    /// </summary>
     [Export("ILSFFBParser", typeof(IParser))]
     sealed class ILSFFBParser : IParser
     {
@@ -24,7 +21,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
 
         #region IParser Members
 
-        
+
         Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
@@ -32,16 +29,16 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
             try
             {
 
-       //Definition der bool Variablen
-        //bool nextIsOrt = false;
-        bool ReplStreet = false;
-        bool ReplVehicle = false;
-        bool ReplCity = false;
-        bool ReplComment = false;
-        bool ReplPicture = false;
-        bool Alarmtime = false;
-        bool Faxtime = false;
-        //bool getEinsatzort = false;
+                //Definition der bool Variablen
+                //bool nextIsOrt = false;
+                bool ReplStreet = false;
+                bool ReplVehicle = false;
+                bool ReplCity = false;
+                bool ReplComment = false;
+                bool ReplPicture = false;
+                bool Alarmtime = false;
+                bool Faxtime = false;
+                //bool getEinsatzort = false;
 
                 foreach (string line in lines)
                 {
@@ -76,7 +73,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                                 operation.Street = msg;
                                 break;
                             case "KREUZUNG":
-                                operation.Intersection = msg;
+                                operation.CustomData["Intersection"] = msg;
                                 break;
                             case "ORTSTEIL/ORT":
                                 operation.City = msg;
@@ -106,7 +103,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     if (Alarmtime == false)
                     {
                         DateTime uhrzeit = DateTime.Now;
-                        operation.Alarmtime = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
+                        operation.CustomData["Alarmtime"] = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
                         Alarmtime = true;
                     }
 
@@ -114,17 +111,17 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     if (Faxtime == false)
                     {
                         DateTime uhrzeit = DateTime.Now;
-                        operation.Faxtime = "Faxeingang: " + uhrzeit.ToString("HH:mm:ss ");
+                        operation.CustomData["Faxtime"] = "Faxeingang: " + uhrzeit.ToString("HH:mm:ss ");
                         Faxtime = true;
-                    }                                      
+                    }
 
                     // Fahrzeug füllen wenn leer
                     if (ReplVehicle == false)
                     {
-                        operation.Vehicles = operation.Vehicles + " ";
+                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " ";
                         ReplVehicle = true;
                     }
-                                                            
+
                     // Sonderzeichenersetzung im Meldebild
 
                     if (ReplPicture == false)
@@ -159,7 +156,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     {
                         operation.City = operation.City + " ";
                         ReplCity = true;
-                    }                  
+                    }
 
                     if (operation.City.Contains("ß") == true)
                     {
@@ -188,7 +185,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         operation.Street = operation.Street + " ";
                         ReplStreet = true;
                     }
-                    
+
                     if (operation.Street.Contains("ß") == true)
                     {
                         operation.Street = operation.Street.Replace("ß", "ss");
@@ -215,7 +212,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     {
                         operation.Comment = operation.Comment + " ";
                         ReplComment = true;
-                    } 
+                    }
 
                     if (operation.Comment.Contains("ß") == true)
                     {
@@ -237,7 +234,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         operation.Comment = operation.Comment.Replace("ü", "ue");
                     }
 
-                    
+
                 }
             }
             catch (Exception ex)

@@ -66,7 +66,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         return null;
                     }
 
-                    return new Operation()
+                    Operation operation = new Operation()
                     {
                         Id = data.OperationId,
                         Timestamp = data.Timestamp,
@@ -84,6 +84,14 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         CustomData = Utilities.Deserialize<IDictionary<string, object>>(data.CustomData),
                         RouteImage = data.RouteImage,
                     };
+
+                    // There are new properties, which are unsure whether or not they are going to be added permantently.
+                    // Thus we will add them to the CustomData until clarified.
+                    operation.Picture = operation.GetCustomData<string>("Picture");
+                    operation.EmergencyKeyword = operation.GetCustomData<string>("EmergencyKeyword");
+                    operation.OperationPlan = operation.GetCustomData<string>("OperationPlan");
+
+                    return operation;
                 }
             }
         }

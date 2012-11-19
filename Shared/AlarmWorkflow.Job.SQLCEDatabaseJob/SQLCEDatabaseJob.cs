@@ -25,6 +25,12 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
                     // We need to see if the timestamp could be parsed. It will cause a Overflow in SQL Server if we allow DateTime.MinValue!
                     DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
+                    
+                    // There are new properties, which are unsure whether or not they are going to be added permantently.
+                    // Thus we will add them to the CustomData until clarified.
+                    operation.CustomData["Picture"] = operation.Picture;
+                    operation.CustomData["EmergencyKeyword"] = operation.EmergencyKeyword;
+                    operation.CustomData["OperationPlan"] = operation.OperationPlan;
 
                     OperationData data = new OperationData()
                     {

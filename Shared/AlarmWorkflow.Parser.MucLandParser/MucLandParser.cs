@@ -28,60 +28,64 @@ namespace AlarmWorkflow.Parser.MucLandParser
         {
             Operation operation = new Operation();
 
-            try
+            lines = Utilities.Trim(lines);
+
+            foreach (string line in lines)
             {
-                foreach (string line in lines)
+                try
                 {
                     string msg;
                     string prefix;
                     int x = line.IndexOf(':');
-                    if (x != -1)
+                    if (x == -1)
                     {
-                        prefix = line.Substring(0, x);
-                        msg = line.Substring(x + 1).Trim();
+                        continue;
+                    }
 
-                        prefix = prefix.Trim().ToUpperInvariant();
-                        switch (prefix)
-                        {
-                            case "EINSATZNR":
-                                operation.OperationNumber = msg;
-                                break;
-                            case "MITTEILER":
-                                operation.Messenger = msg;
-                                break;
-                            case "EINSATZORT":
-                                operation.Location = msg;
-                                break;
-                            case "STRAßE":
-                            case "STRABE":
-                                operation.Street = msg;
-                                break;
-                            case "KREUZUNG":
-                                operation.CustomData["Kreuzung"] = msg;
-                                break;
-                            case "ORTSTEIL/ORT":
-                                operation.City = msg;
-                                break;
-                            case "OBJEKT":
-                            case "9BJEKT":
-                                operation.Property = msg;
-                                break;
-                            case "MELDEBILD":
-                                operation.CustomData["Meldebild"] = msg;
-                                break;
-                            case "HINWEIS":
-                                operation.Comment = msg;
-                                break;
-                            case "EINSATZPLAN":
-                                operation.CustomData["Einsatzplan"] = msg;
-                                break;
-                        }
+                    prefix = line.Substring(0, x);
+                    msg = line.Substring(x + 1).Trim();
+
+                    prefix = prefix.Trim().ToUpperInvariant();
+                    switch (prefix)
+                    {
+                        case "EINSATZNR":
+                            operation.OperationNumber = msg;
+                            break;
+                        case "MITTEILER":
+                            operation.Messenger = msg;
+                            break;
+                        case "EINSATZORT":
+                            operation.Location = msg;
+                            break;
+                        case "STRAßE":
+                        case "STRABE":
+                            operation.Street = msg;
+                            break;
+                        case "KREUZUNG":
+                            operation.CustomData["Intersection"] = msg;
+                            break;
+                        case "ORTSTEIL/ORT":
+                            operation.City = msg;
+                            break;
+                        case "OBJEKT":
+                        case "9BJEKT":
+                            operation.Property = msg;
+                            break;
+                        case "MELDEBILD":
+                            operation.CustomData["Picture"] = msg;
+                            break;
+                        case "HINWEIS":
+                            operation.Comment = msg;
+                            break;
+                        case "EINSATZPLAN":
+                            operation.CustomData["OperationPlan"] = msg;
+                            break;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogException(this, ex);
+                }
             }
 
             return operation;

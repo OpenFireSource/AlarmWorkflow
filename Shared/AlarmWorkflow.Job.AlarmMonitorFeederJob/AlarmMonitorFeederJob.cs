@@ -26,13 +26,13 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
                 sw.WriteLine(operation.Location);
                 sw.WriteLine(operation.OperationPlan);
                 sw.WriteLine(operation.Comment);
-                sw.WriteLine(operation.Intersection);
+                sw.WriteLine(operation.GetCustomData<string>("Intersection"));
                 sw.WriteLine(operation.Picture);
                 sw.WriteLine(operation.Messenger);
                 sw.WriteLine(operation.Property);
                 sw.WriteLine(operation.City);
                 sw.WriteLine(operation.Street);
-                sw.WriteLine(operation.Vehicles);
+                sw.WriteLine(operation.GetCustomData<string>("Vehicles"));
                 sw.WriteLine(operation.EmergencyKeyword);
                 sw.WriteLine(operation.Keyword);
             }

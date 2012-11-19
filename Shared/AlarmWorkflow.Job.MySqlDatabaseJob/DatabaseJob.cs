@@ -5,8 +5,6 @@ using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 using MySql.Data.MySqlClient;
 
-// TODO: needs to be updated!!!
-
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
     /// <summary>
@@ -95,16 +93,16 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.AppendFormat("'{0}', ", einsatz.Location);
                 queryText.AppendFormat("'{0}', ", einsatz.OperationPlan);
                 queryText.AppendFormat("'{0}', ", einsatz.Comment);
-                queryText.AppendFormat("'{0}', ", einsatz.Intersection);
+                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Intersection"));
                 queryText.AppendFormat("'{0}', ", einsatz.Picture);
                 queryText.AppendFormat("'{0}', ", einsatz.Messenger);
                 queryText.AppendFormat("'{0}', ", einsatz.Property);
                 queryText.AppendFormat("'{0}', ", einsatz.City);
                 queryText.AppendFormat("'{0}', ", einsatz.Street);
-                queryText.AppendFormat("'{0}', ", einsatz.Vehicles);
-                queryText.AppendFormat("'{0}', ", einsatz.Alarmtime);
-                queryText.AppendFormat("'{0}', ", einsatz.Faxtime);
-                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);                
+                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Vehicles"));
+                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Alarmtime"));
+                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Faxtime"));
+                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);
                 queryText.AppendFormat("'{0}'", einsatz.Keyword);
                 queryText.Append(")");
 

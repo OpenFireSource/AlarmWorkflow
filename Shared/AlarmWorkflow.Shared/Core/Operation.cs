@@ -65,10 +65,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Comment { get; set; }
         /// <summary>
-        /// Gets the Kreuzung object.
-        /// </summary>
-		public string Intersection { get; set; }
-        /// <summary>
         /// Gets the Meldebild object.
         /// </summary>
         public string Picture { get; set; }
@@ -77,25 +73,9 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string OperationPlan { get; set; }
         /// <summary>
-        /// Gets the andere Feuerwehren object.
-        /// </summary>
-        public string OtherFD { get; set; }
-        /// <summary>
-        /// Gets the Fahrzeuge object.
-        /// </summary>
-        public string Vehicles { get; set; }
-        /// <summary>
         /// Gets the Einsatzstichwort object.
         /// </summary>
         public string EmergencyKeyword { get; set; }
-        /// <summary>
-        /// Gets the Alarmzeit object.
-        /// </summary>
-        public string Alarmtime { get; set; }
-        /// <summary>
-        /// Gets the Einganszeit Fax object.
-        /// </summary>
-        public string Faxtime { get; set; }
         /// <summary>
         /// Gets the Stichwort object.
         /// </summary> 
@@ -134,6 +114,21 @@ namespace AlarmWorkflow.Shared.Core
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Looks up the custom data with the given name, returns the value if it was found, or returns a default value if not found.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public T GetCustomData<T>(string name)
+        {
+            if (CustomData.ContainsKey(name))
+            {
+                return (T)CustomData[name];
+            }
+            return default(T);
+        }
 
         /// <summary>
         /// Gets the location information as a <see cref="PropertyLocation"/>-object.
