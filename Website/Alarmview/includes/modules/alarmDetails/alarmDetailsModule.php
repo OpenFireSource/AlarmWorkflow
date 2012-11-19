@@ -70,16 +70,18 @@ class alarmDetailsModule implements FahrzeughallenModule
 
                         $return .= "<td id=\"AlarmOrt\">" . $zeile[Ort] . "<br />" . $zeile["Strasse"] . "<br />" .$zeile["Kreuzung"] .  "</td>";
 
-                        $return .= "<td id=\"AlarmObjekt\">" ;
-                        if($zeile[Objekt] == "")
-                        {
-                                $return .= "<br />";
-                        }
-                        else
-                        {
-                                $return .= $zeile[Objekt];
-                        }
-                        $return .= "</td>";
+                        $return .= "<td id=\"AlarmObjekt\">" . $zeile[Objekt] . "<br />" . $zeile["Einsatzplan"] . "</td>";
+
+                        // $return .= "<td id=\"AlarmObjekt\">" ;
+                        // if($zeile[Objekt] == "")
+                        // {
+                                // $return .= "<br />";
+                        // }
+                        // else
+                        // {
+                                // $return .= $zeile[Objekt];
+                        // }
+                        // $return .= "</td>";
 
 
                         $objResponse->assign("AlarmDetails", "innerHTML", $return);
