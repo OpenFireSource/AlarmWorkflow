@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         bool ReplCity = false;
         bool ReplComment = false;
         bool ReplPicture = false;
-        //bool Alarmtime = false;
+        bool Alarmtime = false;
         bool Faxtime = false;
         //bool getEinsatzort = false;
 
@@ -100,14 +100,15 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         }
                     }
 
-                    // TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt
+                    // TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt. Daher aktuell Alarzeit noch mit Faxeingang gleich
+
                     // Anzeige des Zeitpunkts des Alarmeingangs
-                    //if (Alarmtime == false)
-                    //{
-                    //    DateTime uhrzeit = DateTime.Now;
-                    //    operation.Alarmtime = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
-                    //    Alarmtime = true;
-                    //}
+                    if (Alarmtime == false)
+                    {
+                        DateTime uhrzeit = DateTime.Now;
+                        operation.Alarmtime = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
+                        Alarmtime = true;
+                    }
 
                     // Anzeige des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)
