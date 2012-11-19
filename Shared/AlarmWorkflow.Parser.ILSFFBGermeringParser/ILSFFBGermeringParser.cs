@@ -43,6 +43,8 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
         bool ReplCity = false;
         bool ReplComment = false;
         bool ReplPicture = false;
+        //bool Alarmtime = false;
+        bool Faxtime = false;
         //bool getEinsatzort = false;
 
                 foreach (string line in lines)
@@ -262,7 +264,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x12 != -1)
                     {
 
-                        operation.OtherFD = operation.OtherFD + "| Unterpfaffenhofen ";
+                        operation.OtherFD = operation.OtherFD + " | Unterpfaffenhofen ";
 
                     }
 
@@ -304,28 +306,44 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                     if ((operation.OtherFD.Contains("Unterpfaffenhofen") == true) && (Other_FD_Upf == false))
                     {
-                        operation.Vehicles = operation.Vehicles + "| FF Unterpfaffenhofen ";
+                        operation.Vehicles = operation.Vehicles + " | FF Unterpfaffenhofen ";
                         Other_FD_Upf = true;
                     }
 
                     if ((operation.OtherFD.Contains("PuchheimOrt") == true) && (Other_FD_Ort == false))
                     {
-                        operation.Vehicles = operation.Vehicles + "| FF Puchheim Ort ";
+                        operation.Vehicles = operation.Vehicles + " | FF Puchheim Ort ";
                         Other_FD_Ort = true;
                     }
 
                     if ((operation.OtherFD.Contains("PuchheimBHF") == true) && (Other_FD_Bhf == false))
                     {
-                        operation.Vehicles = operation.Vehicles + "| FF Puchheim Bahnhof ";
+                        operation.Vehicles = operation.Vehicles + " | FF Puchheim Bahnhof ";
                         Other_FD_Bhf = true;
                     }
 
                     if ((operation.OtherFD.Contains("Eichenau") == true) && (Other_FD_Eic == false))
                     {
-                        operation.Vehicles = operation.Vehicles + "| FF Eichenau ";
+                        operation.Vehicles = operation.Vehicles + " | FF Eichenau ";
                         Other_FD_Eic = true;
-                    }                                    
-                  
+                    }
+
+                    // TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt
+                    // Anzeige des Zeitpunkts des Alarmeingangs
+                    //if (Alarmtime == false)
+                    //{
+                    //    DateTime uhrzeit = DateTime.Now;
+                    //    operation.Alarmtime = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
+                    //    Alarmtime = true;
+                    //}
+
+                    // Anzeige des Zeitpunkts des Faxeingangs
+                    if (Faxtime == false)
+                    {
+                        DateTime uhrzeit = DateTime.Now;
+                        operation.Faxtime = "Faxeingang: " + uhrzeit.ToString("HH:mm:ss ");
+                        Faxtime = true;
+                    }
 
                     // Fahrzeug füllen wenn leer
                     if (ReplVehicle == false)

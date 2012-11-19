@@ -89,7 +89,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
                 StringBuilder queryText = new StringBuilder();
                 queryText.AppendFormat("INSERT INTO {0} ", TableName);
-                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Einsatzstichwort,Stichwort) ");
+                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Alarmtime, Faxtime, Einsatzstichwort, Stichwort) ");
                 queryText.Append("VALUES (");
                 queryText.AppendFormat("'{0}', ", einsatz.OperationNumber);
                 queryText.AppendFormat("'{0}', ", einsatz.Location);
@@ -102,7 +102,9 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.AppendFormat("'{0}', ", einsatz.City);
                 queryText.AppendFormat("'{0}', ", einsatz.Street);
                 queryText.AppendFormat("'{0}', ", einsatz.Vehicles);
-                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);
+                queryText.AppendFormat("'{0}', ", einsatz.Alarmtime);
+                queryText.AppendFormat("'{0}', ", einsatz.Faxtime);
+                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);                
                 queryText.AppendFormat("'{0}'", einsatz.Keyword);
                 queryText.Append(")");
 

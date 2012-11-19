@@ -89,6 +89,14 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string EmergencyKeyword { get; set; }
         /// <summary>
+        /// Gets the Alarmzeit object.
+        /// </summary>
+        public string Alarmtime { get; set; }
+        /// <summary>
+        /// Gets the Einganszeit Fax object.
+        /// </summary>
+        public string Faxtime { get; set; }
+        /// <summary>
         /// Gets the Stichwort object.
         /// </summary> 
         public string Keyword { get; set; }

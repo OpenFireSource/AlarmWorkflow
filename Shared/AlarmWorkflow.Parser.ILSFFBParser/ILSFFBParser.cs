@@ -39,6 +39,8 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         bool ReplCity = false;
         bool ReplComment = false;
         bool ReplPicture = false;
+        //bool Alarmtime = false;
+        bool Faxtime = false;
         //bool getEinsatzort = false;
 
                 foreach (string line in lines)
@@ -98,7 +100,22 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         }
                     }
 
-                                                          
+                    // TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt
+                    // Anzeige des Zeitpunkts des Alarmeingangs
+                    //if (Alarmtime == false)
+                    //{
+                    //    DateTime uhrzeit = DateTime.Now;
+                    //    operation.Alarmtime = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
+                    //    Alarmtime = true;
+                    //}
+
+                    // Anzeige des Zeitpunkts des Faxeingangs
+                    if (Faxtime == false)
+                    {
+                        DateTime uhrzeit = DateTime.Now;
+                        operation.Faxtime = "Faxeingang: " + uhrzeit.ToString("HH:mm:ss ");
+                        Faxtime = true;
+                    }                                      
 
                     // Fahrzeug füllen wenn leer
                     if (ReplVehicle == false)
