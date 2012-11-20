@@ -12,7 +12,7 @@
     <Setting Name="OCR.Software" DisplayText="OCR-Software-Kennung" Category="OCR-Software" />
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Description="Wenn leer gelassen, wird das Standardverzeichnis genommen." Category="OCR-Software" Editor="DirectoryTypeEditor" />
 
-    <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared" />
+    <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.IFaxParser, AlarmWorkflow.AlarmSource.Fax" />
     <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Parser" Editor="ReplaceDictionaryTypeEditor"
              Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
