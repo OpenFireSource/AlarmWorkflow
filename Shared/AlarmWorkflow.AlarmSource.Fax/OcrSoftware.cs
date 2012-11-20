@@ -1,5 +1,5 @@
 ﻿
-namespace AlarmWorkflow.Shared.Core
+namespace AlarmWorkflow.AlarmSource.Fax
 {
     /// <summary>
     /// List all availeble OCRSoftware.

@@ -25,7 +25,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private DirectoryInfo _analysisPath;
 
         private DirectoryInfo _ocrPath;
-        private IParser _parser;
+        private IFaxParser _parser;
 
         #endregion
 
@@ -67,7 +67,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
 
             // Import parser with the given name/alias
-            _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
+            _parser = ExportedTypeLibrary.Import<IFaxParser>(_configuration.AlarmFaxParserAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
         }
 

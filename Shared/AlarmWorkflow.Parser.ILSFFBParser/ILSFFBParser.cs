@@ -1,12 +1,12 @@
 using System;
+using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
-    [Export("ILSFFBParser", typeof(IParser))]
-    sealed class ILSFFBParser : IParser
+    [Export("ILSFFBParser", typeof(IFaxParser))]
+    sealed class ILSFFBParser : IFaxParser
     {
         #region Constructors
 
@@ -19,10 +19,10 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
 
         #endregion
 
-        #region IParser Members
+        #region IFaxParser Members
 
 
-        Operation IParser.Parse(string[] lines)
+        Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
 

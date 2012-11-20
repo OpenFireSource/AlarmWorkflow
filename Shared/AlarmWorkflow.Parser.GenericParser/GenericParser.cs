@@ -1,20 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
-using System.Reflection;
-using System.Collections.Generic;
 
 namespace AlarmWorkflow.Parser.GenericParser
 {
     /// <summary>
     /// Represents the logic of a parser that parses faxes based on simple rules for simple faxes.
     /// </summary>
-    [Export("GenericParser", typeof(IParser))]
-    class GenericParser : IParser
+    [Export("GenericParser", typeof(IFaxParser))]
+    class GenericParser : IFaxParser
     {
         #region Fields
 
@@ -109,9 +109,9 @@ namespace AlarmWorkflow.Parser.GenericParser
 
         #endregion
 
-        #region IParser Members
+        #region IFaxParser Members
 
-        Operation IParser.Parse(string[] lines)
+        Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
 

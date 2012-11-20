@@ -55,7 +55,6 @@
     </Compile>
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
-    <Compile Include="Core\OcrSoftware.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Core\PropertyLocation.cs" />
     <Compile Include="Core\OperationResource.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="Extensibility\AlarmSourceEventArgs.cs" />
     <Compile Include="Extensibility\IAlarmSource.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />
-    <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="Extensibility\IJob.cs" />
     <Compile Include="AlarmWorkflowEngine.cs" />
     <Compile Include="Core\ExportAttribute.cs" />

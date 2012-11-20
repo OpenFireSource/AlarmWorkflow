@@ -1,15 +1,15 @@
 using System;
+using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.MucLandParser
 {
     /// <summary>
     /// Description of MucLandParser.
     /// </summary>
-    [Export("MucLandParser", typeof(IParser))]
-    sealed class MucLandParser : IParser
+    [Export("MucLandParser", typeof(IFaxParser))]
+    sealed class MucLandParser : IFaxParser
     {
         #region Constructors
 
@@ -22,9 +22,9 @@ namespace AlarmWorkflow.Parser.MucLandParser
 
         #endregion
 
-        #region IParser Members
+        #region IFaxParser Members
 
-        Operation IParser.Parse(string[] lines)
+        Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
 

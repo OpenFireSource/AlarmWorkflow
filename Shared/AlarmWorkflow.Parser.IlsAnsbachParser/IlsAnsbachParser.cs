@@ -2,17 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.IlsAnsbachParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Ansbach.
     /// </summary>
-    [Export("IlsAnsbachParser", typeof(IParser))]
-    sealed class IlsAnsbachParser : IParser
+    [Export("IlsAnsbachParser", typeof(IFaxParser))]
+    sealed class IlsAnsbachParser : IFaxParser
     {
         #region Constants
 
@@ -129,9 +129,9 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         #endregion
 
-        #region IParser Members
+        #region IFaxParser Members
 
-        Operation IParser.Parse(string[] lines)
+        Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             List<OperationResource> resources = new List<OperationResource>();
