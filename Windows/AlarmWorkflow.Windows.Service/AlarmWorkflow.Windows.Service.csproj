@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="AlarmWorkflow.Shared">
       <HintPath>../../Build/AlarmWorkflow.Shared.dll</HintPath>
       <Private>False</Private>
     </Reference>

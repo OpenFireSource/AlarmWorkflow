@@ -35,7 +35,7 @@
     <Reference Include="AlarmWorkflow.Parser.IlsAnsbachParser">
       <HintPath>..\..\Build\AlarmWorkflow.Parser.IlsAnsbachParser.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="AlarmWorkflow.Shared">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
