@@ -1,0 +1,9 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="SmsAlarmSource" DisplayText="SMS (Alarmquelle)">
+
+    <Setting Name="SomeSetting" DisplayText="Eine Einstellung" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

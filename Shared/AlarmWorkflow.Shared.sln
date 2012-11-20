@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.AlarmSource.F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider", "AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider\AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider.csproj", "{28E79901-E45B-457E-8E45-7E5EFFAD6E80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.AlarmSource.Sms", "AlarmWorkflow.AlarmSource.Sms\AlarmWorkflow.AlarmSource.Sms.csproj", "{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,16 @@ Global
 		{28E79901-E45B-457E-8E45-7E5EFFAD6E80}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{28E79901-E45B-457E-8E45-7E5EFFAD6E80}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{28E79901-E45B-457E-8E45-7E5EFFAD6E80}.Release|x86.ActiveCfg = Release|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F8AB12D3-A2D6-4208-8029-8C51BE8BC203}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
