@@ -39,15 +39,15 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmsAlarmSource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
+    <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml" />

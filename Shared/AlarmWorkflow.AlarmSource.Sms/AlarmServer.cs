@@ -3,84 +3,113 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.AlarmSource.Sms
 {
-    public class Alarmserver
+    class AlarmServer
     {
-        private readonly SmsAlarmSource parent;
+        #region Fields
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public Alarmserver(SmsAlarmSource parent)
+        private readonly SmsAlarmSource _parent;
+
+        #endregion
+
+        #region Properties
+
+        internal TcpListener ServerSocket { get; set; }
+        internal TcpClient ClientSocket { get; set; }
+
+        #endregion
+
+        #region Constructors
+
+        internal AlarmServer(SmsAlarmSource parent)
         {
             //Sets the parent
-            this.parent = parent;
+            this._parent = parent;
             //Starts a Server listening on the Port 5555 and any IP Address
-            serverSocket = new TcpListener(IPAddress.Any, 5555);
-            clientSocket = default(TcpClient);
+            ServerSocket = new TcpListener(IPAddress.Any, 5555);
+            ClientSocket = default(TcpClient);
         }
 
-        internal void start()
+        #endregion
+
+        #region Methods
+
+        internal void Start()
         {
-            serverSocket.Start();
+            ServerSocket.Start();
             while (true)
             {
-                clientSocket = serverSocket.AcceptTcpClient();
-                handleAlarmClient client = new handleAlarmClient();
-                client.startClient(clientSocket, parent);
+                ClientSocket = ServerSocket.AcceptTcpClient();
+                HandleAlarmClient client = new HandleAlarmClient();
+                client.StartClient(ClientSocket, _parent);
             }
         }
 
-        internal void stop()
+        internal void Stop()
         {
-            clientSocket.Close();
-            serverSocket.Stop();
+            ClientSocket.Close();
+            ServerSocket.Stop();
         }
 
-        public TcpListener serverSocket { get; set; }
+        #endregion
 
-        public TcpClient clientSocket { get; set; }
-      
     }
 
 
-    public class handleAlarmClient
+    class HandleAlarmClient
     {
+        #region Fields
 
-        TcpClient clientSocket;
-        private SmsAlarmSource parent;
-        public void startClient(TcpClient inClientSocket, SmsAlarmSource parent)
+        private readonly UTF8Encoding _encoding = new UTF8Encoding();
+        private TcpClient _clientSocket;
+        private SmsAlarmSource _parent;
+
+        #endregion
+
+        #region Methods
+
+        internal void StartClient(TcpClient inClientSocket, SmsAlarmSource parent)
         {
-            if (parent == null) throw new ArgumentNullException("parent");
-            clientSocket = inClientSocket;
-            this.parent = parent;
-            Thread ctThread = new Thread(recive);
+            if (parent == null)
+            {
+                throw new ArgumentNullException("parent");
+            }
+
+            _clientSocket = inClientSocket;
+            _parent = parent;
+
+            Thread ctThread = new Thread(ReceiveThread);
             ctThread.Start();
         }
 
-        private void recive()
+        private void ReceiveThread()
         {
             byte[] bytesFrom = new byte[10025];
             try
             {
-                NetworkStream networkStream = clientSocket.GetStream();
-                int received = networkStream.Read(bytesFrom, 0, (int)clientSocket.ReceiveBufferSize);
-                if (received == 0)
+                using (NetworkStream networkStream = _clientSocket.GetStream())
                 {
-                    return;
+                    int received = networkStream.Read(bytesFrom, 0, _clientSocket.ReceiveBufferSize);
+                    if (received == 0)
+                    {
+                        return;
+                    }
+
+                    string alarmText = _encoding.GetString(bytesFrom, 0, received);
+                    _parent.PushIncomingAlarm(alarmText);
                 }
-                var encoding = new UTF8Encoding();
-                string empfangen = encoding.GetString(bytesFrom, 0, received);
-                    parent.incommingAlarm(empfangen);
-                
             }
 
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                Logger.Instance.LogException(this, ex);
             }
         }
+
+        #endregion
+
     }
 }

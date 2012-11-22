@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Xml;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
@@ -7,11 +9,38 @@ namespace AlarmWorkflow.AlarmSource.Sms
     [Export("SmsAlarmSource", typeof(IAlarmSource))]
     class SmsAlarmSource : IAlarmSource
     {
+        #region Fields
+
+        private AlarmServer _server;
+
+        #endregion
+
+        #region Methods
+
+        internal void PushIncomingAlarm(string alarmText)
+        {
+            string message = "";
+
+            using (XmlReader reader = XmlReader.Create(new StringReader(alarmText)))
+            {
+                reader.ReadToFollowing("message");
+                message = reader.ReadElementContentAsString();
+            }
+
+            // TODO: There is a need for a parser! Right now the Operation-object is pretty useless...
+            Operation operation = new Operation();
+            operation.Timestamp = DateTime.UtcNow;
+            operation.Comment = message;
+
+            OnNewAlarm(new AlarmSourceEventArgs(operation));
+        }
+
+        #endregion
+
         #region IAlarmSource Members
 
         void IAlarmSource.Initialize()
         {
-            // TODO: Initialize work (if any)
         }
 
         /// <summary>
@@ -31,8 +60,8 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         void IAlarmSource.RunThread()
         {
-            // TODO: Listen to sockets here or whatever
-            // TODO: Call "OnNewAlarm()" when a SMS has been received!
+            _server = new AlarmServer(this);
+            _server.Start();
         }
 
         #endregion
@@ -41,9 +70,10 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         void IDisposable.Dispose()
         {
-            // TODO: Stop listening on sockets etc.
+            _server.Stop();
         }
 
         #endregion
+
     }
 }
