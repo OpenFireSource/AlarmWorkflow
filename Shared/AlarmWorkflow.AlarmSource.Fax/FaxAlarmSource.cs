@@ -196,26 +196,26 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 // Find out if the fax is a test-fax
                 if (IsTestFax(lines))
                 {
+                    sw.Stop();
                     Logger.Instance.LogFormat(LogType.Trace, this, "Operation is a test-fax. Parsing is skipped.");
                 }
                 else
                 {
                     operation = _parser.Parse(lines);
+
+                    sw.Stop();
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                    // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
+                    if (operation.Timestamp == DateTime.MinValue)
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                        operation.Timestamp = DateTime.Now;
+                    }
+
+                    // Raise event...
+                    OnNewAlarm(operation);
                 }
-
-                sw.Stop();
-                Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
-
-                // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
-                if (operation.Timestamp == DateTime.MinValue)
-                {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
-                    operation.Timestamp = DateTime.Now;
-                }
-
-                // Raise event...
-                OnNewAlarm(operation);
-
             }
             catch (Exception ex)
             {

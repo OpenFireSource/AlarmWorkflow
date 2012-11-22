@@ -41,7 +41,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.OCRSoftwarePath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Path").GetString();
 
             this.RoutineInterval = SettingsManager.Instance.GetSetting("FaxAlarmSource", "Routine.Interval").GetInt32();
-            this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries));
+            this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries));
 
             // Parse replace dictionary
             this.ReplaceDictionary = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ReplaceDictionary").GetValue<ReplaceDictionary>();
