@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, SMSAlarmActivity!</string>
+    <string name="app_name">SMSAlarm</string>
+    <string name="title">SMS-Alarmierung</string>
+    <string name="about">Über</string>
+
+</resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <EditTextPreference android:title="ServerIP/Hostname" android:summary="Der Server auf dem auf Port 5555 gehorcht wird." android:key="server"/>
+    
+
+</PreferenceScreen>
