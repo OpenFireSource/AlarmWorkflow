@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -7,7 +10,7 @@ namespace AlarmWorkflow.Shared.Core
     /// Represents an operation, which was created by analyzing and parsing an incoming alarmfax.
     /// </summary>
     [Serializable()]
-    public sealed class Operation : IEquatable<Operation>
+    public sealed class Operation : IEquatable<Operation>, IFormattable
     {
         #region Constants
 
@@ -174,6 +177,18 @@ namespace AlarmWorkflow.Shared.Core
             return base.Equals(obj);
         }
 
+        /// <summary>
+        /// Returns a string representation of the current operation similar to:
+        /// "(OperationNumber) Timestamp, Location". For a custom formatting check out <see cref="M:ToString(string)"/>.
+        /// </summary>
+        /// <returns>A string representation of the current operation.</returns>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("({0}) {1}, {2}", OperationNumber, Timestamp, GetDestinationLocation().ToString());
+            return sb.ToString();
+        }
+
         #endregion
 
         #region IEquatable<Operation> Member
@@ -194,6 +209,80 @@ namespace AlarmWorkflow.Shared.Core
             }
 
             return other.Id == this.Id;
+        }
+
+        #endregion
+
+        #region IFormattable Members
+
+        /// <summary>
+        /// Converts the value of the current <see cref="Operation"/> object to its equivalent string representation
+        /// using the specified format.
+        /// </summary>
+        /// <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+        /// If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+        /// If it wasn't found there either, a default string is printed.</param>
+        /// <param name="formatProvider">The format provider to use for formatting.</param>
+        /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format.</returns>
+        public string ToString(string format)
+        {
+            return ToString(format, null);
+        }
+
+        /// <summary>
+        /// Converts the value of the current <see cref="Operation"/> object to its equivalent string representation
+        /// using the specified format and culture-specific format information.
+        /// </summary>
+        /// <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+        /// If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+        /// If it wasn't found there either, a default string is printed.</param>
+        /// <param name="formatProvider">The format provider to use for formatting.</param>
+        /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            if (string.IsNullOrWhiteSpace(format))
+            {
+                return format;
+            }
+
+            StringBuilder sb = new StringBuilder(format);
+            // Replace common control chars
+            // TODO: Tab is cheap!
+            sb.Replace("\t", "    ");
+            sb.Replace("\n", Environment.NewLine);
+
+            Regex regex = new Regex(@"{(\w+)}");
+            foreach (Group match in regex.Matches(format))
+            {
+                string macroText = match.Value;
+                string propertyName = macroText.Substring(1, macroText.Length - 2);
+
+                string propertyValue = "(No value)";
+                object rawValue = null;
+
+                PropertyInfo property = this.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+                if (property != null)
+                {
+                    rawValue = property.GetValue(this, null);
+                }
+                else
+                {
+                    rawValue = null;
+                    if (CustomData.ContainsKey(propertyName))
+                    {
+                        rawValue = CustomData[propertyName];
+                    }
+                }
+
+                if (rawValue != null)
+                {
+                    propertyValue = rawValue.ToString();
+                }
+
+                sb.Replace(macroText, propertyValue);
+            }
+
+            return sb.ToString();
         }
 
         #endregion
