@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="notifications"
+        android:title="Benarchichtigungen" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="vibrate"
+            android:summary="Deaktiviert oder aktivert die Vibration bei einem Alarm"
+            android:title="Vibration" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sound"
+            android:summary="Deaktiviert oder aktivert den Ton bei einem Alarm."
+            android:summaryOff="Ton aus"
+            android:summaryOn="Ton an"
+            android:title="Audio" />
+        <CheckBoxPreference           android:defaultValue="false"
+            android:dependency="sound"
+            android:key="overridesound"
+            android:summary="Ignoriert die Stummschaltung des Telefons."
+            android:summaryOff="Spielt nur Ton ab wenn auch Ton an."
+            android:summaryOn="Spielt immer Ton ab."
+            android:title="Stummschaltung" />
+        <RingtonePreference
+            android:dependency="sound"
+            android:key="ringsel"
+            android:showSilent="true"
+            android:summary="Zeigt eine Auswahl an Tönen zur Alarmierung an"
+            android:title="Tonauswahl" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

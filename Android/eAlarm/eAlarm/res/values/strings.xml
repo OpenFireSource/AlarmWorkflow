@@ -1,0 +1,10 @@
+<resources>   
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="google_map_demo">Google Map Demo</string>
+    <string name="app_name">eAlarm</string>
+    <string name="account">Bitte dein Google Account auswählen</string>
+    <string name="about">Diese Anwendung wurde von Florian Ritterhoff als &quot;Zusatzalarmierung&quot; für Alarmworkflow geschrieben. Diese Anwendung gilt nicht als Ersatz für den Pieper!</string>
+    <string name="not_available">n/a</string>
+</resources>
