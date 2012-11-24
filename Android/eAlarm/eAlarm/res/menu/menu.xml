@@ -8,5 +8,10 @@
         android:id="@+id/about"
         android:icon="@drawable/ic_menu_info_details"
         android:title="About"/>
+    <item
+        android:icon="@drawable/ic_menu_delete"
+        android:id="@+id/clear"
+        android:title="Liste löschen">
+    </item>
 
 </menu>

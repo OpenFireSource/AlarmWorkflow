@@ -16,19 +16,29 @@
             android:summaryOff="Ton aus"
             android:summaryOn="Ton an"
             android:title="Audio" />
-        <CheckBoxPreference           android:defaultValue="false"
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:dependency="sound"
             android:key="overridesound"
             android:summary="Ignoriert die Stummschaltung des Telefons."
             android:summaryOff="Spielt nur Ton ab wenn auch Ton an."
             android:summaryOn="Spielt immer Ton ab."
             android:title="Stummschaltung" />
+
         <RingtonePreference
             android:dependency="sound"
             android:key="ringsel"
+            android:ringtoneType="ringtone|notification|alarm|all"
             android:showSilent="true"
             android:summary="Zeigt eine Auswahl an Tönen zur Alarmierung an"
             android:title="Tonauswahl" />
+
+        <CheckBoxPreference
+            android:key="openApp"
+            android:summary="Öffnet die App nach Alarmierung"
+            android:summaryOff="App per Notificationbar öffnen"
+            android:summaryOn="App per Program öffnen"
+            android:title="App öffnen" />
     </PreferenceCategory>
 
 </PreferenceScreen>

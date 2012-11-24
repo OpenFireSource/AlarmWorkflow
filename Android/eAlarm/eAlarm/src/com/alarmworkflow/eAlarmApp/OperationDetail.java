@@ -10,6 +10,9 @@ import com.alarmworkflow.eAlarmApp.services.DataSource;
 import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -63,6 +66,10 @@ public class OperationDetail extends Activity {
 				startActivity(intent);
 			}
 		});
+		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");
+		keyguardLock.reenableKeyguard();		
 	}
 
 	@Override

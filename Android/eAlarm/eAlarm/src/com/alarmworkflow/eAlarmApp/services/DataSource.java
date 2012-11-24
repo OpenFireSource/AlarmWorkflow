@@ -51,7 +51,6 @@ public class DataSource {
 	}
 
 	public void deleteReaction(int id) {
-
 		System.out.println("Comment deleted with id: " + id);
 		database.delete(MySQLiteHelper.TABLE_MAIN, MySQLiteHelper.COLUMN_ID
 				+ " = " + id, null);

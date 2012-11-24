@@ -51,7 +51,7 @@ public class OperationView extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		initList();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -69,10 +69,15 @@ public class OperationView extends Activity {
 		case R.id.about:
 			startActivity(new Intent(this, About.class));
 			return true;
+		case R.id.clear:
+			DataSource.getInstance(getApplicationContext()).clearList();
+			fillList();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
+
 	@Override
 	public void onResume() {
 		super.onResume();

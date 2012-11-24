@@ -9,7 +9,11 @@ import java.util.UUID;
 import com.alarmworkflow.eAlarmApp.C2DMClientActivity;
 import com.alarmworkflow.eAlarmApp.OperationDetail;
 import com.alarmworkflow.eAlarmApp.R;
+
+import android.app.AlertDialog;
 import android.app.IntentService;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,18 +22,31 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class GCMIntent extends IntentService {
+public class GCMIntent extends IntentService implements
+		MediaPlayer.OnCompletionListener {
 
 	private String email;
 	private AudioManager audman;
 	private int currentAudioVolume;
 	private static String UUID = "uhwid";
+	private MediaPlayer mediaPlayer;
+	private String header;
+	private String text;
+	private boolean overridesound;
+	private String alarmsound;
+	private boolean vibrate;
+	private boolean sound;
+	private boolean openApp;
 
 	public GCMIntent(String name) {
 		super(name);
@@ -63,7 +80,7 @@ public class GCMIntent extends IntentService {
 	 * 
 	 * @param time
 	 */
-	private static void generateNotification(Context context, String message,
+	private void generateNotification(Context context, String message,
 			String time) {
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
@@ -76,16 +93,13 @@ public class GCMIntent extends IntentService {
 		Intent notificationIntent = new Intent(context, OperationDetail.class);
 		// set intent so it does not start a new activity
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-				| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 		notificationIntent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
 		PendingIntent intent = PendingIntent.getActivity(context, 0,
 				notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		// Play default notification sound
-		notification.defaults |= Notification.DEFAULT_SOUND;
 		// Vibrate if vibrate is enabled
-		notification.defaults |= Notification.DEFAULT_VIBRATE;
 		notificationManager.notify(0, notification);
 
 	}
@@ -110,22 +124,104 @@ public class GCMIntent extends IntentService {
 	}
 
 	private void handleMessage(Intent intent) {
-		String header = intent.getExtras().getString("header");
-		String text = intent.getExtras().getString("text");
+		header = intent.getExtras().getString("header");
+		text = intent.getExtras().getString("text");
 		String longitude = intent.getExtras().getString("long");
 		String latitude = intent.getExtras().getString("lat");
 		Date date = new Date();
 		String time = date.getTime() + "";
 		DataSource.getInstance(this).addOperation(header, text, longitude,
 				latitude, time);
+		initPreferences();
 		audman = ((AudioManager) getApplicationContext().getSystemService(
 				"audio"));
-		currentAudioVolume = audman.getStreamVolume(AudioManager.STREAM_MUSIC);
-		audman.setStreamVolume(AudioManager.STREAM_MUSIC,
-				audman.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
-		generateNotification(getApplicationContext(), header, time);
-		audman.setStreamVolume(AudioManager.STREAM_MUSIC, currentAudioVolume, 0);
+		currentAudioVolume = audman.getStreamVolume(AudioManager.STREAM_ALARM);
+		if (overridesound)
+			audman.setStreamVolume(AudioManager.STREAM_ALARM,
+					audman.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
+		unlockDevice();
+		if (openApp)
+			openApplication(time);
+		else
+			generateNotification(getApplicationContext(), header, time);
+		if (sound && alarmsound != "")
+			playSound();
+		if(vibrate)
+			vibrate();
+		audman.setStreamVolume(AudioManager.STREAM_ALARM, currentAudioVolume, 0);
 
+	}
+
+	void playSound() {
+		mediaPlayer = new MediaPlayer();
+		Uri uri = Uri.parse(alarmsound);
+		try {
+			mediaPlayer.setDataSource(this, uri);
+			final AudioManager audioManager = (AudioManager) this
+					.getSystemService(Context.AUDIO_SERVICE);
+			if (audioManager.getStreamVolume(AudioManager.STREAM_ALARM) != 0) {
+				mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
+				mediaPlayer.prepare();
+				mediaPlayer.start();
+				mediaPlayer.setOnCompletionListener(this);
+			}
+		} catch (IOException e) {
+			System.out.println("OOPS");
+		}
+	}
+
+	void initPreferences() {
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		vibrate = prefs.getBoolean("vibrate", false);
+		sound = prefs.getBoolean("sound", false);
+		overridesound = prefs.getBoolean("overridesound", false);
+		openApp = prefs.getBoolean("openApp", false);
+		alarmsound = prefs.getString("ringsel", "");
+	}
+
+	private void openApplication(String time) {
+		Intent intent = new Intent(getApplicationContext(),
+				OperationDetail.class);
+		// set intent so it does not start a new activity
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+				| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
+		startActivity(intent);
+	}
+
+	void vibrate() {
+		// Get instance of Vibrator from current Context
+		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		int dot = 200;
+		int dash = 500;
+		int short_gap = 200;
+		int medium_gap = 500;
+		int long_gap = 1000;
+		long[] pattern = { 0, // Start immediately
+				dot, short_gap, dot, short_gap, dot, // s
+				medium_gap, dash, short_gap, dash, short_gap, dash, // o
+				medium_gap, dot, short_gap, dot, short_gap, dot, // s
+				long_gap };
+
+		// Only perform this pattern one time (-1 means "do not repeat")
+		v.vibrate(pattern, -1);
+
+	}
+
+	private void unlockDevice() {		
+		PowerManager pm = (PowerManager) getApplicationContext()
+				.getSystemService(Context.POWER_SERVICE);
+		WakeLock wakeLock = pm
+				.newWakeLock(
+						(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+								| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
+						"eAlarm");
+		wakeLock.acquire();
+		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
+				.getSystemService(Context.KEYGUARD_SERVICE);
+		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");
+		keyguardLock.disableKeyguard();
 	}
 
 	private String generateDeviceId() {
@@ -159,8 +255,9 @@ public class GCMIntent extends IntentService {
 			params.put(C2DMClientActivity.EMAIL, email);
 			params.put(UUID, generateDeviceId());
 			try {
-				ServerConnection.post(
-						"https://gymolching-portal.de/gcm/register.php", params);
+				ServerConnection
+						.post("https://gymolching-portal.de/gcm/register.php",
+								params);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -183,5 +280,11 @@ public class GCMIntent extends IntentService {
 				Log.i(TAG, "Received error: " + error);
 			}
 		}
+	}
+
+	@Override
+	public void onCompletion(MediaPlayer mp) {
+		mediaPlayer.stop();
+
 	}
 }
