@@ -9,9 +9,14 @@
         android:icon="@drawable/ic_menu_info_details"
         android:title="About"/>
     <item
-        android:icon="@drawable/ic_menu_delete"
         android:id="@+id/clear"
+        android:icon="@drawable/ic_menu_delete"
         android:title="Liste löschen">
+    </item>
+    <item
+        android:id="@+id/testnotification"
+        android:icon="@drawable/ic_menu_notifications"
+        android:title="Testnarchicht">
     </item>
 
 </menu>

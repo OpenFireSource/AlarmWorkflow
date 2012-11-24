@@ -1,6 +1,5 @@
 package com.alarmworkflow.eAlarmApp;
 
-import java.util.List;
 import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.services.DataSource;
 import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
@@ -9,7 +8,6 @@ import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 
 
@@ -94,7 +92,7 @@ public class Map extends MapActivity {
 
 		public OperationOverlay(Context context, Drawable defaultMarker) {
 			super(boundCenterBottom(defaultMarker));
-			this.context = context;
+			this.setContext(context);
 		}
 
 		@Override
@@ -133,6 +131,14 @@ public class Map extends MapActivity {
 
 		protected boolean onTap(int index) {
 			return true;
+		}
+
+		public Context getContext() {
+			return context;
+		}
+
+		public void setContext(Context context) {
+			this.context = context;
 		};
 	}
 }

@@ -10,7 +10,6 @@ import com.alarmworkflow.eAlarmApp.C2DMClientActivity;
 import com.alarmworkflow.eAlarmApp.OperationDetail;
 import com.alarmworkflow.eAlarmApp.R;
 
-import android.app.AlertDialog;
 import android.app.IntentService;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
@@ -21,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -47,6 +47,10 @@ public class GCMIntent extends IntentService implements
 	private boolean vibrate;
 	private boolean sound;
 	private boolean openApp;
+	private long timeout;
+	private boolean deviceOn;
+	private boolean unlock;
+	private boolean screenoff;
 
 	public GCMIntent(String name) {
 		super(name);
@@ -87,21 +91,29 @@ public class GCMIntent extends IntentService implements
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification notification = new Notification(icon, message, when);
-
 		String title = context.getString(R.string.app_name);
-
-		Intent notificationIntent = new Intent(context, OperationDetail.class);
-		// set intent so it does not start a new activity
-		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-				| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-		notificationIntent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
+		Intent notificationIntent = getNotifyIntent(time);
 		PendingIntent intent = PendingIntent.getActivity(context, 0,
 				notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 		notification.setLatestEventInfo(context, title, message, intent);
 		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		// Vibrate if vibrate is enabled
+		notification.flags |= Notification.FLAG_NO_CLEAR;
+		notification.flags |= Notification.FLAG_SHOW_LIGHTS;
+		notification.ledARGB = Color.RED;
+		notification.ledOnMS = 1;
+		notification.ledOffMS = 0;
 		notificationManager.notify(0, notification);
 
+	}
+
+	private Intent getNotifyIntent(String time) {
+		Intent intent = new Intent(getApplicationContext(),
+				OperationDetail.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
+		return intent;
 	}
 
 	@Override
@@ -139,14 +151,17 @@ public class GCMIntent extends IntentService implements
 		if (overridesound)
 			audman.setStreamVolume(AudioManager.STREAM_ALARM,
 					audman.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
-		unlockDevice();
+		if (deviceOn)
+			switchDeviceOn();
+		if (unlock)
+			unlockDevice();
 		if (openApp)
 			openApplication(time);
 		else
 			generateNotification(getApplicationContext(), header, time);
 		if (sound && alarmsound != "")
 			playSound();
-		if(vibrate)
+		if (vibrate)
 			vibrate();
 		audman.setStreamVolume(AudioManager.STREAM_ALARM, currentAudioVolume, 0);
 
@@ -178,16 +193,15 @@ public class GCMIntent extends IntentService implements
 		overridesound = prefs.getBoolean("overridesound", false);
 		openApp = prefs.getBoolean("openApp", false);
 		alarmsound = prefs.getString("ringsel", "");
+		deviceOn = prefs.getBoolean("deviceOn", false);
+		timeout = prefs.getInt("screentimeout", 0);
+		unlock = prefs.getBoolean("unlock", false);
+		screenoff = prefs.getBoolean("screenoff", true);
 	}
 
 	private void openApplication(String time) {
-		Intent intent = new Intent(getApplicationContext(),
-				OperationDetail.class);
-		// set intent so it does not start a new activity
-		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-				| Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_MULTIPLE_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
-		startActivity(intent);
+
+		startActivity(getNotifyIntent(time));
 	}
 
 	void vibrate() {
@@ -209,7 +223,7 @@ public class GCMIntent extends IntentService implements
 
 	}
 
-	private void unlockDevice() {		
+	private void switchDeviceOn() {
 		PowerManager pm = (PowerManager) getApplicationContext()
 				.getSystemService(Context.POWER_SERVICE);
 		WakeLock wakeLock = pm
@@ -217,7 +231,13 @@ public class GCMIntent extends IntentService implements
 						(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
 								| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
 						"eAlarm");
-		wakeLock.acquire();
+		if (!screenoff)
+			wakeLock.acquire();
+		else
+			wakeLock.acquire(timeout);
+	}
+
+	private void unlockDevice() {
 		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");

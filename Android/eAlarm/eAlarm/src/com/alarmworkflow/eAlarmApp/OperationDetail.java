@@ -2,9 +2,6 @@ package com.alarmworkflow.eAlarmApp;
 
 import java.util.Map;
 
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapView;
-
 import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.services.DataSource;
 import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
@@ -15,6 +12,8 @@ import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -33,6 +32,7 @@ public class OperationDetail extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.operationdetail);
 		TextView headerView = (TextView) findViewById(R.id.operationheader);
@@ -66,10 +66,23 @@ public class OperationDetail extends Activity {
 				startActivity(intent);
 			}
 		});
+
+	}
+
+	void undoUnlockandScreenOn() {
+		PowerManager pm = (PowerManager) getApplicationContext()
+				.getSystemService(Context.POWER_SERVICE);
+		WakeLock wakeLock = pm
+				.newWakeLock(
+						(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+								| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
+						"eAlarm");
+		wakeLock.release();
+
 		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
 				.getSystemService(Context.KEYGUARD_SERVICE);
 		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");
-		keyguardLock.reenableKeyguard();		
+		keyguardLock.reenableKeyguard();
 	}
 
 	@Override

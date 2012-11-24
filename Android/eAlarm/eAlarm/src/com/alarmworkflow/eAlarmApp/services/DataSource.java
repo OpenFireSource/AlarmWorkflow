@@ -3,11 +3,9 @@ package com.alarmworkflow.eAlarmApp.services;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -149,8 +147,8 @@ public class DataSource {
 		Cursor c = database.query(MySQLiteHelper.TABLE_MAIN, new String[] {
 				MySQLiteHelper.COLUMN_TIMESTAMP, MySQLiteHelper.COLUMN_HEADER,
 				MySQLiteHelper.COLUMN_LAT, MySQLiteHelper.COLUMN_LONG,
-				MySQLiteHelper.COMLUM_TEXT, MySQLiteHelper.COLUMN_TIMESTAMP }, MySQLiteHelper.COLUMN_ID + "="
-				+ id, null, null, null, null);
+				MySQLiteHelper.COMLUM_TEXT, MySQLiteHelper.COLUMN_TIMESTAMP },
+				MySQLiteHelper.COLUMN_ID + "=" + id, null, null, null, null);
 
 		if (c.moveToFirst()) {
 			data.put(MySQLiteHelper.COLUMN_TIMESTAMP, c.getString(c

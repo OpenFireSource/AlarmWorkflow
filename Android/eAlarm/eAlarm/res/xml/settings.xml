@@ -40,5 +40,27 @@
             android:summaryOn="App per Program öffnen"
             android:title="App öffnen" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="wakeup"
+        android:title="Gerät starten" >
+        <CheckBoxPreference
+            android:key="deviceOn"
+            android:title="Gerät aufwecken" />
+        <CheckBoxPreference
+            android:dependency="deviceOn"
+            android:key="unlock"
+            android:title="Gerät entsperren" />
+        <CheckBoxPreference
+            android:dependency="deviceOn"
+            android:key="screenoff"
+            android:title="Bildschirm nach bestimmter Zeit wieder abschalten" />
+
+        <com.alarmworkflow.eAlarmApp.general.IntEditTextPreference
+            android:dependency="screenoff"
+            android:key="screentimeout"
+            android:numeric="integer"
+            android:summary="Timeout nach dem der Bildschirm wieder abgeschaltet werden soll"
+            android:title="Bildschirm-Timeout" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

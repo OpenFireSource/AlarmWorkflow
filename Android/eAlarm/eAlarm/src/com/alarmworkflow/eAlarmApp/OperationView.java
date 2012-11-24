@@ -22,13 +22,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
-import android.widget.TextView;
 
 public class OperationView extends Activity {
 	private AdapterView<ListAdapter> lv;
 	private SharedPreferences prefs;
 	private String auth;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -73,6 +73,9 @@ public class OperationView extends Activity {
 			DataSource.getInstance(getApplicationContext()).clearList();
 			fillList();
 			return true;
+		case R.id.testnotification:
+			// TODO Build Testnotification
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -107,7 +110,7 @@ public class OperationView extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int position, long arg3) {
 				// selected item
-				@SuppressWarnings("unused")
+				@SuppressWarnings({ "unchecked" })
 				HashMap<String, String> o = (HashMap<String, String>) lv
 						.getItemAtPosition(position);
 				String timestamp = o.get(MySQLiteHelper.COLUMN_TIMESTAMP);
