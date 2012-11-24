@@ -1,4 +1,4 @@
-package de.florianritterhoff.eAlarm.services;
+package com.alarmworkflow.eAlarmApp.services;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -182,7 +182,7 @@ public class DataSource {
 		Cursor c = database.query(MySQLiteHelper.TABLE_MAIN,
 				new String[] { MySQLiteHelper.COLUMN_HEADER,
 						MySQLiteHelper.COLUMN_TIMESTAMP }, null, null, null,
-				null, MySQLiteHelper.COLUMN_TIMESTAMP);
+				null, MySQLiteHelper.COLUMN_TIMESTAMP + " DESC");
 		while (c.moveToNext()) {
 			String header = c.getString(c
 					.getColumnIndex(MySQLiteHelper.COLUMN_HEADER));

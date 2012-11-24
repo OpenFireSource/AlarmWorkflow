@@ -61,6 +61,24 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LATITUDE ähnelt.
+        /// </summary>
+        internal static string LATITUDE {
+            get {
+                return ResourceManager.GetString("LATITUDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die LONGITUDE ähnelt.
+        /// </summary>
+        internal static string LONGITUDE {
+            get {
+                return ResourceManager.GetString("LONGITUDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die There are no recipients configured! ähnelt.
         /// </summary>
         internal static string NoRecipientsMessage {

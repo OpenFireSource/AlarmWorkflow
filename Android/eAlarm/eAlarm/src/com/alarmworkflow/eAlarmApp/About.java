@@ -1,8 +1,8 @@
-package de.florianritterhoff.eAlarm;
+package com.alarmworkflow.eAlarmApp;
 
 import android.app.Activity;
 import android.os.Bundle;
-import de.florianritterhoff.eAlarm.R;
+import com.alarmworkflow.eAlarmApp.R;
 
 public class About extends Activity {
 	@Override

@@ -1,4 +1,4 @@
-package de.florianritterhoff.eAlarm.services;
+package com.alarmworkflow.eAlarmApp.services;
 
 import java.io.IOException;
 import java.util.Date;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import de.florianritterhoff.eAlarm.C2DMClientActivity;
-import de.florianritterhoff.eAlarm.OperationDetail;
-import de.florianritterhoff.eAlarm.R;
+import com.alarmworkflow.eAlarmApp.C2DMClientActivity;
+import com.alarmworkflow.eAlarmApp.OperationDetail;
+import com.alarmworkflow.eAlarmApp.R;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -160,7 +160,7 @@ public class GCMIntent extends IntentService {
 			params.put(UUID, generateDeviceId());
 			try {
 				ServerConnection.post(
-						"http://gymolching-portal.de/gcm/register.php", params);
+						"https://gymolching-portal.de/gcm/register.php", params);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

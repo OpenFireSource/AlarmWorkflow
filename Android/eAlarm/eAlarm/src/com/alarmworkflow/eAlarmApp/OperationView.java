@@ -1,12 +1,12 @@
-package de.florianritterhoff.eAlarm;
+package com.alarmworkflow.eAlarmApp;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.florianritterhoff.eAlarm.R;
-import de.florianritterhoff.eAlarm.services.DataSource;
-import de.florianritterhoff.eAlarm.services.MySQLiteHelper;
+import com.alarmworkflow.eAlarmApp.R;
+import com.alarmworkflow.eAlarmApp.services.DataSource;
+import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
 
 import android.app.Activity;
 import android.content.Intent;

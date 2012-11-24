@@ -1,4 +1,4 @@
-package de.florianritterhoff.eAlarm.services;
+package com.alarmworkflow.eAlarmApp.services;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

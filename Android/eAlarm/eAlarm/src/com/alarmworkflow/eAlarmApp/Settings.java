@@ -1,7 +1,8 @@
-package de.florianritterhoff.eAlarm;
+package com.alarmworkflow.eAlarmApp;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import com.alarmworkflow.eAlarmApp.R;
 
 public class Settings extends PreferenceActivity {
 

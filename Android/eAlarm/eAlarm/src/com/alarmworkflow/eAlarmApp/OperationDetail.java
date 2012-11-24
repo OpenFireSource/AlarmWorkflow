@@ -1,13 +1,14 @@
-package de.florianritterhoff.eAlarm;
+package com.alarmworkflow.eAlarmApp;
 
 import java.util.Map;
 
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapView;
 
-import de.florianritterhoff.eAlarm.R;
-import de.florianritterhoff.eAlarm.services.DataSource;
-import de.florianritterhoff.eAlarm.services.MySQLiteHelper;
+import com.alarmworkflow.eAlarmApp.R;
+import com.alarmworkflow.eAlarmApp.services.DataSource;
+import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,7 +58,7 @@ public class OperationDetail extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(getApplicationContext(),
-						de.florianritterhoff.eAlarm.Map.class);
+						com.alarmworkflow.eAlarmApp.Map.class);
 				intent.putExtra(MySQLiteHelper.COLUMN_ID, id);
 				startActivity(intent);
 			}

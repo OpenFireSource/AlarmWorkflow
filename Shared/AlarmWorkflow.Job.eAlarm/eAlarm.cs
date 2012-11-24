@@ -47,7 +47,7 @@ namespace AlarmWorkflow.Job.eAlarm
         public bool Initialize()
         {
             //Create Webrequest
-            webRequest = (HttpWebRequest) WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
+            webRequest = (HttpWebRequest)WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
@@ -66,21 +66,80 @@ namespace AlarmWorkflow.Job.eAlarm
 
             return true;
         }
+        
 
         public void DoJob(Operation operation)
         {
-            //Init StringBuilder for Texts
-            var bodyBuilder = new StringBuilder();
-            var headerBuilder = new StringBuilder();
+            
 
-            #region bodyBuilder filling
+            //Gets the mail-addresses with googlemail.com or gmail.com
+            foreach (MailingEntryObject recipient in _recipientsEntry)
+            {
+                if (recipient.Address.Address.EndsWith("@gmail.com") ||
+                    recipient.Address.Address.EndsWith("@googlemail.com"))
+                {
+                    _recipients.Add(recipient.Address.Address);
+                }
+            }
+            string to = String.Join(",", _recipients.ToArray());
+            //TODO Fetching Longitude and Latitude!
+            Dictionary<String, String> geoCode =
+                Helpers.getGeocodes(operation.Location + " " + operation.Street + " " + operation.StreetNumber);
+            String longitude = "0";
+            String latitude = "0";
+            if (geoCode != null)
+            {
+                longitude = geoCode[Properties.Resources.LONGITUDE];
+                latitude = geoCode[Properties.Resources.LATITUDE];
+            }
+            Dictionary<String,String> postParameters = new Dictionary<string, string>
+                                     {
+                                         {"email", to},
+                                         {"header", generateHeader(operation)},
+                                         {"text", generateBody(operation) },
+                                         {"long", longitude},
+                                         {"lat", latitude}
+                                     };
+            string postData = postParameters.Keys.Aggregate("",
+                                                            (current, key) =>
+                                                            current +
+                                                            (HttpUtility.UrlEncode(key) + "=" +
+                                                             HttpUtility.UrlEncode(postParameters[key]) + "&"));
+
+            byte[] data = Encoding.UTF8.GetBytes(postData);
+            webRequest.ContentLength = data.Length;
+
+            Stream requestStream = webRequest.GetRequestStream();
+            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+            Stream responseStream = webResponse.GetResponseStream();
+
+            requestStream.Write(data, 0, data.Length);
+            requestStream.Close();
+
+            if (responseStream != null)
+            {
+                StreamReader reader = new StreamReader(responseStream, Encoding.Default);
+                string pageContent = reader.ReadToEnd();
+                reader.Close();
+                responseStream.Close();
+                webResponse.Close();
+                //TODO Analyzing Response
+            }
+        }
+
+        #endregion IJob Members
+
+        #region Methods
+        private string generateBody(Operation operation)
+        {
+            var bodyBuilder = new StringBuilder();
             if (!String.IsNullOrEmpty(operation.Timestamp.ToString(CultureInfo.InvariantCulture)))
                 bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString(CultureInfo.InvariantCulture));
             if (!String.IsNullOrEmpty(operation.Keyword))
                 bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
             if (!String.IsNullOrEmpty(operation.EmergencyKeyword))
                 bodyBuilder.AppendLine("Einsatzstichwort: " + operation.EmergencyKeyword);
-            if (!String.IsNullOrEmpty(operation.Picture)) 
+            if (!String.IsNullOrEmpty(operation.Picture))
                 bodyBuilder.AppendLine("Meldebild: " + operation.Picture);
             if (!String.IsNullOrEmpty(operation.OperationNumber))
                 bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
@@ -102,9 +161,12 @@ namespace AlarmWorkflow.Job.eAlarm
                 bodyBuilder.AppendLine("Einsatzplan: " + operation.OperationPlan);
             if (!String.IsNullOrEmpty(operation.GetCustomData<string>("Vehicles")))
                 bodyBuilder.AppendLine("Fahrzeuge: " + operation.GetCustomData<string>("Vehicles"));
-            #endregion
+            return bodyBuilder.ToString();
+        }
 
-            #region headerBuilder filling
+        private string generateHeader(Operation operation)
+        {
+            var headerBuilder = new StringBuilder();           
 
             if (!String.IsNullOrEmpty(operation.Keyword))
                 headerBuilder.AppendLine(operation.Keyword);
@@ -122,59 +184,8 @@ namespace AlarmWorkflow.Job.eAlarm
             {
                 headerBuilder.Append("Feuerwehreinsatz");
             }
-
-            #endregion
-
-            //Gets the mail-addresses with googlemail.com or gmail.com
-            foreach (MailingEntryObject recipient in _recipientsEntry)
-            {
-                if (recipient.Address.Address.EndsWith("@gmail.com") ||
-                    recipient.Address.Address.EndsWith("@googlemail.com"))
-                {
-                    _recipients.Add(recipient.Address.Address);
-                }
-            }
-            string to = String.Join(",", _recipients.ToArray());
-            //TODO Fetching Longitude and Latitude!
-            String longitude = "0";
-            String latutude = "0";
-            #region postParameters filling and converting for request
-            var postParameters = new Dictionary<string, string>
-                                     {
-                                         {"email", to},
-                                         {"header", headerBuilder.ToString()},
-                                         {"text", bodyBuilder.ToString()},
-                                         {"long", "0"},
-                                         {"lat", "0"}
-                                     };
-            string postData = postParameters.Keys.Aggregate("",
-                                                            (current, key) =>
-                                                            current +
-                                                            (HttpUtility.UrlEncode(key) + "=" +
-                                                             HttpUtility.UrlEncode(postParameters[key]) + "&"));
-
-            byte[] data = Encoding.UTF8.GetBytes(postData);
-            #endregion
-            webRequest.ContentLength = data.Length;
-
-            Stream requestStream = webRequest.GetRequestStream();
-            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
-            Stream responseStream = webResponse.GetResponseStream();
-
-            requestStream.Write(data, 0, data.Length);
-            requestStream.Close();
-
-            if (responseStream != null)
-            {
-                var reader = new StreamReader(responseStream, Encoding.Default);
-                string pageContent = reader.ReadToEnd();
-                reader.Close();
-                responseStream.Close();
-                webResponse.Close();
-                //TODO Analyzing Response
-            }
+            return headerBuilder.ToString();
         }
-
-        #endregion IJob Members
+        #endregion
     }
 }

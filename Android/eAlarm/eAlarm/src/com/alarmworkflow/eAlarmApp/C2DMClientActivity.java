@@ -1,4 +1,4 @@
-package de.florianritterhoff.eAlarm;
+package com.alarmworkflow.eAlarmApp;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -17,7 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-import de.florianritterhoff.eAlarm.R;
+import com.alarmworkflow.eAlarmApp.R;
 
 public class C2DMClientActivity extends Activity {
 

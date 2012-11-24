@@ -1,4 +1,4 @@
-package de.florianritterhoff.eAlarm.services;
+package com.alarmworkflow.eAlarmApp.services;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
