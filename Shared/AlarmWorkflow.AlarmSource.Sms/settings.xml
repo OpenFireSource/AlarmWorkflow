@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="SmsAlarmSource">
 
-  <Setting Name="SomeSetting" Type="System.String" IsNull="False">Some setting</Setting>
+  <Setting Name="SMSParser" Type="System.String" IsNull="False">DefaultParser</Setting>
 
 </SettingsConfiguration>

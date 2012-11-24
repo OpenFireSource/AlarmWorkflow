@@ -2,7 +2,7 @@
 
   <Identifier Name="SmsAlarmSource" DisplayText="SMS (Alarmquelle)">
 
-    <Setting Name="SomeSetting" DisplayText="Eine Einstellung" />
+    <Setting Name="SMSParser" DisplayText="Parser" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Sms.ISmsParser, AlarmWorkflow.AlarmSource.Sms" />
 
   </Identifier>
 

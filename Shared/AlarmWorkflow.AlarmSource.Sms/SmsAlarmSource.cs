@@ -2,7 +2,9 @@
 using System.IO;
 using System.Xml;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.AlarmSource.Sms
 {
@@ -12,6 +14,7 @@ namespace AlarmWorkflow.AlarmSource.Sms
         #region Fields
 
         private AlarmServer _server;
+        private ISmsParser _parser;
 
         #endregion
 
@@ -19,6 +22,11 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         internal void PushIncomingAlarm(string alarmText)
         {
+            if (_parser == null)
+            {
+                return;
+            }
+
             string message = "";
 
             using (XmlReader reader = XmlReader.Create(new StringReader(alarmText)))
@@ -27,10 +35,22 @@ namespace AlarmWorkflow.AlarmSource.Sms
                 message = reader.ReadElementContentAsString();
             }
 
-            // TODO: There is a need for a parser! Right now the Operation-object is pretty useless...
-            Operation operation = new Operation();
-            operation.Timestamp = DateTime.UtcNow;
-            operation.Comment = message;
+            Operation operation = null;
+            // Let the parser do the job...
+            try
+            {
+                operation = _parser.Parse(alarmText);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SmsParserError);
+                Logger.Instance.LogException(this, ex);
+            }
+
+            if (operation == null)
+            {
+                return;
+            }
 
             OnNewAlarm(new AlarmSourceEventArgs(operation));
         }
@@ -41,6 +61,14 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         void IAlarmSource.Initialize()
         {
+            string smsParserAlias = SettingsManager.Instance.GetSetting("SmsAlarmSource", "SMSParser").GetString();
+
+            _parser = ExportedTypeLibrary.Import<ISmsParser>(smsParserAlias);
+            if (_parser == null)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SmsParserNotFoundError, smsParserAlias);
+                _parser = new DefaultParser();
+            }
         }
 
         /// <summary>
