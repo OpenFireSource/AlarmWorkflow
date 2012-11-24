@@ -47,7 +47,7 @@ namespace AlarmWorkflow.Job.eAlarm
         public bool Initialize()
         {
             //Create Webrequest
-            webRequest = (HttpWebRequest) WebRequest.Create("http://gymolching-portal.de/gcm/send.php");
+            webRequest = (HttpWebRequest) WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
             webRequest.Method = "POST";
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
