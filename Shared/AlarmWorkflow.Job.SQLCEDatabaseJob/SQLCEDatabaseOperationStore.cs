@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.SQLCEDatabaseJob
@@ -17,20 +18,65 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
         #region IOperationStore Member
 
-        int IOperationStore.GetNextOperationId()
+        Operation IOperationStore.StoreOperation(Operation operation)
         {
             lock (Lock)
             {
-                using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
+                try
                 {
-                    if (entities.Operations.Any())
+                    using (SQLCEDatabaseEntities entities = Helpers.CreateContext<SQLCEDatabaseEntities>())
                     {
-                        return entities.Operations.Max(o => o.OperationId) + 1;
+                        int oid = operation.Id;
+                        if (operation.Id == 0)
+                        {
+                            oid = entities.Operations.Any() ? entities.Operations.Max(o => o.OperationId) + 1 : 1;
+                        }
+
+                        // We need to see if the timestamp could be parsed. It will cause a Overflow in SQL Server if we allow DateTime.MinValue!
+                        DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
+
+                        // There are new properties, which are unsure whether or not they are going to be added permantently.
+                        // Thus we will add them to the CustomData until clarified.
+                        operation.CustomData["Picture"] = operation.Picture;
+                        operation.CustomData["EmergencyKeyword"] = operation.EmergencyKeyword;
+                        operation.CustomData["OperationPlan"] = operation.OperationPlan;
+
+                        OperationData data = new OperationData()
+                        {
+                            OperationId = oid,
+                            Timestamp = Helpers.EnsureSaneTimestamp(timestamp),
+                            City = operation.City,
+                            ZipCode = operation.ZipCode,
+                            Location = operation.Location,
+                            OperationNumber = operation.OperationNumber,
+                            Keyword = operation.Keyword,
+                            Comment = operation.Comment,
+                            IsAcknowledged = operation.IsAcknowledged,
+                            Messenger = operation.Messenger,
+                            Building = operation.Property,
+                            Street = operation.Street,
+                            StreetNumber = operation.StreetNumber,
+                            CustomData = Utilities.Serialize(operation.CustomData),
+                            // TODO: Compress route image!?
+                            RouteImage = operation.RouteImage,
+                        };
+                        entities.Operations.AddObject(data);
+                        entities.SaveChanges();
+
+                        // Update Operation ID afterwards
+                        operation.Id = oid;
+                        return operation;
                     }
-                    return 1;
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while trying to write the operation to the database!");
+                    Logger.Instance.LogException(this, ex);
+                    throw ex;
                 }
             }
         }
+
 
         void IOperationStore.AcknowledgeOperation(int operationId)
         {

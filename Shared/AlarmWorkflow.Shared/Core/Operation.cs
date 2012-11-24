@@ -222,7 +222,6 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
         /// If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
         /// If it wasn't found there either, a default string is printed.</param>
-        /// <param name="formatProvider">The format provider to use for formatting.</param>
         /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format.</returns>
         public string ToString(string format)
         {

@@ -333,15 +333,19 @@ namespace AlarmWorkflow.Shared
                 // Download the route plan information (if data is meaningful)
                 DownloadRoutePlan(e.Operation);
 
-                // Grant the operation a new Id
-                e.Operation.Id = _operationStore.GetNextOperationId();
+                Operation storedOperation = StoreOperation(e.Operation);
+                // When storing the operation failed, leave
+                if (storedOperation == null)
+                {
+                    return;
+                }
 
                 foreach (IJob job in _jobs)
                 {
                     // Run the job. If the job fails, ignore that exception as well but log it too!
                     try
                     {
-                        job.DoJob(e.Operation);
+                        job.DoJob(storedOperation);
                     }
                     catch (Exception ex)
                     {
@@ -355,6 +359,20 @@ namespace AlarmWorkflow.Shared
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the operation!");
                 Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        private Operation StoreOperation(Operation operation)
+        {
+            try
+            {
+                return _operationStore.StoreOperation(operation);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NewAlarmStoreOperationFailedMessage);
+                Logger.Instance.LogException(this, ex);
+                return null;
             }
         }
 
