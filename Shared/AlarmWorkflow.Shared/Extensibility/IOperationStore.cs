@@ -9,10 +9,12 @@ namespace AlarmWorkflow.Shared.Extensibility
     public interface IOperationStore
     {
         /// <summary>
-        /// Returns the next free operation Id. This is used for new operations.
+        /// Stores the given <see cref="Operation"/>-object in the database.
+        /// Any implementing method must update the <see cref="Operation.Id"/>-property!
         /// </summary>
-        /// <returns>The next free operation Id</returns>
-        int GetNextOperationId();
+        /// <param name="operation">The operation to store.</param>
+        /// <returns>The updated Operation-object with updated ids.</returns>
+        Operation StoreOperation(Operation operation);
         /// <summary>
         /// Returns a list containing the Identifiers of all operations using a predefined set of filter criteria.
         /// The real <see cref="T:Operation"/>s can then be retrieved by using <see cref="M:GetOperationById(int)"/>.

@@ -77,7 +77,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SQLCEDatabase.edmx</DependentUpon>
     </Compile>
-    <Compile Include="SQLCEDatabaseJob.cs" />
     <Compile Include="SQLCEDatabaseOperationStore.cs" />
   </ItemGroup>
   <ItemGroup>
