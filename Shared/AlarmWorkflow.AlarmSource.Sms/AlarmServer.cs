@@ -50,7 +50,10 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         internal void Stop()
         {
-            ClientSocket.Close();
+            if (ClientSocket != null)
+            {
+                ClientSocket.Close();
+            }
             ServerSocket.Stop();
         }
 
