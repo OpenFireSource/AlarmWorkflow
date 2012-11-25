@@ -18,11 +18,11 @@
         android:textSize="12pt"
         android:textStyle="bold" />
 
-    <com.google.android.maps.MapView
+    <com.alarmworkflow.eAlarmApp.general.CustomMapView
         android:id="@+id/map"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:apiKey="0AiM-lmFmTJYrxh2VA11bm9zotKbApzi4rG8Gjg"
+        android:layout_height="match_parent"
+        android:apiKey="@string/mapKey"
         android:clickable="true"
         android:focusableInTouchMode="true"
         android:keepScreenOn="true" />

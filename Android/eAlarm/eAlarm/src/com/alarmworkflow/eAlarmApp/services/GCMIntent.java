@@ -11,8 +11,6 @@ import com.alarmworkflow.eAlarmApp.OperationDetail;
 import com.alarmworkflow.eAlarmApp.R;
 
 import android.app.IntentService;
-import android.app.KeyguardManager;
-import android.app.KeyguardManager.KeyguardLock;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -49,7 +47,6 @@ public class GCMIntent extends IntentService implements
 	private boolean openApp;
 	private long timeout;
 	private boolean deviceOn;
-	private boolean unlock;
 	private boolean screenoff;
 
 	public GCMIntent(String name) {
@@ -152,22 +149,20 @@ public class GCMIntent extends IntentService implements
 			audman.setStreamVolume(AudioManager.STREAM_ALARM,
 					audman.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
 		if (deviceOn)
-			switchDeviceOn();
-		if (unlock)
-			unlockDevice();
+			switchDeviceOn();		
+		if (sound && alarmsound != "")
+			playSound();
+		if (vibrate)
+			vibrate();		
 		if (openApp)
 			openApplication(time);
 		else
 			generateNotification(getApplicationContext(), header, time);
-		if (sound && alarmsound != "")
-			playSound();
-		if (vibrate)
-			vibrate();
-		audman.setStreamVolume(AudioManager.STREAM_ALARM, currentAudioVolume, 0);
 
 	}
 
 	void playSound() {
+
 		mediaPlayer = new MediaPlayer();
 		Uri uri = Uri.parse(alarmsound);
 		try {
@@ -178,11 +173,13 @@ public class GCMIntent extends IntentService implements
 				mediaPlayer.setAudioStreamType(AudioManager.STREAM_ALARM);
 				mediaPlayer.prepare();
 				mediaPlayer.start();
+				mediaPlayer.setLooping(false);
 				mediaPlayer.setOnCompletionListener(this);
 			}
 		} catch (IOException e) {
-			System.out.println("OOPS");
+			Log.i("THREAD", "oops");
 		}
+
 	}
 
 	void initPreferences() {
@@ -195,7 +192,6 @@ public class GCMIntent extends IntentService implements
 		alarmsound = prefs.getString("ringsel", "");
 		deviceOn = prefs.getBoolean("deviceOn", false);
 		timeout = prefs.getInt("screentimeout", 0);
-		unlock = prefs.getBoolean("unlock", false);
 		screenoff = prefs.getBoolean("screenoff", true);
 	}
 
@@ -205,21 +201,24 @@ public class GCMIntent extends IntentService implements
 	}
 
 	void vibrate() {
-		// Get instance of Vibrator from current Context
-		Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-		int dot = 200;
-		int dash = 500;
-		int short_gap = 200;
-		int medium_gap = 500;
-		int long_gap = 1000;
-		long[] pattern = { 0, // Start immediately
-				dot, short_gap, dot, short_gap, dot, // s
-				medium_gap, dash, short_gap, dash, short_gap, dash, // o
-				medium_gap, dot, short_gap, dot, short_gap, dot, // s
-				long_gap };
+		new Thread(new Runnable() {
+			public void run() {
+				Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+				int dot = 200;
+				int dash = 500;
+				int short_gap = 200;
+				int medium_gap = 500;
+				int long_gap = 1000;
+				long[] pattern = { 0, // Start immediately
+						dot, short_gap, dot, short_gap, dot, // s
+						medium_gap, dash, short_gap, dash, short_gap, dash, // o
+						medium_gap, dot, short_gap, dot, short_gap, dot, // s
+						long_gap };
 
-		// Only perform this pattern one time (-1 means "do not repeat")
-		v.vibrate(pattern, -1);
+				// Only perform this pattern one time (-1 means "do not repeat")
+				v.vibrate(pattern, -1);
+			}
+		}).start();
 
 	}
 
@@ -235,13 +234,6 @@ public class GCMIntent extends IntentService implements
 			wakeLock.acquire();
 		else
 			wakeLock.acquire(timeout);
-	}
-
-	private void unlockDevice() {
-		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
-				.getSystemService(Context.KEYGUARD_SERVICE);
-		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");
-		keyguardLock.disableKeyguard();
 	}
 
 	private String generateDeviceId() {
@@ -305,6 +297,6 @@ public class GCMIntent extends IntentService implements
 	@Override
 	public void onCompletion(MediaPlayer mp) {
 		mediaPlayer.stop();
-
+		audman.setStreamVolume(AudioManager.STREAM_ALARM, currentAudioVolume, 0);
 	}
 }
