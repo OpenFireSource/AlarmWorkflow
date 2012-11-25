@@ -38,6 +38,13 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// Gets a list of all setting item VMs.
         /// </summary>
         public List<CategoryViewModel> CategoryItems { get; private set; }
+        /// <summary>
+        /// Gets the Order of this section.
+        /// </summary>
+        public int Order
+        {
+            get { return _identifier.Order; }
+        }
 
         #endregion
 

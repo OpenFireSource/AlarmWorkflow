@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -108,9 +110,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             _manager.Initialize(SettingsManager.SettingsInitialization.IncludeDisplayConfiguration);
 
             _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
+            BuildSectionsTree();
+        }
 
+        #endregion
+
+        #region Methods
+
+        private void BuildSectionsTree()
+        {
             _sections = new Dictionary<string, SectionViewModel>();
-
             foreach (SettingDescriptor descriptor in _manager)
             {
                 SectionViewModel svm = null;
@@ -130,12 +139,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 svm.Add(descriptor, setting);
             }
 
-            // TODO: Sort the list afterwards
+            // Apply sorting
+            ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);
+            view.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
-
-        #endregion
-
-        #region Methods
 
         #endregion
     }
