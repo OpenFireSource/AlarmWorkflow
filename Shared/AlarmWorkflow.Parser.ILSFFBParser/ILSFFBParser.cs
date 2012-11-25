@@ -5,6 +5,9 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
+    /// <summary>
+    /// Description of ILSFFBParser.
+    /// </summary>
     [Export("ILSFFBParser", typeof(IFaxParser))]
     sealed class ILSFFBParser : IFaxParser
     {
@@ -31,8 +34,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
 
                 //Definition der bool Variablen
                 //bool nextIsOrt = false;
-                bool ReplStreet = false;
-                bool ReplVehicle = false;
+                bool ReplStreet = false;                
                 bool ReplCity = false;
                 bool ReplComment = false;
                 bool ReplPicture = false;
@@ -71,10 +73,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                             case "STRAßE":
                             case "STRABE":
                                 operation.Street = msg;
-                                break;
-                            case "KREUZUNG":
-                                operation.CustomData["Intersection"] = msg;
-                                break;
+                                break;                            
                             case "ORTSTEIL/ORT":
                                 operation.City = msg;
                                 break;
@@ -115,12 +114,9 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         Faxtime = true;
                     }
 
-                    // Fahrzeug füllen wenn leer
-                    if (ReplVehicle == false)
-                    {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " ";
-                        ReplVehicle = true;
-                    }
+                    // Fahrzeug füllen 
+                    operation.CustomData["Vehicles"] = "";
+                    
 
                     // Sonderzeichenersetzung im Meldebild
 
