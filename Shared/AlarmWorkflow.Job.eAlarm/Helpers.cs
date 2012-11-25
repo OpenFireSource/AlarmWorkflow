@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Web;
 using System.Xml.XPath;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.eAlarm
 {
@@ -23,7 +24,7 @@ namespace AlarmWorkflow.Job.eAlarm
         /// </summary>
         /// <param name="address">Address to search for</param>
         /// <returns>null or dictonary</returns>
-        internal static Dictionary<string, string> getGeocodes(string address)
+        internal static Dictionary<string, string> GetGeocodes(string address)
         {
             Dictionary<string, string> geocodes = new Dictionary<string, string>();
             string urladdress = HttpUtility.UrlEncode(address);
@@ -68,7 +69,8 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             catch (Exception ex)
             {
-
+                Logger.Instance.LogFormat(LogType.Error, typeof(Helpers), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof(Helpers), ex);
             }
             finally
             {

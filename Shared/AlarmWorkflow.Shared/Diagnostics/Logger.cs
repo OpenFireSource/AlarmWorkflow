@@ -119,6 +119,10 @@ namespace AlarmWorkflow.Shared.Diagnostics
             {
                 return "(Unknown source)";
             }
+            else if (source is Type)
+            {
+                return ((Type)source).Name;
+            }
             else if (source is string)
             {
                 return (string)source;
