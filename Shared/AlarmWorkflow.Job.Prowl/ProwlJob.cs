@@ -66,6 +66,7 @@ namespace AlarmWorkflow.Job.Prowl
             string body = "Einsatz:\r\n";
             body += "Zeitstempel: " + operation.Timestamp.ToString() + "\r\n";
             body += "Stichwort: " + operation.Keyword + "\r\n";
+            body += "Meldebild: " + operation.Picture + "\r\n";
             body += "Einsatznr: " + operation.OperationNumber + "\r\n";
             body += "Hinweis: " + operation.Comment + "\r\n";
             body += "Mitteiler: " + operation.Messenger + "\r\n";
