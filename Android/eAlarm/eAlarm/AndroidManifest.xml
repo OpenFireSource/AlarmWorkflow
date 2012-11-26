@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
 
     <permission
         android:name="com.alarmworkflow.eAlarmApp.permission.C2D_MESSAGE"
@@ -36,7 +38,6 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,7 +45,7 @@
         <activity android:name="com.alarmworkflow.eAlarmApp.About" />
         <activity android:name="com.alarmworkflow.eAlarmApp.C2DMClientActivity" />
         <activity android:name="com.alarmworkflow.eAlarmApp.OperationDetail" />
-        <activity android:name="com.alarmworkflow.eAlarmApp.Map" />      
+        <activity android:name="com.alarmworkflow.eAlarmApp.Map" />
 
         <receiver
             android:name="com.alarmworkflow.eAlarmApp.services.GCMReciver"

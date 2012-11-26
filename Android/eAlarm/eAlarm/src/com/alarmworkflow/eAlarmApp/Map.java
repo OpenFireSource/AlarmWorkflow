@@ -1,39 +1,48 @@
 package com.alarmworkflow.eAlarmApp;
 
+import mapviewballoons.example.simple.SimpleItemizedOverlay;
+
 import com.alarmworkflow.eAlarmApp.R;
+import com.alarmworkflow.eAlarmApp.general.CustomMapView;
 import com.alarmworkflow.eAlarmApp.services.DataSource;
 import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
-
-
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.widget.ListView;
 
 public class Map extends MapActivity {
-	private MapView map;
+	private MapView mapView;
 	private MapController mapControl;
-	private OperationOverlay itemizedoverlay;
+
+	SimpleItemizedOverlay operationOverlay;
+	private ListView poiList;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapview);
-		map = (MapView) findViewById(R.id.map);
-		// Vielleicht ganz interessant für Anfahrt und co.
-		map.setTraffic(true);
+		mapView = (CustomMapView) findViewById(R.id.map);
+		poiList = (ListView) findViewById(R.id.poiList);
+		if(poiList != null)
+			Log.i("POI","POI Liste is da");
+		// Vielleicht ganz interessant fuer Anfahrt und co.
+		mapView.setTraffic(true);
 		// Zoombuttons
-		map.setBuiltInZoomControls(true);
-		mapControl = map.getController();
+		mapView.setBuiltInZoomControls(true);
+		mapControl = mapView.getController();
 		mapControl.setZoom(17);
+		operationOverlay = new SimpleItemizedOverlay(getResources().getDrawable(
+				R.drawable.brandmarker), mapView);
 		gotoEinsatz();
+
 	}
 
 	private void gotoEinsatz() {
@@ -49,30 +58,26 @@ public class Map extends MapActivity {
 
 		Drawable drawable = this.getResources().getDrawable(
 				R.drawable.brandmarker);
-		itemizedoverlay = new OperationOverlay(this, drawable);
+
 		try {
-			// Geopoint-konform umwandeln (könnte Exceptions schmeißen)
+			// Geopoint-konform umwandeln (Koennte Exceptions schmeissen)
 			int latitude = (int) (Float.parseFloat(lat) * 1E6);
 			int longitude = (int) (Float.parseFloat(lon) * 1E6);
 			GeoPoint alarm = new GeoPoint(latitude, longitude);
 			mapControl.animateTo(alarm);
 			createEinsatzMarker(alarm);
 
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 		}
 
 	}
 
 	private void createEinsatzMarker(GeoPoint p) {
-		OverlayItem overlayitem = new OverlayItem(p, "", "");
-		itemizedoverlay.addOverlay(overlayitem);
-		Log.i("MARKER", "Marker hinzufügen " + itemizedoverlay.size() + " "
-				+ overlayitem);
-
-		if (itemizedoverlay.size() > 0) {
-			map.getOverlays().add(itemizedoverlay);
-			Log.i("MARKER", "Marker sollte hinzugefügt worden sein");
-		}
+		OverlayItem item = new OverlayItem(p, "Einsatzort", "");
+		operationOverlay.addOverlay(item);
+		mapView.getOverlays().add(operationOverlay);
+		Log.i("MARKER", "Marker sollte hinzugefuegt worden sein");
+		Log.i("MARKER", mapView.getOverlays().size() + "");
 	}
 
 	@Override
@@ -81,64 +86,4 @@ public class Map extends MapActivity {
 		return false;
 	}
 
-	public class OperationOverlay extends ItemizedOverlay<OverlayItem> {
-
-		private static final int maxNum = 5;
-		private OverlayItem overlays[] = new OverlayItem[maxNum];
-		private int index = 0;
-		private boolean full = false;
-		private Context context;
-		private OverlayItem previousoverlay;
-
-		public OperationOverlay(Context context, Drawable defaultMarker) {
-			super(boundCenterBottom(defaultMarker));
-			this.setContext(context);
-		}
-
-		@Override
-		protected OverlayItem createItem(int i) {
-			return overlays[i];
-		}
-
-		@Override
-		public int size() {
-			if (full) {
-				return overlays.length;
-			} else {
-				return index;
-			}
-
-		}
-
-		public void addOverlay(OverlayItem overlay) {
-			if (previousoverlay != null) {
-				if (index < maxNum) {
-					overlays[index] = previousoverlay;
-				} else {
-					index = 0;
-					full = true;
-					overlays[index] = previousoverlay;
-				}
-				index++;
-				populate();
-			} else {
-				this.previousoverlay = overlay;
-				overlays[index] = previousoverlay;
-				index++;
-				populate();
-			}
-		}
-
-		protected boolean onTap(int index) {
-			return true;
-		}
-
-		public Context getContext() {
-			return context;
-		}
-
-		public void setContext(Context context) {
-			this.context = context;
-		};
-	}
 }

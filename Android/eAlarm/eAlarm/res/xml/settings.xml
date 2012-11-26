@@ -28,7 +28,7 @@
         <RingtonePreference
             android:dependency="sound"
             android:key="ringsel"
-            android:ringtoneType="ringtone|notification|alarm|all"
+            android:ringtoneType="notification|alarm"
             android:showSilent="true"
             android:summary="Zeigt eine Auswahl an Tönen zur Alarmierung an"
             android:title="Tonauswahl" />
