@@ -50,6 +50,7 @@ Test]]>
   <Entry Old="41 /1" New="41/1" />
   <Entry Old="4-0/2" New="40/2" />
   <Entry Old="40/Z" New="40/2" />
+  <Entry Old="EINSAIZORT" New="EINSATZORT" /> 
 </Dictionary>]]>
   </Setting>
 
