@@ -270,12 +270,15 @@ namespace AlarmWorkflow.Shared
                     alarmSource.NewAlarm -= AlarmSource_NewAlarm;
                     alarmSource.Dispose();
 
-                    // Stop and remove the thread
-                    Thread ast = _alarmSourcesThreads[alarmSource];
-                    // Abort and ignore exception
-                    ast.Abort();
+                    // Stop and remove the thread, if existing
+                    if (_alarmSourcesThreads.ContainsKey(alarmSource))
+                    {
+                        Thread ast = _alarmSourcesThreads[alarmSource];
+                        // Abort and ignore exception
+                        ast.Abort();
 
-                    _alarmSourcesThreads.Remove(alarmSource);
+                        _alarmSourcesThreads.Remove(alarmSource);
+                    }
                 }
                 catch (Exception ex)
                 {
