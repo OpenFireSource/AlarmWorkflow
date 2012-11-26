@@ -7,16 +7,16 @@ import com.alarmworkflow.eAlarmApp.services.DataSource;
 import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
 
 import android.app.Activity;
-import android.app.KeyguardManager;
-import android.app.KeyguardManager.KeyguardLock;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PowerManager;
-import android.os.PowerManager.WakeLock;
+import android.preference.PreferenceManager;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -32,7 +32,13 @@ public class OperationDetail extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		SharedPreferences prefs = PreferenceManager
+				.getDefaultSharedPreferences(this);
+		boolean unlock = prefs.getBoolean("unlock", false);
+		Window window = getWindow();
+		if (unlock)
+			window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		window.addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.operationdetail);
 		TextView headerView = (TextView) findViewById(R.id.operationheader);
@@ -70,26 +76,43 @@ public class OperationDetail extends Activity {
 	}
 
 	void undoUnlockandScreenOn() {
-		PowerManager pm = (PowerManager) getApplicationContext()
-				.getSystemService(Context.POWER_SERVICE);
-		WakeLock wakeLock = pm
-				.newWakeLock(
-						(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
-								| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
-						"eAlarm");
-		wakeLock.release();
-
-		KeyguardManager keyguardManager = (KeyguardManager) getApplicationContext()
-				.getSystemService(Context.KEYGUARD_SERVICE);
-		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("eAlarm");
-		keyguardLock.reenableKeyguard();
+		return;
+		/**
+		 * PowerManager pm = (PowerManager) getApplicationContext()
+		 * .getSystemService(Context.POWER_SERVICE); WakeLock wakeLock = pm
+		 * .newWakeLock( (PowerManager.SCREEN_BRIGHT_WAKE_LOCK |
+		 * PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
+		 * "eAlarm"); if (wakeLock.isHeld()) { wakeLock.release(); }
+		 * KeyguardManager keyguardManager = (KeyguardManager)
+		 * getApplicationContext() .getSystemService(Context.KEYGUARD_SERVICE);
+		 * KeyguardLock keyguardLock =
+		 * keyguardManager.newKeyguardLock("eAlarm");
+		 * keyguardLock.reenableKeyguard();
+		 **/
 	}
 
 	@Override
-	public void onBackPressed() {
-		Intent intent = new Intent();
-		setResult(RESULT_OK, intent);
-		finish();
+	public void onStop() {
+		undoUnlockandScreenOn();
+		super.onStop();
+	}
+
+	@Override
+	public void onPause() {
+		undoUnlockandScreenOn();
+		super.onPause();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		undoUnlockandScreenOn();
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		undoUnlockandScreenOn();
+		return super.onTouchEvent(event);
 	}
 
 }
