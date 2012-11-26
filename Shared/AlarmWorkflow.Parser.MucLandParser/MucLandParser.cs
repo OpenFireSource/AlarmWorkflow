@@ -72,13 +72,13 @@ namespace AlarmWorkflow.Parser.MucLandParser
                             operation.Property = msg;
                             break;
                         case "MELDEBILD":
-                            operation.CustomData["Picture"] = msg;
+                            operation.Picture = msg;
                             break;
                         case "HINWEIS":
                             operation.Comment = msg;
                             break;
                         case "EINSATZPLAN":
-                            operation.CustomData["OperationPlan"] = msg;
+                            operation.OperationPlan = msg;
                             break;
                     }
                 }
