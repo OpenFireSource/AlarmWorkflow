@@ -37,8 +37,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         public FaxAlarmSource()
         {
             _configuration = new FaxConfiguration();
-
-            InitializeSettings();
         }
 
         #endregion
@@ -252,7 +250,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         void IAlarmSource.Initialize()
         {
-
+            InitializeSettings();
         }
 
         void IAlarmSource.RunThread()
