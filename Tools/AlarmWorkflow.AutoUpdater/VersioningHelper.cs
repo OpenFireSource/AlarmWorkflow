@@ -71,10 +71,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                 {
                     Utilities.ShowMessageBox(MessageBoxIcon.Error, "Error while downloading version info: {0}", ex.Message);
                 }
-                finally
-                {
-
-                }
                 return InvalidVersion;
             }
         }

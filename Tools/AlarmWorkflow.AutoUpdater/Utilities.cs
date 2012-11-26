@@ -10,5 +10,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             string msg = string.Format(format, args);
             MessageBox.Show(msg, "", MessageBoxButtons.OK, icon);
         }
+
+        internal static bool ConfirmMessageBox(string text)
+        {
+            DialogResult dr = MessageBox.Show(text, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            return dr == DialogResult.Yes;
+        }
     }
 }

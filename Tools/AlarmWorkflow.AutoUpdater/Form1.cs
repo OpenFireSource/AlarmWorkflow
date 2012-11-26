@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
+using System.Net;
+using System.IO;
+using Ionic.Zip;
 
 namespace AlarmWorkflow.Tools.AutoUpdater
 {
@@ -57,18 +60,129 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                 lblCurrentVersion.Text = _serverVersion.ToString();
             }));
 
-            // If the versions differ, offer the possibility to update
-            if (_serverVersion > _localVersion)
+            this.lnkUpdate.Invoke((Action)(() =>
             {
-                this.btnUpdate.Invoke((Action)(() => btnUpdate.Enabled = true));
+                lnkUpdate.Enabled = true;
+            }));
+        }
+
+        private void lnkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (_serverVersion == null || _localVersion == null)
+            {
+                return;
+            }
+
+            bool offerUpdate = _serverVersion > _localVersion;
+            if (offerUpdate)
+            {
+                OfferUpdate();
+            }
+            else
+            {
+                OfferForceUpdate();
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void OfferForceUpdate()
         {
+            if (!Utilities.ConfirmMessageBox(Properties.Resources.OfferForceUpdateMessage))
+            {
+                return;
+            }
 
+            OfferUpdate();
+        }
+
+        private void OfferUpdate()
+        {
+            if (bwDownloadUpdatePackage.IsBusy)
+            {
+                return;
+            }
+
+            if (!Utilities.ConfirmMessageBox(Properties.Resources.ConfirmUpdateMessage))
+            {
+                return;
+            }
+
+            bwDownloadUpdatePackage.RunWorkerAsync();
+        }
+
+        private void bwDownloadUpdatePackage_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            // Make the async operation synchronous to keep the BackgroundWorker busy
+            ManualResetEventSlim waitHandle = new ManualResetEventSlim(false);
+
+            using (WebClient client = new WebClient())
+            {
+
+                string serverVersionUri = string.Format("{0}/{1}/{2}", Properties.Settings.Default.UpdateServerName, Properties.Settings.Default.UpdateFilesDirectory, _serverVersion.ToString() + ".zip");
+
+                client.DownloadProgressChanged += (oa, ea) =>
+                {
+                    bwDownloadUpdatePackage.ReportProgress(ea.ProgressPercentage);
+                };
+                client.DownloadDataCompleted += (oa, ea) =>
+                {
+                    e.Result = ea;
+                    waitHandle.Set();
+                };
+
+                client.DownloadDataAsync(new Uri(serverVersionUri));
+            }
+
+            waitHandle.Wait();
+        }
+
+        private void bwDownloadUpdatePackage_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        {
+            this.prgProgress.Value = e.ProgressPercentage;
+        }
+
+        private void bwDownloadUpdatePackage_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
+        {
+            this.prgProgress.Value = 100;
+
+            DownloadDataCompletedEventArgs args = e.Result as DownloadDataCompletedEventArgs;
+            if (args == null)
+            {
+                this.prgProgress.Value = 0;
+                return;
+            }
+
+            // TODO: Handle the following states with user interaction!
+            if (args.Cancelled)
+            {
+                return;
+            }
+            if (args.Error != null)
+            {
+                WebException we = args.Error as WebException;
+                if (we != null)
+                {
+                    Utilities.ShowMessageBox(MessageBoxIcon.Error, Properties.Resources.UpdateFailedWithExceptionMessage, we.Message);
+                }
+                return;
+            }
+            if (args.Result == null || args.Result.Length == 0)
+            {
+                return;
+            }
+
+            ExtractZipFile(args.Result);
+        }
+
+        private void ExtractZipFile(byte[] buffer)
+        {
+            string tempFileName = Path.GetTempFileName();
+            ZipFile zipFile = ZipFile.Read(buffer);
+
+            zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
         }
 
         #endregion
+
+
     }
 }
