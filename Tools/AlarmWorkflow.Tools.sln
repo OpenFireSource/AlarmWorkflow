@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.AutoUpdater", "AlarmWorkflow.AutoUpdater\AlarmWorkflow.AutoUpdater.csproj", "{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Tools.AutoUpdater", "AlarmWorkflow.AutoUpdater\AlarmWorkflow.Tools.AutoUpdater.csproj", "{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
