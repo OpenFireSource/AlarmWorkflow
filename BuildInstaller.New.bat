@@ -15,5 +15,6 @@ xcopy "Shared\AlarmWorkflow.Job.SQLCEDatabaseJob\SQLCEDatabase.sdf" "InstallerTe
 rem Delete unwanted files
 del "InstallerTemp\*vshost*"
 del "InstallerTemp\*AutoUpdater*"
+del "InstallerTemp\Ionic*"
 
 pause
