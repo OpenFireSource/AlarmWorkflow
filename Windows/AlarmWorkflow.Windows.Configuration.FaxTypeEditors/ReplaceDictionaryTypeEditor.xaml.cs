@@ -95,6 +95,12 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
                 ReplaceDictionary dict = new ReplaceDictionary();
                 foreach (var fakePair in this)
                 {
+                    // Skip over null or already existing pairs
+                    if (fakePair.Key == null || dict.Pairs.ContainsKey(fakePair.Key))// ||
+                        //fakePair.Value == null)
+                    {
+                        continue;
+                    }
                     dict.Pairs.Add(fakePair.Key, fakePair.Value);
                 }
 
