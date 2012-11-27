@@ -82,7 +82,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
                     break;
 
-            }            
+            }
         }
 
         void _imapClient_NewMessage(object sender, IdleMessageEventArgs e)
@@ -111,11 +111,9 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 uint[] uids = client.Search(S22.Imap.SearchCondition.Unseen());
                 foreach (uint uid in uids)
                 {
-                    var msg = client.GetMessage(uid);
-
-                    //
-                    // HERE GO's WHAT TODO WITH THE NEW, UNREAD E-MAIL 
-                    //
+                    Console.WriteLine("NEUE MAIL");
+                    System.Net.Mail.MailMessage msg = client.GetMessage(uid);
+                    MailOperation(msg);
                 }
             }
             catch (S22.Imap.NotAuthenticatedException ex)
@@ -124,8 +122,12 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 {
                     client.Login(_configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login);
                     trys++;
-                goto retry;
-                }                
+                    goto retry;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
         }
@@ -139,11 +141,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 System.Net.Mail.MailMessage[] msgs = client.GetMessages();
                 foreach (System.Net.Mail.MailMessage msg in msgs)
                 {
-
-
-                    //
-                    // HERE GO's WHAT TODO WITH THE NEW, UNREAD E-MAIL 
-                    //
+                    Console.WriteLine("NEUE MAIL");
+                    MailOperation(msg);   
                 }
             }
             catch (S22.Pop3.NotAuthenticatedException ex)
@@ -155,7 +154,47 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     goto retry;
                 }
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
             
+        }
+
+        private void MailOperation(System.Net.Mail.MailMessage message)
+        {           
+            
+            if (message.Subject.Contains(_configuration.MailSubject) && message.From.Address == _configuration.MailSender)
+            {
+                string[] chars = { "\r\n" };
+                string[] lines = message.Body.Split(chars,StringSplitOptions.None);
+
+
+                Console.WriteLine(lines.Length);
+                            
+                Operation op = new Operation();
+                foreach (string s in lines)
+                {
+                            
+                    if(s.Contains("Ort "))
+                        op.City=s.Replace("Ort : ","");
+                    else if(s.Contains("Stra?e"))
+                        op.Street=s.Replace("Stra?e : ","");
+                    else if(s.Contains("Hausnummer"))
+                        op.StreetNumber=s.Replace("Hausnummer: ","");
+                    else if(s.Contains("Zusatzinfos zum Objekt"))
+                        op.Comment=s.Replace("Zusatzinfos zum Objekt:","");
+                    else if(s.Contains("Einsatzart"))
+                        op.Keyword=s.Replace("Einsatzart :","");
+                    else if(s.Contains("Zusatzinformationen"))
+                        op.EmergencyKeyword=s.Replace("Zusatzinformationen:","");
+                    else if(s.Contains("Meldende(r)"))
+                        op.Messenger=s.Replace("Meldende(r) :","");
+                }
+                Console.WriteLine("3");
+                            
+                OnNewAlarm(op);
+            }
         }
 
         #endregion
