@@ -57,7 +57,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
 
                 case "imap":
-                    using (_imapClient = new ImapClient(_configuration.ServerName, 143, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
+                    using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
                     {
                         _imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(_imapClient_NewMessage);
                         while (true)
@@ -71,7 +71,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
 
                 case "pop":
-                    using (Pop3Client _Pop3Client = new Pop3Client(_configuration.ServerName, 143, _configuration.UserName, _configuration.Password, S22.Pop3.AuthMethod.Login, _configuration.SSL))
+                    using (Pop3Client _Pop3Client = new Pop3Client(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Pop3.AuthMethod.Login, _configuration.SSL))
                     {
                         while (true)
                         {
