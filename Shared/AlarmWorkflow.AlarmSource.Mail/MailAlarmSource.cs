@@ -14,6 +14,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region Fields
 
         private MailConfiguration _configuration;
+        private ImapClient _imapClient;
 
         #endregion
 
@@ -56,8 +57,9 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
 
                 case "imap":
-                    using (ImapClient _imapClient = new ImapClient(_configuration.ServerName, 143, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
+                    using (_imapClient = new ImapClient(_configuration.ServerName, 143, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
                     {
+                        _imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(_imapClient_NewMessage);
                         while (true)
                         {
                             checkMail_imap(_imapClient);
@@ -81,6 +83,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     break;
 
             }            
+        }
+
+        void _imapClient_NewMessage(object sender, IdleMessageEventArgs e)
+        {
+            checkMail_imap(_imapClient);
         }
 
         #endregion
