@@ -172,7 +172,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             }
 
             ExtractZipFile(args.Result);
-            installService();
+            InstallService();
         }
 
         private void ExtractZipFile(byte[] buffer)
@@ -183,11 +183,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
         }
 
-        private void installService()
+        private void InstallService()
         {
             ProcessStartInfo serviceInstall = new ProcessStartInfo();
             serviceInstall.CreateNoWindow = false;
-            serviceInstall.FileName = Application.StartupPath + "AlarmWorkflow.Windows.Service.exe";
+            serviceInstall.FileName = Application.StartupPath + "\\AlarmWorkflow.Windows.Service.exe";
             serviceInstall.Arguments = "--install";
             Process.Start(serviceInstall).WaitForExit();
         }

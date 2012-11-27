@@ -12,13 +12,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         /// </summary>
         [STAThread]
         static void Main()
-        {
-            if (Utilities.IsElevated())
-            {
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
-                Application.Run(new Form1());
-            }
+        {            
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+           
         }
     }
 }
