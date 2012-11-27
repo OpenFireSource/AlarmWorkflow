@@ -54,7 +54,6 @@
   <ItemGroup>
     <None Include="Controlfile.xml">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Forms\GenericParserStringUITypeEditor.cs">
       <SubType>UserControl</SubType>
@@ -125,6 +124,10 @@
     <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Controlfile.xml" "$(ProjectDir)..\..\Build\Config\*" /Y
+	</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
