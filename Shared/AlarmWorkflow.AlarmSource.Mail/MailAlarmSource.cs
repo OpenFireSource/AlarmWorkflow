@@ -2,6 +2,9 @@
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
+using System.Threading;
+using S22.Imap;
+
 namespace AlarmWorkflow.AlarmSource.Mail
 {
     [Export("MailAlarmSource", typeof(IAlarmSource))]
@@ -10,6 +13,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region Fields
 
         private MailConfiguration _configuration;
+        private ImapClient _ImapClient;
+        //private Pop3Client _Pop3Client;
 
         #endregion
 
@@ -23,6 +28,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
             _configuration = new MailConfiguration();
         }
 
+       
         #endregion
 
         #region IAlarmSource Members
@@ -44,12 +50,34 @@ namespace AlarmWorkflow.AlarmSource.Mail
         
         void IAlarmSource.Initialize()
         {
-            // TODO: Initialize TcpClient, sockets or such
+            switch (_configuration.POPIMAP.ToLower())
+            {
+                case "pop":
+                    //_Pop3Client = new Pop3Client(_configuration.ServerName, _configuration.UserName, _configuration.Password, _configuration.Port, _configuration.SSL, false);
+                    break;
+
+                case "imap":
+                    _ImapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL);
+                    break;
+            }
         }
 
         void IAlarmSource.RunThread()
         {
-            // TODO: Start listening to TcpClient, sockets or such
+            while (true)
+            {
+                switch (_configuration.POPIMAP.ToLower())
+                {
+                    case "imap":
+                        lastMail_imap();
+                        break;
+
+                    case "pop":
+                        break;
+                }
+
+                Thread.Sleep(_configuration.PollInterval);
+            }
         }
 
         #endregion
@@ -59,6 +87,30 @@ namespace AlarmWorkflow.AlarmSource.Mail
         void IDisposable.Dispose()
         {
             // TODO: Clean up this instance
+        }
+
+        #endregion
+
+        #region Methods
+
+       
+        private void lastMail_imap()
+        {
+            uint[] uids = _ImapClient.Search(S22.Imap.SearchCondition.Unseen());
+            foreach (uint uid in uids)
+            {
+                var msg = _ImapClient.GetMessage(uid);
+                
+                //
+                // HERE GO's WHAT TODO WITH THE NEW, UNREAD E-MAIL 
+                //
+            }
+        }
+
+        private void lastMail_pop()
+        {
+            //var msg = _Pop3Client.GetMessage(MessageID);
+
         }
 
         #endregion

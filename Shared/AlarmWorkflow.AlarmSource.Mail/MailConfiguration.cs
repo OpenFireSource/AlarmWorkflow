@@ -14,6 +14,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
         internal string UserName { get; private set; }
         internal string Password { get; private set; }
         internal int PollInterval { get; private set; }
+        internal string POPIMAP { get; private set; }
+        internal bool SSL { get; private set; }
+
+        internal string MailSubject { get; private set; }
+        internal string MailSender { get; private set; }
 
         #endregion
 
@@ -29,6 +34,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
             this.UserName = SettingsManager.Instance.GetSetting("MailAlarmSource", "UserName").GetString();
             this.Password = SettingsManager.Instance.GetSetting("MailAlarmSource", "Password").GetString();
             this.PollInterval = SettingsManager.Instance.GetSetting("MailAlarmSource", "PollInterval").GetInt32();
+            this.POPIMAP = SettingsManager.Instance.GetSetting("MailAlarmSource", "POPIMAP").GetString();
+            this.SSL = SettingsManager.Instance.GetSetting("MailAlarmSource", "SSL").GetBoolean();
+
+            this.MailSubject = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSubject").GetString();
+            this.MailSender = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSender").GetString();
         }
 
         #endregion

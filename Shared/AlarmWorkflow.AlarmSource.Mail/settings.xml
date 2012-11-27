@@ -5,6 +5,14 @@
   <Setting Name="Port" Type="System.Int32">110</Setting>
   <Setting Name="UserName" Type="System.String" IsNull="True" />
   <Setting Name="Password" Type="System.String" IsNull="True" />
+  <Setting Name="SSL" Type="System.Boolean">false</Setting>
+  <Setting Name="POPIMAP" Type="System.String">POP/IMAP</Setting>
+  
+  <Setting Name="MailSubject" Type="System.String">AlarmMail</Setting>
+  <Setting Name="MailSender" Type="System.String">aa@bb.cc</Setting>
+  
+  <!-- POP3 -->
   <Setting Name="PollInterval" Type="System.Int32">10000</Setting>
+  
 
 </SettingsConfiguration>
