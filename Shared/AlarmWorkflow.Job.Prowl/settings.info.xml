@@ -4,7 +4,7 @@
 
     <Setting Name="ProviderKey" DisplayText="Provider-Schlüssel" Category="Generell" />
     <Setting Name="ApplicationName" DisplayText="Anwendungsname" Category="Generell" />
-    <Setting Name="API" DisplayText="API-Schlüssel" Category="Generell" />
+    <Setting Name="API" DisplayText="API-Schlüssel" Category="Generell" Editor="StringArrayTypeEditor" />
 
   </Identifier>
 
