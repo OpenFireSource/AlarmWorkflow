@@ -4,12 +4,12 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.MailingJob
 {
-    class MailingEntryObject
+    public class MailingEntryObject
     {
-        internal MailAddress Address { get; private set; }
-        internal ReceiptType Type { get; private set; }
+        public MailAddress Address { get; private set; }
+        public ReceiptType Type { get; private set; }
 
-        internal static MailingEntryObject FromAddress(string address, string receiptType)
+        public static MailingEntryObject FromAddress(string address, string receiptType)
         {
             MailingEntryObject returnValue = new MailingEntryObject();
             returnValue.Address = TryParseMailAddress(address);
@@ -43,7 +43,7 @@ namespace AlarmWorkflow.Job.MailingJob
             return null;
         }
 
-        internal enum ReceiptType
+        public enum ReceiptType
         {
             To,
             CC,
