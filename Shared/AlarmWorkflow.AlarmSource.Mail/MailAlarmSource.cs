@@ -59,7 +59,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 case "imap":
                     using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
                     {
-                        _imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(_imapClient_NewMessage);
+                        try
+                        {
+                            _imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(_imapClient_NewMessage);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("IMAP IDLE wird vom Server nicht unterstützt!!!");
+                        }
                         while (true)
                         {
                             checkMail_imap(_imapClient);
