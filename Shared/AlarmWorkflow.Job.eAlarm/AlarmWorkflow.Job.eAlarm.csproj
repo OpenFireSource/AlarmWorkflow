@@ -48,7 +48,6 @@
   <ItemGroup>
     <Compile Include="eAlarm.cs" />
     <Compile Include="Helpers.cs" />
-    <Compile Include="MailingEntryObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,6 +71,14 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="settings.info.xml" />
+    <None Include="settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlarmWorkflow.Job.MailingJob\AlarmWorkflow.Job.MailingJob.csproj">
+      <Project>{AD86EEB7-1991-44C6-94C9-48381A33D63A}</Project>
+      <Name>AlarmWorkflow.Job.MailingJob</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

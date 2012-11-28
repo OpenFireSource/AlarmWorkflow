@@ -1,6 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+# SharpDevelop 4.2.2.8818
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MySqlDatabaseJob", "AlarmWorkflow.Job.MySqlDatabaseJob\AlarmWorkflow.Job.MySqlDatabaseJob.csproj", "{36EF6926-17B5-4DEC-A615-FF2057FF1EDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SmsJob", "AlarmWorkflow.Job.SmsJob\AlarmWorkflow.Job.SmsJob.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"

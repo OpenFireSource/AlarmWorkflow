@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="eAlarm">
+  <Setting Name="Header" Type="System.String" IsNull="False"></Setting>
+  <Setting Name="Text" Type="System.String" IsNull="False"></Setting>
+</SettingsConfiguration>

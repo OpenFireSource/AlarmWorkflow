@@ -6,11 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+
 using AlarmWorkflow.Job.eAlarm.Properties;
+using AlarmWorkflow.Job.MailingJob;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.eAlarm
 {//
@@ -44,7 +47,7 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #region IJob Members
 
-        public bool Initialize()
+        bool IJob.Initialize()
         {
             //Create Webrequest
             webRequest = (HttpWebRequest)WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
@@ -68,13 +71,14 @@ namespace AlarmWorkflow.Job.eAlarm
         }
         
 
-        public void DoJob(Operation operation)
+        void IJob.DoJob(Operation operation)
         {
             
 
             //Gets the mail-addresses with googlemail.com or gmail.com
             foreach (MailingEntryObject recipient in _recipientsEntry)
             {
+            	
                 if (recipient.Address.Address.EndsWith("@gmail.com") ||
                     recipient.Address.Address.EndsWith("@googlemail.com"))
                 {
@@ -95,8 +99,8 @@ namespace AlarmWorkflow.Job.eAlarm
             Dictionary<String,String> postParameters = new Dictionary<string, string>
                                      {
                                          {"email", to},
-                                         {"header", generateHeader(operation)},
-                                         {"text", generateBody(operation) },
+                                         {"header", GenerateHeader(operation)},
+                                         {"text", GenerateBody(operation) },
                                          {"long", longitude},
                                          {"lat", latitude}
                                      };
@@ -130,8 +134,9 @@ namespace AlarmWorkflow.Job.eAlarm
         #endregion IJob Members
 
         #region Methods
-        private string generateBody(Operation operation)
+        private string GenerateBody(Operation operation)
         {
+        	string text = SettingsManager.Instance.GetSetting("eAlarm", "Text").GetString();
             var bodyBuilder = new StringBuilder();
             if (!String.IsNullOrEmpty(operation.Timestamp.ToString(CultureInfo.InvariantCulture)))
                 bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString(CultureInfo.InvariantCulture));
@@ -164,7 +169,7 @@ namespace AlarmWorkflow.Job.eAlarm
             return bodyBuilder.ToString();
         }
 
-        private string generateHeader(Operation operation)
+        private string GenerateHeader(Operation operation)
         {
             var headerBuilder = new StringBuilder();           
 
