@@ -1,0 +1,6 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="eAlarm" DisplayText="eAlarm (Aufgabe)">
+    <Setting Name="header" DisplayText="Header" Category="Generell" />
+    <Setting Name="text" DisplayText="Text" Category="Generell" />
+  </Identifier>
+</SettingsDisplayConfiguration>

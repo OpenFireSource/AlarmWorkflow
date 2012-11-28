@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net;
@@ -171,14 +172,24 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             }
 
             ExtractZipFile(args.Result);
+            InstallService();
         }
 
         private void ExtractZipFile(byte[] buffer)
         {
             string tempFileName = Path.GetTempFileName();
             ZipFile zipFile = ZipFile.Read(buffer);
-
             zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
+
+        }
+
+        private void InstallService()
+        {
+            ProcessStartInfo serviceInstall = new ProcessStartInfo();
+            serviceInstall.CreateNoWindow = false;
+            serviceInstall.FileName = Application.StartupPath + "\\AlarmWorkflow.Windows.Service.exe";
+            serviceInstall.Arguments = "--install";
+            Process.Start(serviceInstall).WaitForExit();
         }
 
         #endregion

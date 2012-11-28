@@ -6,18 +6,21 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using AlarmWorkflow.Job.MailingJob;
 using AlarmWorkflow.Job.eAlarm.Properties;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.eAlarm
-{//
+{ //
     /// <summary>
-    /// Implements a Job that send notifications to the Android App eAlarm.
-    /// Author: Florian Ritterhoff (c) 2012
-    /// </summary> 
+    ///     Implements a Job that send notifications to the Android App eAlarm.
+    ///     Author: Florian Ritterhoff (c) 2012
+    /// </summary>
     [Export("eAlarm", typeof(IJob))]
     public class eAlarm : IJob
     {
@@ -44,7 +47,7 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #region IJob Members
 
-        public bool Initialize()
+        bool IJob.Initialize()
         {
             //Create Webrequest
             webRequest = (HttpWebRequest)WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
@@ -52,7 +55,7 @@ namespace AlarmWorkflow.Job.eAlarm
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
             // Get recipients
-            var recipients =
+            IEnumerable<Tuple<AddressBookEntry, MailingEntryObject>> recipients =
                 AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MailingEntryObject>("Mail");
 
             _recipientsEntry.AddRange(recipients.Select(ri => ri.Item2));
@@ -66,12 +69,9 @@ namespace AlarmWorkflow.Job.eAlarm
 
             return true;
         }
-        
 
-        public void DoJob(Operation operation)
+        void IJob.DoJob(Operation operation)
         {
-            
-
             //Gets the mail-addresses with googlemail.com or gmail.com
             foreach (MailingEntryObject recipient in _recipientsEntry)
             {
@@ -82,6 +82,7 @@ namespace AlarmWorkflow.Job.eAlarm
                 }
             }
             string to = String.Join(",", _recipients.ToArray());
+
             //TODO Fetching Longitude and Latitude!
             Dictionary<String, String> geoCode =
                 Helpers.GetGeocodes(operation.Location + " " + operation.Street + " " + operation.StreetNumber);
@@ -89,14 +90,16 @@ namespace AlarmWorkflow.Job.eAlarm
             String latitude = "0";
             if (geoCode != null)
             {
-                longitude = geoCode[Properties.Resources.LONGITUDE];
-                latitude = geoCode[Properties.Resources.LATITUDE];
+                longitude = geoCode[Resources.LONGITUDE];
+                latitude = geoCode[Resources.LATITUDE];
             }
-            Dictionary<String,String> postParameters = new Dictionary<string, string>
+            String body = GenerateText(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString(), operation);
+            String header = GenerateText(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString(), operation);
+            var postParameters = new Dictionary<string, string>
                                      {
                                          {"email", to},
-                                         {"header", generateHeader(operation)},
-                                         {"text", generateBody(operation) },
+                                         {"header", header},
+                                         {"text", body},
                                          {"long", longitude},
                                          {"lat", latitude}
                                      };
@@ -110,7 +113,7 @@ namespace AlarmWorkflow.Job.eAlarm
             webRequest.ContentLength = data.Length;
 
             Stream requestStream = webRequest.GetRequestStream();
-            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+            var webResponse = (HttpWebResponse)webRequest.GetResponse();
             Stream responseStream = webResponse.GetResponseStream();
 
             requestStream.Write(data, 0, data.Length);
@@ -118,11 +121,12 @@ namespace AlarmWorkflow.Job.eAlarm
 
             if (responseStream != null)
             {
-                StreamReader reader = new StreamReader(responseStream, Encoding.Default);
+                var reader = new StreamReader(responseStream, Encoding.Default);
                 string pageContent = reader.ReadToEnd();
                 reader.Close();
                 responseStream.Close();
                 webResponse.Close();
+
                 //TODO Analyzing Response
             }
         }
@@ -130,62 +134,31 @@ namespace AlarmWorkflow.Job.eAlarm
         #endregion IJob Members
 
         #region Methods
-        private string generateBody(Operation operation)
+
+        private string GenerateText(String input, Operation operation)
         {
-            var bodyBuilder = new StringBuilder();
-            if (!String.IsNullOrEmpty(operation.Timestamp.ToString(CultureInfo.InvariantCulture)))
-                bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString(CultureInfo.InvariantCulture));
-            if (!String.IsNullOrEmpty(operation.Keyword))
-                bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
-            if (!String.IsNullOrEmpty(operation.EmergencyKeyword))
-                bodyBuilder.AppendLine("Einsatzstichwort: " + operation.EmergencyKeyword);
-            if (!String.IsNullOrEmpty(operation.Picture))
-                bodyBuilder.AppendLine("Meldebild: " + operation.Picture);
-            if (!String.IsNullOrEmpty(operation.OperationNumber))
-                bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
-            if (!String.IsNullOrEmpty(operation.Comment))
-                bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
-            if (!String.IsNullOrEmpty(operation.Messenger))
-                bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
-            if (!String.IsNullOrEmpty(operation.Location))
-                bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
-            if (!String.IsNullOrEmpty(operation.Street) && !String.IsNullOrEmpty(operation.StreetNumber))
-                bodyBuilder.AppendLine("Straße: " + operation.Street + " " + operation.StreetNumber);
-            if (!String.IsNullOrEmpty(operation.GetCustomData<string>("Intersection")))
-                bodyBuilder.AppendLine("Kreuzung: " + operation.GetCustomData<string>("Intersection"));
-            if (!String.IsNullOrEmpty(operation.ZipCode) && !String.IsNullOrEmpty(operation.City))
-                bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
-            if (!String.IsNullOrEmpty(operation.Property))
-                bodyBuilder.AppendLine("Objekt: " + operation.Property);
-            if (!String.IsNullOrEmpty(operation.OperationPlan))
-                bodyBuilder.AppendLine("Einsatzplan: " + operation.OperationPlan);
-            if (!String.IsNullOrEmpty(operation.GetCustomData<string>("Vehicles")))
-                bodyBuilder.AppendLine("Fahrzeuge: " + operation.GetCustomData<string>("Vehicles"));
-            return bodyBuilder.ToString();
+            String text = input;
+            text = text.Replace("{Zeitstempel}", !String.IsNullOrEmpty(operation.Timestamp.ToString(CultureInfo.InvariantCulture)) ? operation.Timestamp.ToString(CultureInfo.InvariantCulture) : "n/a");
+            text = text.Replace("{Stichwort}", !String.IsNullOrEmpty(operation.Keyword) ? operation.Keyword : "n/a");
+            text = text.Replace("{Einsatzstichwort}", !String.IsNullOrEmpty(operation.EmergencyKeyword) ? operation.EmergencyKeyword : "n/a");
+            text = text.Replace("{Meldebild}", !String.IsNullOrEmpty(operation.Picture) ? operation.Picture : "n/a");
+            text = text.Replace("{Einsatznr}", !String.IsNullOrEmpty(operation.OperationNumber) ? operation.OperationNumber : "n/a");
+            text = text.Replace("{Hinweis}", !String.IsNullOrEmpty(operation.Comment) ? operation.Comment : "n/a");
+            text = text.Replace("{Mitteiler}", !String.IsNullOrEmpty(operation.Messenger) ? operation.Messenger : "n/a");
+            text = text.Replace("{Einsatzort}", !String.IsNullOrEmpty(operation.Location) ? operation.Location : "n/a");
+            text = !String.IsNullOrEmpty(operation.Street) && !String.IsNullOrEmpty(operation.StreetNumber)
+                       ? text.Replace("{Straße}", operation.Street + " " + operation.StreetNumber)
+                       : text.Replace("{Straße}", operation.Keyword);
+            text = text.Replace("{Kreuzung}", !String.IsNullOrEmpty(operation.GetCustomData<string>("Intersection")) ? operation.GetCustomData<string>("Intersection") : operation.Keyword);
+            text = !String.IsNullOrEmpty(operation.ZipCode) && !String.IsNullOrEmpty(operation.City)
+                       ? text.Replace("{Ort}", operation.ZipCode + " " + operation.City)
+                       : text.Replace("{Ort}", "n/a");
+            text = text.Replace("{Objekt}", !String.IsNullOrEmpty(operation.Property) ? operation.Property : "n/a");
+            text = text.Replace("{Einsatzplan}", !String.IsNullOrEmpty(operation.OperationPlan) ? operation.OperationPlan : "n/a");
+            text = text.Replace("{Fahrzeuge}", !String.IsNullOrEmpty(operation.GetCustomData<string>("Vehicles")) ? operation.GetCustomData<string>("Vehicles") : "n/a");
+            return text;
         }
 
-        private string generateHeader(Operation operation)
-        {
-            var headerBuilder = new StringBuilder();           
-
-            if (!String.IsNullOrEmpty(operation.Keyword))
-                headerBuilder.AppendLine(operation.Keyword);
-            else
-            {
-                if (!String.IsNullOrEmpty(operation.EmergencyKeyword))
-                    headerBuilder.AppendLine(operation.EmergencyKeyword);
-                else
-                {
-                    if (!String.IsNullOrEmpty(operation.Picture))
-                        headerBuilder.AppendLine(operation.Picture);
-                }
-            }
-            if (headerBuilder.Length == 0)
-            {
-                headerBuilder.Append("Feuerwehreinsatz");
-            }
-            return headerBuilder.ToString();
-        }
-        #endregion
+        #endregion Methods
     }
 }

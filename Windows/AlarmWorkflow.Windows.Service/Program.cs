@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System.Configuration.Install;
+using System.Diagnostics;
+using System.Reflection;
 using System.ServiceProcess;
 
 namespace AlarmWorkflow.Windows.Service
@@ -8,7 +10,7 @@ namespace AlarmWorkflow.Windows.Service
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        static void Main()
+        static void Main(string[] args)
         {
             if (Debugger.IsAttached)
             {
@@ -18,13 +20,30 @@ namespace AlarmWorkflow.Windows.Service
                 service.Dispose();
                 return;
             }
-
-            ServiceBase[] ServicesToRun;
-            ServicesToRun = new ServiceBase[] 
+            if (System.Environment.UserInteractive)
+            {
+                string parameter = string.Concat(args);
+                switch (parameter)
+                {
+                    case "--install":
+                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
+                        ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
+                        break;
+                    case "--uninstall":
+                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
+                        break;
+                }
+            }
+            else
+            {
+                ServiceBase[] ServicesToRun;
+                ServicesToRun = new ServiceBase[] 
             { 
                 new AlarmWorkflowService() 
             };
-            ServiceBase.Run(ServicesToRun);
+                ServiceBase.Run(ServicesToRun);
+            }
+
         }
     }
 }

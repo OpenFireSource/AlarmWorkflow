@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using System.Windows.Forms;
 
 namespace AlarmWorkflow.Tools.AutoUpdater
@@ -16,5 +17,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             DialogResult dr = MessageBox.Show(text, "", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             return dr == DialogResult.Yes;
         }
+        
     }
 }
