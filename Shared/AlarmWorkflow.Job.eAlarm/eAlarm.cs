@@ -93,8 +93,8 @@ namespace AlarmWorkflow.Job.eAlarm
                 longitude = geoCode[Resources.LONGITUDE];
                 latitude = geoCode[Resources.LATITUDE];
             }
-            String body = GenerateText(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString(), operation);
-            String header = GenerateText(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString(), operation);
+            String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
+            String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
             var postParameters = new Dictionary<string, string>
                                      {
                                          {"email", to},
@@ -133,32 +133,5 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #endregion IJob Members
 
-        #region Methods
-
-        private string GenerateText(String input, Operation operation)
-        {
-            String text = input;
-            text = text.Replace("{Zeitstempel}", !String.IsNullOrEmpty(operation.Timestamp.ToString(CultureInfo.InvariantCulture)) ? operation.Timestamp.ToString(CultureInfo.InvariantCulture) : "n/a");
-            text = text.Replace("{Stichwort}", !String.IsNullOrEmpty(operation.Keyword) ? operation.Keyword : "n/a");
-            text = text.Replace("{Einsatzstichwort}", !String.IsNullOrEmpty(operation.EmergencyKeyword) ? operation.EmergencyKeyword : "n/a");
-            text = text.Replace("{Meldebild}", !String.IsNullOrEmpty(operation.Picture) ? operation.Picture : "n/a");
-            text = text.Replace("{Einsatznr}", !String.IsNullOrEmpty(operation.OperationNumber) ? operation.OperationNumber : "n/a");
-            text = text.Replace("{Hinweis}", !String.IsNullOrEmpty(operation.Comment) ? operation.Comment : "n/a");
-            text = text.Replace("{Mitteiler}", !String.IsNullOrEmpty(operation.Messenger) ? operation.Messenger : "n/a");
-            text = text.Replace("{Einsatzort}", !String.IsNullOrEmpty(operation.Location) ? operation.Location : "n/a");
-            text = !String.IsNullOrEmpty(operation.Street) && !String.IsNullOrEmpty(operation.StreetNumber)
-                       ? text.Replace("{Straße}", operation.Street + " " + operation.StreetNumber)
-                       : text.Replace("{Straße}", operation.Keyword);
-            text = text.Replace("{Kreuzung}", !String.IsNullOrEmpty(operation.GetCustomData<string>("Intersection")) ? operation.GetCustomData<string>("Intersection") : operation.Keyword);
-            text = !String.IsNullOrEmpty(operation.ZipCode) && !String.IsNullOrEmpty(operation.City)
-                       ? text.Replace("{Ort}", operation.ZipCode + " " + operation.City)
-                       : text.Replace("{Ort}", "n/a");
-            text = text.Replace("{Objekt}", !String.IsNullOrEmpty(operation.Property) ? operation.Property : "n/a");
-            text = text.Replace("{Einsatzplan}", !String.IsNullOrEmpty(operation.OperationPlan) ? operation.OperationPlan : "n/a");
-            text = text.Replace("{Fahrzeuge}", !String.IsNullOrEmpty(operation.GetCustomData<string>("Vehicles")) ? operation.GetCustomData<string>("Vehicles") : "n/a");
-            return text;
-        }
-
-        #endregion Methods
     }
 }

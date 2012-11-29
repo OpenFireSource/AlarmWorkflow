@@ -62,8 +62,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="settings.info.xml" />
-    <None Include="settings.xml" />
+    <EmbeddedResource Include="settings.info.xml" />
+    <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlarmWorkflow.Job.MailingJob\AlarmWorkflow.Job.MailingJob.csproj">
