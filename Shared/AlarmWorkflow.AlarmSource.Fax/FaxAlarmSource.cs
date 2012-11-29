@@ -49,15 +49,22 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
 
-            string ocrPath = null;
-            if (_configuration.OCRSoftware == OcrSoftware.Tesseract)
+            string ocrPath = _configuration.OCRSoftwarePath;
+            if (string.IsNullOrWhiteSpace(_configuration.OCRSoftwarePath))
             {
-                if (string.IsNullOrWhiteSpace(_configuration.OCRSoftwarePath)) { ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract"; }
+                switch (_configuration.OCRSoftware)
+                {
+                    case OcrSoftware.Cuneiform:
+                        ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
+                        break;
+                    case OcrSoftware.Tesseract:
+                        ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
+                        break;
+                    default:
+                        break;
+                }
             }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(_configuration.OCRSoftwarePath)) { ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform"; }
-            }
+
             _ocrPath = new DirectoryInfo(ocrPath);
             if (!_ocrPath.Exists)
             {
