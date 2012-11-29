@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Windows.Media.Imaging;
 using System.Xml.Linq;
 
 namespace AlarmWorkflow.Shared.Core
@@ -306,14 +307,30 @@ namespace AlarmWorkflow.Shared.Core
                     {
                         FrameDimension currentFrame = new FrameDimension(guid);
                         tiffImage.SelectActiveFrame(currentFrame, index);
+                        MemoryStream ms = new MemoryStream();
+                        tiffImage.Save(ms, tiffImage.RawFormat);
+                        BitmapImage image = new BitmapImage();
+                        image.BeginInit();
+                        image.StreamSource = ms;
+                        image.EndInit();
 
-                        string fileName = Path.Combine(Path.GetDirectoryName(tiffFileName), Path.GetFileNameWithoutExtension(tiffFileName) + index + ".bmp");
-                        tiffImage.Save(fileName, ImageFormat.Bmp);
-                        yield return fileName;
+                        if (tiffFileName != null)
+                        {
+                            string fileName = Path.Combine(Path.GetDirectoryName(tiffFileName), Path.GetFileNameWithoutExtension(tiffFileName) + index + ".tiff");
+                            FileStream stream = new FileStream(fileName, FileMode.Create);
+                            TiffBitmapEncoder encoder = new TiffBitmapEncoder { Compression = TiffCompressOption.Zip };
+                            encoder.Frames.Add(BitmapFrame.Create(image));
+                            encoder.Save(stream);
+                            stream.Flush(true);
+                            stream.Close();
+
+                            yield return fileName;
+                        }
                     }
                 }
             }
         }
+
 
         /// <summary>
         /// Trims all lines from the array, which means that lines with zero length will be omitted.
