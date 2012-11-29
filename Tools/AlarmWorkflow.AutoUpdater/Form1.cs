@@ -167,6 +167,8 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             {
                 InstallService();
             }
+
+            Utilities.ShowMessageBox(MessageBoxIcon.Information, Properties.Resources.UpdateCompleteMessage);
         }
 
         private void ExtractZipFile(byte[] buffer)
