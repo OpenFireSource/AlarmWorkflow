@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.ServiceProcess;
 using System.Threading;
 using System.Windows.Forms;
-using System.Net;
 using Ionic.Zip;
 
 namespace AlarmWorkflow.Tools.AutoUpdater
@@ -100,6 +100,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                 return;
             }
 
+            if (chkAutoUnInstallService.Checked)
+            {
+                StopSerivce();
+            }
+
             bwDownloadUpdatePackage.RunWorkerAsync();
         }
 
@@ -107,6 +112,8 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         {
             // Make the async operation synchronous to keep the BackgroundWorker busy
             ManualResetEventSlim waitHandle = new ManualResetEventSlim(false);
+
+            // If we should 
 
             using (WebClient client = new WebClient())
             {
@@ -163,7 +170,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
             ExtractZipFile(args.Result);
 
-            if (chkAutoInstallService.Checked)
+            if (chkAutoUnInstallService.Checked)
             {
                 InstallService();
             }
@@ -175,7 +182,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         {
             ZipFile zipFile = ZipFile.Read(buffer);
             zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
-
         }
 
         private void InstallService()
@@ -194,8 +200,15 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         private void StopSerivce()
         {
             ServiceController service = new ServiceController("AlarmworkflowService");
-            service.Stop();
-            service.WaitForStatus(ServiceControllerStatus.Stopped);
+            try
+            {
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped);
+            }
+            catch (InvalidOperationException)
+            {
+                // This exception is ok - it occurs if the service does not exist
+            }
         }
 
         private void StopProcesses()
@@ -204,7 +217,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             foreach (Process p in runningProccess)
             {
                 p.Close();
-                //p.Kill();
             }
         }
 

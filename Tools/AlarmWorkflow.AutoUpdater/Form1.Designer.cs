@@ -35,7 +35,7 @@
             this.lnkUpdate = new System.Windows.Forms.LinkLabel();
             this.prgProgress = new System.Windows.Forms.ProgressBar();
             this.bwDownloadUpdatePackage = new System.ComponentModel.BackgroundWorker();
-            this.chkAutoInstallService = new System.Windows.Forms.CheckBox();
+            this.chkAutoUnInstallService = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblLocalVersion
@@ -94,7 +94,7 @@
             this.prgProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.prgProgress.Location = new System.Drawing.Point(9, 207);
-            this.prgProgress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.prgProgress.Margin = new System.Windows.Forms.Padding(2);
             this.prgProgress.Name = "prgProgress";
             this.prgProgress.Size = new System.Drawing.Size(352, 19);
             this.prgProgress.TabIndex = 8;
@@ -106,22 +106,22 @@
             this.bwDownloadUpdatePackage.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwDownloadUpdatePackage_ProgressChanged);
             this.bwDownloadUpdatePackage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwDownloadUpdatePackage_RunWorkerCompleted);
             // 
-            // chkAutoInstallService
+            // chkAutoUnInstallService
             // 
-            this.chkAutoInstallService.AutoSize = true;
-            this.chkAutoInstallService.Location = new System.Drawing.Point(9, 143);
-            this.chkAutoInstallService.Name = "chkAutoInstallService";
-            this.chkAutoInstallService.Size = new System.Drawing.Size(174, 17);
-            this.chkAutoInstallService.TabIndex = 9;
-            this.chkAutoInstallService.Text = "Service automatisch &installieren";
-            this.chkAutoInstallService.UseVisualStyleBackColor = true;
+            this.chkAutoUnInstallService.AutoSize = true;
+            this.chkAutoUnInstallService.Location = new System.Drawing.Point(9, 143);
+            this.chkAutoUnInstallService.Name = "chkAutoUnInstallService";
+            this.chkAutoUnInstallService.Size = new System.Drawing.Size(195, 17);
+            this.chkAutoUnInstallService.TabIndex = 9;
+            this.chkAutoUnInstallService.Text = "Service automatisch (de-)&installieren";
+            this.chkAutoUnInstallService.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(370, 236);
-            this.Controls.Add(this.chkAutoInstallService);
+            this.Controls.Add(this.chkAutoUnInstallService);
             this.Controls.Add(this.prgProgress);
             this.Controls.Add(this.lnkUpdate);
             this.Controls.Add(this.lblCurrentVersion);
@@ -148,7 +148,7 @@
         private System.Windows.Forms.LinkLabel lnkUpdate;
         private System.Windows.Forms.ProgressBar prgProgress;
         private System.ComponentModel.BackgroundWorker bwDownloadUpdatePackage;
-        private System.Windows.Forms.CheckBox chkAutoInstallService;
+        private System.Windows.Forms.CheckBox chkAutoUnInstallService;
     }
 }
 

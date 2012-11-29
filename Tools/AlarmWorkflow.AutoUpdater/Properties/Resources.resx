@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmUpdateMessage" xml:space="preserve">
-    <value>Bitte schließen Sie laufende AlarmWorkflow-Services und UIs und bestätigen Sie das Update.</value>
+    <value>Bitte schließen Sie laufende UIs und bestätigen Sie das Update.</value>
   </data>
   <data name="OfferForceUpdateMessage" xml:space="preserve">
     <value>Sie haben bereits die angegebene Version. Möchten Sie dennoch Ihre lokale Installation mit der Serverversion überschreiben? Ihre Einstellungen bleiben gespeichert.</value>
