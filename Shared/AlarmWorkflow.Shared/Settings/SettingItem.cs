@@ -124,6 +124,19 @@ namespace AlarmWorkflow.Shared.Settings
         }
 
         /// <summary>
+        /// Returns the value of this setting as a string array
+        /// by splitting the string at their newline-characters.
+        /// </summary>
+        /// <returns>The value of this setting as a string array.</returns>
+        public string[] GetStringArray()
+        {
+            string full = GetString();
+            // For some reason, when saving a setting in the editor,
+            // it will insert a "\n" instead of the "\r\n" so we need to make sure that both are covered!
+            return full.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        /// <summary>
         /// Returns the value of this setting as an Int32.
         /// </summary>
         /// <returns>The value of this setting as an Int32.</returns>

@@ -1,15 +1,15 @@
-ï»¿---------------------------------------------------------------
+---------------------------------------------------------------
 
-Hier das SQL Script fÃ¼r die Datenbank von Alarmworkflow. Das Script einfach Kopieren und z.B. bei einem Xampp System im PHP MY ADMIN unter SQL einfÃ¼gen und mit OK ausfÃ¼hren lassen. Im Anschluss mÃ¼sste eine neue Datenbank vorhanden sein mit dem Namen Alarmworkflow und der Tabelle tb_einstaz.
+Hier das SQL Script für die Datenbank von Alarmworkflow. Das Script einfach Kopieren und z.B. bei einem Xampp System im PHP MY ADMIN unter SQL einfügen und mit OK ausführen lassen. Im Anschluss müsste eine neue Datenbank vorhanden sein mit dem Namen Alarmworkflow und der Tabelle tb_einstaz.
 
 CREATE DATABASE `alarmworkflow` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `alarmworkflow`;
 
-â€“ â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€”â€“
+– ——————————————————–
 
-â€“
-â€“ Tabellenstruktur fÃ¼r Tabelle `tb_einsatz`
-â€“
+–
+– Tabellenstruktur für Tabelle `tb_einsatz`
+–
 
 CREATE TABLE IF NOT EXISTS `tb_einsatz` (
   `id` int(11) NOT NULL auto_increment,

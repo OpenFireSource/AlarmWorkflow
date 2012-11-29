@@ -74,32 +74,23 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                 return;
             }
 
-            bool offerUpdate = _serverVersion > _localVersion;
-            if (offerUpdate)
-            {
-                OfferUpdate();
-            }
-            else
-            {
-                OfferForceUpdate();
-            }
+            bool isNewerVersion = _serverVersion > _localVersion;
+            OfferUpdate(!isNewerVersion);
         }
 
-        private void OfferForceUpdate()
-        {
-            if (!Utilities.ConfirmMessageBox(Properties.Resources.OfferForceUpdateMessage))
-            {
-                return;
-            }
-
-            OfferUpdate();
-        }
-
-        private void OfferUpdate()
+        private void OfferUpdate(bool force)
         {
             if (bwDownloadUpdatePackage.IsBusy)
             {
                 return;
+            }
+
+            if (force)
+            {
+                if (!Utilities.ConfirmMessageBox(Properties.Resources.OfferForceUpdateMessage))
+                {
+                    return;
+                }
             }
 
             if (!Utilities.ConfirmMessageBox(Properties.Resources.ConfirmUpdateMessage))
@@ -172,7 +163,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             }
 
             ExtractZipFile(args.Result);
-            InstallService();
+
+            if (chkAutoInstallService.Checked)
+            {
+                InstallService();
+            }
         }
 
         private void ExtractZipFile(byte[] buffer)

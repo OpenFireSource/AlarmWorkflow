@@ -66,7 +66,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            string message = string.Format(Properties.Resources.SettingSaveError + "\n\n{1}", item.Name, ex.Message);
+                            string message = string.Format(Properties.Resources.SettingSaveError + "\n\n{2}", sivm.DisplayText, svm.DisplayText, ex.Message);
                             MessageBox.Show(message, "Fehler beim Speichern einer Einstellung", MessageBoxButton.OK, MessageBoxImage.Error);
                             iFailedSettings++;
                         }

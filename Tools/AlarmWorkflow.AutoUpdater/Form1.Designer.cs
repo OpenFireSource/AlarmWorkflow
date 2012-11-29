@@ -35,26 +35,25 @@
             this.lnkUpdate = new System.Windows.Forms.LinkLabel();
             this.prgProgress = new System.Windows.Forms.ProgressBar();
             this.bwDownloadUpdatePackage = new System.ComponentModel.BackgroundWorker();
+            this.chkAutoInstallService = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // lblLocalVersion
             // 
             this.lblLocalVersion.AutoSize = true;
             this.lblLocalVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLocalVersion.Location = new System.Drawing.Point(308, 36);
-            this.lblLocalVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblLocalVersion.Location = new System.Drawing.Point(231, 29);
             this.lblLocalVersion.Name = "lblLocalVersion";
-            this.lblLocalVersion.Size = new System.Drawing.Size(62, 17);
+            this.lblLocalVersion.Size = new System.Drawing.Size(49, 13);
             this.lblLocalVersion.TabIndex = 3;
             this.lblLocalVersion.Text = "Prüfe...";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 36);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(76, 29);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 17);
+            this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 2;
             this.label1.Text = "Lokale Version:";
             // 
@@ -62,20 +61,18 @@
             // 
             this.lblCurrentVersion.AutoSize = true;
             this.lblCurrentVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentVersion.Location = new System.Drawing.Point(308, 87);
-            this.lblCurrentVersion.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblCurrentVersion.Location = new System.Drawing.Point(231, 71);
             this.lblCurrentVersion.Name = "lblCurrentVersion";
-            this.lblCurrentVersion.Size = new System.Drawing.Size(62, 17);
+            this.lblCurrentVersion.Size = new System.Drawing.Size(49, 13);
             this.lblCurrentVersion.TabIndex = 5;
             this.lblCurrentVersion.Text = "Prüfe...";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(101, 87);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Location = new System.Drawing.Point(76, 71);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(114, 17);
+            this.label3.Size = new System.Drawing.Size(86, 13);
             this.label3.TabIndex = 4;
             this.label3.Text = "Aktuelle Version:";
             // 
@@ -83,9 +80,10 @@
             // 
             this.lnkUpdate.AutoSize = true;
             this.lnkUpdate.Enabled = false;
-            this.lnkUpdate.Location = new System.Drawing.Point(308, 124);
+            this.lnkUpdate.Location = new System.Drawing.Point(231, 101);
+            this.lnkUpdate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lnkUpdate.Name = "lnkUpdate";
-            this.lnkUpdate.Size = new System.Drawing.Size(89, 17);
+            this.lnkUpdate.Size = new System.Drawing.Size(67, 13);
             this.lnkUpdate.TabIndex = 7;
             this.lnkUpdate.TabStop = true;
             this.lnkUpdate.Text = "&Aktualisieren";
@@ -95,9 +93,10 @@
             // 
             this.prgProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.prgProgress.Location = new System.Drawing.Point(12, 168);
+            this.prgProgress.Location = new System.Drawing.Point(9, 207);
+            this.prgProgress.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.prgProgress.Name = "prgProgress";
-            this.prgProgress.Size = new System.Drawing.Size(469, 23);
+            this.prgProgress.Size = new System.Drawing.Size(352, 19);
             this.prgProgress.TabIndex = 8;
             // 
             // bwDownloadUpdatePackage
@@ -107,11 +106,22 @@
             this.bwDownloadUpdatePackage.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwDownloadUpdatePackage_ProgressChanged);
             this.bwDownloadUpdatePackage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwDownloadUpdatePackage_RunWorkerCompleted);
             // 
+            // chkAutoInstallService
+            // 
+            this.chkAutoInstallService.AutoSize = true;
+            this.chkAutoInstallService.Location = new System.Drawing.Point(9, 143);
+            this.chkAutoInstallService.Name = "chkAutoInstallService";
+            this.chkAutoInstallService.Size = new System.Drawing.Size(174, 17);
+            this.chkAutoInstallService.TabIndex = 9;
+            this.chkAutoInstallService.Text = "Service automatisch &installieren";
+            this.chkAutoInstallService.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(493, 203);
+            this.ClientSize = new System.Drawing.Size(370, 236);
+            this.Controls.Add(this.chkAutoInstallService);
             this.Controls.Add(this.prgProgress);
             this.Controls.Add(this.lnkUpdate);
             this.Controls.Add(this.lblCurrentVersion);
@@ -119,7 +129,6 @@
             this.Controls.Add(this.lblLocalVersion);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
@@ -139,6 +148,7 @@
         private System.Windows.Forms.LinkLabel lnkUpdate;
         private System.Windows.Forms.ProgressBar prgProgress;
         private System.ComponentModel.BackgroundWorker bwDownloadUpdatePackage;
+        private System.Windows.Forms.CheckBox chkAutoInstallService;
     }
 }
 

@@ -1,8 +1,4 @@
-﻿//**********************//
-//Philipp von Kirschbaum//
-//**********************//
-
-using System;
+﻿using System;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -14,21 +10,14 @@ namespace AlarmWorkflow.Job.Prowl
     [Export("ProwlJob", typeof(IJob))]
     class ProwlJob : IJob
     {
-        #region private members
+        #region Fields
 
-        /// <summary>
-        /// The Prowl Configuration
-        /// </summary>
-        private ProwlClientConfiguration pcconfig;
-
-        /// <summary>
-        /// The Prowl Client
-        /// </summary>
-        private ProwlClient pclient;
+        private ProwlClientConfiguration _configuration;
+        private ProwlClient _client;
 
         #endregion
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the ProwlJob class.
@@ -45,17 +34,20 @@ namespace AlarmWorkflow.Job.Prowl
         {
             try
             {
-                pcconfig = new ProwlClientConfiguration();
+                _configuration = new ProwlClientConfiguration();
 
-                pcconfig.ApplicationName = SettingsManager.Instance.GetSetting("ProwlJob", "ApplicationName").GetString();
-                pcconfig.ProviderKey = SettingsManager.Instance.GetSetting("ProwlJob", "ProviderKey").GetString();
-                pcconfig.ApiKeychain = SettingsManager.Instance.GetSetting("ProwlJob", "API").GetString();
+                _configuration.ApplicationName = SettingsManager.Instance.GetSetting("ProwlJob", "ApplicationName").GetString();
+                _configuration.ProviderKey = SettingsManager.Instance.GetSetting("ProwlJob", "ProviderKey").GetString();
 
-                pclient = new ProwlClient(pcconfig);
+                string apiKeychain = string.Join(",", SettingsManager.Instance.GetSetting("ProwlJob", "API").GetStringArray());
+                _configuration.ApiKeychain = apiKeychain;
+
+                _client = new ProwlClient(_configuration);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Logger.Instance.LogFormat(LogType.Error, this, "Error while initializing Prowl.", ex);
                 return false;
             }
         }
@@ -83,12 +75,11 @@ namespace AlarmWorkflow.Job.Prowl
             //Send the Message
             try
             {
-                pclient.PostNotification(notifi);
+                _client.PostNotification(notifi);
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending the Prowl Messages.");
-                Logger.Instance.LogException(this, ex);
+                Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending the Prowl Messages.", ex);
             }
         }
 
