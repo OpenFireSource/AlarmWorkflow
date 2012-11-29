@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
+using System.ServiceProcess;
 using System.Threading;
 using System.Windows.Forms;
 using System.Net;
-using System.IO;
 using Ionic.Zip;
 
 namespace AlarmWorkflow.Tools.AutoUpdater
@@ -38,7 +40,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         /// Raises the <see cref="E:System.Windows.Forms.Form.Load"/> event.
         /// </summary>
         /// <param name="e">An <see cref="T:System.EventArgs"/> that contains the event data.</param>
-        protected override void OnLoad(System.EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
@@ -109,12 +111,9 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             using (WebClient client = new WebClient())
             {
 
-                string serverVersionUri = string.Format("{0}/{1}/{2}", Properties.Settings.Default.UpdateServerName, Properties.Settings.Default.UpdateFilesDirectory, _serverVersion.ToString() + ".zip");
+                string serverVersionUri = string.Format("{0}/{1}/{2}", Properties.Settings.Default.UpdateServerName, Properties.Settings.Default.UpdateFilesDirectory, _serverVersion + ".zip");
 
-                client.DownloadProgressChanged += (oa, ea) =>
-                {
-                    bwDownloadUpdatePackage.ReportProgress(ea.ProgressPercentage);
-                };
+                client.DownloadProgressChanged += (oa, ea) => bwDownloadUpdatePackage.ReportProgress(ea.ProgressPercentage);
                 client.DownloadDataCompleted += (oa, ea) =>
                 {
                     e.Result = ea;
@@ -172,7 +171,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
         private void ExtractZipFile(byte[] buffer)
         {
-            string tempFileName = Path.GetTempFileName();
             ZipFile zipFile = ZipFile.Read(buffer);
             zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
 
@@ -180,11 +178,37 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
         private void InstallService()
         {
-            ProcessStartInfo serviceInstall = new ProcessStartInfo();
-            serviceInstall.CreateNoWindow = false;
-            serviceInstall.FileName = Application.StartupPath + "\\AlarmWorkflow.Windows.Service.exe";
-            serviceInstall.Arguments = "--install";
+            ProcessStartInfo serviceInstall = new ProcessStartInfo
+                                                  {
+                                                      CreateNoWindow = false,
+                                                      FileName =
+                                                          Application.StartupPath +
+                                                          "\\AlarmWorkflow.Windows.Service.exe",
+                                                      Arguments = "--install"
+                                                  };
             Process.Start(serviceInstall).WaitForExit();
+        }
+
+        private void StopSerivce()
+        {
+            ServiceController service = new ServiceController("AlarmworkflowService");
+            service.Stop();
+            service.WaitForStatus(ServiceControllerStatus.Stopped);
+        }
+
+        private void StopProcesses()
+        {
+            IEnumerable<Process> runningProccess = GetRunningAlarmProccess();
+            foreach (Process p in runningProccess)
+            {
+                p.Close();
+                //p.Kill();
+            }
+        }
+
+        private IEnumerable<Process> GetRunningAlarmProccess()
+        {
+            return Process.GetProcesses().Where(p => p.ProcessName.ToLower().Contains("AlarmWorkflow.")).ToArray();
         }
 
         #endregion
