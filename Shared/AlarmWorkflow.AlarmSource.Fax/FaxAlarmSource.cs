@@ -16,6 +16,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
     [Export("FaxAlarmSource", typeof(IAlarmSource))]
     sealed class FaxAlarmSource : IAlarmSource
     {
+        #region Constants
+
+        private const int ErrorRetryCount = 10;
+
+        #endregion
+
         #region Fields
 
         private FaxConfiguration _configuration;
@@ -83,6 +89,10 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             try
             {
+                _faxPath.Refresh();
+                _archivePath.Refresh();
+                _analysisPath.Refresh();
+                
                 if (!_faxPath.Exists)
                 {
                     _faxPath.Create();
@@ -104,6 +114,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         private void ProcessFile(FileInfo file)
         {
+            EnsureDirectoriesExist();
+
             string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
             bool fileIsMoved = false;
             int tried = 0;
@@ -117,15 +129,15 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
                 catch (IOException ex)
                 {
-                    if (tried < 60)
+                    if (tried < ErrorRetryCount)
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of 10!", tried);
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of {1}!", tried, ErrorRetryCount);
                         Thread.Sleep(200);
                         fileIsMoved = false;
                     }
                     else
                     {
-                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file.\n" + ex.ToString());
+                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file." + ex.ToString());
                         return;
                     }
                 }
