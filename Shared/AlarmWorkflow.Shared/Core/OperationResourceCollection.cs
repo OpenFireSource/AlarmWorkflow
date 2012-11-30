@@ -66,7 +66,6 @@ namespace AlarmWorkflow.Shared.Core
         /// Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
         /// </summary>
         /// <param name="index"></param>
-        /// <param name="item"></param>
         protected override void RemoveItem(int index)
         {
             base.RemoveItem(index);
@@ -76,7 +75,6 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
         /// </summary>
-        /// <param name="index"></param>
         /// <param name="item"></param>
         protected override void SetItem(int index, OperationResource item)
         {
@@ -87,8 +85,6 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
         /// </summary>
-        /// <param name="index"></param>
-        /// <param name="item"></param>
         protected override void ClearItems()
         {
             base.ClearItems();
