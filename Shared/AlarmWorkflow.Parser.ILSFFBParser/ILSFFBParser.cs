@@ -115,7 +115,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     }
 
                     // Fahrzeug füllen 
-                    operation.CustomData["Vehicles"] = "";
+                    operation.OperatingResources = "";
                     
 
                     // Sonderzeichenersetzung im Meldebild

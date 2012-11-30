@@ -75,9 +75,6 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                             case "STRABE":
                                 operation.Street = msg;
                                 break;
-                            case "KREUZUNG":
-                                operation.CustomData["Intersection"] = msg;
-                                break;
                             case "ORTSTEIL/ORT":
                                 operation.City = msg;
                                 break;
@@ -112,7 +109,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x0 != -1)
                     {
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + "FF Germering ";
+                        operation.OperatingResources = operation.OperatingResources + "FF Germering ";
 
                     }
 
@@ -126,7 +123,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 40/1 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 40/1 " + geraet;
 
                     }
 
@@ -140,7 +137,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 40/2 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 40/2 " + geraet;
 
                     }
 
@@ -154,7 +151,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 30/1 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 30/1 " + geraet;
 
                     }
 
@@ -168,7 +165,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 61/1 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 61/1 " + geraet;
 
                     }
 
@@ -182,7 +179,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 81/1 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 81/1 " + geraet;
 
                     }
 
@@ -196,7 +193,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 11/1 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 11/1 " + geraet;
 
                     }
 
@@ -210,7 +207,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | ÖSA " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | ÖSA " + geraet;
 
                     }
 
@@ -224,7 +221,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | P250 " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | P250 " + geraet;
 
                     }
 
@@ -238,7 +235,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | VSA Upf " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | VSA Upf " + geraet;
 
                     }
 
@@ -252,7 +249,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | 81/1 + VSA " + geraet;
+                        operation.OperatingResources = operation.OperatingResources + " | 81/1 + VSA " + geraet;
 
                     }
 
@@ -261,7 +258,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x12 != -1)
                     {
 
-                        operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + " | Unterpfaffenhofen ";
+                        operation.AlertedUnits = operation.AlertedUnits + " | Unterpfaffenhofen ";
 
                     }
 
@@ -269,7 +266,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x13 != -1)
                     {
 
-                        operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + "| Unterpfaffenhofen ";
+                        operation.AlertedUnits = operation.AlertedUnits + "| Unterpfaffenhofen ";
 
                     }
 
@@ -277,7 +274,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x14 != -1)
                     {
 
-                        operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + "| PuchheimBHF ";
+                        operation.AlertedUnits = operation.AlertedUnits + "| PuchheimBHF ";
 
                     }
 
@@ -286,7 +283,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x15 != -1)
                     {
 
-                        operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + "| Eichenau ";
+                        operation.AlertedUnits = operation.AlertedUnits + "| Eichenau ";
 
                     }
 
@@ -294,34 +291,34 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     if (x16 != -1)
                     {
 
-                        operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + "| PuchheimOrt ";
+                        operation.AlertedUnits = operation.AlertedUnits + "| PuchheimOrt ";
 
                     }
 
                     //Ersetzen der anderen alarmierten Feuerwehren
-                    operation.CustomData["OtherFD"] = operation.CustomData["OtherFD"] + " ";
+                    operation.AlertedUnits = operation.AlertedUnits + " ";
 
-                    if ((operation.GetCustomData<string>("OtherFD").Contains("Unterpfaffenhofen") == true) && (Other_FD_Upf == false))
+                    if ((operation.AlertedUnits.Contains("Unterpfaffenhofen") == true) && (Other_FD_Upf == false))
                     {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | FF Unterpfaffenhofen ";
+                        operation.OperatingResources = operation.OperatingResources + " | FF Unterpfaffenhofen ";
                         Other_FD_Upf = true;
                     }
 
-                    if ((operation.GetCustomData<string>("OtherFD").Contains("PuchheimOrt") == true) && (Other_FD_Ort == false))
+                    if ((operation.AlertedUnits.Contains("PuchheimOrt") == true) && (Other_FD_Ort == false))
                     {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | FF Puchheim Ort ";
+                        operation.OperatingResources = operation.OperatingResources + " | FF Puchheim Ort ";
                         Other_FD_Ort = true;
                     }
 
-                    if ((operation.GetCustomData<string>("OtherFD").Contains("PuchheimBHF") == true) && (Other_FD_Bhf == false))
+                    if ((operation.AlertedUnits.Contains("PuchheimBHF") == true) && (Other_FD_Bhf == false))
                     {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | FF Puchheim Bahnhof ";
+                        operation.OperatingResources = operation.OperatingResources + " | FF Puchheim Bahnhof ";
                         Other_FD_Bhf = true;
                     }
 
-                    if ((operation.GetCustomData<string>("OtherFD").Contains("Eichenau") == true) && (Other_FD_Eic == false))
+                    if ((operation.AlertedUnits.Contains("Eichenau") == true) && (Other_FD_Eic == false))
                     {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " | FF Eichenau ";
+                        operation.OperatingResources = operation.OperatingResources + " | FF Eichenau ";
                         Other_FD_Eic = true;
                     }
 
@@ -347,30 +344,30 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     // Fahrzeug füllen wenn leer
                     if (ReplVehicle == false)
                     {
-                        operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " ";
+                        operation.OperatingResources = operation.OperatingResources + " ";
                         ReplVehicle = true;
                     }
 
                     // Nur zu verwendne wenn auch in der Fahrzeuge ersetzt werden soll
 
-                    //if (operation.CustomData["Vehicles"].Contains("ß") == true)
+                    //if (operation.OperatingResources.Contains("ß") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ß", "ss");
+                    //    operation.OperatingResources = operation.OperatingResources.Replace("ß", "ss");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ä") == true)
+                    //if (operation.OperatingResources.Contains("ä") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ä", "ae");
+                    //    operation.OperatingResources = operation.OperatingResources.Replace("ä", "ae");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ö") == true)
+                    //if (operation.OperatingResources.Contains("ö") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ö", "oe");
+                    //    operation.OperatingResources = operation.OperatingResources.Replace("ö", "oe");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ü") == true)
+                    //if (operation.OperatingResources.Contains("ü") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ü", "ue");
+                    //    operation.OperatingResources = operation.OperatingResources.Replace("ü", "ue");
                     //}
 
                     // Sonderzeichenersetzung im Meldebild

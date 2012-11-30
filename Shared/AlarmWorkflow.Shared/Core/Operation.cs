@@ -84,6 +84,14 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary> 
         public string Keyword { get; set; }
         /// <summary>
+        /// Gets the Einsatzmittel object.
+        /// </summary> 
+        public string OperatingResources { get; set; }
+        /// <summary>
+        /// Gets the Alarmierte Einheiten object.
+        /// </summary> 
+        public string AlertedUnits { get; set; }
+        /// <summary>
         /// Gets/sets the list of all resources requested by the call center. May be null or empty.
         /// </summary>
         public IList<OperationResource> Resources { get; set; }
