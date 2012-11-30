@@ -32,7 +32,7 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
                 sw.WriteLine(operation.Property);
                 sw.WriteLine(operation.City);
                 sw.WriteLine(operation.Street);
-                sw.WriteLine(operation.GetCustomData<string>("Vehicles"));
+                sw.WriteLine(operation.OperatingResources);
                 sw.WriteLine(operation.EmergencyKeyword);
                 sw.WriteLine(operation.Keyword);
             }
