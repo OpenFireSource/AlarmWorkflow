@@ -81,6 +81,21 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         [DataMember()]
         public string Keyword { get; set; }
         /// <summary>
+        /// Gets/sets the emergency keyword.
+        /// </summary>
+        [DataMember()]
+        public string EmergencyKeyword { get; set; }
+        /// <summary>
+        /// Gets/sets the picture.
+        /// </summary>
+        [DataMember()]
+        public string Picture { get; set; }
+        /// <summary>
+        /// Gets/sets the operation plan.
+        /// </summary>
+        [DataMember()]
+        public string OperationPlan { get; set; }
+        /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
@@ -92,6 +107,11 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
         /// </summary>
         [DataMember()]
         public byte[] RouteImage { get; set; }
+        /// <summary>
+        /// Gets/sets the information about all resources (vehicles, requested equipment etc.).
+        /// </summary>
+        [DataMember()]
+        public OperationResourceCollection Resources { get; set; }
         /// <summary>
         /// Gets/sets the custom data.
         /// </summary>
@@ -133,6 +153,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             this.Property = operation.Property;
             this.Comment = operation.Comment;
             this.Keyword = operation.Keyword;
+            this.EmergencyKeyword = operation.EmergencyKeyword;
+            this.Picture = operation.Picture;
+            this.OperationPlan = operation.OperationPlan;
+            this.Resources = operation.Resources;
             this.IsAcknowledged = operation.IsAcknowledged;
 
             // Copy the expensive information only if requested
@@ -166,6 +190,10 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             operation.Property = this.Property;
             operation.Comment = this.Comment;
             operation.Keyword = this.Keyword;
+            operation.EmergencyKeyword = this.EmergencyKeyword;
+            operation.OperationPlan = this.OperationPlan;
+            operation.Picture = this.Picture;
+            operation.Resources = this.Resources;
             operation.RouteImage = this.RouteImage;
             operation.CustomData = this.CustomData;
             operation.IsAcknowledged = this.IsAcknowledged;

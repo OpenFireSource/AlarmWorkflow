@@ -40,6 +40,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         operation.CustomData["Picture"] = operation.Picture;
                         operation.CustomData["EmergencyKeyword"] = operation.EmergencyKeyword;
                         operation.CustomData["OperationPlan"] = operation.OperationPlan;
+                        operation.CustomData["Resources"] = operation.Resources;
 
                         OperationData data = new OperationData()
                         {
@@ -136,6 +137,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                     operation.Picture = operation.GetCustomData<string>("Picture");
                     operation.EmergencyKeyword = operation.GetCustomData<string>("EmergencyKeyword");
                     operation.OperationPlan = operation.GetCustomData<string>("OperationPlan");
+                    operation.Resources = operation.GetCustomData<OperationResourceCollection>("Resources");
 
                     return operation;
                 }

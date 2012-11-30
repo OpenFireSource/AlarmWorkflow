@@ -134,7 +134,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
-            List<OperationResource> resources = new List<OperationResource>();
             OperationResource last = new OperationResource();
 
             lines = Utilities.Trim(lines);
@@ -377,7 +376,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                     }
 
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
-                                    resources.Add(last);
+                                    operation.Resources.Add(last);
                                     last = new OperationResource();
                                 }
                             }
@@ -407,9 +406,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                 operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
             }
 
-            // Apply resources before leaving
-            operation.CustomData["Einsatzmittel"] = resources;
-            operation.Resources = resources;
             return operation;
         }
 

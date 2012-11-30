@@ -84,9 +84,9 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary> 
         public string Keyword { get; set; }
         /// <summary>
-        /// Gets/sets the list of all resources requested by the call center. May be null or empty.
+        /// Gets/sets the list of all resources requested by the call center.
         /// </summary>
-        public IList<OperationResource> Resources { get; set; }
+        public OperationResourceCollection Resources { get; set; }
         /// <summary>
         /// Gets/sets the custom data for this operation.
         /// </summary>
@@ -112,6 +112,7 @@ namespace AlarmWorkflow.Shared.Core
         public Operation()
         {
             CustomData = new Dictionary<string, object>();
+            Resources = new OperationResourceCollection();
         }
 
         #endregion

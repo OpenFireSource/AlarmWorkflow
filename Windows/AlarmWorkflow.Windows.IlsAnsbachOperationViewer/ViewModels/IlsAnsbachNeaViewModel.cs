@@ -309,9 +309,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// </summary>
         internal void ToggleManuallyDeployedVehicles(string resourceName)
         {
-            List<OperationResource> dataSource = GetOperationCustomData<List<OperationResource>>("Einsatzmittel", null);
-            if (dataSource != null)
+            if (_operation != null && _operation.Resources != null)
             {
+                OperationResourceCollection dataSource = _operation.Resources;
+
                 // Get resource by its name
                 var vehicle = _configuration.Vehicles.FirstOrDefault(v => v.Name == resourceName);
                 if (vehicle != null)
@@ -348,9 +349,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         {
             List<RequestedResourceViewModel> resources = new List<RequestedResourceViewModel>();
 
-            List<OperationResource> dataSource = GetOperationCustomData<List<OperationResource>>("Einsatzmittel", null);
-            if (dataSource != null)
+            if (_operation != null && _operation.Resources != null)
             {
+                OperationResourceCollection dataSource = _operation.Resources;
+
                 foreach (OperationResource resource in dataSource)
                 {
                     // Check if the filter matches
