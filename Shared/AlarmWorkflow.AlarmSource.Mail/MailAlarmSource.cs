@@ -1,5 +1,6 @@
 ﻿using System;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
 using System.Threading;
@@ -57,15 +58,15 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
 
                 case "imap":
-                    using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
+                    using (imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login, _configuration.SSL))
                     {
                         try
                         {
-                            _imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(_imapClient_NewMessage);
+                            imapClient.NewMessage += new EventHandler<IdleMessageEventArgs>(imapClient_NewMessage);
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("IMAP IDLE wird vom Server nicht unterstützt!!!");
+                            Logger.Instance.LogFormat(LogType.Info, this, "IMAP IDLE wird vom Server nicht unterstützt!!!");
                         }
                         while (true)
                         {
@@ -74,8 +75,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
                         }
                     }
                     break;
-
-
 
                 case "pop":
                     using (Pop3Client _Pop3Client = new Pop3Client(_configuration.ServerName, _configuration.Port, _configuration.UserName, _configuration.Password, S22.Pop3.AuthMethod.Login, _configuration.SSL))
@@ -86,13 +85,12 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             Thread.Sleep(_configuration.PollInterval);
                         }
                     }
-
                     break;
 
             }
         }
 
-        void _imapClient_NewMessage(object sender, IdleMessageEventArgs e)
+        void imapClient_NewMessage(object sender, IdleMessageEventArgs e)
         {
             checkMail_imap(_imapClient);
         }
@@ -111,59 +109,53 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         private void checkMail_imap(ImapClient client)
         {
-            int trys = 0;
-        retry:
-            try
+            int maxtrys = 10;
+            for (int i = 0; i < maxtrys; i++)
             {
-                uint[] uids = client.Search(S22.Imap.SearchCondition.Unseen());
-                foreach (uint uid in uids)
+                try
                 {
-                    Console.WriteLine("NEUE MAIL");
-                    System.Net.Mail.MailMessage msg = client.GetMessage(uid);
-                    MailOperation(msg);
+                    uint[] uids = client.Search(S22.Imap.SearchCondition.Unseen());
+                    foreach (uint uid in uids)
+                    {
+                        Logger.Instance.LogFormat(LogType.Debug, this, "NEUE MAIL");
+                        System.Net.Mail.MailMessage msg = client.GetMessage(uid);
+                        MailOperation(msg);
+                    }
                 }
-            }
-            catch (S22.Imap.NotAuthenticatedException ex)
-            {
-                if (trys <= 3)
+                catch (S22.Imap.NotAuthenticatedException ex)
                 {
-                    client.Login(_configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login);
-                    trys++;
-                    goto retry;
+                        client.Login(_configuration.UserName, _configuration.Password, S22.Imap.AuthMethod.Login);
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, ex.ToString());
+                }
             }
 
         }
 
         private void checkMail_pop(Pop3Client client)
         {
-            int trys = 0;
-        retry:
-            try
+            int maxtrys = 10;
+            for (int i = 0; i < maxtrys; i++)
             {
-                System.Net.Mail.MailMessage[] msgs = client.GetMessages();
-                foreach (System.Net.Mail.MailMessage msg in msgs)
+                try
                 {
-                    Console.WriteLine("NEUE MAIL");
-                    MailOperation(msg);   
+                    System.Net.Mail.MailMessage[] msgs = client.GetMessages();
+                    foreach (System.Net.Mail.MailMessage msg in msgs)
+                    {
+                        Logger.Instance.LogFormat(LogType.Debug, this, "NEUE MAIL");
+                        MailOperation(msg);
+                    }
                 }
-            }
-            catch (S22.Pop3.NotAuthenticatedException ex)
-            {
-                if (trys <= 3)
+                catch (S22.Pop3.NotAuthenticatedException ex)
                 {
                     client.Login(_configuration.UserName, _configuration.Password, S22.Pop3.AuthMethod.Login);
-                    trys++;
-                    goto retry;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, ex.ToString());
+                }
             }
             
         }
@@ -175,9 +167,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
                 string[] chars = { "\r\n" };
                 string[] lines = message.Body.Split(chars,StringSplitOptions.None);
-
-
-                Console.WriteLine(lines.Length);
                             
                 Operation op = new Operation();
                 foreach (string s in lines)
@@ -205,5 +194,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
         }
 
         #endregion
+
+        public ImapClient imapClient { get; set; }
     }
 }
