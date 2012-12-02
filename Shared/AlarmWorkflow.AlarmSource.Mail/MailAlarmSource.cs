@@ -121,6 +121,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                         System.Net.Mail.MailMessage msg = client.GetMessage(uid);
                         MailOperation(msg);
                     }
+                    break;
                 }
                 catch (S22.Imap.NotAuthenticatedException ex)
                 {
@@ -147,6 +148,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                         Logger.Instance.LogFormat(LogType.Debug, this, "NEUE MAIL");
                         MailOperation(msg);
                     }
+                    break;
                 }
                 catch (S22.Pop3.NotAuthenticatedException ex)
                 {
