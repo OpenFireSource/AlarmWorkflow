@@ -23,7 +23,7 @@
             android:id="@+id/balloon_item_image"
             android:layout_width="40dip"
             android:layout_height="54dip"
-            android:src="@drawable/icon"
+            android:src="@drawable/ic_launcher"
             android:paddingTop="10dip"
             android:paddingRight="10dip" />
 

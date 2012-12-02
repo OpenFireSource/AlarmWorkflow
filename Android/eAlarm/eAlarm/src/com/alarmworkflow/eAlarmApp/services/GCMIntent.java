@@ -9,6 +9,9 @@ import java.util.UUID;
 import com.alarmworkflow.eAlarmApp.C2DMClientActivity;
 import com.alarmworkflow.eAlarmApp.OperationDetail;
 import com.alarmworkflow.eAlarmApp.R;
+import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
+import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
+import com.alarmworkflow.eAlarmApp.datastorage.ServerConnection;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -137,10 +140,11 @@ public class GCMIntent extends IntentService implements
 		text = intent.getExtras().getString("text");
 		String longitude = intent.getExtras().getString("long");
 		String latitude = intent.getExtras().getString("lat");
+		String opID = intent.getExtras().getString("opid");
 		Date date = new Date();
 		String time = date.getTime() + "";
 		DataSource.getInstance(this).addOperation(header, text, longitude,
-				latitude, time);
+				latitude, time, opID);
 		initPreferences();
 		audman = ((AudioManager) getApplicationContext().getSystemService(
 				"audio"));
@@ -149,11 +153,11 @@ public class GCMIntent extends IntentService implements
 			audman.setStreamVolume(AudioManager.STREAM_ALARM,
 					audman.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
 		if (deviceOn)
-			switchDeviceOn();		
+			switchDeviceOn();
 		if (sound && alarmsound != "")
 			playSound();
 		if (vibrate)
-			vibrate();		
+			vibrate();
 		if (openApp)
 			openApplication(time);
 		else

@@ -96,6 +96,10 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public byte[] RouteImage { get; set; }
         /// <summary>
+        /// OperationGUID (automatically generated)
+        /// </summary>
+        public readonly String OperationGUID;
+        /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
@@ -113,6 +117,7 @@ namespace AlarmWorkflow.Shared.Core
         {
             CustomData = new Dictionary<string, object>();
             Resources = new OperationResourceCollection();
+            OperationGUID = Guid.NewGuid().ToString();
         }
 
         #endregion

@@ -95,13 +95,15 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
             String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
+            String opID = operation.OperationGUID;
             var postParameters = new Dictionary<string, string>
                                      {
                                          {"email", to},
                                          {"header", header},
                                          {"text", body},
                                          {"long", longitude},
-                                         {"lat", latitude}
+                                         {"lat", latitude},
+                                         {"opid",opID}
                                      };
             string postData = postParameters.Keys.Aggregate("",
                                                             (current, key) =>

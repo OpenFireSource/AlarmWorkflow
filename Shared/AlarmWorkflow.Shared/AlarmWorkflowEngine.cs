@@ -329,7 +329,7 @@ namespace AlarmWorkflow.Shared
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
                 if (e.Operation.Timestamp.Year == 1)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the alarmsource. Using the current time as the timestamp.");
                     e.Operation.Timestamp = DateTime.Now;
                 }
 
