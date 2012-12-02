@@ -6,15 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.alarmworkflow.eAlarmApp.R;
-import com.alarmworkflow.eAlarmApp.services.DataSource;
-import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
-import com.alarmworkflow.eAlarmApp.services.ServerConnection;
+import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
+import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
+import com.alarmworkflow.eAlarmApp.datastorage.ServerConnection;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -77,21 +76,27 @@ public class OperationView extends Activity {
 			fillList();
 			return true;
 		case R.id.testnotification:
-			StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-			StrictMode.setThreadPolicy(policy); 
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("email", prefs.getString(C2DMClientActivity.EMAIL, ""));
-			params.put("header", "Testnarchicht");
-			params.put("text", "Testtext");
-			params.put("long", "0");
-			params.put("lat", "0");
-			try {
-				ServerConnection.post(
-						"https://gymolching-portal.de/gcm/send.php", params);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			new Thread(new Runnable() {
+				public void run() {
+					HashMap<String, String> params = new HashMap<String, String>();
+					params.put("email",
+							prefs.getString(C2DMClientActivity.EMAIL, ""));
+					params.put("header", "Testnarchicht");
+					params.put("text", "Testtext");
+					params.put("long", "0");
+					params.put("lat", "0");
+					try {
+						ServerConnection.post(
+								"https://gymolching-portal.de/gcm/send.php",
+								params);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}).start();
+
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);

@@ -67,7 +67,7 @@
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="331dp"
             android:orientation="vertical" >
 
             <TextView
@@ -99,7 +99,7 @@
     </ScrollView>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/feedbacklayout"
         android:layout_width="wrap_content"
         android:layout_height="55dp"
         android:layout_alignParentBottom="true"
@@ -129,7 +129,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight=".25"
             android:background="@drawable/buttontext"
-            android:text="Text"
+            android:text="Vielleicht"
             android:textStyle="bold" />
 
         <Button

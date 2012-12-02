@@ -33,13 +33,13 @@ public class KMLParser {
 			doc = (Document) db.parse(is);
 
 		} catch (ParserConfigurationException e) {
-			Log.e("Error: ", e.getMessage());
+			Log.e("Error1: ", xml + e.getMessage());
 			return null;
 		} catch (SAXException e) {
-			Log.e("Error: ", e.getMessage());
+			Log.e("Error2: ", xml + e.getMessage());
 			return null;
 		} catch (IOException e) {
-			Log.e("Error: ", e.getMessage());
+			Log.e("Error3: ", xml + e.getMessage());
 			return null;
 		}
 		// return DOM
