@@ -146,7 +146,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     foreach (System.Net.Mail.MailMessage msg in msgs)
                     {
                         Logger.Instance.LogFormat(LogType.Debug, this, "NEUE MAIL");
-                        MailOperation(msg);
+                        MailOperation( msg);
                     }
                     break;
                 }
@@ -177,7 +177,9 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     if(s.Contains("Ort "))
                         op.City=s.Replace("Ort : ","");
                     else if(s.Contains("Stra?e"))
-                        op.Street=s.Replace("Stra?e : ","");
+                        op.Street = s.Replace("Stra?e : ", "");
+                    else if (s.Contains("Straße"))
+                        op.Street = s.Replace("Straße : ", "");
                     else if(s.Contains("Hausnummer"))
                         op.StreetNumber=s.Replace("Hausnummer: ","");
                     else if(s.Contains("Zusatzinfos zum Objekt"))
@@ -189,7 +191,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     else if(s.Contains("Meldende(r)"))
                         op.Messenger=s.Replace("Meldende(r) :","");
                 }
-                Console.WriteLine("3");
                             
                 OnNewAlarm(op);
             }

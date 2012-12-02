@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Tools.AutoUpdater", "AlarmWorkflow.AutoUpdater\AlarmWorkflow.Tools.AutoUpdater.csproj", "{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.PluginManager", "AlarmWorkflow.PluginManager\AlarmWorkflow.Windows.PluginManager.csproj", "{FCC6BAE1-A9D0-4EB9-AD0C-B54D9D658269}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,6 +15,10 @@ Global
 		{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}.Debug|x86.Build.0 = Debug|x86
 		{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}.Release|x86.ActiveCfg = Release|x86
 		{ADAAB2AF-D10C-4303-AFC0-8E27A594D44E}.Release|x86.Build.0 = Release|x86
+		{FCC6BAE1-A9D0-4EB9-AD0C-B54D9D658269}.Debug|x86.ActiveCfg = Debug|x86
+		{FCC6BAE1-A9D0-4EB9-AD0C-B54D9D658269}.Debug|x86.Build.0 = Debug|x86
+		{FCC6BAE1-A9D0-4EB9-AD0C-B54D9D658269}.Release|x86.ActiveCfg = Release|x86
+		{FCC6BAE1-A9D0-4EB9-AD0C-B54D9D658269}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
