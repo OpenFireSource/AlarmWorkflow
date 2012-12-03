@@ -31,8 +31,8 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
                 sw.WriteLine(operation.Messenger);
                 sw.WriteLine(operation.Property);
                 sw.WriteLine(operation.City);
-                sw.WriteLine(operation.Street);
-                sw.WriteLine(operation.GetCustomData<string>("Vehicles"));
+                sw.WriteLine(operation.Street);                
+                sw.WriteLine(operation.Resources.ToString("{FullName} | {RequestedEquipment}", null));
                 sw.WriteLine(operation.EmergencyKeyword);
                 sw.WriteLine(operation.Keyword);
             }
