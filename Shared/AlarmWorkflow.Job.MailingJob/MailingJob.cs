@@ -118,7 +118,7 @@ namespace AlarmWorkflow.Job.MailingJob
                 bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
                 bodyBuilder.AppendLine("Objekt: " + operation.Property);
                 bodyBuilder.AppendLine("Einsatzplan: " + operation.OperationPlan);
-                bodyBuilder.AppendLine("Fahrzeuge: " + operation.GetCustomData<string>("Vehicles"));
+                bodyBuilder.AppendLine("Fahrzeuge: " + operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
 
 
                 message.Body = bodyBuilder.ToString();
