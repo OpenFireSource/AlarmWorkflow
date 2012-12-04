@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the MucLandParser class.
+        /// Initializes a new instance of the ILSFFBGermeringParser class.
         /// </summary>
         public ILSFFBGermeringParser()
         {

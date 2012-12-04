@@ -6,18 +6,50 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
     /// <summary>
-    /// Description of ILSFFBParser.
+    /// Description of ILSStraubingParser.
     /// </summary>
-    [Export("ILSFFBParser", typeof(IFaxParser))]
-    sealed class ILSFFBParser : IFaxParser
+    [Export("ILSStraubingParser", typeof(IFaxParser))]
+    sealed class ILSStraubingParser : IFaxParser
     {
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ILSFFBParser class.
+        /// Initializes a new instance of the ILSStraubingParser class.
         /// </summary>
-        public ILSFFBParser()
+        public ILSStraubingParser()
         {
+        }
+
+        #endregion
+
+        #region Methods
+
+        private string GetMessageText(string line, string prefix)
+        {
+            if (prefix == null)
+            {
+                prefix = "";
+            }
+
+            if (prefix.Length > 0)
+            {
+                line = line.Remove(0, prefix.Length).Trim();
+            }
+            else
+            {
+                int colonIndex = line.IndexOf(':');
+                if (colonIndex != -1)
+                {
+                    line = line.Remove(0, colonIndex + 1);
+                }
+            }
+
+            if (line.StartsWith(":"))
+            {
+                line = line.Remove(0, 1).Trim();
+            }
+
+            return line;
         }
 
         #endregion
@@ -34,13 +66,15 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
 
                 //Definition der bool Variablen
                 //bool nextIsOrt = false;
-                bool ReplStreet = false;                
+                bool ReplStreet = false;
                 bool ReplCity = false;
                 bool ReplComment = false;
                 bool ReplPicture = false;
-                //bool Alarmtime = false;
                 bool Faxtime = false;
+                bool nextIsOrt = false;
                 //bool getEinsatzort = false;
+
+
 
                 foreach (string line in lines)
                 {
@@ -57,32 +91,17 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         switch (prefix)
                         {
 
-                            //Füllen der Standardinformatione Alarmfax ILS FFB
-                            case "EINSATZNR":
-                            case "E — NR":
-                            case "E-NR":
-                            case "E-Nr":
-                                operation.OperationNumber = msg;
-                                break;
-                            case "MITTEILER":
-                                operation.Messenger = msg;
-                                break;
+                            //Füllen der Standardinformatione Alarmfax Cases mit  ":"
                             case "EINSATZORT":
                                 operation.Location = msg;
                                 break;
                             case "STRAßE":
                             case "STRABE":
                                 operation.Street = msg;
-                                break;                            
-                            case "ORTSTEIL/ORT":
-                                operation.City = msg;
                                 break;
                             case "OBJEKT":
                             case "9BJEKT":
                                 operation.Property = msg;
-                                break;
-                            case "MELDEBILD":
-                                operation.Picture = msg;
                                 break;
                             case "HINWEIS":
                                 operation.Comment = msg;
@@ -90,21 +109,8 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                             case "EINSATZPLAN":
                                 operation.OperationPlan = msg;
                                 break;
-                            case "EINSATZSTICHWORT":
-                                operation.EmergencyKeyword = msg;
-                                break;
                         }
                     }
-
-                    // TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt. Daher aktuell Alarzeit noch mit Faxeingang gleich
-
-                    // Anzeige des Zeitpunkts des Alarmeingangs
-                    //if (Alarmtime == false)
-                    //{
-                    //    DateTime uhrzeit = DateTime.Now;
-                    //    operation.CustomData["Alarmtime"] = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
-                    //    Alarmtime = true;
-                    //}
 
                     // Anzeige des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)
@@ -114,9 +120,66 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         Faxtime = true;
                     }
 
-                    // Fahrzeug füllen TODO Check if needed in further cases
-                    //operation.CustomData["Vehicles"] = "";
-                    
+                    // Weitere Standardinfos auslesen
+                    if (line.StartsWith("Einsatznummer"))
+                    {
+                        operation.OperationNumber = line.Substring(14);
+                    }
+
+                    if (line.StartsWith("Name"))
+                    {
+                        operation.Messenger = operation.Messenger + line.Substring(5);
+                    }
+
+                    operation.Messenger = operation.Messenger + " ";
+
+                    if (operation.Messenger.Contains("Ausgerückt") == true)
+                    {
+                        operation.Messenger = operation.Messenger.Replace(": Alarmiert : Ausgerückt", "");
+                        operation.Messenger = operation.Messenger.Trim();
+                    }
+
+                    if (line.StartsWith("Schlagw."))
+                    {
+                        operation.Picture = operation.Picture + line.Substring(11);
+                    }
+
+                    if (line.StartsWith("Stichw. B"))
+                    {
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                    }
+
+                    if (line.StartsWith("Stichw. T"))
+                    {
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                    }
+
+                    if (line.StartsWith("Stichw. S"))
+                    {
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                    }
+
+                    if (line.StartsWith("Stichw. I"))
+                    {
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                    }
+
+                    if (line.StartsWith("Stichw. R"))
+                    {
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                    }                   
+
+                    //Ort Einlesen
+                    if ((line.StartsWith("Ort")) && (nextIsOrt == false))
+                    {
+                        operation.City = operation.City + line.Substring(4);
+                        nextIsOrt = true;
+                    }
 
                     // Sonderzeichenersetzung im Meldebild
 
@@ -180,6 +243,11 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     {
                         operation.Street = operation.Street + " ";
                         ReplStreet = true;
+                    }
+
+                    if (operation.Street.Contains("Haus-Nr.:") == true)
+                    {
+                        operation.Street = operation.Street.Replace("Haus-Nr.:", "");
                     }
 
                     if (operation.Street.Contains("ß") == true)

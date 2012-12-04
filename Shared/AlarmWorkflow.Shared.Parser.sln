@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+# Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.MucLandParser", "AlarmWorkflow.Parser.MucLandParser\AlarmWorkflow.Parser.MucLandParser.csproj", "{CC847151-5D19-497D-B606-B55B4AC5B617}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.IlsAnsbachParser", "AlarmWorkflow.Parser.IlsAnsbachParser\AlarmWorkflow.Parser.IlsAnsbachParser.csproj", "{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}"
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSFFBGermeringParser", "AlarmWorkflow.Parser.ILSFFBGermeringParser\AlarmWorkflow.Parser.ILSFFBGermeringParser.csproj", "{C449374E-98B3-4EF5-92B9-4FCDE3D5E403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.GenericParser", "AlarmWorkflow.Parser.GenericParser\AlarmWorkflow.Parser.GenericParser.csproj", "{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSStraubingParser", "AlarmWorkflow.Parser.ILSStraubingParser\AlarmWorkflow.Parser.ILSStraubingParser.csproj", "{FF096858-FF3B-492C-ADFE-AB6E52650B03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,16 @@ Global
 		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
