@@ -16,9 +16,19 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     [Export("DisplayWakeUpJob", typeof(IJob))]
     class DisplayWakeUp : IJob
     {
+        #region Constants
+
+        private const int AutoSleepTimerThreadCheckInterval = 30 * 1000;
+
+        #endregion
+
         #region Fields
 
         private List<DisplayConfiguration> _configurations;
+
+        private long _autoSleepAfterMinutes;
+        private Thread _autoSleepTimerThread;
+        private DateTime _lastAlarmTimestamp;
 
         #endregion
 
@@ -30,6 +40,42 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
         public DisplayWakeUp()
         {
             _configurations = new List<DisplayConfiguration>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void AutoSleepTimerThread()
+        {
+            while (true)
+            {
+                // Turn all displays off
+                foreach (DisplayConfiguration display in _configurations)
+                {
+                    if (!display.IsTurnedOn)
+                    {
+                        continue;
+                    }
+
+                    // If the display was turned on, but now there is a new alarm,
+                    // then update the timestamp so we don't accidentally turn it off again
+                    if (display.TurnOnTimestamp < _lastAlarmTimestamp)
+                    {
+                        display.TurnOnTimestamp = _lastAlarmTimestamp;
+                        continue;
+                    }
+
+                    long diffInMinutes = (long)(DateTime.UtcNow - display.TurnOnTimestamp).TotalMinutes;
+                    if (diffInMinutes >= _autoSleepAfterMinutes)
+                    {
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.PutDisplayIntoSleepMessage, display.TurnOffMonitorUri.Authority);
+                        display.TurnOff();
+                    }
+                }
+
+                Thread.Sleep(AutoSleepTimerThreadCheckInterval);
+            }
         }
 
         #endregion
@@ -47,10 +93,12 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                 return false;
             }
 
-            int turnOffTimeout = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffTimeout").GetInt32();
-            if (turnOffTimeout > 0)
+            _autoSleepAfterMinutes = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffTimeout").GetInt32();
+            if (_autoSleepAfterMinutes > 0)
             {
-                // TODO: Start background thread which checks all 60 seconds for automatically turning
+                _autoSleepTimerThread = new Thread(AutoSleepTimerThread);
+                _autoSleepTimerThread.Priority = ThreadPriority.BelowNormal;
+                _autoSleepTimerThread.Start();
             }
 
             return true;
@@ -62,6 +110,9 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             {
                 return;
             }
+
+            // Remember timestamp for automatically turning them off
+            _lastAlarmTimestamp = DateTime.UtcNow;
 
             foreach (DisplayConfiguration dc in _configurations)
             {
@@ -75,7 +126,11 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         class DisplayConfiguration
         {
+            #region Constants
+
             private const int WebRequestTimeout = 5000;
+
+            #endregion
 
             internal Uri TurnOnMonitorUri { get; private set; }
             internal Uri TurnOffMonitorUri { get; private set; }
@@ -85,16 +140,17 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
             internal void TurnOn()
             {
-                SendRequest(true);
-                TurnOnTimestamp = DateTime.UtcNow;
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginTurnOnDisplayMessage, TurnOnMonitorUri.Authority);
+                SendRequestAsync(true);
             }
 
             internal void TurnOff()
             {
-                SendRequest(false);
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginTurnOffDisplayMessage, TurnOffMonitorUri.Authority);
+                SendRequestAsync(false);
             }
 
-            private void SendRequest(bool state)
+            private void SendRequestAsync(bool state)
             {
                 // Send the request asynchronously, we don't want to block the main thread!
                 ThreadPool.QueueUserWorkItem((o) =>
@@ -102,10 +158,17 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                     Uri uri = state ? TurnOnMonitorUri : TurnOffMonitorUri;
                     try
                     {
+                        WebRequest request = WebRequest.Create(uri);
+                        request.Timeout = WebRequestTimeout;
+                        request.GetResponse();
 
-                        HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(uri);
-                        msg.Timeout = WebRequestTimeout;
-                        msg.GetResponse();
+                        // When we get here we assume it was successful and set the properties appropriately
+                        // TODO: Examining the response may be helpful.
+                        if (state)
+                        {
+                            TurnOnTimestamp = DateTime.UtcNow;
+                        }
+                        IsTurnedOn = state;
                     }
                     catch (Exception)
                     {
