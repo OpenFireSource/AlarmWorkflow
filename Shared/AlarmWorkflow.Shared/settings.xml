@@ -7,10 +7,10 @@
 
   <!-- Fire department information -->
   <Setting Name="FD.Name" Type="System.String">Name Ihrer Feuerwehr</Setting>
-  <Setting Name="FD.City" Type="System.String">Musterstadt</Setting>
-  <Setting Name="FD.ZipCode" Type="System.String">12345</Setting>
-  <Setting Name="FD.Street" Type="System.String">Musterstraße</Setting>
-  <Setting Name="FD.StreetNumber" Type="System.String">1</Setting>
+  <Setting Name="FD.City" Type="System.String" IsNull="True" />
+  <Setting Name="FD.ZipCode" Type="System.String" IsNull="True" />
+  <Setting Name="FD.Street" Type="System.String" IsNull="True" />
+  <Setting Name="FD.StreetNumber" Type="System.String" IsNull="True" />
 
   <!-- Route plan -->
   <Setting Name="DownloadRoutePlan" Type="System.Boolean">True</Setting>
