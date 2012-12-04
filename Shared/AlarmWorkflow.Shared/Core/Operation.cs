@@ -247,8 +247,6 @@ namespace AlarmWorkflow.Shared.Core
 
             StringBuilder sb = new StringBuilder(format);
             // Replace common control chars
-            // TODO: Tab is cheap!
-            sb.Replace("\t", "    ");
             sb.Replace("\n", Environment.NewLine);
 
             Regex regex = new Regex(@"{(\w+)}");
@@ -257,7 +255,7 @@ namespace AlarmWorkflow.Shared.Core
                 string macroText = match.Value;
                 string propertyName = macroText.Substring(1, macroText.Length - 2);
 
-                string propertyValue = "(No value)";
+                string propertyValue = "[?]";
                 object rawValue = null;
 
                 PropertyInfo property = this.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
