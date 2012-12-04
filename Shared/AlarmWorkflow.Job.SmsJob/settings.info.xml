@@ -1,6 +1,10 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="SMSJob" DisplayText="SMS (Aufgabe)">
-    <Setting Name="UserName" DisplayText="Benutzername" />
-    <Setting Name="Password" DisplayText="Passwort" />
+    <Setting Name="UserName" DisplayText="Benutzername" Category="Anmeldung" />
+    <Setting Name="Password" DisplayText="Passwort" Category="Anmeldung" />
+
+    <Setting Name="MessageFormat" DisplayText="Format" Description="Das Format der Nachricht." Category="Nachricht" />
+
+    <Setting Name="Provider" DisplayText="SMS-Anbieter" Description="Der Anbieter, über den die SMS verschickt werden sollen." Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Job.SmsJob.ISmsProvider, AlarmWorkflow.Job.SmsJob" />
   </Identifier>
 </SettingsDisplayConfiguration>

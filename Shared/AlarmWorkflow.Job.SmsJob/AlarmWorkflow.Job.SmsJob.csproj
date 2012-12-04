@@ -44,6 +44,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ISmsProvider.cs" />
     <Compile Include="MobilePhoneAddressProvider.cs" />
     <Compile Include="MobilePhoneEntryObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,6 +53,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Providers\GroupAlarmProvider.cs" />
+    <Compile Include="Providers\RettAlarmProvider.cs" />
+    <Compile Include="Providers\Sms77Provider.cs" />
     <Compile Include="SMSJob.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Text;
-using System.Web;
+using System.Threading;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -24,6 +21,7 @@ namespace AlarmWorkflow.Job.SmsJob
         private List<MobilePhoneEntryObject> _recipients;
         private string _userName;
         private string _password;
+        private ISmsProvider _provider;
 
         #endregion
 
@@ -43,54 +41,32 @@ namespace AlarmWorkflow.Job.SmsJob
 
         void IJob.DoJob(Operation operation)
         {
-            // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
-            string text = "Einsatz:%20" + PrepareString(operation.City.Substring(0, operation.City.IndexOf(" ", StringComparison.Ordinal)))
-                + "%20Strasse:%20" + PrepareString(operation.Street)
-                + "%20" + PrepareString((string)operation.CustomData["Picture"])
-                + "%20" + PrepareString(operation.Comment);
-                
-
-
-            foreach (MobilePhoneEntryObject recipient in _recipients)
+            StringBuilder messageText = new StringBuilder();
+            messageText.AppendFormat("Ort: {0}, ", operation.GetDestinationLocation());
+            if (!string.IsNullOrWhiteSpace(operation.Picture))
             {
-                StringBuilder uriBuilder = new StringBuilder();
-                uriBuilder.Append("http://gateway.sms77.de/?u=");
-                uriBuilder.Append(_userName);
-                uriBuilder.Append("&p=");
-                uriBuilder.Append(_password);
-                uriBuilder.Append("&to=");
-                uriBuilder.Append(recipient.PhoneNumber);
-                uriBuilder.Append("&text=");
-                uriBuilder.Append(HttpUtility.HtmlEncode(text));
-                uriBuilder.Append("&type=");
-                uriBuilder.Append("basicplus");
-
-                try
-                {
-                    HttpWebRequest msg = (HttpWebRequest)System.Net.WebRequest.Create(new Uri(uriBuilder.ToString()));
-                    HttpWebResponse resp = (HttpWebResponse)msg.GetResponse();
-                    Stream resp_steam = resp.GetResponseStream();
-                    using (StreamReader streamreader = new StreamReader(resp_steam, Encoding.UTF8))
-                    {
-                        string response = streamreader.ReadToEnd();
-                        if (response != "100")
-                        {
-                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMS77ErrorMessage, response);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendToRecipientGenericErrorMessage, recipient.PhoneNumber);
-                    Logger.Instance.LogException(this, ex);
-                }
+                messageText.AppendFormat("{0}; ", operation.Picture);
             }
+            if (!string.IsNullOrWhiteSpace(operation.Comment))
+            {
+                messageText.AppendFormat("{0}", operation.Comment);
+            }
+
+            string format = SettingsManager.Instance.GetSetting("SMSJob", "MessageFormat").GetString();
+            string text = operation.ToString(format);
+
+            // Truncate the string if it is too long
+            text = messageText.ToString().Truncate(160, true, true);
+
+            // Invoke the provider-send asynchronous because it is a web request and may take a while
+            ThreadPool.QueueUserWorkItem(o => _provider.Send(_userName, _password, _recipients.Select(r => r.PhoneNumber), text));
         }
 
         bool IJob.Initialize()
         {
             _userName = SettingsManager.Instance.GetSetting("SMSJob", "UserName").GetString();
             _password = SettingsManager.Instance.GetSetting("SMSJob", "Password").GetString();
+            _provider = ExportedTypeLibrary.Import<ISmsProvider>(SettingsManager.Instance.GetSetting("SMSJob", "Provider").GetString());
 
             var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MobilePhoneEntryObject>("MobilePhone");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
@@ -102,16 +78,6 @@ namespace AlarmWorkflow.Job.SmsJob
             }
 
             return true;
-        }
-
-        /// <summary>
-        /// This methode url encodes a given string.
-        /// </summary>
-        /// <param name="str">The string that must be URL encoded.</param>
-        /// <returns>The URL encoded string.</returns>
-        private static string PrepareString(string str)
-        {
-            return HttpUtility.UrlEncode(str);
         }
 
         #endregion
