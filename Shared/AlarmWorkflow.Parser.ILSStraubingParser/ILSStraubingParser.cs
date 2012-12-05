@@ -52,8 +52,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                 bool ReplComment = false;
                 bool ReplPicture = false;
                 bool Faxtime = false;
-                bool nextIsOrt = false;
-                //bool getEinsatzort = false;
+                bool nextIsOrt = false;                
 
                 foreach (string linex in lines)
                 {
@@ -81,10 +80,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             case "OBJEKT":
                             case "9BJEKT":
                                 operation.Property = msgx;
-                                break;
-                            case "HINWEIS":
-                                operation.Comment = msgx;
-                                break;
+                                break;                            
                             case "EINSATZPLAN":
                                 operation.OperationPlan = msgx;
                                 break;
@@ -98,7 +94,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                         continue;
                     }
 
-                    // Switch sections. The parsing may differ in each section.
+                    // Einlesen mehrzeilige Bemerkung
                     switch (line.Trim())
                     {
 
@@ -109,7 +105,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
                     string msg = line;
 
-                    // Parse each section
+                    // Bemerkung Section
                     switch (section)
                     {
 
@@ -127,7 +123,21 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             break;
                     }
 
-                    // Anzeige des Zeitpunkts des Faxeingangs
+                    //Auslesen der Alarmierungszeit
+                    int x0 = line.IndexOf("DEG FF");
+                    if (x0 != -1)
+                    {
+
+                        int anfang = line.IndexOf(':');
+
+                        string altime = line.Substring(anfang + 15);       
+                        altime = altime.Substring(0, altime.Length - 1); 
+                        altime = altime.Trim();                                        
+                        operation.CustomData["Alarmtime"] = "Alarmzeit: " + altime;
+
+                    }
+
+                    // Auslesen des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)
                     {
                         DateTime uhrzeit = DateTime.Now;
@@ -135,7 +145,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                         Faxtime = true;
                     }
 
-                    // Weitere Standardinfos auslesen
+                    // Weitere Standardinfos auslesen, ohne ":"
                     if (line.StartsWith("Einsatznummer"))
                     {
                         operation.OperationNumber = line.Substring(14);
