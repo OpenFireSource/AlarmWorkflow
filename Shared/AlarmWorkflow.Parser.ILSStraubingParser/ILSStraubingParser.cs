@@ -1,68 +1,49 @@
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
-namespace AlarmWorkflow.Parser.ILSFFBParser
+namespace AlarmWorkflow.Parser.IlsAnsbachParser
 {
     /// <summary>
-    /// Description of ILSStraubingParser.
+    /// Provides a parser that parses faxes from the ILSStraubingParser.
     /// </summary>
     [Export("ILSStraubingParser", typeof(IFaxParser))]
     sealed class ILSStraubingParser : IFaxParser
     {
+
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the ILSStraubingParser class.
+        /// Initializes a new instance of the IlsAnsbachParser class.
         /// </summary>
+        /// <param name="logger">The logger object.</param>
+        /// <param name="replaceList">The RreplaceList object.</param>
         public ILSStraubingParser()
         {
-        }
 
-        #endregion
-
-        #region Methods
-
-        private string GetMessageText(string line, string prefix)
-        {
-            if (prefix == null)
-            {
-                prefix = "";
-            }
-
-            if (prefix.Length > 0)
-            {
-                line = line.Remove(0, prefix.Length).Trim();
-            }
-            else
-            {
-                int colonIndex = line.IndexOf(':');
-                if (colonIndex != -1)
-                {
-                    line = line.Remove(0, colonIndex + 1);
-                }
-            }
-
-            if (line.StartsWith(":"))
-            {
-                line = line.Remove(0, 1).Trim();
-            }
-
-            return line;
         }
 
         #endregion
 
         #region IFaxParser Members
 
-
         Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
+            OperationResource last = new OperationResource();
 
-            try
+            lines = Utilities.Trim(lines);
+
+            CurrentSection section = CurrentSection.AHeader;
+
+            for (int i = 0; i < lines.Length; i++)
             {
+                try
+                {
 
                 //Definition der bool Variablen
                 //bool nextIsOrt = false;
@@ -74,18 +55,16 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                 bool nextIsOrt = false;
                 //bool getEinsatzort = false;
 
-
-
-                foreach (string line in lines)
+                foreach (string linex in lines)
                 {
 
-                    string msg;
+                    string msgx;
                     string prefix;
-                    int x = line.IndexOf(':');
+                    int x = linex.IndexOf(':');
                     if (x != -1)
                     {
-                        prefix = line.Substring(0, x);
-                        msg = line.Substring(x + 1).Trim();
+                        prefix = linex.Substring(0, x);
+                        msgx = linex.Substring(x + 1).Trim();
 
                         prefix = prefix.Trim().ToUpperInvariant();
                         switch (prefix)
@@ -93,23 +72,59 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
 
                             //Füllen der Standardinformatione Alarmfax Cases mit  ":"
                             case "EINSATZORT":
-                                operation.Location = msg;
+                                operation.Location = msgx;
                                 break;
                             case "STRAßE":
                             case "STRABE":
-                                operation.Street = msg;
+                                operation.Street = msgx;
                                 break;
                             case "OBJEKT":
                             case "9BJEKT":
-                                operation.Property = msg;
+                                operation.Property = msgx;
                                 break;
                             case "HINWEIS":
-                                operation.Comment = msg;
+                                operation.Comment = msgx;
                                 break;
                             case "EINSATZPLAN":
-                                operation.OperationPlan = msg;
+                                operation.OperationPlan = msgx;
                                 break;
                         }
+                    }
+                }
+
+                    string line = lines[i];
+                    if (line.Length == 0)
+                    {
+                        continue;
+                    }
+
+                    // Switch sections. The parsing may differ in each section.
+                    switch (line.Trim())
+                    {
+
+                        case "BEMERKUNG": { section = CurrentSection.GBemerkung; continue; }
+                        case "TEXTBAUSTEINE": { section = CurrentSection.HFooter; continue; }
+                        default: break;
+                    }
+
+                    string msg = line;
+
+                    // Parse each section
+                    switch (section)
+                    {
+
+                        case CurrentSection.GBemerkung:
+                            {
+                                // Append with newline at the end in case that the message spans more than one line
+                                operation.Comment = operation.Comment += msg + "\n";
+                                operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
+                            }
+                            break;
+                        case CurrentSection.HFooter:
+                            // The footer can be ignored completely.
+                            break;
+                        default:
+                            break;
                     }
 
                     // Anzeige des Zeitpunkts des Faxeingangs
@@ -142,6 +157,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     if (line.StartsWith("Schlagw."))
                     {
                         operation.Picture = operation.Picture + line.Substring(11);
+                        operation.Picture = operation.Picture.Trim();
                     }
 
                     if (line.StartsWith("Stichw. B"))
@@ -172,12 +188,13 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     {
                         operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
                         operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }                   
+                    }
 
                     //Ort Einlesen
                     if ((line.StartsWith("Ort")) && (nextIsOrt == false))
                     {
                         operation.City = operation.City + line.Substring(4);
+                        operation.City = operation.City.Trim();
                         nextIsOrt = true;
                     }
 
@@ -298,15 +315,39 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         operation.Comment = operation.Comment.Replace("ü", "ue");
                     }
 
+                    
+
 
                 }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Error while parsing line '{0}'. The error message was: {1}", i, ex.Message);
+                }
             }
-            catch (Exception ex)
+
+            // Post-processing the operation if needed
+            if (!string.IsNullOrWhiteSpace(operation.Comment) && operation.Comment.EndsWith("\n"))
             {
-                Logger.Instance.LogException(this, ex);
+                operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
             }
 
             return operation;
+        }
+
+
+        
+        #endregion
+
+        #region Nested types
+
+        private enum CurrentSection
+        {
+            AHeader,
+            GBemerkung,
+            /// <summary>
+            /// Footer text. Can be ignored completely.
+            /// </summary>
+            HFooter,
         }
 
         #endregion
