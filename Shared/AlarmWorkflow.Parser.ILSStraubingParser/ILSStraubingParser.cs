@@ -18,7 +18,7 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the IlsAnsbachParser class.
+        /// Initializes a new instance of the ILSStraubingParser class.
         /// </summary>
         /// <param name="logger">The logger object.</param>
         /// <param name="replaceList">The RreplaceList object.</param>
@@ -77,11 +77,7 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                             case "STRAßE":
                             case "STRABE":
                                 operation.Street = msgx;
-                                break;
-                            case "OBJEKT":
-                            case "9BJEKT":
-                                operation.Property = msgx;
-                                break;                            
+                                break;                           
                             case "EINSATZPLAN":
                                 operation.OperationPlan = msgx;
                                 break;
@@ -152,6 +148,12 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                     if (line.StartsWith("Einsatznummer"))
                     {
                         operation.OperationNumber = line.Substring(14);
+                    }
+
+                    if (line.StartsWith("Objekt"))
+                    {
+                        operation.Property = line.Substring(7);
+                        operation.Property = operation.Property.Trim();
                     }
 
                     if (line.StartsWith("Name"))
