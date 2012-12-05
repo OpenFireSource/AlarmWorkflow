@@ -6,13 +6,13 @@ using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
-namespace AlarmWorkflow.Parser.ILSStraubingParser
+namespace AlarmWorkflow.Parser.ILSOberlandParser
 {
     /// <summary>
-    /// Provides a parser that parses faxes from the ILSStraubingParser.
+    /// Provides a parser that parses faxes from the ILSOberlandParser.
     /// </summary>
-    [Export("ILSStraubingParser", typeof(IFaxParser))]
-    sealed class ILSStraubingParser : IFaxParser
+    [Export("ILSOberlandParser", typeof(IFaxParser))]
+    sealed class ILSOberlandParser : IFaxParser
     {
 
         #region Constructors
@@ -22,7 +22,7 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
         /// </summary>
         /// <param name="logger">The logger object.</param>
         /// <param name="replaceList">The RreplaceList object.</param>
-        public ILSStraubingParser()
+        public ILSOberlandParser()
         {
 
         }
@@ -100,7 +100,7 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                     {
 
                         case "BEMERKUNG": { section = CurrentSection.GBemerkung; continue; }
-                        case "TEXTBAUSTEINE": { section = CurrentSection.HFooter; continue; }
+                        case "ENDE FAX": { section = CurrentSection.HFooter; continue; }
                         default: break;
                     }
 
@@ -125,20 +125,21 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                     }
 
                     //Auslesen der Alarmierungszeit
+                    //int x0 = line.IndexOf("WM FF");
+                    //    if (x0 != -1)
                     //TODO INFO ILS Ausstehend
-                    int x0 = line.IndexOf("DEG FF");
-                    if (x0 != -1)
-                    {
+                    if ((line.Contains("WM FF") || (line.Contains("TÖL FF"))) && (getAlarmTime == false))
+                        {
 
-                        int anfang = line.IndexOf(':');
+                            int anfang = line.IndexOf(':');
 
-                        string altime = line.Substring(anfang + 15);       
-                        altime = altime.Substring(0, altime.Length - 1); 
-                        altime = altime.Trim();                                        
-                        operation.CustomData["Alarmtime"] = "Alarmzeit: " + altime;
-                        getAlarmTime = true;
+                            string altime = line.Substring(anfang + 15);
+                            altime = altime.Substring(0, altime.Length - 6);
+                            altime = altime.Trim();
+                            operation.CustomData["Alarmtime"] = "Alarmzeit: " + altime;
+                            getAlarmTime = true;
 
-                    }
+                        }                    
 
                     // Auslesen des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)
@@ -157,10 +158,12 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                     if (line.StartsWith("Name"))
                     {
                         operation.Messenger = operation.Messenger + line.Substring(5);
+                        operation.Messenger = operation.Messenger.Trim();
                     }
 
                     operation.Messenger = operation.Messenger + " ";
-
+                    
+                    //Perhaps not needed TODO Check
                     if (operation.Messenger.Contains("Ausgerückt") == true)
                     {
                         operation.Messenger = operation.Messenger.Replace(": Alarmiert : Ausgerückt", "");
@@ -169,39 +172,15 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
 
                     if (line.StartsWith("Schlagw."))
                     {
-                        operation.Picture = operation.Picture + line.Substring(11);
+                        operation.Picture = operation.Picture + line.Substring(14);
                         operation.Picture = operation.Picture.Trim();
                     }
 
-                    if (line.StartsWith("Stichw. B"))
+                    if (line.StartsWith("Stichwort"))
                     {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
+                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(11);
                         operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }
-
-                    if (line.StartsWith("Stichw. T"))
-                    {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
-                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }
-
-                    if (line.StartsWith("Stichw. S"))
-                    {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
-                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }
-
-                    if (line.StartsWith("Stichw. I"))
-                    {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
-                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }
-
-                    if (line.StartsWith("Stichw. R"))
-                    {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(10);
-                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
-                    }
+                    }                   
 
                     //Ort Einlesen
                     if ((line.StartsWith("Ort")) && (nextIsOrt == false))
