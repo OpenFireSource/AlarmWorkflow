@@ -63,7 +63,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     {
                         if (imapClient.Supports("IDLE"))
                         {
-                            imapClient.NewMessage += imapClient_NewMessage;
+                            imapClient.NewMessage += ImapClientNewMessage;
                         }
                         else
                         {
@@ -72,7 +72,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                         }
                         while (true)
                         {
-                            checkMail_imap(imapClient);
+                            CheckImapMail(imapClient);
                             Thread.Sleep(1000);
                         }
 
@@ -80,7 +80,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
             }
         }
 
-        void imapClient_NewMessage(object sender, IdleMessageEventArgs e)
+        void ImapClientNewMessage(object sender, IdleMessageEventArgs e)
         {
 
         }
@@ -97,7 +97,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #region Methods
 
-        private void checkMail_imap(ImapClient client)
+        private void CheckImapMail(ImapClient client)
         {
             const int maxtrys = 10;
             for (int i = 0; i < maxtrys; i++)
