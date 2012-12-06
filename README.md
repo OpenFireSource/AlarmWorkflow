@@ -23,3 +23,12 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See gpl
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+Third-party-components
+=============
+
+The AlarmWorkflow-project makes use of the following libraries:
+
+    S22.Imap by smiley22
+    https://github.com/smiley22/S22.Imap
+  
