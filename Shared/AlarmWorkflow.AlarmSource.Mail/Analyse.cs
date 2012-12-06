@@ -79,9 +79,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             int index = current.IndexOf(fieldDemiliter, StringComparison.Ordinal);
                             string key = current.Substring(0, index).Trim(' ');
                             string rest = current.Substring(index + 1).Trim(' ');
-                            string value = "";
-                            bool test = rest.Contains(fieldDemiliter);
-                            if (test)
+                            string value = "";                           
+                            if (rest.Contains(fieldDemiliter))
                             {
                                 int nextKeyEnd = rest.IndexOf(fieldDemiliter, StringComparison.Ordinal);
                                 int nextKeyBeginn = rest.Substring(0, nextKeyEnd).LastIndexOf(" ", StringComparison
