@@ -21,7 +21,8 @@ namespace AlarmWorkflow.Windows.Service
                 service.Dispose();
                 return;
             }
-            if (System.Environment.UserInteractive)
+
+            if (Environment.UserInteractive)
             {
                 string parameter = string.Concat(args);
                 switch (parameter)
@@ -36,14 +37,8 @@ namespace AlarmWorkflow.Windows.Service
             }
             else
             {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[] 
-            { 
-                new AlarmWorkflowService() 
-            };
-                ServiceBase.Run(ServicesToRun);
+                ServiceBase.Run(new AlarmWorkflowService());
             }
-
         }
 
         private static void InstallService()
@@ -53,9 +48,9 @@ namespace AlarmWorkflow.Windows.Service
             {
                 ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Trace.WriteLine("Cannot install service (most likely it does not exist).");
+                Trace.WriteLine(string.Format(Properties.Resources.InstallServiceError_Message, ex.Message));
             }
         }
 
@@ -65,9 +60,9 @@ namespace AlarmWorkflow.Windows.Service
             {
                 ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Trace.WriteLine("Cannot uninstall service (most likely it does not exist).");
+                Trace.WriteLine(string.Format(Properties.Resources.UnInstallServiceError_Message, ex.Message));
             }
         }
     }
