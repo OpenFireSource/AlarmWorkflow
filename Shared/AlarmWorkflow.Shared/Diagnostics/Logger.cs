@@ -101,15 +101,23 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         private void WriteToFile(params string[] textLines)
         {
-            using (FileStream stream = new FileStream(OutputFileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+            try
             {
-                using (StreamWriter strmWrite = new StreamWriter(stream))
+                using (FileStream stream = new FileStream(OutputFileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
                 {
-                    foreach (string line in textLines)
+                    using (StreamWriter strmWrite = new StreamWriter(stream))
                     {
-                        strmWrite.WriteLine(line);
+                        foreach (string line in textLines)
+                        {
+                            strmWrite.WriteLine(line);
+                        }
                     }
                 }
+            }
+            catch (IOException ex)
+            {
+                string message = string.Format("Could not write to the log file. This is usually caused by a locked logfile. Do you have the log file opened in another program? The error message was: {0}", ex.Message);
+                Trace.WriteLine(message);
             }
         }
 
