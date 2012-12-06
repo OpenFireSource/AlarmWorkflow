@@ -1,4 +1,5 @@
-﻿using System.Configuration.Install;
+﻿using System;
+using System.Configuration.Install;
 using System.Diagnostics;
 using System.Reflection;
 using System.ServiceProcess;
@@ -26,11 +27,10 @@ namespace AlarmWorkflow.Windows.Service
                 switch (parameter)
                 {
                     case "--install":
-                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
-                        ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
+                        InstallService();
                         break;
                     case "--uninstall":
-                        ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
+                        UnInstallService();
                         break;
                 }
             }
@@ -44,6 +44,31 @@ namespace AlarmWorkflow.Windows.Service
                 ServiceBase.Run(ServicesToRun);
             }
 
+        }
+
+        private static void InstallService()
+        {
+            UnInstallService();
+            try
+            {
+                ManagedInstallerClass.InstallHelper(new string[] { Assembly.GetExecutingAssembly().Location });
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("Cannot install service (most likely it does not exist).");
+            }
+        }
+
+        private static void UnInstallService()
+        {
+            try
+            {
+                ManagedInstallerClass.InstallHelper(new string[] { "/u", Assembly.GetExecutingAssembly().Location });
+            }
+            catch (Exception)
+            {
+                Trace.WriteLine("Cannot uninstall service (most likely it does not exist).");
+            }
         }
     }
 }
