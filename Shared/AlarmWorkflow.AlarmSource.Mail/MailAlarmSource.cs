@@ -152,54 +152,55 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 op.OperationNumber = op.Id.ToString();
                 foreach (var pair in result)
                 {
+                    string value = pair.Value.Replace(Environment.NewLine, ";");
                     switch (pair.Key)
                     {
                         case "Ort":
-                            op.City = pair.Value;
+                            op.City = value;
                             break;
 
                         case "Ortsteil":
-                            op.City += " " + pair.Value;
+                            op.City += " " + value;
                             break;
 
                         case "Straße":
-                            op.Street = pair.Value;
+                            op.Street = value;
                             break;
 
                         case "Hausnummer":
-                            op.StreetNumber = pair.Value;
+                            op.StreetNumber = value;
                             break;
 
                         case "Koordinaten X/Y (GK)":
-                            op.Comment += pair.Value;
+                            op.Comment += value;
                             break;
 
                         case "Zusatzinfos zum Objekt":
-                            op.Comment = pair.Value;
+                            op.Comment = value;
                             break;
 
                         case "Einsatzart":
-                            op.EmergencyKeyword = pair.Value;
+                            op.EmergencyKeyword = value;
                             break;
 
                         case "Stichwort":
-                            op.Keyword = pair.Value;
+                            op.Keyword = value;
                             break;
 
                         case "Sondersignal":
-                            op.Comment += pair.Value;
+                            op.Comment += value;
                             break;
 
                         case "Zusatzinformationen":
-                            op.Picture = pair.Value;
+                            op.Picture = value;
                             break;
 
                         case "Alarmierungen":
-                            op.Resources.AddResource(pair.Value);
+                            op.Resources.AddResource(value);
                             break;
 
                         case "Meldende(r)":
-                            op.Messenger = pair.Value;
+                            op.Messenger = value;
                             break;
 
                         case "Telefon":
@@ -212,6 +213,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #endregion Methods
 
-        public ImapClient _ImapClient { get; set; }
+        private ImapClient _ImapClient { get; set; }
     }
 }
