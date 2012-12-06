@@ -34,15 +34,16 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         private void Browse_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            System.Windows.Forms.SaveFileDialog sfd = new System.Windows.Forms.SaveFileDialog();
-            sfd.Filter = _filterString;
+            System.Windows.Forms.OpenFileDialog ofd = new System.Windows.Forms.OpenFileDialog();
+            ofd.CheckFileExists = false;
+            ofd.Filter = _filterString;
             if (this.Value != null)
             {
-                sfd.FileName = (string)this.Value;
+                ofd.FileName = (string)this.Value;
             }
-            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                this.Value = sfd.FileName;
+                this.Value = ofd.FileName;
             }
         }
 
