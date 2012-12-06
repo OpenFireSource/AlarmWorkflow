@@ -49,13 +49,13 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
                 case "imap":
                     using (
-                        _imapClient =
+                        _ImapClient =
                         new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName,
                                        _configuration.Password, AuthMethod.Login, _configuration.SSL))
                     {
-                        if (_imapClient.Supports("IDLE"))
+                        if (_ImapClient.Supports("IDLE"))
                         {
-                            _imapClient.NewMessage += ImapClientNewMessage;
+                            _ImapClient.NewMessage += ImapClientNewMessage;
                         }
                         else
                         {
@@ -64,7 +64,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                         }
                         while (true)
                         {
-                            CheckImapMail(_imapClient);
+                            CheckImapMail(_ImapClient);
                             Thread.Sleep(1000);
                         }
                     }
@@ -212,6 +212,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #endregion Methods
 
-        public ImapClient _imapClient { get; set; }
+        public ImapClient _ImapClient { get; set; }
     }
 }
