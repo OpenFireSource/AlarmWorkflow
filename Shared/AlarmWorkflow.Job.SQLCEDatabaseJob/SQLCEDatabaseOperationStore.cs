@@ -44,6 +44,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
                         OperationData data = new OperationData()
                         {
+                            ID = operation.OperationGuid,
                             OperationId = oid,
                             Timestamp = Helpers.EnsureSaneTimestamp(timestamp),
                             City = operation.City,
@@ -116,6 +117,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                     Operation operation = new Operation()
                     {
                         Id = data.OperationId,
+                        OperationGuid = data.ID,
                         Timestamp = data.Timestamp,
                         City = data.City,
                         IsAcknowledged = data.IsAcknowledged,

@@ -28,6 +28,10 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public int Id { get; set; }
         /// <summary>
+        /// Gets/sets the guid of this operation that is globally unique.
+        /// </summary>
+        public Guid OperationGuid { get; set; }
+        /// <summary>
         /// Gets/sets the date and time when this operation was created.
         /// </summary>
         public DateTime Timestamp { get; set; }
@@ -113,6 +117,7 @@ namespace AlarmWorkflow.Shared.Core
         {
             CustomData = new Dictionary<string, object>();
             Resources = new OperationResourceCollection();
+            OperationGuid = Guid.NewGuid();
         }
 
         #endregion
