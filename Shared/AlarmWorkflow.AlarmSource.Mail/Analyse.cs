@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AlarmWorkflow.Shared.Diagnostics;
 
 #endregion
 
@@ -14,8 +13,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
         private static readonly Dictionary<string, List<String>> einsatz = new Dictionary<string, List<string>>();
         private static string last = "";
 
-        public static IDictionary<string, string> AnalyseData(String[] lines, IList<string> fields, String fieldDemiliter, String multiLineJoin)
+        public static IDictionary<string, string> AnalyseData(String[] lines, IList<string> fields,
+                                                              String fieldDemiliter, String multiLineJoin)
         {
+            einsatz.Clear();
             if (lines == null) throw new ArgumentNullException("lines");
             if (fields == null) throw new ArgumentNullException("fields");
             if (fieldDemiliter == null) throw new ArgumentNullException("fieldDemiliter");
@@ -56,10 +57,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             //Strings 'verschönern'
                             value = value.Trim(' ');
                             key = key.Trim(' ');
-                            einsatz.Add(key, new List<string> { value });
+                            einsatz.Add(key, new List<string> {value});
                             last = key;
                         }
-                        //Wenn nix gefunden
+                            //Wenn nix gefunden
                         else
                         {
                             //Wenn davor schon ein Feld gefunden
@@ -73,15 +74,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     //Zwei oder mehr Felder gefunden
                     if (z >= 2)
                     {
-                        
                         for (int i = 0; i < z; i++)
                         {
                             int index = current.IndexOf(fieldDemiliter, StringComparison.Ordinal);
                             string key = current.Substring(0, index).Trim(' ');
                             string rest = current.Substring(index + 1).Trim(' ');
                             string value = "";
-
-                            if (rest.Contains(fieldDemiliter))
+                            bool test = rest.Contains(fieldDemiliter);
+                            if (test)
                             {
                                 int nextKeyEnd = rest.IndexOf(fieldDemiliter, StringComparison.Ordinal);
                                 int nextKeyBeginn = rest.Substring(0, nextKeyEnd).LastIndexOf(" ", StringComparison
@@ -108,13 +108,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             }
                             if (foundField != "")
                             {
-                                einsatz.Add(foundField, new List<string> { value });
+                                einsatz.Add(foundField, new List<string> {value});
                                 last = foundField;
                             }
                             else
                             {
                                 if (!String.IsNullOrWhiteSpace(last))
                                 {
+                                    if (!einsatz[last].Contains(key + fieldDemiliter + value))
                                     einsatz[last].Add(key + fieldDemiliter + value);
                                 }
                             }
@@ -123,12 +124,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 }
             }
 
-            IDictionary<String, String> dictionary = einsatz.ToDictionary(entry => entry.Key, entry => String.Join(multiLineJoin, entry.Value));
+            IDictionary<String, String> dictionary = einsatz.ToDictionary(entry => entry.Key,
+                                                                          entry =>
+                                                                          String.Join(multiLineJoin, entry.Value));
             return dictionary;
         }
 
         /// <summary>
-        /// Zählt Vorkommen eines Strings in einem anderen String
+        ///     Zählt Vorkommen eines Strings in einem anderen String
         /// </summary>
         public static int CountStringOccurrences(string text, string pattern)
         {
