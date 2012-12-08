@@ -141,6 +141,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             _tasks.Clear();
 
             // Add selected tasks
+            _tasks.Add(new Tasks.LegacyFilesUpdaterTask());
             if (_options.AutomaticServiceUnInstall)
             {
                 _tasks.Add(new Tasks.StartStopServiceTask());

@@ -70,6 +70,15 @@ namespace AlarmWorkflow.Tools.AutoUpdater.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not move the directory &apos;{0}&apos; to &apos;{1}&apos;. Please check if it exists and contains the files from the old directory. If not please manually move these over!.
+        /// </summary>
+        internal static string LegacyTaskMoveFailedMessage {
+            get {
+                return ResourceManager.GetString("LegacyTaskMoveFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sie haben bereits die angegebene Version. Möchten Sie dennoch Ihre lokale Installation mit der Serverversion überschreiben? Ihre Einstellungen bleiben gespeichert..
         /// </summary>
         internal static string OfferForceUpdateMessage {

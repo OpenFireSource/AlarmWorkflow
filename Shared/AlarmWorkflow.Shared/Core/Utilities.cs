@@ -351,7 +351,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns></returns>
         public static string GetLocalAppDataFolderPath()
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "OpenFireSource", "AlarmWorkflow");
+            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenFireSource", "AlarmWorkflow");
         }
 
         /// <summary>

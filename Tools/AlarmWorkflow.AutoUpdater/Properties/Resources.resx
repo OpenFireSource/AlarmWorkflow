@@ -120,6 +120,9 @@
   <data name="ConfirmUpdateMessage" xml:space="preserve">
     <value>Bitte schließen Sie laufende UIs und bestätigen Sie das Update.</value>
   </data>
+  <data name="LegacyTaskMoveFailedMessage" xml:space="preserve">
+    <value>Could not move the directory '{0}' to '{1}'. Please check if it exists and contains the files from the old directory. If not please manually move these over!</value>
+  </data>
   <data name="OfferForceUpdateMessage" xml:space="preserve">
     <value>Sie haben bereits die angegebene Version. Möchten Sie dennoch Ihre lokale Installation mit der Serverversion überschreiben? Ihre Einstellungen bleiben gespeichert.</value>
   </data>
