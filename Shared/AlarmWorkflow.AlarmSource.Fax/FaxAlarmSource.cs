@@ -92,17 +92,20 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 _faxPath.Refresh();
                 _archivePath.Refresh();
                 _analysisPath.Refresh();
-                
+
                 if (!_faxPath.Exists)
                 {
                     _faxPath.Create();
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _faxPath.FullName);
                 }
                 if (!_archivePath.Exists)
                 {
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _archivePath.FullName);
                     _archivePath.Create();
                 }
                 if (!_analysisPath.Exists)
                 {
+                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _analysisPath.FullName);
                     _analysisPath.Create();
                 }
             }
@@ -274,6 +277,10 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         void IAlarmSource.RunThread()
         {
+            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for incoming faxes.", _faxPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for analyzed faxes.", _analysisPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for archived faxes.", _archivePath.FullName);
+
             EnsureDirectoriesExist();
 
             while (true)
