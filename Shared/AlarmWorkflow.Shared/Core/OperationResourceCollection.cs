@@ -58,6 +58,12 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="item"></param>
         protected override void InsertItem(int index, OperationResource item)
         {
+            // Sanity-check: Don't allow adding empty resources!
+            if (item == null || string.IsNullOrWhiteSpace(item.FullName))
+            {
+                return;
+            }
+
             base.InsertItem(index, item);
             InvalidateToStringCache();
         }
