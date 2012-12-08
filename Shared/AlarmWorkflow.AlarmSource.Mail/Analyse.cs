@@ -17,10 +17,12 @@ namespace AlarmWorkflow.AlarmSource.Mail
                                                               String fieldDemiliter, String multiLineJoin)
         {
             einsatz.Clear();
+            last = "";
             if (lines == null) throw new ArgumentNullException("lines");
             if (fields == null) throw new ArgumentNullException("fields");
             if (fieldDemiliter == null) throw new ArgumentNullException("fieldDemiliter");
             if (multiLineJoin == null) throw new ArgumentNullException("multiLineJoin");
+            
             foreach (string line in lines)
             {
                 string current = line;
