@@ -30,12 +30,16 @@ namespace AlarmWorkflow.Tools.AutoUpdater.Tasks
             if (!Directory.Exists(oldPath))
             {
                 Log.Write("Nothing to do, legacy path does not exist.", oldPath);
-                // Great, nothing to do.
                 return;
             }
 
-            // Move the directory
+            // Move the directory, if it does not exist yet
             string newPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "OpenFireSource");
+            if (Directory.Exists(newPath))
+            {
+                Log.Write("Skipping moving old path to new path (does already exist).");
+                return;
+            }
 
             try
             {
