@@ -43,7 +43,15 @@ namespace AlarmWorkflow.Windows.Service
         /// <param name="args">Data passed by the start command.</param>
         protected override void OnStart(string[] args)
         {
-            _manager.OnStart();
+            try
+            {
+                _manager.OnStart();
+            }
+            catch (System.Exception)
+            {
+                // Perform a controlled stop when we encounter an exception
+                this.Stop();
+            }
         }
 
         /// <summary>
@@ -51,7 +59,14 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         protected override void OnStop()
         {
-            _manager.OnStop();
+            try
+            {
+                _manager.OnStop();
+            }
+            catch (System.Exception)
+            {
+                // Stop shall always work
+            }
         }
 
         /// <summary>

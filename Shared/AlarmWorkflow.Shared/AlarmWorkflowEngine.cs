@@ -175,6 +175,7 @@ namespace AlarmWorkflow.Shared
         /// <summary>
         /// Starts the monitor thread, which is waiting for a new Alarm.
         /// </summary>
+        /// <exception cref="System.InvalidOperationException">Service start failed because of one of the following reasons. - There are no running alarm sources. - A general exception occurred.</exception>
         public void Start()
         {
             if (IsStarted)
@@ -221,9 +222,12 @@ namespace AlarmWorkflow.Shared
                 IsStarted = true;
                 return;
             }
-
-            Logger.Instance.LogFormat(LogType.Error, this, "Service failed to start because there are no running alarm sources! Please check the log.");
-            this.IsStarted = false;
+            else
+            {
+                // Having no alarm sources is very critical - throw exception
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ServiceStartFailedNoAlarmSourceException);
+                throw new InvalidOperationException(Properties.Resources.ServiceStartFailedNoAlarmSourceException);
+            }
         }
 
         /// <summary>
@@ -250,7 +254,7 @@ namespace AlarmWorkflow.Shared
         }
 
         /// <summary>
-        /// Stops the Thread.
+        /// Stops the engine and disposes all alarm sources and other plugins.
         /// </summary>
         public void Stop()
         {

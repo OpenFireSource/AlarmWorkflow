@@ -129,6 +129,9 @@
   <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
     <value>Storing the operation to the operation store failed! See log for information.</value>
   </data>
+  <data name="ServiceStartFailedNoAlarmSourceException" xml:space="preserve">
+    <value>Service failed to start because there are no running alarm sources! Please check the log.</value>
+  </data>
   <data name="SettingIdentifierNotFoundExceptionMessage" xml:space="preserve">
     <value>No setting identifier with the name '{0}' has been found!</value>
   </data>

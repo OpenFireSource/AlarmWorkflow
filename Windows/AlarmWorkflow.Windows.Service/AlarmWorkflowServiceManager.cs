@@ -57,6 +57,7 @@ namespace AlarmWorkflow.Windows.Service
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ServiceStartError_Message, ex.Message);
                 Logger.Instance.LogException(this, ex);
+                throw ex;
             }
         }
 

@@ -97,6 +97,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service failed to start because there are no running alarm sources! Please check the log..
+        /// </summary>
+        internal static string ServiceStartFailedNoAlarmSourceException {
+            get {
+                return ResourceManager.GetString("ServiceStartFailedNoAlarmSourceException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No setting identifier with the name &apos;{0}&apos; has been found!.
         /// </summary>
         internal static string SettingIdentifierNotFoundExceptionMessage {
