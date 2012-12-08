@@ -136,6 +136,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             }
 
             SetEnableFormForInput(false);
+            tabControl1.SelectedIndex = 1;
 
             _tasks.Clear();
 
