@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.ServiceProcess;
 using System.Threading;
 using System.Windows.Forms;
-using Ionic.Zip;
+using AlarmWorkflow.Tools.AutoUpdater.Tasks;
 
 namespace AlarmWorkflow.Tools.AutoUpdater
 {
@@ -20,6 +17,9 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         private Version _localVersion;
         private Version _serverVersion;
 
+        private InstallOptions _options;
+        private List<ITask> _tasks;
+
         #endregion
 
         #region Constructors
@@ -30,11 +30,27 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         public Form1()
         {
             InitializeComponent();
+
+            _options = new InstallOptions();
+            this.pgOptions.SelectedObject = _options;
+
+            _tasks = new List<ITask>();
+
+            Log.PostText += Log_PostText;
         }
 
         #endregion
 
         #region Methods
+
+        private void Log_PostText(string text)
+        {
+            txtLog.Invoke((Action)(() =>
+            {
+                txtLog.AppendText(text + Environment.NewLine);
+                txtLog.ScrollToCaret();
+            }));
+        }
 
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Forms.Form.Load"/> event.
@@ -44,6 +60,11 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         {
             base.OnLoad(e);
 
+            UpdateVersionDisplay();
+        }
+
+        private void UpdateVersionDisplay()
+        {
             RetrieveLocalVersion();
             ThreadPool.QueueUserWorkItem(o => RetrieveServerVersion());
         }
@@ -52,11 +73,19 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         {
             _localVersion = VersioningHelper.GetLocalVersion();
             this.lblLocalVersion.Text = _localVersion.ToString();
+
+            Log.Write("Current local version is: {0}", _localVersion);
         }
 
         private void RetrieveServerVersion()
         {
+            this.lnkUpdate.Invoke((Action)(() =>
+            {
+                lnkUpdate.Enabled = false;
+            }));
+
             _serverVersion = VersioningHelper.GetServerVersion();
+            Log.Write("Current server version is: {0}", _serverVersion);
 
             this.lblCurrentVersion.Invoke((Action)(() =>
             {
@@ -80,9 +109,15 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             OfferUpdate(!isNewerVersion);
         }
 
+        private void SetEnableFormForInput(bool state)
+        {
+            pgOptions.Enabled = state;
+            lnkUpdate.Enabled = state;
+        }
+
         private void OfferUpdate(bool force)
         {
-            if (bwDownloadUpdatePackage.IsBusy)
+            if (bwUpdateProcess.IsBusy)
             {
                 return;
             }
@@ -100,133 +135,91 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                 return;
             }
 
-            if (chkAutoUnInstallService.Checked)
-            {
-                StopSerivce();
-            }
+            SetEnableFormForInput(false);
 
-            bwDownloadUpdatePackage.RunWorkerAsync();
+            _tasks.Clear();
+
+            // Add selected tasks
+            if (_options.AutomaticServiceUnInstall)
+            {
+                _tasks.Add(new Tasks.StartStopServiceTask());
+            }
+            if (_options.KillAlarmWorkflowProcesses)
+            {
+                _tasks.Add(new Tasks.StopProcessesTask());
+            }
+            if (_options.DownloadCuneiform)
+            {
+                _tasks.Add(new Tasks.DownloadCuneiformTask());
+            }
+            _tasks.Add(new Tasks.DownloadUpdatePackageTask());
+
+            bwUpdateProcess.RunWorkerAsync();
         }
 
-        private void bwDownloadUpdatePackage_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
+        private void bwUpdateProcess_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
-            // Make the async operation synchronous to keep the BackgroundWorker busy
-            ManualResetEventSlim waitHandle = new ManualResetEventSlim(false);
+            TaskArgs args = new TaskArgs();
+            args.Context["InstalllOptions"] = _options;
+            args.Context["LocalVersion"] = _localVersion;
+            args.Context["ServerVersion"] = _serverVersion;
 
-            // If we should 
+            args.Action = TaskArgs.TaskAction.Pre;
+            ExecuteTasks(args);
 
-            using (WebClient client = new WebClient())
-            {
+            args.Action = TaskArgs.TaskAction.Installation;
+            ExecuteTasks(args);
 
-                string serverVersionUri = string.Format("{0}/{1}/{2}", Properties.Settings.Default.UpdateServerName, Properties.Settings.Default.UpdateFilesDirectory, _serverVersion + ".zip");
-
-                client.DownloadProgressChanged += (oa, ea) => bwDownloadUpdatePackage.ReportProgress(ea.ProgressPercentage);
-                client.DownloadDataCompleted += (oa, ea) =>
-                {
-                    e.Result = ea;
-                    waitHandle.Set();
-                };
-
-                client.DownloadDataAsync(new Uri(serverVersionUri));
-            }
-
-            waitHandle.Wait();
+            args.Action = TaskArgs.TaskAction.Post;
+            ExecuteTasks(args);
         }
 
-        private void bwDownloadUpdatePackage_ProgressChanged(object sender, System.ComponentModel.ProgressChangedEventArgs e)
+        private void bwUpdateProcess_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
         {
-            this.prgProgress.Value = e.ProgressPercentage;
-        }
-
-        private void bwDownloadUpdatePackage_RunWorkerCompleted(object sender, System.ComponentModel.RunWorkerCompletedEventArgs e)
-        {
-            this.prgProgress.Value = 100;
-
-            DownloadDataCompletedEventArgs args = e.Result as DownloadDataCompletedEventArgs;
-            if (args == null)
-            {
-                this.prgProgress.Value = 0;
-                return;
-            }
-
             // TODO: Handle the following states with user interaction!
-            if (args.Cancelled)
+            if (e.Cancelled)
             {
-                return;
             }
-            if (args.Error != null)
+            if (e.Error != null)
             {
-                WebException we = args.Error as WebException;
-                if (we != null)
+                Utilities.ShowMessageBox(MessageBoxIcon.Error, Properties.Resources.UpdateFailedWithExceptionMessage, e.Error.Message);
+            }
+            else
+            {
+                Utilities.ShowMessageBox(MessageBoxIcon.Information, Properties.Resources.UpdateCompleteMessage);
+            }
+
+            SetEnableFormForInput(true);
+            UpdateVersionDisplay();
+        }
+
+        private void ExecuteTasks(TaskArgs args)
+        {
+            foreach (ITask task in _tasks)
+            {
+                Log.Write("");
+
+                Stopwatch sw = Stopwatch.StartNew();
+                string taskName = task.GetType().Name;
+                try
                 {
-                    Utilities.ShowMessageBox(MessageBoxIcon.Error, Properties.Resources.UpdateFailedWithExceptionMessage, we.Message);
+                    Log.Write("Executing task '{0}' (in phase '{1}')...", taskName, args.Action);
+
+                    task.Execute(args);
+
+                    sw.Stop();
+                    Log.Write("Task finished in '{0}' milliseconds.", sw.ElapsedMilliseconds);
                 }
-                return;
+                catch (Exception)
+                {
+                    // A failing task is always critical
+                    Log.Write("Failed at task '{0}'!", taskName);
+
+                    throw;
+                }
             }
-            if (args.Result == null || args.Result.Length == 0)
-            {
-                return;
-            }
-
-            ExtractZipFile(args.Result);
-
-            if (chkAutoUnInstallService.Checked)
-            {
-                InstallService();
-            }
-
-            Utilities.ShowMessageBox(MessageBoxIcon.Information, Properties.Resources.UpdateCompleteMessage);
-        }
-
-        private void ExtractZipFile(byte[] buffer)
-        {
-            ZipFile zipFile = ZipFile.Read(buffer);
-            zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
-        }
-
-        private void InstallService()
-        {
-            ProcessStartInfo serviceInstall = new ProcessStartInfo
-                                                  {
-                                                      CreateNoWindow = false,
-                                                      FileName =
-                                                          Application.StartupPath +
-                                                          "\\AlarmWorkflow.Windows.Service.exe",
-                                                      Arguments = "--install"
-                                                  };
-            Process.Start(serviceInstall).WaitForExit();
-        }
-
-        private void StopSerivce()
-        {
-            ServiceController service = new ServiceController("AlarmworkflowService");
-            try
-            {
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped);
-            }
-            catch (InvalidOperationException)
-            {
-                // This exception is ok - it occurs if the service does not exist
-            }
-        }
-
-        private void StopProcesses()
-        {
-            IEnumerable<Process> runningProccess = GetRunningAlarmProccess();
-            foreach (Process p in runningProccess)
-            {
-                p.Close();
-            }
-        }
-
-        private IEnumerable<Process> GetRunningAlarmProccess()
-        {
-            return Process.GetProcesses().Where(p => p.ProcessName.ToLower().Contains("AlarmWorkflow.")).ToArray();
         }
 
         #endregion
-
-
     }
 }

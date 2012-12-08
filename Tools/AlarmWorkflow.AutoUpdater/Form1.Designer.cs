@@ -33,9 +33,15 @@
             this.lblCurrentVersion = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lnkUpdate = new System.Windows.Forms.LinkLabel();
-            this.prgProgress = new System.Windows.Forms.ProgressBar();
-            this.bwDownloadUpdatePackage = new System.ComponentModel.BackgroundWorker();
-            this.chkAutoUnInstallService = new System.Windows.Forms.CheckBox();
+            this.bwUpdateProcess = new System.ComponentModel.BackgroundWorker();
+            this.pgOptions = new System.Windows.Forms.PropertyGrid();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.txtLog = new System.Windows.Forms.TextBox();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblLocalVersion
@@ -89,40 +95,76 @@
             this.lnkUpdate.Text = "&Aktualisieren";
             this.lnkUpdate.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUpdate_LinkClicked);
             // 
-            // prgProgress
+            // bwUpdateProcess
             // 
-            this.prgProgress.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.bwUpdateProcess.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwUpdateProcess_DoWork);
+            this.bwUpdateProcess.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwUpdateProcess_RunWorkerCompleted);
+            // 
+            // pgOptions
+            // 
+            this.pgOptions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pgOptions.Location = new System.Drawing.Point(3, 3);
+            this.pgOptions.Margin = new System.Windows.Forms.Padding(2);
+            this.pgOptions.Name = "pgOptions";
+            this.pgOptions.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            this.pgOptions.Size = new System.Drawing.Size(332, 154);
+            this.pgOptions.TabIndex = 0;
+            this.pgOptions.ToolbarVisible = false;
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.prgProgress.Location = new System.Drawing.Point(9, 207);
-            this.prgProgress.Margin = new System.Windows.Forms.Padding(2);
-            this.prgProgress.Name = "prgProgress";
-            this.prgProgress.Size = new System.Drawing.Size(352, 19);
-            this.prgProgress.TabIndex = 8;
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(12, 127);
+            this.tabControl1.Multiline = true;
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(346, 186);
+            this.tabControl1.TabIndex = 9;
             // 
-            // bwDownloadUpdatePackage
+            // tabPage1
             // 
-            this.bwDownloadUpdatePackage.WorkerReportsProgress = true;
-            this.bwDownloadUpdatePackage.DoWork += new System.ComponentModel.DoWorkEventHandler(this.bwDownloadUpdatePackage_DoWork);
-            this.bwDownloadUpdatePackage.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.bwDownloadUpdatePackage_ProgressChanged);
-            this.bwDownloadUpdatePackage.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.bwDownloadUpdatePackage_RunWorkerCompleted);
+            this.tabPage1.Controls.Add(this.pgOptions);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(338, 160);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Einstellungen";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // chkAutoUnInstallService
+            // tabPage2
             // 
-            this.chkAutoUnInstallService.AutoSize = true;
-            this.chkAutoUnInstallService.Location = new System.Drawing.Point(9, 143);
-            this.chkAutoUnInstallService.Name = "chkAutoUnInstallService";
-            this.chkAutoUnInstallService.Size = new System.Drawing.Size(195, 17);
-            this.chkAutoUnInstallService.TabIndex = 9;
-            this.chkAutoUnInstallService.Text = "Service automatisch (de-)&installieren";
-            this.chkAutoUnInstallService.UseVisualStyleBackColor = true;
+            this.tabPage2.Controls.Add(this.txtLog);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(338, 160);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Log";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // txtLog
+            // 
+            this.txtLog.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtLog.Location = new System.Drawing.Point(3, 3);
+            this.txtLog.Multiline = true;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtLog.Size = new System.Drawing.Size(332, 154);
+            this.txtLog.TabIndex = 0;
+            this.txtLog.WordWrap = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(370, 236);
-            this.Controls.Add(this.chkAutoUnInstallService);
-            this.Controls.Add(this.prgProgress);
+            this.ClientSize = new System.Drawing.Size(370, 325);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.lnkUpdate);
             this.Controls.Add(this.lblCurrentVersion);
             this.Controls.Add(this.label3);
@@ -134,6 +176,10 @@
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Auto-Updater";
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -146,9 +192,12 @@
         private System.Windows.Forms.Label lblCurrentVersion;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.LinkLabel lnkUpdate;
-        private System.Windows.Forms.ProgressBar prgProgress;
-        private System.ComponentModel.BackgroundWorker bwDownloadUpdatePackage;
-        private System.Windows.Forms.CheckBox chkAutoUnInstallService;
+        private System.ComponentModel.BackgroundWorker bwUpdateProcess;
+        private System.Windows.Forms.PropertyGrid pgOptions;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TextBox txtLog;
     }
 }
 
