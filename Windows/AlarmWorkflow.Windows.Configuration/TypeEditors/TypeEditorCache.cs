@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
@@ -21,8 +20,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
                 TypeEditors[export.Attribute.Alias] = export.Type;
 
                 // 2. Use attribute if available.
-                ConfigurationTypeEditorAttribute attribute = (ConfigurationTypeEditorAttribute)export.Type.GetCustomAttributes(typeof(ConfigurationTypeEditorAttribute), false).FirstOrDefault();
-                if (attribute != null)
+                foreach (ConfigurationTypeEditorAttribute attribute in export.Type.GetCustomAttributes(typeof(ConfigurationTypeEditorAttribute), false))
                 {
                     TypeEditors[attribute.SourceType.FullName] = export.Type;
                 }

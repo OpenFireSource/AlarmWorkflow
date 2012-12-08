@@ -5,6 +5,7 @@ namespace AlarmWorkflow.Windows.ConfigurationContracts
     /// <summary>
     /// Provides detailed information about a type that implements <see cref="ITypeEditor"/>.
     /// </summary>
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public sealed class ConfigurationTypeEditorAttribute : Attribute
     {
         #region Properties
