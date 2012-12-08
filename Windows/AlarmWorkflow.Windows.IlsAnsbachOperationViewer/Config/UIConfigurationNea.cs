@@ -49,6 +49,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// -or- null, if the resource is either not allowed (does not contain the mandatory abbreviation) or is not configured.</returns>
         public Vehicle FindMatchingResource(string resourceName)
         {
+            if (string.IsNullOrWhiteSpace(resourceName))
+            {
+                return null;
+            }
+
             // If the resource does not contain any of the abbreviations, don't go further.
             if(!VehicleMustContainAbbreviations.Any(v => resourceName.Contains(v)))
             {
