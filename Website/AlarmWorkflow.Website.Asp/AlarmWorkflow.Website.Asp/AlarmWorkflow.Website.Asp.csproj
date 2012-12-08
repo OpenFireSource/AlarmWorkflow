@@ -40,8 +40,8 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Windows.Service">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Windows.Service.exe</HintPath>
+    <Reference Include="AlarmWorkflow.Windows.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Windows.ServiceContracts.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />

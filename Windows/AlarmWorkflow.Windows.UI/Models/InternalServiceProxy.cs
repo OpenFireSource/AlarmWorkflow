@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using System.Xml;
-using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.ServiceContracts;
 
 namespace AlarmWorkflow.Windows.UI.Models
 {

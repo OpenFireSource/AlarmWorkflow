@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {

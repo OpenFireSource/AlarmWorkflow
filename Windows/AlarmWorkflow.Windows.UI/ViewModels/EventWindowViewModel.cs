@@ -4,9 +4,10 @@ using System.Linq;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
-using AlarmWorkflow.Windows.UI.Security;
+using AlarmWorkflow.Windows.UIContracts.Extensibility;
+using AlarmWorkflow.Windows.UIContracts.Security;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 // TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
 

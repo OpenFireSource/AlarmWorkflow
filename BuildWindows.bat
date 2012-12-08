@@ -7,7 +7,11 @@ msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Debug /verbosity:m
 
 echo -------------------------------------------------
 echo Build Windows-specific stuff...
+msbuild Service\AlarmWorkflow.Service.sln /p:Configuration=Debug /verbosity:minimal
+
 msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Debug /verbosity:minimal
+msbuild Windows\AlarmWorkflow.Windows.UIJobs.sln /p:Configuration=Debug /verbosity:minimal
+msbuild Windows\AlarmWorkflow.Windows.OperationViewer.sln /p:Configuration=Debug /verbosity:minimal
 
 pause

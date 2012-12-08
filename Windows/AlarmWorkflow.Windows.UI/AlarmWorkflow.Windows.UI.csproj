@@ -46,6 +46,9 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Windows.ServiceContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.Windows.ServiceContracts.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -70,17 +73,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Extensibility\ExtensionManager.cs" />
-    <Compile Include="Extensibility\IOperationViewer.cs" />
-    <Compile Include="Extensibility\IUIJob.cs" />
-    <Compile Include="Converters\OperationToDestinationStringConverter.cs" />
     <Compile Include="Models\InternalServiceProxy.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
-    <Compile Include="Models\Extensions.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="Security\AuthorizationMode.cs" />
     <Compile Include="Security\CredentialConfirmationDialogService.cs" />
-    <Compile Include="Security\ICredentialConfirmationDialogService.cs" />
-    <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
     <Compile Include="Security\CredentialConfirmationDialog.xaml.cs">
       <DependentUpon>CredentialConfirmationDialog.xaml</DependentUpon>
@@ -92,17 +88,9 @@
       <DependentUpon>EventWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\EventWindowViewModel.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Compile Include="Views\GeneralInformationControl.xaml.cs">
-      <DependentUpon>GeneralInformationControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RouteControl.xaml.cs">
-      <DependentUpon>RouteControl.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -143,24 +131,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\GeneralInformationControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\RouteControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\FaxHS.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AlarmWorkflow.Windows.Service\AlarmWorkflow.Windows.Service.csproj">
-      <Project>{009F4AA9-0C19-4BA4-8EEE-A115E6F517A3}</Project>
-      <Name>AlarmWorkflow.Windows.Service</Name>
-      <Private>False</Private>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Fax_32.png" />
@@ -173,6 +146,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlarmWorkflow.Windows.UIContracts\AlarmWorkflow.Windows.UIContracts.csproj">
+      <Project>{FDDD6A8B-8B81-4C2B-8D5E-FE82DEF0D9D1}</Project>
+      <Name>AlarmWorkflow.Windows.UIContracts</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

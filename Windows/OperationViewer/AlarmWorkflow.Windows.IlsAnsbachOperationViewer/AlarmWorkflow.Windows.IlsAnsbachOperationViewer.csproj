@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0770A0A2-1CFE-43A8-9EFC-D10298D18D6A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlarmWorkflow.Windows.IlsAnsbachOperationViewer</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Windows.IlsAnsbachOperationViewer</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\Build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AlarmWorkflow.Parser.IlsAnsbachParser">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Parser.IlsAnsbachParser.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Windows.UIContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Shared">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Config\UIConfigurationNea.cs" />
+    <Compile Include="Config\UIConfiguration.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="ViewModels\IlsAnsbachNeaViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModel.cs" />
+    <Compile Include="Views\IlsAnsbachNeaOperationView.xaml.cs">
+      <DependentUpon>IlsAnsbachNeaOperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\IlsAnsbachOperationView.xaml.cs">
+      <DependentUpon>IlsAnsbachOperationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\IlsAnsbachViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\IlsAnsbachNeaOperationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\IlsAnsbachOperationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\IlsAnsbachNeaOperationViewerConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Config\IlsAnsbachOperationViewerConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

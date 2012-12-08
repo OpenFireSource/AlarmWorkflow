@@ -2,7 +2,7 @@
 
   <Identifier Name="UIConfiguration" DisplayText="Windows-UI">
     
-    <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UI.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UI" />
+    <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts" />
     <Setting Name="ScreenId" DisplayText="Zielbildschirms-Nummer" Description="Null-basierte Nummer (0..n) des Bildschirms" Category="Generell" />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell" />
     <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell" Editor="KeyInputTypeEditor" />
@@ -16,7 +16,7 @@
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme" />
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme" />
 
-    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.UI.Extensibility.IUIJob, AlarmWorkflow.Windows.UI" />
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts" />
 
   </Identifier>
 

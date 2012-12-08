@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.UI.Extensibility
 {
@@ -65,6 +67,21 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
         {
             foreach (IUIJob job in _uiJobs)
             {
+                if (job.IsAsync)
+                {
+                    RunUIJobAsync(operationViewer, operation, job);
+                }
+                else
+                {
+                    RunUIJobSync(operationViewer, operation, job);
+                }
+            }
+        }
+
+        private void RunUIJobAsync(IOperationViewer operationViewer, Operation operation, IUIJob job)
+        {
+            ThreadPool.QueueUserWorkItem(o =>
+            {
                 // Run the job. If the job fails, ignore that exception as well but log it too!
                 try
                 {
@@ -73,9 +90,24 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                 catch (Exception ex)
                 {
                     // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                    Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing UI-job '{0}'!", job.GetType().Name));
+                    Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing the asynchronous UI-job '{0}'!", job.GetType().Name));
                     Logger.Instance.LogException(this, ex);
                 }
+            });
+        }
+
+        private void RunUIJobSync(IOperationViewer operationViewer, Operation operation, IUIJob job)
+        {
+            // Run the job. If the job fails, ignore that exception as well but log it too!
+            try
+            {
+                job.OnNewOperation(operationViewer, operation);
+            }
+            catch (Exception ex)
+            {
+                // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing UI-job '{0}'!", job.GetType().Name));
+                Logger.Instance.LogException(this, ex);
             }
         }
 

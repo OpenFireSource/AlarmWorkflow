@@ -8,12 +8,14 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
-using AlarmWorkflow.Windows.UI.ViewModels;
 using AlarmWorkflow.Windows.UI.Views;
+using AlarmWorkflow.Windows.UIContracts;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 using Hardcodet.Wpf.TaskbarNotification;
+using AlarmWorkflow.Windows.UIContracts.Security;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -180,7 +182,7 @@ namespace AlarmWorkflow.Windows.UI
         private void InitializeServices()
         {
             // Credentials-confirmation dialog service
-            ServiceProvider.Instance.AddService(typeof(Security.ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
+            ServiceProvider.Instance.AddService(typeof(ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
         }
 
         private bool ContainsEvent(int operationId)

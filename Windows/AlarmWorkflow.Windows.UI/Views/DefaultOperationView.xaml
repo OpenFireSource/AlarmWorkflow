@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.UI.Views.DefaultOperationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:views="clr-namespace:AlarmWorkflow.Windows.UI.Views">
+             xmlns:views="clr-namespace:AlarmWorkflow.Windows.UIContracts.Views;assembly=AlarmWorkflow.Windows.UIContracts">
 
     <Grid>
         <Grid.ColumnDefinitions>

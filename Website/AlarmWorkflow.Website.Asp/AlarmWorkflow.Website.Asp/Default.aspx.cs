@@ -4,7 +4,7 @@ using System.IO;
 using System.ServiceModel;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Windows.Service.WcfServices;
+using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
 
 namespace AlarmWorkflow.Website.Asp

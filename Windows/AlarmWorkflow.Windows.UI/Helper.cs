@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AlarmWorkflow.Windows.UI.Models;
+using AlarmWorkflow.Windows.UIContracts;
 
 namespace AlarmWorkflow.Windows.UI
 {
