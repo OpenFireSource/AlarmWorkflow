@@ -62,6 +62,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Represents the exception that occurs if an assertion has failed.
         /// </summary>
+        [Serializable()]
         public sealed class AssertionFailedException : Exception
         {
             /// <summary>

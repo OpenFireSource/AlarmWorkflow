@@ -6,7 +6,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
     /// <summary>
     /// Writes log messages to the Event Log. Using this listener requires administrator rights for the executing process.
     /// </summary>
-    public sealed class EventLogLoggingListener : ILoggingListener
+    public sealed class EventLogLoggingListener : ILoggingListener, IDisposable
     {
         #region Constants
 
@@ -96,6 +96,22 @@ namespace AlarmWorkflow.Shared.Diagnostics
         }
 
         void ILoggingListener.Shutdown()
+        {
+            if (_eventLog != null)
+            {
+                _eventLog.Dispose();
+                _eventLog = null;
+            }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
         {
             if (_eventLog != null)
             {

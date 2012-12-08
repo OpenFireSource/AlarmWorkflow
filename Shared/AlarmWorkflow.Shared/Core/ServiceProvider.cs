@@ -12,7 +12,7 @@ namespace AlarmWorkflow.Shared.Core
     /// Provides an application-wide point for services.
     /// </summary>
     [DebuggerDisplay("{_serviceContainer.Services.Count} Service(s)")]
-    public sealed class ServiceProvider : IServiceContainer
+    public sealed class ServiceProvider : IServiceContainer, IDisposable
     {
         #region Singleton
 
@@ -62,7 +62,7 @@ namespace AlarmWorkflow.Shared.Core
         {
             // Grab the private hashtable ...
             var services = _serviceContainer.GetType().GetField("services", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(_serviceContainer) as Dictionary<Type, object>;
-            
+
             // Afterwards remove each registered service
             while (services.Keys.Count > 0)
             {
@@ -151,6 +151,22 @@ namespace AlarmWorkflow.Shared.Core
         public object GetService(Type serviceType)
         {
             return _serviceContainer.GetService(serviceType);
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            if (_serviceContainer != null)
+            {
+                _serviceContainer.Dispose();
+                _serviceContainer = null;
+            }
         }
 
         #endregion

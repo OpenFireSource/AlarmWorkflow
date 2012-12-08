@@ -4,7 +4,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
     /// <summary>
     /// Represents a logging listener that logs to the Diagnostics debug and trace outs.
     /// </summary>
-    public class DiagnosticsLoggingListener : ILoggingListener
+    public sealed class DiagnosticsLoggingListener : ILoggingListener
     {
         #region Fields
 

@@ -5,6 +5,7 @@ namespace AlarmWorkflow.Shared.Settings
     /// <summary>
     /// Represents an exception that is thrown when a setting with a specific name was not found.
     /// </summary>
+    [Serializable()]
     public class SettingNotFoundException : Exception
     {
         #region Properties

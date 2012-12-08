@@ -103,14 +103,11 @@ namespace AlarmWorkflow.Shared.Diagnostics
         {
             try
             {
-                using (FileStream stream = new FileStream(OutputFileName, FileMode.Append, FileAccess.Write, FileShare.ReadWrite))
+                using (StreamWriter strmWrite = new StreamWriter(OutputFileName, true))
                 {
-                    using (StreamWriter strmWrite = new StreamWriter(stream))
+                    foreach (string line in textLines)
                     {
-                        foreach (string line in textLines)
-                        {
-                            strmWrite.WriteLine(line);
-                        }
+                        strmWrite.WriteLine(line);
                     }
                 }
             }
@@ -147,7 +144,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 #if !DEBUG
             // ignore designated DEBUG-only messages (they might contain information that the user does not necessarily need to know)
             // however this does not apply if the user wants these messages to be logged (this might be due to a debug switch argument)
-            if (entry.MessageType == LoggingMessageType.Debug && !ForceDebugMessageLogging)
+            if (entry.MessageType == LogType.Debug && !ForceDebugMessageLogging)
             {
                 return;
             }
