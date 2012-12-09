@@ -172,11 +172,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             break;
 
                         case "Koordinaten X/Y (GK)":
-                            op.Comment += value;
+                            op.CustomData.Add("Koordinaten", value);
                             break;
 
                         case "Zusatzinfos zum Objekt":
-                            op.Comment = value;
+                            op.CustomData.Add("Zusatzinfos", value);
                             break;
 
                         case "Einsatzart":
@@ -188,15 +188,23 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             break;
 
                         case "Sondersignal":
-                            op.Comment += value;
+                            op.CustomData.Add("Sondersignal", value);
                             break;
 
                         case "Zusatzinformationen":
                             op.Picture = value;
                             break;
-
+                        case "Betroffene":
+                            op.CustomData.Add("Betroffene", value);
+                            break;
                         case "Alarmierungen":
-                            op.Resources.AddResource(value);
+                            String[] units = value.Split(';');
+                            units[1] = "";
+                            foreach (string loop in from unit in units where unit.Contains(" ") where unit.Length > unit.LastIndexOf(" ", System.StringComparison.Ordinal) select unit.Substring(unit.LastIndexOf(" ", System.StringComparison.Ordinal)) into loop select loop.Trim())
+                            {
+                                op.Resources.AddResource(loop);
+                            }
+
                             break;
 
                         case "Meldende(r)":
