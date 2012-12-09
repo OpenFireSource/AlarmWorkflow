@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.Views.ILSDarmStadtOperationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:conv="clr-namespace:AlarmWorkflow.Windows.UIContracts.Converters;assembly=AlarmWorkflow.Windows.UIContracts"
+             xmlns:uiviews="clr-namespace:AlarmWorkflow.Windows.UIContracts.Views;assembly=AlarmWorkflow.Windows.UIContracts"
+             KeyUp="UserControl_PreviewKeyUp">
+
+    <UserControl.Resources>
+        <conv:OperationToDestinationStringConverter x:Key="otdsConv" />
+        <BooleanToVisibilityConverter x:Key="btvConv" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- The general information  -->
+            <Border Grid.Column="0" BorderThickness="1,1,1,1" BorderBrush="Black" CornerRadius="1,0,0,1">
+                <Grid Margin="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Text="Stichwort:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+
+                    <TextBlock Grid.Row="2" Text="Zusatzinfos zum Objekt:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Text="{Binding FurtherInformation, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+
+                    <TextBlock Grid.Row="4" Text="Einsatzart:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="5" Text="{Binding Operation.EmergencyKeyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+
+                    <TextBlock Grid.Row="6" Text="Einsatzort:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="7" Text="{Binding Location, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="8" Text="Zeitstempel:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="9" Text="{Binding Operation.Timestamp, TargetNullValue='(Kein Zeitstempel)'}" TextWrapping="WrapWithOverflow" />
+
+                </Grid>
+            </Border>
+
+            <!-- The requested resources as a list -->
+            <Border Grid.Column="1" BorderThickness="0,1,1,1" BorderBrush="Black" CornerRadius="0,1,1,0">
+                <Grid Margin="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Requested resources label -->
+                    <TextBlock Grid.Row="0" Text="Alarmierungen:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="1" Text="{Binding Loops, TargetNullValue=-}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="2" Text="Zusatzinformationen:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Text="{Binding Operation.Picture, TargetNullValue=''}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="4" Text="Meldende(r):" FontWeight="Bold" />
+                    <TextBlock Grid.Row="5" Text="{Binding Operation.Messenger, TargetNullValue=''}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="6" Text="Sondersignal:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="7" Text="{Binding Sondersignal, TargetNullValue=''}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="8" Text="Betroffene:" FontWeight="Bold" />
+                    <TextBlock Grid.Row="9" Text="{Binding Betroffene, TargetNullValue=''}" TextWrapping="WrapWithOverflow" />
+                    <!-- Requested resources list -->
+                </Grid>
+            </Border>
+
+            <!-- The route control -->
+            <uiviews:RouteControl Grid.Column="2" Margin="1" />
+        </Grid>
+    </Grid>
+</UserControl>
