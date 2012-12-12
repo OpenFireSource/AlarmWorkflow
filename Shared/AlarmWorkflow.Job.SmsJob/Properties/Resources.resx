@@ -126,7 +126,7 @@
   <data name="SendToRecipientGenericErrorMessage" xml:space="preserve">
     <value>An error occurred while sending a Sms to '{0}'.</value>
   </data>
-  <data name="SendToRecipientSMS77ErrorMessage" xml:space="preserve">
+  <data name="SendToRecipientSMSProviderErrorMessage" xml:space="preserve">
     <value>Error from sms77! Status code = {0}.</value>
   </data>
 </root>
