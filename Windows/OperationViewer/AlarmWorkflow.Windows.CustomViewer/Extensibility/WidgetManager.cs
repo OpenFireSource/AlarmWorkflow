@@ -6,7 +6,7 @@ using AvalonDock.Layout;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
-    internal class ViewManager
+    internal class WidgetManager
     {
         private List<ILayoutPanelElement> _PanelElements = new List<ILayoutPanelElement>();
         private List<IUIWidget> _Widgets = new List<IUIWidget>();
