@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,6 +29,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
             }
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
+            if (File.Exists("test.xml"))
+                serializer.Deserialize("test.xml");
+
         }
 
         void IOperationViewer.OnNewOperation(Operation operation)
@@ -51,6 +56,6 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         {
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
             serializer.Serialize(new XmlTextWriter("test.xml", Encoding.UTF8));
-           }
+        }
     }
 }
