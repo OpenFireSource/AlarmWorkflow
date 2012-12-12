@@ -2,8 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 using AvalonDock.Layout;
 
 #endregion
@@ -29,7 +32,8 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 
         internal List<ILayoutPanelElement> InitializeViews()
         {
-            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)))
+            ReadOnlyCollection<string> EnabledWidgets = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "WidgetConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
+            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)).Where(j =>EnabledWidgets.Contains(j.Attribute.Alias)))
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
 
