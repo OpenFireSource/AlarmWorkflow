@@ -29,6 +29,11 @@ Third-party-components
 
 The AlarmWorkflow-project makes use of the following libraries:
 
+    WPF NotifyIcon by Hardcodet
+    http://www.hardcodet.net/projects/wpf-notifyicon
+    
     S22.Imap by smiley22
     https://github.com/smiley22/S22.Imap
   
+    AvalonDock
+    http://avalondock.codeplex.com/
