@@ -1,8 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AvalonDock.Layout;
+
+#endregion
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
@@ -25,7 +29,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 
         internal List<ILayoutPanelElement> InitializeViews()
         {
-            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof (IUIWidget)))
+            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)))
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
 
@@ -36,9 +40,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                 {
                     if (!iuiWidget.Initialize())
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this,
-                                                  "ViewPlugin type '{0}' initialization failed. The ViewPlugin will not be executed.",
-                                                  jobName);
+                        Logger.Instance.LogFormat(LogType.Warning, this, "ViewPlugin type '{0}' initialization failed. The ViewPlugin will not be executed.", jobName);
                         continue;
                     }
                     var pane =
@@ -50,18 +52,14 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                          CanClose = false,
                                                          CanHide = false
                                                      });
-                
 
                     _PanelElements.Add(pane);
                     _Widgets.Add(iuiWidget);
-                    Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.",
-                                              jobName);
+                    Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.", jobName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this,
-                                              "An error occurred while initializing ViewPlugin type '{0}'. The error message was: {1}",
-                                              jobName, ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing ViewPlugin type '{0}'. The error message was: {1}", jobName, ex.Message);
                 }
             }
             return _PanelElements;
