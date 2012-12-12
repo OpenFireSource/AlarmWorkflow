@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Job.SmsJob.Providers
                         string response = streamreader.ReadToEnd();
                         if (response != "100")
                         {
-                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMS77ErrorMessage, response);
+                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMSProviderErrorMessage, response);
                         }
                     }
                 }

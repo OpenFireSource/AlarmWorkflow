@@ -59,12 +59,6 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         switch (prefix)
                         {
                             // Auslesen der Standardinformation Alarmfax ILS FFB
-                            case "EINSATZNR":
-                            case "E — NR":
-                            case "E-NR":
-                            case "E-Nr":
-                                operation.OperationNumber = msg;
-                                break;
                             case "MITTEILER":
                                 operation.Messenger = msg;
                                 break;
@@ -103,6 +97,12 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     //    operation.EmergencyKeyword = line.Substring(4);
                     //    getEinsatzort = true;
                     //}
+
+                    if ((line.StartsWith("E - Nr")))
+                    {
+                        operation.OperationNumber = line.Substring(7);
+                        
+                    }
 
                     //Auslesen der Fahrzeuge FF Germering und teile FF Unterpfaffenhofen
                     int x0 = line.IndexOf("FF Germering");
@@ -331,7 +331,6 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     //    operation.CustomData["Alarmtime"] = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
                     //    Alarmtime = true;
                     //}
-
 
                     // Anzeige des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)
