@@ -58,12 +58,6 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         {
 
                             //Füllen der Standardinformatione Alarmfax ILS FFB
-                            case "EINSATZNR":
-                            case "E — NR":
-                            case "E-NR":
-                            case "E-Nr":
-                                operation.OperationNumber = msg;
-                                break;
                             case "MITTEILER":
                                 operation.Messenger = msg;
                                 break;
@@ -105,6 +99,12 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     //    operation.CustomData["Alarmtime"] = "Alarmzeit: " + uhrzeit.ToString("HH:mm:ss ");
                     //    Alarmtime = true;
                     //}
+
+                    if ((line.StartsWith("E - Nr")))
+                    {
+                        operation.OperationNumber = line.Substring(7);
+
+                    }
 
                     // Anzeige des Zeitpunkts des Faxeingangs
                     if (Faxtime == false)

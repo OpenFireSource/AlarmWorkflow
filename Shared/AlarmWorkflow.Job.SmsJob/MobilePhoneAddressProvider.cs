@@ -25,7 +25,7 @@ namespace AlarmWorkflow.Job.SmsJob
             }
 
             // Check for invalid chars in phone number
-            if (phoneNumber.Any(c => !char.IsDigit(c)))
+            if (phoneNumber.Any(c => char.IsLetter(c)))
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.PhoneNumberContainsInvalidCharsMessage, phoneNumber);
                 return null;
