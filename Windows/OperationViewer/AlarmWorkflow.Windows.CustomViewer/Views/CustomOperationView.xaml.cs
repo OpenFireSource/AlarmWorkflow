@@ -18,13 +18,13 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     [Export("CustomOperationViewer", typeof (IOperationViewer))]
     public partial class CustomOperationView : UserControl, IOperationViewer
     {
-        private readonly ViewManager _ViewManager;
+        private readonly WidgetManager _WidgetManager;
 
         public CustomOperationView()
         {
             InitializeComponent();
-            _ViewManager = new ViewManager();
-            List<ILayoutPanelElement> elements = _ViewManager.InitializeViews();
+            _WidgetManager = new WidgetManager();
+            List<ILayoutPanelElement> elements = _WidgetManager.InitializeViews();
             foreach (ILayoutPanelElement layoutPanelElement in elements)
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
@@ -41,7 +41,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
-            foreach (IUIWidget uiWidget in _ViewManager.Widgets)
+            foreach (IUIWidget uiWidget in _WidgetManager.Widgets)
             {
                 uiWidget.OnOperationChange(operation);
             }
