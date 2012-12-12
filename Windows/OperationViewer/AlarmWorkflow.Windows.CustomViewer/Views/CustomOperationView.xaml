@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.CustomViewer.Views.CustomOperationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:avalonDock="http://avalondock.codeplex.com"
+             xmlns:uiviews="clr-namespace:AlarmWorkflow.Windows.UIContracts.Views;assembly=AlarmWorkflow.Windows.UIContracts"
+             mc:Ignorable="d"
+             d:DesignHeight="338" d:DesignWidth="402" Unloaded="UserControl_Unloaded">
+    <Grid>
+        <avalonDock:DockingManager x:Name="dockingManager">
+            <avalonDock:LayoutRoot x:Name="rootLayout">
+            </avalonDock:LayoutRoot>
+        </avalonDock:DockingManager>
+    </Grid>
+</UserControl>
