@@ -50,6 +50,8 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                          CanClose = false,
                                                          CanHide = false
                                                      });
+                
+
                     _PanelElements.Add(pane);
                     _Widgets.Add(iuiWidget);
                     Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.",

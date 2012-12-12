@@ -15,10 +15,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     /// <summary>
     ///     Interaction logic for CustomOperationViewer.xaml
     /// </summary>
-    [Export("CustomOperationViewer", typeof(IOperationViewer))]
+    [Export("CustomOperationViewer", typeof (IOperationViewer))]
     public partial class CustomOperationView : UserControl, IOperationViewer
     {
-        private ViewManager _ViewManager;
+        private readonly ViewManager _ViewManager;
 
         public CustomOperationView()
         {
@@ -29,10 +29,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
             }
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
+            var serializer = new XmlLayoutSerializer(dockingManager);
             if (File.Exists("test.xml"))
                 serializer.Deserialize("test.xml");
-
+         
         }
 
         void IOperationViewer.OnNewOperation(Operation operation)
@@ -41,7 +41,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
-            foreach (var uiWidget in _ViewManager.Widgets)
+            foreach (IUIWidget uiWidget in _ViewManager.Widgets)
             {
                 uiWidget.OnOperationChange(operation);
             }
@@ -54,7 +54,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
+            var serializer = new XmlLayoutSerializer(dockingManager);
             serializer.Serialize(new XmlTextWriter("test.xml", Encoding.UTF8));
         }
     }
