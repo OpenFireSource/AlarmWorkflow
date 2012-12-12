@@ -10,6 +10,7 @@ namespace AlarmWorkflow.Windows.UIView.Operation
     public class OperationView : IUIWidget
     {
         private const string GUID = "b0b2c2c1-c5c6-4495-ab42-d50329babc32";
+        private const string TITLE = "Operation-View";
         bool IUIWidget.Initialize()
         {
             uiElement = new TextBox();
@@ -18,7 +19,7 @@ namespace AlarmWorkflow.Windows.UIView.Operation
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-           
+
         }
 
         private UIElement uiElement;
@@ -27,8 +28,11 @@ namespace AlarmWorkflow.Windows.UIView.Operation
             get { return uiElement; }
         }
 
-        string IUIWidget.ContentGuid {
+        string IUIWidget.ContentGuid
+        {
             get { return GUID; }
         }
+
+        string IUIWidget.Title { get { return TITLE; } }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AvalonDock.Layout;
@@ -26,8 +25,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 
         internal List<ILayoutPanelElement> InitializeViews()
         {
-          
-            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)))
+            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof (IUIWidget)))
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
 
@@ -43,7 +41,15 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                   jobName);
                         continue;
                     }
-                    var pane = new LayoutAnchorablePane(new LayoutAnchorable { Content = iuiWidget.UIElement,ContentId = iuiWidget.ContentGuid});
+                    var pane =
+                        new LayoutAnchorablePane(new LayoutAnchorable
+                                                     {
+                                                         Content = iuiWidget.UIElement,
+                                                         ContentId = iuiWidget.ContentGuid,
+                                                         Title = iuiWidget.Title,
+                                                         CanClose = false,
+                                                         CanHide = false
+                                                     });
                     _PanelElements.Add(pane);
                     _Widgets.Add(iuiWidget);
                     Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.",

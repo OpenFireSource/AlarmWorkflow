@@ -20,6 +20,11 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         string ContentGuid { get; }
 
         /// <summary>
+        ///     Gets the Title of the widget
+        /// </summary>
+        string Title { get; }
+
+        /// <summary>
         ///     Initializes this Widget
         /// </summary>
         /// <returns>The result of the initialization. Widget that return false won't be called.</returns>
