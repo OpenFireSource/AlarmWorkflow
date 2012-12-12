@@ -55,18 +55,11 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 
                     _PanelElements.Add(pane);
                     _Widgets.Add(iuiWidget);
-                    Logger.Instance.LogFormat(LogType.Info,
-                                              this,
-                                              "ViewPlugin type '{0}' initialization successful.",
-                                              jobName);
+                    Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.", jobName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error,
-                                              this,
-                                              "An error occurred while initializing ViewPlugin type '{0}'. The error message was: {1}",
-                                              jobName,
-                                              ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing ViewPlugin type '{0}'. The error message was: {1}", jobName, ex.Message);
                 }
             }
             return _PanelElements;
