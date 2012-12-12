@@ -43,7 +43,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                   jobName);
                         continue;
                     }
-                    var pane = new LayoutAnchorablePane(new LayoutAnchorable { Content = iuiWidget.UIElement });
+                    var pane = new LayoutAnchorablePane(new LayoutAnchorable { Content = iuiWidget.UIElement,ContentId = iuiWidget.ContentGuid});
                     _PanelElements.Add(pane);
                     _Widgets.Add(iuiWidget);
                     Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.",

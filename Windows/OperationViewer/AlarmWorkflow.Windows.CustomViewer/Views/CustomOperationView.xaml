@@ -6,7 +6,7 @@
              xmlns:avalonDock="http://avalondock.codeplex.com"
              xmlns:uiviews="clr-namespace:AlarmWorkflow.Windows.UIContracts.Views;assembly=AlarmWorkflow.Windows.UIContracts"
              mc:Ignorable="d"
-             d:DesignHeight="338" d:DesignWidth="402">
+             d:DesignHeight="338" d:DesignWidth="402" Unloaded="UserControl_Unloaded">
     <Grid>
         <avalonDock:DockingManager x:Name="dockingManager">
             <avalonDock:LayoutRoot x:Name="rootLayout">

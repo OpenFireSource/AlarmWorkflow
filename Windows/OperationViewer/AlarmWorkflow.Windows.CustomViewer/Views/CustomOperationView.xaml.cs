@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Xml;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AvalonDock.Layout;
+using AvalonDock.Layout.Serialization;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Views
 {
@@ -43,5 +46,11 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         {
             get { return this; }
         }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
+            serializer.Serialize(new XmlTextWriter("test.xml", Encoding.UTF8));
+           }
     }
 }

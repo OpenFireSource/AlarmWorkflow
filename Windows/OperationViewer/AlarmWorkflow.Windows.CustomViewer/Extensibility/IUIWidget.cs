@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AlarmWorkflow.Shared.Core;
+using AvalonDock.Layout.Serialization;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
@@ -12,6 +13,11 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         ///     Gets the <see cref="UIElement" /> which is used to represent the Widget.
         /// </summary>
         UIElement UIElement { get; }
+
+        /// <summary>
+        ///     Gets the ContentGUID of the widget, which is required for the <see cref="XmlLayoutSerializer" /> (should be uinque)
+        /// </summary>
+        string ContentGuid { get; }
 
         /// <summary>
         ///     Initializes this Widget
