@@ -11,7 +11,7 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Job.SmsJob
 {
     /// <summary>
-    /// Implements a Job, that sends SMS with the sms77.de service.
+    /// Implements a Job, that sends SMS with different sms services.
     /// </summary>
     [Export("SmsJob", typeof(IJob))]
     sealed class SmsJob : IJob
