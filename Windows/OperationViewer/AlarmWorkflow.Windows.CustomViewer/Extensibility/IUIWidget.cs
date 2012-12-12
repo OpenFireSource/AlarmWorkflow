@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         /// <summary>
         ///     Gets the <see cref="UIElement" /> which is used to represent the Widget.
         /// </summary>
-        UIElement PanelElement { get; }
+        UIElement UIElement { get; }
 
         /// <summary>
         ///     Initializes this Widget

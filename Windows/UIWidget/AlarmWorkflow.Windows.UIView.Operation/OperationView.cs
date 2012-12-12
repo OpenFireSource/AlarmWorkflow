@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Windows.UIView.Operation
     {
         bool IUIWidget.Initialize()
         {
-            panelElement = new TextBox();
+            uiElement = new TextBox();
             return true;
         }
 
@@ -20,10 +20,10 @@ namespace AlarmWorkflow.Windows.UIView.Operation
            
         }
 
-        private UIElement panelElement;
-        UIElement IUIWidget.PanelElement
+        private UIElement uiElement;
+        UIElement IUIWidget.UIElement
         {
-            get { return panelElement; }
+            get { return uiElement; }
         }
     }
 }

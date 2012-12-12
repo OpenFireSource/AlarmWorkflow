@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AvalonDock.Layout;
@@ -8,9 +9,24 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
     internal class ViewManager
     {
+        private List<ILayoutPanelElement> _PanelElements = new List<ILayoutPanelElement>();
+        private List<IUIWidget> _Widgets = new List<IUIWidget>();
+
+        public List<IUIWidget> Widgets
+        {
+            get { return _Widgets; }
+            set { _Widgets = value; }
+        }
+
+        public List<ILayoutPanelElement> PanelElements
+        {
+            get { return _PanelElements; }
+            set { _PanelElements = value; }
+        }
+
         internal List<ILayoutPanelElement> InitializeViews()
         {
-            var views = new List<ILayoutPanelElement>();
+          
             foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)))
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
@@ -27,8 +43,9 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                   jobName);
                         continue;
                     }
-                    var pane = new LayoutAnchorablePane(new LayoutAnchorable { Content = iuiWidget.PanelElement });
-                    views.Add(pane);
+                    var pane = new LayoutAnchorablePane(new LayoutAnchorable { Content = iuiWidget.UIElement });
+                    _PanelElements.Add(pane);
+                    _Widgets.Add(iuiWidget);
                     Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.",
                                               jobName);
                 }
@@ -39,7 +56,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                               jobName, ex.Message);
                 }
             }
-            return views;
+            return _PanelElements;
         }
     }
 }
