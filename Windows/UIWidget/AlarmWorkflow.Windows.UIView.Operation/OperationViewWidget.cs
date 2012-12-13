@@ -5,8 +5,8 @@ using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIView.Operation
 {
-    [Export("OperationView", typeof(IUIWidget))]
-    class OperationView : IUIWidget
+    [Export("OperationViewWidget", typeof(IUIWidget))]
+    class OperationViewWidget : IUIWidget
     {
         private const string GUID = "b0b2c2c1-c5c6-4495-ab42-d50329babc32";
         private const string TITLE = "Operation-View";
