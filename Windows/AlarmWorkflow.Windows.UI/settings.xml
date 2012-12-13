@@ -19,6 +19,7 @@
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
     <![CDATA[<ExportConfiguration>
     <Export Name="PrintingUIJob" IsEnabled="False" />
-  </ExportConfiguration>]]></Setting>
-  <Setting Name="WidgetConfiguration" Type="System.String" IsNull="False"/>
+  </ExportConfiguration>]]>
+  </Setting>
+
 </SettingsConfiguration>

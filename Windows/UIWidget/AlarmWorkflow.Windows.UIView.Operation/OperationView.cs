@@ -6,7 +6,7 @@ using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 namespace AlarmWorkflow.Windows.UIView.Operation
 {
     [Export("OperationView", typeof(IUIWidget))]
-    public class OperationView : IUIWidget
+    class OperationView : IUIWidget
     {
         private const string GUID = "b0b2c2c1-c5c6-4495-ab42-d50329babc32";
         private const string TITLE = "Operation-View";
@@ -14,15 +14,23 @@ namespace AlarmWorkflow.Windows.UIView.Operation
         bool IUIWidget.Initialize()
         {
             uiElement = new TextBox();
+            uiElement.TextWrapping = TextWrapping.WrapWithOverflow;
             return true;
         }
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-            ((TextBox) uiElement).Text = operation.ToString();
+            if (operation != null)
+            {
+                uiElement.Text = operation.ToString();
+            }
+            else
+            {
+                uiElement.Text = "";
+            }
         }
 
-        private UIElement uiElement;
+        private TextBox uiElement;
 
         UIElement IUIWidget.UIElement
         {
