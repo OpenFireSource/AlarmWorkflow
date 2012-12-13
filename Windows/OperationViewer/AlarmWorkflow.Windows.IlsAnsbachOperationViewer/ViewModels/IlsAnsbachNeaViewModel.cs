@@ -477,6 +477,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
             private OperationInformation GetInfoEntry(string operationNumber, bool addIfMissing)
             {
+                if (string.IsNullOrWhiteSpace(operationNumber))
+                {
+                    return null;
+                }
+
                 if (!_information.ContainsKey(operationNumber))
                 {
                     if (!addIfMissing)
@@ -497,6 +502,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
             internal void AddToInfoEntry(string operationNumber, string vehicleName)
             {
+                if (string.IsNullOrWhiteSpace(operationNumber))
+                {
+                    return;
+                }
+
                 OperationInformation oi = GetInfoEntry(operationNumber, true);
                 oi.AddVehicleName(vehicleName);
 
@@ -505,6 +515,11 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
             internal void RemoveFromInfoEntry(string operationNumber, string vehicleName)
             {
+                if (string.IsNullOrWhiteSpace(operationNumber))
+                {
+                    return;
+                }
+
                 OperationInformation oi = GetInfoEntry(operationNumber, true);
                 oi.RemoveVehicleName(vehicleName);
 
