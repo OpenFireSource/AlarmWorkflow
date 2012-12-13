@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="InstallOptions.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Tasks\BackupDatabaseTask.cs" />
     <Compile Include="Tasks\DownloadCuneiformTask.cs" />
     <Compile Include="Tasks\DownloadUpdatePackageTask.cs" />
     <Compile Include="Tasks\ITask.cs" />

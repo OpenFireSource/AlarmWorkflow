@@ -142,6 +142,10 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
             // Add selected tasks
             _tasks.Add(new Tasks.LegacyFilesUpdaterTask());
+            if (_options.BackupDatabase)
+            {
+                _tasks.Add(new Tasks.BackupDatabaseTask());
+            }
             if (_options.AutomaticServiceUnInstall)
             {
                 _tasks.Add(new Tasks.StartStopServiceTask());
@@ -162,6 +166,7 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         private void bwUpdateProcess_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             TaskArgs args = new TaskArgs();
+            args.Context["WorkingDirectory"] = Application.StartupPath;
             args.Context["InstalllOptions"] = _options;
             args.Context["LocalVersion"] = _localVersion;
             args.Context["ServerVersion"] = _serverVersion;
