@@ -81,11 +81,41 @@ namespace AlarmWorkflow.Tools.MakeUpdatePackage.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bitte geben Sie den Versionstring ein (x.y.z.w): 1.0.0.0.
+        ///   Looks up a localized string similar to Please enter the versionstring (x.y.z.w): 1.0.0.0.
         /// </summary>
         internal static string EnterVersionStringMessage {
             get {
                 return ResourceManager.GetString("EnterVersionStringMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to @echo off
+        ///xcopy &quot;{Root}\Build\Config\*.xml&quot; &quot;{ITemp}\Config\*.xml&quot; /Y
+        ///xcopy &quot;{Root}\Build\*.dll&quot; &quot;{ITemp}\*.dll&quot; /Y
+        ///xcopy &quot;{Root}\Build\*.exe&quot; &quot;{ITemp}\*.exe&quot; /Y
+        ///xcopy &quot;{Root}\Build\*.manifest&quot; &quot;{ITemp}\*.manifest&quot; /Y
+        ///xcopy &quot;{Root}\Build\*.bat&quot; &quot;{ITemp}\*.bat&quot; /Y
+        ///xcopy &quot;{Root}\Build\*.config&quot; &quot;{ITemp}\*.config&quot; /Y
+        ///
+        ///rem *** Special treatments (until better solution is found) ***
+        ///xcopy &quot;{Root}\Shared\AlarmWorkflow.Job.SQLCEDatabaseJob\SQLCEDatabase.sdf&quot; &quot;{ITemp}\*&quot; /Y
+        ///
+        ///rem Delete unwanted files
+        ///de [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FileCopyScript {
+            get {
+                return ResourceManager.GetString("FileCopyScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created package under: {0}.
+        /// </summary>
+        internal static string ZipFileCreatedUnder {
+            get {
+                return ResourceManager.GetString("ZipFileCreatedUnder", resourceCulture);
             }
         }
     }

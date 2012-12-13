@@ -15,11 +15,11 @@ namespace AlarmWorkflow.Tools.MakeUpdatePackage.Tasks
 
         void ITask.Execute(Context context)
         {
-            FindAndUpateAssemblyInfos(context);
-            FindAndUpadateVersionConfigs(context);
+            FindAndUpdateAssemblyInfos(context);
+            FindAndUpdateVersionConfigs(context);
         }
 
-        private void FindAndUpateAssemblyInfos(Context context)
+        private void FindAndUpdateAssemblyInfos(Context context)
         {
             foreach (FileInfo file in context.ProjectRootDirectory.GetFiles("AssemblyInfo.cs", SearchOption.AllDirectories))
             {
@@ -61,10 +61,21 @@ namespace AlarmWorkflow.Tools.MakeUpdatePackage.Tasks
             }
         }
 
-        private void FindAndUpadateVersionConfigs(Context context)
+        private void FindAndUpdateVersionConfigs(Context context)
         {
-            // TODO
+            string text = string.Format("<version text=\"{0}\" />", context.NewVersion.ToString());
+
+            foreach (FileInfo serverVersionXml in context.ProjectRootDirectory.GetFiles("serverversion.xml", SearchOption.AllDirectories))
+            {
+                File.WriteAllText(serverVersionXml.FullName, text);
+            }
+
+            foreach (FileInfo localVersionXml in context.ProjectRootDirectory.GetFiles("version.config", SearchOption.AllDirectories))
+            {
+                File.WriteAllText(localVersionXml.FullName, text);
+            }
         }
+
 
         #endregion
 

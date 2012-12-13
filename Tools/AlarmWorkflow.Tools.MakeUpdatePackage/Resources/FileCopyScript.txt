@@ -1,0 +1,15 @@
+﻿@echo off
+xcopy "{Root}\Build\Config\*.xml" "{ITemp}\Config\*.xml" /Y
+xcopy "{Root}\Build\*.dll" "{ITemp}\*.dll" /Y
+xcopy "{Root}\Build\*.exe" "{ITemp}\*.exe" /Y
+xcopy "{Root}\Build\*.manifest" "{ITemp}\*.manifest" /Y
+xcopy "{Root}\Build\*.bat" "{ITemp}\*.bat" /Y
+xcopy "{Root}\Build\*.config" "{ITemp}\*.config" /Y
+
+rem *** Special treatments (until better solution is found) ***
+xcopy "{Root}\Shared\AlarmWorkflow.Job.SQLCEDatabaseJob\SQLCEDatabase.sdf" "{ITemp}\*" /Y
+
+rem Delete unwanted files
+del "{ITemp}\*vshost*"
+del "{ITemp}\*AutoUpdater*"
+del "{ITemp}\Ionic*"

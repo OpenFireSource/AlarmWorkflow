@@ -122,6 +122,12 @@
     <value>..\Resources\BuildOrder.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="EnterVersionStringMessage" xml:space="preserve">
-    <value>Bitte geben Sie den Versionstring ein (x.y.z.w): 1.0.0.0</value>
+    <value>Please enter the versionstring (x.y.z.w): 1.0.0.0</value>
+  </data>
+  <data name="FileCopyScript" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FileCopyScript.txt;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="ZipFileCreatedUnder" xml:space="preserve">
+    <value>Created package under: {0}</value>
   </data>
 </root>

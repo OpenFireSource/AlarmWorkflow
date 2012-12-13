@@ -7,12 +7,15 @@ namespace AlarmWorkflow.Tools.MakeUpdatePackage
     class Context
     {
         internal DirectoryInfo ProjectRootDirectory { get; set; }
-        internal Version NewVersion { get; set; }
+        internal DirectoryInfo InstallerTempDirectory { get; set; }
+        internal Version NewVersion { get; private set; }
 
-        internal static Context CreateContext()
+        internal static Context CreateContext(Version version)
         {
             Context context = new Context();
+            context.NewVersion = version;
             context.ProjectRootDirectory = FindProjectDirectoryFromCurrentDirectoryUp();
+            context.InstallerTempDirectory = context.ProjectRootDirectory.CreateSubdirectory("InstallerTemp\\" + version.ToString());
 
             return context;
         }

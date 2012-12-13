@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\Resources\Assemblies\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,8 +55,11 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Tasks\BuildAllProjectsInRelease.cs" />
+    <Compile Include="Tasks\CleanupTask.cs" />
+    <Compile Include="Tasks\CopyFilesToInstallerTempTask.cs" />
     <Compile Include="Tasks\ITask.cs" />
     <Compile Include="Tasks\UpdateVersionsTask.cs" />
+    <Compile Include="Tasks\ZipFolderTask.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -63,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BuildOrder.txt" />
+    <Content Include="Resources\FileCopyScript.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
