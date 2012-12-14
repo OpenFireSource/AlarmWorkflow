@@ -33,7 +33,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Windows.ConfigurationContracts.XML</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\AlarmWorkflow.Windows.ConfigurationContracts.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">

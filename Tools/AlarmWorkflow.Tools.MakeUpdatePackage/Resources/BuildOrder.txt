@@ -1,0 +1,12 @@
+﻿Shared\AlarmWorkflow.Shared.sln
+Shared\AlarmWorkflow.Shared.Parser.sln
+Shared\AlarmWorkflow.Shared.Jobs.sln
+
+Service\AlarmWorkflow.Service.sln
+
+Windows\AlarmWorkflow.Windows.sln
+Windows\AlarmWorkflow.Windows.Configuration.sln
+Windows\AlarmWorkflow.Windows.UIJobs.sln
+Windows\AlarmWorkflow.Windows.OperationViewer.sln
+
+Windows\AlarmWorkflow.Windows.UIWidget.sln

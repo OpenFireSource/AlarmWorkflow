@@ -14,4 +14,6 @@ msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Debug /
 msbuild Windows\AlarmWorkflow.Windows.UIJobs.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.OperationViewer.sln /p:Configuration=Debug /verbosity:minimal
 
+msbuild Windows\AlarmWorkflow.Windows.UIWidget.sln /p:Configuration=Debug /verbosity:minimal
+
 pause

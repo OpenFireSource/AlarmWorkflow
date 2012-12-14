@@ -1,7 +1,7 @@
 ﻿<SettingsDisplayConfiguration>
 
   <Identifier Name="UIConfiguration" DisplayText="Windows-UI">
-    
+
     <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts" />
     <Setting Name="ScreenId" DisplayText="Zielbildschirms-Nummer" Description="Null-basierte Nummer (0..n) des Bildschirms" Category="Generell" />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell" />
@@ -17,7 +17,6 @@
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme" />
 
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts" />
-<Setting Name="WidgetConfiguration" DisplayText="Widget-Anzeige" Category="Custom-Operationview" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.CustomViewer.Extensibility.IUIWidget, AlarmWorkflow.Windows.CustomViewer" />
 
   </Identifier>
 

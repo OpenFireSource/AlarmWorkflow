@@ -52,6 +52,8 @@ Test]]>
   <Entry Old="40/Z" New="40/2" />
   <Entry Old="—" New="-" />
   <Entry Old="EINSAIZORT" New="EINSATZORT" /> 
+  <Entry Old="Ei.nsatznummer" New="Einsatznummer" />
+  <Entry Old="EINSAIZGRUND" New="EINSATZGRUND" />
 </Dictionary>]]>
   </Setting>
 
