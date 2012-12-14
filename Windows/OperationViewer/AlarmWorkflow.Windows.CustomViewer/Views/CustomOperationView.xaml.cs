@@ -44,6 +44,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnNewOperation(Operation operation)
         {
+            foreach (IUIWidget uiWidget in _WidgetManager.Widgets)
+            {
+                uiWidget.OnOperationChange(operation);
+            }
         }
 
         void IOperationViewer.OnOperationChanged(Operation operation)
