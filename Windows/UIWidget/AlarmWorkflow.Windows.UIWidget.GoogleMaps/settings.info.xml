@@ -1,0 +1,13 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="GoogleMapsWidget" DisplayText="Google-Maps (UI-Widget)">
+    <Setting Name="MapType" DisplayText="MapType" Category="Generell" Editor="DropDownTypeEditor" EditorParameter="Straße;Hybrid;Terrain;Satellit"/>
+    <Setting Name="RouteDescription" DisplayText="RouteDescription" Category="Generell" />
+    <Setting Name="ZoomControl" DisplayText="ZoomControl" Category="Generell" />
+    <Setting Name="Route" DisplayText="Route" Category="Generell" />
+    <Setting Name="Tilt" DisplayText="Tilt" Category="Generell" />
+    <Setting Name="Traffic" DisplayText="Traffic" Category="Generell" />
+    <Setting Name="ZoomLevel" DisplayText="ZoomLevel" Category="Generell" />
+  </Identifier>
+
+</SettingsDisplayConfiguration>

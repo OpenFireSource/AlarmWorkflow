@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<SettingsConfiguration Version="1" Identifier="GoogleMapsWidget">
+
+  <Setting Name="RouteDescription" Type="System.Boolean">false</Setting>
+  <Setting Name="ZoomControl" Type="System.Boolean">false</Setting>
+  <Setting Name="Route" Type="System.Boolean">false</Setting>
+  <Setting Name="Tilt" Type="System.Boolean">false</Setting>
+  <Setting Name="Traffic" Type="System.Boolean">false</Setting>
+  <Setting Name="ZoomLevel" Type="System.Int32">10000</Setting>
+  <Setting Name="MapType" Type="System.String" IsNull="False"></Setting>
+
+</SettingsConfiguration>

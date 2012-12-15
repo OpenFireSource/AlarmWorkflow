@@ -1,0 +1,1562 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Skybound.Gecko</name>
+    </assembly>
+    <members>
+        <member name="F:Skybound.Gecko.PromptDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.PromptDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Skybound.Gecko.PromptDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.ConfirmDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.ConfirmDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Skybound.Gecko.ConfirmDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoDomEventArgs">
+            <summary>
+            Provides data about a DOM event.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDomEventArgs.Handled">
+            <summary>
+            Gets or sets whether the event was handled.  Setting this property prevents the target DOM object
+            from receiving the event (if Cancelable is true).
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDomEventArgs.Target">
+            <summary>
+            Gets the final destination of the event.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoDomKeyEventArgs">
+            <summary>
+            Provides data about a DOM key event.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoDomMouseEventArgs">
+            <summary>
+            Provides data about a DOM mouse event.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.nsURI">
+            <summary>
+            Provides a wrapper for Mozilla nsIURI objects.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.nsURI.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of <see cref="T:Skybound.Gecko.nsURI"/> from the given object, which must implement the unmanaged
+            nsIURI interface.
+            </summary>
+            <param name="instance"></param>
+        </member>
+        <member name="M:Skybound.Gecko.nsURI.GetInstance">
+            <summary>
+            Gets the underlying <b>nsIURI</b> object.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Skybound.Gecko.nsString">
+            <summary>
+            Provides helper methods to get and set string attributes on XPCOM interfaces.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoNode">
+            <summary>
+            Provides a base class for DOM nodes.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoNode.DomObject">
+            <summary>
+            Gets the underlying XPCOM object.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoNode.TextContent">
+            <summary>
+            Gets the text contents of the node.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoNode.NodeValue">
+            <summary>
+            Gets or sets the value of the node.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoNode.ChildNodes">
+            <summary>
+            Gets a collection containing all child nodes of this node.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoAttribute">
+            <summary>
+            Represents a DOM attribute.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoAttribute.Name">
+            <summary>
+            Gets the name of the attribute.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoAttribute.Value">
+            <summary>
+            Gets the value of the attribute.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoAttribute.Specified">
+            <summary>
+            Gets a value indicating whether the attribute is specified.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoAttribute.OwnerElement">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoElement"/> which contains this attribute.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoElement">
+            <summary>
+            Represents a DOM element.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.GetElementsByTagName(System.String)">
+            <summary>
+            Returns a collection containing the child elements of this element with a given tag name.
+            </summary>
+            <param name="tagName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.GetAttribute(System.String)">
+            <summary>
+            Gets the value of an attribute on this element with the specified name.
+            </summary>
+            <param name="attributeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.GetAttributeNS(System.String,System.String)">
+            <summary>
+            Gets the value of an attribute on this element with the specified name and namespace.
+            </summary>
+            <param name="attributeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.SetAttribute(System.String,System.String)">
+            <summary>
+            Sets the value of an attribute on this element with the specified name.
+            </summary>
+            <param name="attributeName"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.SetAttributeNS(System.String,System.String,System.String)">
+            <summary>
+            Sets the value of an attribute on this element with the specified name and namespace.
+            </summary>
+            <param name="attributeName"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.RemoveAttribute(System.String)">
+            <summary>
+            Removes an attribute from this element.
+            </summary>
+            <param name="attributeName"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.GetElementsByClassName(System.String)">
+            <summary>
+            Returns a set of elements with the given class name.  This element and all child elements are searched.
+            </summary>
+            <param name="classes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoElement.GetClientRects">
+            <summary>
+            Returns an array containing all bounding rectangles within the element.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoElement.Parent">
+            <summary>
+            Gets the parent element of this one.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoElement.TagName">
+            <summary>
+            Gets the name of the tag.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoElement.Id">
+            <summary>
+            Gets the value of the id attribute.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoElement.ClassName">
+            <summary>
+            Gets the value of the class attribute.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoElement.BoundingClientRect">
+            <summary>
+            Gets a rectangle which represents the union of all bounding rectangles within the element.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoDocument">
+            <summary>
+            Represents a DOM document.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.GetElementById(System.String)">
+            <summary>
+            Searches for and returns the element in the document with the given id.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.GetElementsByTagName(System.String)">
+            <summary>
+            Returns a collection containing all elements in the document with a given tag name.
+            </summary>
+            <param name="tagName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.GetElementsByName(System.String)">
+            <summary>
+            Returns a collection containing all elements in the document with a given name.
+            </summary>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.GetElementsByClassName(System.String)">
+            <summary>
+            Returns a set of elements with the given class name. When called on the document object, the complete document is searched, including the root node.
+            </summary>
+            <param name="classes"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.ElementFromPoint(System.Int32,System.Int32)">
+            <summary>
+            Returns the element visible at the given point, relative to the upper-left-most visible point in the document.
+            </summary>
+            <param name="x"></param>
+            <param name="y"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.Title">
+            <summary>
+            Gets the document title.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.Body">
+            <summary>
+            Gets the HTML body element.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.DocumentElement">
+            <summary>
+            Gets the top-level document element (for HTML documents, this is the html tag).
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.StyleSheets">
+            <summary>
+            Gets the collection of style sheets in the <see cref="T:Skybound.Gecko.GeckoDocument"/>.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.Url">
+            <summary>
+            Gets the URL of the document.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.ActiveElement">
+            <summary>
+            Gets the currently focused element.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoDocument.StyleSheetCollection">
+            <summary>
+            Represents a collection of style sheets in a <see cref="T:Skybound.Gecko.GeckoDocument"/>.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoDocument.StyleSheetCollection.GetEnumerator">
+            <summary>
+            Returns an <see cref="T:System.Collections.Generic.IEnumerator`1"/> which can enumerate through the collection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.StyleSheetCollection.Count">
+            <summary>
+            Gets the number of items in the collection.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoDocument.StyleSheetCollection.Item(System.Int32)">
+            <summary>
+            Gets the item at the specified index in the collection.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoNamedNodeMap.Count">
+            <summary>
+            Gets the number of items in the map.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoWindow">
+            <summary>
+            Represents a DOM window.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWindow.DomWindow">
+            <summary>
+            Gets the underlying unmanaged DOM object.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWindow.Document">
+            <summary>
+            Gets the document displayed in the window.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWindow.Parent">
+            <summary>
+            Gets the parent window of this one.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoElementCollection">
+            <summary>
+            Represents a collection of <see cref="T:Skybound.Gecko.GeckoElement"/> objects.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoNodeCollection">
+            <summary>
+            Represents a collection of <see cref="T:Skybound.Gecko.GeckoElement"/> objects.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.ChromeDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.ChromeDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Skybound.Gecko.ChromeDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.Xpcom">
+            <summary>
+            Provides low-level access to XPCOM.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.Xpcom.Initialize">
+            <summary>
+            Initializes XPCOM using the current directory as the XPCOM directory.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.Xpcom.Initialize(System.String)">
+            <summary>
+            Initializes XPCOM using the specified directory.
+            </summary>
+            <param name="binDirectory">The directory which contains xpcom.dll.</param>
+        </member>
+        <member name="M:Skybound.Gecko.Xpcom.RegisterFactory(System.Guid,System.String,System.String,Skybound.Gecko.nsIFactory)">
+            <summary>
+            Registers a factory to be used to instantiate a particular class identified by ClassID, and creates an association of class name and ContractID with the class.
+            </summary>
+            <param name="classID">The ClassID of the class being registered.</param>
+            <param name="className">The name of the class being registered. This value is intended as a human-readable name for the class and need not be globally unique.</param>
+            <param name="contractID">The ContractID of the class being registered.</param>
+            <param name="factory">The nsIFactory instance of the class being registered.</param>
+        </member>
+        <member name="P:Skybound.Gecko.Xpcom.ProfileDirectory">
+            <summary>
+            Gets or sets the path to the directory which contains the user profile.
+            The default directory is Geckofx\DefaultProfile in the user's local application data directory.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.Xpcom.ProfileProvider">
+            <summary>
+            A simple nsIDirectoryServiceProvider which provides the profile directory.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.Xpcom.QI_nsIInterfaceRequestor">
+            <summary>
+            A special declaration of nsIInterfaceRequestor used only for QueryInterface, using PreserveSig
+            to prevent .NET from throwing an exception when the interface doesn't exist.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.PasswordDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.PasswordDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Skybound.Gecko.PasswordDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoSelection">
+            <summary>
+            Manipulates and queries the current selected range of nodes within the document.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.GetRangeAt(System.Int32)">
+            <summary>
+            Returns the range at the specified index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.Collapse(Skybound.Gecko.GeckoNode,System.Int32)">
+            <summary>
+            Collapses the selection to a single point, at the specified offset in the given DOM node. When the selection is collapsed, and the content is focused and editable, the caret will blink there.
+            </summary>
+            <param name="parentNode"></param>
+            <param name="offset"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.Extend(Skybound.Gecko.GeckoNode,System.Int32)">
+            <summary>
+            Extends the selection by moving the selection end to the specified node and offset, preserving the selection begin position. The new selection end result will always be from the anchorNode to the new focusNode, regardless of direction.
+            </summary>
+            <param name="parentNode">The node where the selection will be extended to.</param>
+            <param name="offset">Where in node to place the offset in the new selection end.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.CollapseToStart">
+            <summary>
+            Collapses the whole selection to a single point at the start of the current selection (irrespective of direction). If content is focused and editable, the caret will blink there.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.CollapseToEnd">
+            <summary>
+            Collapses the whole selection to a single point at the end of the current selection (irrespective of direction). If content is focused and editable, the caret will blink there.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.ContainsNode(Skybound.Gecko.GeckoNode,System.Boolean)">
+            <summary>
+            Returns whether the specified node is part of the selection.
+            </summary>
+            <param name="node"></param>
+            <param name="partlyContained">True if the function should return true when some part of the node is contained with the selection; when false, the function only returns true when the entire node is contained within the selection.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.SelectAllChildren(Skybound.Gecko.GeckoNode)">
+            <summary>
+            Adds all children of the specified node to the selection.
+            </summary>
+            <param name="parentNode"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.AddRange(Skybound.Gecko.GeckoRange)">
+            <summary>
+            Adds a range to the current selection.
+            </summary>
+            <param name="range"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.RemoveRange(Skybound.Gecko.GeckoRange)">
+            <summary>
+            Removes a range from the current selection.
+            </summary>
+            <param name="range"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.RemoveAllRanges">
+            <summary>
+            Removes all ranges from the current selection.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.DeleteFromDocument">
+            <summary>
+            Deletes this selection from the document.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.SelectionLanguageChange(System.Boolean)">
+            <summary>
+            Modifies the cursor BIDI level after a change in keyboard direction.
+            </summary>
+            <param name="langRtl"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSelection.ToString">
+            <summary>
+            Returns the whole selection as a plain text string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.DomSelection">
+            <summary>
+            Gets the unmanaged nsISelection which this instance wraps.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.AnchorNode">
+            <summary>
+            Gets the node in which the selection begins.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.AnchorOffset">
+            <summary>
+            Gets the offset within the (text) node where the selection begins.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.FocusNode">
+            <summary>
+            Gets the node in which the selection ends.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.FocusOffset">
+            <summary>
+            Gets the offset within the (text) node where the selection ends.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.IsCollapsed">
+            <summary>
+            Gets whether the selection is collapsed or not.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSelection.RangeCount">
+            <summary>
+            Gets the number of ranges in the selection.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoRange">
+            <summary>
+            Identifies a range of content in a document.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoRange.DomRange">
+            <summary>
+            Gets the unmanaged nsIDOMRange which this instance wraps.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.AutoJSContext">
+            <summary>
+            Creates a scoped, fake "system principal" security context.  This class is used primarly to work around bugs in gecko
+            which prevent methods on nsIDOMCSSStyleSheet from working outside of javascript.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoPreferences">
+            <summary>
+            Provides access to Gecko preferences.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.Load(System.String)">
+            <summary>
+            Reads all User preferences from the specified file.
+            </summary>
+            <param name="filename">Required. The name of the file from which preferences are read.  May not be null.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.Save(System.String)">
+            <summary>
+            Saves all User preferences to the specified file.
+            </summary>
+            <param name="filename">Required. The name of the file to which preferences are saved.  May not be null.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.Reset">
+            <summary>
+            Resets all preferences to their default values.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.GetPreferenceType(System.String)">
+            <summary>
+            Gets the <see cref="T:System.Type"/> of the specified preference.
+            </summary>
+            <param name="name">Required. The name of the preference whose type is returned.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.SetLocked(System.String,System.Boolean)">
+            <summary>
+            Sets whether the specified preference is locked. Locking a preference will cause the preference service to always return the default value regardless of whether there is a user set value or not.
+            </summary>
+            <param name="name">Required. The preference to lock or unlock.</param>
+            <param name="locked">True if the preference should be locked; otherwise, false, and the preference is unlocked.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoPreferences.GetLocked(System.String)">
+            <summary>
+            Gets whether the specified preference is locked.
+            </summary>
+            <param name="name">Required. The preference whose lock status is returned.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoPreferences.User">
+            <summary>
+            Gets the preferences defined for the current user.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoPreferences.Default">
+            <summary>
+            Gets the set of preferences used as defaults when no user preference is set.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoPreferences.Item(System.String)">
+            <summary>
+            Gets or sets the preference with the given name.
+            </summary>
+            <param name="prefName">Required. The name of the preference to get or set.</param>
+            <returns></returns>
+        </member>
+        <member name="F:Skybound.Gecko.PropertiesDialog.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.PropertiesDialog.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Skybound.Gecko.PropertiesDialog.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoWebBrowser">
+            <summary>
+            A Gecko-based web browser.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.#ctor">
+            <summary>
+            Initializes a new instance of <see cref="T:Skybound.Gecko.GeckoWebBrowser"/>.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnCreateWindow(Skybound.Gecko.GeckoCreateWindowEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.CreateWindow"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnWindowSetBounds(Skybound.Gecko.GeckoWindowSetBoundsEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.WindowSetBounds"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Navigate(System.String)">
+            <summary>
+            Navigates to the specified URL.
+            </summary>
+            <param name="url">The url to navigate to.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Navigate(System.String,Skybound.Gecko.GeckoLoadFlags)">
+            <summary>
+            Navigates to the specified URL using the given load flags.
+            </summary>
+            <param name="url">The url to navigate to.  If the url is empty or null, the browser does not navigate and the method returns false.</param>
+            <param name="loadFlags">Flags which specify how the page is loaded.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Navigate(System.String,Skybound.Gecko.GeckoLoadFlags,System.String,System.Byte[],System.String)">
+            <summary>
+            Navigates to the specified URL using the given load flags, referrer, post data and headers.
+            </summary>
+            <param name="url">The url to navigate to.  If the url is empty or null, the browser does not navigate and the method returns false.</param>
+            <param name="loadFlags">Flags which specify how the page is loaded.</param>
+            <param name="referrer">The referring URL, or null.</param>
+            <param name="postData">The post data to send, or null.  If you use post data, you must explicity specify a Content-Type and Content-Length
+            header in <paramref name="additionalHeaders"/>.</param>
+            <param name="additionalHeaders">Any additional HTTP headers to send, or null.  Separate multiple headers with CRLF.  For example,
+            "Content-Type: application/x-www-form-urlencoded\r\nContent-Length: 50"</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnStatusTextChanged(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.StatusTextChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDocumentTitleChanged(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DocumentTitleChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnCanGoBackChanged(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.CanGoBackChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnCanGoForwardChanged(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.CanGoForwardChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.UpdateCommandStatus">
+            <summary>Raises the CanGoBackChanged or CanGoForwardChanged events when necessary.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.GoBack">
+            <summary>
+            Navigates to the previous page in the history, if one is available.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.GoForward">
+            <summary>
+            Navigates to the next page in the history, if one is available.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Stop">
+            <summary>
+            Cancels any pending navigation and also stops any sound or animation.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Reload">
+            <summary>
+            Reloads the current page.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Reload(Skybound.Gecko.GeckoLoadFlags)">
+            <summary>
+            Reloads the current page using the specified flags.
+            </summary>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.CopyImageContents">
+            <summary>
+            Copies the image contents of the selection to the clipboard as an image.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.CopyImageLocation">
+            <summary>
+            Copies the location of the currently selected image to the clipboard.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.CopyLinkLocation">
+            <summary>
+            Copies the location of the currently selected link to the clipboard.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.CopySelection">
+            <summary>
+            Copies the selection to the clipboard.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.CutSelection">
+            <summary>
+            Cuts the selection to the clipboard.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Paste">
+            <summary>
+            Pastes the contents of the clipboard at the current selection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.SelectAll">
+            <summary>
+            Selects the entire document.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.SelectNone">
+            <summary>
+            Empties the current selection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Undo">
+            <summary>
+            Undoes last executed command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.Redo">
+            <summary>
+            Redoes last undone command.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.ExecuteCommand(System.String)">
+            <summary>
+            Executes the command with the specified name.
+            </summary>
+            <param name="name">The name of the command to execute.  See http://developer.mozilla.org/en/docs/Editor_Embedding_Guide for a list of available commands.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnNavigating(Skybound.Gecko.GeckoNavigatingEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.Navigating"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnNavigated(Skybound.Gecko.GeckoNavigatedEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.Navigated"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDocumentCompleted(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DocumentCompleted"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnProgressChanged(Skybound.Gecko.GeckoProgressEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.ProgressChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.SaveDocument(System.String)">
+            <summary>
+            Saves the current document to the specified file name.
+            </summary>
+            <param name="filename"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnWindowClosed(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.WindowClosed"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnShowContextMenu(Skybound.Gecko.GeckoContextMenuEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.ShowContextMenu"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.ViewSource">
+            <summary>
+            Opens a new window which contains the source code for the current page.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.ViewSource(System.String)">
+            <summary>
+            Opens a new window which contains the source code for the specified page.
+            </summary>
+            <param name="url"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.ShowPageProperties">
+            <summary>
+            Displays a properties dialog for the current page.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnSecurityStateChanged(System.EventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.SecurityStateChanged"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomKeyDown(Skybound.Gecko.GeckoDomKeyEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomKeyDown"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomKeyUp(Skybound.Gecko.GeckoDomKeyEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomKeyUp"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomMouseDown(Skybound.Gecko.GeckoDomMouseEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomMouseDown"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomMouseUp(Skybound.Gecko.GeckoDomMouseEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomMouseUp"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomMouseOver(Skybound.Gecko.GeckoDomMouseEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomMouseOver"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomMouseOut(Skybound.Gecko.GeckoDomMouseEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomMouseOut"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomMouseMove(Skybound.Gecko.GeckoDomMouseEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomMouseMove"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomSubmit(Skybound.Gecko.GeckoDomEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomSubmit"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnDomClick(Skybound.Gecko.GeckoDomEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.DomClick"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryNewEntry(Skybound.Gecko.GeckoHistoryEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryNewEntry"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryGoBack(Skybound.Gecko.GeckoHistoryEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryGoBack"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryGoForward(Skybound.Gecko.GeckoHistoryEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryGoForward"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryReload(Skybound.Gecko.GeckoHistoryEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryReload"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryGotoIndex(Skybound.Gecko.GeckoHistoryGotoIndexEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryGotoIndex"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWebBrowser.OnHistoryPurge(Skybound.Gecko.GeckoHistoryPurgeEventArgs)">
+            <summary>Raises the <see cref="E:Skybound.Gecko.GeckoWebBrowser.HistoryPurge"/> event.</summary>
+            <param name="e">The data for the event.</param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.NoDefaultContextMenu">
+            <summary>
+            Gets or sets whether all default items are removed from the standard context menu.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.StatusText">
+            <summary>
+            Gets or sets the text displayed in the status bar.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.StatusTextChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:Skybound.Gecko.GeckoWebBrowser.StatusText"/> property is changed.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.DocumentTitle">
+            <summary>
+            Gets the title of the document loaded into the web browser.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.DocumentTitleChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:Skybound.Gecko.GeckoWebBrowser.DocumentTitle"/> property is changed.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanGoBack">
+            <summary>
+            Gets whether the browser may navigate back in the history.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.CanGoBackChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:Skybound.Gecko.GeckoWebBrowser.CanGoBack"/> property is changed.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanGoForward">
+            <summary>
+            Gets whether the browser may navigate forward in the history.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.CanGoForwardChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:Skybound.Gecko.GeckoWebBrowser.CanGoForward"/> property is changed.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanCopyImageContents">
+            <summary>
+            Gets whether the image contents of the selection may be copied to the clipboard as an image.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanCopyImageLocation">
+            <summary>
+            Returns true if the <see cref="M:Skybound.Gecko.GeckoWebBrowser.CopyImageLocation"/> command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanCopyLinkLocation">
+            <summary>
+            Returns true if the <see cref="M:Skybound.Gecko.GeckoWebBrowser.CopyLinkLocation"/> command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanCopySelection">
+            <summary>
+            Returns true if the <see cref="M:Skybound.Gecko.GeckoWebBrowser.CopySelection"/> command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanCutSelection">
+            <summary>
+            Returns true if the <see cref="M:Skybound.Gecko.GeckoWebBrowser.CutSelection"/> command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanPaste">
+            <summary>
+            Returns true if the <see cref="M:Skybound.Gecko.GeckoWebBrowser.Paste"/> command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanUndo">
+            <summary>
+            Returns true if the undo command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.CanRedo">
+            <summary>
+            Returns true if the redo command is enabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.Url">
+            <summary>
+            Gets the <see cref="P:Skybound.Gecko.GeckoWebBrowser.Url"/> currently displayed in the web browser.
+            Use the <see cref="M:Skybound.Gecko.GeckoWebBrowser.Navigate(System.String)"/> method to change the URL.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.ReferrerUrl">
+            <summary>
+            Gets the <see cref="P:Skybound.Gecko.GeckoWebBrowser.Url"/> of the current page's referrer.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.Window">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoWindow"/> object for this browser.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.Document">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoDocument"/> for the page currently loaded in the browser.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.Navigating">
+            <summary>
+            Occurs before the browser navigates to a new page.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.Navigated">
+            <summary>
+            Occurs after the browser has navigated to a new page.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.DocumentCompleted">
+            <summary>
+            Occurs after the browser has finished parsing a new page and updated the <see cref="P:Skybound.Gecko.GeckoWebBrowser.Document"/> property.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.IsBusy">
+            <summary>
+            Gets whether the browser is busy loading a page.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.ProgressChanged">
+            <summary>
+            Occurs when the control has updated progress information.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.History">
+            <summary>
+            Gets the session history for the current browser.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoWebBrowser.SecurityState">
+            <summary>
+            Gets a value which indicates whether the current page is secure.
+            </summary>
+        </member>
+        <member name="E:Skybound.Gecko.GeckoWebBrowser.SecurityStateChanged">
+            <summary>
+            Occurs when the value of the <see cref="P:Skybound.Gecko.GeckoWebBrowser.SecurityState"/> property is changed.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoWebBrowser.ByteArrayInputStream">
+            <summary>
+            Streams a byte array using nsIInputStream.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoWebBrowser.ToolTipWindow">
+            <summary>
+            A window to contain a tool tip.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoHistoryEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoHistoryEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoHistoryEventArgs.#ctor(System.Uri)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoHistoryEventArgs"/> object.</summary>
+            <param name="url"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryEventArgs.Url">
+            <summary>
+            Gets the URL of the history entry.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryEventArgs.Cancel">
+            <summary>
+            Gets or sets whether the history action should be cancelled.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoHistoryGotoIndexEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoHistoryGotoIndexEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoHistoryGotoIndexEventArgs.#ctor(System.Uri,System.Int32)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoHistoryGotoIndexEventArgs"/> object.</summary>
+            <param name="url"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryGotoIndexEventArgs.Index">
+            <summary>
+            Gets the index in history of the document to be loaded.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoHistoryPurgeEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoHistoryPurgeEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoHistoryPurgeEventArgs.#ctor(System.Int32)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoHistoryPurgeEventArgs"/> object.</summary>
+            <param name="count"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryPurgeEventArgs.Count">
+            <summary>
+            Gets the number of entries to be purged from the history.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoProgressEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoProgressEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoProgressEventArgs.#ctor(System.Int32,System.Int32)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoProgressEventArgs"/> object.</summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoNavigatedEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoNavigatedEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoNavigatedEventArgs.#ctor(System.Uri,Skybound.Gecko.GeckoResponse)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoNavigatedEventArgs"/> object.</summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoNavigatingEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoNavigatingEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoNavigatingEventArgs.#ctor(System.Uri)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoNavigatingEventArgs"/> object.</summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoCreateWindowEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoCreateWindowEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoCreateWindowEventArgs.#ctor(Skybound.Gecko.GeckoWindowFlags)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoCreateWindowEventArgs"/> object.</summary>
+            <param name="flags"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoCreateWindowEventArgs.WebBrowser">
+            <summary>
+            Gets or sets the <see cref="T:Skybound.Gecko.GeckoWebBrowser"/> used in the new window.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoWindowSetBoundsEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoWindowSetBoundsEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoWindowSetBoundsEventArgs.#ctor(System.Drawing.Rectangle,System.Windows.Forms.BoundsSpecified)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoWindowSetBoundsEventArgs"/> object.</summary>
+            <param name="bounds"></param>
+            <param name="specified"></param>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoContextMenuEventArgs">
+            <summary>Provides data for the <see cref="T:Skybound.Gecko.GeckoContextMenuEventHandler"/> event.</summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoContextMenuEventArgs.#ctor(System.Drawing.Point,System.Windows.Forms.ContextMenu,System.String,System.Uri,System.Uri,Skybound.Gecko.GeckoNode)">
+            <summary>Creates a new instance of a <see cref="T:Skybound.Gecko.GeckoContextMenuEventArgs"/> object.</summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoContextMenuEventArgs.Location">
+            <summary>
+            Gets the location where the context menu will be displayed.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoContextMenuEventArgs.ContextMenu">
+            <summary>
+            Gets or sets the context menu to be displayed.  Set this property to null to disable
+            the context menu.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.None">
+            <summary>
+            This is the default value for the load flags parameter.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.IsRefresh">
+            <summary>
+            This flag specifies that the load should have the semantics of an HTML
+            META refresh (i.e., that the cache should be validated).  This flag is
+            only applicable to loadURI.
+            XXX the meaning of this flag is poorly defined.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.IsLink">
+            <summary>
+            This flag specifies that the load should have the semantics of a link
+            click.  This flag is only applicable to loadURI.
+            XXX the meaning of this flag is poorly defined.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.BypassHistory">
+            <summary>
+            This flag specifies that history should not be updated.  This flag is only
+            applicable to loadURI.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.ReplaceHistory">
+            <summary>
+            This flag specifies that any existing history entry should be replaced.
+            This flag is only applicable to loadURI.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.BypassCache">
+            <summary>
+            This flag specifies that the local web cache should be bypassed, but an
+            intermediate proxy cache could still be used to satisfy the load.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.BypassProxy">
+            <summary>
+            This flag specifies that any intermediate proxy caches should be bypassed
+            (i.e., that the content should be loaded from the origin server).
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.CharsetChange">
+            <summary>
+            This flag specifies that a reload was triggered as a result of detecting
+            an incorrect character encoding while parsing a previously loaded
+            document.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.StopContent">
+            <summary>
+            If this flag is set, Stop() will be called before the load starts
+            and will stop both content and network activity (the default is to
+            only stop network activity).  Effectively, this passes the
+            STOP_CONTENT flag to Stop(), in addition to the STOP_NETWORK flag.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.FromExternal">
+            <summary>
+            A hint this load was prompted by an external program: take care!
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.AllowThirdPartyFixup">
+            <summary>
+            This flag specifies that the URI may be submitted to a third-party
+            server for correction. This should only be applied to non-sensitive
+            URIs entered by users.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoLoadFlags.FirstLoad">
+            <summary>
+            This flag specifies that this is the first load in this object.
+            Set with care, since setting incorrectly can cause us to assume that
+            nothing was actually loaded in this object if the load ends up being
+            handled by an external application.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoSecurityState.Insecure">
+            <summary>
+            This flag indicates that the data corresponding to the request was received over an insecure channel.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoSecurityState.Broken">
+            <summary>
+            This flag indicates an unknown security state.  This may mean that the request is being loaded as part of
+            a page in which some content was received over an insecure channel.
+            </summary>
+        </member>
+        <member name="F:Skybound.Gecko.GeckoSecurityState.Secure">
+            <summary>
+            This flag indicates that the data corresponding to the request was received over a secure channel.
+            The degree of security is expressed by GeckoSecurityStrength.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoHistoryEntry">
+            <summary>
+            Represents an entry in a <see cref="T:Skybound.Gecko.GeckoWebBrowser"/> session history.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoHistoryEntry.#ctor(System.Uri,System.String,System.Boolean)">
+            <summary>
+            Initializes a new instance of <see cref="T:Skybound.Gecko.GeckoHistoryEntry"/>.
+            </summary>
+            <param name="url"></param>
+            <param name="title"></param>
+            <param name="isSubFrame"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryEntry.Url">
+            <summary>
+            Gets the URL of the page in history.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryEntry.Title">
+            <summary>
+            Gets the title of the page in history.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoHistoryEntry.IsSubFrame">
+            <summary>
+            Gets whether the page was loaded into a sub-frame.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoSessionHistory">
+            <summary>
+            Represents the navigation history for the current session.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSessionHistory.GotoIndex(System.Int32)">
+            <summary>
+            Navigates the browser to the specified position in its session history.
+            </summary>
+            <param name="index">The index to navigate to.  This value must a valid index in this collection.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoSessionHistory.Clear">
+            <summary>
+            Purges the history.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSessionHistory.Item(System.Int32)">
+            <summary>
+            Gets the history entry at the given index.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSessionHistory.Count">
+            <summary>
+            Gets the number of items in the history.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoSessionHistory.MaxLength">
+            <summary>
+            Gets or sets the maximum number of items the history may contain.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.XPTabPage">
+            <summary>
+            A custom tab page which provides transparent backgrounds to read-only text boxes.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.ReadOnlyTextBox">
+            <summary>
+            A read-only text box with a transparent background.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoStyleSheet">
+            <summary>
+            Represents a DOM style sheet.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.DomStyleSheet">
+            <summary>
+            Gets the underlying XPCOM object.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.Disabled">
+            <summary>
+            Gets or sets whether the style sheet is disabled.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.Href">
+            <summary>
+            Gets the HREF of the style sheet.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.ParentStyleSheet">
+            <summary>
+            Gets the parent of this style sheet, if it was imported using an @import rule.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.OwnerRule">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoStyleRule"/> which imported this style sheet.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.OwnerNode">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoNode"/> of the DOM element which imported this style
+            sheet.  Typically, this is a LINK tag.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.CssRules">
+            <summary>
+            Gets the collection of rules in the style sheet.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection">
+            <summary>
+            Represents a collection of rules in a style sheet.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Reload">
+            <summary>
+            Attempts to reload the rule list.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Add(System.String)">
+            <summary>
+            Adds a new rule to the end of the collection.
+            </summary>
+            <param name="rule"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Insert(System.Int32,System.String)">
+            <summary>
+            Inserts a rule at the specified position in the collection.  The return value is the index in the list where the item was actually inserted,
+            or -1 if the rule contains syntax errors and could not be added to the collection.
+            </summary>
+            <param name="index"></param>
+            <param name="rule"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.RemoveAt(System.Int32)">
+            <summary>
+            Removes a specific rule from the collection.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Clear">
+            <summary>
+            Removes all rules from the collection.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.GetEnumerator">
+            <summary>
+            Returns an IEnumerator which can enumerate through the rules in the collection.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.IsReadOnly">
+            <summary>
+            Gets whether the collection is read-only.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Count">
+            <summary>
+            Gets the number of items in the collection.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleSheet.StyleRuleCollection.Item(System.Int32)">
+            <summary>
+            Returns the <see cref="T:Skybound.Gecko.GeckoStyleRule"/> at a given index in the collection.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoStyleRule">
+            <summary>
+            Represents a CSS rule in a <see cref="T:Skybound.Gecko.GeckoStyleSheet"/>.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.DomStyleRule">
+            <summary>
+            Gets the underlying XPCOM object.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.SelectorText">
+            <summary>
+            Gets the selector text for this rule, or null if it is not a style rule; otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.CssText">
+            <summary>
+            Gets this rule formatted as CSS text.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.StyleCssText">
+            <summary>
+            Gets or sets the style properties of this rule, if it is a style rule; otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.ParentStyleSheet">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoStyleSheet"/> which contains this rule.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.ImportedStyleSheet">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoStyleSheet"/> which this rule imports, if it is an @import rule; otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.ImportedHref">
+            <summary>
+            Gets the HREF of the style sheet imported by this rule, if it is an @import rule; otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.ImportedMedia">
+            <summary>
+            Gets the media type of the style sheet imported by this rule, if it is an @import rule; otherwise, null.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoStyleRule.RuleType">
+            <summary>
+            Gets the <see cref="T:Skybound.Gecko.GeckoRuleType"/> of this rule.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoMediaList">
+            <summary>
+            Represents a list of media types.
+            </summary>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoMediaList.AppendMedium(System.String)">
+            <summary>
+            Appends the specified medium to the list.
+            </summary>
+            <param name="medium"></param>
+        </member>
+        <member name="M:Skybound.Gecko.GeckoMediaList.DeleteMedium(System.String)">
+            <summary>
+            Deletes the specified medium from the list.
+            </summary>
+            <param name="medium"></param>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoMediaList.Count">
+            <summary>
+            Gets the number of mediums in the list.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoMediaList.Item(System.Int32)">
+            <summary>
+            Returns the medium at the given index in the list.
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoMediaList.MediaText">
+            <summary>
+            Gets or sets the complete list of mediums as a single string.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoRuleType">
+            <summary>
+            Specifies the various types of rules for a <see cref="T:Skybound.Gecko.GeckoStyleRule"/>.
+            </summary>
+        </member>
+        <member name="T:Skybound.Gecko.GeckoResponse">
+            <summary>
+            Represents a response to a Gecko web request.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.ContentType">
+            <summary>
+            Gets the MIME type of the channel's content if available.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.ContentCharset">
+            <summary>
+            Gets the character set of the channel's content if available and if applicable.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.ContentLength">
+            <summary>
+            Gets the length of the data associated with the channel if available. A value of -1 indicates that the content length is unknown.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.HttpRequestMethod">
+            <summary>
+            Gets the HTTP request method.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.HttpRequestSucceeded">
+            <summary>
+            Returns true if the HTTP response code indicates success. This value will be true even when processing a 404 response because a 404 response
+            may include a message body that (in some cases) should be shown to the user.
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.HttpResponseStatus">
+            <summary>
+            Gets the HTTP response code (a value of 200 indicates success).
+            </summary>
+        </member>
+        <member name="P:Skybound.Gecko.GeckoResponse.HttpResponseStatusText">
+            <summary>
+            Gets the HTTP response status text.
+            </summary>
+        </member>
+    </members>
+</doc>
