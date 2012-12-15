@@ -44,6 +44,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnNewOperation(Operation operation)
         {
+            foreach (IUIWidget uiWidget in _WidgetManager.Widgets)
+            {
+                uiWidget.OnOperationChange(operation);
+            }
         }
 
         void IOperationViewer.OnOperationChanged(Operation operation)
@@ -62,7 +66,11 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             var serializer = new XmlLayoutSerializer(dockingManager);
-            serializer.Serialize(new XmlTextWriter(LayoutFile, Encoding.UTF8));
+            XmlTextWriter writer = new XmlTextWriter(LayoutFile, Encoding.UTF8);
+            serializer.Serialize(writer);
+            writer.Flush();
+            writer.Close();
+            
         }
     }
 }
