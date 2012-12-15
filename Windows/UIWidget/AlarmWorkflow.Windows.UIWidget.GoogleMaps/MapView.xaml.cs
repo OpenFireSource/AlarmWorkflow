@@ -12,7 +12,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
     /// <summary>
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
-    [Export("MapView", typeof (IUIWidget))]
+    [Export("MapView", typeof(IUIWidget))]
     public partial class MapView : IUIWidget
     {
         #region Fields
@@ -22,7 +22,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
         private readonly WebBrowser _webBrowser;
         private Operation _operation;
 
-        #endregion
+        #endregion Fields
 
         #region Constants
 
@@ -52,7 +52,6 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                                              "}" +
                                              "});";
 
-
         private const string CenterCoord = "var image = 'http://maps.google.com/mapfiles/marker-noalpha.png';" +
                                            "var beachMarker = new google.maps.Marker({" +
                                            "position: dest," +
@@ -66,7 +65,6 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                                            "map.setZoom(zoom);" +
                                            "}" +
                                            "});";
-
 
         private const string ShowHome = "geocoder.geocode( { 'address': Home}, function(results, status) {" +
                                         "if (status == google.maps.GeocoderStatus.OK) {" +
@@ -135,7 +133,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                                     "<div id=\"map_canvas\" style=\"width:100%; height:100%\"></div>" +
                                     "</body></html>";
 
-        #endregion
+        #endregion Constants
 
         #region Constructors
 
@@ -152,7 +150,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
             BuildHTML();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region IUIWidget Members
 
@@ -192,7 +190,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
             _webBrowser.Navigate(_tempFile);
         }
 
-        #endregion
+        #endregion IUIWidget Members
 
         #region Methods
 
@@ -208,7 +206,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                     "var address = '" + _operation.Street + " " + _operation.StreetNumber + " " +
                     _operation.ZipCode + " " + _operation.City + "';" +
                     "var Home = '" + _configuration.Home + "';" +
-                    "var ZoomLevel =" + (_configuration.ZoomLevel/100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
+                    "var ZoomLevel =" + (_configuration.ZoomLevel / 100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
                     "var mapType = google.maps.MapTypeId." + _configuration.Maptype + ";" +
                     "var mapOptions = {" +
                     "zoom: 10," +
@@ -221,7 +219,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                     "map = new google.maps.Map(document.getElementById(\"map_canvas\")," +
                     "mapOptions);";
 
-                var builder = new StringBuilder();
+                StringBuilder builder = new StringBuilder();
                 builder.Append(BeginnHead);
                 builder.Append(variables);
                 if (_configuration.Route)
@@ -258,6 +256,6 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
             return html;
         }
 
-        #endregion
+        #endregion Methods
     }
 }
