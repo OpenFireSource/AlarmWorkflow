@@ -34,7 +34,7 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
-                            <TextBlock Text="{Binding Operation.Keyword, TargetNullValue='(Kein Stichwort)'}" FontSize="9" TextWrapping="WrapWithOverflow">
+                            <TextBlock Text="{Binding Operation.Keywords.Keyword, TargetNullValue='(Kein Stichwort)'}" FontSize="9" TextWrapping="WrapWithOverflow">
                                 <TextBlock.Style>
                                     <Style>
                                         <Style.Triggers>

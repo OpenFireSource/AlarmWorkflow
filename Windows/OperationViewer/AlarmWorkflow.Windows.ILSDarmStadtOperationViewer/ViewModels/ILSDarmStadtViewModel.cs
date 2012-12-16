@@ -56,7 +56,7 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
         /// </summary>
         public string Location
         {
-            get { return _operation.Street + " " + _operation.StreetNumber + " "+ _operation.City; }
+            get { return _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " + _operation.Einsatzort.City; }
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
         {
             get { return _operation.Resources.ToString("{FullName} | {RequestedEquipment}", null); }
         }
-        
+
         #endregion
 
         #region Constructors

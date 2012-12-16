@@ -76,13 +76,13 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0" Text="Schlagwort:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="1" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="1" Text="{Binding Operation.Keywords.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
                     <TextBlock Grid.Row="2" Text="Stichwort B:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="3" Text="{Binding StichwortB, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="3" Text="{Binding Operation.Keywords.B, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
                     <TextBlock Grid.Row="4" Text="Stichwort T:" FontWeight="Bold" />
-                    <TextBlock Grid.Row="5" Text="{Binding StichwortT, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+                    <TextBlock Grid.Row="5" Text="{Binding Operation.Keywords.T, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
                     <TextBlock Grid.Row="6" Text="Einsatzort:" FontWeight="Bold" />
                     <TextBlock Grid.Row="7" Text="{Binding Operation, Converter={StaticResource otdsConv}}" TextWrapping="WrapWithOverflow" />

@@ -85,7 +85,7 @@ namespace AlarmWorkflow.Job.eAlarm
 
             //TODO Fetching Longitude and Latitude!
             Dictionary<String, String> geoCode =
-                Helpers.GetGeocodes(operation.Location + " " + operation.Street + " " + operation.StreetNumber);
+                Helpers.GetGeocodes(operation.Einsatzort.Location + " " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
             String longitude = "0";
             String latitude = "0";
             if (geoCode != null)

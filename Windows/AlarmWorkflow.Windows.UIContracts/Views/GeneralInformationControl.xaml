@@ -31,7 +31,7 @@
         <TextBlock Grid.Row="1" Text="{Binding Operation.Comment, TargetNullValue='(Keine Beschreibung verfügbar)'}" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Grid.Row="2" Text="Stichwort:" FontWeight="Bold" />
-        <TextBlock Grid.Row="3" Text="{Binding Operation.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
+        <TextBlock Grid.Row="3" Text="{Binding Operation.Keywords.Keyword, TargetNullValue='-'}" TextWrapping="WrapWithOverflow" />
 
         <TextBlock Grid.Row="4" Text="Einsatzort:" FontWeight="Bold" />
         <TextBlock Grid.Row="5" Text="{Binding Operation, Converter={StaticResource otdsConv}}" TextWrapping="WrapWithOverflow" />

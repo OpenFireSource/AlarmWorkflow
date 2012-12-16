@@ -72,11 +72,11 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
 
                             //Füllen der Standardinformatione Alarmfax Cases mit  ":"
                             case "EINSATZORT":
-                                operation.Location = msgx;
+                                operation.Einsatzort.Location = msgx;
                                 break;
                             case "STRAßE":
                             case "STRABE":
-                                operation.Street = msgx;
+                                operation.Einsatzort.Street = msgx;
                                 break;                          
                             case "EINSATZPLAN":
                                 operation.OperationPlan = msgx;
@@ -153,8 +153,8 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
 
                     if (line.StartsWith("Objekt"))
                     {
-                        operation.Property = line.Substring(7);
-                        operation.Property = operation.Property.Trim();
+                        operation.Einsatzort.Property = line.Substring(7);
+                        operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
                     }
 
                     if (line.StartsWith("Name"))
@@ -180,15 +180,15 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
 
                     if (line.StartsWith("Stichwort"))
                     {
-                        operation.EmergencyKeyword = operation.EmergencyKeyword + line.Substring(11);
-                        operation.EmergencyKeyword = operation.EmergencyKeyword.Trim();
+                        operation.Keywords.EmergencyKeyword = operation.Keywords.EmergencyKeyword + line.Substring(11);
+                        operation.Keywords.EmergencyKeyword = operation.Keywords.EmergencyKeyword.Trim();
                     }                   
 
                     //Ort Einlesen
                     if ((line.StartsWith("Ort")) && (nextIsOrt == false))
                     {
-                        operation.City = operation.City + line.Substring(4);
-                        operation.City = operation.City.Trim();
+                        operation.Einsatzort.City = operation.Einsatzort.City + line.Substring(4);
+                        operation.Einsatzort.City = operation.Einsatzort.City.Trim();
                         nextIsOrt = true;
                     }
 
@@ -224,61 +224,61 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
 
                     if (ReplCity == false)
                     {
-                        operation.City = operation.City + " ";
+                        operation.Einsatzort.City = operation.Einsatzort.City + " ";
                         ReplCity = true;
                     }
 
-                    if (operation.City.Contains("ß") == true)
+                    if (operation.Einsatzort.City.Contains("ß") == true)
                     {
-                        operation.City = operation.City.Replace("ß", "ss");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ß", "ss");
                     }
 
-                    if (operation.City.Contains("ä") == true)
+                    if (operation.Einsatzort.City.Contains("ä") == true)
                     {
-                        operation.City = operation.City.Replace("ä", "ae");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ä", "ae");
                     }
 
-                    if (operation.City.Contains("ö") == true)
+                    if (operation.Einsatzort.City.Contains("ö") == true)
                     {
-                        operation.City = operation.City.Replace("ö", "oe");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ö", "oe");
                     }
 
-                    if (operation.City.Contains("ü") == true)
+                    if (operation.Einsatzort.City.Contains("ü") == true)
                     {
-                        operation.City = operation.City.Replace("ü", "ue");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ü", "ue");
                     }
 
                     // Sonderzeichenersetzung in der Strasse
 
                     if (ReplStreet == false)
                     {
-                        operation.Street = operation.Street + " ";
+                        operation.Einsatzort.Street = operation.Einsatzort.Street + " ";
                         ReplStreet = true;
                     }
 
-                    if (operation.Street.Contains("Haus-Nr.:") == true)
+                    if (operation.Einsatzort.Street.Contains("Haus-Nr.:") == true)
                     {
-                        operation.Street = operation.Street.Replace("Haus-Nr.:", "");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Haus-Nr.:", "");
                     }
 
-                    if (operation.Street.Contains("ß") == true)
+                    if (operation.Einsatzort.Street.Contains("ß") == true)
                     {
-                        operation.Street = operation.Street.Replace("ß", "ss");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ß", "ss");
                     }
 
-                    if (operation.Street.Contains("ä") == true)
+                    if (operation.Einsatzort.Street.Contains("ä") == true)
                     {
-                        operation.Street = operation.Street.Replace("ä", "ae");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ä", "ae");
                     }
 
-                    if (operation.Street.Contains("ö") == true)
+                    if (operation.Einsatzort.Street.Contains("ö") == true)
                     {
-                        operation.Street = operation.Street.Replace("ö", "oe");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ö", "oe");
                     }
 
-                    if (operation.Street.Contains("ü") == true)
+                    if (operation.Einsatzort.Street.Contains("ü") == true)
                     {
-                        operation.Street = operation.Street.Replace("ü", "ue");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ü", "ue");
                     }
 
                     // Sonderzeichenersetzung im Hinweis

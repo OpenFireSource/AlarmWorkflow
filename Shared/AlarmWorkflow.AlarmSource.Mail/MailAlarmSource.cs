@@ -156,19 +156,19 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     switch (pair.Key)
                     {
                         case "Ort":
-                            op.City = value;
+                            op.Einsatzort.City = value;
                             break;
 
                         case "Ortsteil":
-                            op.City += " " + value;
+                            op.Einsatzort.City += " " + value;
                             break;
 
                         case "Straße":
-                            op.Street = value;
+                            op.Einsatzort.Street = value;
                             break;
 
                         case "Hausnummer":
-                            op.StreetNumber = value;
+                            op.Einsatzort.StreetNumber = value;
                             break;
 
                         case "Koordinaten X/Y (GK)":
@@ -180,11 +180,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             break;
 
                         case "Einsatzart":
-                            op.EmergencyKeyword = value;
+                            op.Keywords.EmergencyKeyword = value;
                             break;
 
                         case "Stichwort":
-                            op.Keyword = value;
+                            op.Keywords.Keyword = value;
                             break;
 
                         case "Sondersignal":

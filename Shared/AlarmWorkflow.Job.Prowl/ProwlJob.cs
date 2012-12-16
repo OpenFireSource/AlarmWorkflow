@@ -57,15 +57,15 @@ namespace AlarmWorkflow.Job.Prowl
             // Construct Notification text
             string body = "Einsatz:\r\n";
             body += "Zeitstempel: " + operation.Timestamp.ToString() + "\r\n";
-            body += "Stichwort: " + operation.Keyword + "\r\n";
+            body += "Stichwort: " + operation.Keywords.Keyword + "\r\n";
             body += "Meldebild: " + operation.Picture + "\r\n";
             body += "Einsatznr: " + operation.OperationNumber + "\r\n";
             body += "Hinweis: " + operation.Comment + "\r\n";
             body += "Mitteiler: " + operation.Messenger + "\r\n";
-            body += "Einsatzort: " + operation.Location + "\r\n";
-            body += "Straße: " + operation.Street + " " + operation.StreetNumber + "\r\n";
-            body += "Ort: " + operation.ZipCode + " " + operation.City + "\r\n";
-            body += "Objekt: " + operation.Property + "\r\n";
+            body += "Einsatzort: " + operation.Einsatzort.Location + "\r\n";
+            body += "Straße: " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + "\r\n";
+            body += "Ort: " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City + "\r\n";
+            body += "Objekt: " + operation.Einsatzort.Property + "\r\n";
 
             ProwlNotification notifi = new ProwlNotification();
             notifi.Priority = ProwlNotificationPriority.Emergency;

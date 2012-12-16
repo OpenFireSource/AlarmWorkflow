@@ -13,21 +13,10 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="OperationNumber" Type="nvarchar" MaxLength="255" />
-          <Property Name="Messenger" Type="nvarchar" MaxLength="255" />
-          <Property Name="Location" Type="nvarchar" MaxLength="255" />
-          <Property Name="Street" Type="nvarchar" MaxLength="255" />
-          <Property Name="StreetNumber" Type="nvarchar" MaxLength="255" />
-          <Property Name="City" Type="nvarchar" MaxLength="255" />
-          <Property Name="ZipCode" Type="nvarchar" MaxLength="100" />
-          <Property Name="Property" Type="nvarchar" MaxLength="512" />
-          <Property Name="Keyword" Type="nvarchar" MaxLength="255" />
           <Property Name="IsAcknowledged" Type="bit" Nullable="false" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
           <Property Name="OperationId" Type="int" Nullable="false" />
-          <Property Name="Comment" Type="nvarchar" MaxLength="512" />
-          <Property Name="CustomData" Type="image" />
-          <Property Name="RouteImage" Type="image" />
+          <Property Name="Serialized" Type="image" />
         </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -45,19 +34,6 @@
               <Summary>The unique Id. For identifying operations, please use the OperationId!</Summary>
             </Documentation>
           </Property>
-          <Property Type="String" Name="OperationNumber" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Messenger" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Location" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Street" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="StreetNumber" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="City" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ZipCode" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Building" MaxLength="512" FixedLength="false" Unicode="true" >
-            <Documentation>
-              <Summary>(Original name: 'Property') Renamed to fix compiler warning.</Summary>
-            </Documentation>
-          </Property>
-          <Property Type="String" Name="Keyword" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
           <Property Type="DateTime" Name="Timestamp" Nullable="false" />
           <Property Type="Int32" Name="OperationId" Nullable="false" >
@@ -65,11 +41,9 @@
               <Summary>Identifies one Operation.</Summary>
             </Documentation>
           </Property>
-          <Property Type="String" Name="Comment" MaxLength="512" FixedLength="false" Unicode="true" />
-          <Property Type="Binary" Name="CustomData" MaxLength="Max" FixedLength="false" />
-          <Property Type="Binary" Name="RouteImage" MaxLength="Max" FixedLength="false" >
+          <Property Type="Binary" Name="Serialized" MaxLength="Max" FixedLength="false" >
             <Documentation>
-              <Summary>May contain the image-data of the route image. If this data is empty, then the route image must be loaded from scratch each time.</Summary>
+              <LongDescription>The binary-serialized contents of the Operation-object.</LongDescription>
             </Documentation>
           </Property>
         </EntityType>
@@ -82,21 +56,10 @@
           <EntitySetMapping Name="Operations">
             <EntityTypeMapping TypeName="SQLCEDatabaseModel.OperationData">
               <MappingFragment StoreEntitySet="Operation">
-                <ScalarProperty Name="RouteImage" ColumnName="RouteImage" />
-                <ScalarProperty Name="CustomData" ColumnName="CustomData" />
-                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="Serialized" ColumnName="Serialized" />
                 <ScalarProperty Name="OperationId" ColumnName="OperationId" />
                 <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
                 <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
-                <ScalarProperty Name="Keyword" ColumnName="Keyword" />
-                <ScalarProperty Name="Building" ColumnName="Property" />
-                <ScalarProperty Name="ZipCode" ColumnName="ZipCode" />
-                <ScalarProperty Name="City" ColumnName="City" />
-                <ScalarProperty Name="StreetNumber" ColumnName="StreetNumber" />
-                <ScalarProperty Name="Street" ColumnName="Street" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="Messenger" ColumnName="Messenger" />
-                <ScalarProperty Name="OperationNumber" ColumnName="OperationNumber" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -122,7 +85,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="SQLCEDatabase" >
-        <EntityTypeShape EntityType="SQLCEDatabaseModel.OperationData" Width="1.5" PointX="0.75" PointY="0.5" Height="3.7109993489583326" />
+        <EntityTypeShape EntityType="SQLCEDatabaseModel.OperationData" Width="1.5" PointX="0.75" PointY="0.5" Height="1.9802864583333331" />
       </Diagram>
     </Diagrams>
   </Designer>

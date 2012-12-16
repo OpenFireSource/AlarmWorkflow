@@ -44,29 +44,19 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string Messenger { get; set; }
         /// <summary>
-        /// Gets or sets the Ort object.
+        /// Gets/sets the priority of this operation.
         /// </summary>
-        public string Location { get; set; }
+        public string Priority { get; set; }
         /// <summary>
-        /// Gets/sets the street. The street may contain the StreetNumber.
+        /// Gets/sets the "Einsatzort" (place of action).
+        /// Usually this location contains the destination spot.
         /// </summary>
-        public string Street { get; set; }
+        public PropertyLocation Einsatzort { get; set; }
         /// <summary>
-        /// Gets/sets the street number. This may be empty and/or the street number may be merged into the Street-property.
+        /// Gets/sets the "Zielort" (destination location).
+        /// This is usually empty.
         /// </summary>
-        public string StreetNumber { get; set; }
-        /// <summary>
-        /// Gets or sets the Ort object.
-        /// </summary>
-        public string City { get; set; }
-        /// <summary>
-        /// Gets/sets the zip code of the City.
-        /// </summary>
-        public string ZipCode { get; set; }
-        /// <summary>
-        /// Gets or sets the Objekt object.
-        /// </summary>
-        public string Property { get; set; }
+        public PropertyLocation Zielort { get; set; }
         /// <summary>
         /// Gets/sets the comment text. Usually this contains the result from the "Bemerkung" or "Hinweis" (etc.)-sections.
         /// </summary>
@@ -80,13 +70,9 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string OperationPlan { get; set; }
         /// <summary>
-        /// Gets the Einsatzstichwort object.
+        /// Gets/sets the keywords for this operation.
         /// </summary>
-        public string EmergencyKeyword { get; set; }
-        /// <summary>
-        /// Gets the Stichwort object.
-        /// </summary> 
-        public string Keyword { get; set; }
+        public OperationKeywords Keywords { get; set; }
         /// <summary>
         /// Gets/sets the list of all resources requested by the call center.
         /// </summary>
@@ -118,6 +104,10 @@ namespace AlarmWorkflow.Shared.Core
             CustomData = new Dictionary<string, object>();
             Resources = new OperationResourceCollection();
             OperationGuid = Guid.NewGuid();
+
+            Einsatzort = new PropertyLocation();
+            Zielort = new PropertyLocation();
+            Keywords = new OperationKeywords();
         }
 
         #endregion
@@ -145,13 +135,8 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>The location information as a <see cref="PropertyLocation"/>-object.</returns>
         public PropertyLocation GetDestinationLocation()
         {
-            return new PropertyLocation()
-            {
-                ZipCode = this.ZipCode,
-                City = this.City,
-                Street = this.Street,
-                StreetNumber = this.StreetNumber,
-            };
+            // TODO: If "Zielort" has a meaningful location, return that one instead?
+            return this.Einsatzort;
         }
 
         /// <summary>

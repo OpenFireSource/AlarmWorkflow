@@ -106,17 +106,17 @@ namespace AlarmWorkflow.Job.MailingJob
                 // Construct body text
                 StringBuilder bodyBuilder = new StringBuilder();
                 bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString());
-                bodyBuilder.AppendLine("Stichwort: " + operation.Keyword);
-                bodyBuilder.AppendLine("Einsatzstichwort: " + operation.EmergencyKeyword);
+                bodyBuilder.AppendLine("Stichwort: " + operation.Keywords.Keyword);
+                bodyBuilder.AppendLine("Einsatzstichwort: " + operation.Keywords.EmergencyKeyword);
                 bodyBuilder.AppendLine("Meldebild: " + operation.Picture);
                 bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
                 bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
                 bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
-                bodyBuilder.AppendLine("Einsatzort: " + operation.Location);
-                bodyBuilder.AppendLine("Straße: " + operation.Street + " " + operation.StreetNumber);
-                bodyBuilder.AppendLine("Kreuzung: " + operation.GetCustomData<string>("Intersection"));
-                bodyBuilder.AppendLine("Ort: " + operation.ZipCode + " " + operation.City);
-                bodyBuilder.AppendLine("Objekt: " + operation.Property);
+                bodyBuilder.AppendLine("Einsatzort: " + operation.Einsatzort.Location);
+                bodyBuilder.AppendLine("Straße: " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
+                bodyBuilder.AppendLine("Kreuzung: " + operation.Einsatzort.Intersection);
+                bodyBuilder.AppendLine("Ort: " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City);
+                bodyBuilder.AppendLine("Objekt: " + operation.Einsatzort.Property);
                 bodyBuilder.AppendLine("Einsatzplan: " + operation.OperationPlan);
                 bodyBuilder.AppendLine("Fahrzeuge: " + operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
 

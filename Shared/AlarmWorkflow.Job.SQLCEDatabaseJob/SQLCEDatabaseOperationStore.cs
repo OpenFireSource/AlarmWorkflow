@@ -35,32 +35,13 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         // We need to see if the timestamp could be parsed. It will cause a Overflow in SQL Server if we allow DateTime.MinValue!
                         DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
 
-                        // There are new properties, which are unsure whether or not they are going to be added permantently.
-                        // Thus we will add them to the CustomData until clarified.
-                        operation.CustomData["Picture"] = operation.Picture;
-                        operation.CustomData["EmergencyKeyword"] = operation.EmergencyKeyword;
-                        operation.CustomData["OperationPlan"] = operation.OperationPlan;
-                        operation.CustomData["Resources"] = operation.Resources;
-
                         OperationData data = new OperationData()
                         {
                             ID = operation.OperationGuid,
                             OperationId = oid,
                             Timestamp = Helpers.EnsureSaneTimestamp(timestamp),
-                            City = operation.City,
-                            ZipCode = operation.ZipCode,
-                            Location = operation.Location,
-                            OperationNumber = operation.OperationNumber,
-                            Keyword = operation.Keyword,
-                            Comment = operation.Comment,
                             IsAcknowledged = operation.IsAcknowledged,
-                            Messenger = operation.Messenger,
-                            Building = operation.Property,
-                            Street = operation.Street,
-                            StreetNumber = operation.StreetNumber,
-                            CustomData = Utilities.Serialize(operation.CustomData),
-                            // TODO: Compress route image!?
-                            RouteImage = operation.RouteImage,
+                            Serialized = Utilities.Serialize(operation),
                         };
                         entities.Operations.AddObject(data);
                         entities.SaveChanges();
@@ -78,7 +59,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                 }
             }
         }
-
 
         void IOperationStore.AcknowledgeOperation(int operationId)
         {
@@ -114,32 +94,9 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
                         return null;
                     }
 
-                    Operation operation = new Operation()
-                    {
-                        Id = data.OperationId,
-                        OperationGuid = data.ID,
-                        Timestamp = data.Timestamp,
-                        City = data.City,
-                        IsAcknowledged = data.IsAcknowledged,
-                        Keyword = data.Keyword,
-                        Comment = data.Comment,
-                        Location = data.Location,
-                        Messenger = data.Messenger,
-                        OperationNumber = data.OperationNumber,
-                        Property = data.Building,
-                        Street = data.Street,
-                        StreetNumber = data.StreetNumber,
-                        ZipCode = data.ZipCode,
-                        CustomData = Utilities.Deserialize<IDictionary<string, object>>(data.CustomData),
-                        RouteImage = data.RouteImage,
-                    };
-
-                    // There are new properties, which are unsure whether or not they are going to be added permantently.
-                    // Thus we will add them to the CustomData until clarified.
-                    operation.Picture = operation.GetCustomData<string>("Picture");
-                    operation.EmergencyKeyword = operation.GetCustomData<string>("EmergencyKeyword");
-                    operation.OperationPlan = operation.GetCustomData<string>("OperationPlan");
-                    operation.Resources = operation.GetCustomData<OperationResourceCollection>("Resources");
+                    Operation operation = Utilities.Deserialize<Operation>(data.Serialized);
+                    operation.Id = data.OperationId;
+                    operation.Timestamp = data.Timestamp;
 
                     return operation;
                 }

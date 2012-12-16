@@ -240,34 +240,34 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                             {
                                                 // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
                                                 string streetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                                                operation.StreetNumber = streetNumber;
+                                                operation.Einsatzort.StreetNumber = streetNumber;
                                             }
 
-                                            operation.Street = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
+                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
                                         }
                                         break;
                                     case "ORT":
                                         {
-                                            operation.ZipCode = ReadZipCodeFromCity(msg);
-                                            if (string.IsNullOrWhiteSpace(operation.ZipCode))
+                                            operation.Einsatzort.ZipCode = ReadZipCodeFromCity(msg);
+                                            if (string.IsNullOrWhiteSpace(operation.Einsatzort.ZipCode))
                                             {
-                                                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find a zip code for city '{0}'. Route planning may fail or yield wrong results!", operation.City);
+                                                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find a zip code for city '{0}'. Route planning may fail or yield wrong results!", operation.Einsatzort.City);
                                             }
 
-                                            operation.City = msg.Remove(0, operation.ZipCode.Length).Trim();
+                                            operation.Einsatzort.City = msg.Remove(0, operation.Einsatzort.ZipCode.Length).Trim();
 
                                             // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
                                             // However we can (at least with google maps) omit this information without problems!
-                                            int dashIndex = operation.City.IndexOf('-');
+                                            int dashIndex = operation.Einsatzort.City.IndexOf('-');
                                             if (dashIndex != -1)
                                             {
                                                 // Ignore everything after the dash
-                                                operation.City = operation.City.Substring(0, dashIndex);
+                                                operation.Einsatzort.City = operation.Einsatzort.City.Substring(0, dashIndex);
                                             }
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Property = msg;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "PLANNUMMER":
                                         operation.CustomData["Einsatzort Plannummer"] = msg;
@@ -291,21 +291,21 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                             if (streetNumberColonIndex != -1)
                                             {
                                                 // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                                                operation.CustomData["Zielort Hausnummer"] = msg.Remove(0, streetNumberColonIndex + 1).Trim();
+                                                operation.Zielort.StreetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
                                             }
 
-                                            operation.CustomData["Zielort Straﬂe"] = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
+                                            operation.Zielort.StreetNumber = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
                                         }
                                         break;
                                     case "ORT":
                                         {
                                             string plz = ReadZipCodeFromCity(msg);
-                                            operation.CustomData["Zielort PLZ"] = plz;
-                                            operation.CustomData["Zielort Ort"] = msg.Remove(0, plz.Length).Trim();
+                                            operation.Zielort.ZipCode = plz;
+                                            operation.Zielort.City = msg.Remove(0, plz.Length).Trim();
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        operation.Zielort.Property = msg;
                                         break;
                                     case "STATION":
                                         operation.CustomData["Zielort Station"] = msg;
@@ -320,22 +320,22 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Keyword = msg;
+                                        operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
-                                        operation.CustomData["Stichwort B"] = msg;
+                                        operation.Keywords.B = msg;
                                         break;
                                     case "STICHWORT R":
-                                        operation.CustomData["Stichwort R"] = msg;
+                                        operation.Keywords.R = msg;
                                         break;
                                     case "STICHWORT S":
-                                        operation.CustomData["Stichwort S"] = msg;
+                                        operation.Keywords.S = msg;
                                         break;
                                     case "STICHWORT T":
-                                        operation.CustomData["Stichwort T"] = msg;
+                                        operation.Keywords.T = msg;
                                         break;
                                     case "PRIO.":
-                                        operation.CustomData["Priorit‰t"] = msg;
+                                        operation.Priority = msg;
                                         break;
                                     default:
                                         break;

@@ -55,21 +55,21 @@ namespace AlarmWorkflow.Parser.MucLandParser
                             operation.Messenger = msg;
                             break;
                         case "EINSATZORT":
-                            operation.Location = msg;
+                            operation.Einsatzort.Location = msg;
                             break;
                         case "STRAßE":
                         case "STRABE":
-                            operation.Street = msg;
+                            operation.Einsatzort.Street = msg;
                             break;
                         case "KREUZUNG":
-                            operation.CustomData["Intersection"] = msg;
+                            operation.Einsatzort.Intersection = msg;
                             break;
                         case "ORTSTEIL/ORT":
-                            operation.City = msg;
+                            operation.Einsatzort.City = msg;
                             break;
                         case "OBJEKT":
                         case "9BJEKT":
-                            operation.Property = msg;
+                            operation.Einsatzort.Property = msg;
                             break;
                         case "MELDEBILD":
                             operation.Picture = msg;

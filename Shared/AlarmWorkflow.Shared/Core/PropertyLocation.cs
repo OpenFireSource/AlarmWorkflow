@@ -7,10 +7,14 @@ namespace AlarmWorkflow.Shared.Core
     /// Defines the location of a property.
     /// </summary>
     [Serializable()]
-    public class PropertyLocation : IEquatable<PropertyLocation>
+    public sealed class PropertyLocation : IEquatable<PropertyLocation>
     {
         #region Properties
 
+        /// <summary>
+        /// Gets/sets the location name.
+        /// </summary>
+        public string Location { get; set; }
         /// <summary>
         /// Gets/sets the zip code of the city.
         /// </summary>
@@ -27,9 +31,26 @@ namespace AlarmWorkflow.Shared.Core
         /// Gets/sets the street number. May be contained within the street.
         /// </summary>
         public string StreetNumber { get; set; }
+        /// <summary>
+        /// Gets/sets a description of the "Intersection" (if provided by alarmsource).
+        /// </summary>
+        public string Intersection { get; set; }
+        /// <summary>
+        /// Gets/sets the latitude of the location (if provided by alarmsource).
+        /// </summary>
+        public string GeoLatitude { get; set; }
+        /// <summary>
+        /// Gets/sets the longitude of the location (if provided by alarmsource).
+        /// </summary>
+        public string GeoLongitude { get; set; }
+        /// <summary>
+        /// Gets/sets the name of the property (company, site, house etc.).
+        /// </summary>
+        public string Property { get; set; }
 
         /// <summary>
-        /// Gets whether or not this instance represents a meaningful location.
+        /// Gets whether or not this instance represents a meaningful geographic location.
+        /// This takes only ZipCode, City and Street into account. 
         /// </summary>
         public bool IsMeaningful
         {
@@ -38,6 +59,14 @@ namespace AlarmWorkflow.Shared.Core
                 return ((!string.IsNullOrWhiteSpace(ZipCode) || !string.IsNullOrWhiteSpace(City))
                     && !string.IsNullOrWhiteSpace(Street));
             }
+        }
+
+        /// <summary>
+        /// Gets whether or not there are meaningful values for the geo coordinates (latitude and longitude) defined.
+        /// </summary>
+        public bool HasGeoCoordinates
+        {
+            get { return !string.IsNullOrWhiteSpace(GeoLatitude) && !string.IsNullOrWhiteSpace(GeoLongitude); }
         }
 
         #endregion

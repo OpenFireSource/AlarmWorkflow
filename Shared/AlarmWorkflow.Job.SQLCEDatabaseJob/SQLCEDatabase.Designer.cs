@@ -8,15 +8,15 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
-
 namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 {
     #region Contexts
@@ -82,6 +82,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         private ObjectSet<OperationData> _Operations;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -93,11 +94,11 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -128,6 +129,7 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -156,222 +158,6 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         private global::System.Guid _ID;
         partial void OnIDChanging(global::System.Guid value);
         partial void OnIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String OperationNumber
-        {
-            get
-            {
-                return _OperationNumber;
-            }
-            set
-            {
-                OnOperationNumberChanging(value);
-                ReportPropertyChanging("OperationNumber");
-                _OperationNumber = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("OperationNumber");
-                OnOperationNumberChanged();
-            }
-        }
-        private global::System.String _OperationNumber;
-        partial void OnOperationNumberChanging(global::System.String value);
-        partial void OnOperationNumberChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Messenger
-        {
-            get
-            {
-                return _Messenger;
-            }
-            set
-            {
-                OnMessengerChanging(value);
-                ReportPropertyChanging("Messenger");
-                _Messenger = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Messenger");
-                OnMessengerChanged();
-            }
-        }
-        private global::System.String _Messenger;
-        partial void OnMessengerChanging(global::System.String value);
-        partial void OnMessengerChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Location
-        {
-            get
-            {
-                return _Location;
-            }
-            set
-            {
-                OnLocationChanging(value);
-                ReportPropertyChanging("Location");
-                _Location = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Location");
-                OnLocationChanged();
-            }
-        }
-        private global::System.String _Location;
-        partial void OnLocationChanging(global::System.String value);
-        partial void OnLocationChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Street
-        {
-            get
-            {
-                return _Street;
-            }
-            set
-            {
-                OnStreetChanging(value);
-                ReportPropertyChanging("Street");
-                _Street = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Street");
-                OnStreetChanged();
-            }
-        }
-        private global::System.String _Street;
-        partial void OnStreetChanging(global::System.String value);
-        partial void OnStreetChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String StreetNumber
-        {
-            get
-            {
-                return _StreetNumber;
-            }
-            set
-            {
-                OnStreetNumberChanging(value);
-                ReportPropertyChanging("StreetNumber");
-                _StreetNumber = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("StreetNumber");
-                OnStreetNumberChanged();
-            }
-        }
-        private global::System.String _StreetNumber;
-        partial void OnStreetNumberChanging(global::System.String value);
-        partial void OnStreetNumberChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String City
-        {
-            get
-            {
-                return _City;
-            }
-            set
-            {
-                OnCityChanging(value);
-                ReportPropertyChanging("City");
-                _City = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("City");
-                OnCityChanged();
-            }
-        }
-        private global::System.String _City;
-        partial void OnCityChanging(global::System.String value);
-        partial void OnCityChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String ZipCode
-        {
-            get
-            {
-                return _ZipCode;
-            }
-            set
-            {
-                OnZipCodeChanging(value);
-                ReportPropertyChanging("ZipCode");
-                _ZipCode = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("ZipCode");
-                OnZipCodeChanged();
-            }
-        }
-        private global::System.String _ZipCode;
-        partial void OnZipCodeChanging(global::System.String value);
-        partial void OnZipCodeChanged();
-    
-        /// <summary>
-        /// (Original name: &apos;Property&apos;) Renamed to fix compiler warning.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Building
-        {
-            get
-            {
-                return _Building;
-            }
-            set
-            {
-                OnBuildingChanging(value);
-                ReportPropertyChanging("Building");
-                _Building = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Building");
-                OnBuildingChanged();
-            }
-        }
-        private global::System.String _Building;
-        partial void OnBuildingChanging(global::System.String value);
-        partial void OnBuildingChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String Keyword
-        {
-            get
-            {
-                return _Keyword;
-            }
-            set
-            {
-                OnKeywordChanging(value);
-                ReportPropertyChanging("Keyword");
-                _Keyword = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Keyword");
-                OnKeywordChanged();
-            }
-        }
-        private global::System.String _Keyword;
-        partial void OnKeywordChanging(global::System.String value);
-        partial void OnKeywordChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -446,81 +232,38 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
         partial void OnOperationIdChanged();
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// 
         /// </summary>
+        /// <LongDescription>
+        /// The binary-serialized contents of the Operation-object.
+        /// </LongDescription>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String Comment
+        public global::System.Byte[] Serialized
         {
             get
             {
-                return _Comment;
+                return StructuralObject.GetValidValue(_Serialized);
             }
             set
             {
-                OnCommentChanging(value);
-                ReportPropertyChanging("Comment");
-                _Comment = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Comment");
-                OnCommentChanged();
+                OnSerializedChanging(value);
+                ReportPropertyChanging("Serialized");
+                _Serialized = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Serialized");
+                OnSerializedChanged();
             }
         }
-        private global::System.String _Comment;
-        partial void OnCommentChanging(global::System.String value);
-        partial void OnCommentChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.Byte[] CustomData
-        {
-            get
-            {
-                return StructuralObject.GetValidValue(_CustomData);
-            }
-            set
-            {
-                OnCustomDataChanging(value);
-                ReportPropertyChanging("CustomData");
-                _CustomData = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("CustomData");
-                OnCustomDataChanged();
-            }
-        }
-        private global::System.Byte[] _CustomData;
-        partial void OnCustomDataChanging(global::System.Byte[] value);
-        partial void OnCustomDataChanged();
-    
-        /// <summary>
-        /// May contain the image-data of the route image. If this data is empty, then the route image must be loaded from scratch each time.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.Byte[] RouteImage
-        {
-            get
-            {
-                return StructuralObject.GetValidValue(_RouteImage);
-            }
-            set
-            {
-                OnRouteImageChanging(value);
-                ReportPropertyChanging("RouteImage");
-                _RouteImage = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("RouteImage");
-                OnRouteImageChanged();
-            }
-        }
-        private global::System.Byte[] _RouteImage;
-        partial void OnRouteImageChanging(global::System.Byte[] value);
-        partial void OnRouteImageChanged();
+        private global::System.Byte[] _Serialized;
+        partial void OnSerializedChanging(global::System.Byte[] value);
+        partial void OnSerializedChanged();
 
         #endregion
+
     
     }
 
     #endregion
+
     
 }

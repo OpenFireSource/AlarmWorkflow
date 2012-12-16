@@ -87,20 +87,20 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Alarmtime, Faxtime, Einsatzstichwort, Stichwort) ");
                 queryText.Append("VALUES (");
                 queryText.AppendFormat("'{0}', ", einsatz.OperationNumber);
-                queryText.AppendFormat("'{0}', ", einsatz.Location);
+                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Location);
                 queryText.AppendFormat("'{0}', ", einsatz.OperationPlan);
                 queryText.AppendFormat("'{0}', ", einsatz.Comment);
                 queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Intersection"));
                 queryText.AppendFormat("'{0}', ", einsatz.Picture);
                 queryText.AppendFormat("'{0}', ", einsatz.Messenger);
-                queryText.AppendFormat("'{0}', ", einsatz.Property);
-                queryText.AppendFormat("'{0}', ", einsatz.City);
-                queryText.AppendFormat("'{0}', ", einsatz.Street);
+                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Property);
+                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.City);
+                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Street);
                 queryText.AppendFormat("'{0}', ", einsatz.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
                 queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Alarmtime"));
                 queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Faxtime"));
-                queryText.AppendFormat("'{0}', ", einsatz.EmergencyKeyword);
-                queryText.AppendFormat("'{0}'", einsatz.Keyword);
+                queryText.AppendFormat("'{0}', ", einsatz.Keywords.EmergencyKeyword);
+                queryText.AppendFormat("'{0}'", einsatz.Keywords.Keyword);
                 queryText.Append(")");
 
                 MySqlCommand cmd = new MySqlCommand(queryText.ToString(), conn);

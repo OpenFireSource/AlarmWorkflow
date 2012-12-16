@@ -26,6 +26,11 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         [DataMember()]
         public int Id { get; set; }
         /// <summary>
+        /// Gets/sets the operation guid.
+        /// </summary>
+        [DataMember()]
+        public Guid OperationGuid { get; set; }
+        /// <summary>
         /// Gets/sets the date and time when this operation was created.
         /// </summary>
         [DataMember()]
@@ -41,50 +46,32 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         [DataMember()]
         public string Messenger { get; set; }
         /// <summary>
-        /// Gets or sets the Einsatzort object.
-        /// </summary>
-        [DataMember()]
-        public string Location { get; set; }
-        /// <summary>
-        /// Gets/sets the street. The street may contain the StreetNumber.
-        /// </summary>
-        [DataMember()]
-        public string Street { get; set; }
-        /// <summary>
-        /// Gets/sets the street number. This may be empty and/or the street number may be merged into the Street-property.
-        /// </summary>
-        [DataMember()]
-        public string StreetNumber { get; set; }
-        /// <summary>
-        /// Gets or sets the Ort object.
-        /// </summary>
-        [DataMember()]
-        public string City { get; set; }
-        /// <summary>
-        /// Gets/sets the zip code of the City.
-        /// </summary>
-        [DataMember()]
-        public string ZipCode { get; set; }
-        /// <summary>
-        /// Gets or sets the Objekt object.
-        /// </summary>
-        [DataMember()]
-        public string Property { get; set; }
-        /// <summary>
         /// Gets or sets the Hinweis object.
         /// </summary>
         [DataMember()]
         public string Comment { get; set; }
         /// <summary>
-        /// Gets the Stichwort object.
+        /// Gets/sets the priority of this operation.
         /// </summary>
         [DataMember()]
-        public string Keyword { get; set; }
+        public string Priority { get; set; }
         /// <summary>
-        /// Gets/sets the emergency keyword.
+        /// Gets/sets the "Einsatzort" (place of action).
+        /// Usually this location contains the destination spot.
         /// </summary>
         [DataMember()]
-        public string EmergencyKeyword { get; set; }
+        public PropertyLocation Einsatzort { get; set; }
+        /// <summary>
+        /// Gets/sets the "Zielort" (destination location).
+        /// This is usually empty.
+        /// </summary>
+        [DataMember()]
+        public PropertyLocation Zielort { get; set; }
+        /// <summary>
+        /// Gets/sets the keywords.
+        /// </summary>
+        [DataMember()]
+        public OperationKeywords Keywords { get; set; }
         /// <summary>
         /// Gets/sets the picture.
         /// </summary>
@@ -142,18 +129,15 @@ namespace AlarmWorkflow.Windows.ServiceContracts
             : this()
         {
             this.Id = operation.Id;
+            this.OperationGuid = operation.OperationGuid;
             this.Timestamp = operation.Timestamp;
             this.OperationNumber = operation.OperationNumber;
             this.Messenger = operation.Messenger;
-            this.Location = operation.Location;
-            this.Street = operation.Street;
-            this.StreetNumber = operation.StreetNumber;
-            this.City = operation.City;
-            this.ZipCode = operation.ZipCode;
-            this.Property = operation.Property;
             this.Comment = operation.Comment;
-            this.Keyword = operation.Keyword;
-            this.EmergencyKeyword = operation.EmergencyKeyword;
+            this.Einsatzort = operation.Einsatzort;
+            this.Zielort = operation.Zielort;
+            this.Priority = operation.Priority;
+            this.Keywords = operation.Keywords;
             this.Picture = operation.Picture;
             this.OperationPlan = operation.OperationPlan;
             this.Resources = operation.Resources;
@@ -179,18 +163,15 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         {
             Operation operation = new Operation();
             operation.Id = this.Id;
+            operation.OperationGuid = this.OperationGuid;
             operation.Timestamp = this.Timestamp;
             operation.OperationNumber = this.OperationNumber;
             operation.Messenger = this.Messenger;
-            operation.Location = this.Location;
-            operation.Street = this.Street;
-            operation.StreetNumber = this.StreetNumber;
-            operation.City = this.City;
-            operation.ZipCode = this.ZipCode;
-            operation.Property = this.Property;
+            operation.Einsatzort = this.Einsatzort;
+            operation.Zielort = this.Zielort;
+            operation.Keywords = this.Keywords;
+            operation.Priority = this.Priority;
             operation.Comment = this.Comment;
-            operation.Keyword = this.Keyword;
-            operation.EmergencyKeyword = this.EmergencyKeyword;
             operation.OperationPlan = this.OperationPlan;
             operation.Picture = this.Picture;
             operation.Resources = this.Resources;
