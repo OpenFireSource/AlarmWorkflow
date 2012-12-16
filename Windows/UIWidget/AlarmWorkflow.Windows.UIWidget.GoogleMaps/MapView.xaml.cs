@@ -203,8 +203,8 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
                     "var zoomOnAddress = true;" +
                     "var dest = new google.maps.LatLng(0.0,0.0);" +
-                    "var address = '" + _operation.Street + " " + _operation.StreetNumber + " " +
-                    _operation.ZipCode + " " + _operation.City + "';" +
+                    "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                    _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
                     "var Home = '" + _configuration.Home + "';" +
                     "var ZoomLevel =" + (_configuration.ZoomLevel / 100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
                     "var mapType = google.maps.MapTypeId." + _configuration.Maptype + ";" +
