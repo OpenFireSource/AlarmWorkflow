@@ -38,22 +38,37 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>../../Build/AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.5.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>./MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data">
+      <HintPath>MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Entities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Helpers.cs" />
+    <Compile Include="Data\OperationData.cs" />
     <Compile Include="MySqlDatabaseJob.cs" />
+    <Compile Include="MySqlOperationStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MySql.Data.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Readme.txt" />
+    <EntityDeploy Include="Data\Entities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <EmbeddedResource Include="App.Config" />
+    <Content Include="MySql.Data.dll" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
@@ -64,6 +79,9 @@
     <EmbeddedResource Include="settings.info.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Schema\alarmworkflow.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

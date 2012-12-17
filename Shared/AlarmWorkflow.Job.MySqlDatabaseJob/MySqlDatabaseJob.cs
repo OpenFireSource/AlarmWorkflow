@@ -7,6 +7,9 @@ using MySql.Data.MySqlClient;
 
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
+    /// <summary>
+    /// Legacy MySql-Database Job that writes to the "tb_einsatz" table.
+    /// </summary>
     [Export("MySqlDatabaseJob", typeof(IJob))]
     sealed class MySqlDatabaseJob : IJob
     {

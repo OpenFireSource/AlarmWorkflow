@@ -2,7 +2,7 @@
 <SettingsConfiguration Version="1" Identifier="Shared">
 
   <!-- Generic -->
-  <Setting Name="OperationStore" Type="System.String" IsNull="False">SQLCEDatabaseOperationStore</Setting>
+  <Setting Name="OperationStore" Type="System.String" IsNull="False">MySqlOperationStore</Setting>
   <Setting Name="RoutePlanProvider" Type="System.String" IsNull="False">GoogleMapsProvider</Setting>
 
   <!-- Fire department information -->
