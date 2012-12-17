@@ -93,7 +93,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Location);
                 queryText.AppendFormat("'{0}', ", einsatz.OperationPlan);
                 queryText.AppendFormat("'{0}', ", einsatz.Comment);
-                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Intersection"));
+                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Intersection);
                 queryText.AppendFormat("'{0}', ", einsatz.Picture);
                 queryText.AppendFormat("'{0}', ", einsatz.Messenger);
                 queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Property);

@@ -56,7 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\Helpers.cs" />
+    <Compile Include="Data\Entities.cs" />
     <Compile Include="Data\OperationData.cs" />
     <Compile Include="MySqlDatabaseJob.cs" />
     <Compile Include="MySqlOperationStore.cs" />
@@ -67,7 +67,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <EmbeddedResource Include="App.Config" />
+    <None Include="App.Config" />
     <Content Include="MySql.Data.dll" />
   </ItemGroup>
   <ItemGroup>

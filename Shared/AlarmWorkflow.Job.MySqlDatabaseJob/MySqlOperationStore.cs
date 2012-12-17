@@ -34,7 +34,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
         {
             lock (Lock)
             {
-                using (AlarmWorkflowEntities entities = Helpers.CreateContext<AlarmWorkflowEntities>())
+                using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
                     OperationData data = entities.Operations.FirstOrDefault(d => d.Id == operationId);
                     // If either there is no operation by this id, or the operation exists and is already acknowledged, do nothing
@@ -56,7 +56,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             {
                 List<Operation> operations = new List<Operation>();
 
-                using (AlarmWorkflowEntities entities = Helpers.CreateContext<AlarmWorkflowEntities>())
+                using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
                     OperationData data = entities.Operations.FirstOrDefault(d => d.Id == operationId);
                     if (data == null)
@@ -79,7 +79,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             {
                 List<int> operations = new List<int>();
 
-                using (AlarmWorkflowEntities entities = Helpers.CreateContext<AlarmWorkflowEntities>())
+                using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
                     foreach (OperationData data in entities.Operations.OrderByDescending(o => o.Timestamp))
                     {
@@ -112,7 +112,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
         {
             lock (Lock)
             {
-                using (AlarmWorkflowEntities entities = Helpers.CreateContext<AlarmWorkflowEntities>())
+                using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
                     DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
 
