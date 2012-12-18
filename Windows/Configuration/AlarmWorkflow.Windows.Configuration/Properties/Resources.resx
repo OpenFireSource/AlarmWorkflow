@@ -129,6 +129,9 @@
   <data name="SettingNotFoundInDisplayConfiguration" xml:space="preserve">
     <value>Die Einstellung '{0}' (in '{1}') hat keine Anzeigekonfiguration und kann daher nicht angezeigt werden. Bitte beheben Sie das in der entsprechenden settings.info.xml.</value>
   </data>
+  <data name="SettingResetConfirmation" xml:space="preserve">
+    <value>Möchten Sie den Wert dieser Einstellung zurücksetzen?</value>
+  </data>
   <data name="SettingSaveError" xml:space="preserve">
     <value>Ein Fehler trat beim Speichern der Einstellung '{0}' (in '{1}') auf. Wahrscheinlich ist der Wert für die Einstellung falsch, oder der Editor hat einen Fehler gemacht. Der neue Wert wurde nicht übernommen. Nachricht:</value>
   </data>

@@ -97,6 +97,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie den Wert dieser Einstellung zurücksetzen?.
+        /// </summary>
+        internal static string SettingResetConfirmation {
+            get {
+                return ResourceManager.GetString("SettingResetConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ein Fehler trat beim Speichern der Einstellung &apos;{0}&apos; (in &apos;{1}&apos;) auf. Wahrscheinlich ist der Wert für die Einstellung falsch, oder der Editor hat einen Fehler gemacht. Der neue Wert wurde nicht übernommen. Nachricht:.
         /// </summary>
         internal static string SettingSaveError {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
@@ -11,7 +12,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// Interaction logic for ExportConfigurationTypeEditor.xaml
     /// </summary>
     [Export("ExportConfigurationTypeEditor", typeof(ITypeEditor))]
-    public partial class ExportConfigurationTypeEditor : UserControl, ITypeEditor
+    public partial class ExportConfigurationTypeEditor : UserControl, ITypeEditor, INotifyPropertyChanged
     {
         #region Fields
 
@@ -78,6 +79,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
                 // Set reference to exports list for UI
                 this.Exports = _configuration.Exports;
+
+                OnPropertyChanged("Exports");
             }
         }
 
@@ -98,6 +101,24 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
             // Find out the type - if the type could not be found, go out.
             _exportedType = Type.GetType(editorParameter);
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        /// <summary>
+        /// Raised when the property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            var copy = PropertyChanged;
+            if (copy != null)
+            {
+                copy(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion

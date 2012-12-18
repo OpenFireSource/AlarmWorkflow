@@ -3,6 +3,8 @@ using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using System.Windows.Input;
+using System.Windows;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -76,6 +78,29 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 }
                 return _setting.EditorParameter;
             }
+        }
+
+        #endregion
+
+        #region Commands
+
+        /// <summary>
+        /// The ResetSettingCommand command.
+        /// </summary>
+        public ICommand ResetSettingCommand { get; private set; }
+
+        private void ResetSettingCommand_Execute(object parameter)
+        {
+            if (MessageBox.Show(Properties.Resources.SettingResetConfirmation, "Bestätigung", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            {
+                return;
+            }
+
+            this.TypeEditor.Value = this.SettingDescriptor.SettingItem.DefaultValue;
+            this.SettingDescriptor.SettingItem.ResetValue();
+
+            OnPropertyChanged("TypeEditor");
+            OnPropertyChanged("TypeEditor.Value");
         }
 
         #endregion

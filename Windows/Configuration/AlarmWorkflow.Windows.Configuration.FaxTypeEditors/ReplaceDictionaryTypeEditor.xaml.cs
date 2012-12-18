@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Controls;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -10,7 +11,7 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
     /// Interaction logic for ReplaceDictionaryTypeEditor.xaml
     /// </summary>
     [Export("ReplaceDictionaryTypeEditor", typeof(ITypeEditor))]
-    public partial class ReplaceDictionaryTypeEditor : UserControl, ITypeEditor
+    public partial class ReplaceDictionaryTypeEditor : UserControl, ITypeEditor, INotifyPropertyChanged
     {
         #region Properties
 
@@ -43,7 +44,11 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
         public object Value
         {
             get { return ReplaceDictionary.GetReplaceDictionary(); }
-            set { this.ReplaceDictionary = new ReplaceDictionaryEditWrapper(new ReplaceDictionary((string)value)); }
+            set
+            {
+                this.ReplaceDictionary = new ReplaceDictionaryEditWrapper(new ReplaceDictionary((string)value));
+                OnPropertyChanged("ReplaceDictionary");
+            }
         }
 
         /// <summary>
@@ -97,7 +102,7 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
                 {
                     // Skip over null or already existing pairs
                     if (fakePair.Key == null || dict.Pairs.ContainsKey(fakePair.Key))// ||
-                        //fakePair.Value == null)
+                    //fakePair.Value == null)
                     {
                         continue;
                     }
@@ -123,6 +128,24 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
             /// Value
             /// </summary>
             public string Value { get; set; }
+        }
+
+        #endregion
+
+        #region INotifyPropertyChanged Members
+
+        /// <summary>
+        /// Raised when the property changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            var copy = PropertyChanged;
+            if (copy != null)
+            {
+                copy(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         #endregion
