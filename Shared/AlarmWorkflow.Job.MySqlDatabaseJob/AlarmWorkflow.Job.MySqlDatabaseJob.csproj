@@ -42,6 +42,10 @@
       <HintPath>MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MySql.Data.Entity">
+      <HintPath>MySql.Data.Entity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -63,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="MySql.Data.Entity.dll" />
     <EntityDeploy Include="Data\Entities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
