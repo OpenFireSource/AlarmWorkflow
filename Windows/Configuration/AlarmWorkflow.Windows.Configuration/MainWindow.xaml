@@ -12,6 +12,7 @@
         <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
             <Button Content="Änderungen speichern" Command="{Binding SaveChangesCommand}" />
             <Button Margin="10,0,0,0" Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" />
+            <Button Margin="10,0,0,0" Command="{Binding RestartServiceCommand}" Content="Service neustarten" />
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="2">
