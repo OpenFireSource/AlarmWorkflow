@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.ServiceProcess;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -97,6 +98,37 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #endregion
 
+        #region Command "RestartServiceCommand"
+
+        /// <summary>
+        /// The OpenAppDataDirectoryCommand command.
+        /// </summary>
+        public ICommand RestartServiceCommand { get; private set; }
+
+        private void RestartServiceCommand_Execute(object parameter)
+        {
+            ServiceController service = new ServiceController("AlarmworkflowService");
+            try
+            {
+                service.Stop();
+                service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(100));
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
+            try
+            {
+                service.Start();
+                service.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(100));
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this,ex);
+            }
+        }
+
+        #endregion
         #endregion
 
         #region Constructors
