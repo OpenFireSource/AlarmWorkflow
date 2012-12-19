@@ -1,9 +1,6 @@
-#region
-
 using System;
 using AlarmWorkflow.Shared.Settings;
 
-#endregion
 
 namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 {
@@ -34,27 +31,27 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         internal bool RouteDescription { get; private set; }
 
-        internal MapType Maptype { get; private set; }
+        internal String Maptype { get; private set; }
 
         internal String Home { get; private set; }
 
         internal int ZoomLevel { get; private set; }
 
-        private MapType getMapType()
+        private String getMapType()
         {
             String type = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "MapType").GetString();
             switch (type)
             {
                 case "Straﬂe":
-                    return MapType.ROADMAP;
+                    return "ROADMAP";
                 case "Hybrid":
-                    return MapType.HYBRID;
+                    return "HYBRID";
                 case "Terrain":
-                    return MapType.TERRAIN;
+                    return "TERRAIN";
                 case "Satellit":
-                    return MapType.SATELLITE;
+                    return "SATELLITE";
             }
-            return MapType.ROADMAP;
+            return "ROADMAP";
         }
     }
 }

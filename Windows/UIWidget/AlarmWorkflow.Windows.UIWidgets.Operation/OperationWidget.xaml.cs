@@ -1,12 +1,7 @@
-﻿#region
-
-using System.Windows;
+﻿using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
-
-#endregion
-
 namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
     [Export("OperationWidget", typeof (IUIWidget))]

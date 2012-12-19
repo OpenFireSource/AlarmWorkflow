@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
@@ -12,14 +10,12 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
-#endregion
-
 namespace AlarmWorkflow.Windows.UIWidgets.OSM
 {
     /// <summary>
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
-    [Export("OSMWidget", typeof (IUIWidget))]
+    [Export("OSMWidget", typeof(IUIWidget))]
     public partial class OSMWidget : IUIWidget
     {
         #region Fields
@@ -39,9 +35,15 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                               {
                                   ScrollBarsEnabled = false
                               };
-            _FormHost.Child = _webBrowser;
+            _webBrowser.FileDownload += _webBrowser_FileDownload;
+            _formHost.Child = _webBrowser;
             _tempFile = Path.GetTempFileName();
             BuildHTML();
+        }
+
+        private void _webBrowser_FileDownload(object sender, EventArgs e)
+        {
+
         }
 
         #endregion
@@ -102,46 +104,53 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             WebResponse response = null;
             try
             {
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
                 response = request.GetResponse();
-                XPathDocument document = new XPathDocument(response.GetResponseStream());
-                XPathNavigator navigator = document.CreateNavigator();
-
-                // get response status
-                XPathNodeIterator statusIterator = navigator.Select("/GeocodeResponse/status");
-                while (statusIterator.MoveNext())
+                using (Stream stream = response.GetResponseStream())
                 {
-                    if (statusIterator.Current.Value != "OK")
+                    if (stream != null)
                     {
-                        return null;
+                        XPathDocument document = new XPathDocument(stream);
+                        XPathNavigator navigator = document.CreateNavigator();
+
+                        // get response status
+                        XPathNodeIterator statusIterator = navigator.Select("/GeocodeResponse/status");
+                        while (statusIterator.MoveNext())
+                        {
+                            if (statusIterator.Current.Value != "OK")
+                            {
+                                return null;
+                            }
+                        }
+
+                        // gets first restult
+                        XPathNodeIterator resultIterator = navigator.Select("/GeocodeResponse/result");
+                        resultIterator.MoveNext();
+                        XPathNodeIterator geometryIterator = resultIterator.Current.Select("geometry");
+                        geometryIterator.MoveNext();
+                        XPathNodeIterator locationIterator = geometryIterator.Current.Select("location");
+                        while (locationIterator.MoveNext())
+                        {
+                            XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
+                            while (latIterator.MoveNext())
+                            {
+                                geocodes.Add("lat", latIterator.Current.Value);
+                            }
+                            XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
+                            while (lngIterator.MoveNext())
+                            {
+                                geocodes.Add("long", lngIterator.Current.Value);
+                            }
+                        }
                     }
                 }
 
-                // gets first restult
-                XPathNodeIterator resultIterator = navigator.Select("/GeocodeResponse/result");
-                resultIterator.MoveNext();
-                XPathNodeIterator geometryIterator = resultIterator.Current.Select("geometry");
-                geometryIterator.MoveNext();
-                XPathNodeIterator locationIterator = geometryIterator.Current.Select("location");
-                while (locationIterator.MoveNext())
-                {
-                    XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
-                    while (latIterator.MoveNext())
-                    {
-                        geocodes.Add("lat", latIterator.Current.Value);
-                    }
-                    XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
-                    while (lngIterator.MoveNext())
-                    {
-                        geocodes.Add("long", lngIterator.Current.Value);
-                    }
-                }
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof (OSMWidget), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof (OSMWidget), ex);
+                Logger.Instance.LogFormat(LogType.Error, typeof(OSMWidget), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof(OSMWidget), ex);
             }
             finally
             {
@@ -156,110 +165,131 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
 
         private string BuildHTML()
         {
-            Dictionary<string, string> coord = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " + _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
-            string html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
-                          "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de-de\">" +
-                          "<head>" +
-                          "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />" +
-                          "<meta http-equiv=\"content-script-type\" content=\"text/javascript\" />" +
-                          "<meta http-equiv=\"content-style-type\" content=\"text/css\" />" +
-                          "<meta http-equiv=\"content-language\" content=\"de\" />" +
-                          "<style type=\"text/css\">" +
-                          "html { height: 100% } " +
-                          "body { height: 100%; margin: 0; padding: 0 } " +
-                          "#map { height: 100% } " +
-                          "</style>" +
-                          "<script type=\"text/javascript\" src=\"http://www.openlayers.org/api/OpenLayers.js\"></script>" +
-                          "<script type=\"text/javascript\" src=\"http://www.openstreetmap.org/openlayers/OpenStreetMap.js\"></script>" +
-                          " " +
-                          "<script type=\"text/javascript\">" +
-                          "//<![CDATA[" +
-                          "" +
-                          "var map;" +
-                          "var layer_mapnik;" +
-                          "var layer_tah;" +
-                          "var layer_markers;" +
-                          "function jumpTo(lon, lat, zoom) {" +
-                          "    var x = Lon2Merc(lon);" +
-                          "    var y = Lat2Merc(lat);" +
-                          "    map.setCenter(new OpenLayers.LonLat(x, y), zoom);" +
-                          "    return false;" +
-                          "}" +
-                          " " +
-                          "function Lon2Merc(lon) {" +
-                          "    return 20037508.34 * lon / 180;" +
-                          "}" +
-                          " " +
-                          "function Lat2Merc(lat) {" +
-                          "    var PI = 3.14159265358979323846;" +
-                          "    lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);" +
-                          "    return 20037508.34 * lat / 180;" +
-                          "}" +
-                          " " +
-                          "function addMarker(layer, lon, lat) {" +
-                          " " +
-                          "    var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));    " +
-                          " " +
-                          "    var marker = new OpenLayers.Marker(ll); " +
-                          "    layer.addMarker(marker);" +
-                          "    //map.addPopup(feature.createPopup(feature.closeBox));" +
-                          "}" +
-                          " " +
-                          "function getCycleTileURL(bounds) {" +
-                          "   var res = this.map.getResolution();" +
-                          "   var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));" +
-                          "   var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));" +
-                          "   var z = this.map.getZoom();" +
-                          "   var limit = Math.pow(2, z);" +
-                          " " +
-                          "   if (y < 0 || y >= limit)" +
-                          "   {" +
-                          "     return null;" +
-                          "   }" +
-                          "   else" +
-                          "   {" +
-                          "     x = ((x % limit) + limit) % limit;" +
-                          " " +
-                          "     return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;" +
-                          "   }" +
-                          "}" +
-                          "function drawmap() {    " +
-                          "    OpenLayers.Lang.setCode('de');    " +
-                          "    var lon = " + coord["long"] + " ;" +
-                          "    var lat = " + coord["lat"] + " ;" +
-                          "    var zoom = 18;" +
-                          "    map = new OpenLayers.Map('map', {" +
-                          "        projection: new OpenLayers.Projection(\"EPSG:900913\")," +
-                          "        displayProjection: new OpenLayers.Projection(\"EPSG:4326\")," +
-                          "        controls: [" +
-                          "            new OpenLayers.Control.Navigation()," +
-                          "            new OpenLayers.Control.LayerSwitcher()," +
-                          "            new OpenLayers.Control.PanZoomBar()]," +
-                          "        maxExtent:" +
-                          "            new OpenLayers.Bounds(-20037508.34,-20037508.34," +
-                          "                                    20037508.34, 20037508.34)," +
-                          "        numZoomLevels: 18," +
-                          "        maxResolution: 156543," +
-                          "        units: 'meters'" +
-                          "    });" +
-                          "    layer_mapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");" +
-                          "    layer_markers = new OpenLayers.Layer.Markers(\"Address\", { projection: new OpenLayers.Projection(\"EPSG:4326\"), " +
-                          "    	                                          visibility: true, displayInLayerSwitcher: false });" +
-                          "    map.addLayers([layer_mapnik, layer_markers]);" +
-                          "    jumpTo(lon, lat, zoom); " +
-                          "    // Position des Markers" +
-                          "    addMarker(layer_markers, lon, lat);" +
-                          "}" +
-                          "" +
-                          "//]]>" +
-                          "    </script>" +
-                          "</head>" +
-                          "<body onload=\"drawmap();\">  " +
-                          "  <div id=\"map\">" +
-                          "  </div>  " +
-                          "</body>" +
-                          "</html>";
+            string html;
+            if (_operation != null)
+            {
+				Dictionary<String, String> result = new Dictionary<String, String>();
+                result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
+                if (result == null)
+                {
+                    return "";
+                }
+                if (result.Count != 2)
+                {
+                    return "";
+                }
+                html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
+                              "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de-de\">" +
+                              "<head>" +
+                              "<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />" +
+                              "<meta http-equiv=\"content-script-type\" content=\"text/javascript\" />" +
+                              "<meta http-equiv=\"content-style-type\" content=\"text/css\" />" +
+                              "<meta http-equiv=\"content-language\" content=\"de\" />" +
+                              "<style type=\"text/css\">" +
+                              "html { height: 100% } " +
+                              "body { height: 100%; margin: 0; padding: 0 } " +
+                              "#map { height: 100% } " +
+                              "</style>" +
+                              "<script type=\"text/javascript\" src=\"http://www.openlayers.org/api/OpenLayers.js\"></script>" +
+                              "<script type=\"text/javascript\" src=\"http://www.openstreetmap.org/openlayers/OpenStreetMap.js\"></script>" +
+                              " " +
+                              "<script type=\"text/javascript\">" +
+                              "//<![CDATA[" +
+                              "" +
+                              "var map;" +
+                              "var layer_mapnik;" +
+                              "var layer_tah;" +
+                              "var layer_markers;" +
+                              "function jumpTo(lon, lat, zoom) {" +
+                              "    var x = Lon2Merc(lon);" +
+                              "    var y = Lat2Merc(lat);" +
+                              "    map.setCenter(new OpenLayers.LonLat(x, y), zoom);" +
+                              "    return false;" +
+                              "}" +
+                              " " +
+                              "function Lon2Merc(lon) {" +
+                              "    return 20037508.34 * lon / 180;" +
+                              "}" +
+                              " " +
+                              "function Lat2Merc(lat) {" +
+                              "    var PI = 3.14159265358979323846;" +
+                              "    lat = Math.log(Math.tan( (90 + lat) * PI / 360)) / (PI / 180);" +
+                              "    return 20037508.34 * lat / 180;" +
+                              "}" +
+                              " " +
+                              "function addMarker(layer, lon, lat) {" +
+                              " " +
+                              "    var ll = new OpenLayers.LonLat(Lon2Merc(lon), Lat2Merc(lat));    " +
+                              " " +
+                              "    var marker = new OpenLayers.Marker(ll); " +
+                              "    layer.addMarker(marker);" +
+                              "    //map.addPopup(feature.createPopup(feature.closeBox));" +
+                              "}" +
+                              " " +
+                              "function getCycleTileURL(bounds) {" +
+                              "   var res = this.map.getResolution();" +
+                              "   var x = Math.round((bounds.left - this.maxExtent.left) / (res * this.tileSize.w));" +
+                              "   var y = Math.round((this.maxExtent.top - bounds.top) / (res * this.tileSize.h));" +
+                              "   var z = this.map.getZoom();" +
+                              "   var limit = Math.pow(2, z);" +
+                              " " +
+                              "   if (y < 0 || y >= limit)" +
+                              "   {" +
+                              "     return null;" +
+                              "   }" +
+                              "   else" +
+                              "   {" +
+                              "     x = ((x % limit) + limit) % limit;" +
+                              " " +
+                              "     return this.url + z + \"/\" + x + \"/\" + y + \".\" + this.type;" +
+                              "   }" +
+                              "}" +
+                              "function drawmap() {    " +
+                              "    OpenLayers.Lang.setCode('de');    " +
+                              "    var lon = " + result["long"] + " ;" +
+                              "    var lat = " + result["lat"] + " ;" +
+                              "    var zoom = 18;" +
+                              "    map = new OpenLayers.Map('map', {" +
+                              "        projection: new OpenLayers.Projection(\"EPSG:900913\")," +
+                              "        displayProjection: new OpenLayers.Projection(\"EPSG:4326\")," +
+                              "        controls: [" +
+                              "            new OpenLayers.Control.Navigation()," +
+                              "            new OpenLayers.Control.LayerSwitcher()," +
+                              "            new OpenLayers.Control.PanZoomBar()]," +
+                              "        maxExtent:" +
+                              "            new OpenLayers.Bounds(-20037508.34,-20037508.34," +
+                              "                                    20037508.34, 20037508.34)," +
+                              "        numZoomLevels: 18," +
+                              "        maxResolution: 156543," +
+                              "        units: 'meters'" +
+                              "    });" +
+                              "    layer_mapnik = new OpenLayers.Layer.OSM.Mapnik(\"Mapnik\");" +
+                              "    layer_markers = new OpenLayers.Layer.Markers(\"Address\", { projection: new OpenLayers.Projection(\"EPSG:4326\"), " +
+                              "    	                                          visibility: true, displayInLayerSwitcher: false });" +
+                              "    map.addLayers([layer_mapnik, layer_markers]);" +
+                              "    jumpTo(lon, lat, zoom); " +
+                              "    // Position des Markers" +
+                              "    addMarker(layer_markers, lon, lat);" +
+                              "}" +
+                              "" +
+                              "//]]>" +
+                              "    </script>" +
+                              "</head>" +
+                              "<body onload=\"drawmap();\">  " +
+                              "  <div id=\"map\">" +
+                              "  </div>  " +
+                              "</body>" +
+                              "</html>";
+                
+            }
+            else
+            {
+                html = "";
+                
+            }
             return html;
+
         }
 
         #endregion

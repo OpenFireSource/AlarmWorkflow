@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
-
-#endregion
 
 namespace AlarmWorkflow.Windows.UIWidgets.Clock
 {
@@ -34,11 +30,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             timer.Start();
             timer.Tick += delegate
                               {
-                                  ClockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
+                                  _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
                                   if (_operation != null)
                                   {
                                       TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
-                                      AlarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
+                                      _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
                                   }
                               };
         }
