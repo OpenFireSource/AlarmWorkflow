@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6F2978F1-6922-4DB3-9A7A-9651D2010082}</ProjectGuid>
+    <ProjectGuid>{60074070-389C-49EE-AD30-4A9F96448CE8}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Windows.UIWidget.GoogleMaps</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Windows.UIWidget.GoogleMaps</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Windows.UIWidgets.GoogleMaps</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Windows.UIWidgets.GoogleMaps</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -26,6 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,7 +38,8 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
+    <Reference Include="AlarmWorkflow.Shared, Version=0.7.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.Windows.CustomViewer">
@@ -45,6 +47,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -58,15 +61,13 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MapView.xaml">
+    <Page Include="GoogleMapsWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="MapConfiguration.cs" />
-    <Compile Include="MapType.cs" />
-    <Compile Include="MapView.xaml.cs">
-      <DependentUpon>MapView.xaml</DependentUpon>
-      <SubType>Code</SubType>
+    <Compile Include="GoogleMapsWidget.xaml.cs">
+      <DependentUpon>GoogleMapsWidget.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -95,7 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml" />
-    <EmbeddedResource Include="settings.xml" />
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,8 +8,8 @@
     <ProjectGuid>{444E7C6E-ED56-4586-8E94-F0F1685261A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Windows.UIView.Operation</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Windows.UIView.Operation</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Windows.UIWidgets.Operation</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Windows.UIWidgets.Operation</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -47,8 +48,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OperationViewWidget.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="OperationWidget.xaml.cs">
+      <DependentUpon>OperationWidget.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="OperationWidget.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

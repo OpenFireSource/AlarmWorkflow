@@ -1,0 +1,8 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)">
+    <Setting Name="LineOne" DisplayText="1. Zeile" Category="Generell" />
+    <Setting Name="LineTwo" DisplayText="2. Zeile" Category="Generell" />
+    <Setting Name="LineThree" DisplayText="3. Zeile" Category="Generell" />
+  </Identifier>
+</SettingsDisplayConfiguration>
