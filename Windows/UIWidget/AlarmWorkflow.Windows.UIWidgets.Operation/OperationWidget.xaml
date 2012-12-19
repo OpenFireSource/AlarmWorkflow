@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.UIWidgets.Operation.OperationWidget"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <StackPanel  HorizontalAlignment="Stretch" Name="stackPanel1" VerticalAlignment="Center">
+        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineOne" Text="(n/A)" FontSize="36" />
+        <Separator Height="2" VerticalAlignment="Stretch" />
+        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineTwo" Text="(n/A)" FontSize="24" />
+        <Separator Height="2" VerticalAlignment="Stretch" />
+        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineThree" Text="(n/A)" FontSize="18" />
+    </StackPanel>
+</UserControl>

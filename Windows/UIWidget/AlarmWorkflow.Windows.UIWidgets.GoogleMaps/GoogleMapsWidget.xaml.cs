@@ -1,19 +1,28 @@
-﻿using System;
+﻿#region
+
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Net;
 using System.Text;
+using System.Web;
 using System.Windows;
 using System.Windows.Forms;
+using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
-namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
+#endregion
+
+namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 {
     /// <summary>
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
-    [Export("MapView", typeof(IUIWidget))]
-    public partial class MapView : IUIWidget
+    [Export("GoogleMapsWidget", typeof (IUIWidget))]
+    public partial class GoogleMapsWidget : IUIWidget
     {
         #region Fields
 
@@ -29,18 +38,9 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
         private const string CennerNoCoord = "geocoder.geocode( { 'address': address}, function(results, status) {" +
                                              "if (status == google.maps.GeocoderStatus.OK) {" +
                                              "dest = results[0].geometry.location;" +
-                                             "var image = new google.maps.MarkerImage('http://maps.google.com/mapfiles/marker-noalpha.png'," +
-                                             "new google.maps.Size(32, 37)," +
-                                             "new google.maps.Point(0,0)," +
-                                             "new google.maps.Point(0,0));" +
-                                             "var shadow = new google.maps.MarkerImage('http://maps.google.com/mapfiles/marker-noalpha.png'," +
-                                             "new google.maps.Size(41, 22)," + "new google.maps.Point(0,0)," +
-                                             "new google.maps.Point(-10, -10));" +
                                              "var beachMarker = new google.maps.Marker({" +
                                              "position: dest," +
-                                             "map: map," +
-                                             "shadow: shadow," +
-                                             "icon: image" +
+                                             "map: map" +
                                              "});" +
                                              "map.setCenter(dest);" +
                                              "maxZoomService.getMaxZoomAtLatLng(dest, function(response) {" +
@@ -52,11 +52,9 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                                              "}" +
                                              "});";
 
-        private const string CenterCoord = "var image = 'http://maps.google.com/mapfiles/marker-noalpha.png';" +
-                                           "var beachMarker = new google.maps.Marker({" +
+        private const string CenterCoord = "var beachMarker = new google.maps.Marker({" +
                                            "position: dest," +
-                                           "map: map," +
-                                           "icon: image" +
+                                           "map: map" +
                                            "});" +
                                            "map.setCenter(dest);" +
                                            "maxZoomService.getMaxZoomAtLatLng(dest, function(response) {" +
@@ -69,11 +67,9 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
         private const string ShowHome = "geocoder.geocode( { 'address': Home}, function(results, status) {" +
                                         "if (status == google.maps.GeocoderStatus.OK) {" +
                                         "var homeCoor = results[0].geometry.location;" +
-                                        "var image = 'http://maps.google.com/mapfiles/marker-noalpha.png';" +
                                         "var beachMarker = new google.maps.Marker({" +
                                         "position: homeCoor," +
-                                        "map: map," +
-                                        "icon: image" +
+                                        "map: map" +
                                         "});" +
                                         "}" +
                                         "});";
@@ -137,7 +133,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
 
         #region Constructors
 
-        public MapView()
+        public GoogleMapsWidget()
         {
             InitializeComponent();
             _webBrowser = new WebBrowser
@@ -199,14 +195,23 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
             string html;
             if (_operation != null)
             {
+                StringBuilder builder = new StringBuilder();
+                Dictionary<String, String> result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
+                if (result.Count != 2)
+                {
+                    return "";
+                }
+                String longitute = result["long"];
+                String latitude = result["lat"];
                 String variables =
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
                     "var zoomOnAddress = true;" +
-                    "var dest = new google.maps.LatLng(0.0,0.0);" +
+                    "var dest = new google.maps.LatLng(" + latitude + "," + longitute + ");" +
                     "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                     _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
                     "var Home = '" + _configuration.Home + "';" +
-                    "var ZoomLevel =" + (_configuration.ZoomLevel / 100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
+                    "var ZoomLevel =" + (_configuration.ZoomLevel/100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
                     "var mapType = google.maps.MapTypeId." + _configuration.Maptype + ";" +
                     "var mapOptions = {" +
                     "zoom: 10," +
@@ -219,18 +224,9 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                     "map = new google.maps.Map(document.getElementById(\"map_canvas\")," +
                     "mapOptions);";
 
-                StringBuilder builder = new StringBuilder();
                 builder.Append(BeginnHead);
                 builder.Append(variables);
-                if (_configuration.Route)
-                {
-                    builder.Append(Showroute);
-                }
-                else
-                {
-                    builder.Append(CennerNoCoord);
-                    builder.Append(ShowHome);
-                }
+                builder.Append(_configuration.Route ? Showroute : CenterCoord);
                 if (_configuration.Tilt)
                 {
                     builder.Append(Tilt);
@@ -254,6 +250,73 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps
                 html = "";
             }
             return html;
+        }
+
+        /// <summary>
+        ///     Returns the longitude and the latitude for a given address
+        /// </summary>
+        /// <param name="address">Address to search for</param>
+        /// <returns>null or dictonary</returns>
+        internal static Dictionary<string, string> GetGeocodes(string address)
+        {
+            Dictionary<string, string> geocodes = new Dictionary<string, string>();
+            string urladdress = HttpUtility.UrlEncode(address);
+            string url = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + urladdress + "&sensor=false";
+
+            WebResponse response = null;
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
+                request.Method = "GET";
+                response = request.GetResponse();
+                XPathDocument document = new XPathDocument(response.GetResponseStream());
+                XPathNavigator navigator = document.CreateNavigator();
+
+                // get response status
+                XPathNodeIterator statusIterator = navigator.Select("/GeocodeResponse/status");
+                while (statusIterator.MoveNext())
+                {
+                    if (statusIterator.Current.Value != "OK")
+                    {
+                        return null;
+                    }
+                }
+
+                // gets first restult
+                XPathNodeIterator resultIterator = navigator.Select("/GeocodeResponse/result");
+                resultIterator.MoveNext();
+                XPathNodeIterator geometryIterator = resultIterator.Current.Select("geometry");
+                geometryIterator.MoveNext();
+                XPathNodeIterator locationIterator = geometryIterator.Current.Select("location");
+                while (locationIterator.MoveNext())
+                {
+                    XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
+                    while (latIterator.MoveNext())
+                    {
+                        geocodes.Add("lat", latIterator.Current.Value);
+                    }
+                    XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
+                    while (lngIterator.MoveNext())
+                    {
+                        geocodes.Add("long", lngIterator.Current.Value);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, typeof (GoogleMapsWidget), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof (GoogleMapsWidget), ex);
+            }
+            finally
+            {
+                if (response != null)
+                {
+                    response.Close();
+                    response = null;
+                }
+            }
+
+            return geocodes;
         }
 
         #endregion Methods

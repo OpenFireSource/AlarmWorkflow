@@ -7,7 +7,6 @@
   <Setting Name="Route" Type="System.Boolean">false</Setting>
   <Setting Name="Tilt" Type="System.Boolean">false</Setting>
   <Setting Name="Traffic" Type="System.Boolean">false</Setting>
-  <Setting Name="ZoomLevel" Type="System.Int32">10000</Setting>
+  <Setting Name="ZoomLevel" Type="System.Int32">80</Setting>
   <Setting Name="MapType" Type="System.String" IsNull="False"></Setting>
-
 </SettingsConfiguration>
