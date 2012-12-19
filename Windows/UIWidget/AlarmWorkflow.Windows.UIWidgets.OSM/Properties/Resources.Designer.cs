@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps.Properties {
+namespace AlarmWorkflow.Windows.UIWidgets.OSM.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UIWidget.GoogleMaps.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UIWidgets.OSM.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

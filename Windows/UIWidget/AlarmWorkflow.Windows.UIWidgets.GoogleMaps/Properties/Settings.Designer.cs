@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Windows.UIWidget.GoogleMaps.Properties {
+namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
