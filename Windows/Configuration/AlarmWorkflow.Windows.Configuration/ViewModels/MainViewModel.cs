@@ -9,6 +9,7 @@ using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
@@ -101,34 +102,41 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #region Command "RestartServiceCommand"
 
         /// <summary>
-        /// The OpenAppDataDirectoryCommand command.
+        /// The RestartServiceCommand command.
         /// </summary>
         public ICommand RestartServiceCommand { get; private set; }
 
         private void RestartServiceCommand_Execute(object parameter)
         {
+            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, Properties.Resources.RestartServiceMessage))
+            {
+                return;
+            }
+
             ServiceController service = new ServiceController("AlarmworkflowService");
             try
             {
                 service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, new TimeSpan(100));
+                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMinutes(1d));
             }
             catch (Exception ex)
             {
                 Logger.Instance.LogException(this, ex);
             }
+
             try
             {
                 service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(100));
+                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1d));
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogException(this,ex);
+                Logger.Instance.LogException(this, ex);
             }
         }
 
         #endregion
+
         #endregion
 
         #region Constructors

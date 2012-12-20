@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="RestartServiceMessage" xml:space="preserve">
+    <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
+  </data>
   <data name="SavingSettingsSuccess" xml:space="preserve">
     <value>Die Einstellungen wurden erfolgreich gespeichert!</value>
   </data>

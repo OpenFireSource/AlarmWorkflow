@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten..
+        /// </summary>
+        internal static string RestartServiceMessage {
+            get {
+                return ResourceManager.GetString("RestartServiceMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Die Einstellungen wurden erfolgreich gespeichert!.
         /// </summary>
         internal static string SavingSettingsSuccess {
