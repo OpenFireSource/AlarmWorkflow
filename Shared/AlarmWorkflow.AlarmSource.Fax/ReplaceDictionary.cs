@@ -41,6 +41,24 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Replaces all known tokens in the given input string and returns it.
+        /// </summary>
+        /// <param name="input">The line to replace all known tokens in.</param>
+        /// <returns></returns>
+        public string ReplaceInString(string input)
+        {
+            foreach (var pair in Pairs)
+            {
+                input = input.Replace(pair.Key, pair.Value);
+            }
+            return input;
+        }
+
+        #endregion
+
         #region IStringSettingConvertible Members
 
         void IStringSettingConvertible.Convert(string settingValue)

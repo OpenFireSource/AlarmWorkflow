@@ -200,7 +200,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     foreach (string preParsedLine in File.ReadAllLines(intendedNewFileName))
                     {
                         // ... and add it to the list (
-                        analyzedLines.Add(_configuration.PerformReplace(preParsedLine));
+                        analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
                     }
                 }
             }

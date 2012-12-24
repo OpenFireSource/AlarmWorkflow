@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.AlarmSource.Fax
@@ -20,7 +19,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
         internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
-        private ReplaceDictionary ReplaceDictionary { get; set; }
+        internal ReplaceDictionary ReplaceDictionary { get; private set; }
 
         #endregion
 
@@ -45,24 +44,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
             // Parse replace dictionary
             this.ReplaceDictionary = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ReplaceDictionary").GetValue<ReplaceDictionary>();
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Processes the given line and replaces its contents according to the ReplaceDictionary.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <returns></returns>
-        internal string PerformReplace(string line)
-        {
-            foreach (var pair in this.ReplaceDictionary.Pairs)
-            {
-                line = line.Replace(pair.Key, pair.Value);
-            }
-            return line;
         }
 
         #endregion
