@@ -1,0 +1,11 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="AlarmSourcePrinterJob" DisplayText="Alarmquellendruck (Aufgabe)">
+
+    <Setting Name="PrintServer" DisplayText="Druckerserver" Category="Drucker" />
+    <Setting Name="PrinterName" DisplayText="Druckername" Category="Drucker" />
+    <Setting Name="CopyCount" DisplayText="Kopien" Category="Auftrag" />
+
+  </Identifier>
+
+</SettingsDisplayConfiguration>

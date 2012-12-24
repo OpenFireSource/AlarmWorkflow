@@ -120,6 +120,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
             EnsureDirectoriesExist();
 
             string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ".tif");
+
+            Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
+            ctxParameters["ArchivedFilePath"] = archivedFilePath;
+
             bool fileIsMoved = false;
             int tried = 0;
             while (!fileIsMoved)
@@ -127,7 +132,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 tried++;
                 try
                 {
-                    file.MoveTo(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF"));
+                    file.MoveTo(archivedFilePath);
                     fileIsMoved = true;
                 }
                 catch (IOException ex)
@@ -152,7 +157,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
             // 2. ... we will split each page into an own file (done in the method) ...
             // 3. ... and THEN we will scan each "page" and concat them together, so it appears to the parser as one file.
             List<string> analyzedLines = new List<string>();
-            foreach (string imageFile in Utilities.GetMergedTifFileNames(Path.Combine(_archivePath.FullName, analyseFileName + ".TIF")))
+            List<string> splittedTiffFileNames = Utilities.GetMergedTifFileNames(archivedFilePath).ToList();
+            foreach (string imageFile in splittedTiffFileNames)
             {
                 string intendedNewFileName = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(imageFile) + ".txt");
 
@@ -205,6 +211,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
             }
 
+            ctxParameters["SplittedTiffFileNames"] = splittedTiffFileNames.ToArray();
+
             Operation operation = null;
             Stopwatch sw = Stopwatch.StartNew();
             try
@@ -234,7 +242,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     }
 
                     // Raise event...
-                    OnNewAlarm(operation);
+                    AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
+                    args.Parameters = ctxParameters;
+                    OnNewAlarm(args);
                 }
             }
             catch (Exception ex)
@@ -261,12 +271,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
         /// </summary>
         public event EventHandler<AlarmSourceEventArgs> NewAlarm;
 
-        private void OnNewAlarm(Operation operation)
+        private void OnNewAlarm(AlarmSourceEventArgs args)
         {
             var copy = NewAlarm;
             if (copy != null)
             {
-                copy(this, new AlarmSourceEventArgs(operation));
+                copy(this, args);
             }
         }
 
