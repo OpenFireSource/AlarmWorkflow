@@ -1,6 +1,7 @@
 ﻿using System;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 using Prowl;
@@ -52,7 +53,7 @@ namespace AlarmWorkflow.Job.Prowl
             }
         }
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             // Construct Notification text
             string body = "Einsatz:\r\n";
@@ -81,6 +82,20 @@ namespace AlarmWorkflow.Job.Prowl
             {
                 Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while sending the Prowl Messages.", ex);
             }
+        }
+
+        bool IJob.IsAsync
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

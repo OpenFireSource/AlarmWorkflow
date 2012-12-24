@@ -126,6 +126,15 @@
   <data name="FileNameMustBeAbsolute" xml:space="preserve">
     <value>The file path must be in absolute format!</value>
   </data>
+  <data name="JobExecuteAsyncFailed" xml:space="preserve">
+    <value>An error occurred while processing the asynchronous job '{0}'!</value>
+  </data>
+  <data name="JobExecuteSyncFailed" xml:space="preserve">
+    <value>An error occurred while processing the synchronous job '{0}'!</value>
+  </data>
+  <data name="JobManagerDisposeJobFailed" xml:space="preserve">
+    <value>The job '{0}' failed at dispose. This may have unpredictable consequences.</value>
+  </data>
   <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
     <value>Storing the operation to the operation store failed! See log for information.</value>
   </data>

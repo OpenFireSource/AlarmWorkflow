@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Job.SmsJob
 
         #region IJob Members
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             StringBuilder messageText = new StringBuilder();
             messageText.AppendFormat("Ort: {0}, ", operation.GetDestinationLocation());
@@ -59,7 +59,7 @@ namespace AlarmWorkflow.Job.SmsJob
             text = messageText.ToString().Truncate(160, true, true);
 
             // Invoke the provider-send asynchronous because it is a web request and may take a while
-            ThreadPool.QueueUserWorkItem(o => _provider.Send(_userName, _password, _recipients.Select(r => r.PhoneNumber), text));
+            _provider.Send(_userName, _password, _recipients.Select(r => r.PhoneNumber), text);
         }
 
         bool IJob.Initialize()
@@ -78,6 +78,20 @@ namespace AlarmWorkflow.Job.SmsJob
             }
 
             return true;
+        }
+
+        bool IJob.IsAsync
+        {
+            get { return true; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

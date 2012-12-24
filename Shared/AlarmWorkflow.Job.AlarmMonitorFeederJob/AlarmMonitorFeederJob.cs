@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Text;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -17,7 +18,7 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
 
         #region IJob Members
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             UTF8Encoding encoding = new UTF8Encoding(false);
             using (StreamWriter sw = new StreamWriter(_alarmTextFileName, false, encoding))
@@ -42,6 +43,20 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
         {
             _alarmTextFileName = SettingsManager.Instance.GetSetting("AlarmMonitorFeederJob", "DestinationFileName").GetString();
             return true;
+        }
+        
+        bool IJob.IsAsync
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

@@ -8,6 +8,7 @@ using System.Threading;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -78,13 +79,12 @@ namespace AlarmWorkflow.Job.MailingJob
             return true;
         }
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
-            // Send it asynchronously because it may take a while!
-            ThreadPool.QueueUserWorkItem(o => SendMailThread(operation));
+            SendMail(operation);
         }
 
-        private void SendMailThread(Operation operation)
+        private void SendMail(Operation operation)
         {
             using (MailMessage message = new MailMessage())
             {
@@ -147,6 +147,20 @@ namespace AlarmWorkflow.Job.MailingJob
                     Logger.Instance.LogException(this, ex);
                 }
             }
+        }
+        
+        bool IJob.IsAsync
+        {
+            get { return true; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

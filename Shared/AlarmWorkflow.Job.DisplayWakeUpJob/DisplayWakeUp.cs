@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -104,7 +105,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             return true;
         }
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             if (_configurations.Count == 0)
             {
@@ -118,6 +119,21 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             {
                 dc.TurnOn();
             }
+        }
+
+        bool IJob.IsAsync
+        {
+            // This job is sync, because the asynchronity is done in the wrapper class
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

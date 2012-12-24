@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -41,7 +42,7 @@ namespace AlarmWorkflow.Job.GrowlJob
 
         #region IJob Members
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat("Einsatznummer: {0}", operation.OperationNumber).AppendLine();
@@ -85,6 +86,20 @@ namespace AlarmWorkflow.Job.GrowlJob
             }
 
             return true;
+        }
+
+        bool IJob.IsAsync
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

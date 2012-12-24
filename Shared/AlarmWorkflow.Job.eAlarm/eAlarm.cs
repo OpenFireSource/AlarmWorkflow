@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
-using AlarmWorkflow.Job.MailingJob;
 using AlarmWorkflow.Job.eAlarm.Properties;
+using AlarmWorkflow.Job.MailingJob;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 
@@ -70,7 +70,7 @@ namespace AlarmWorkflow.Job.eAlarm
             return true;
         }
 
-        void IJob.DoJob(Operation operation)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             //Gets the mail-addresses with googlemail.com or gmail.com
             foreach (MailingEntryObject recipient in _recipientsEntry)
@@ -131,7 +131,21 @@ namespace AlarmWorkflow.Job.eAlarm
             }
         }
 
-        #endregion IJob Members
+        bool IJob.IsAsync
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
+        }
+
+        #endregion
 
     }
 }

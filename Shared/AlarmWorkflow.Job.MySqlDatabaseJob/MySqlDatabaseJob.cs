@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
 using MySql.Data.MySqlClient;
@@ -72,7 +73,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             return true;
         }
 
-        void IJob.DoJob(Operation einsatz)
+        void IJob.Execute(IJobContext context, Operation operation)
         {
             using (MySqlConnection conn = CreateConnection())
             {
@@ -89,26 +90,40 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.AppendFormat("INSERT INTO {0} ", TableName);
                 queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Alarmtime, Faxtime, Einsatzstichwort, Stichwort) ");
                 queryText.Append("VALUES (");
-                queryText.AppendFormat("'{0}', ", einsatz.OperationNumber);
-                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Location);
-                queryText.AppendFormat("'{0}', ", einsatz.OperationPlan);
-                queryText.AppendFormat("'{0}', ", einsatz.Comment);
-                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Intersection);
-                queryText.AppendFormat("'{0}', ", einsatz.Picture);
-                queryText.AppendFormat("'{0}', ", einsatz.Messenger);
-                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Property);
-                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.City);
-                queryText.AppendFormat("'{0}', ", einsatz.Einsatzort.Street);
-                queryText.AppendFormat("'{0}', ", einsatz.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
-                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Alarmtime"));
-                queryText.AppendFormat("'{0}', ", einsatz.GetCustomData<string>("Faxtime"));
-                queryText.AppendFormat("'{0}', ", einsatz.Keywords.EmergencyKeyword);
-                queryText.AppendFormat("'{0}'", einsatz.Keywords.Keyword);
+                queryText.AppendFormat("'{0}', ", operation.OperationNumber);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Location);
+                queryText.AppendFormat("'{0}', ", operation.OperationPlan);
+                queryText.AppendFormat("'{0}', ", operation.Comment);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Intersection);
+                queryText.AppendFormat("'{0}', ", operation.Picture);
+                queryText.AppendFormat("'{0}', ", operation.Messenger);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Property);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.City);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Street);
+                queryText.AppendFormat("'{0}', ", operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
+                queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Alarmtime"));
+                queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Faxtime"));
+                queryText.AppendFormat("'{0}', ", operation.Keywords.EmergencyKeyword);
+                queryText.AppendFormat("'{0}'", operation.Keywords.Keyword);
                 queryText.Append(")");
 
                 MySqlCommand cmd = new MySqlCommand(queryText.ToString(), conn);
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        bool IJob.IsAsync
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+        #region IDisposable Members
+
+        void System.IDisposable.Dispose()
+        {
+
         }
 
         #endregion

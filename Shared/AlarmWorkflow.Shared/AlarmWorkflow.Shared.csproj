@@ -54,7 +54,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
+    <Compile Include="Engine\JobContext.cs" />
+    <Compile Include="Engine\IJobContext.cs" />
     <Compile Include="Core\Operation.cs" />
     <Compile Include="Core\OperationKeywords.cs" />
     <Compile Include="Core\OperationResourceCollection.cs" />
@@ -68,6 +71,7 @@
     <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="Diagnostics\LogType.cs" />
     <Compile Include="Diagnostics\RelayLoggingListener.cs" />
+    <Compile Include="Engine\JobManager.cs" />
     <Compile Include="Extensibility\AlarmSourceEventArgs.cs" />
     <Compile Include="Extensibility\IAlarmSource.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />

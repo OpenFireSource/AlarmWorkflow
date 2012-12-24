@@ -88,6 +88,33 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing the asynchronous job &apos;{0}&apos;!.
+        /// </summary>
+        internal static string JobExecuteAsyncFailed {
+            get {
+                return ResourceManager.GetString("JobExecuteAsyncFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error occurred while processing the synchronous job &apos;{0}&apos;!.
+        /// </summary>
+        internal static string JobExecuteSyncFailed {
+            get {
+                return ResourceManager.GetString("JobExecuteSyncFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The job &apos;{0}&apos; failed at dispose. This may have unpredictable consequences..
+        /// </summary>
+        internal static string JobManagerDisposeJobFailed {
+            get {
+                return ResourceManager.GetString("JobManagerDisposeJobFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Storing the operation to the operation store failed! See log for information..
         /// </summary>
         internal static string NewAlarmStoreOperationFailedMessage {
