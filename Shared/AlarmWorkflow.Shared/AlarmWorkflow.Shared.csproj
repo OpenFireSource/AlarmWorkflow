@@ -101,6 +101,7 @@
     <Compile Include="Settings\SettingsConfigurationFileParser.cs" />
     <Compile Include="Settings\SettingsDisplayConfiguration.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Specialized\Printing\PrintJobConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">

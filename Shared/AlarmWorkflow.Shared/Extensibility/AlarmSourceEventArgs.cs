@@ -33,6 +33,7 @@ namespace AlarmWorkflow.Shared.Extensibility
             : base()
         {
             this.Operation = operation;
+            this.Parameters = new Dictionary<string, object>();
         }
 
         #endregion
