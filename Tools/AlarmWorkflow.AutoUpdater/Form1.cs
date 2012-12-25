@@ -142,6 +142,10 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
             // Add selected tasks
             _tasks.Add(new Tasks.LegacyFilesUpdaterTask());
+            if (_options.DownloadCuneiform)
+            {
+                _tasks.Add(new Tasks.DownloadCuneiformTask());
+            }
             if (_options.BackupDatabase)
             {
                 _tasks.Add(new Tasks.BackupDatabaseTask());
@@ -153,10 +157,6 @@ namespace AlarmWorkflow.Tools.AutoUpdater
             if (_options.KillAlarmWorkflowProcesses)
             {
                 _tasks.Add(new Tasks.StopProcessesTask());
-            }
-            if (_options.DownloadCuneiform)
-            {
-                _tasks.Add(new Tasks.DownloadCuneiformTask());
             }
             _tasks.Add(new Tasks.DownloadUpdatePackageTask());
 
