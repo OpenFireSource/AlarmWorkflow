@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 
@@ -212,11 +214,23 @@ namespace AlarmWorkflow.Shared.Diagnostics
                         catch (Exception ex)
                         {
                             // silently catch exceptions in here
-                            Trace.WriteLine("An error occurred while trying to write to the log file! The error message was: " + ex.Message);
+                            Trace.WriteLine(
+                                "An error occurred while trying to write to the log file! The error message was: " +
+                                ex.Message);
                         }
                     }
                 }
-
+                else
+                {
+                    //Setting ACL
+                    File.WriteAllText(OutputFileName,"");
+                    FileSecurity fileSecurity = File.GetAccessControl(OutputFileName);
+                    SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+                    NTAccount account = (NTAccount)sid.Translate(typeof(NTAccount)); 
+                    fileSecurity.AddAccessRule(new FileSystemAccessRule(account,FileSystemRights.FullControl, AccessControlType.Allow));
+                    File.SetAccessControl(OutputFileName,fileSecurity);
+                    
+                }
                 List<string> entries = new List<string>(_cacheCurrent.Count);
                 // alright, whe have cached it up long enough, now write it
                 while (_cacheCurrent.Count > 0)
