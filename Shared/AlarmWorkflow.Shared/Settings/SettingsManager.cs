@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
@@ -336,6 +338,14 @@ namespace AlarmWorkflow.Shared.Settings
 
                 rootE.Add(identifyableE);
             }
+
+            //Setting ACL
+            File.WriteAllText(UserSettingsFilePath, "");
+            FileSecurity fileSecurity = File.GetAccessControl(UserSettingsFilePath);
+            SecurityIdentifier sid = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            NTAccount account = (NTAccount)sid.Translate(typeof(NTAccount));
+            fileSecurity.AddAccessRule(new FileSystemAccessRule(account, FileSystemRights.FullControl, AccessControlType.Allow));
+            File.SetAccessControl(UserSettingsFilePath, fileSecurity);
 
             // Save to disk using explicit encoding
             using (StreamWriter writer = new StreamWriter(UserSettingsFilePath, false, Encoding.UTF8))
