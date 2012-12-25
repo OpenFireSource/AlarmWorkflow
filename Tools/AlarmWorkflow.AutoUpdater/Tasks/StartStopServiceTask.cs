@@ -52,11 +52,18 @@ namespace AlarmWorkflow.Tools.AutoUpdater.Tasks
                 if (state)
                 {
                     Log.Write("Starting service...");
+                    try
+                    {
+                        service.Start();
+                        service.WaitForStatus(ServiceControllerStatus.Running, new TimeSpan(0, 0, 30));
+                        Log.Write("Service started.");
+                    }
+                    catch (System.ServiceProcess.TimeoutException)
+                    {
+                        Log.Write("Service not started. Please check the Windows Eventlog");
+                    }
 
-                    service.Start();
-                    service.WaitForStatus(ServiceControllerStatus.Running);
-
-                    Log.Write("Service started.");
+                    
                 }
                 else
                 {
