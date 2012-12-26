@@ -1,4 +1,5 @@
 ﻿using System.ServiceProcess;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -21,6 +22,9 @@ namespace AlarmWorkflow.Windows.Service
         public AlarmWorkflowService()
         {
             InitializeComponent();
+
+            // Set up the logger for this instance
+            Logger.Instance.Initialize(this.GetType());
 
             _manager = new AlarmWorkflowServiceManager();
         }

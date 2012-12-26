@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.Threading;
 using AlarmWorkflow.Shared.Core;
+using log4net;
+using log4net.Appender;
+using log4net.Core;
+using log4net.Layout;
 
 namespace AlarmWorkflow.Shared.Diagnostics
 {
@@ -41,40 +43,12 @@ namespace AlarmWorkflow.Shared.Diagnostics
         /// This only applies if the source is inferred from the type name.
         /// </summary>
         private const int MaxSourceLength = 32;
-        private const string LogExtension = "csv";
 
         #endregion
 
         #region Fields
 
-        private int _cacheSize = 0;
-        private List<LogEntry> _cacheCurrent;
-        private List<ILoggingListener> _listeners;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets whether or not cache mode is active.
-        /// </summary>
-        public bool IsCacheMode
-        {
-            get { return _cacheSize > 0; }
-        }
-        /// <summary>
-        /// Gets the file of the output file where the logs are stored.
-        /// This file must be absolute.
-        /// </summary>
-        public string OutputFileName { get; private set; }
-        /// <summary>
-        /// Gets/sets whether or not the logging of messages classified as "Debug" shall be logged, even if not compiled in DEBUG mode.
-        /// </summary>
-        public bool ForceDebugMessageLogging { get; set; }
-        /// <summary>
-        /// Gets/sets the max file size of the log file before it gets cleaned up.
-        /// </summary>
-        public int MaxFileSize { get; set; }
+        private ILog _log;
 
         #endregion
 
@@ -85,38 +59,12 @@ namespace AlarmWorkflow.Shared.Diagnostics
         /// </summary>
         private Logger()
         {
-            // 512 KB are enough
-            MaxFileSize = (int)(0.5f * 1024.0f * 1024.0f);
 
-            _cacheCurrent = new List<LogEntry>(_cacheSize);
-
-            _listeners = new List<ILoggingListener>();
-
-            SetOutputFileName(Path.Combine(DefaultLogPath, "Log." + LogExtension));
         }
 
         #endregion
 
         #region Methods
-
-        private void WriteToFile(params string[] textLines)
-        {
-            try
-            {
-                using (StreamWriter strmWrite = new StreamWriter(OutputFileName, true))
-                {
-                    foreach (string line in textLines)
-                    {
-                        strmWrite.WriteLine(line);
-                    }
-                }
-            }
-            catch (IOException ex)
-            {
-                string message = string.Format("Could not write to the log file. This is usually caused by a locked logfile. Do you have the log file opened in another program? The error message was: {0}", ex.Message);
-                Trace.WriteLine(message);
-            }
-        }
 
         private string GetLogSourceName(object source)
         {
@@ -138,94 +86,50 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         private void LogCore(LogEntry entry)
         {
-            bool isConsole = (entry.MessageType == LogType.Console);
-            bool isNothing = (entry.MessageType == LogType.None);
-
-#if !DEBUG
-            // ignore designated DEBUG-only messages (they might contain information that the user does not necessarily need to know)
-            // however this does not apply if the user wants these messages to be logged (this might be due to a debug switch argument)
-            if (entry.MessageType == LogType.Debug && !ForceDebugMessageLogging)
+            if (_log == null)
             {
                 return;
             }
-#endif
-            // is logging to output file enabled?
-            // this is only allowed when this is no console message
-            if (!isConsole)
+
+            ILogger logger = _log.Logger;
+
+            LoggingEventData data = new LoggingEventData();
+            data.TimeStamp = entry.Timestamp;
+            data.Message = entry.Message;
+            data.Level = GetLog4netLevel(entry.MessageType);
+            data.LoggerName = _log.Logger.Name;
+
+            if (entry.Exception != null)
             {
-                // To Cache, or not To Cache, that's the question
-                if ((_cacheSize > 0)
-                    && (_cacheCurrent.Count <= _cacheSize))
-                {
-                    _cacheCurrent.Add(entry);
-                }
-                else
-                {
-                    _cacheCurrent.Add(entry);
-                    Flush();
-                }
+                data.ExceptionString = entry.Exception.ToString();
             }
 
-            if (!isNothing)
-            {
-                // update our listeners
-                // this goes asynchronous
-                ThreadPool.QueueUserWorkItem(o =>
-                {
-                    // Create a copy of the listeners to avoid having a lock
-                    var copy = _listeners.ToArray();
+            LoggingEvent le = new LoggingEvent(data);
+            le.Properties["Source"] = entry.Source;
 
-                    foreach (ILoggingListener listener in copy)
-                    {
-                        try
-                        {
-                            listener.Write(entry);
-                        }
-                        catch (Exception ex)
-                        {
-                            // Some listeners may not be robust enough. Trace information about the culprit.
-                            // Then remove him from the list to avoid more errors.
-                            _listeners.Remove(listener);
-
-                            LogFormat(LogType.Error, this, "The log listener with type '{0}' caused an exception while writing. The logger will be disabled. Please see the log file.", listener.GetType().Name);
-                            LogException(this, ex);
-                        }
-                    }
-                });
-            }
+            logger.Log(le);
         }
 
-        private void Flush()
+        private Level GetLog4netLevel(LogType logType)
         {
-            lock (_cacheCurrent)
+            switch (logType)
             {
-                // check for max file size
-                if (File.Exists(OutputFileName))
-                {
-                    FileInfo fi = new FileInfo(OutputFileName);
-                    if (fi.Length >= MaxFileSize)
-                    {
-                        try
-                        {
-                            fi.Delete();
-                        }
-                        catch (Exception ex)
-                        {
-                            // silently catch exceptions in here
-                            Trace.WriteLine("An error occurred while trying to write to the log file! The error message was: " + ex.Message);
-                        }
-                    }
-                }
-
-                List<string> entries = new List<string>(_cacheCurrent.Count);
-                // alright, whe have cached it up long enough, now write it
-                while (_cacheCurrent.Count > 0)
-                {
-                    entries.Add(_cacheCurrent[0].ToString());
-                    _cacheCurrent.RemoveAt(0);
-                }
-                WriteToFile(entries.ToArray());
-                _cacheCurrent.Clear();
+                case LogType.Debug:
+                    return Level.Debug;
+                case LogType.Trace:
+                    return Level.Trace;
+                case LogType.Info:
+                    return Level.Info;
+                case LogType.Warning:
+                    return Level.Warn;
+                case LogType.Error:
+                    return Level.Error;
+                case LogType.Exception:
+                    return Level.Fatal;
+                case LogType.Console:
+                case LogType.None:
+                default:
+                    return Level.Verbose;
             }
         }
 
@@ -269,88 +173,140 @@ namespace AlarmWorkflow.Shared.Diagnostics
         }
 
         /// <summary>
-        /// Registers a new <see cref="ILoggingListener"/>.
+        /// Initializes the logger.
         /// </summary>
-        /// <param name="listener">The <see cref="ILoggingListener"/> to register.</param>
-        public void RegisterListener(ILoggingListener listener)
+        /// <param name="type">The type name of the log. This will be used as the folder name of this log.</param>
+        /// <exception cref="System.InvalidOperationException">This instance is already initialized.</exception>
+        public void Initialize(Type type)
         {
-            lock (_listeners)
-            {
-                _listeners.Add(listener);
-            }
-        }
-
-        /// <summary>
-        /// Unregisters an existing <see cref="ILoggingListener"/>.
-        /// </summary>
-        /// <param name="listener">The <see cref="ILoggingListener"/> to unregister.</param>
-        public void UnregisterListener(ILoggingListener listener)
-        {
-            lock (_listeners)
-            {
-                _listeners.Remove(listener);
-            }
-        }
-
-        /// <summary>
-        /// Sets the caching mode for this logging instance.
-        /// </summary>
-        /// <remarks>Setting <paramref name="cacheSize"/> to a higher value results in less writes to the hard disk, while app crashes may result in an incomplete log file.
-        /// Setting <paramref name="cacheSize"/> to a lower value results in more writes to the hard disk but ensures that the log is complete.</remarks>
-        /// <param name="cacheSize">The cache size to set. See documentation for further information.</param>
-        /// <exception cref="System.ArgumentException"><paramref name="cacheSize"/> was set to an invalid value (below zero or above an implementation-specific limit).</exception>
-        public void SetCacheMode(int cacheSize)
-        {
-            Flush();
-            _cacheSize = cacheSize;
-        }
-
-        /// <summary>
-        /// Sets the output file.
-        /// Next time something is logged it goes into the file given here.
-        /// </summary>
-        /// <param name="fileName">The new output file.</param>
-        /// <exception cref="System.ArgumentException">Parameter <paramref name="fileName"/> was a file that was not absolute.</exception>
-        public void SetOutputFileName(string fileName)
-        {
-            if (!Path.IsPathRooted(fileName))
-            {
-                throw new ArgumentException(Properties.Resources.FileNameMustBeAbsolute, "fileName");
-            }
-            else
-            {
-                string dir = Path.GetDirectoryName(fileName);
-                if (!Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-                OutputFileName = fileName;
-            }
+            Assertions.AssertNotNull(type, "type");
+            Initialize(type.Name);
         }
 
         /// <summary>
         /// Initializes the logger.
         /// </summary>
-        public void Initialize()
+        /// <param name="logName">The name of the log. This will be used as the folder name of this log.</param>
+        /// <exception cref="System.InvalidOperationException">This instance is already initialized.</exception>
+        public void Initialize(string logName)
         {
+            Assertions.AssertNotEmpty(logName, "logName");
+
+            if (_log != null)
+            {
+                throw new InvalidOperationException("This instance is already initialized!");
+            }
+
+            Log4netConfigurator.Configure(logName);
+
+            _log = LogManager.GetLogger(logName);
         }
 
-        /// <summary>
-        /// Called when the host application is shutting down. Used to clean-up the caches (if any), finish writing to the hard disk, etc.
-        /// </summary>
-        public void Shutdown()
-        {
-            Flush();
+        #endregion
 
-            // shutdown and detach all listeners that are still alive
-            lock (_listeners)
+        #region Nested types
+
+        class Log4netConfigurator
+        {
+            internal static void Configure(string logName)
             {
-                while (_listeners.Count > 0)
+                List<IAppender> appenders = new List<IAppender>();
+                appenders.Add(CreateConsoleAppender(logName));
+                appenders.Add(CreateTraceAppender(logName));
+                appenders.Add(CreateFileAppender(logName));
+                appenders.Add(CreateEventLogAppender(logName));
+
+                log4net.Config.BasicConfigurator.Configure(appenders.ToArray());
+            }
+
+            private static IAppender CreateConsoleAppender(string logName)
+            {
+                ColoredConsoleAppender appender = new ColoredConsoleAppender();
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Debug, ForeColor = ColoredConsoleAppender.Colors.Purple });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Info, ForeColor = ColoredConsoleAppender.Colors.White });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Trace, ForeColor = ColoredConsoleAppender.Colors.White });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Warn, ForeColor = ColoredConsoleAppender.Colors.Yellow });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Error, ForeColor = ColoredConsoleAppender.Colors.Red });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Fatal, ForeColor = ColoredConsoleAppender.Colors.Red });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Critical, ForeColor = ColoredConsoleAppender.Colors.Red });
+                appender.Layout = CreateOnlyMessageLayout();
+                appender.Target = ColoredConsoleAppender.ConsoleOut;
+
+                appender.ActivateOptions();
+                return appender;
+            }
+
+            private static IAppender CreateTraceAppender(string logName)
+            {
+                TraceAppender appender = new TraceAppender();
+                appender.Layout = CreateTraceLayout();
+
+                appender.ActivateOptions();
+                return appender;
+            }
+
+            private static IAppender CreateFileAppender(string logName)
+            {
+                string logDirectory = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Log", logName);
+                if (!Directory.Exists(logDirectory))
                 {
-                    // shut down this listener and remove it
-                    _listeners[0].Shutdown();
-                    _listeners.RemoveAt(0);
+                    Directory.CreateDirectory(logDirectory);
                 }
+
+                string logFileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + ".log";
+
+                RollingFileAppender appender = new RollingFileAppender();
+                appender.File = Path.Combine(logDirectory, logFileName);
+                appender.Layout = CreateFileLayout();
+
+                appender.ActivateOptions();
+
+                return appender;
+            }
+
+            private static IAppender CreateEventLogAppender(string logName)
+            {
+                EventLogAppender appender = new EventLogAppender();
+                appender.Layout = CreateOnlyMessageLayout();
+                appender.LogName = "AlarmWorkflow";
+                appender.ApplicationName = logName;
+
+                try
+                {
+                    appender.ActivateOptions();
+                }
+                catch (ArgumentException)
+                {
+                    // Ignore this exception (occurs if the log name does already exist...).
+                }
+                return appender;
+            }
+
+            private static ILayout CreateTraceLayout()
+            {
+                PatternLayout layout = new PatternLayout();
+                layout.ConversionPattern = "%date [%thread] %-5level %logger [%ndc] - %message%newline";
+
+                layout.ActivateOptions();
+                return layout;
+            }
+
+            private static ILayout CreateOnlyMessageLayout()
+            {
+                PatternLayout layout = new PatternLayout();
+                layout.ConversionPattern = "%message%newline";
+
+                layout.ActivateOptions();
+                return layout;
+            }
+
+            private static ILayout CreateFileLayout()
+            {
+                PatternLayout layout = new PatternLayout();
+                layout.ConversionPattern = "%level;%date;%property{Source};%message%newline";
+
+                layout.ActivateOptions();
+                return layout;
             }
         }
 
