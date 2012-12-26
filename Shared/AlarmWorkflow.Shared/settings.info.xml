@@ -7,7 +7,7 @@
     <Setting Name="FD.ZipCode" DisplayText="PLZ" Category="Feuerwehr" />
     <Setting Name="FD.Street" DisplayText="Straße" Category="Feuerwehr" />
     <Setting Name="FD.StreetNumber" DisplayText="Hausnummer" Category="Feuerwehr" />
-
+    <Setting Name="FD.Untis" DisplayText="Einheiten" Category="Feuerwehr" Editor="StringArrayTypeEditor" />
     <Setting Name="OperationStore" DisplayText="Operation Store" Category="Erweitert" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IOperationStore, AlarmWorkflow.Shared" />
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IJob, AlarmWorkflow.Shared" />
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource, AlarmWorkflow.Shared" />
