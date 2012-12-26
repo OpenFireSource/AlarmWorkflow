@@ -32,7 +32,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
         public ILSRosenheimParser()
         {
             _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Untis").GetStringArray();
+            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
             foreach (string unit in units)
             {
                 string[] result = unit.Split(new[] {"=;="}, StringSplitOptions.None);
