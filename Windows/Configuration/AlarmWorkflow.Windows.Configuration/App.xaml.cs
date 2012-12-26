@@ -14,7 +14,8 @@ namespace AlarmWorkflow.Windows.Configuration
         /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
-            Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
+            // Set up the logger for this instance
+            Logger.Instance.Initialize("Configuration");
         }
     }
 }
