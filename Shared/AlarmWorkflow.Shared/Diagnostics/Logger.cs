@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using log4net;
 using log4net.Appender;
@@ -66,6 +67,11 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         #region Methods
 
+        private static string GetLogDirectory(string logName)
+        {
+            return Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs", logName);
+        }
+
         private string GetLogSourceName(object source)
         {
             if (source == null)
@@ -117,7 +123,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 case LogType.Debug:
                     return Level.Debug;
                 case LogType.Trace:
-                    return Level.Trace;
+                    return Level.Fine;
                 case LogType.Info:
                     return Level.Info;
                 case LogType.Warning:
@@ -216,23 +222,27 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 appenders.Add(CreateFileAppender(logName));
                 appenders.Add(CreateEventLogAppender(logName));
 
+                foreach (IOptionHandler handler in appenders.OfType<IOptionHandler>())
+                {
+                    handler.ActivateOptions();
+                }
+
                 log4net.Config.BasicConfigurator.Configure(appenders.ToArray());
             }
 
             private static IAppender CreateConsoleAppender(string logName)
             {
                 ColoredConsoleAppender appender = new ColoredConsoleAppender();
-                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Debug, ForeColor = ColoredConsoleAppender.Colors.Purple });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Debug, ForeColor = ColoredConsoleAppender.Colors.White });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Info, ForeColor = ColoredConsoleAppender.Colors.White });
+                appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Fine, ForeColor = ColoredConsoleAppender.Colors.White });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Trace, ForeColor = ColoredConsoleAppender.Colors.White });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Warn, ForeColor = ColoredConsoleAppender.Colors.Yellow });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Error, ForeColor = ColoredConsoleAppender.Colors.Red });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Fatal, ForeColor = ColoredConsoleAppender.Colors.Red });
                 appender.AddMapping(new ColoredConsoleAppender.LevelColors() { Level = Level.Critical, ForeColor = ColoredConsoleAppender.Colors.Red });
                 appender.Layout = CreateOnlyMessageLayout();
-                appender.Target = ColoredConsoleAppender.ConsoleOut;
 
-                appender.ActivateOptions();
                 return appender;
             }
 
@@ -241,13 +251,12 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 TraceAppender appender = new TraceAppender();
                 appender.Layout = CreateTraceLayout();
 
-                appender.ActivateOptions();
                 return appender;
             }
 
             private static IAppender CreateFileAppender(string logName)
             {
-                string logDirectory = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Log", logName);
+                string logDirectory = Logger.GetLogDirectory(logName);
                 if (!Directory.Exists(logDirectory))
                 {
                     Directory.CreateDirectory(logDirectory);
@@ -259,8 +268,6 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 appender.File = Path.Combine(logDirectory, logFileName);
                 appender.Layout = CreateFileLayout();
 
-                appender.ActivateOptions();
-
                 return appender;
             }
 
@@ -268,17 +275,8 @@ namespace AlarmWorkflow.Shared.Diagnostics
             {
                 EventLogAppender appender = new EventLogAppender();
                 appender.Layout = CreateOnlyMessageLayout();
-                appender.LogName = "AlarmWorkflow";
-                appender.ApplicationName = logName;
+                appender.ApplicationName = "AlarmWorkflow/" + logName;
 
-                try
-                {
-                    appender.ActivateOptions();
-                }
-                catch (ArgumentException)
-                {
-                    // Ignore this exception (occurs if the log name does already exist...).
-                }
                 return appender;
             }
 
