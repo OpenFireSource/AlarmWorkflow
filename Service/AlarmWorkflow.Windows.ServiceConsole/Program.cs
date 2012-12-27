@@ -4,9 +4,6 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
 {
-    /// <summary>
-    /// 
-    /// </summary>
     class Program
     {
         static void Main(string[] args)
@@ -26,13 +23,11 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             // Catch all unhandled exceptions and display them.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            Logger.Instance.Initialize("ServiceConsole");
+
             // Initialize the service
             using (var service = new AlarmWorkflow.Windows.Service.AlarmWorkflowServiceManager())
             {
-                // Register listeners
-                Logger.Instance.RegisterListener(new RelayLoggingListener(LoggingListener));
-                Logger.Instance.RegisterListener(new DiagnosticsLoggingListener());
-
                 // Start the service
                 service.OnStart();
 
@@ -77,6 +72,7 @@ namespace AlarmWorkflow.Windows.ServiceConsole
 
         #region Event handlers
 
+        // TODO: Use within log4net
         private static void LoggingListener(LogEntry entry)
         {
             ConsoleColor back = ConsoleColor.Black;

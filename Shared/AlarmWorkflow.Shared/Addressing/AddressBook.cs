@@ -38,7 +38,7 @@ namespace AlarmWorkflow.Shared.Addressing
 
         internal static IAddressBook Parse(string xmlContent)
         {
-            Logger.Instance.LogFormat(LogType.Debug, null, Properties.Resources.AddressBook_StartScanMessage);
+            Logger.Instance.LogFormat(LogType.Debug, typeof(AddressBook), Properties.Resources.AddressBook_StartScanMessage);
 
             AddressBook addressBook = new AddressBook();
 
@@ -78,7 +78,7 @@ namespace AlarmWorkflow.Shared.Addressing
                 addressBook._entries.Add(entry);
             }
 
-            Logger.Instance.LogFormat(LogType.Debug, null, Properties.Resources.AddressBook_FinishScanMessage, addressBook._entries.Count);
+            Logger.Instance.LogFormat(LogType.Debug, typeof(AddressBook), Properties.Resources.AddressBook_FinishScanMessage, addressBook._entries.Count);
 
             return addressBook;
         }

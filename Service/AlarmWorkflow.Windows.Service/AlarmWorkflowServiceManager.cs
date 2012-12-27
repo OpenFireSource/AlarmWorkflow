@@ -25,11 +25,6 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         public AlarmWorkflowServiceManager()
         {
-            // Then initialize the logger.
-            Logger.Instance.Initialize();
-
-            // This call requires Administrator rights.
-            Logger.Instance.RegisterListener(new EventLogLoggingListener());
         }
 
         #endregion
@@ -79,7 +74,6 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         public void Dispose()
         {
-            Logger.Instance.Shutdown();
         }
 
         #endregion
