@@ -36,7 +36,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         [DisplayName("Zugewiesene Eigenschaft")]
         [Description("Der Name der Eigenschaft, zu der dieser Bereich zugeordnet ist.")]
         [Editor(typeof(MapToPropertyUITypeEditorImpl),typeof(UITypeEditor))]
-        public string MapToPropertyName { get; set; }
+        public string MapToPropertyExpression { get; set; }
 
         #endregion
 
@@ -60,7 +60,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         {
             this.AreaString.String = element.TryGetAttributeValue("Text", null);
             this.AreaString.IsContained = element.TryGetAttributeValue("Text-IsContained", true);
-            this.MapToPropertyName = element.TryGetAttributeValue("MapTo", null);
+            this.MapToPropertyExpression = element.TryGetAttributeValue("MapTo", null);
             this.Separator = element.TryGetAttributeValue("Separator", ":");
         }
 
@@ -77,7 +77,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             return !(
                 AreaString == null ||
                 string.IsNullOrWhiteSpace(AreaString.String) ||
-                string.IsNullOrWhiteSpace(MapToPropertyName));
+                string.IsNullOrWhiteSpace(MapToPropertyExpression));
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             XElement element = new XElement("Area");
             element.Add(new XAttribute("Text", this.AreaString.String));
             element.Add(new XAttribute("Text-IsContained", this.AreaString.IsContained));
-            element.Add(new XAttribute("MapTo", this.MapToPropertyName));
+            element.Add(new XAttribute("MapTo", this.MapToPropertyExpression));
             element.Add(new XAttribute("Separator", this.Separator));
 
             return element;

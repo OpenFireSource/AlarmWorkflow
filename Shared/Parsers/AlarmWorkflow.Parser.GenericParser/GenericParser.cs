@@ -6,7 +6,6 @@ using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.GenericParser
 {
@@ -18,6 +17,7 @@ namespace AlarmWorkflow.Parser.GenericParser
     {
         #region Fields
 
+        private Configuration _configuration;
         private ControlInformation _controlInformation;
 
         #endregion
@@ -29,6 +29,7 @@ namespace AlarmWorkflow.Parser.GenericParser
         /// </summary>
         public GenericParser()
         {
+            _configuration = new Configuration();
             LoadControlInformationFile();
         }
 
@@ -38,7 +39,7 @@ namespace AlarmWorkflow.Parser.GenericParser
 
         private void LoadControlInformationFile()
         {
-            string fileName = SettingsManager.Instance.GetSetting("GenericParser", "ControlFile").GetString();
+            string fileName = _configuration.ControlFile;
             if (string.IsNullOrWhiteSpace(fileName))
             {
                 return;
@@ -67,10 +68,10 @@ namespace AlarmWorkflow.Parser.GenericParser
         private void WriteValueToOperation(string value, AreaDefinition area, Operation operation)
         {
             // First check: Check if the object has the property we want right away
-            PropertyInfo piLocal = operation.GetType().GetProperty(area.MapToPropertyName, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-            if (piLocal != null)
+            bool propertyFound = WriteValueToProperty(value, area.MapToPropertyExpression, operation);
+            if (propertyFound)
             {
-                WriteValueToProperty(value, piLocal, operation);
+                Logger.Instance.LogFormat(LogType.Debug, this, "Wrote value '{0}' successfully to property '{1}'.", value, area.MapToPropertyExpression);
             }
             else
             {
@@ -79,19 +80,20 @@ namespace AlarmWorkflow.Parser.GenericParser
             }
         }
 
-        private void WriteValueToProperty(string value, PropertyInfo property, Operation operation)
+        private bool WriteValueToProperty(string value, string path, Operation operation)
         {
+            bool success = false;
             try
             {
-                property.SetValue(operation, value);
-
-                Logger.Instance.LogFormat(LogType.Debug, this, "Wrote value '{0}' successfully to property '{1}'.", value, property.Name);
+                success = Helpers.SetValueFromExpression(operation, path, value);
             }
             catch (Exception)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Could not write area to mapped property '{0}'. Please check for typos and a correct mapping!", property.Name);
+                Logger.Instance.LogFormat(LogType.Warning, this, "Could not write area to mapped property '{0}'. Please check for typos and a correct mapping!", path);
                 throw;
             }
+
+            return success;
         }
 
         private void WriteValueToCustomData(string value, AreaDefinition area, PropertyInfo piCustomData, Operation operation)
@@ -100,11 +102,13 @@ namespace AlarmWorkflow.Parser.GenericParser
             IDictionary<string, object> customData = (IDictionary<string, object>)piCustomData.GetValue(operation, null);
 
             // If the custom data entry already exists, give a warning and overwrite it
-            if (customData.ContainsKey(area.MapToPropertyName))
+            if (customData.ContainsKey(area.MapToPropertyExpression))
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "The custom data entry '{0}' does already exist and is being overwritten. Please check your control file if this is the intended behavior!", area.MapToPropertyName);
+                Logger.Instance.LogFormat(LogType.Warning, this, "The custom data entry '{0}' does already exist and is being overwritten. Please check your control file if this is the intended behavior!", area.MapToPropertyExpression);
             }
-            customData[area.MapToPropertyName] = value;
+            customData[area.MapToPropertyExpression] = value;
+
+            Logger.Instance.LogFormat(LogType.Debug, this, "Wrote value '{0}' successfully to custom data entry '{1}'.", value, area.MapToPropertyExpression);
         }
 
         #endregion

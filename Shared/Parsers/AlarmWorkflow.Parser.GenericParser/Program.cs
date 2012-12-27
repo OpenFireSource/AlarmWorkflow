@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Parser.GenericParser
 {
@@ -11,6 +12,8 @@ namespace AlarmWorkflow.Parser.GenericParser
         [STAThread]
         static void Main()
         {
+            Logger.Instance.Initialize("GenericParserUI");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new AlarmWorkflow.Parser.GenericParser.Forms.MainForm());

@@ -10,27 +10,27 @@
 
   <Section Text="Einsatzort">
     <!-- Hinweis: Faxe der ILS Ansbach haben eine zweite Spalte "Haus-Nr.". Hier nicht berücksichtigt! -->
-    <Area Text="Straße" MapTo="Street" />
+    <Area Text="Straße" MapTo="Einsatzort.Street" />
     <!-- Hinweis: Die PLZ ist enthalten.  -->
-    <Area Text="Ort" MapTo="City" />
-    <Area Text="Objekt" MapTo="Property" />
+    <Area Text="Ort" MapTo="Einsatzort.City" />
+    <Area Text="Objekt" MapTo="Einsatzort.Property" />
     <Area Text="Station" MapTo="Einsatzort Station" />
   </Section>
 
   <Section Text="Zielort">
-    <Area Text="Straße" MapTo="Zielort Straße" />
-    <Area Text="Ort" MapTo="Zielort Ort" />
-    <Area Text="Objekt" MapTo="Zielort Objekt" />
+    <Area Text="Straße" MapTo="Zielort.Street" />
+    <Area Text="Ort" MapTo="Zielort.City" />
+    <Area Text="Objekt" MapTo="Zielort.Property" />
     <Area Text="Station" MapTo="Zielort Station" />
   </Section>
 
   <Section Text="Einsatzgrund">
-    <Area Text="Schlagw" MapTo="Keyword" />
-    <Area Text="Stichwort B" MapTo="Stichwort B" />
-    <Area Text="Stichwort R" MapTo="Stichwort R" />
-    <Area Text="Stichwort S" MapTo="Stichwort S" />
-    <Area Text="Stichwort T" MapTo="Stichwort T" />
-    <Area Text="Prio" MapTo="Priorität" />
+    <Area Text="Schlagw" MapTo="Keywords.Keyword" />
+    <Area Text="Stichwort B" MapTo="Keywords.B" />
+    <Area Text="Stichwort R" MapTo="Keywords.R" />
+    <Area Text="Stichwort S" MapTo="Keywords.S" />
+    <Area Text="Stichwort T" MapTo="Keywords.T" />
+    <Area Text="Prio" MapTo="Priority" />
   </Section>
 
   <Section Text="Einsatzmittel">

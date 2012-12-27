@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
 {
@@ -14,8 +15,15 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         /// <param name="value"></param>
         internal static void SetValue(this PropertyInfo property, Operation operation, string value)
         {
+            object realValue = StringToObjectSimple(property.PropertyType, value);
+
+            property.SetValue(operation, realValue, null);
+        }
+
+        private static object StringToObjectSimple(Type targetType, string value)
+        {
             object realValue = null;
-            switch (property.PropertyType.FullName)
+            switch (targetType.FullName)
             {
                 case "System.String": realValue = value; break;
                 case "System.Int16": realValue = Int16.Parse(value); break;
@@ -29,8 +37,45 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
                 default:
                     break;
             }
+            return realValue;
+        }
 
-            property.SetValue(operation, realValue, null);
+        internal static bool SetValueFromExpression(object graph, string expression, string value)
+        {
+            Assertions.AssertNotNull(graph, "graph");
+            Assertions.AssertNotEmpty(expression, "expression");
+
+            string[] tokens = expression.Split(new[] { '.' });
+
+            // Find property
+            object currentObject = graph;
+            PropertyInfo property = null;
+            for (int i = 0; i < tokens.Length; i++)
+            {
+                string propertyName = tokens[i];
+
+                property = currentObject.GetType().GetProperty(propertyName);
+                if (property == null)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, typeof(GenericParser), "Property with name '{0}' was not found in object type '{1}' (expression was '{2}').", propertyName, currentObject.GetType().Name, expression);
+                    break;
+                }
+
+                if (i < tokens.Length - 1)
+                {
+                    // Next iteration... step down one hierarchy level
+                    currentObject = property.GetValue(currentObject, null);
+                }
+            }
+
+            if (property != null)
+            {
+                property.SetValue(currentObject, StringToObjectSimple(property.PropertyType, value), null);
+                return true;
+            }
+
+            // Property not found
+            return false;
         }
     }
 }

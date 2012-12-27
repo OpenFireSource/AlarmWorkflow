@@ -52,6 +52,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Misc\Configuration.cs" />
     <None Include="Controlfile.xml">
       <SubType>Designer</SubType>
     </None>
