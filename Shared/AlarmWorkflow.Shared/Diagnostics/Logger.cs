@@ -38,7 +38,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         #region Constants
 
-        private static readonly string DefaultLogPath = Utilities.GetLocalAppDataFolderPath();
+        private static readonly string DefaultLogPath = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs");
         /// <summary>
         /// The maximum length of the full type name until it gets truncated at the beginning.
         /// This only applies if the source is inferred from the type name.
@@ -69,7 +69,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         private static string GetLogDirectory(string logName)
         {
-            return Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs", logName);
+            return Path.Combine(DefaultLogPath, logName);
         }
 
         private string GetLogSourceName(object source)
@@ -282,8 +282,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
             private static ILayout CreateTraceLayout()
             {
-                PatternLayout layout = new PatternLayout();
-                layout.ConversionPattern = "%date [%thread] %-5level %logger [%ndc] - %message%newline";
+                PatternLayout layout = new PatternLayout(PatternLayout.DetailConversionPattern);
 
                 layout.ActivateOptions();
                 return layout;
@@ -291,8 +290,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
             private static ILayout CreateOnlyMessageLayout()
             {
-                PatternLayout layout = new PatternLayout();
-                layout.ConversionPattern = "%message%newline";
+                PatternLayout layout = new PatternLayout(PatternLayout.DefaultConversionPattern);
 
                 layout.ActivateOptions();
                 return layout;
