@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -7,6 +9,7 @@ using System.Xml;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
+using AvalonDock;
 using AvalonDock.Layout;
 using AvalonDock.Layout.Serialization;
 
@@ -33,13 +36,23 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
             }
-
-            var serializer = new XmlLayoutSerializer(dockingManager);
+            List<String> fileIDs = new List<String>();
+            var tempSerializer = new XmlLayoutSerializer(new DockingManager());
+            tempSerializer.LayoutSerializationCallback += (sender, args) => fileIDs.Add(args.Model.ContentId);
             if (File.Exists(LayoutFile))
             {
-                serializer.Deserialize(LayoutFile);
+                tempSerializer.Deserialize(LayoutFile);
             }
+            bool everthingFound = _WidgetManager.Widgets.Select(uiWidget => fileIDs.Any(fileID => fileID.ToLower().Equals(uiWidget.ContentGuid.ToLower()))).All(found => found);
+            if (everthingFound)
+            {
+                var serializer = new XmlLayoutSerializer(dockingManager);
+                if (File.Exists(LayoutFile))
+                {
+                    serializer.Deserialize(LayoutFile);
+                }
 
+            }
         }
 
         void IOperationViewer.OnNewOperation(Operation operation)
@@ -70,7 +83,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             serializer.Serialize(writer);
             writer.Flush();
             writer.Close();
-            
+
         }
     }
 }
