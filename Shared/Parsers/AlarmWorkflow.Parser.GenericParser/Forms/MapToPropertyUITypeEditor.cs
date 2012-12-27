@@ -1,4 +1,5 @@
-﻿using System.Drawing.Design;
+﻿using System;
+using System.Drawing.Design;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -57,7 +58,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
         {
             InitializeComponent();
 
-            FillAllowedProperties();
+            FillAllowedProperties(typeof(Operation), "");
         }
 
         /// <summary>
@@ -77,16 +78,35 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
 
         #region Methods
 
-        private void FillAllowedProperties()
+        private void FillAllowedProperties(Type child, string hierarchySoFar)
         {
-            foreach (PropertyInfo property in typeof(Operation).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach (PropertyInfo property in child.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
                 if (DisallowedProperties.Contains(property.Name))
                 {
                     continue;
                 }
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
 
-                lsbSuggestions.Items.Add(property.Name);
+                // If the property may be extensible (just assume that blindly if it is not in the System-namespace)
+                Type propertyType = property.PropertyType;
+                if (!propertyType.Namespace.StartsWith("System"))
+                {
+                    FillAllowedProperties(propertyType, hierarchySoFar + property.Name + ".");
+                }
+                else
+                {
+                    string name = property.Name;
+                    if (property.DeclaringType != null)
+                    {
+                        name = hierarchySoFar + name;
+                    }
+
+                    lsbSuggestions.Items.Add(name);
+                }
             }
         }
 
