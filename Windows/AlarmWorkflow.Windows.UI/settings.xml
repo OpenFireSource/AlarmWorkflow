@@ -9,7 +9,7 @@
   <Setting Name="OFP.OnlyNonAcknowledged" Type="System.Boolean" IsNull="False">True</Setting>
   <Setting Name="OFP.LimitAmount" Type="System.Int32" IsNull="False">10</Setting>
 
-  <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">True</Setting>
+  <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">False</Setting>
   <Setting Name="AOA.MaxAge" Type="System.Int32" IsNull="False">480</Setting>
 
   <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>

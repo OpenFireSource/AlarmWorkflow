@@ -9,7 +9,7 @@
     <Setting Name="TreatOldOperationsAsNew" DisplayText="Alte Alarme als Neu behandeln" Category="Debug" />
 
     <Setting Name="OFP.Interval" DisplayText="Aktualisierungsinterval" Category="Alarmabfrage" />
-    <Setting Name="OFP.MaxAge" DisplayText="Max. Alter" Category="Alarmabfrage" />
+    <Setting Name="OFP.MaxAge" DisplayText="Max. Alter (in Tagen)" Category="Alarmabfrage" />
     <Setting Name="OFP.OnlyNonAcknowledged" DisplayText="Nur neue Alarme" Category="Alarmabfrage" />
     <Setting Name="OFP.LimitAmount" DisplayText="Limit" Category="Alarmabfrage" />
 

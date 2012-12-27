@@ -1,23 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MySqlDatabaseJob", "AlarmWorkflow.Job.MySqlDatabaseJob\AlarmWorkflow.Job.MySqlDatabaseJob.csproj", "{36EF6926-17B5-4DEC-A615-FF2057FF1EDC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MySqlDatabaseJob", "Jobs\AlarmWorkflow.Job.MySqlDatabaseJob\AlarmWorkflow.Job.MySqlDatabaseJob.csproj", "{36EF6926-17B5-4DEC-A615-FF2057FF1EDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SmsJob", "AlarmWorkflow.Job.SmsJob\AlarmWorkflow.Job.SmsJob.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SmsJob", "Jobs\AlarmWorkflow.Job.SmsJob\AlarmWorkflow.Job.SmsJob.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MailingJob", "AlarmWorkflow.Job.MailingJob\AlarmWorkflow.Job.MailingJob.csproj", "{AD86EEB7-1991-44C6-94C9-48381A33D63A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MailingJob", "Jobs\AlarmWorkflow.Job.MailingJob\AlarmWorkflow.Job.MailingJob.csproj", "{AD86EEB7-1991-44C6-94C9-48381A33D63A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.DisplayWakeUpJob", "AlarmWorkflow.Job.DisplayWakeUpJob\AlarmWorkflow.Job.DisplayWakeUpJob.csproj", "{D3E75ABB-8816-4E2A-B107-87C393CE96F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.DisplayWakeUpJob", "Jobs\AlarmWorkflow.Job.DisplayWakeUpJob\AlarmWorkflow.Job.DisplayWakeUpJob.csproj", "{D3E75ABB-8816-4E2A-B107-87C393CE96F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Prowl", "AlarmWorkflow.Job.Prowl\AlarmWorkflow.Job.Prowl.csproj", "{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Prowl", "Jobs\AlarmWorkflow.Job.Prowl\AlarmWorkflow.Job.Prowl.csproj", "{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SQLCEDatabaseJob", "AlarmWorkflow.Job.SQLCEDatabaseJob\AlarmWorkflow.Job.SQLCEDatabaseJob.csproj", "{54F3EDF4-296E-4037-9D02-47742A9A1119}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SQLCEDatabaseJob", "Jobs\AlarmWorkflow.Job.SQLCEDatabaseJob\AlarmWorkflow.Job.SQLCEDatabaseJob.csproj", "{54F3EDF4-296E-4037-9D02-47742A9A1119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.GrowlJob", "AlarmWorkflow.Job.GrowlJob\AlarmWorkflow.Job.GrowlJob.csproj", "{84D7024C-5620-46B5-8E0A-857A097268A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.GrowlJob", "Jobs\AlarmWorkflow.Job.GrowlJob\AlarmWorkflow.Job.GrowlJob.csproj", "{84D7024C-5620-46B5-8E0A-857A097268A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmMonitorFeederJob", "AlarmWorkflow.Job.AlarmMonitorFeederJob\AlarmWorkflow.Job.AlarmMonitorFeederJob.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmMonitorFeederJob", "Jobs\AlarmWorkflow.Job.AlarmMonitorFeederJob\AlarmWorkflow.Job.AlarmMonitorFeederJob.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.eAlarm", "AlarmWorkflow.Job.eAlarm\AlarmWorkflow.Job.eAlarm.csproj", "{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.eAlarm", "Jobs\AlarmWorkflow.Job.eAlarm\AlarmWorkflow.Job.eAlarm.csproj", "{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmSourcePrinterJob", "Jobs\AlarmWorkflow.Job.AlarmSourcePrinterJob\AlarmWorkflow.Job.AlarmSourcePrinterJob.csproj", "{27EE337B-3AA5-41B1-AB0B-3C114EA64105}"
 EndProject

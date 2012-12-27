@@ -1,4 +1,6 @@
 ﻿Shared\AlarmWorkflow.Shared.sln
+Shared\AlarmWorkflow.Shared.AlarmSources.sln
+Shared\AlarmWorkflow.Shared.RoutePlanProviders.sln
 Shared\AlarmWorkflow.Shared.Parser.sln
 Shared\AlarmWorkflow.Shared.Jobs.sln
 
