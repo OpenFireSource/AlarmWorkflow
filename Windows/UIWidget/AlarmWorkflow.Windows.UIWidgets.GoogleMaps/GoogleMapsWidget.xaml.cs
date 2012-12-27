@@ -112,7 +112,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             _webBrowser.FileDownload += _webBrowser_FileDownload;
             _formHost.Child = _webBrowser;
             _configuration = new MapConfiguration();
-            _tempFile = Path.GetTempFileName();
+            _tempFile = Path.GetTempFileName()+".html";
             BuildHTML();
         }
 
@@ -151,7 +151,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             {
                 if (!String.IsNullOrWhiteSpace(_tempFile))
                 {
-                    File.Delete(_tempFile);
+                    try
+                    {
+                        File.Delete(_tempFile);
+                    }
+                    catch (IOException) { 
+                    }
                 }
                 return;
             }
@@ -174,14 +179,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 Dictionary<String, String> result = new Dictionary<String, String>();
 				result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                                                                 _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
-                if (result == null)
+                if (result == null || result.Count != 2)
                 {
-                    return "";
+                    return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";
                 }
-                if (result.Count != 2)
-                {
-                    return "";
-                }
+              
                 String longitute = result["long"];
                 String latitude = result["lat"];
                 String variables =
