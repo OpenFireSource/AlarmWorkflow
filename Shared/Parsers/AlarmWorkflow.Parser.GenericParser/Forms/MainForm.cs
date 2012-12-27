@@ -114,6 +114,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
 
         private void tsmExit_Click(object sender, System.EventArgs e)
         {
+            Application.Exit();
         }
 
         private void tmsFax_Open_Click(object sender, System.EventArgs e)
