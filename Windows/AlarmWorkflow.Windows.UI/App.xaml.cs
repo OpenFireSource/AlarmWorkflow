@@ -43,6 +43,8 @@ namespace AlarmWorkflow.Windows.UI
 
         private bool _isMessageBoxShown;
 
+        private bool _lastWasConnected = true;
+
         #endregion
 
         #region Properties
@@ -77,7 +79,7 @@ namespace AlarmWorkflow.Windows.UI
                 Mutex.OpenExisting(MutexName);
 
                 // error: since the mutex could be openend, this means another instance is already open!
-                MessageBox.Show("Anwendung kann nicht zweimal gestartet werden!");
+                MessageBox.Show("Die Anwendung kann nicht zweimal gestartet werden!","Hinweis",MessageBoxButton.OK,MessageBoxImage.Exclamation);
                 App.Current.Shutdown();
                 return;
             }
@@ -142,7 +144,7 @@ namespace AlarmWorkflow.Windows.UI
             // Create taskbar icon
             _taskbarIcon = new TaskbarIcon();
             _taskbarIcon.IconSource = new BitmapImage(this.GetPackUri("Images/FaxHS.ico"));
-            _taskbarIcon.ToolTipText = "AlarmWorkflow-UI Application is running...";
+            _taskbarIcon.ToolTipText = "AlarmWorkflowUI";
 
             _taskbarIcon.ContextMenu = new System.Windows.Controls.ContextMenu();
             _taskbarIcon.ContextMenu.Items.Add(new MenuItem()
@@ -245,6 +247,14 @@ namespace AlarmWorkflow.Windows.UI
                         int limitAmount = Configuration.OperationFetchingArguments.LimitAmount;
 
                         var operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+                        if (!_lastWasConnected)
+                        {
+                            _taskbarIcon.ShowBalloonTip("Information", "Serviceverbindung erfolgreich aufgebaut.", BalloonIcon.Info);
+                            _lastWasConnected = true;
+                            _timer.Stop();
+                            _timer.Interval = Configuration.OperationFetchingArguments.Interval;
+                            _timer.Start();
+                        }
                         if (operations.Count == 0)
                         {
                             return;
@@ -276,7 +286,11 @@ namespace AlarmWorkflow.Windows.UI
                 }
                 catch (EndpointNotFoundException)
                 {
-                    // This is ok, since it also occurs when the service is starting up.
+                    _taskbarIcon.ShowBalloonTip("Fehler", "Serviceverbindung konnte nicht aufgebaut werden!" + Environment.NewLine + "Bitte den Service ggf. neustarten. Danke.", BalloonIcon.Error);
+                    _lastWasConnected = false;
+                    _timer.Stop();
+                    _timer.Interval = 12000;
+                    _timer.Start();
                 }
                 catch (Exception ex)
                 {
