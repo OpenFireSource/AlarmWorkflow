@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -230,47 +228,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            if (string.IsNullOrWhiteSpace(format))
-            {
-                return format;
-            }
-
-            StringBuilder sb = new StringBuilder(format);
-            // Replace common control chars
-            sb.Replace("\n", Environment.NewLine);
-
-            Regex regex = new Regex(@"{(\w+)}");
-            foreach (Group match in regex.Matches(format))
-            {
-                string macroText = match.Value;
-                string propertyName = macroText.Substring(1, macroText.Length - 2);
-
-                string propertyValue = "[?]";
-                object rawValue = null;
-
-                PropertyInfo property = this.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
-                if (property != null)
-                {
-                    rawValue = property.GetValue(this, null);
-                }
-                else
-                {
-                    rawValue = null;
-                    if (CustomData.ContainsKey(propertyName))
-                    {
-                        rawValue = CustomData[propertyName];
-                    }
-                }
-
-                if (rawValue != null)
-                {
-                    propertyValue = rawValue.ToString();
-                }
-
-                sb.Replace(macroText, propertyValue);
-            }
-
-            return sb.ToString();
+            return ObjectFormatter.ToString(this, format);
         }
 
         #endregion

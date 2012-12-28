@@ -7,19 +7,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
 {
     static class Helpers
     {
-        /// <summary>
-        /// Sets the property value and casts it correctly from a string.
-        /// </summary>
-        /// <param name="property"></param>
-        /// <param name="operation"></param>
-        /// <param name="value"></param>
-        internal static void SetValue(this PropertyInfo property, Operation operation, string value)
-        {
-            object realValue = StringToObjectSimple(property.PropertyType, value);
-
-            property.SetValue(operation, realValue, null);
-        }
-
         private static object StringToObjectSimple(Type targetType, string value)
         {
             object realValue = null;

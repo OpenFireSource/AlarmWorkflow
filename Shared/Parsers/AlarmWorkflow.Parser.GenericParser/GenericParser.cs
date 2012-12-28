@@ -85,6 +85,7 @@ namespace AlarmWorkflow.Parser.GenericParser
             bool success = false;
             try
             {
+                // TODO: Use class ObjectExpressionTools!
                 success = Helpers.SetValueFromExpression(operation, path, value);
             }
             catch (Exception)

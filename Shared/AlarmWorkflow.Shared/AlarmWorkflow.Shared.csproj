@@ -59,6 +59,8 @@
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
+    <Compile Include="Core\ObjectExpressionTools.cs" />
+    <Compile Include="Core\ObjectFormatter.cs" />
     <Compile Include="Engine\JobContext.cs" />
     <Compile Include="Engine\IJobContext.cs" />
     <Compile Include="Core\Operation.cs" />
