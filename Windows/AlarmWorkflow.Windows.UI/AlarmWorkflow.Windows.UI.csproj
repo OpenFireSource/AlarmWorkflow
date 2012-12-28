@@ -40,7 +40,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Images\FaxHS.ico</ApplicationIcon>
+    <ApplicationIcon>Images\UI.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">
@@ -133,12 +133,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\FaxHS.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Fax_32.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\NoRouteImage.png" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +146,12 @@
       <Project>{FDDD6A8B-8B81-4C2B-8D5E-FE82DEF0D9D1}</Project>
       <Name>AlarmWorkflow.Windows.UIContracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\UI.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Taskbar.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
