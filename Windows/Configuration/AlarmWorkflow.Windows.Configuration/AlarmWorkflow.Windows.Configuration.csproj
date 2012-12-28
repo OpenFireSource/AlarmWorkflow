@@ -37,7 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>settings_32.ico</ApplicationIcon>
+    <ApplicationIcon>Configuration.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">
@@ -203,13 +203,13 @@
     <Resource Include="Images\Info_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="settings_32.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AlarmWorkflow.Windows.ConfigurationContracts\AlarmWorkflow.Windows.ConfigurationContracts.csproj">
       <Project>{074FB127-C2E8-4B81-9579-EBB0D496659B}</Project>
       <Name>AlarmWorkflow.Windows.ConfigurationContracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Configuration.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

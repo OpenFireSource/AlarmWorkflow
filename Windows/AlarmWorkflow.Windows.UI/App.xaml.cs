@@ -143,7 +143,7 @@ namespace AlarmWorkflow.Windows.UI
 
             // Create taskbar icon
             _taskbarIcon = new TaskbarIcon();
-            _taskbarIcon.IconSource = new BitmapImage(this.GetPackUri("Images/FaxHS.ico"));
+            _taskbarIcon.IconSource = new BitmapImage(this.GetPackUri("Images/Taskbar.ico"));
             _taskbarIcon.ToolTipText = "AlarmWorkflowUI";
 
             _taskbarIcon.ContextMenu = new System.Windows.Controls.ContextMenu();
