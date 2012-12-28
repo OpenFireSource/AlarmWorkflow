@@ -10,7 +10,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// <summary>
     /// Defines an area within a fax. An area is the part which controls what text is mapped to which property in an Operation.
     /// </summary>
-    [DebuggerDisplay("AreaString = '{AreaString}' is mapped to property '{MapToPropertyName}'")]
+    [DebuggerDisplay("AreaString = '{AreaString}' is mapped to property '{MapToPropertyExpression}'")]
     [TypeConverter(typeof(ExpandableObjectConverter))]
     sealed class AreaDefinition
     {

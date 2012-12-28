@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using AlarmWorkflow.Shared.Core;
+using System.Collections.Generic;
 
 namespace AlarmWorkflow.Parser.GenericParser.Forms
 {
@@ -16,6 +17,48 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
         #region Constants
 
         private static readonly string[] DisallowedProperties = new[] { "CustomData", "IsAcknowledged", "Id", "Resources", "RouteImage" };
+        private static readonly string[] OperationProperties;
+
+        static MapToPropertyUITypeEditor()
+        {
+            List<string> propertiesTemp = new List<string>();
+            FillAllowedProperties(typeof(Operation), "", propertiesTemp);
+            propertiesTemp.Sort();
+
+            OperationProperties = propertiesTemp.ToArray();
+        }
+
+        private static void FillAllowedProperties(Type child, string hierarchySoFar, IList<string> propertiesBucket)
+        {
+            foreach (PropertyInfo property in child.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (DisallowedProperties.Contains(property.Name))
+                {
+                    continue;
+                }
+                if (!property.CanWrite)
+                {
+                    continue;
+                }
+
+                // If the property may be extensible (just assume that blindly if it is not in the System-namespace)
+                Type propertyType = property.PropertyType;
+                if (!propertyType.Namespace.StartsWith("System"))
+                {
+                    FillAllowedProperties(propertyType, hierarchySoFar + property.Name + ".", propertiesBucket);
+                }
+                else
+                {
+                    string name = property.Name;
+                    if (property.DeclaringType != null)
+                    {
+                        name = hierarchySoFar + name;
+                    }
+
+                    propertiesBucket.Add(name);
+                }
+            }
+        }
 
         #endregion
 
@@ -58,7 +101,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
         {
             InitializeComponent();
 
-            FillAllowedProperties(typeof(Operation), "");
+            lsbSuggestions.Items.AddRange(OperationProperties);
         }
 
         /// <summary>
@@ -77,38 +120,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
         #endregion
 
         #region Methods
-
-        private void FillAllowedProperties(Type child, string hierarchySoFar)
-        {
-            foreach (PropertyInfo property in child.GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (DisallowedProperties.Contains(property.Name))
-                {
-                    continue;
-                }
-                if (!property.CanWrite)
-                {
-                    continue;
-                }
-
-                // If the property may be extensible (just assume that blindly if it is not in the System-namespace)
-                Type propertyType = property.PropertyType;
-                if (!propertyType.Namespace.StartsWith("System"))
-                {
-                    FillAllowedProperties(propertyType, hierarchySoFar + property.Name + ".");
-                }
-                else
-                {
-                    string name = property.Name;
-                    if (property.DeclaringType != null)
-                    {
-                        name = hierarchySoFar + name;
-                    }
-
-                    lsbSuggestions.Items.Add(name);
-                }
-            }
-        }
 
         private void SelectValue(object value)
         {
@@ -139,6 +150,9 @@ namespace AlarmWorkflow.Parser.GenericParser.Forms
 
         private void lsbSuggestions_MouseDoubleClick(object sender, MouseEventArgs e)
         {
+            // Select chosen item
+            txtCustomDataProperty.Clear();
+
             _service.CloseDropDown();
         }
 
