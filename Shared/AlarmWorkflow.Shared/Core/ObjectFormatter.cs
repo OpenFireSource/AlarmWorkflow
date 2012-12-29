@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -10,17 +9,6 @@ namespace AlarmWorkflow.Shared.Core
     /// </summary>
     public static class ObjectFormatter
     {
-        #region Constants/Static
-
-        private static readonly Regex MacroRegex;
-
-        static ObjectFormatter()
-        {
-            MacroRegex = new Regex(@"{\w+\\.}");
-        }
-
-        #endregion
-
         #region Methods
 
         /// <summary>
@@ -59,7 +47,6 @@ namespace AlarmWorkflow.Shared.Core
 
         private static string[] GetMacros(string input)
         {
-            // Doing this using a Regex is probably better. If you know it, be my guest.
             List<string> list = new List<string>();
 
             string tmp = "";
