@@ -9,7 +9,7 @@
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis für analysierte Faxe." />
 
-    <Setting Name="OCR.Software" DisplayText="OCR-Software-Kennung" Category="OCR-Software" />
+    <Setting Name="OCR.Software" DisplayText="OCR-Software-Kennung" Category="OCR-Software" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.Extensibility.IOcrSoftware, AlarmWorkflow.AlarmSource.Fax" />
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Description="Wenn leer gelassen, wird das Standardverzeichnis genommen." Category="OCR-Software" Editor="DirectoryTypeEditor" />
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.IFaxParser, AlarmWorkflow.AlarmSource.Fax" />

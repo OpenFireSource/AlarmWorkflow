@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using AlarmWorkflow.AlarmSource.Fax.Extensibility;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -30,7 +31,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
 
-        private DirectoryInfo _ocrPath;
+        private IOcrSoftware _ocrSoftware;
         private IFaxParser _parser;
 
         #endregion
@@ -55,31 +56,27 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
 
-            string ocrPath = _configuration.OCRSoftwarePath;
-            if (string.IsNullOrWhiteSpace(_configuration.OCRSoftwarePath))
-            {
-                switch (_configuration.OCRSoftware)
-                {
-                    case OcrSoftware.Cuneiform:
-                        ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\cuneiform";
-                        break;
-                    case OcrSoftware.Tesseract:
-                        ocrPath = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location) + @"\tesseract";
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            _ocrPath = new DirectoryInfo(ocrPath);
-            if (!_ocrPath.Exists)
-            {
-                throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", _configuration.OCRSoftware, _ocrPath.FullName));
-            }
+            AssertCustomOcrPathExist();
+            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>(_configuration.OCRSoftware);
 
             // Import parser with the given name/alias
             _parser = ExportedTypeLibrary.Import<IFaxParser>(_configuration.AlarmFaxParserAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
+        }
+
+        private void AssertCustomOcrPathExist()
+        {
+            if (string.IsNullOrWhiteSpace(_configuration.OCRSoftwarePath))
+            {
+                return;
+            }
+
+            if (Directory.Exists(_configuration.OCRSoftwarePath))
+            {
+                return;
+            }
+
+            throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", _configuration.OCRSoftware, _configuration.OCRSoftwarePath));
         }
 
         /// <summary>
@@ -115,7 +112,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
         }
 
-        private void ProcessFile(FileInfo file)
+        private void ProcessNewImage(FileInfo file)
         {
             EnsureDirectoriesExist();
 
@@ -160,54 +157,44 @@ namespace AlarmWorkflow.AlarmSource.Fax
             List<string> splittedTiffFileNames = Utilities.GetMergedTifFileNames(archivedFilePath).ToList();
             foreach (string imageFile in splittedTiffFileNames)
             {
-                string intendedNewFileName = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(imageFile) + ".txt");
+                Stopwatch swParse = new Stopwatch();
 
-                // Host the configured OCR-software in a new process and run it
-                using (Process proc = new Process())
+                string[] parsedLines = null;
+                try
                 {
-                    proc.EnableRaisingEvents = false;
-                    proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.CreateNoWindow = true;
-                    proc.StartInfo.WorkingDirectory = _ocrPath.FullName;
+                    OcrProcessOptions options = new OcrProcessOptions();
+                    string intendedNewFileName = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(imageFile) + ".txt");
+                    options.AnalyzedFileDestinationPath = intendedNewFileName;
+                    options.SoftwarePath = _configuration.OCRSoftwarePath;
+                    options.ImagePath = imageFile;
 
-                    switch (_configuration.OCRSoftware)
-                    {
-                        case OcrSoftware.Tesseract:
-                            {
-                                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
-                                proc.StartInfo.Arguments = file.DirectoryName + "\\" + analyseFileName + ".bmp " + intendedNewFileName + " -l deu";
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, imageFile);
 
-                                // Correct txt path for tesseract (it will append .txt under windows always)
-                                intendedNewFileName += ".txt";
-                            }
-                            break;
-                        case OcrSoftware.Cuneiform:
-                        default:
-                            {
-                                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
-                                proc.StartInfo.Arguments = "-l ger --singlecolumn -o " + intendedNewFileName + " " + imageFile;
-                            }
-                            break;
-                    }
+                    swParse.Start();
 
-                    try
-                    {
-                        proc.Start();
-                        proc.WaitForExit();
-                    }
-                    catch (Exception ex)
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Error while the ocr Prozess: " + ex.ToString());
-                        return;
-                    }
+                    parsedLines = _ocrSoftware.ProcessImage(options);
 
-                    // After the file has been parsed, read it back in ...
-                    // ... fetch all lines ...
-                    foreach (string preParsedLine in File.ReadAllLines(intendedNewFileName))
-                    {
-                        // ... and add it to the list (
-                        analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
-                    }
+                    swParse.Stop();
+
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseEndSuccess, swParse.ElapsedMilliseconds);
+                }
+                catch (Exception ex)
+                {
+                    swParse.Stop();
+
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareParseEndFail);
+                    Logger.Instance.LogException(this, ex);
+                    // Abort parsing
+                    // TODO: Introduce own exception for this!
+                    return;
+                }
+
+                // After the file has been parsed, read it back in ...
+                // ... fetch all lines ...
+                foreach (string preParsedLine in parsedLines)
+                {
+                    // ... and add it to the list (
+                    analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
                 }
             }
 
@@ -302,7 +289,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                     foreach (FileInfo file in files)
                     {
-                        ProcessFile(file);
+                        ProcessNewImage(file);
                     }
 
                     Logger.Instance.LogFormat(LogType.Trace, this, "Processing finished.");

@@ -14,7 +14,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string FaxPath { get; private set; }
         internal string ArchivePath { get; private set; }
         internal string AnalysisPath { get; private set; }
-        internal OcrSoftware OCRSoftware { get; private set; }
+        internal string OCRSoftware { get; private set; }
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
@@ -35,8 +35,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.AnalysisPath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "AnalysisPath").GetString();
             this.AlarmFaxParserAlias = SettingsManager.Instance.GetSetting("FaxAlarmSource", "AlarmfaxParser").GetString();
 
-            string ocr = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Software").GetString();
-            this.OCRSoftware = (OcrSoftware)Enum.Parse(typeof(OcrSoftware), ocr);
+            this.OCRSoftware = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Software").GetString();
             this.OCRSoftwarePath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Path").GetString();
 
             this.RoutineInterval = SettingsManager.Instance.GetSetting("FaxAlarmSource", "Routine.Interval").GetInt32();
