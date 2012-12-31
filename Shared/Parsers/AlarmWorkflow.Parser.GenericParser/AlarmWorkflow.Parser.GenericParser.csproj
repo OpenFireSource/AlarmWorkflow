@@ -12,6 +12,7 @@
     <AssemblyName>AlarmWorkflow.Parser.GenericParser</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,7 +34,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>AlarmWorkflow.Parser.GenericParser.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">
@@ -45,14 +46,40 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="..\..\..\Windows\AlarmWorkflow.Windows.UIContracts\ViewModels\CommandHelper.cs">
+      <Link>ViewModels\CommandHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Windows\AlarmWorkflow.Windows.UIContracts\ViewModels\RelayCommand.cs">
+      <Link>ViewModels\RelayCommand.cs</Link>
+    </Compile>
+    <Compile Include="..\..\..\Windows\AlarmWorkflow.Windows.UIContracts\ViewModels\ViewModelBase.cs">
+      <Link>ViewModels\ViewModelBase.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Misc\Configuration.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <None Include="Controlfile.xml">
       <SubType>Designer</SubType>
     </None>
@@ -91,7 +118,6 @@
     <Compile Include="Parsing\PropertyLocationSectionParser.cs" />
     <Compile Include="Parsing\OptionAttribute.cs" />
     <Compile Include="Parsing\ResourcesSectionParser.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -132,6 +158,13 @@
   <ItemGroup>
     <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Controlfile.xml" "$(ProjectDir)..\..\..\Build\Config\*" /Y
