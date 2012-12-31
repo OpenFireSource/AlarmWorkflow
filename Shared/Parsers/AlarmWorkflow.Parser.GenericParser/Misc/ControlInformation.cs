@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
@@ -8,15 +7,12 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// <summary>
     /// Represents the control information used to analyze a fax.
     /// </summary>
-    sealed class ControlInformation
+    public sealed class ControlInformation
     {
         #region Properties
 
-        [DisplayName("Fax-Name")]
         public string FaxName { get; set; }
-        [DisplayName("Schlüsselwörter")]
         public List<string> Keywords { get; set; }
-        [Browsable(false)]
         public List<SectionDefinition> Sections { get; set; }
 
         #endregion

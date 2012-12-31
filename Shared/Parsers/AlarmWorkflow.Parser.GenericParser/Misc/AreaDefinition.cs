@@ -1,8 +1,5 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing.Design;
+﻿using System.Diagnostics;
 using System.Xml.Linq;
-using AlarmWorkflow.Parser.GenericParser.Forms;
 using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
@@ -11,31 +8,22 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// Defines an area within a fax. An area is the part which controls what text is mapped to which property in an Operation.
     /// </summary>
     [DebuggerDisplay("AreaString = '{AreaString}' is mapped to property '{MapToPropertyExpression}'")]
-    [TypeConverter(typeof(ExpandableObjectConverter))]
-    sealed class AreaDefinition
+    public sealed class AreaDefinition
     {
         #region Properties
 
         /// <summary>
         /// Gets/sets the string that denotes this area.
         /// </summary>
-        [DisplayName("Bereichsname")]
-        [Description("Der Text, der in der Zeile enthalten sein muss, damit der Bereich erkannt wird (z. B. 'Name', 'Straße' etc.).")]
         public GenericParserString AreaString { get; set; }
         /// <summary>
         /// Gets/sets the separator-string which separates the prefix with the actual value.
         /// This is usually a colon ( : ).
         /// </summary>
-        [DisplayName("Trennzeichen")]
-        [Description("Das Zeichen, dass den Bereich vom eigentlichen Wert trennt (üblicherweise ein Doppelpunkt).")]
-        [DefaultValue(":")]
         public string Separator { get; set; }
         /// <summary>
         /// Gets/sets the name of the property in Operation where this area is mapped to.
         /// </summary>
-        [DisplayName("Zugewiesene Eigenschaft")]
-        [Description("Der Name der Eigenschaft, zu der dieser Bereich zugeordnet ist.")]
-        [Editor(typeof(MapToPropertyUITypeEditorImpl),typeof(UITypeEditor))]
         public string MapToPropertyExpression { get; set; }
 
         #endregion

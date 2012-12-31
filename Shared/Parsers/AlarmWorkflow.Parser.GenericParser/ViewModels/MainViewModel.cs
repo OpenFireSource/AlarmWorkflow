@@ -1,10 +1,36 @@
 ﻿using System.Windows.Input;
+using AlarmWorkflow.Parser.GenericParser.Misc;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 {
     class MainViewModel : ViewModelBase
     {
+        #region Fields
+
+        private ControlInformation _controlInformation;
+
+        #endregion
+
+        #region Properties
+
+        public string Keywords { get; set; }
+
+        public ControlInformation ControlInformation
+        {
+            get { return _controlInformation; }
+            set
+            {
+                _controlInformation = value;
+                OnPropertyChanged("ControlInformation");
+            }
+        }
+
+        #endregion
+
         #region Commands
 
         #region Command "OpenControlFileCommand"
@@ -16,7 +42,13 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         private void OpenControlFileCommand_Execute(object parameter)
         {
-
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = Properties.Resources.Controlfile_FilterText;
+            dialog.InitialDirectory = Utilities.GetWorkingDirectory();
+            if (dialog.ShowDialog() == true)
+            {
+                ControlInformation = ControlInformation.Load(dialog.FileName);
+            }
         }
 
         #endregion
@@ -48,6 +80,18 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         }
 
         #endregion
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
+        /// </summary>
+        public MainViewModel()
+        {
+
+        }
 
         #endregion
     }

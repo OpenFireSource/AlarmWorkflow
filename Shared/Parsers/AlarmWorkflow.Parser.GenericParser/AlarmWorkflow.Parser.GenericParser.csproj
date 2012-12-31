@@ -77,6 +77,9 @@
     </Compile>
     <Compile Include="Misc\Configuration.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="Views\EditControl.xaml.cs">
+      <DependentUpon>EditControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -147,18 +150,22 @@
     <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\112_Minus_Orange_16x16_72.png" />
+    <Resource Include="Resources\112_Minus_Orange_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\112_Plus_Green_16x16_72.png" />
+    <Resource Include="Resources\112_Plus_Green_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\112_DownArrowShort_Blue_16x16_72.png" />
+    <Resource Include="Resources\112_DownArrowShort_Blue_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
+    <Resource Include="Resources\112_UpArrowLong_Blue_16x16_72.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\EditControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

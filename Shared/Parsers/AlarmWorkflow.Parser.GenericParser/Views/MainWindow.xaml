@@ -13,19 +13,7 @@
             </MenuItem>
         </Menu>
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            
-            <Grid Grid.Column="0"></Grid>
-            
-            
-        </Grid>
+        <views:EditControl />
+
     </DockPanel>
 </Window>

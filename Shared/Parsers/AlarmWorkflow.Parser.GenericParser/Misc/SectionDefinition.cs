@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
@@ -10,14 +9,11 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// Represents one logical section of a fax, which contains multiple areas.
     /// </summary>
     [DebuggerDisplay("SectionString = '{SectionString}'")]
-    sealed class SectionDefinition
+    public sealed class SectionDefinition
     {
         #region Properties
 
-        [DisplayName("Schlüsselwort")]
-        [Description("Das Wort, durch das der Abschnitt eingeleitet wird.")]
         public GenericParserString SectionString { get; set; }
-        [Browsable(false)]
         public List<AreaDefinition> Areas { get; set; }
 
         #endregion
