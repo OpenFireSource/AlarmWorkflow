@@ -14,6 +14,8 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
 
         [DisplayName("Fax-Name")]
         public string FaxName { get; set; }
+        [DisplayName("Schlüsselwörter")]
+        public List<string> Keywords { get; set; }
         [Browsable(false)]
         public List<SectionDefinition> Sections { get; set; }
 
@@ -26,6 +28,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         /// </summary>
         public ControlInformation()
         {
+            Keywords = new List<string>();
             Sections = new List<SectionDefinition>();
         }
 
