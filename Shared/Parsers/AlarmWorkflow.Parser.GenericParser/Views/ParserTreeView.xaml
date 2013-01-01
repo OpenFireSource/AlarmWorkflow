@@ -12,27 +12,33 @@
         <TreeView.Resources>
             <!-- Section VM -->
             <HierarchicalDataTemplate DataType="{x:Type vm:SectionDefinitionViewModel}" ItemsSource="{Binding Areas}">
-                <TextBlock Text="{Binding Name}">
-                                <TextBlock.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Add area" Command="{Binding AddAreaCommand}" />
-                                        <Separator />
-                                        <MenuItem Header="Remove" Command="{Binding RemoveSectionCommand}" />
-                                    </ContextMenu>
-                                </TextBlock.ContextMenu>
-                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add area" Command="{Binding AddAreaCommand}" />
+                            <Separator />
+                            <MenuItem Header="Remove" Command="{Binding RemoveSectionCommand}" />
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+
+                    <Image Source="../Resources/Section.png" Height="16" Width="16" />
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
             </HierarchicalDataTemplate>
 
             <!-- Area VM-->
             <HierarchicalDataTemplate DataType="{x:Type vm:AreaDefinitionViewModel}">
-                <TextBlock Text="{Binding Name}">
-                                <TextBlock.ContextMenu>
-                                    <ContextMenu>
-                                        <Separator />
-                                        <MenuItem Header="Remove" Command="{Binding RemoveAreaCommand}" />
-                                    </ContextMenu>
-                                </TextBlock.ContextMenu>
-                </TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <Separator />
+                            <MenuItem Header="Remove" Command="{Binding RemoveAreaCommand}" />
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+
+                    <Image Source="../Resources/Area.png" Height="16" Width="16" />
+                    <TextBlock Text="{Binding Name}" />
+                </StackPanel>
             </HierarchicalDataTemplate>
         </TreeView.Resources>
     </TreeView>

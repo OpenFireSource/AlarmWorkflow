@@ -188,7 +188,12 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Section.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Area.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Controlfile.xml" "$(ProjectDir)..\..\..\Build\Config\*" /Y
