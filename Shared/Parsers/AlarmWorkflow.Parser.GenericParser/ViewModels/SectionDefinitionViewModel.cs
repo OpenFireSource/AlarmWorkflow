@@ -35,6 +35,10 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         /// Gets/sets the collection of children areas.
         /// </summary>
         public ObservableCollection<AreaDefinitionViewModel> Areas { get; set; }
+        /// <summary>
+        /// Gets/sets the collection of section parsing aspects.
+        /// </summary>
+        public ObservableCollection<SectionParserDefinitionViewModel> Aspects { get; set; }
 
         #endregion
 
@@ -79,7 +83,9 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         private SectionDefinitionViewModel()
         {
             Name = Properties.Resources.SectionBlankName;
+
             Areas = new ObservableCollection<AreaDefinitionViewModel>();
+            Aspects = new ObservableCollection<SectionParserDefinitionViewModel>();
         }
 
         /// <summary>

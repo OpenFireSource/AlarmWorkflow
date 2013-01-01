@@ -76,10 +76,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\Configuration.cs" />
+    <Compile Include="Parsing\SectionParserCache.cs" />
     <Compile Include="ViewModels\AreaDefinitionViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ParserDefinitionViewModel.cs" />
     <Compile Include="ViewModels\SectionDefinitionViewModel.cs" />
+    <Compile Include="ViewModels\SectionParserDefinitionViewModel.cs" />
     <Compile Include="Views\EditControl.xaml.cs">
       <DependentUpon>EditControl.xaml</DependentUpon>
     </Compile>
@@ -193,6 +195,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Area.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\SectionParser.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
