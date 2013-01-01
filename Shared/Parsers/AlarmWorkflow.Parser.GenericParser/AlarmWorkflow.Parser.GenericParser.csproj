@@ -97,30 +97,10 @@
     <None Include="Controlfile.xml">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Forms\GenericParserStringUITypeEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\GenericParserStringUITypeEditor.Designer.cs">
-      <DependentUpon>GenericParserStringUITypeEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\MapToPropertyUITypeEditor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Forms\MapToPropertyUITypeEditor.Designer.cs">
-      <DependentUpon>MapToPropertyUITypeEditor.cs</DependentUpon>
-    </Compile>
     <Compile Include="GenericParser.cs" />
     <Compile Include="Misc\AreaDefinition.cs" />
     <Compile Include="Misc\AreaLineInformation.cs" />
     <Compile Include="Misc\ControlInformation.cs" />
-    <Compile Include="Forms\FaxHierarchyTreeNode.cs" />
-    <Compile Include="Forms\FaxHierarchyTreeNodeType.cs" />
     <Compile Include="Misc\GenericParserString.cs" />
     <Compile Include="Misc\Helpers.cs" />
     <Compile Include="Misc\SectionDefinition.cs" />
@@ -140,15 +120,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Forms\GenericParserStringUITypeEditor.resx">
-      <DependentUpon>GenericParserStringUITypeEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MapToPropertyUITypeEditor.resx">
-      <DependentUpon>MapToPropertyUITypeEditor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
