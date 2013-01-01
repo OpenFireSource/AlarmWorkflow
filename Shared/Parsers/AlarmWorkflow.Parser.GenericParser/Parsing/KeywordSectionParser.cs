@@ -41,6 +41,25 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
 
         #region ISectionParser Members
 
+        System.Collections.Generic.IEnumerable<string> ISectionParser.GetTokens()
+        {
+            yield return KeywordKeyword;
+            yield return KeywordB;
+            yield return KeywordR;
+            yield return KeywordS;
+            yield return KeywordT;
+        }
+
+        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        {
+            throw new System.NotImplementedException();
+        }
+
         void ISectionParser.OnEnterSection(Operation operation)
         {
 

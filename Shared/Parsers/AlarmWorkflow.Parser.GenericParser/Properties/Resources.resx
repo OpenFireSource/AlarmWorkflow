@@ -142,4 +142,7 @@
   <data name="ParserDefinitionBlankName" xml:space="preserve">
     <value>Unbenannter Parser</value>
   </data>
+  <data name="NoDescriptionAvailableText" xml:space="preserve">
+    <value>(Keine Beschreibung verfügbar)</value>
+  </data>
 </root>

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing.Design;
-using AlarmWorkflow.Parser.GenericParser.Forms;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
 {

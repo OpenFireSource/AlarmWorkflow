@@ -10,6 +10,21 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     {
         #region ISectionParser Members
 
+        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        {
+
+        }
+
+        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        {
+
+        }
+
+        System.Collections.Generic.IEnumerable<string> ISectionParser.GetTokens()
+        {
+            yield break;
+        }
+
         void ISectionParser.OnEnterSection(Operation operation)
         {
 

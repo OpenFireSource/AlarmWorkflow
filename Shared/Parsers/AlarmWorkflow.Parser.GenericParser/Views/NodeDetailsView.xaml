@@ -60,10 +60,13 @@
                                     <DataTemplate>
                                         <StackPanel>
                                             <TextBlock FontWeight="Bold" Margin="2">
-                                            <Run Text="{Binding DisplayName, Mode=OneTime}" />
-                                            <Run Text=":" />
+                                                <TextBlock.ToolTip>
+                                                    <TextBlock Text="{Binding Description}" />
+                                                </TextBlock.ToolTip>
+                                                <Run Text="{Binding DisplayName, Mode=OneTime}" />
+                                                <Run Text=":" />
                                             </TextBlock>
-                                            <TextBox Text="{Binding Value}" />
+                                            <TextBox Margin="2" Text="{Binding Value}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

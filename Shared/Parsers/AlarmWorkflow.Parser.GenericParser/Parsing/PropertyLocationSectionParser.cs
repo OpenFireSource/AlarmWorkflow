@@ -86,6 +86,25 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
 
         #region ISectionParser Members
 
+        System.Collections.Generic.IEnumerable<string> ISectionParser.GetTokens()
+        {
+            yield return KeywordStreet;
+            yield return KeywordStreetNumber;
+            yield return KeywordCity;
+            yield return KeywordIntersection;
+            yield return KeywordProperty;
+        }
+
+        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        {
+            throw new System.NotImplementedException();
+        }
+
         void ISectionParser.OnEnterSection(Operation operation)
         {
         }

@@ -43,15 +43,11 @@
 
                 <!-- Tree view -->
                 <views:ParserTreeView Grid.Column="0" Margin="2" />
+                <GridSplitter Grid.Column="0" Width="2" />
                 
                 <!-- Details view of selected node -->
-                <views:NodeDetailsView Grid.Column="1" Margin="2" />
+                <views:NodeDetailsView Grid.Column="2" Margin="2" />
             </Grid>
-        </TabItem>
-
-        <!-- Keywords -->
-        <TabItem Header="Keywords">
-            <TextBox AcceptsReturn="True" AcceptsTab="False" Text="{Binding Keywords}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
         </TabItem>
     </TabControl>
 </UserControl>

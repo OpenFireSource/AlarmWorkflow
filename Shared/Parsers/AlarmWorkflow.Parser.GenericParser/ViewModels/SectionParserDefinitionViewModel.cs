@@ -111,6 +111,18 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
                     return Property.Name;
                 }
             }
+
+            public string Description
+            {
+                get
+                {
+                    if (!string.IsNullOrWhiteSpace(Attribute.Description))
+                    {
+                        return Attribute.Description;
+                    }
+                    return Properties.Resources.NoDescriptionAvailableText;
+                }
+            }
         }
 
         #endregion

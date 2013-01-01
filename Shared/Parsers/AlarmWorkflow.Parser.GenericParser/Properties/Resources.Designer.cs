@@ -93,6 +93,15 @@ namespace AlarmWorkflow.Parser.GenericParser.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (Keine Beschreibung verfügbar).
+        /// </summary>
+        internal static string NoDescriptionAvailableText {
+            get {
+                return ResourceManager.GetString("NoDescriptionAvailableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unbenannter Parser.
         /// </summary>
         internal static string ParserDefinitionBlankName {
