@@ -10,7 +10,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Views
     {
         #region Fields
 
-        private MainViewModel _viewModel;
+        private MainWindowViewModel _viewModel;
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Views
         {
             InitializeComponent();
 
-            _viewModel = new MainViewModel();
+            _viewModel = new MainWindowViewModel();
             this.DataContext = _viewModel;
         }
 

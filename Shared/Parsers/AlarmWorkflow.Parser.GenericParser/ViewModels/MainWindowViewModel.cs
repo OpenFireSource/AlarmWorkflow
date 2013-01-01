@@ -1,33 +1,17 @@
 ﻿using System.Windows.Input;
-using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 using Microsoft.Win32;
-using System.Collections.ObjectModel;
 
 namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 {
-    class MainViewModel : ViewModelBase
+    class MainWindowViewModel : ViewModelBase
     {
         #region Fields
-
-        private ControlInformation _controlInformation;
 
         #endregion
 
         #region Properties
-
-        public string Keywords { get; set; }
-
-        public ControlInformation ControlInformation
-        {
-            get { return _controlInformation; }
-            set
-            {
-                _controlInformation = value;
-                OnPropertyChanged("ControlInformation");
-            }
-        }
 
         #endregion
 
@@ -47,7 +31,7 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
             dialog.InitialDirectory = Utilities.GetWorkingDirectory();
             if (dialog.ShowDialog() == true)
             {
-                ControlInformation = ControlInformation.Load(dialog.FileName);
+
             }
         }
 
@@ -86,9 +70,9 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-        public MainViewModel()
+        public MainWindowViewModel()
         {
 
         }

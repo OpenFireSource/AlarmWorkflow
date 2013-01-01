@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Parser.GenericParser.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unbenannter Bereich.
+        /// </summary>
+        internal static string AreaBlankName {
+            get {
+                return ResourceManager.GetString("AreaBlankName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Steuerungsdateien (*.xml)|*.xml.
         /// </summary>
         internal static string Controlfile_FilterText {
@@ -83,10 +92,28 @@ namespace AlarmWorkflow.Parser.GenericParser.Properties {
             }
         }
         
+        /// <summary>
+        ///   Looks up a localized string similar to Unbenannter Parser.
+        /// </summary>
+        internal static string ParserDefinitionBlankName {
+            get {
+                return ResourceManager.GetString("ParserDefinitionBlankName", resourceCulture);
+            }
+        }
+        
         internal static System.Drawing.Bitmap Plus {
             get {
                 object obj = ResourceManager.GetObject("Plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unbenannter Abschnitt.
+        /// </summary>
+        internal static string SectionBlankName {
+            get {
+                return ResourceManager.GetString("SectionBlankName", resourceCulture);
             }
         }
         

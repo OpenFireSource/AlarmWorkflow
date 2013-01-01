@@ -76,12 +76,21 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\Configuration.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\AreaDefinitionViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\ParserDefinitionViewModel.cs" />
+    <Compile Include="ViewModels\SectionDefinitionViewModel.cs" />
     <Compile Include="Views\EditControl.xaml.cs">
       <DependentUpon>EditControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NodeDetailsView.xaml.cs">
+      <DependentUpon>NodeDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ParserTreeView.xaml.cs">
+      <DependentUpon>ParserTreeView.xaml</DependentUpon>
     </Compile>
     <None Include="Controlfile.xml">
       <SubType>Designer</SubType>
@@ -167,6 +176,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NodeDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ParserTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

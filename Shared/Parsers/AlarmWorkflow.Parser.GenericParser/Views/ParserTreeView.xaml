@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="AlarmWorkflow.Parser.GenericParser.Views.ParserTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:AlarmWorkflow.Parser.GenericParser.ViewModels">
+    <TreeView ItemsSource="{Binding Sections}" SelectedItemChanged="TreeView_SelectedItemChanged">
+        <TreeView.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="Add section" Command="{Binding AddSectionCommand}" />
+            </ContextMenu>
+        </TreeView.ContextMenu>
+
+        <TreeView.Resources>
+            <!-- Section VM -->
+            <HierarchicalDataTemplate DataType="{x:Type vm:SectionDefinitionViewModel}" ItemsSource="{Binding Areas}">
+                <TextBlock Text="{Binding Name}">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Add area" Command="{Binding AddAreaCommand}" />
+                                        <Separator />
+                                        <MenuItem Header="Remove" Command="{Binding RemoveSectionCommand}" />
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                </TextBlock>
+            </HierarchicalDataTemplate>
+
+            <!-- Area VM-->
+            <HierarchicalDataTemplate DataType="{x:Type vm:AreaDefinitionViewModel}">
+                <TextBlock Text="{Binding Name}">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <Separator />
+                                        <MenuItem Header="Remove" Command="{Binding RemoveAreaCommand}" />
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                </TextBlock>
+            </HierarchicalDataTemplate>
+        </TreeView.Resources>
+    </TreeView>
+</UserControl>
