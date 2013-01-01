@@ -13,6 +13,7 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         private SectionDefinitionViewModel _parent;
         private string _name;
+        private string _mapToPropertyExpression;
 
         #endregion
 
@@ -28,6 +29,19 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
             {
                 _name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        /// <summary>
+        /// Gets/sets the expression of the property to set.
+        /// </summary>
+        public string MapToPropertyExpression
+        {
+            get { return _mapToPropertyExpression; }
+            set
+            {
+                _mapToPropertyExpression = value;
+                OnPropertyChanged("MapToPropertyExpression");
             }
         }
 

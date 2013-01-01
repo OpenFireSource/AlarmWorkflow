@@ -76,6 +76,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Misc\Configuration.cs" />
+    <Compile Include="Misc\OperationPropertyHelper.cs" />
     <Compile Include="Parsing\SectionParserCache.cs" />
     <Compile Include="ViewModels\AreaDefinitionViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />

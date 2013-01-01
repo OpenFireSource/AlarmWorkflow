@@ -37,7 +37,13 @@
                     </StackPanel.ContextMenu>
 
                     <Image Source="../Resources/Area.png" Height="16" Width="16" />
-                    <TextBlock Text="{Binding Name}" />
+                    <TextBlock>
+                        <Run Text="'" />
+                        <Run Text="{Binding Name}" FontWeight="Bold" />
+                        <Run Text="' -> '" />
+                        <Run Text="{Binding MapToPropertyExpression}" />
+                        <Run Text="'" />
+                    </TextBlock>
                 </StackPanel>
             </HierarchicalDataTemplate>
         </TreeView.Resources>
