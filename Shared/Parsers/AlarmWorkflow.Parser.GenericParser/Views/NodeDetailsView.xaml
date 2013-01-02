@@ -96,7 +96,7 @@
                     
                     <!-- Map to Property Expression -->
                     <Label Grid.Column="0" Grid.Row="1" Margin="2" Content="Assign to Property:" FontWeight="Bold" />
-                    <ComboBox Grid.Column="1" Grid.Row="1" Margin="2" IsEditable="True" ItemsSource="{x:Static misc:OperationPropertyHelper.PropertyNames}" SelectedValue="{Binding MapToPropertyExpression}" />
+                    <ComboBox Grid.Column="1" Grid.Row="1" Margin="2" IsEditable="True" ItemsSource="{x:Static misc:OperationPropertyHelper.PropertyNames}" Text="{Binding MapToPropertyExpression}" />
                 </Grid>
             </DataTemplate>
 
