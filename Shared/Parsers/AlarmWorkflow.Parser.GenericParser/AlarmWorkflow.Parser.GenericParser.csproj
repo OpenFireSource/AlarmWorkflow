@@ -78,6 +78,7 @@
     <Compile Include="Control\SectionParserDefinition.cs" />
     <Compile Include="Misc\Configuration.cs" />
     <Compile Include="Misc\OperationPropertyHelper.cs" />
+    <Compile Include="Parsing\ParserInstance.cs" />
     <Compile Include="Parsing\SectionParserCache.cs" />
     <Compile Include="ViewModels\AreaDefinitionViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -101,7 +102,6 @@
     </None>
     <Compile Include="GenericParser.cs" />
     <Compile Include="Control\AreaDefinition.cs" />
-    <Compile Include="Misc\AreaLineInformation.cs" />
     <Compile Include="Control\ControlInformation.cs" />
     <Compile Include="Misc\GenericParserString.cs" />
     <Compile Include="Misc\Helpers.cs" />

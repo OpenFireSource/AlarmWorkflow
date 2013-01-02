@@ -15,7 +15,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
         /// Gets/sets the location-object that is affected by this parser.
         /// </summary>
         [Option("Zugewiesener Ort")]
-        public PropertyLocationTarget AffectedLocation { get; set; }
+        public string AffectedLocation { get; set; }
         /// <summary>
         /// Gets/sets the keyword that designates the "Street" parameter.
         /// </summary>
@@ -51,8 +51,9 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
         /// </summary>
         public PropertyLocationSectionParser()
         {
+            AffectedLocation = "Einsatzort";
             KeywordStreet = "Straße";
-            KeywordStreetNumber = "Haus-Nr";
+            KeywordStreetNumber = "Haus-Nr.";
             KeywordCity = "Ort";
             KeywordIntersection = "Kreuzung";
             KeywordProperty = "Objekt";
@@ -97,11 +98,17 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
 
         void ISectionParser.OnLoad(System.Collections.Generic.IDictionary<string, string> parameters)
         {
-            throw new System.NotImplementedException();
+            AffectedLocation = parameters.SafeGetValue("AffectedLocation", AffectedLocation);
+            KeywordStreet = parameters.SafeGetValue("KeywordStreet", KeywordStreet);
+            KeywordStreetNumber = parameters.SafeGetValue("KeywordStreetNumber", KeywordStreetNumber);
+            KeywordCity = parameters.SafeGetValue("KeywordCity", KeywordCity);
+            KeywordIntersection = parameters.SafeGetValue("KeywordIntersection", KeywordIntersection);
+            KeywordProperty = parameters.SafeGetValue("KeywordProperty", KeywordProperty);
         }
 
         void ISectionParser.OnSave(System.Collections.Generic.IDictionary<string, string> parameters)
         {
+            parameters.Add("AffectedLocation", AffectedLocation);
             parameters.Add("KeywordStreet", KeywordStreet);
             parameters.Add("KeywordStreetNumber", KeywordStreetNumber);
             parameters.Add("KeywordCity", KeywordCity);
@@ -123,30 +130,19 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
             PropertyLocation location = null;
             switch (AffectedLocation)
             {
-                case PropertyLocationTarget.Einsatzort:
-                    location = operation.Einsatzort;
-                    break;
-                case PropertyLocationTarget.Zielort:
+                case "Zielort":
                     location = operation.Zielort;
                     break;
                 default:
+                case "Einsatzort":
+                    location = operation.Einsatzort;
                     break;
             }
 
             string msg = token.Value;
             if (token.Identifier == KeywordStreet)
             {
-                // The street here is mangled together with the street number. Dissect them...
-                int streetNumberColonIndex = msg.LastIndexOf(':');
-                if (streetNumberColonIndex != -1)
-                {
-                    // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                    string streetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                    location.StreetNumber = streetNumber;
-                }
-
-                location.Street = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
-
+                location.Street = msg;
             }
             else if (token.Identifier == KeywordStreetNumber)
             {
@@ -179,22 +175,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
             {
                 location.Property = msg;
             }
-            //case "PLANNUMMER":
-            //    operation.CustomData["Einsatzort Plannummer"] = msg;
-            //    break;
-            //case "STATION":
-            //    operation.CustomData["Einsatzort Station"] = msg;
-            //    break;
-        }
-
-        #endregion
-
-        #region Nested types
-
-        public enum PropertyLocationTarget
-        {
-            Einsatzort,
-            Zielort,
         }
 
         #endregion

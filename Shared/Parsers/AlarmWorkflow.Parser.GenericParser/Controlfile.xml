@@ -1,50 +1,33 @@
-﻿<ControlInformation Name="ILS Ansbach Fax">
-  
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ControlInformation Name="ILS Ansbach Fax">
   <Section Text="Alarmfax">
-    <Area Text="Einsatznummer" MapTo="OperationNumber" />
+    <Area Text="Einsatznummer" MapTo="OperationNumber" Separator=":" />
+    <Area Text="Absender" MapTo="Absender" Separator=":" />
+    <Area Text="Termin" MapTo="Termin" Separator=":" />
+    <Area Text="Fax" MapTo="Fax" Separator=":" />
   </Section>
-
   <Section Text="Mitteiler">
-    <Area Text="Name" MapTo="Messenger" />
+    <Area Text="Name" MapTo="Messenger" Separator=":" />
   </Section>
-
   <Section Text="Einsatzort">
-    <!-- Hinweis: Faxe der ILS Ansbach haben eine zweite Spalte "Haus-Nr.". Hier nicht berücksichtigt! -->
-    <Area Text="Straße" MapTo="Einsatzort.Street" />
-    <!-- Hinweis: Die PLZ ist enthalten.  -->
-    <Area Text="Ort" MapTo="Einsatzort.City" />
-    <Area Text="Objekt" MapTo="Einsatzort.Property" />
-    <Area Text="Station" MapTo="Einsatzort Station" />
+    <Aspect Type="PropertyLocationSectionParser" AffectedLocation="Einsatzort" KeywordStreet="Straße" KeywordStreetNumber="Haus-Nr." KeywordCity="Ort" KeywordIntersection="Kreuzung" KeywordProperty="Objekt" />
+    <Area Text="Plannummer" MapTo="Einsatzort Plannummer" Separator=":" />
+    <Area Text="Station" MapTo="Einsatzort Station" Separator=":" />
   </Section>
-
   <Section Text="Zielort">
-    <Area Text="Straße" MapTo="Zielort.Street" />
-    <Area Text="Ort" MapTo="Zielort.City" />
-    <Area Text="Objekt" MapTo="Zielort.Property" />
-    <Area Text="Station" MapTo="Zielort Station" />
+    <Aspect Type="PropertyLocationSectionParser" AffectedLocation="Zielort" KeywordStreet="Straße" KeywordStreetNumber="Haus-Nr." KeywordCity="Ort" KeywordIntersection="Kreuzung" KeywordProperty="Objekt" />
+    <Area Text="Plannummer" MapTo="Zielort Plannummer" Separator=":" />
+    <Area Text="Station" MapTo="Zielort Station" Separator=":" />
   </Section>
-
   <Section Text="Einsatzgrund">
-    <Area Text="Schlagw" MapTo="Keywords.Keyword" />
-    <Area Text="Stichwort B" MapTo="Keywords.B" />
-    <Area Text="Stichwort R" MapTo="Keywords.R" />
-    <Area Text="Stichwort S" MapTo="Keywords.S" />
-    <Area Text="Stichwort T" MapTo="Keywords.T" />
-    <Area Text="Prio" MapTo="Priority" />
+    <Aspect Type="KeywordSectionParser" KeywordKeyword="Schlagw." KeywordB="Stichwort B" KeywordR="Stichwort R" KeywordS="Stichwort S" KeywordT="Stichwort T" />
+    <Area Text="Prio." MapTo="Priority" Separator=":" />
   </Section>
-
   <Section Text="Einsatzmittel">
-    <!-- "Einsatzmittel" ist ein Abschnitt dynamischer Größe, derzeit nicht auswertbar im
-          Universalparser. Kommt mit einem zukünftigen Update! -->
+    <Aspect Type="ResourcesSectionParser" />
   </Section>
-
   <Section Text="Bemerkung">
-    <!-- "Bemerkung" ist ein Abschnitt dynamischer Größe, derzeit nicht auswertbar im
-          Universalparser. Kommt mit einem zukünftigen Update! -->
+    <Aspect Type="CommentSectionParser" />
   </Section>
-
-  <Section Text="Ende fax">
-    <!-- Dieser Abschnitt wird ignoriert. -->
-  </Section>
-  
+  <Section Text="Ende fax" />
 </ControlInformation>

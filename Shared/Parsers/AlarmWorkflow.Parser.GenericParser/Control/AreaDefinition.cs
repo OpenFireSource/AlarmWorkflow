@@ -20,6 +20,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Control
         /// <summary>
         /// Gets/sets the separator-string which separates the prefix with the actual value.
         /// This is usually a colon ( : ).
+        /// This property is reserved for future use.
         /// </summary>
         public string Separator { get; set; }
         /// <summary>
