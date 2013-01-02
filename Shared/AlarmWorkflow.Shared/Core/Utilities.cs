@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Linq;
+using System.Resources;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -431,6 +432,24 @@ namespace AlarmWorkflow.Shared.Core
                 return value;
             }
             return defaultValue;
+        }
+
+        /// <summary>
+        /// Retrieves the resource string of a resource specified in the assembly's main resources.
+        /// </summary>
+        /// <param name="sourceType">The type of which to infer the assembly's resources from.</param>
+        /// <param name="resourceName">The resource name to retrieve the string resource.</param>
+        /// <returns>The resource specified by the given name.
+        /// -or- null, if no resource with such name was found.</returns>
+        public static string GetResourceString(this Type sourceType, string resourceName)
+        {
+            Assertions.AssertNotNull(sourceType, "sourceType");
+            Assertions.AssertNotEmpty(resourceName, "resourceName");
+
+            string resmantype = sourceType.Assembly.GetName().Name + ".Properties.Resources";
+
+            ResourceManager resman = new ResourceManager(resmantype, sourceType.Assembly);
+            return resman.GetString(resourceName);
         }
 
     }
