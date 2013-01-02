@@ -28,7 +28,19 @@ namespace AlarmWorkflow.Parser.GenericParser.Views
         {
             InitializeComponent();
 
-            _viewModel = new ParserDefinitionViewModel();
+            this.Loaded += EditControl_Loaded;
+        }
+
+        #endregion
+
+        #region Event handlers
+
+        private void EditControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // TODO: Use ServiceProvider etc. instead of Load-event.
+            this.Loaded -= EditControl_Loaded;
+
+            _viewModel = ((MainWindowViewModel)this.DataContext).ParserDefinition;
             this.DataContext = _viewModel;
         }
 

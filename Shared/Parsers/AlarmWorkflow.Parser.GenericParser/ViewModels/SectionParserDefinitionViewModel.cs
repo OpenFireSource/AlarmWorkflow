@@ -29,6 +29,14 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         /// </summary>
         public List<OptionViewModel> Options { get; private set; }
 
+        /// <summary>
+        /// Gets the underlying parser instance.
+        /// </summary>
+        public ISectionParser Parser
+        {
+            get { return _parser; }
+        }
+
         #endregion
 
         #region Commands

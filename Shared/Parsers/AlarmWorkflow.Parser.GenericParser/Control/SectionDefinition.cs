@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Linq;
+using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Parser.GenericParser.Misc
+namespace AlarmWorkflow.Parser.GenericParser.Control
 {
     /// <summary>
     /// Represents one logical section of a fax, which contains multiple areas.
@@ -14,6 +15,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         #region Properties
 
         public GenericParserString SectionString { get; set; }
+        public List<SectionParserDefinition> Parsers { get; set; }
         public List<AreaDefinition> Areas { get; set; }
 
         #endregion
@@ -26,6 +28,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         public SectionDefinition()
         {
             SectionString = new GenericParserString();
+            Parsers = new List<SectionParserDefinition>();
             Areas = new List<AreaDefinition>();
         }
 
@@ -37,7 +40,19 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             : this()
         {
             this.SectionString.String = element.TryGetAttributeValue("Text", null);
-            this.SectionString.IsContained = element.TryGetAttributeValue("Text-IsContained", true);
+
+            // Parse the aspects...
+            foreach (XElement aspectE in element.Elements("Aspect"))
+            {
+                SectionParserDefinition spDefinition = new SectionParserDefinition(aspectE);
+                if (string.IsNullOrWhiteSpace(spDefinition.Type))
+                {
+                    // TODO: Log warning
+                    continue;
+                }
+
+                this.Parsers.Add(spDefinition);
+            }
 
             // Parse the areas...
             foreach (XElement areaE in element.Elements("Area"))
@@ -70,7 +85,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
              * within one line (like "Straße: ABCDEF Haus-Nr.:")
              * then this method just returns "Straße" and merges everything
              * afterwards in the same area. 
-             */ 
+             */
             return Areas.Find(a =>
             {
                 return a.AreaString.Equals(line) ||
@@ -86,7 +101,11 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         {
             XElement se = new XElement("Section");
             se.Add(new XAttribute("Text", this.SectionString.String));
-            se.Add(new XAttribute("Text-IsContained", this.SectionString.IsContained));
+
+            foreach (SectionParserDefinition spd in this.Parsers)
+            {
+                se.Add(spd.CreateXElement());
+            }
 
             foreach (AreaDefinition area in this.Areas)
             {

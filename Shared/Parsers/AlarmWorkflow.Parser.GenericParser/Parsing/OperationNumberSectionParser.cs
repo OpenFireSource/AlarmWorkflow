@@ -10,12 +10,12 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     {
         #region ISectionParser Members
 
-        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnLoad(System.Collections.Generic.IDictionary<string, string> parameters)
         {
 
         }
 
-        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnSave(System.Collections.Generic.IDictionary<string, string> parameters)
         {
 
         }

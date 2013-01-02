@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Xml.Linq;
+using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Parser.GenericParser.Misc
+namespace AlarmWorkflow.Parser.GenericParser.Control
 {
     /// <summary>
     /// Defines an area within a fax. An area is the part which controls what text is mapped to which property in an Operation.
@@ -47,7 +48,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             : this()
         {
             this.AreaString.String = element.TryGetAttributeValue("Text", null);
-            this.AreaString.IsContained = element.TryGetAttributeValue("Text-IsContained", true);
             this.MapToPropertyExpression = element.TryGetAttributeValue("MapTo", null);
             this.Separator = element.TryGetAttributeValue("Separator", ":");
         }
@@ -76,7 +76,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         {
             XElement element = new XElement("Area");
             element.Add(new XAttribute("Text", this.AreaString.String));
-            element.Add(new XAttribute("Text-IsContained", this.AreaString.IsContained));
             element.Add(new XAttribute("MapTo", this.MapToPropertyExpression));
             element.Add(new XAttribute("Separator", this.Separator));
 

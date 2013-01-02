@@ -13,6 +13,11 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Gets the parser definition VM.
+        /// </summary>
+        public ParserDefinitionViewModel ParserDefinition { get; private set; }
+
         #endregion
 
         #region Commands
@@ -31,7 +36,7 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
             dialog.InitialDirectory = Utilities.GetWorkingDirectory();
             if (dialog.ShowDialog() == true)
             {
-
+                ParserDefinition.Load(dialog.FileName);
             }
         }
 
@@ -46,7 +51,13 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         private void SaveControlFileCommand_Execute(object parameter)
         {
-
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = Properties.Resources.Controlfile_FilterText;
+            dialog.InitialDirectory = Utilities.GetWorkingDirectory();
+            if (dialog.ShowDialog() == true)
+            {
+                ParserDefinition.Save(dialog.FileName);
+            }
         }
 
         #endregion
@@ -74,7 +85,7 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         /// </summary>
         public MainWindowViewModel()
         {
-
+            ParserDefinition = new ParserDefinitionViewModel();
         }
 
         #endregion

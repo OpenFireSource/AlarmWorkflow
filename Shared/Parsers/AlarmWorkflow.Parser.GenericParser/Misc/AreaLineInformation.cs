@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AlarmWorkflow.Parser.GenericParser.Control;
 
 namespace AlarmWorkflow.Parser.GenericParser.Misc
 {

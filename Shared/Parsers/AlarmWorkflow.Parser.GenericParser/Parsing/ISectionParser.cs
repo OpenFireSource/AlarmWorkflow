@@ -15,15 +15,15 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
         /// <returns>All tokens that are supported by this parser in the current configuration.</returns>
         IEnumerable<string> GetTokens();
         /// <summary>
-        /// Instructs this instance to load its configuration from the provided XML-Element.
+        /// Instructs this instance to load its configuration from the provided dictionary.
         /// </summary>
-        /// <param name="sectionElement">The XML-element to load the configuration from.</param>
-        void OnLoad(XElement sectionElement);
+        /// <param name="parameters">The parameters-dictionary to load the configuration from.</param>
+        void OnLoad(IDictionary<string, string> parameters);
         /// <summary>
-        /// Instructs this instance to persist its configuration to the provided XML-Element.
+        /// Instructs this instance to persist its configuration to the provided dictionary.
         /// </summary>
-        /// <param name="sectionElement">The XML-element to persist the current configuration to.</param>
-        void OnSave(XElement sectionElement);
+        /// <param name="parameters">The parameters-dictionary to save the configuration to.</param>
+        void OnSave(IDictionary<string, string> parameters);
 
         /// <summary>
         /// Called when the section is entered for this parser.

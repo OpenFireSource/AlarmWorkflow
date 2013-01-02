@@ -95,14 +95,18 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
             yield return KeywordProperty;
         }
 
-        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnLoad(System.Collections.Generic.IDictionary<string, string> parameters)
         {
             throw new System.NotImplementedException();
         }
 
-        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnSave(System.Collections.Generic.IDictionary<string, string> parameters)
         {
-            throw new System.NotImplementedException();
+            parameters.Add("KeywordStreet", KeywordStreet);
+            parameters.Add("KeywordStreetNumber", KeywordStreetNumber);
+            parameters.Add("KeywordCity", KeywordCity);
+            parameters.Add("KeywordIntersection", KeywordIntersection);
+            parameters.Add("KeywordProperty", KeywordProperty);
         }
 
         void ISectionParser.OnEnterSection(Operation operation)

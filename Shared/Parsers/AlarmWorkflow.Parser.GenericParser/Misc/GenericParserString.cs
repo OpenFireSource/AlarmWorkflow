@@ -6,13 +6,12 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
     /// <summary>
     /// Represents a string which can be controlled to be equal to another string if it is contained in it.
     /// </summary>
-    [DebuggerDisplay("String = {String} (IsContained = {IsContained})")]
+    [DebuggerDisplay("String = {String}")]
     public class GenericParserString : IEquatable<string>
     {
         #region Properties
 
         public string String { get; set; }
-        public bool IsContained { get; set; }
 
         #endregion
 
@@ -23,19 +22,16 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         /// </summary>
         public GenericParserString()
         {
-            this.IsContained = true;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GenericParserString"/> class.
         /// </summary>
         /// <param name="value">The value.</param>
-        /// <param name="isContained"></param>
-        public GenericParserString(string value, bool isContained)
+        public GenericParserString(string value)
             : this()
         {
             this.String = value;
-            this.IsContained = isContained;
         }
 
         #endregion
@@ -84,11 +80,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
             string left = this.String.ToUpperInvariant();
             string right = other.ToUpperInvariant();
 
-            if (IsContained)
-            {
-                return right.Contains(left);
-            }
-            return right.Equals(left);
+            return right.Contains(left);
         }
 
         #endregion

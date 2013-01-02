@@ -394,5 +394,44 @@ namespace AlarmWorkflow.Shared.Core
             }
             return ret;
         }
+
+        /// <summary>
+        /// Adds all items from the specified enumerable to the specified collection.
+        /// </summary>
+        /// <typeparam name="T">The type of the items.</typeparam>
+        /// <param name="collection">The collection to add all items to.</param>
+        /// <param name="enumerable">The enumerable containing the items to add.</param>
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> enumerable)
+        {
+            Assertions.AssertNotNull(collection, "collection");
+            Assertions.AssertNotNull(enumerable, "enumerable");
+
+            foreach (T item in enumerable)
+            {
+                collection.Add(item);
+            }
+        }
+
+        /// <summary>
+        /// Tries to return the value from the given key, or returns a default value if not found.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="dictionary">The dictionary.</param>
+        /// <param name="key">The key to return the value from.</param>
+        /// <param name="defaultValue">The default value, if the key was not found.</param>
+        /// <returns>Returns the value from the given key, or returns a default value if not found.</returns>
+        public static TValue SafeGetValue<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
+        {
+            Assertions.AssertNotNull(dictionary, "dictionary");
+
+            TValue value = default(TValue);
+            if (dictionary.TryGetValue(key, out value))
+            {
+                return value;
+            }
+            return defaultValue;
+        }
+
     }
 }

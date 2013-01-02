@@ -50,14 +50,22 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
             yield return KeywordT;
         }
 
-        void ISectionParser.OnLoad(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnLoad(System.Collections.Generic.IDictionary<string, string> parameters)
         {
-            throw new System.NotImplementedException();
+            KeywordKeyword = parameters.SafeGetValue("KeywordKeyword", KeywordKeyword);
+            KeywordB = parameters.SafeGetValue("KeywordB", KeywordB);
+            KeywordR = parameters.SafeGetValue("KeywordR", KeywordR);
+            KeywordS = parameters.SafeGetValue("KeywordS", KeywordS);
+            KeywordT = parameters.SafeGetValue("KeywordT", KeywordT);
         }
 
-        void ISectionParser.OnSave(System.Xml.Linq.XElement sectionElement)
+        void ISectionParser.OnSave(System.Collections.Generic.IDictionary<string, string> parameters)
         {
-            throw new System.NotImplementedException();
+            parameters.Add("KeywordKeyword", KeywordKeyword);
+            parameters.Add("KeywordB", KeywordB);
+            parameters.Add("KeywordR", KeywordR);
+            parameters.Add("KeywordS", KeywordS);
+            parameters.Add("KeywordT", KeywordT);
         }
 
         void ISectionParser.OnEnterSection(Operation operation)

@@ -1,5 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AlarmWorkflow.Parser.GenericParser.Control;
+using AlarmWorkflow.Parser.GenericParser.Misc;
+using AlarmWorkflow.Parser.GenericParser.Parsing;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Parser.GenericParser.ViewModels
@@ -86,5 +90,94 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         }
 
         #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Saves the parser definition to a file.
+        /// </summary>
+        /// <param name="fileName">The file to save the parser definition to.</param>
+        public void Save(string fileName)
+        {
+            Assertions.AssertNotEmpty(fileName, "fileName");
+
+            ControlInformation ci = new ControlInformation();
+            ci.FaxName = this.ParserName;
+
+            foreach (SectionDefinitionViewModel svm in this.Sections)
+            {
+                SectionDefinition sd = new SectionDefinition();
+                sd.SectionString = new GenericParserString(svm.Name);
+
+                foreach (SectionParserDefinitionViewModel spvm in svm.Aspects)
+                {
+                    SectionParserDefinition spd = new SectionParserDefinition();
+                    spd.Type = spvm.Type;
+                    spvm.Parser.OnSave(spd.Options);
+
+                    sd.Parsers.Add(spd);
+                }
+
+                foreach (AreaDefinitionViewModel avm in svm.Areas)
+                {
+                    AreaDefinition ad = new AreaDefinition();
+                    ad.AreaString = new GenericParserString(avm.Name);
+                    ad.MapToPropertyExpression = avm.MapToPropertyExpression;
+
+                    sd.Areas.Add(ad);
+                }
+
+                ci.Sections.Add(sd);
+            }
+
+            ci.Save(fileName);
+        }
+
+        /// <summary>
+        /// Loads the parser definition from a file.
+        /// </summary>
+        /// <param name="fileName">The file to load the parser definition from.</param>
+        public void Load(string fileName)
+        {
+            Assertions.AssertNotEmpty(fileName, "fileName");
+
+            ControlInformation ci = ControlInformation.Load(fileName);
+
+            // Clear all data
+            this.Sections.Clear();
+            this.SelectedNode = null;
+
+            // Fill in from the control file...
+            this.ParserName = ci.FaxName;
+
+            foreach (SectionDefinition sd in ci.Sections)
+            {
+                SectionDefinitionViewModel sdvm = new SectionDefinitionViewModel(this);
+                sdvm.Name = sd.SectionString.String;
+
+                foreach (SectionParserDefinition spd in sd.Parsers)
+                {
+                    ISectionParser sectionParser = SectionParserCache.Create(spd.Type);
+                    sectionParser.OnLoad(spd.Options);
+
+                    SectionParserDefinitionViewModel spdvm = new SectionParserDefinitionViewModel(sdvm, sectionParser);
+
+                    sdvm.Aspects.Add(spdvm);
+                }
+                foreach (AreaDefinition ad in sd.Areas)
+                {
+                    AreaDefinitionViewModel advm = new AreaDefinitionViewModel(sdvm);
+                    advm.Name = ad.AreaString.String;
+                    advm.MapToPropertyExpression = ad.MapToPropertyExpression;
+
+                    sdvm.Areas.Add(advm);
+                }
+
+                this.Sections.Add(sdvm);
+            }
+        }
+
+        #endregion
+
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AlarmWorkflow.AlarmSource.Fax;
+using AlarmWorkflow.Parser.GenericParser.Control;
 using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;

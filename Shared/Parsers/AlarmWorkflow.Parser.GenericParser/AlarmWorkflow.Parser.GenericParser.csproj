@@ -75,6 +75,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Control\SectionParserDefinition.cs" />
     <Compile Include="Misc\Configuration.cs" />
     <Compile Include="Misc\OperationPropertyHelper.cs" />
     <Compile Include="Parsing\SectionParserCache.cs" />
@@ -99,12 +100,12 @@
       <SubType>Designer</SubType>
     </None>
     <Compile Include="GenericParser.cs" />
-    <Compile Include="Misc\AreaDefinition.cs" />
+    <Compile Include="Control\AreaDefinition.cs" />
     <Compile Include="Misc\AreaLineInformation.cs" />
-    <Compile Include="Misc\ControlInformation.cs" />
+    <Compile Include="Control\ControlInformation.cs" />
     <Compile Include="Misc\GenericParserString.cs" />
     <Compile Include="Misc\Helpers.cs" />
-    <Compile Include="Misc\SectionDefinition.cs" />
+    <Compile Include="Control\SectionDefinition.cs" />
     <Compile Include="Parsing\AreaToken.cs" />
     <Compile Include="Parsing\CommentSectionParser.cs" />
     <Compile Include="Parsing\ISectionParser.cs" />

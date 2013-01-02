@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Parser.GenericParser.Misc
+namespace AlarmWorkflow.Parser.GenericParser.Control
 {
     /// <summary>
     /// Represents the control information used to analyze a fax.
@@ -12,7 +12,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         #region Properties
 
         public string FaxName { get; set; }
-        public List<string> Keywords { get; set; }
         public List<SectionDefinition> Sections { get; set; }
 
         #endregion
@@ -24,7 +23,6 @@ namespace AlarmWorkflow.Parser.GenericParser.Misc
         /// </summary>
         public ControlInformation()
         {
-            Keywords = new List<string>();
             Sections = new List<SectionDefinition>();
         }
 
