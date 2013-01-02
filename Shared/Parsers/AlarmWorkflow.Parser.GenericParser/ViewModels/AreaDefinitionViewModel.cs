@@ -45,6 +45,11 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
             }
         }
 
+        internal SectionDefinitionViewModel Parent
+        {
+            get { return _parent; }
+        }
+
         #endregion
 
         #region Commands

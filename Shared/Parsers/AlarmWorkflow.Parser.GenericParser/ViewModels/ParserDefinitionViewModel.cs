@@ -75,6 +75,44 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         #endregion
 
+        #region Command "MoveItemUpCommand"
+
+        /// <summary>
+        /// The MoveItemUpCommand command.
+        /// </summary>
+        public ICommand MoveItemUpCommand { get; private set; }
+
+        private bool MoveItemUpCommand_CanExecute(object parameter)
+        {
+            return _selectedNode != null;
+        }
+
+        private void MoveItemUpCommand_Execute(object parameter)
+        {
+            MoveNode(_selectedNode, true);
+        }
+
+        #endregion
+
+        #region Command "MoveItemDownCommand"
+
+        /// <summary>
+        /// The MoveItemDownCommand command.
+        /// </summary>
+        public ICommand MoveItemDownCommand { get; private set; }
+
+        private bool MoveItemDownCommand_CanExecute(object parameter)
+        {
+            return _selectedNode != null;
+        }
+
+        private void MoveItemDownCommand_Execute(object parameter)
+        {
+            MoveNode(_selectedNode, false);
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -175,6 +213,55 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
                 this.Sections.Add(sdvm);
             }
+        }
+
+        private void MoveNode(object node, bool up)
+        {
+            if (node == null)
+            {
+                return;
+            }
+
+            SectionDefinitionViewModel section = node as SectionDefinitionViewModel;
+            if (section != null)
+            {
+                int i = this.Sections.IndexOf(section);
+                if (i == -1)
+                {
+                    return;
+                }
+
+                int iNew = up ? i - 1 : i + 1;
+                if (iNew < 0 || iNew > this.Sections.Count - 1)
+                {
+                    return;
+                }
+
+                this.Sections.Move(i, iNew);
+
+                return;
+            }
+
+            AreaDefinitionViewModel area = node as AreaDefinitionViewModel;
+            if (area != null)
+            {
+                int i = area.Parent.Areas.IndexOf(area);
+                if (i == -1)
+                {
+                    return;
+                }
+
+                int iNew = up ? i - 1 : i + 1;
+                if (iNew < 0 || iNew > area.Parent.Areas.Count - 1)
+                {
+                    return;
+                }
+
+                area.Parent.Areas.Move(i, iNew);
+
+                return;
+            }
+
         }
 
         #endregion

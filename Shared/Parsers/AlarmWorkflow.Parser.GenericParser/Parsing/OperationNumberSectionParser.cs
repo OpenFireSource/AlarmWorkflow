@@ -6,6 +6,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     /// Provides a section parser that parses a section containing the operation number.
     /// </summary>
     [Export("OperationNumberSectionParser", typeof(ISectionParser))]
+    [Information(DisplayName = "OperationNumberSectionParser_DisplayName", Description = "OperationNumberSectionParser_Description")]
     public class OperationNumberSectionParser : ISectionParser
     {
         #region ISectionParser Members

@@ -6,6 +6,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     /// Provides a section parser that parses a section containing keywords.
     /// </summary>
     [Export("KeywordSectionParser", typeof(ISectionParser))]
+    [Information(DisplayName = "KeywordSectionParser_DisplayName", Description = "KeywordSectionParser_Description")]
     public class KeywordSectionParser : ISectionParser
     {
         #region Properties

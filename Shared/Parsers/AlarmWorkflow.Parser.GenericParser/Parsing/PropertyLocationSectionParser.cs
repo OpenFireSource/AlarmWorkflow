@@ -7,6 +7,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     /// Provides a section parser that parses a section describing a location.
     /// </summary>
     [Export("PropertyLocationSectionParser", typeof(ISectionParser))]
+    [Information(DisplayName = "PropertyLocationSectionParser_DisplayName", Description = "PropertyLocationSectionParser_Description")]
     public class PropertyLocationSectionParser : ISectionParser
     {
         #region Properties

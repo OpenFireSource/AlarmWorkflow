@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AlarmWorkflow.Parser.GenericParser.Parsing;
+using AlarmWorkflow.Parser.GenericParser.Views;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -73,6 +75,30 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
 
         #endregion
 
+        #region Command "AddSectionAspectCommand"
+
+        /// <summary>
+        /// The AddSectionAspectCommand command.
+        /// </summary>
+        public ICommand AddSectionAspectCommand { get; private set; }
+
+        private void AddSectionAspectCommand_Execute(object parameter)
+        {
+            AddSectionAspectWindow window = new AddSectionAspectWindow();
+            if (window.ShowDialog() == true && window.SelectedType != null)
+            {
+                // Get real parent section here and add aspect to that
+                // BUG?: It doesn't work reliably when you write "this.Aspects.Add()"... to be checked!
+                SectionDefinitionViewModel section = (SectionDefinitionViewModel)_parent.SelectedNode;
+                ISectionParser sectionParser = SectionParserCache.Create(window.SelectedType.Type);
+
+                SectionParserDefinitionViewModel spdvm = new SectionParserDefinitionViewModel(section, sectionParser);
+                section.Aspects.Add(spdvm);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructors
@@ -98,6 +124,10 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
             Assertions.AssertNotNull(parent, "parent");
             _parent = parent;
         }
+
+        #endregion
+
+        #region Nested types
 
         #endregion
     }

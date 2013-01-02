@@ -6,6 +6,7 @@ namespace AlarmWorkflow.Parser.GenericParser.Parsing
     /// Provides a section parser that parses a "comment" section.
     /// </summary>
     [Export("CommentSectionParser", typeof(ISectionParser))]
+    [Information(DisplayName = "CommentSectionParser_DisplayName", Description = "CommentSectionParser_Description")]
     public class CommentSectionParser : ISectionParser
     {
         #region ISectionParser Members

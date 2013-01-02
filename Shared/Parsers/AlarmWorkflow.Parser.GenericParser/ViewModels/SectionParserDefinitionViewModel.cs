@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using System.Windows.Input;
 using AlarmWorkflow.Parser.GenericParser.Parsing;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -40,6 +41,20 @@ namespace AlarmWorkflow.Parser.GenericParser.ViewModels
         #endregion
 
         #region Commands
+
+        #region Command "RemoveAspectCommand"
+
+        /// <summary>
+        /// The RemoveAspectCommand command.
+        /// </summary>
+        public ICommand RemoveAspectCommand { get; private set; }
+        
+        private void RemoveAspectCommand_Execute(object parameter)
+        {
+            _parent.Aspects.Remove(this);
+        }
+
+        #endregion
 
         #endregion
 

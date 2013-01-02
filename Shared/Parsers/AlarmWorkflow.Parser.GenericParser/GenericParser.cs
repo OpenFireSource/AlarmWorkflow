@@ -4,6 +4,7 @@ using AlarmWorkflow.Parser.GenericParser.Control;
 using AlarmWorkflow.Parser.GenericParser.Misc;
 using AlarmWorkflow.Parser.GenericParser.Parsing;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Parser.GenericParser
 {
@@ -27,6 +28,9 @@ namespace AlarmWorkflow.Parser.GenericParser
         /// </summary>
         public GenericParser()
         {
+            // Print warning
+            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.GenericParserBetaWarningText);
+
             _configuration = new Configuration();
             LoadControlInformationFile();
         }
