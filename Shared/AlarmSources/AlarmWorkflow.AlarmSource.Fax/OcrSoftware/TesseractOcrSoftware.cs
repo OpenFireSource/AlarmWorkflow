@@ -28,9 +28,9 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
                     proc.StartInfo.WorkingDirectory = options.SoftwarePath;
                 }
 
-                // TODO: Verify!!!
+
                 proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
-                proc.StartInfo.Arguments = options.ImagePath + ".bmp " + options.AnalyzedFileDestinationPath + " -l deu";
+                proc.StartInfo.Arguments = options.ImagePath + " " + options.AnalyzedFileDestinationPath + " -psm 6 quiet";
 
                 proc.Start();
                 proc.WaitForExit();
