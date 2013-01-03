@@ -130,7 +130,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             {
                 OcrProcessOptions options = new OcrProcessOptions();
                 options.SoftwarePath = _configuration.OCRSoftwarePath;
-                options.AnalyzedFileDestinationPath = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(file.FullName) + ".txt");
+                options.AnalyzedFileDestinationPath = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(file.FullName));
                 options.ImagePath = file.FullName;
 
                 Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, file.FullName);

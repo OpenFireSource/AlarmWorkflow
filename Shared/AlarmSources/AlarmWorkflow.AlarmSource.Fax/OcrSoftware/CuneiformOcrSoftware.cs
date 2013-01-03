@@ -24,7 +24,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
             }
 
             // Finally write all analyzed lines to the desired path
-            File.WriteAllLines(options.AnalyzedFileDestinationPath, analyzedLines);
+            File.WriteAllLines(options.AnalyzedFileDestinationPath+".txt", analyzedLines);
             return analyzedLines.ToArray();
         }
 
