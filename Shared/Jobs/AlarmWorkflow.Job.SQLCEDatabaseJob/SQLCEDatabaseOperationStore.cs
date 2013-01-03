@@ -16,6 +16,19 @@ namespace AlarmWorkflow.Job.SQLCEDatabaseJob
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SQLCEDatabaseOperationStore"/> class.
+        /// </summary>
+        public SQLCEDatabaseOperationStore()
+        {
+            // Print obsolete-warning
+            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ObsoleteWarningMessage);
+        }
+
+        #endregion
+
         #region IOperationStore Member
 
         Operation IOperationStore.StoreOperation(Operation operation)
