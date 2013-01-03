@@ -40,3 +40,11 @@ The AlarmWorkflow-project makes use of the following libraries:
   
     AvalonDock
     http://avalondock.codeplex.com/
+
+Furthermore, AlarmWorkflow uses the following applications:
+
+    Tesseract OCR by Google
+    http://code.google.com/p/tesseract-ocr/
+
+    Cuneiform OCR
+    http://en.openocr.org/
