@@ -2,6 +2,6 @@
 <SettingsConfiguration Version="1" Identifier="SMSJob">
   <Setting Name="UserName" Type="System.String"></Setting>
   <Setting Name="Password" Type="System.String"></Setting>
-  <Setting Name="MessageFormat" Type="System.String">Ort: {Location}, {Street} {StreetNumber}, {Picture}; {Comment}</Setting>
+  <Setting Name="MessageFormat" Type="System.String">Ort: {Einsatzort}, {Picture}; {Comment}</Setting>
   <Setting Name="Provider" Type="System.String">sms77</Setting>
 </SettingsConfiguration>
