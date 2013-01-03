@@ -119,86 +119,48 @@ namespace AlarmWorkflow.AlarmSource.Fax
             string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
             string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ".tif");
 
-            Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
-            ctxParameters["ArchivedFilePath"] = archivedFilePath;
+            // Moves the file to a different location, and throws if it failed.
+            MoveFileTo(file, archivedFilePath);
 
-            bool fileIsMoved = false;
-            int tried = 0;
-            while (!fileIsMoved)
-            {
-                tried++;
-                try
-                {
-                    file.MoveTo(archivedFilePath);
-                    fileIsMoved = true;
-                }
-                catch (IOException ex)
-                {
-                    if (tried < ErrorRetryCount)
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of {1}!", tried, ErrorRetryCount);
-                        Thread.Sleep(200);
-                        fileIsMoved = false;
-                    }
-                    else
-                    {
-                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file." + ex.ToString());
-                        return;
-                    }
-                }
-            }
-
-            // One catch of TIFF is that it may contain multiple pages! This is by itself no problem, but the OCR software
-            // may not be able to recognize this. So we do the following:
-            // 1. We read the TIFF, and if it is a multipage-tiff-file...
-            // 2. ... we will split each page into an own file (done in the method) ...
-            // 3. ... and THEN we will scan each "page" and concat them together, so it appears to the parser as one file.
             List<string> analyzedLines = new List<string>();
-            List<string> splittedTiffFileNames = Utilities.GetMergedTifFileNames(archivedFilePath).ToList();
-            foreach (string imageFile in splittedTiffFileNames)
+            Stopwatch swParse = new Stopwatch();
+
+            string[] parsedLines = null;
+            try
             {
-                Stopwatch swParse = new Stopwatch();
+                OcrProcessOptions options = new OcrProcessOptions();
+                options.SoftwarePath = _configuration.OCRSoftwarePath;
+                options.AnalyzedFileDestinationPath = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(file.FullName) + ".txt");
+                options.ImagePath = file.FullName;
 
-                string[] parsedLines = null;
-                try
-                {
-                    OcrProcessOptions options = new OcrProcessOptions();
-                    string intendedNewFileName = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(imageFile) + ".txt");
-                    options.AnalyzedFileDestinationPath = intendedNewFileName;
-                    options.SoftwarePath = _configuration.OCRSoftwarePath;
-                    options.ImagePath = imageFile;
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, file.FullName);
 
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, imageFile);
+                swParse.Start();
 
-                    swParse.Start();
+                parsedLines = _ocrSoftware.ProcessImage(options);
 
-                    parsedLines = _ocrSoftware.ProcessImage(options);
+                swParse.Stop();
 
-                    swParse.Stop();
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseEndSuccess, swParse.ElapsedMilliseconds);
+            }
+            catch (Exception ex)
+            {
+                swParse.Stop();
 
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseEndSuccess, swParse.ElapsedMilliseconds);
-                }
-                catch (Exception ex)
-                {
-                    swParse.Stop();
-
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareParseEndFail);
-                    Logger.Instance.LogException(this, ex);
-                    // Abort parsing
-                    // TODO: Introduce own exception for this!
-                    return;
-                }
-
-                // After the file has been parsed, read it back in ...
-                // ... fetch all lines ...
-                foreach (string preParsedLine in parsedLines)
-                {
-                    // ... and add it to the list (
-                    analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
-                }
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareParseEndFail);
+                Logger.Instance.LogException(this, ex);
+                // Abort parsing
+                // TODO: Introduce own exception for this!
+                return;
             }
 
-            ctxParameters["SplittedTiffFileNames"] = splittedTiffFileNames.ToArray();
+            // After the file has been parsed, read it back in ...
+            // ... fetch all lines ...
+            foreach (string preParsedLine in parsedLines)
+            {
+                // ... and add it to the list (
+                analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
+            }
 
             Operation operation = null;
             Stopwatch sw = Stopwatch.StartNew();
@@ -228,9 +190,14 @@ namespace AlarmWorkflow.AlarmSource.Fax
                         operation.Timestamp = DateTime.Now;
                     }
 
-                    // Raise event...
+                    Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
+                    ctxParameters["ArchivedFilePath"] = archivedFilePath;
+                    ctxParameters["ImagePath"] = file.FullName;
+
                     AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
                     args.Parameters = ctxParameters;
+
+                    // Raise event...
                     OnNewAlarm(args);
                 }
             }
@@ -239,6 +206,37 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 sw.Stop();
                 Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
                 Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        private void MoveFileTo(FileInfo file, string archivedFilePath)
+        {
+            bool fileIsMoved = false;
+            int tried = 0;
+            while (!fileIsMoved)
+            {
+                tried++;
+                try
+                {
+                    file.MoveTo(archivedFilePath);
+                    fileIsMoved = true;
+                }
+                catch (IOException ex)
+                {
+                    if (tried < ErrorRetryCount)
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of {1}!", tried, ErrorRetryCount);
+                        Thread.Sleep(200);
+                        fileIsMoved = false;
+                    }
+                    else
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file. See log for more details.");
+                        Logger.Instance.LogException(this, ex);
+                        // This fatal, quit processing.
+                        throw ex;
+                    }
+                }
             }
         }
 

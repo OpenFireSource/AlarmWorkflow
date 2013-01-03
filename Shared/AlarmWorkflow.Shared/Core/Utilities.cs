@@ -282,41 +282,6 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
-        /// Analyzes a TIFF-file, extracts all pages (1..n) to a bitmap file, and returns the full file name for each.
-        /// </summary>
-        /// <param name="tiffFileName"></param>
-        /// <returns></returns>
-        public static IEnumerable<string> GetMergedTifFileNames(string tiffFileName)
-        {
-            // Idea taken from http://code.msdn.microsoft.com/windowsdesktop/Split-multi-page-tiff-file-058050cc
-            // Sorry for the weird method name... any better ideas?
-
-            //Get the frame dimension list from the image of the file and 
-            using (Image tiffImage = Image.FromFile(tiffFileName))
-            {
-                //get the globally unique identifier (GUID) 
-                Guid objGuid = tiffImage.FrameDimensionsList[0];
-                //create the frame dimension 
-                FrameDimension dimension = new FrameDimension(objGuid);
-                //Gets the total number of frames in the .tiff file 
-                int noOfPages = tiffImage.GetFrameCount(dimension);
-
-                foreach (Guid guid in tiffImage.FrameDimensionsList)
-                {
-                    for (int index = 0; index < noOfPages; index++)
-                    {
-                        FrameDimension currentFrame = new FrameDimension(guid);
-                        tiffImage.SelectActiveFrame(currentFrame, index);
-
-                        string fileName = Path.Combine(Path.GetDirectoryName(tiffFileName), Path.GetFileNameWithoutExtension(tiffFileName) + index + ".bmp");
-                        tiffImage.Save(fileName, ImageFormat.Bmp);
-                        yield return fileName;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Trims all lines from the array, which means that lines with zero length will be omitted.
         /// </summary>
         /// <param name="lines"></param>

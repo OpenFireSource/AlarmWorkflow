@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Linq;
-using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
@@ -24,12 +24,12 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         private void PrintFaxes(IJobContext context, Operation operation)
         {
-            if (!context.Parameters.ContainsKey("ArchivedFilePath") || !context.Parameters.ContainsKey("SplittedTiffFileNames"))
+            if (!context.Parameters.ContainsKey("ArchivedFilePath") || !context.Parameters.ContainsKey("ImagePath"))
             {
                 return;
             }
 
-            System.IO.FileInfo sourceImageFile = new System.IO.FileInfo((string)context.Parameters["ArchivedFilePath"]);
+            System.IO.FileInfo sourceImageFile = new System.IO.FileInfo((string)context.Parameters["ImagePath"]);
             if (!sourceImageFile.Exists)
             {
                 // It was removed in the meanwhile or so
@@ -37,7 +37,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             }
 
             // Grab all created files to print
-            string[] splittedTiffFileNames = (string[])context.Parameters["SplittedTiffFileNames"];
+            string imagePath = (string)context.Parameters["ImagePath"];
 
             PrintDocument doc = new PrintDocument();
             doc.DocumentName = operation.OperationNumber + Properties.Resources.DocumentNameAppendix;
@@ -48,7 +48,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
             // Create dedicated task to wrap the events of the PrintDocument-class
             PrintFaxTask task = new PrintFaxTask();
-            task.SplittedTiffFileNames = splittedTiffFileNames;
+            task.ImagePath = imagePath;
             task.Print(doc);
         }
 
@@ -109,11 +109,14 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         class PrintFaxTask
         {
             private int _currentPageIndex = -1;
+            private IList<Image> _pages;
 
-            internal string[] SplittedTiffFileNames { get; set; }
+            internal string ImagePath { get; set; }
 
             internal void Print(PrintDocument doc)
             {
+                _pages = SplitMultipageTiff(ImagePath);
+
                 doc.PrintPage += doc_PrintPage;
                 doc.Print();
             }
@@ -122,20 +125,43 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             {
                 _currentPageIndex++;
 
-                bool hasMorePages = _currentPageIndex < SplittedTiffFileNames.Length - 1;
+                bool hasMorePages = _currentPageIndex < (_pages.Count - 1);
                 e.HasMorePages = hasMorePages;
+
+                // Draw this part
+                e.Graphics.DrawImage(_pages[_currentPageIndex], Point.Empty);
 
                 if (!hasMorePages)
                 {
                     ((PrintDocument)sender).PrintPage -= doc_PrintPage;
-                }
-
-                using (Image image = Image.FromFile(SplittedTiffFileNames[_currentPageIndex]))
-                {
-                    Point point = Point.Empty;
-                    e.Graphics.DrawImage(image, point);
+                    _pages.Clear();
+                    _pages = null;
                 }
             }
+        }
+
+        private static IList<Image> SplitMultipageTiff(string tiffFileName)
+        {
+            List<Image> images = new List<Image>();
+
+            using (Image tiffImage = Image.FromFile(tiffFileName))
+            {
+                Guid objGuid = tiffImage.FrameDimensionsList[0];
+                FrameDimension dimension = new FrameDimension(objGuid);
+                int noOfPages = tiffImage.GetFrameCount(dimension);
+
+                foreach (Guid guid in tiffImage.FrameDimensionsList)
+                {
+                    for (int index = 0; index < noOfPages; index++)
+                    {
+                        FrameDimension currentFrame = new FrameDimension(guid);
+                        tiffImage.SelectActiveFrame(currentFrame, index);
+                        images.Add((Image)tiffImage.Clone());
+                    }
+                }
+            }
+
+            return images;
         }
 
         #endregion

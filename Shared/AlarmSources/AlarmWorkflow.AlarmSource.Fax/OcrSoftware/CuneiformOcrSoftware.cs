@@ -1,4 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
 using AlarmWorkflow.Shared.Core;
@@ -11,6 +15,20 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
         #region IOcrSoftware Members
 
         string[] IOcrSoftware.ProcessImage(OcrProcessOptions options)
+        {
+            List<string> analyzedLines = new List<string>();
+
+            foreach (string singlepageTiffFileName in SplitMultipageTiff(options.ImagePath))
+            {
+                analyzedLines.AddRange(AnalyzeSinglepageTiff(singlepageTiffFileName, options));
+            }
+
+            // Finally write all analyzed lines to the desired path
+            File.WriteAllLines(options.AnalyzedFileDestinationPath, analyzedLines);
+            return analyzedLines.ToArray();
+        }
+
+        private string[] AnalyzeSinglepageTiff(string singlepageTiffFileName, OcrProcessOptions options)
         {
             using (Process proc = new Process())
             {
@@ -29,13 +47,41 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
                 }
 
                 proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
-                proc.StartInfo.Arguments = "-l ger --singlecolumn -o " + options.AnalyzedFileDestinationPath + " " + options.ImagePath;
+
+
+                string singlepageTiffAnalyzedFile = Path.Combine(Path.GetDirectoryName(options.AnalyzedFileDestinationPath), Path.GetFileName(singlepageTiffFileName) + ".txt");
+                proc.StartInfo.Arguments = "-l ger --singlecolumn -o " + singlepageTiffAnalyzedFile + " " + singlepageTiffFileName;
 
                 proc.Start();
                 proc.WaitForExit();
-            }
 
-            return File.ReadAllLines(options.AnalyzedFileDestinationPath);
+                return File.ReadAllLines(singlepageTiffAnalyzedFile);
+            }
+        }
+
+        private static IEnumerable<string> SplitMultipageTiff(string tiffFileName)
+        {
+            // Idea taken from http://code.msdn.microsoft.com/windowsdesktop/Split-multi-page-tiff-file-058050cc
+
+            using (Image tiffImage = Image.FromFile(tiffFileName))
+            {
+                Guid objGuid = tiffImage.FrameDimensionsList[0];
+                FrameDimension dimension = new FrameDimension(objGuid);
+                int noOfPages = tiffImage.GetFrameCount(dimension);
+
+                foreach (Guid guid in tiffImage.FrameDimensionsList)
+                {
+                    for (int index = 0; index < noOfPages; index++)
+                    {
+                        FrameDimension currentFrame = new FrameDimension(guid);
+                        tiffImage.SelectActiveFrame(currentFrame, index);
+
+                        string fileName = Path.Combine(Path.GetDirectoryName(tiffFileName), Path.GetFileNameWithoutExtension(tiffFileName) + "_cp" + index + ".bmp");
+                        tiffImage.Save(fileName, ImageFormat.Bmp);
+                        yield return fileName;
+                    }
+                }
+            }
         }
 
         #endregion
