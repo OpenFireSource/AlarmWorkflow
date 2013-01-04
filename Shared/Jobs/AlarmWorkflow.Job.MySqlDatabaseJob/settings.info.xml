@@ -2,11 +2,16 @@
 
   <Identifier Name="MySqlDatabaseJob" DisplayText="MySQL (Aufgabe)">
 
-    <Setting Name="DBServer" DisplayText="Servername" Category="Server" />
-    <Setting Name="DBServerPort" DisplayText="Port" Category="Server" />
-    <Setting Name="DBName" DisplayText="Datenbankname" Category="Datenbank" />
-    <Setting Name="UserID" DisplayText="Benutzer-ID" Category="Datenbank" />
-    <Setting Name="UserPWD" DisplayText="Passwort" Category="Datenbank" />
+    <Setting Name="DBServer" DisplayText="Servername" Category="Server"
+             Description="Der Name des Servers, auf dem die MySQL-Datenbank läuft." />
+    <Setting Name="DBServerPort" DisplayText="Port" Category="Server"
+             Description="Der Port." />
+    <Setting Name="DBName" DisplayText="Datenbankname" Category="Datenbank"
+             Description="Der Name der Datenbank." />
+    <Setting Name="UserID" DisplayText="Benutzer-ID" Category="Datenbank"
+             Description="Der Benutzername zum Anmelden auf dem Datenbankserver." />
+    <Setting Name="UserPWD" DisplayText="Passwort" Category="Datenbank"
+             Description="Das Passwort zum Anmelden auf dem Datenbankserver." />
 
   </Identifier>
 

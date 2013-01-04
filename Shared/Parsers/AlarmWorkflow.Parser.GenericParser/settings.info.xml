@@ -2,7 +2,8 @@
 
   <Identifier Name="GenericParser" DisplayText="Universalparser (Parser)">
     
-    <Setting Name="ControlFile" DisplayText="Steuerungsdatei" Editor="FileTypeEditor" EditorParameter="Steuerungsdateien (*.xml)|*.xml" />
+    <Setting Name="ControlFile" DisplayText="Steuerungsdatei" Editor="FileTypeEditor" EditorParameter="Steuerungsdateien (*.xml)|*.xml"
+             Description="Pfad zur Steuerungsdatei, die der Universalparser benutzen soll." />
 
   </Identifier>
 
