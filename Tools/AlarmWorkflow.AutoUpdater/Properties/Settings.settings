@@ -11,8 +11,8 @@
     <Setting Name="UpdateServerVersionFileName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">serverversion.xml</Value>
     </Setting>
-    <Setting Name="CuneiformFileName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">cuneiform.zip</Value>
+    <Setting Name="OcrSoftwarePackageFileName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">ocrpackage.zip</Value>
     </Setting>
   </Settings>
 </SettingsFile>

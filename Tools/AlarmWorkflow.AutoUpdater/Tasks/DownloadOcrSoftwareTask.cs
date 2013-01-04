@@ -5,22 +5,22 @@ using Ionic.Zip;
 
 namespace AlarmWorkflow.Tools.AutoUpdater.Tasks
 {
-    class DownloadCuneiformTask : ITask
+    class DownloadOcrSoftwareTask : ITask
     {
         #region Constants
 
-        private static readonly Uri CuneiformWebUri;
+        private static readonly Uri OcrSoftwarePackageWebUri;
 
         #endregion
 
         #region Constructors
 
-        static DownloadCuneiformTask()
+        static DownloadOcrSoftwareTask()
         {
-            CuneiformWebUri = new Uri(string.Format("{0}/{1}/{2}",
+            OcrSoftwarePackageWebUri = new Uri(string.Format("{0}/{1}/{2}",
                 Properties.Settings.Default.UpdateServerName,
                 Properties.Settings.Default.UpdateFilesDirectory,
-                Properties.Settings.Default.CuneiformFileName));
+                Properties.Settings.Default.OcrSoftwarePackageFileName));
         }
 
         #endregion
@@ -32,27 +32,27 @@ namespace AlarmWorkflow.Tools.AutoUpdater.Tasks
             switch (args.Action)
             {
                 case TaskArgs.TaskAction.Post:
-                    DownloadCuneiform();
+                    DownloadOcrSoftwarePackage();
                     break;
                 default:
                     break;
             }
         }
 
-        private void DownloadCuneiform()
+        private void DownloadOcrSoftwarePackage()
         {
             using (WebClient client = new WebClient())
             {
-                Log.Write("Downloading cuneiform package, this may take several minutes!");
+                Log.Write("Downloading OCR software package, this may take several minutes!");
 
-                byte[] buffer = client.DownloadData(CuneiformWebUri);
+                byte[] buffer = client.DownloadData(OcrSoftwarePackageWebUri);
 
-                Log.Write("Cuneiform package downloaded, unpacking...");
+                Log.Write("OCR software package downloaded, unpacking...");
 
                 ZipFile zipFile = ZipFile.Read(buffer);
                 zipFile.ExtractAll(Application.StartupPath, ExtractExistingFileAction.OverwriteSilently);
 
-                Log.Write("Cuneiform unpacking succeeded.");
+                Log.Write("OCR software unpacking succeeded.");
             }
         }
 

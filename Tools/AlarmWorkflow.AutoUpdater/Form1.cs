@@ -142,9 +142,9 @@ namespace AlarmWorkflow.Tools.AutoUpdater
 
             // Add selected tasks
             _tasks.Add(new Tasks.LegacyFilesUpdaterTask());
-            if (_options.DownloadCuneiform)
+            if (_options.DownloadOcrSoftware)
             {
-                _tasks.Add(new Tasks.DownloadCuneiformTask());
+                _tasks.Add(new Tasks.DownloadOcrSoftwareTask());
             }
             if (_options.BackupDatabase)
             {
@@ -217,10 +217,10 @@ namespace AlarmWorkflow.Tools.AutoUpdater
                     sw.Stop();
                     Log.Write("Task finished in '{0}' milliseconds.", sw.ElapsedMilliseconds);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     // A failing task is always critical
-                    Log.Write("Failed at task '{0}'!", taskName);
+                    Log.Write("Failed at task '{0}'! The error message was: '{1}'", taskName, ex.Message);
 
                     throw;
                 }

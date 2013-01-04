@@ -12,10 +12,10 @@ namespace AlarmWorkflow.Tools.AutoUpdater
         [Description("Beendet alle laufenden AlarmWorkflow-Prozesse (vorsichtig verwenden!).")]
         [DefaultValue(false)]
         public bool KillAlarmWorkflowProcesses { get; set; }
-        [DisplayName("Cuneiform installieren")]
-        [Description("Nur einmal nötig. Nicht nötig wenn tesseract benutzt wird.")]
+        [DisplayName("OCR Software installieren")]
+        [Description("Nur einmal nötig. Nicht nötig falls OCR-Software bereits auf dem PC installiert (in diese Fall bitte Pfad im Konfigurationseditor angeben!).")]
         [DefaultValue(false)]
-        public bool DownloadCuneiform { get; set; }
+        public bool DownloadOcrSoftware { get; set; }
         [DisplayName("Datenbank sichern")]
         [Description("Sichert die Hauptdatenbank (OperationStore) vor dem aktualisieren (empfohlen).")]
         [DefaultValue(true)]
