@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -35,6 +35,45 @@ namespace AlarmWorkflow.Shared.Core
         /// Gets/sets the "Stichwort T" (specific keyword), direct or equivalent.
         /// </summary>
         public string T { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that contains all set keywords separated by commas.
+        /// </summary>
+        /// <returns>A <see cref="System.String"/> that contains all set keywords separated by commas.</returns>
+        public override string ToString()
+        {
+            List<string> parts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(Keyword))
+            {
+                parts.Add("Stichwort: " + Keyword);
+            }
+            if (!string.IsNullOrWhiteSpace(EmergencyKeyword))
+            {
+                parts.Add("Stichwort: " + EmergencyKeyword);
+            }
+            if (!string.IsNullOrWhiteSpace(B))
+            {
+                parts.Add("B: " + B);
+            }
+            if (!string.IsNullOrWhiteSpace(R))
+            {
+                parts.Add("R: " + R);
+            }
+            if (!string.IsNullOrWhiteSpace(S))
+            {
+                parts.Add("S: " + S);
+            }
+            if (!string.IsNullOrWhiteSpace(T))
+            {
+                parts.Add("T: " + T);
+            }
+
+            return string.Join(", ", parts);
+        }
 
         #endregion
     }
