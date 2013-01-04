@@ -6,6 +6,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 {
@@ -24,7 +25,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
             }
 
             // Finally write all analyzed lines to the desired path
-            File.WriteAllLines(options.AnalyzedFileDestinationPath+".txt", analyzedLines);
+            File.WriteAllLines(options.AnalyzedFileDestinationPath + ".txt", analyzedLines);
             return analyzedLines.ToArray();
         }
 
@@ -55,11 +56,16 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
                 proc.Start();
                 proc.WaitForExit();
 
-                return File.ReadAllLines(singlepageTiffAnalyzedFile);
+                string[] lines = File.ReadAllLines(singlepageTiffAnalyzedFile);
+
+                TryDeleteFile(singlepageTiffFileName);
+                TryDeleteFile(singlepageTiffAnalyzedFile);
+
+                return lines;
             }
         }
 
-        private static IEnumerable<string> SplitMultipageTiff(string tiffFileName)
+        private IEnumerable<string> SplitMultipageTiff(string tiffFileName)
         {
             // Idea taken from http://code.msdn.microsoft.com/windowsdesktop/Split-multi-page-tiff-file-058050cc
 
@@ -81,6 +87,19 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
                         yield return fileName;
                     }
                 }
+            }
+        }
+
+        private void TryDeleteFile(string fileName)
+        {
+            try
+            {
+                File.Delete(fileName);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.CuneiformDeleteTempFileError, fileName);
+                Logger.Instance.LogException(this, ex);
             }
         }
 
