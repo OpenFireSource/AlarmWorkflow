@@ -45,7 +45,11 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// <summary>
         /// Gets/sets the value that is edited.
         /// </summary>
-        public object Value { get; set; }
+        public object Value
+        {
+            get { return cboValues.SelectedValue; }
+            set { cboValues.SelectedValue = (string)value; }
+        }
 
         /// <summary>
         /// Gets the visual element that is editing the value.
@@ -61,7 +65,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             {
                 return;
             }
-            
+
             string[] items = editorParameter.Split(';');
             this.Items = new List<string>(items);
 

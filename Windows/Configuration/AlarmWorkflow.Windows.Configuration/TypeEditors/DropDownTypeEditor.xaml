@@ -1,5 +1,5 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.DropDownTypeEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ComboBox ItemsSource="{Binding Items}" Text="{Binding Value}" IsEditable="{Binding IsEditable}" />
+    <ComboBox x:Name="cboValues" ItemsSource="{Binding Items}" IsEditable="{Binding IsEditable}" />
 </UserControl>
