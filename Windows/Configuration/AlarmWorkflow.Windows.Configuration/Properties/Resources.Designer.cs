@@ -117,6 +117,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!.
+        /// </summary>
+        internal static string ServiceIsNotInstalledError {
+            get {
+                return ResourceManager.GetString("ServiceIsNotInstalledError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
         ///
         ///&apos;{0}&apos;.

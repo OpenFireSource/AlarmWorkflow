@@ -8,7 +8,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -46,7 +46,9 @@
                                                 <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
                                                     <TextBlock Text="{Binding DisplayText}" FontWeight="Bold" VerticalAlignment="Center" />
                                                     <Image Margin="2,0,0,0" Source="../Images/Info_16.png" Width="16" Height="16" VerticalAlignment="Center" ToolTip="{Binding Description}" />
-                                                    <Button Margin="2,0,0,0" Content="R" Command="{Binding ResetSettingCommand}" VerticalAlignment="Center" ToolTip="Ursprungswert wiederherstellen" />
+                                                    <Button Margin="2,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding ResetSettingCommand}" VerticalAlignment="Center" ToolTip="Ursprungswert wiederherstellen">
+                                                        <Image Source="../Images/ResetSetting_16.png" Width="16" Height="16" />
+                                                    </Button>
                                                 </StackPanel>
                                             </GroupBox.Header>
 

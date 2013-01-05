@@ -4,15 +4,15 @@
 
     <ToolBar>
         
-        <Button Content="Änderungen speichern" Command="{Binding SaveChangesCommand}" />
+        <Button Content="Änderungen speichern" Command="{Binding SaveChangesCommand}" ToolTip="Speichert alle Änderungen." />
         
         <Separator />
         
-        <Button Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" />  
+        <Button Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" ToolTip="Öffnet das Benutzerdatenverzeichnis." />  
         
         <Separator />
         
-        <Button Command="{Binding RestartServiceCommand}" Content="Service neustarten" />
+        <Button Command="{Binding RestartServiceCommand}" Content="Service neustarten" ToolTip="Startet den Service neu." />
         <Label Margin="2,0,0,0" Content="Status: " FontWeight="Bold" />
         <Label MinWidth="100" VerticalContentAlignment="Center" ToolTip="Rechtsklick, um auf die Serviceoptionen zuzugreifen">
             <Label.Style>

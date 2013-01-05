@@ -137,6 +137,9 @@
   <data name="ServiceInstallSuccessMessage" xml:space="preserve">
     <value>Installation des Services ist abgeschlossen! Sie können den Service nun starten.</value>
   </data>
+  <data name="ServiceIsNotInstalledError" xml:space="preserve">
+    <value>Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!</value>
+  </data>
   <data name="ServiceStartError" xml:space="preserve">
     <value>Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
 
