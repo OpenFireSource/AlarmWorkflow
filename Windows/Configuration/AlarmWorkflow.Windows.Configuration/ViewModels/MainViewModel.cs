@@ -120,6 +120,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void RestartServiceCommand_Execute(object parameter)
         {
+            if (!ServiceHelper.IsServiceInstalled())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.ServiceIsNotInstalledError);
+                return;
+            }
+
             if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, Properties.Resources.RestartServiceMessage))
             {
                 return;
@@ -307,8 +313,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
             // Apply sorting
             ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);
-            view.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Ascending));
             view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Ascending));
         }
 
         private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
