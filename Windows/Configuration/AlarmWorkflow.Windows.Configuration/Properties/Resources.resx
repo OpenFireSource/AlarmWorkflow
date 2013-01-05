@@ -126,6 +126,16 @@
   <data name="SavingSettingsWithErrors" xml:space="preserve">
     <value>Die Einstellungen wurden (mit Fehlern) gespeichert!</value>
   </data>
+  <data name="ServiceStartError" xml:space="preserve">
+    <value>Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
+
+'{0}'</value>
+  </data>
+  <data name="ServiceStopError" xml:space="preserve">
+    <value>Der Service konnte nicht gestoppt werden. Die Fehlermeldung lautet: 
+
+'{0}'</value>
+  </data>
   <data name="SettingItemViewModelSetSettingError" xml:space="preserve">
     <value>An error occurred while setting the user-value to settign '{0}'(Identifier '{1}'). Using the default value.</value>
   </data>

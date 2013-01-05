@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.Views.ToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ToolBar>
+        
+        <Button Content="Änderungen speichern" Command="{Binding SaveChangesCommand}" />
+        
+        <Separator />
+        
+        <Button Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" />  
+        
+        <Separator />
+        
+        <Button Command="{Binding RestartServiceCommand}" Content="Service neustarten" />
+        <Label Margin="2,0,0,0" MinWidth="100" VerticalContentAlignment="Center">
+            <Label.Style>
+                <Style TargetType="Label">
+                    <Style.Triggers>
+                        <!-- Not installed -->
+                        <DataTrigger Binding="{Binding ServiceState}" Value="NotInstalled">
+                            <Setter Property="Content" Value="Nicht installiert" />
+                            <Setter Property="Background" Value="DarkRed" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                        <!-- Stopping -->
+                        <DataTrigger Binding="{Binding ServiceState}" Value="StopPending">
+                            <Setter Property="Content" Value="Wird gestoppt..." />
+                            <Setter Property="Background" Value="Gray" />
+                        </DataTrigger>
+                        <!-- Stopped -->
+                        <DataTrigger Binding="{Binding ServiceState}" Value="Stopped">
+                            <Setter Property="Content" Value="Gestoppt" />
+                            <Setter Property="Background" Value="OrangeRed" />
+                            <Setter Property="Foreground" Value="White" />
+                        </DataTrigger>
+                        <!-- Starting -->
+                        <DataTrigger Binding="{Binding ServiceState}" Value="StartPending">
+                            <Setter Property="Content" Value="Wird gestartet..." />
+                            <Setter Property="Background" Value="Gray" />
+                        </DataTrigger>
+                        <!-- Started -->
+                        <DataTrigger Binding="{Binding ServiceState}" Value="Running">
+                            <Setter Property="Content" Value="Läuft" />
+                            <Setter Property="Background" Value="Green" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                    <!-- Indeterminate -->
+                    <Setter Property="Content" Value="(Hole Servicestatus...)" />
+                </Style>
+            </Label.Style>
+        </Label>
+    </ToolBar>
+</UserControl>

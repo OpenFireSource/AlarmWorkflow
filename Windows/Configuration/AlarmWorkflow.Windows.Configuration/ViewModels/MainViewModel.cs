@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.ServiceProcess;
+using System.Timers;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -22,6 +23,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         private SettingsDisplayConfiguration _displayConfiguration;
         private Dictionary<string, SectionViewModel> _sections;
 
+        private Timer _serviceStatePollingTimer;
+
         #endregion
 
         #region Properties
@@ -33,6 +36,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get { return _sections.Values; }
         }
+        /// <summary>
+        /// Gets the state of the service.
+        /// </summary>
+        public string ServiceState { get; private set; }
 
         #endregion
 
@@ -122,6 +129,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             catch (Exception ex)
             {
                 Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(Properties.Resources.ServiceStopError, ex.Message);
             }
 
             try
@@ -132,6 +140,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             catch (Exception ex)
             {
                 Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(Properties.Resources.ServiceStartError, ex.Message);
             }
         }
 
@@ -151,6 +160,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
             _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
             BuildSectionsTree();
+
+            _serviceStatePollingTimer = new Timer(2000d);
+            _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
+            _serviceStatePollingTimer.Start();
         }
 
         #endregion
@@ -183,6 +196,20 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);
             view.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Ascending));
             view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+        }
+
+        private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            ServiceController service = new ServiceController("AlarmworkflowService");
+            try
+            {
+                ServiceState = service.Status.ToString();
+            }
+            catch (Exception)
+            {
+                ServiceState = "NotInstalled";
+            }
+            OnPropertyChanged("ServiceState");
         }
 
         #endregion
