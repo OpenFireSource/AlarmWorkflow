@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="Shared" DisplayText="Generell">
+  <Identifier Name="Shared" DisplayText="Generell" Order="-2147483648">
 
     <Setting Name="FD.Name" DisplayText="Feuerwehrname" Category="Feuerwehr" Description="Der Name der Feuerwehr. Wird ggf. von Komponenten verwendet." />
     <Setting Name="FD.City" DisplayText="Stadt" Category="Feuerwehr" />
