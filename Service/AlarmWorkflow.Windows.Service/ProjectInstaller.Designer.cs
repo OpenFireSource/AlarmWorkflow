@@ -39,7 +39,7 @@
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Processes incoming alarmfaxes and takes actions upon them.";
+            this.serviceInstaller1.Description = "Processes incoming alarms and takes actions upon them.";
             this.serviceInstaller1.DisplayName = "AlarmWorkflow Service";
             this.serviceInstaller1.ServiceName = "AlarmworkflowService";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
