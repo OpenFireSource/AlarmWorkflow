@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.ServiceProcess;
 using System.Timers;
 using System.Windows;
 using System.Windows.Data;
@@ -17,6 +16,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
     class MainViewModel : ViewModelBase
     {
+        #region Constants
+
+        private const string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
+
+        #endregion
+
         #region Fields
 
         private SettingsManager _manager;
@@ -120,27 +125,135 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 return;
             }
 
-            ServiceController service = new ServiceController("AlarmworkflowService");
-            try
+            ServiceHelper.StopService(false);
+            ServiceHelper.StartService(false);
+        }
+
+        #endregion
+
+        #region Command "InstallServiceCommand"
+
+        /// <summary>
+        /// The InstallServiceCommand command.
+        /// </summary>
+        public ICommand InstallServiceCommand { get; private set; }
+
+        private bool InstallServiceCommand_CanExecute(object parameter)
+        {
+            return !ServiceHelper.IsServiceInstalled();
+        }
+
+        private void InstallServiceCommand_Execute(object parameter)
+        {
+            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Properties.Resources.ServiceInstallConfirmationMessage))
             {
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMinutes(1d));
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Properties.Resources.ServiceStopError, ex.Message);
+                return;
             }
 
             try
             {
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1d));
+                ServiceHelper.InstallService();
+
+                MessageBox.Show(Properties.Resources.ServiceInstallSuccessMessage);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(Properties.Resources.ServiceInstallFailedMessage, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Command "UninstallServiceCommand"
+
+        /// <summary>
+        /// The UninstallServiceCommand command.
+        /// </summary>
+        public ICommand UninstallServiceCommand { get; private set; }
+
+        private bool UninstallServiceCommand_CanExecute(object parameter)
+        {
+            return ServiceHelper.IsServiceInstalled();
+        }
+
+        private void UninstallServiceCommand_Execute(object parameter)
+        {
+            if (ServiceHelper.IsServiceRunning())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.ServiceUninstallErrorServiceIsRunningMessage);
+                return;
+            }
+
+            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Properties.Resources.ServiceUninstallConfirmationMessage))
+            {
+                return;
+            }
+
+            try
+            {
+                ServiceHelper.UninstallService();
+
+                MessageBox.Show(Properties.Resources.ServiceUninstallSuccessMessage);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(Properties.Resources.ServiceUninstallFailedMessage, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Command "StartServiceCommand"
+
+        /// <summary>
+        /// The StartServiceCommand command.
+        /// </summary>
+        public ICommand StartServiceCommand { get; private set; }
+
+        private bool StartServiceCommand_CanExecute(object parameter)
+        {
+            return ServiceHelper.IsServiceInstalled() && !ServiceHelper.IsServiceRunning();
+        }
+
+        private void StartServiceCommand_Execute(object parameter)
+        {
+            try
+            {
+                ServiceHelper.StartService(true);
             }
             catch (Exception ex)
             {
                 Logger.Instance.LogException(this, ex);
                 UIUtilities.ShowWarning(Properties.Resources.ServiceStartError, ex.Message);
+            }
+        }
+
+        #endregion
+
+        #region Command "StopServiceCommand"
+
+        /// <summary>
+        /// The StopServiceCommand command.
+        /// </summary>
+        public ICommand StopServiceCommand { get; private set; }
+
+        private bool StopServiceCommand_CanExecute(object parameter)
+        {
+            return ServiceHelper.IsServiceInstalled() && ServiceHelper.IsServiceRunning();
+        }
+
+        private void StopServiceCommand_Execute(object parameter)
+        {
+            try
+            {
+                ServiceHelper.StopService(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(Properties.Resources.ServiceStopError, ex.Message);
             }
         }
 
@@ -200,10 +313,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            ServiceController service = new ServiceController("AlarmworkflowService");
             try
             {
-                ServiceState = service.Status.ToString();
+                ServiceState = ServiceHelper.GetServiceState().ToString();
             }
             catch (Exception)
             {

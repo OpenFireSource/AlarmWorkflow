@@ -88,6 +88,35 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sie sind dabei, den Service zu installieren. Bitte bestätigen Sie, um fortzufahren. Sie können dann anschließend den Service starten..
+        /// </summary>
+        internal static string ServiceInstallConfirmationMessage {
+            get {
+                return ResourceManager.GetString("ServiceInstallConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation des Services ist gescheitert. Die Fehlermeldung lautet: 
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceInstallFailedMessage {
+            get {
+                return ResourceManager.GetString("ServiceInstallFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation des Services ist abgeschlossen! Sie können den Service nun starten..
+        /// </summary>
+        internal static string ServiceInstallSuccessMessage {
+            get {
+                return ResourceManager.GetString("ServiceInstallSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
         ///
         ///&apos;{0}&apos;.
@@ -106,6 +135,44 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         internal static string ServiceStopError {
             get {
                 return ResourceManager.GetString("ServiceStopError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sie sind dabei, den Service zu deinstallieren. Bitte bestätigen Sie, um fortzufahren..
+        /// </summary>
+        internal static string ServiceUninstallConfirmationMessage {
+            get {
+                return ResourceManager.GetString("ServiceUninstallConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der Service läuft noch. Bitte beenden Sie ihn zuerst, bevor sie ihn deinstallieren!.
+        /// </summary>
+        internal static string ServiceUninstallErrorServiceIsRunningMessage {
+            get {
+                return ResourceManager.GetString("ServiceUninstallErrorServiceIsRunningMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deinstallation des Services ist gescheitert. Die Fehlermeldung lautet: 
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceUninstallFailedMessage {
+            get {
+                return ResourceManager.GetString("ServiceUninstallFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deinstallation des Services ist abgeschlossen!.
+        /// </summary>
+        internal static string ServiceUninstallSuccessMessage {
+            get {
+                return ResourceManager.GetString("ServiceUninstallSuccessMessage", resourceCulture);
             }
         }
         
