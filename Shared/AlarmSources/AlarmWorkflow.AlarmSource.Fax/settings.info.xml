@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="FaxAlarmSource" DisplayText="Fax (Alarmquelle)">
+  <Identifier Name="FaxAlarmSource" DisplayText="Fax (Alarmquelle)" Order="-5000">
 
     <Setting Name="FaxPath" DisplayText="Faxeingang-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis, in dem die Windows-Faxkonsole die Faxe ablegt." />
