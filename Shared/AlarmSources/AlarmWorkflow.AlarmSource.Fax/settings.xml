@@ -8,7 +8,7 @@
   <Setting Name="OCR.Path" Type="System.String" IsNull="False" Editor="DirectoryTypeEditor"></Setting>
   <Setting Name="Routine.Interval" Type="System.Int32" IsNull="False">1500</Setting>
 
-  <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">MucLandParser</Setting>
+  <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">GenericParser</Setting>
   <Setting Name="TestFaxKeywords" Type="System.String" IsNull="False">
     <![CDATA[Testfax
 Test]]>
