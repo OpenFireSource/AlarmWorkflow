@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sie müssen Administratorrechte besitzen, um diese Aktion auszuführen!.
+        /// </summary>
+        internal static string AdministratorRequiredMessage {
+            get {
+                return ResourceManager.GetString("AdministratorRequiredMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten..
         /// </summary>
         internal static string RestartServiceMessage {

@@ -151,6 +151,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void InstallServiceCommand_Execute(object parameter)
         {
+            if (!Helper.IsCurrentUserAdministrator())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
+                return;
+            }
             if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Properties.Resources.ServiceInstallConfirmationMessage))
             {
                 return;
@@ -185,6 +190,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void UninstallServiceCommand_Execute(object parameter)
         {
+            if (!Helper.IsCurrentUserAdministrator())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
+                return;
+            }
             if (ServiceHelper.IsServiceRunning())
             {
                 UIUtilities.ShowWarning(Properties.Resources.ServiceUninstallErrorServiceIsRunningMessage);
