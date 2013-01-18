@@ -35,21 +35,5 @@
     <Export Name="FaxAlarmSource" IsEnabled="True" />
   </ExportConfiguration>]]>
   </Setting>
-  
-  <!-- Addressbook -->
-  <Setting Name="AddressBook" Type="System.String">
-    <![CDATA[<AddressBook>
-  <Entry Name="John Doe">
-    <MobilePhone>0123456789</MobilePhone>
-    <Mail>john.doe@example.com</Mail>
-    <Prowl IsEnabled="false"></Prowl>
-    <Schleifen>
-      <ID>1</ID>
-      <ID>2</ID>
-      <ID>3</ID>
-    </Schleifen>
-  </Entry>
-</AddressBook>]]>
-  </Setting>
 
 </SettingsConfiguration>

@@ -61,24 +61,6 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address book scan finished. Entries found: {0}..
-        /// </summary>
-        internal static string AddressBook_FinishScanMessage {
-            get {
-                return ResourceManager.GetString("AddressBook_FinishScanMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Begin scanning address book contents....
-        /// </summary>
-        internal static string AddressBook_StartScanMessage {
-            get {
-                return ResourceManager.GetString("AddressBook_StartScanMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The file path must be in absolute format!.
         /// </summary>
         internal static string FileNameMustBeAbsolute {

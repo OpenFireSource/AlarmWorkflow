@@ -117,58 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="FileNameMustBeAbsolute" xml:space="preserve">
-    <value>The file path must be in absolute format!</value>
+  <data name="AddressBook_FinishScanMessage" xml:space="preserve">
+    <value>Address book scan finished. Entries found: {0}.</value>
   </data>
-  <data name="JobExecuteAsyncFailed" xml:space="preserve">
-    <value>An error occurred while processing the asynchronous job '{0}'!</value>
-  </data>
-  <data name="JobExecuteSyncFailed" xml:space="preserve">
-    <value>An error occurred while processing the synchronous job '{0}'!</value>
-  </data>
-  <data name="JobManagerDisposeJobFailed" xml:space="preserve">
-    <value>The job '{0}' failed at dispose. This may have unpredictable consequences.</value>
-  </data>
-  <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
-    <value>Storing the operation to the operation store failed! See log for information.</value>
-  </data>
-  <data name="ServiceStartFailedNoAlarmSourceException" xml:space="preserve">
-    <value>Service failed to start because there are no running alarm sources! Please check the log.</value>
-  </data>
-  <data name="SettingIdentifierNotFoundExceptionMessage" xml:space="preserve">
-    <value>No setting identifier with the name '{0}' has been found!</value>
-  </data>
-  <data name="SettingItemEmptyType" xml:space="preserve">
-    <value>The setting '{0}' has no type defined! Skipping setting.</value>
-  </data>
-  <data name="SettingItemInvalidName" xml:space="preserve">
-    <value>Encountered setting with no name! Setting index (one-based): {0}. Skipping setting.</value>
-  </data>
-  <data name="SettingItemInvalidType" xml:space="preserve">
-    <value>The setting '{0}' has an invalid type! Supported types are: {1}. Skipping setting.</value>
-  </data>
-  <data name="SettingNotFoundExceptionMessage" xml:space="preserve">
-    <value>No setting with the name '{0}' has been found!</value>
-  </data>
-  <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
-    <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
-  </data>
-  <data name="SettingsConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings configuration from assembly '{0}'.</value>
-  </data>
-  <data name="SettingsConfigurationEmbResParseFailed" xml:space="preserve">
-    <value>Parsing of settings configuration file from assembly '{0}' failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version.</value>
-  </data>
-  <data name="SettingsConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
-  </data>
-  <data name="SettingsDisplayConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings display configuration from assembly '{0}'.</value>
-  </data>
-  <data name="SettingsDisplayConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings display configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
-  </data>
-  <data name="SettingsDisplayConfigurationNotFoundException" xml:space="preserve">
-    <value>There was no SettingsDisplayConfiguration found in this instance. Perhaps this instance was not initialized with "IncludeDisplayConfiguration" or it was and the configuration is not available at this point.</value>
+  <data name="AddressBook_StartScanMessage" xml:space="preserve">
+    <value>Begin scanning address book contents...</value>
   </data>
 </root>

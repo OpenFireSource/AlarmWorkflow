@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<DisplayWakeUp>
-  <!-- Add an entry for each display -->
-  <Display ip="DisplayIP" user="DisplayUser" pwd="DisplayPassword" port="80"/>
-</DisplayWakeUp>

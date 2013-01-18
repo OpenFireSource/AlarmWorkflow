@@ -49,10 +49,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addressing\AddressBook.cs" />
-    <Compile Include="Addressing\AddressBookEntry.cs" />
-    <Compile Include="Addressing\IAddressBook.cs" />
-    <Compile Include="Addressing\IAddressProvider.cs" />
     <Compile Include="AlarmWorkflowConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,6 +99,7 @@
     <Compile Include="Settings\SettingsConfigurationFileParser.cs" />
     <Compile Include="Settings\SettingsDisplayConfiguration.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
+    <Compile Include="Settings\StringSettingConvertibleTools.cs" />
     <Compile Include="Specialized\Printing\PrintJobConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>

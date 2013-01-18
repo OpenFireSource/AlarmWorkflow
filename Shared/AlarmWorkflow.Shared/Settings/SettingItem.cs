@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
-using System.Reflection;
 
 namespace AlarmWorkflow.Shared.Settings
 {
@@ -85,24 +83,7 @@ namespace AlarmWorkflow.Shared.Settings
         /// <returns>The value of this setting casted to its desired type. If the value is null then the default value for <typeparamref name="T"/> is returned.</returns>
         public T GetValue<T>()
         {
-            if (Value == null)
-            {
-                return default(T);
-            }
-
-            // If the value is a string
-            if (Value is string && typeof(T).GetInterface(typeof(IStringSettingConvertible).Name) != null)
-            {
-                // Look for an empty constructor, even if it is private (only then we can instantiate this type)
-                if (typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Any(ci => ci.GetParameters().Length == 0))
-                {
-                    IStringSettingConvertible convertible = (IStringSettingConvertible)Activator.CreateInstance(typeof(T), true);
-                    convertible.Convert((string)Value);
-                    return (T)convertible;
-                }
-            }
-
-            return (T)Value;
+            return StringSettingConvertibleTools.ConvertFromSetting<T>((string)Value);
         }
 
         /// <summary>
@@ -173,13 +154,12 @@ namespace AlarmWorkflow.Shared.Settings
                 return;
             }
 
-            object valueToSave = value;
+            object valueToSave = null;
 
             // If the value implements the IStringSettingConvertible-interface, we can do custom conversion into the string type.
-            IStringSettingConvertible convertible = value as IStringSettingConvertible;
-            if (convertible != null)
+            if (!StringSettingConvertibleTools.ConvertBack(value, out valueToSave))
             {
-                valueToSave = convertible.ConvertBack();
+                valueToSave = value;
             }
 
             this.Value = valueToSave;

@@ -2,12 +2,12 @@
 using System.Net.Mail;
 using AlarmWorkflow.Shared.Diagnostics;
 
-namespace AlarmWorkflow.Job.MailingJob
+namespace AlarmWorkflow.Shared.Addressing.EntryObjects
 {
     /// <summary>
-    /// EntryObject for mailing addresses used in the address book.
+    /// Represents a "Mail" entry in the address book.
     /// </summary>
-    public sealed class MailingEntryObject
+    public class MailAddressEntryObject
     {
         #region Properties
 
@@ -25,14 +25,14 @@ namespace AlarmWorkflow.Job.MailingJob
         #region Methods
 
         /// <summary>
-        /// Parses a specified address and recipient type into a <see cref="MailingEntryObject"/>-instance.
+        /// Parses a specified address and recipient type into a <see cref="MailAddressEntryObject"/>-instance.
         /// </summary>
         /// <param name="address">The e-mail address to parse.</param>
         /// <param name="receiptType">The receipt type.</param>
         /// <returns></returns>
-        public static MailingEntryObject FromAddress(string address, string receiptType)
+        public static MailAddressEntryObject FromAddress(string address, string receiptType)
         {
-            MailingEntryObject returnValue = new MailingEntryObject();
+            MailAddressEntryObject returnValue = new MailAddressEntryObject();
             returnValue.Address = TryParseMailAddress(address);
             if (returnValue.Address == null)
             {
@@ -54,7 +54,7 @@ namespace AlarmWorkflow.Job.MailingJob
         {
             try
             {
-                return Helpers.ParseAddress(address);
+                return ParseAddress(address);
             }
             catch (Exception)
             {
@@ -62,6 +62,15 @@ namespace AlarmWorkflow.Job.MailingJob
                 Logger.Instance.LogFormat(LogType.Warning, null, "The address '{0}' failed to parse. This is usually an indication that the E-Mail address is invalid formatted.", address);
             }
             return null;
+        }
+
+        private static MailAddress ParseAddress(string address)
+        {
+            if (string.IsNullOrWhiteSpace(address))
+            {
+                return null;
+            }
+            return new MailAddress(address);
         }
 
         #endregion

@@ -22,9 +22,6 @@
     <Setting Name="RouteImageHeight" DisplayText="Höhe (pixel)" Category="Routenplan" />
     <Setting Name="RouteImageWidth" DisplayText="Breite (pixel)" Category="Routenplan" />
 
-    <Setting Name="AddressBook" DisplayText="Addressbuch" Category="" Editor="StringArrayTypeEditor"
-             Description="Das Adressbuch, dass die Kontaktdaten von Kameraden, Personen etc. enthält." />
-
   </Identifier>
 
 </SettingsDisplayConfiguration>

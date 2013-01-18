@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Addressing;
+using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
@@ -68,7 +69,7 @@ namespace AlarmWorkflow.Job.SmsJob
             _password = SettingsManager.Instance.GetSetting("SMSJob", "Password").GetString();
             _provider = ExportedTypeLibrary.Import<ISmsProvider>(SettingsManager.Instance.GetSetting("SMSJob", "Provider").GetString());
 
-            var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MobilePhoneEntryObject>("MobilePhone");
+            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MobilePhoneEntryObject>("MobilePhone");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
             if (_recipients.Count == 0)

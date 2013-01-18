@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Mail;
 using System.Web;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -10,15 +9,6 @@ namespace AlarmWorkflow.Job.eAlarm
 {
     static class Helpers
     {
-
-        internal static MailAddress ParseAddress(string address)
-        {
-            if (string.IsNullOrWhiteSpace(address))
-            {
-                return null;
-            }
-            return new MailAddress(address);
-        }
         /// <summary>
         /// Returns the longitude and the latitude for a given address
         /// </summary>

@@ -4,8 +4,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using System.Threading;
 using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Addressing;
+using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
@@ -25,7 +26,7 @@ namespace AlarmWorkflow.Job.MailingJob
         private SmtpClient _smptClient;
         private MailAddress _senderEmail;
 
-        private List<MailingEntryObject> _recipients;
+        private List<MailAddressEntryObject> _recipients;
 
         #endregion
 
@@ -36,7 +37,7 @@ namespace AlarmWorkflow.Job.MailingJob
         /// </summary>
         public MailingJob()
         {
-            _recipients = new List<MailingEntryObject>();
+            _recipients = new List<MailAddressEntryObject>();
         }
 
         #endregion
@@ -66,7 +67,7 @@ namespace AlarmWorkflow.Job.MailingJob
             }
 
             // Get recipients
-            var recipients = AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MailingEntryObject>("Mail");
+            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
             // Require at least one recipient for initialization to succeed
@@ -93,10 +94,10 @@ namespace AlarmWorkflow.Job.MailingJob
                 {
                     switch (recipient.Type)
                     {
-                        case MailingEntryObject.ReceiptType.CC: message.CC.Add(recipient.Address); break;
-                        case MailingEntryObject.ReceiptType.Bcc: message.Bcc.Add(recipient.Address); break;
+                        case MailAddressEntryObject.ReceiptType.CC: message.CC.Add(recipient.Address); break;
+                        case MailAddressEntryObject.ReceiptType.Bcc: message.Bcc.Add(recipient.Address); break;
                         default:
-                        case MailingEntryObject.ReceiptType.To: message.To.Add(recipient.Address); break;
+                        case MailAddressEntryObject.ReceiptType.To: message.To.Add(recipient.Address); break;
                     }
                 }
 
@@ -148,7 +149,7 @@ namespace AlarmWorkflow.Job.MailingJob
                 }
             }
         }
-        
+
         bool IJob.IsAsync
         {
             get { return true; }

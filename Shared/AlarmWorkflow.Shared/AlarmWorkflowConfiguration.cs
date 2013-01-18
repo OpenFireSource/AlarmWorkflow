@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -43,10 +42,6 @@ namespace AlarmWorkflow.Shared
         /// </summary>
         /// <remarks>This information is used (among others) to provide the route information to the operation destination.</remarks>
         public FireDepartmentInfo FDInformation { get; private set; }
-        /// <summary>
-        /// Gets the current address book.
-        /// </summary>
-        public IAddressBook AddressBook { get; private set; }
 
         internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
         internal ReadOnlyCollection<string> EnabledAlarmSources { get; private set; }
@@ -79,9 +74,6 @@ namespace AlarmWorkflow.Shared
             // Jobs and AlarmSources configuration
             this.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
             this.EnabledAlarmSources = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
-
-            // Address book
-            this.AddressBook = Addressing.AddressBook.Parse(SettingsManager.Instance.GetSetting("Shared", "AddressBook").GetString());
 
             _instance = this;
         }

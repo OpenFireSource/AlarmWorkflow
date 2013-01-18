@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Shared", "AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj", "{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Shared.Addressing", "AlarmWorkflow.Shared.Addressing\AlarmWorkflow.Shared.Addressing.csproj", "{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE} = {88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +18,10 @@ Global
 		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

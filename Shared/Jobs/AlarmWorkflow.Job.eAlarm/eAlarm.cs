@@ -6,9 +6,8 @@ using System.Net;
 using System.Text;
 using System.Web;
 using AlarmWorkflow.Job.eAlarm.Properties;
-using AlarmWorkflow.Job.MailingJob;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Addressing;
+using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
@@ -27,7 +26,7 @@ namespace AlarmWorkflow.Job.eAlarm
         #region Fields
 
         private readonly List<String> _recipients;
-        private readonly List<MailingEntryObject> _recipientsEntry;
+        private readonly List<MailAddressEntryObject> _recipientsEntry;
         private HttpWebRequest webRequest;
 
         #endregion Fields
@@ -39,7 +38,7 @@ namespace AlarmWorkflow.Job.eAlarm
         /// </summary>
         public eAlarm()
         {
-            _recipientsEntry = new List<MailingEntryObject>();
+            _recipientsEntry = new List<MailAddressEntryObject>();
             _recipients = new List<string>();
         }
 
@@ -55,8 +54,7 @@ namespace AlarmWorkflow.Job.eAlarm
             webRequest.ContentType = "application/x-www-form-urlencoded";
 
             // Get recipients
-            IEnumerable<Tuple<AddressBookEntry, MailingEntryObject>> recipients =
-                AlarmWorkflowConfiguration.Instance.AddressBook.GetCustomObjects<MailingEntryObject>("Mail");
+            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
 
             _recipientsEntry.AddRange(recipients.Select(ri => ri.Item2));
 
@@ -73,7 +71,7 @@ namespace AlarmWorkflow.Job.eAlarm
         void IJob.Execute(IJobContext context, Operation operation)
         {
             //Gets the mail-addresses with googlemail.com or gmail.com
-            foreach (MailingEntryObject recipient in _recipientsEntry)
+            foreach (MailAddressEntryObject recipient in _recipientsEntry)
             {
                 if (recipient.Address.Address.EndsWith("@gmail.com") ||
                     recipient.Address.Address.EndsWith("@googlemail.com"))

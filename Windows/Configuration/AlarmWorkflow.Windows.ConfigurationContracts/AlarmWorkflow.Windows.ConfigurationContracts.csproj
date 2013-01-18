@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationTypeEditorAttribute.cs" />
+    <Compile Include="ISectionsProvider.cs" />
+    <Compile Include="ISectionView.cs" />
     <Compile Include="ITypeEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
