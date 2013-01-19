@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
@@ -22,6 +23,12 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         public MailCustomDataEditor()
         {
             InitializeComponent();
+
+            foreach (string name in Enum.GetNames(typeof(MailAddressEntryObject.ReceiptType)))
+            {
+                cboReceiptType.Items.Add(name);
+            }
+            cboReceiptType.SelectedIndex = 0;
         }
 
         #endregion
@@ -32,8 +39,11 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         {
             get
             {
+                string address = txtText.Text;
+                string receiptType = (string)cboReceiptType.SelectedItem;
+
                 // TODO: Verify format first! The method below will return "null" if parsing failed.
-                MailAddressEntryObject meo = MailAddressEntryObject.FromAddress(txtText.Text);
+                MailAddressEntryObject meo = MailAddressEntryObject.FromAddress(address, receiptType);
 
                 return meo;
             }
@@ -42,6 +52,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
                 MailAddressEntryObject meo = (MailAddressEntryObject)value;
 
                 txtText.Text = meo.Address.Address;
+                cboReceiptType.Text = meo.Type.ToString();
             }
         }
 

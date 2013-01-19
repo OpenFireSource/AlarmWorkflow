@@ -1,5 +1,13 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditors.MailCustomDataEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <TextBox x:Name="txtText" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <ComboBox x:Name="cboReceiptType" Grid.Column="0" Margin="2" IsEditable="False" Width="50" ToolTip="Zustellen als..." />
+        <TextBox x:Name="txtText" Grid.Column="1" Margin="2" />
+    </Grid>
 </UserControl>
