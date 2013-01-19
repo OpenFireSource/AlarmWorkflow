@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
@@ -16,7 +16,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         private readonly Dictionary<string, string> _fdUnits;
         private readonly string[] _keywords = new[]
                                                         {
-                                                            "ALARM","E - Nr","EINSATZORT","STRAﬂE",
+                                                            "ALARM","E-Nr","EINSATZORT","STRA√üE",
                                                             "ORTSTEIL/ORT","OBJEKT","EINSATZPLAN","MELDEBILD",
                                                             "EINSATZSTICHWORT","HINWEIS","EINSATZMITTEL","(ALARMSCHREIBEN ENDE)"
                                                         };
@@ -59,9 +59,9 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                 {
                     switch (keyword.Trim())
                     {
-                        case "E - Nr": { section = CurrentSection.BeNr; break; }
+                        case "E-Nr": { section = CurrentSection.BeNr; break; }
                         case "EINSATZORT": { section = CurrentSection.CEinsatzort; break; }
-                        case "STRAﬂE": { section = CurrentSection.DStraﬂe; break; }
+                        case "STRA√üE": { section = CurrentSection.DStra√üe; break; }
                         case "ORTSTEIL/ORT": { section = CurrentSection.EOrt; break; }
                         case "OBJEKT": { section = CurrentSection.FObjekt; break; }
                         case "EINSATZPLAN": { section = CurrentSection.GEinsatzplan; break; }
@@ -91,7 +91,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     case CurrentSection.CEinsatzort:
                         operation.Zielort.Location = GetMessageText(line, keyword);
                         break;
-                    case CurrentSection.DStraﬂe:
+                    case CurrentSection.DStra√üe:
                         operation.Einsatzort.Street = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.EOrt:
@@ -118,21 +118,32 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                             break;
                         }
                         OperationResource resource = new OperationResource();
-                        string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
-                        tool = tool.Substring(0, tool.Length - 2).Trim();
-                        string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
-                        resource.FullName = unit;
-                        resource.RequestedEquipment.Add(tool);
-                        foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
+                        if (line.Contains('('))
                         {
-                            if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
+                            string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
+                            if (tool.Length >= 2)
                             {
-                                resource.FullName = fdUnit.Value;
-                                operation.Resources.Add(resource);
-                                break;
+                                tool = tool.Substring(0, tool.Length - 2).Trim();
                             }
-                        }                        
+                            else
+                            {
+                                tool = String.Empty;
+                            }
+                            string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
+                            resource.FullName = unit;
+                            resource.RequestedEquipment.Add(tool);
+                            foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
+                            {
+                                if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
+                                {
+                                    resource.FullName = fdUnit.Value;
+                                    operation.Resources.Add(resource);
+                                    break;
+                                }
+                            }
+                        }
                         break;
+                        
                     case CurrentSection.MEnde:
                         break;
 
@@ -200,7 +211,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
             AAnfang,
             BeNr,
             CEinsatzort,
-            DStraﬂe,
+            DStra√üe,
             EOrt,
             FObjekt,
             GEinsatzplan,
