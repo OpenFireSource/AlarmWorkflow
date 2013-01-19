@@ -16,7 +16,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         private readonly Dictionary<string, string> _fdUnits;
         private readonly string[] _keywords = new[]
                                                         {
-                                                            "ALARM","E - Nr","EINSATZORT","STRAﬂE",
+                                                            "ALARM","E-Nr","EINSATZORT","STRAﬂE",
                                                             "ORTSTEIL/ORT","OBJEKT","EINSATZPLAN","MELDEBILD",
                                                             "EINSATZSTICHWORT","HINWEIS","EINSATZMITTEL","(ALARMSCHREIBEN ENDE)"
                                                         };
@@ -59,7 +59,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                 {
                     switch (keyword.Trim())
                     {
-                        case "E - Nr": { section = CurrentSection.BeNr; break; }
+                        case "E-Nr": { section = CurrentSection.BeNr; break; }
                         case "EINSATZORT": { section = CurrentSection.CEinsatzort; break; }
                         case "STRAﬂE": { section = CurrentSection.DStraﬂe; break; }
                         case "ORTSTEIL/ORT": { section = CurrentSection.EOrt; break; }
@@ -118,21 +118,32 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                             break;
                         }
                         OperationResource resource = new OperationResource();
-                        string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
-                        tool = tool.Substring(0, tool.Length - 2).Trim();
-                        string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
-                        resource.FullName = unit;
-                        resource.RequestedEquipment.Add(tool);
-                        foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
+                        if (line.Contains('('))
                         {
-                            if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
+                            string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
+                            if (tool.Length >= 2)
                             {
-                                resource.FullName = fdUnit.Value;
-                                operation.Resources.Add(resource);
-                                break;
+                                tool = tool.Substring(0, tool.Length - 2).Trim();
                             }
-                        }                        
+                            else
+                            {
+                                tool = String.Empty;
+                            }
+                            string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
+                            resource.FullName = unit;
+                            resource.RequestedEquipment.Add(tool);
+                            foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
+                            {
+                                if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
+                                {
+                                    resource.FullName = fdUnit.Value;
+                                    operation.Resources.Add(resource);
+                                    break;
+                                }
+                            }
+                        }
                         break;
+                        
                     case CurrentSection.MEnde:
                         break;
 
