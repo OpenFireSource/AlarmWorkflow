@@ -1,0 +1,7 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditors.LoopCustomDataEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <TextBox x:Name="txtLoopCode" ToolTip="Schleifencode" />
+    </Grid>
+</UserControl>

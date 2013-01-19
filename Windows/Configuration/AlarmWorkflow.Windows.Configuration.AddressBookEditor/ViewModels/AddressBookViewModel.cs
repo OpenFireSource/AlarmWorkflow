@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Addressing;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -45,7 +47,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
                     edivm.Editor = CustomDataEditors.CustomDataEditorCache.CreateTypeEditor(edi.Identifier);
                     if (edivm.Editor != null)
                     {
-                        edivm.Editor.Value = edi.Data;
+                        try
+                        {
+                            edivm.Editor.Value = edi.Data;
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorWhileLoadingDataItemValue, edi.Identifier);
+                            Logger.Instance.LogException(this, ex);
+                        }
                     }
 
                     evm.DataItems.Add(edivm);
@@ -80,10 +90,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
                     // Decide which value to use
                     if (edivm.Editor != null)
                     {
-                        // TODO: Add checkbox to GroupBox that determines the IsEnabled-state
                         edi.IsEnabled = edivm.IsEnabled;
                         edi.Identifier = CustomDataEditors.CustomDataEditorCache.GetTypeEditorIdentifier(edivm.Editor.GetType());
                         edi.Data = edivm.Editor.Value;
+
+                        // If there is no data available, skip this entry.
+                        if (edi.Data == null)
+                        {
+                            continue;
+                        }
                     }
                     else
                     {
@@ -91,10 +106,9 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
                         {
                             edi = edivm.Source;
                         }
-                        else
-                        {
-                            // TODO: What happens if there is no editor, AND no value?
-                        }
+
+                        // TODO: What happens if there is no editor, AND no value?
+                        continue;
                     }
 
                     abe.Data.Add(edi);

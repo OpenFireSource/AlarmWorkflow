@@ -32,6 +32,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
 
         internal static ICustomDataEditor CreateTypeEditor(string identifier)
         {
+            // TODO: Using the "Tag" property is ok for now but should be changed (maybe own Attribute for CustomDataEditors?).
             Type type = TypeEditors.FirstOrDefault(t => GetTypeEditorIdentifier(t) == identifier);
             if (type != null)
             {

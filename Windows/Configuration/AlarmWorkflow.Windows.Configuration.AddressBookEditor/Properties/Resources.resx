@@ -120,7 +120,25 @@
   <data name="ConfirmDeleteEntry" xml:space="preserve">
     <value>Möchten Sie den gewählten Eintrag wirklich löschen?</value>
   </data>
+  <data name="ErrorWhileLoadingDataItemValue" xml:space="preserve">
+    <value>An error occurred while loading the data item value from item with identifier '{0}'. See log for further information.</value>
+  </data>
+  <data name="INF_LoopCustomDataEditor" xml:space="preserve">
+    <value>Schleifencode</value>
+  </data>
   <data name="INF_MailCustomDataEditor" xml:space="preserve">
     <value>E-Mail Adresse</value>
+  </data>
+  <data name="INF_MobilePhoneCustomDataEditor" xml:space="preserve">
+    <value>Telefonnummer</value>
+  </data>
+  <data name="VR_Mail_InvalidAddress" xml:space="preserve">
+    <value>Die angegebene Adresse ist ungültig.</value>
+  </data>
+  <data name="VR_NoValue" xml:space="preserve">
+    <value>Kein Wert!</value>
+  </data>
+  <data name="VR_Phone_InvalidNumber" xml:space="preserve">
+    <value>Ungültiges Nummernformat! Aus Rücksichtnahme auf verschiedenste Dienste benutzen Sie bitte nur Zahlen, ohne Leerzeichen, Klammern etc.</value>
   </data>
 </root>

@@ -70,11 +70,65 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while loading the data item value from item with identifier &apos;{0}&apos;. See log for further information..
+        /// </summary>
+        internal static string ErrorWhileLoadingDataItemValue {
+            get {
+                return ResourceManager.GetString("ErrorWhileLoadingDataItemValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schleifencode.
+        /// </summary>
+        internal static string INF_LoopCustomDataEditor {
+            get {
+                return ResourceManager.GetString("INF_LoopCustomDataEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-Mail Adresse.
         /// </summary>
         internal static string INF_MailCustomDataEditor {
             get {
                 return ResourceManager.GetString("INF_MailCustomDataEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Telefonnummer.
+        /// </summary>
+        internal static string INF_MobilePhoneCustomDataEditor {
+            get {
+                return ResourceManager.GetString("INF_MobilePhoneCustomDataEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Die angegebene Adresse ist ungültig..
+        /// </summary>
+        internal static string VR_Mail_InvalidAddress {
+            get {
+                return ResourceManager.GetString("VR_Mail_InvalidAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kein Wert!.
+        /// </summary>
+        internal static string VR_NoValue {
+            get {
+                return ResourceManager.GetString("VR_NoValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ungültiges Nummernformat! Aus Rücksichtnahme auf verschiedenste Dienste benutzen Sie bitte nur Zahlen, ohne Leerzeichen, Klammern etc..
+        /// </summary>
+        internal static string VR_Phone_InvalidNumber {
+            get {
+                return ResourceManager.GetString("VR_Phone_InvalidNumber", resourceCulture);
             }
         }
     }

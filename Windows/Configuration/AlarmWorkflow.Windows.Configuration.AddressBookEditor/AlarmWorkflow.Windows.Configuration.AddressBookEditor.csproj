@@ -62,10 +62,18 @@
     <Compile Include="AddressBookEditorControl.xaml.cs">
       <DependentUpon>AddressBookEditorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomDataEditors\LoopCustomDataEditor.xaml.cs">
+      <DependentUpon>LoopCustomDataEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomDataEditors\MailCustomDataEditor.xaml.cs">
       <DependentUpon>MailCustomDataEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomDataEditors\CustomDataEditorCache.cs" />
+    <Compile Include="CustomDataEditors\MobilePhoneCustomDataEditor.xaml.cs">
+      <DependentUpon>MobilePhoneCustomDataEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validation\MailAddressValidationRule.cs" />
+    <Compile Include="Validation\MobilePhoneValidationRule.cs" />
     <Compile Include="Extensibility\ICustomDataEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -82,7 +90,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CustomDataEditors\LoopCustomDataEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomDataEditors\MailCustomDataEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomDataEditors\MobilePhoneCustomDataEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,6 +15,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
     [Information(DisplayName = "INF_MailCustomDataEditor", Tag = "Mail")]
     public partial class MailCustomDataEditor : UserControl, ICustomDataEditor
     {
+        #region Properties
+
+        /// <summary>
+        /// Gets/sets the e-mail address.
+        /// </summary>
+        public string MailAddress { get; set; }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -23,6 +32,8 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         public MailCustomDataEditor()
         {
             InitializeComponent();
+
+            this.DataContext = this;
 
             foreach (string name in Enum.GetNames(typeof(MailAddressEntryObject.ReceiptType)))
             {
@@ -39,7 +50,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         {
             get
             {
-                string address = txtText.Text;
+                string address = MailAddress;
                 string receiptType = (string)cboReceiptType.SelectedItem;
 
                 // TODO: Verify format first! The method below will return "null" if parsing failed.
@@ -51,7 +62,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
             {
                 MailAddressEntryObject meo = (MailAddressEntryObject)value;
 
-                txtText.Text = meo.Address.Address;
+                MailAddress = meo.Address.Address;
                 cboReceiptType.Text = meo.Type.ToString();
             }
         }
