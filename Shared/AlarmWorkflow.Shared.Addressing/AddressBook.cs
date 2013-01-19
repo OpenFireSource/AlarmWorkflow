@@ -145,6 +145,7 @@ namespace AlarmWorkflow.Shared.Addressing
 
                         XElement eoE = provider.ConvertBack(eo.Data);
                         eoE.Name = eo.Identifier;
+                        eoE.Add(new XAttribute("IsEnabled", eo.IsEnabled));
 
                         entryE.Add(eoE);
                     }
@@ -171,7 +172,7 @@ namespace AlarmWorkflow.Shared.Addressing
         /// <returns></returns>
         public IEnumerator<AddressBookEntry> GetEnumerator()
         {
-            return this.Entries.GetEnumerator();            
+            return this.Entries.GetEnumerator();
         }
 
         #endregion
