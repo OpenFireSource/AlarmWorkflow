@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
@@ -16,7 +16,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         private readonly Dictionary<string, string> _fdUnits;
         private readonly string[] _keywords = new[]
                                                         {
-                                                            "ALARM","E-Nr","EINSATZORT","STRAﬂE",
+                                                            "ALARM","E-Nr","EINSATZORT","STRA√üE",
                                                             "ORTSTEIL/ORT","OBJEKT","EINSATZPLAN","MELDEBILD",
                                                             "EINSATZSTICHWORT","HINWEIS","EINSATZMITTEL","(ALARMSCHREIBEN ENDE)"
                                                         };
@@ -61,7 +61,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     {
                         case "E-Nr": { section = CurrentSection.BeNr; break; }
                         case "EINSATZORT": { section = CurrentSection.CEinsatzort; break; }
-                        case "STRAﬂE": { section = CurrentSection.DStraﬂe; break; }
+                        case "STRA√üE": { section = CurrentSection.DStra√üe; break; }
                         case "ORTSTEIL/ORT": { section = CurrentSection.EOrt; break; }
                         case "OBJEKT": { section = CurrentSection.FObjekt; break; }
                         case "EINSATZPLAN": { section = CurrentSection.GEinsatzplan; break; }
@@ -91,7 +91,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                     case CurrentSection.CEinsatzort:
                         operation.Zielort.Location = GetMessageText(line, keyword);
                         break;
-                    case CurrentSection.DStraﬂe:
+                    case CurrentSection.DStra√üe:
                         operation.Einsatzort.Street = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.EOrt:
@@ -211,7 +211,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
             AAnfang,
             BeNr,
             CEinsatzort,
-            DStraﬂe,
+            DStra√üe,
             EOrt,
             FObjekt,
             GEinsatzplan,
