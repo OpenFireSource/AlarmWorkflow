@@ -83,7 +83,7 @@ namespace AlarmWorkflow.Shared.Settings
         /// <returns>The value of this setting casted to its desired type. If the value is null then the default value for <typeparamref name="T"/> is returned.</returns>
         public T GetValue<T>()
         {
-            return StringSettingConvertibleTools.ConvertFromSetting<T>((string)Value);
+            return StringSettingConvertibleTools.ConvertFromSetting<T>(Value);
         }
 
         /// <summary>
