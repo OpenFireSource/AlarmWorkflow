@@ -9,9 +9,9 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Shared.Addressing
 {
     /// <summary>
-    /// Implements the <see cref="IAddressBook"/>-interface.
+    /// 
     /// </summary>
-    public sealed class AddressBook : IStringSettingConvertible
+    public sealed class AddressBook : IEnumerable<AddressBookEntry>, IStringSettingConvertible
     {
         #region Fields
 
@@ -24,7 +24,7 @@ namespace AlarmWorkflow.Shared.Addressing
         /// <summary>
         /// Gets the collection of entries in this address book.
         /// </summary>
-        public EntryCollection Entries { get; private set; }
+        public AddressBookEntryCollection Entries { get; private set; }
 
         #endregion
 
@@ -33,10 +33,11 @@ namespace AlarmWorkflow.Shared.Addressing
         /// <summary>
         /// Prevents a default instance of the <see cref="AddressBook"/> class from being created.
         /// </summary>
-        private AddressBook()
+        public AddressBook()
         {
-            this.Entries = new EntryCollection();
+            this.Entries = new AddressBookEntryCollection();
 
+            // TODO: Make static
             _addressProviders = new List<IAddressProvider>();
             _addressProviders.AddRange(ExportedTypeLibrary.ImportAll<IAddressProvider>());
         }
@@ -55,17 +56,19 @@ namespace AlarmWorkflow.Shared.Addressing
             return customElementE.TryGetAttributeValue("IsEnabled", true);
         }
 
-        public IEnumerable<AddressBookEntry> GetEntries()
-        {
-            return this.Entries;
-        }
-
+        /// <summary>
+        /// Performs a query over all entries in this instance and returns all entries including their data items of the given type.
+        /// </summary>
+        /// <typeparam name="TCustomData">The custom data to expect.</typeparam>
+        /// <param name="type">The type to query.</param>
+        /// <returns></returns>
         public IEnumerable<Tuple<AddressBookEntry, TCustomData>> GetCustomObjects<TCustomData>(string type)
         {
+            // TODO: This should be a Lookup<AddressBookEntry, EntryDataItem> instead of returning a ton of tuples!
             foreach (AddressBookEntry entry in Entries)
             {
-                IEnumerable<EntryObject> matching = entry.Data.Where(d => d.Identifier == type);
-                foreach (EntryObject eo in matching)
+                IEnumerable<EntryDataItem> matching = entry.Data.Where(d => d.Identifier == type);
+                foreach (EntryDataItem eo in matching)
                 {
                     yield return Tuple.Create<AddressBookEntry, TCustomData>(entry, (TCustomData)eo.Data);
                 }
@@ -80,13 +83,13 @@ namespace AlarmWorkflow.Shared.Addressing
         {
             Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.AddressBook_StartScanMessage);
 
-            // Parse document
             XDocument doc = XDocument.Parse(settingValue);
 
             foreach (XElement entryE in doc.Root.Elements("Entry"))
             {
                 AddressBookEntry entry = new AddressBookEntry();
-                entry.Name = entryE.TryGetAttributeValue("Name", null);
+                entry.FirstName = entryE.TryGetAttributeValue("FirstName", null);
+                entry.LastName = entryE.TryGetAttributeValue("LastName", null);
 
                 // Find all other custom attributes
                 foreach (XElement customElementE in entryE.Elements())
@@ -99,18 +102,14 @@ namespace AlarmWorkflow.Shared.Addressing
                         continue;
                     }
 
-                    if (!IsEnabled(customElementE))
-                    {
-                        continue;
-                    }
-
-                    object customObject = provider.ParseXElement(customElementE);
+                    object customObject = provider.Convert(customElementE);
                     if (customObject == null)
                     {
                         continue;
                     }
 
-                    EntryObject eo = new EntryObject();
+                    EntryDataItem eo = new EntryDataItem();
+                    eo.IsEnabled = IsEnabled(customElementE);
                     eo.Identifier = providerType;
                     eo.Data = customObject;
                     entry.Data.Add(eo);
@@ -130,20 +129,58 @@ namespace AlarmWorkflow.Shared.Addressing
             foreach (var entry in Entries)
             {
                 XElement entryE = new XElement("Entry");
-                entryE.Add(new XAttribute("Name", entry.Name));
+                entryE.Add(new XAttribute("FirstName", entry.FirstName));
+                entryE.Add(new XAttribute("LastName", entry.LastName));
 
-                foreach (var data in entry.Data)
+                foreach (EntryDataItem eo in entry.Data)
                 {
-                    XElement dataE = new XElement(data.Identifier);
-                    // TODO: IAddressProvider must convert back!
+                    IAddressProvider provider = GetAddressProvider(eo.Identifier);
+                    if (provider == null)
+                    {
+                        continue;
+                    }
 
-                    entryE.Add(dataE);
+                    try
+                    {
+
+                        XElement eoE = provider.ConvertBack(eo.Data);
+                        eoE.Name = eo.Identifier;
+
+                        entryE.Add(eoE);
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ConvertBackErrorMessage, eo.Identifier);
+                        Logger.Instance.LogException(this, ex);
+                    }
                 }
 
                 doc.Root.Add(entryE);
             }
 
             return doc.ToString();
+        }
+
+        #endregion
+
+        #region IEnumerable<AddressBookEntry> Members
+
+        /// <summary>
+        /// Returns an enumerator that enumerates over all entries in this instance.
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerator<AddressBookEntry> GetEnumerator()
+        {
+            return this.Entries.GetEnumerator();            
+        }
+
+        #endregion
+
+        #region IEnumerable Members
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

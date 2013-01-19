@@ -13,10 +13,16 @@ namespace AlarmWorkflow.Shared.Addressing
         string AddressType { get; }
 
         /// <summary>
-        /// Parses the given XElement into a custom object.
+        /// Converts the given <see cref="XElement"/> into a specific .Net object.
         /// </summary>
-        /// <param name="element">The XElement to parse.</param>
-        /// <returns>The custom object.</returns>
-        object ParseXElement(XElement element);
+        /// <param name="element">The XElement to convert.</param>
+        /// <returns>The specific .Net object.</returns>
+        object Convert(XElement element);
+        /// <summary>
+        /// Converts the given specific .Net object from this instance into a serializable <see cref="XElement"/>.
+        /// </summary>
+        /// <param name="value">The specific .Net object to serialize.</param>
+        /// <returns>The serializable <see cref="XElement"/> that contains the data from the specific object.</returns>
+        XElement ConvertBack(object value);
     }
 }

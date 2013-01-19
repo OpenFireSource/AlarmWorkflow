@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Shared.Addressing.Properties {
+namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Shared.Addressing.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Shared.Addressing.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.Configuration.AddressBookEditor.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,20 @@ namespace AlarmWorkflow.Shared.Addressing.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Address book scan finished. Entries found: {0}..
+        ///   Looks up a localized string similar to Möchten Sie den gewählten Eintrag wirklich löschen?.
         /// </summary>
-        internal static string AddressBook_FinishScanMessage {
+        internal static string ConfirmDeleteEntry {
             get {
-                return ResourceManager.GetString("AddressBook_FinishScanMessage", resourceCulture);
+                return ResourceManager.GetString("ConfirmDeleteEntry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Begin scanning address book contents....
+        ///   Looks up a localized string similar to E-Mail Adresse.
         /// </summary>
-        internal static string AddressBook_StartScanMessage {
+        internal static string INF_MailCustomDataEditor {
             get {
-                return ResourceManager.GetString("AddressBook_StartScanMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred during converting a value using provider &apos;{0}&apos;. This data item will be ignored. See log for further information..
-        /// </summary>
-        internal static string ConvertBackErrorMessage {
-            get {
-                return ResourceManager.GetString("ConvertBackErrorMessage", resourceCulture);
+                return ResourceManager.GetString("INF_MailCustomDataEditor", resourceCulture);
             }
         }
     }

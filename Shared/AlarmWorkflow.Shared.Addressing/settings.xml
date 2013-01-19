@@ -1,18 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="Addressing">
-  
+
   <!-- Addressbook -->
   <Setting Name="AddressBook" Type="System.String">
     <![CDATA[<AddressBook>
-  <Entry Name="John Doe">
+  <Entry FirstName="John" LastName="Doe">
     <MobilePhone>0123456789</MobilePhone>
     <Mail>john.doe@example.com</Mail>
-    <Prowl IsEnabled="false"></Prowl>
-    <Schleifen>
-      <ID>1</ID>
-      <ID>2</ID>
-      <ID>3</ID>
-    </Schleifen>
+    <Loop>1</Loop>
+    <Loop>2</Loop>
+    <Loop>3</Loop>
   </Entry>
 </AddressBook>]]>
   </Setting>

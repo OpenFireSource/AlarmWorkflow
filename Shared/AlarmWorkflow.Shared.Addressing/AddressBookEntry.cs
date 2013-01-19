@@ -1,23 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace AlarmWorkflow.Shared.Addressing
 {
     /// <summary>
     /// Represents a person within the address book.
     /// </summary>
-    public class AddressBookEntry : IEquatable<AddressBookEntry>
+    [DebuggerDisplay("Name = {FirstName},{LastName}")]
+    public sealed class AddressBookEntry : IEquatable<AddressBookEntry>
     {
         #region Properties
 
         /// <summary>
-        /// Gets/sets the name of the recipient.
+        /// Gets/sets the person's first name.
         /// </summary>
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        /// <summary>
+        /// Gets/sets the person's last name.
+        /// </summary>
+        public string LastName { get; set; }
         /// <summary>
         /// Gets/sets the dictionary containing custom data, which is specific by provider.
         /// </summary>
-        public IList<EntryObject> Data { get; set; }
+        public IList<EntryDataItem> Data { get; set; }
 
         #endregion
 
@@ -28,7 +34,7 @@ namespace AlarmWorkflow.Shared.Addressing
         /// </summary>
         public AddressBookEntry()
         {
-            Data = new List<EntryObject>();
+            Data = new List<EntryDataItem>();
         }
 
         #endregion
@@ -47,7 +53,8 @@ namespace AlarmWorkflow.Shared.Addressing
             {
                 return false;
             }
-            return string.Equals(this.Name, other.Name, StringComparison.Ordinal);
+            return (this.FirstName == other.FirstName)
+                && (this.LastName == other.LastName);
         }
 
         #endregion

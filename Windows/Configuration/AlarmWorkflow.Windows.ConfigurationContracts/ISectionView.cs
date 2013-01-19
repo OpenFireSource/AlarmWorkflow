@@ -13,5 +13,9 @@ namespace AlarmWorkflow.Windows.ConfigurationContracts
         /// </summary>
         UIElement Visual { get; }
 
+        /// <summary>
+        /// Saves the settings in this settings.
+        /// </summary>
+        void Save();
     }
 }

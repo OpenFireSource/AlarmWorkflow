@@ -16,7 +16,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
             get { return "MobilePhone"; }
         }
 
-        object IAddressProvider.ParseXElement(XElement element)
+        object IAddressProvider.Convert(XElement element)
         {
             string phoneNumber = element.Value.Trim();
             if (string.IsNullOrWhiteSpace(phoneNumber))
@@ -32,6 +32,15 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
             }
 
             return new MobilePhoneEntryObject() { PhoneNumber = phoneNumber };
+        }
+
+        XElement IAddressProvider.ConvertBack(object value)
+        {
+            MobilePhoneEntryObject meo = (MobilePhoneEntryObject)value;
+
+            XElement element = new XElement("dummy");
+            element.Value = meo.PhoneNumber;
+            return element;
         }
 
         #endregion

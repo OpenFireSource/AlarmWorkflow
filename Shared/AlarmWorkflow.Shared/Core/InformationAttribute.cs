@@ -20,13 +20,17 @@ namespace AlarmWorkflow.Shared.Core
         /// This may be the name of a resource defined in the assembly's main resources.
         /// </summary>
         public string Description { get; set; }
+        /// <summary>
+        /// Gets/sets a custom object that can be used as a tag value, or any other custom data value.
+        /// </summary>
+        public object Tag { get; set; }
 
         #endregion
 
         #region Methods
 
         /// <summary>
-        /// Returns the display name of the given type, or the type name itself if no InformationAttribute was specified.
+        /// Returns the display name of the given type, or the type name itself if no <see cref="InformationAttribute"/> was specified.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -45,7 +49,7 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
-        /// Returns the description of the given type, or nothing itself if no InformationAttribute was specified.
+        /// Returns the description of the given type, or nothing if no <see cref="InformationAttribute"/> was specified.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -58,6 +62,24 @@ namespace AlarmWorkflow.Shared.Core
             {
                 string res = type.GetResourceString(attribute.Description);
                 return res ?? attribute.Description;
+            }
+
+            return String.Empty;
+        }
+
+        /// <summary>
+        /// Returns the tag of the given type, or nothing if no <see cref="InformationAttribute"/> was specified.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static object GetTag(Type type)
+        {
+            Assertions.AssertNotNull(type, "type");
+
+            InformationAttribute attribute = GetAttribute(type);
+            if (attribute != null)
+            {
+                return attribute.Tag;
             }
 
             return String.Empty;

@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
+using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels;
 using AlarmWorkflow.Windows.ConfigurationContracts;
-using AlarmWorkflow.Shared.Settings;
-using AlarmWorkflow.Shared.Addressing;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
 {
@@ -11,22 +11,23 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
     /// Interaction logic for AddressBookEditorControl.xaml
     /// </summary>
     [Export("AddressBookEditor", typeof(ITypeEditor))]
-    public partial class AddressBookEditorControl : UserControl, ITypeEditor
+    public partial class AddressBookEditorControl : UserControl, ISectionView
+        , ITypeEditor // < DEBUG
     {
         #region Fields
 
-        private MainViewModel _viewModel;
+        private AddressBookViewModel _viewModel;
 
         #endregion
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressBookEditorControl"/> class.
+        /// </summary>
         public AddressBookEditorControl()
         {
             InitializeComponent();
-
-            _viewModel = new MainViewModel();
-            this.DataContext = _viewModel;
         }
 
         #endregion
@@ -38,13 +39,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
             get
             {
                 object value = null;
-                StringSettingConvertibleTools.ConvertBack(_viewModel.AddressBookVM.AddressBook, out value);
+                StringSettingConvertibleTools.ConvertBack(_viewModel.AddressBookEditWrapper, out value);
                 return value;
             }
             set
             {
                 AddressBook ab = StringSettingConvertibleTools.ConvertFromSetting<AddressBook>(value);
-                _viewModel.AddressBookVM.AddressBook = ab;
+
+                _viewModel = new AddressBookViewModel(ab);
+                this.DataContext = _viewModel;
             }
         }
 
@@ -57,6 +60,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
         }
 
         void ITypeEditor.Initialize(string editorParameter)
+        {
+
+        }
+
+        #endregion
+
+        #region ISectionView Members
+
+        void ISectionView.Save()
         {
 
         }

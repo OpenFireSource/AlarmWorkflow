@@ -12,17 +12,28 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
         #region Properties
 
         /// <summary>
-        /// Gets the mail address of this object.
+        /// Gets/sets the mail address of this object.
         /// </summary>
-        public MailAddress Address { get; private set; }
+        public MailAddress Address { get; set; }
         /// <summary>
-        /// Gets the destined receipt type for mails sent to this address.
+        /// Gets/sets the destined receipt type for mails sent to this address.
         /// </summary>
-        public ReceiptType Type { get; private set; }
+        public ReceiptType Type { get; set; }
 
         #endregion
 
         #region Methods
+        
+        /// <summary>
+        /// Parses a specified address type into a <see cref="MailAddressEntryObject"/>-instance and uses "To" as recipient type.
+        /// </summary>
+        /// <param name="address">The e-mail address to parse.</param>
+        /// <returns></returns>
+        public static MailAddressEntryObject FromAddress(string address)
+        {
+            // TODO: Hardcoded string!
+            return FromAddress(address, "To");
+        }
 
         /// <summary>
         /// Parses a specified address and recipient type into a <see cref="MailAddressEntryObject"/>-instance.

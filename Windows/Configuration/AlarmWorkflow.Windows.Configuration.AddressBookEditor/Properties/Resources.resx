@@ -117,13 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddressBook_FinishScanMessage" xml:space="preserve">
-    <value>Address book scan finished. Entries found: {0}.</value>
+  <data name="ConfirmDeleteEntry" xml:space="preserve">
+    <value>Möchten Sie den gewählten Eintrag wirklich löschen?</value>
   </data>
-  <data name="AddressBook_StartScanMessage" xml:space="preserve">
-    <value>Begin scanning address book contents...</value>
-  </data>
-  <data name="ConvertBackErrorMessage" xml:space="preserve">
-    <value>An error occurred during converting a value using provider '{0}'. This data item will be ignored. See log for further information.</value>
+  <data name="INF_MailCustomDataEditor" xml:space="preserve">
+    <value>E-Mail Adresse</value>
   </data>
 </root>

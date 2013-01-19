@@ -14,12 +14,22 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
             get { return "Mail"; }
         }
 
-        object IAddressProvider.ParseXElement(XElement element)
+        object IAddressProvider.Convert(XElement element)
         {
             string address = element.Value;
             string receiptType = element.TryGetAttributeValue("Type", MailAddressEntryObject.ReceiptType.To.ToString());
 
             return MailAddressEntryObject.FromAddress(address, receiptType);
+        }
+
+        XElement IAddressProvider.ConvertBack(object value)
+        {
+            MailAddressEntryObject meo = (MailAddressEntryObject)value;
+
+            XElement element = new XElement("dummy");
+            element.Add(new XAttribute("Type", meo.Type.ToString()));
+            element.Value = meo.Address.Address;
+            return element;
         }
 
         #endregion

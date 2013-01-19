@@ -8,19 +8,24 @@ namespace AlarmWorkflow.Shared.Addressing
     /// </summary>
     public static class AddressBookManager
     {
-        #region Singleton
+        private static readonly Lazy<AddressBook> _addressBook;
 
-        private static AddressBook _addressBook;
-
-        public static AddressBook GetInstance()
+        /// <summary>
+        /// Initializes the <see cref="AddressBookManager"/> class.
+        /// </summary>
+        static AddressBookManager()
         {
-            if (_addressBook == null)
-            {
-                _addressBook = SettingsManager.Instance.GetSetting("Addressing", "AddressBook").GetValue<AddressBook>();
-            }
-            return _addressBook;
+            _addressBook = new Lazy<AddressBook>(() => SettingsManager.Instance.GetSetting("Addressing", "AddressBook").GetValue<AddressBook>(), true);
         }
 
-        #endregion
+        /// <summary>
+        /// Returns the <see cref="AddressBook"/>-instance of the current AppDomain.
+        /// The address book is created on-demand and is then cached.
+        /// </summary>
+        /// <returns>The <see cref="AddressBook"/>-instance of the current AppDomain.</returns>
+        public static AddressBook GetInstance()
+        {
+            return _addressBook.Value;
+        }
     }
 }
