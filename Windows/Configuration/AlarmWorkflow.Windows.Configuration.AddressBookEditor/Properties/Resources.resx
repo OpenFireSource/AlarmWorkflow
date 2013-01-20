@@ -132,6 +132,9 @@
   <data name="ErrorWhileLoadingDataItemValue" xml:space="preserve">
     <value>An error occurred while loading the data item value from item with identifier '{0}'. See log for further information.</value>
   </data>
+  <data name="INF_GrowlCustomDataEditor" xml:space="preserve">
+    <value>Growl-Empfänger</value>
+  </data>
   <data name="INF_LoopCustomDataEditor" xml:space="preserve">
     <value>Schleifencode</value>
   </data>

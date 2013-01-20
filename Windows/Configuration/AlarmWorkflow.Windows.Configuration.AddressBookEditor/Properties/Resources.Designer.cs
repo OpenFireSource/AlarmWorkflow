@@ -106,6 +106,15 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Growl-Empfänger.
+        /// </summary>
+        internal static string INF_GrowlCustomDataEditor {
+            get {
+                return ResourceManager.GetString("INF_GrowlCustomDataEditor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Schleifencode.
         /// </summary>
         internal static string INF_LoopCustomDataEditor {

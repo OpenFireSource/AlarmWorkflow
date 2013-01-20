@@ -59,6 +59,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomDataEditors\GrowlCustomDataEditor.xaml.cs">
+      <DependentUpon>GrowlCustomDataEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\AddressBookEditorControl.xaml.cs">
       <DependentUpon>AddressBookEditorControl.xaml</DependentUpon>
     </Compile>
@@ -89,6 +92,10 @@
     <Compile Include="ViewModels\EntryDataItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="CustomDataEditors\GrowlCustomDataEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\AddressBookEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
