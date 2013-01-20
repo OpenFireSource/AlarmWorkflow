@@ -329,13 +329,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            ServiceState = "NotInstalled";
             try
             {
-                ServiceState = ServiceHelper.GetServiceState().ToString();
+                if (ServiceHelper.IsServiceInstalled())
+                {
+                    ServiceState = ServiceHelper.GetServiceState().ToString();
+                }
             }
             catch (Exception)
             {
-                ServiceState = "NotInstalled";
             }
             OnPropertyChanged("ServiceState");
         }

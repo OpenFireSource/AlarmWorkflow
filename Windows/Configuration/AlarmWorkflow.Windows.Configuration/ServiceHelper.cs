@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
+using System.Configuration.Install;
 using System.IO;
+using System.Linq;
 using System.ServiceProcess;
 using AlarmWorkflow.Shared.Core;
 
@@ -15,8 +17,7 @@ namespace AlarmWorkflow.Windows.Configuration
         {
             try
             {
-                GetServiceState();
-                return true;
+                return ServiceController.GetServices().Any(s => s.ServiceName == ServiceName);
             }
             catch (Exception)
             {
@@ -34,33 +35,29 @@ namespace AlarmWorkflow.Windows.Configuration
         {
             InstallService(false);
         }
-        
+
         private static void InstallService(bool install)
         {
-            using (Process svc = new Process())
+            string path = Path.Combine(Utilities.GetWorkingDirectory(), ServiceExecutableName);
+            List<string> args = new List<string>();
+
+            if (!install)
             {
-                svc.StartInfo.WorkingDirectory = Utilities.GetWorkingDirectory();
-                svc.StartInfo.FileName = Path.Combine(svc.StartInfo.WorkingDirectory, ServiceExecutableName);
-
-                if (install)
-                {
-                    svc.StartInfo.Arguments = "--install";
-                }
-                else
-                {
-                    svc.StartInfo.Arguments = "--uninstall";
-                }
-
-                svc.Start();
-                svc.WaitForExit();
+                args.Add("/u");
             }
+            args.Add(path);
+
+            ManagedInstallerClass.InstallHelper(args.ToArray());
         }
 
         internal static bool IsServiceRunning()
         {
             try
             {
-                return GetServiceState() == ServiceControllerStatus.Running;
+                if (IsServiceInstalled())
+                {
+                    return GetServiceState() == ServiceControllerStatus.Running;
+                }
             }
             catch (Exception)
             {
