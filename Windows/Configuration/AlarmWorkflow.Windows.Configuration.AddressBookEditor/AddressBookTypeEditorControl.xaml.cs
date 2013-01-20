@@ -1,8 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.Views;
 using AlarmWorkflow.Windows.ConfigurationContracts;
+using AlarmWorkflow.Windows.UIContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
 {
@@ -39,6 +41,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
             wnd.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             wnd.Owner = Application.Current.MainWindow;
             wnd.Title = Properties.Resources.AddressBookWindowTitle;
+            wnd.Icon = BitmapFrame.Create(this.GetPackUri("Images/AddressBook_16.png"));
             wnd.Closing += (a, b) =>
             {
                 var result = MessageBox.Show(Properties.Resources.AddressBookWindowLeaveConfirmation_MSG, Properties.Resources.AddressBookWindowLeaveConfirmation_CAP, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
