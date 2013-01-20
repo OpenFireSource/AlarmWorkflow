@@ -6,12 +6,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <!-- Special checkbox style for the data item entries -->
+        <Style TargetType="CheckBox" x:Key="chkDiStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="border" Width="50" BorderBrush="Black" BorderThickness="1" CornerRadius="2">
+                            <TextBlock x:Name="text" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Border.Background" Value="LightGreen" />
+                                <Setter TargetName="text" Property="TextBlock.Text" Value="Aktiv" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="border" Property="Border.Background" Value="Gray" />
+                                <Setter TargetName="text" Property="TextBlock.Text" Value="Inaktiv" />
+                                <Setter TargetName="text" Property="TextBlock.Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*" />
             <ColumnDefinition Width="0.7*" />
         </Grid.ColumnDefinitions>
 
+        <!-- Entries list -->
         <Grid Grid.Column="0" Margin="2,2,3,2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -37,6 +64,7 @@
         </Grid>
         <GridSplitter Grid.Column="0" Width="3" />
 
+        <!-- Content area -->
         <ContentPresenter Grid.Column="1" Content="{Binding SelectedEntry}">
             <ContentPresenter.ContentTemplate>
                 <DataTemplate>
@@ -89,7 +117,7 @@
                                             <GroupBox Margin="2">
                                                 <GroupBox.Header>
                                                     <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
-                                                        <CheckBox Margin="0,0,2,0" IsChecked="{Binding IsEnabled}" ToolTip="Aktiviert/Deaktiviert" VerticalAlignment="Center" />
+                                                        <CheckBox Margin="0,0,2,0" IsChecked="{Binding IsEnabled}" VerticalAlignment="Center" Style="{StaticResource chkDiStyle}" />
                                                         <TextBlock Text="{Binding DisplayName, TargetNullValue='(Unbekannter Typ)'}" FontWeight="Bold" VerticalAlignment="Center" />
                                                         <Button Margin="2,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding RemoveDataItemCommand}" VerticalAlignment="Center" ToolTip="Eintrag entfernen">
                                                             <Image Source="Images/Delete_16.png" Width="16" Height="16" />
