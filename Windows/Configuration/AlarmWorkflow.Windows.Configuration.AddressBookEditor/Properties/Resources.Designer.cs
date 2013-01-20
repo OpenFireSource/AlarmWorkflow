@@ -61,6 +61,33 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Änderungen übernehmen.
+        /// </summary>
+        internal static string AddressBookWindowLeaveConfirmation_CAP {
+            get {
+                return ResourceManager.GetString("AddressBookWindowLeaveConfirmation_CAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Möchten Sie die Änderungen übernehmen?.
+        /// </summary>
+        internal static string AddressBookWindowLeaveConfirmation_MSG {
+            get {
+                return ResourceManager.GetString("AddressBookWindowLeaveConfirmation_MSG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adressbuch-Editor.
+        /// </summary>
+        internal static string AddressBookWindowTitle {
+            get {
+                return ResourceManager.GetString("AddressBookWindowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Möchten Sie den gewählten Eintrag wirklich löschen?.
         /// </summary>
         internal static string ConfirmDeleteEntry {

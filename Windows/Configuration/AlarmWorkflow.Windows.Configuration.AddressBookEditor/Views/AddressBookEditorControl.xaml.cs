@@ -5,14 +5,12 @@ using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
-namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
+namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Views
 {
     /// <summary>
     /// Interaction logic for AddressBookEditorControl.xaml
     /// </summary>
-    [Export("AddressBookEditor", typeof(ITypeEditor))]
-    public partial class AddressBookEditorControl : UserControl, ISectionView
-        , ITypeEditor // < DEBUG
+    public partial class AddressBookEditorControl : UserControl
     {
         #region Fields
 
@@ -20,21 +18,12 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
 
         #endregion
 
-        #region Constructors
+        #region Properties
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AddressBookEditorControl"/> class.
+        /// Gets the current value by creating an addressbook out of all current entries, and sets the value from the settings manager.
         /// </summary>
-        public AddressBookEditorControl()
-        {
-            InitializeComponent();
-        }
-
-        #endregion
-
-        #region ITypeEditor Members
-
-        object ITypeEditor.Value
+        internal object ValueWrapper
         {
             get
             {
@@ -51,26 +40,16 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public System.Windows.UIElement Visual
-        {
-            get { return this; }
-        }
-
-        void ITypeEditor.Initialize(string editorParameter)
-        {
-
-        }
-
         #endregion
 
-        #region ISectionView Members
+        #region Constructors
 
-        void ISectionView.Save()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AddressBookEditorControl"/> class.
+        /// </summary>
+        public AddressBookEditorControl()
         {
-
+            InitializeComponent();
         }
 
         #endregion

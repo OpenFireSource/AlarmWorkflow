@@ -59,8 +59,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressBookEditorControl.xaml.cs">
+    <Compile Include="Views\AddressBookEditorControl.xaml.cs">
       <DependentUpon>AddressBookEditorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddressBookTypeEditorControl.xaml.cs">
+      <DependentUpon>AddressBookTypeEditorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomDataEditors\LoopCustomDataEditor.xaml.cs">
       <DependentUpon>LoopCustomDataEditor.xaml</DependentUpon>
@@ -86,7 +89,11 @@
     <Compile Include="ViewModels\EntryDataItemViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="AddressBookEditorControl.xaml">
+    <Page Include="Views\AddressBookEditorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddressBookTypeEditorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,9 +6,36 @@ using AlarmWorkflow.Windows.Configuration.AddressBookEditor.Extensibility;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditors
 {
+    /// <summary>
+    /// Serves as a cache for all discovered custom data editors.
+    /// </summary>
     public static class CustomDataEditorCache
     {
+        #region Fields
+
         private static readonly List<Type> TypeEditors;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets the display names of all type editors as strings for the use within the UI.
+        /// </summary>
+        public static IEnumerable<string> DisplayNames
+        {
+            get
+            {
+                foreach (Type type in TypeEditors)
+                {
+                    yield return InformationAttribute.GetDisplayName(type);
+                }
+            }
+        }
+
+        #endregion
+
+        #region Constructors
 
         static CustomDataEditorCache()
         {
@@ -19,6 +46,10 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
                 TypeEditors.Add(export.Type);
             }
         }
+
+        #endregion
+
+        #region Methods
 
         internal static ICustomDataEditor CreateTypeEditorFromDisplayName(string displayName)
         {
@@ -51,15 +82,6 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
             return (string)tagRaw;
         }
 
-        public static IEnumerable<string> GetAllAsStrings
-        {
-            get
-            {
-                foreach (Type type in TypeEditors)
-                {
-                    yield return InformationAttribute.GetDisplayName(type);
-                }
-            }
-        }
+        #endregion
     }
 }
