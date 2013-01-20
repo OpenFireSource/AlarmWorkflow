@@ -2,7 +2,7 @@
 
   <Identifier Name="Addressing" DisplayText="Adressen" Order="-1000">
 
-    <Setting Name="AddressBook" DisplayText="Addressbuch" Category="" Editor="AddressBookEditor"
+    <Setting Name="AddressBook" DisplayText="Adressbuch" Category="Adressbuch" Editor="AddressBookEditor"
              Description="Das Adressbuch, dass die Kontaktdaten von Kameraden, Personen etc. enthält." />
 
   </Identifier>
