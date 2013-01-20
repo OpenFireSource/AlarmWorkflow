@@ -9,7 +9,9 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Shared.Addressing
 {
     /// <summary>
-    /// 
+    /// Represents an address book, that contains the contact data of select persons and provides a means
+    /// to retrieve this data to be used at run-time (e. g. in jobs).
+    /// This class cannot be inherited.
     /// </summary>
     public sealed class AddressBook : IEnumerable<AddressBookEntry>, IStringSettingConvertible
     {
@@ -125,11 +127,20 @@ namespace AlarmWorkflow.Shared.Addressing
         {
             XDocument doc = new XDocument();
             doc.Add(new XElement("AddressBook"));
+            doc.Root.Add(new XAttribute("Version", 1));
 
             foreach (var entry in Entries)
             {
                 XElement entryE = new XElement("Entry");
+                if (string.IsNullOrWhiteSpace(entry.FirstName))
+                {
+                    entry.FirstName = Properties.Resources.UnknownNameSubstitute;
+                }
                 entryE.Add(new XAttribute("FirstName", entry.FirstName));
+                if (string.IsNullOrWhiteSpace(entry.LastName))
+                {
+                    entry.LastName = Properties.Resources.UnknownNameSubstitute;
+                }
                 entryE.Add(new XAttribute("LastName", entry.LastName));
 
                 foreach (EntryDataItem eo in entry.Data)

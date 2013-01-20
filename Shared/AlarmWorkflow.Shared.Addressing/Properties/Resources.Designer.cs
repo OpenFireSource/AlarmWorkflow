@@ -86,5 +86,14 @@ namespace AlarmWorkflow.Shared.Addressing.Properties {
                 return ResourceManager.GetString("ConvertBackErrorMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Unbenannt).
+        /// </summary>
+        internal static string UnknownNameSubstitute {
+            get {
+                return ResourceManager.GetString("UnknownNameSubstitute", resourceCulture);
+            }
+        }
     }
 }
