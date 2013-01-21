@@ -27,6 +27,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private OperationViewModel _selectedEvent;
 
         private Timer _servicePollingTimer;
+        private bool _isMissingServiceConnectionHintVisible;
 
         #endregion
 
@@ -69,6 +70,23 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         public bool HasDisplayableEvents
         {
             get { return AvailableEvents.Count > 0; }
+        }
+        /// <summary>
+        /// Gets whether or not a connection to the service is established.
+        /// </summary>
+        public bool IsMissingServiceConnectionHintVisible
+        {
+            get { return _isMissingServiceConnectionHintVisible; }
+            private set
+            {
+                if (value == _isMissingServiceConnectionHintVisible)
+                {
+                    return;
+                }
+
+                _isMissingServiceConnectionHintVisible = value;
+                OnPropertyChanged("IsMissingServiceConnectionHintVisible");
+            }
         }
 
         /// <summary>
@@ -264,6 +282,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
 
                     IList<int> operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+                    
+                    IsMissingServiceConnectionHintVisible = false;
+
                     if (operations.Count == 0)
                     {
                         return;
@@ -292,16 +313,10 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
             catch (EndpointNotFoundException)
             {
-                // TODO
-                //_taskbarIcon.ShowBalloonTip("Fehler", "Serviceverbindung konnte nicht aufgebaut werden!" + Environment.NewLine + "Bitte den Service ggf. neustarten. Danke.", BalloonIcon.Error);
-                //_lastWasConnected = false;
-                //_timer.Stop();
-                //_timer.Interval = 12000;
-                //_timer.Start();
+                IsMissingServiceConnectionHintVisible = true;
             }
             catch (Exception ex)
             {
-                // This could be interesting though...
                 Logger.Instance.LogException(this, ex);
             }
         }

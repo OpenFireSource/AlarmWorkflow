@@ -15,40 +15,47 @@
             <ScaleTransform CenterX="0" CenterY="0" ScaleX="{Binding UiScaleFactor}" ScaleY="{Binding UiScaleFactor}" />
         </Grid.LayoutTransform>
 
+        <DockPanel>
 
-        <ContentControl>
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding HasDisplayableEvents}" Value="False">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Keine aktuellen Alarme!" />
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding HasDisplayableEvents}" Value="True">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
+            <!-- Information bars -->
+            <Border DockPanel.Dock="Top" Visibility="{Binding IsMissingServiceConnectionHintVisible, Converter={StaticResource btv}}" Background="LightYellow" BorderBrush="Black" BorderThickness="2">
+                <Label Content="Die Verbindung zum Service konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass der Service auf diesem PC läuft." />
+            </Border>
+            
+            <!-- Docked as Fill -->
+            <ContentControl>
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding HasDisplayableEvents}" Value="False">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="Keine aktuellen Alarme!" />
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding HasDisplayableEvents}" Value="True">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                        <!-- Left pane -->
-                                        <Grid Grid.Column="0" Margin="2" Focusable="False" Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                                <RowDefinition Height="Auto" />
-                                            </Grid.RowDefinitions>
+                                            <!-- Left pane -->
+                                            <Grid Grid.Column="0" Margin="2" Focusable="False" Visibility="{Binding AreMultipleEventsPresent, Converter={StaticResource btv}, Mode=OneWay}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
 
-                                            <!-- Event list (only shown if more than one simultaneous events) -->
-                                            <ListBox Grid.Row="0" MaxWidth="100" Focusable="False" ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
-                                                <ListBox.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <StackPanel Orientation="Vertical">
-                                                            <TextBlock Text="{Binding Operation.Keywords.Keyword, TargetNullValue='(Kein Stichwort)'}" FontSize="9" TextWrapping="WrapWithOverflow">
+                                                <!-- Event list (only shown if more than one simultaneous events) -->
+                                                <ListBox Grid.Row="0" MaxWidth="100" Focusable="False" ItemsSource="{Binding AvailableEvents}" SelectedItem="{Binding SelectedEvent}">
+                                                    <ListBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Vertical">
+                                                                <TextBlock Text="{Binding Operation.Keywords.Keyword, TargetNullValue='(Kein Stichwort)'}" FontSize="9" TextWrapping="WrapWithOverflow">
                                                                 <TextBlock.Style>
                                                                     <Style>
                                                                         <Style.Triggers>
@@ -58,27 +65,26 @@
                                                                         </Style.Triggers>
                                                                     </Style>
                                                                 </TextBlock.Style>
-                                                            </TextBlock>
-                                                            <TextBlock Text="{Binding Operation.Timestamp}" Focusable="False" FontSize="8"  />
-                                                        </StackPanel>
-                                                    </DataTemplate>
-                                                </ListBox.ItemTemplate>
-                                            </ListBox>
+                                                                </TextBlock>
+                                                                <TextBlock Text="{Binding Operation.Timestamp}" Focusable="False" FontSize="8"  />
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ListBox.ItemTemplate>
+                                                </ListBox>
 
-                                            <Slider Grid.Row="1" Value="{Binding UiScaleFactor}" Minimum="1" Maximum="5" Focusable="False" />
+                                                <Slider Grid.Row="1" Value="{Binding UiScaleFactor}" Minimum="1" Maximum="5" Focusable="False" />
+                                            </Grid>
+
+                                            <!-- Details view -->
+                                            <ContentControl Grid.Column="1" Margin="2" Content="{Binding BusyTemplate}" />
                                         </Grid>
-
-                                        <!-- Details view -->
-                                        <ContentControl Grid.Column="1" Margin="2" Content="{Binding BusyTemplate}" />
-                                    </Grid>
-                                </Setter.Value>
-                            </Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
-        
-        
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
+        </DockPanel>
     </Grid>
 </Window>
