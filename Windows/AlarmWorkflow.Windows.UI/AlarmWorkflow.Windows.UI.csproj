@@ -49,9 +49,6 @@
     <Reference Include="AlarmWorkflow.Windows.ServiceContracts">
       <HintPath>..\..\Build\AlarmWorkflow.Windows.ServiceContracts.dll</HintPath>
     </Reference>
-    <Reference Include="Hardcodet.Wpf.TaskbarNotification">
-      <HintPath>..\..\Resources\Assemblies\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -149,9 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\UI.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Taskbar.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

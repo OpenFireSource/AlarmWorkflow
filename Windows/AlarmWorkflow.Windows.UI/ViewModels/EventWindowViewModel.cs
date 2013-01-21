@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
+using System.Timers;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Security;
@@ -21,6 +24,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private Lazy<FrameworkElement> _controlTemplate;
 
         private OperationViewModel _selectedEvent;
+
+        private Timer _servicePollingTimer;
 
         #endregion
 
@@ -78,6 +83,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             AvailableEvents = new List<OperationViewModel>();
 
             InitializeOperationViewer();
+
+            // Create timer with a custom interval from configuration
+            _servicePollingTimer = new System.Timers.Timer(App.GetApp().Configuration.OperationFetchingArguments.Interval);
+            _servicePollingTimer.Elapsed += new ElapsedEventHandler(ServicePollingTimer_Elapsed);
+            _servicePollingTimer.Start();
         }
 
         #endregion
@@ -102,17 +112,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             });
         }
 
-        /// <summary>
-        /// Pushes a new event to the window, either causing it to spawn, or to extend its list box by this event if already shown.
-        /// </summary>
-        /// <param name="operation">The event to push.</param>
-        /// <returns>Whether or not the event was pushed. This is true if the event was a new one, and false if the event did already exist.</returns>
-        public bool PushEvent(Operation operation)
+        private void PushEvent(Operation operation)
         {
             // Sanity-check
             if (AvailableEvents.Any(o => o.Operation.Id == operation.Id))
             {
-                return false;
+                return;
             }
 
             bool isOperationNew = !operation.IsAcknowledged;
@@ -150,8 +155,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             // When the jobs are done, change over to the job (necessary in most cases albeit not perfect solution :-/ )
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);
-
-            return true;
         }
 
         private void RemoveEvent(OperationViewModel operation)
@@ -211,7 +214,80 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
         }
 
+        private bool ContainsEvent(int operationId)
+        {
+            return AvailableEvents.Any(o => o.Operation.Id == operationId);
+        }
+
         #endregion
 
+        #region Event handlers
+
+        private void ServicePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                using (var service = InternalServiceProxy.GetServiceInstance())
+                {
+                    int maxAge = App.GetApp().Configuration.OperationFetchingArguments.MaxAge;
+                    bool onlyNonAcknowledged = App.GetApp().Configuration.OperationFetchingArguments.OnlyNonAcknowledged;
+                    int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
+
+                    IList<int> operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+                    if (operations.Count == 0)
+                    {
+                        return;
+                    }
+
+                    foreach (int operationId in operations)
+                    {
+                        if (ContainsEvent(operationId))
+                        {
+                            continue;
+                        }
+
+                        OperationItem operationItem = service.Instance.GetOperationById(operationId, OperationItemDetailLevel.Full);
+                        Operation operation = operationItem.ToOperation();
+
+                        if (ShouldAutomaticallyAcknowledgeOperation(operation))
+                        {
+                            service.Instance.AcknowledgeOperation(operation.Id);
+                        }
+                        else
+                        {
+                            PushEvent(operation);
+                        }
+                    }
+                }
+            }
+            catch (EndpointNotFoundException)
+            {
+                // TODO
+                //_taskbarIcon.ShowBalloonTip("Fehler", "Serviceverbindung konnte nicht aufgebaut werden!" + Environment.NewLine + "Bitte den Service ggf. neustarten. Danke.", BalloonIcon.Error);
+                //_lastWasConnected = false;
+                //_timer.Stop();
+                //_timer.Interval = 12000;
+                //_timer.Start();
+            }
+            catch (Exception ex)
+            {
+                // This could be interesting though...
+                Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        private bool ShouldAutomaticallyAcknowledgeOperation(Operation operation)
+        {
+            if (!App.GetApp().Configuration.AutomaticOperationAcknowledgement.IsEnabled)
+            {
+                return false;
+            }
+
+            int daage = App.GetApp().Configuration.AutomaticOperationAcknowledgement.MaxAge;
+            TimeSpan dat = daage > 0 ? TimeSpan.FromMinutes(daage) : Operation.DefaultAcknowledgingTimespan;
+            return !operation.IsAcknowledged && (DateTime.UtcNow - operation.Timestamp) > dat;
+        }
+
+        #endregion
     }
 }

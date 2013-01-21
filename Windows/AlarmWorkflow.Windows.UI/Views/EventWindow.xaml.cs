@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using System.Windows;
 using System.Windows.Forms;
-using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UI.ViewModels;
+using AlarmWorkflow.Windows.UIContracts;
 
 namespace AlarmWorkflow.Windows.UI.Views
 {
@@ -29,7 +29,6 @@ namespace AlarmWorkflow.Windows.UI.Views
             this.uiScaleSlider.Value = App.GetApp().Configuration.ScaleFactor;
 
             _viewModel = new EventWindowViewModel();
-            _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(ViewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
             SetLocationToScreen();
@@ -70,37 +69,13 @@ namespace AlarmWorkflow.Windows.UI.Views
         /// <param name="e">A <see cref="T:System.ComponentModel.CancelEventArgs"/> that contains the event data.</param>
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            // Silently avoid being closed when there are events
-            if (_viewModel.AvailableEvents.Count > 0)
+            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning))
             {
                 e.Cancel = true;
                 return;
             }
 
             base.OnClosing(e);
-        }
-
-        /// <summary>
-        /// Returns whether or not the window contains an operation with the given id.
-        /// </summary>
-        /// <param name="operationId"></param>
-        /// <returns></returns>
-        public bool ContainsEvent(int operationId)
-        {
-            return _viewModel.AvailableEvents.Any(o => o.Operation.Id == operationId);
-        }
-
-        /// <summary>
-        /// Pushes a new event to the window, either causing it to spawn, or to extend its list box by this event if already shown.
-        /// </summary>
-        /// <param name="operation">The event to push.</param>
-        public void PushEvent(Operation operation)
-        {
-            if (_viewModel.PushEvent(operation))
-            {
-                // If the event was new, bring the window to front (sanity)
-                this.Activate();
-            }
         }
 
         #endregion
@@ -120,15 +95,6 @@ namespace AlarmWorkflow.Windows.UI.Views
                 _viewModel.AcknowledgeCurrentOperation(true);
 
                 e.Handled = true;
-            }
-        }
-
-        // Don't try this at home!
-        private void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "AvailableEvents" && _viewModel.AvailableEvents.Count == 0)
-            {
-                this.Close();
             }
         }
 
