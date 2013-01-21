@@ -53,7 +53,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                 bool ReplPicture = false;
                 bool Faxtime = false;
                 bool nextIsOrt = false;
-                bool getAlarmTime = false;
+                //bool getAlarmTime = false;
 
                 foreach (string linex in lines)
                 {
@@ -132,7 +132,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                         altime = altime.Substring(0, altime.Length - 1); 
                         altime = altime.Trim();                                        
                         operation.CustomData["Alarmtime"] = "Alarmzeit: " + altime;
-                        getAlarmTime = true;
+                        //getAlarmTime = true;
 
                     }
 
