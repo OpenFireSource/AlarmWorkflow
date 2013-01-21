@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSSch
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSTrierParser", "Parsers\AlarmWorkflow.Parser.ILSTrierparser\AlarmWorkflow.Parser.ILSTrierParser.csproj", "{09A05BEC-76C2-4C72-8587-A86D77D9B1C1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSMittelfrankenParser", "Parsers\AlarmWorkflow.Parser.ILSMittelfrankenParser\AlarmWorkflow.Parser.ILSMittelfrankenParser.csproj", "{E83C7D35-3213-4126-BF50-20A76B1C8EB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +87,10 @@ Global
 		{09A05BEC-76C2-4C72-8587-A86D77D9B1C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09A05BEC-76C2-4C72-8587-A86D77D9B1C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09A05BEC-76C2-4C72-8587-A86D77D9B1C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
