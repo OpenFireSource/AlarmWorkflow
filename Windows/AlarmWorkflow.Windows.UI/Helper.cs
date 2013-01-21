@@ -31,5 +31,18 @@ namespace AlarmWorkflow.Windows.UI
         {
             dispatcher.Invoke(action);
         }
+
+        internal static double Limit(double min, double max, double value)
+        {
+            if (value < min)
+            {
+                return min;
+            }
+            if (value >max)
+            {
+                return max;
+            }
+            return value;
+        }
     }
 }

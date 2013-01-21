@@ -11,6 +11,12 @@ namespace AlarmWorkflow.Windows.UI.Models
     /// </summary>
     internal sealed class UIConfiguration
     {
+        #region Fields
+
+        private double _scaleFactor;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -20,7 +26,11 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// <summary>
         /// Gets/sets the scale factor of the UI.
         /// </summary>
-        public double ScaleFactor { get; set; }
+        public double ScaleFactor
+        {
+            get { return _scaleFactor; }
+            set { _scaleFactor = Helper.Limit(0.5f, 4.0f, value); }
+        }
         /// <summary>
         /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
