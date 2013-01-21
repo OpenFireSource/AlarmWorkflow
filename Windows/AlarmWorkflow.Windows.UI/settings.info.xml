@@ -4,8 +4,6 @@
 
     <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts"
              Description="Die Komponente, die die Alarmdarstellung übernimmt." />
-    <Setting Name="ScreenId" DisplayText="Zielbildschirms-Nummer" Category="Generell"
-             Description="Null-basierte Nummer (0..n) des Bildschirms" />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell"
              Description="Der Skalierungsfaktor. Werte zwischen 1 und 3 sind sinnvoll. Die Skalierung kann manuell mit dem Mausrad im UI justiert werden." />
     <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell" Editor="KeyInputTypeEditor"

@@ -1,6 +1,8 @@
 ﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using AlarmWorkflow.Windows.UIContracts;
+using System;
+using System.Windows.Threading;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -18,6 +20,16 @@ namespace AlarmWorkflow.Windows.UI
         public static ImageSource GetNoRouteImage()
         {
             return new BitmapImage(ClientExtensions.GetPackUri("AlarmWorkflow.Windows.UI", NoRouteImagePath));
+        }
+
+        /// <summary>
+        /// Convenience wrapper for the "Dispatcher.Invoke()" method which does not support lambdas.
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <param name="action"></param>
+        internal static void Invoke(this Dispatcher dispatcher, Action action)
+        {
+            dispatcher.Invoke(action);
         }
     }
 }

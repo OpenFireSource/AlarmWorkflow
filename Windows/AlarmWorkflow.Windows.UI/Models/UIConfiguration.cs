@@ -22,10 +22,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public double ScaleFactor { get; set; }
         /// <summary>
-        /// Gets/sets the Id of the screen to show the window at. Set to 0 (zero) to pick the primary screen.
-        /// </summary>
-        public int ScreenId { get; set; }
-        /// <summary>
         /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
         public AutomaticOperationAcknowledgementSettings AutomaticOperationAcknowledgement { get; set; }
@@ -75,7 +71,6 @@ namespace AlarmWorkflow.Windows.UI.Models
             UIConfiguration configuration = new UIConfiguration();
             configuration.OperationViewer = SettingsManager.Instance.GetSetting("UIConfiguration", "OperationViewer").GetString();
             configuration.ScaleFactor = SettingsManager.Instance.GetSetting("UIConfiguration", "ScaleFactor").GetValue<Double>();
-            configuration.ScreenId = SettingsManager.Instance.GetSetting("UIConfiguration", "ScreenId").GetInt32();
 
             string acknowledgeOperationKeyS = SettingsManager.Instance.GetSetting("UIConfiguration", "AcknowledgeOperationKey").GetString();
             Key acknowledgeOperationKey = Key.B;

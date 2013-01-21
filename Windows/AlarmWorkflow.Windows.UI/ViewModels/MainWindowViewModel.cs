@@ -12,16 +12,17 @@ using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Security;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
-// TODO: The whole, oh-so-modular design (using FrameworkTemplate and Control="{Binding Template}" in XAML) is not the best WPF - change this!
-
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
-    class EventWindowViewModel : ViewModelBase
+    /// <summary>
+    /// Represents the main window's VM.
+    /// </summary>
+    class MainWindowViewModel : ViewModelBase
     {
         #region Fields
 
         private IOperationViewer _operationViewer;
-        private Lazy<FrameworkElement> _controlTemplate;
+        private Lazy<FrameworkElement> _busyTemplate;
 
         private OperationViewModel _selectedEvent;
 
@@ -62,13 +63,37 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             get { return AvailableEvents.Count > 1; }
         }
+        /// <summary>
+        /// Gets whether or not there are any events at all. The outcome of this property decides which template to show.
+        /// </summary>
+        public bool HasDisplayableEvents
+        {
+            get { return AvailableEvents.Count > 0; }
+        }
 
         /// <summary>
-        /// Gets the control that is to be displayed in the 
+        /// Gets the template that is displayed when there are actually alarms to display.
         /// </summary>
-        public FrameworkElement Template
+        public FrameworkElement BusyTemplate
         {
-            get { return _controlTemplate.Value; }
+            get { return _busyTemplate.Value; }
+        }
+        /// <summary>
+        /// Gets the template that is visible when there are no alarms to display.
+        /// </summary>
+        public FrameworkElement IdleTemplate { get; private set; }
+
+        /// <summary>
+        /// Gets/sets the UI-Scale-Factor.
+        /// </summary>
+        public double UiScaleFactor
+        {
+            get { return App.GetApp().Configuration.ScaleFactor; }
+            set
+            {
+                App.GetApp().Configuration.ScaleFactor = value;
+                OnPropertyChanged("UiScaleFactor");
+            }
         }
 
         #endregion
@@ -76,9 +101,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EventWindowViewModel"/> class.
+        /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-        public EventWindowViewModel()
+        public MainWindowViewModel()
         {
             AvailableEvents = new List<OperationViewModel>();
 
@@ -106,7 +131,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 _operationViewer = new Views.DefaultOperationView();
             }
 
-            _controlTemplate = new Lazy<FrameworkElement>(() =>
+            _busyTemplate = new Lazy<FrameworkElement>(() =>
             {
                 return _operationViewer.Visual;
             });
@@ -138,8 +163,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             AvailableEvents.Add(ovm);
             AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
 
-            OnPropertyChanged("AvailableEvents");
-            OnPropertyChanged("AreMultipleEventsPresent");
+            UpdateProperties();
 
             // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
             if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.Timestamp < AvailableEvents[0].Operation.Timestamp))
@@ -157,13 +181,19 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);
         }
 
+        private void UpdateProperties()
+        {
+            OnPropertyChanged("AvailableEvents");
+            OnPropertyChanged("AreMultipleEventsPresent");
+            OnPropertyChanged("HasDisplayableEvents");
+        }
+
         private void RemoveEvent(OperationViewModel operation)
         {
             AvailableEvents.Remove(operation);
             AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
 
-            OnPropertyChanged("AvailableEvents");
-            OnPropertyChanged("AreMultipleEventsPresent");
+            UpdateProperties();
         }
 
         /// <summary>
@@ -255,7 +285,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                         }
                         else
                         {
-                            PushEvent(operation);
+                            App.Current.Dispatcher.Invoke(() => PushEvent(operation));
                         }
                     }
                 }
