@@ -25,7 +25,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Validation
 
             foreach (char c in number)
             {
-                if (!char.IsDigit(c))
+                if (c!= '+' && !char.IsDigit(c))
                 {
                     return new ValidationResult(false, Properties.Resources.VR_Phone_InvalidNumber);
                 }
