@@ -121,7 +121,9 @@
     <value>Änderungen übernehmen</value>
   </data>
   <data name="AddressBookWindowLeaveConfirmation_MSG" xml:space="preserve">
-    <value>Möchten Sie die Änderungen übernehmen?</value>
+    <value>Möchten Sie die Änderungen übernehmen?
+
+Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit es endgültig gespeichert wird.</value>
   </data>
   <data name="AddressBookWindowTitle" xml:space="preserve">
     <value>Adressbuch-Editor</value>
