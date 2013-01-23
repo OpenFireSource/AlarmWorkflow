@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="DisplayWakeUpJob" DisplayText="Display-Wake Up (Job)">
+  <Identifier Name="DisplayWakeUpJob" DisplayText="Display-Wake Up" Parent="Aufgaben">
     
     <Setting Name="TurnOffTimeout" DisplayText="Ausschalten nach (Minuten)" Category="Generell"
              Description="Nach wie vielen Minuten die Bildschirme wieder ausgeschaltet werden sollen, wenn kein neuer Alarm kommt (0 für kein Timeout)." />

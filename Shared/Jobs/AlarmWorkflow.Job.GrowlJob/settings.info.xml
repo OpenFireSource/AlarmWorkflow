@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="GrowlJob" DisplayText="Growl (Aufgabe)">
+  <Identifier Name="GrowlJob" DisplayText="Growl" Parent="Aufgaben">
     <Setting Name="GrowlSender" DisplayText="Growl-Ziel" Category="Ziel" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Job.GrowlJob.IGrowlSender, AlarmWorkflow.Job.GrowlJob"
              Description="Das Plug-in, das das Senden übernehmen soll." />
     <Setting Name="APIKeys" DisplayText="API-Schlüssel" Category="Ziel" Description="Der API-Schlüssel an den die Growl-Notifications geschickt werden sollen." Editor="StringArrayTypeEditor" />

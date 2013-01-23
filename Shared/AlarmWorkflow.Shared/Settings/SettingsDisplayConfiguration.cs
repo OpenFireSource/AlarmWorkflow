@@ -67,6 +67,7 @@ namespace AlarmWorkflow.Shared.Settings
                 identifier.DisplayText = identifierE.TryGetAttributeValue("DisplayText", identifier.Name);
                 identifier.Description = identifierE.TryGetAttributeValue("Description", null);
                 identifier.Order = identifierE.TryGetAttributeValue("Order", 0);
+                identifier.Parent = identifierE.TryGetAttributeValue("Parent", null);
 
                 // Iterate over all <Setting />-tags
                 foreach (XElement settingE in identifierE.Elements("Setting"))

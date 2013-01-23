@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="PrintingUIJob" DisplayText="Druckaufgabe (Windows-UI)">
+  <Identifier Name="PrintingUIJob" DisplayText="Oberflächendruck" Parent="Aufgaben (UI)">
 
     <Setting Name="PrintServer" DisplayText="Druckerserver" Category="Drucker" />
     <Setting Name="PrinterName" DisplayText="Druckername" Category="Drucker" />

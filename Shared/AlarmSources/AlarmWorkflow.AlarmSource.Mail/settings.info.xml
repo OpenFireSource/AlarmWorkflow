@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="MailAlarmSource" DisplayText="E-Mail Konto (Alarmquelle)" Order="-5000">
+  <Identifier Name="MailAlarmSource" DisplayText="E-Mail Konto" Order="-5000" Parent="Alarmquelle">
 
     <Setting Name="ServerName" DisplayText="Servername" Description="POP3/IMAP" Category="Server" />
     <Setting Name="Port" DisplayText="Port" Category="Server" />

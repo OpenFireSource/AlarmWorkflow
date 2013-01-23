@@ -27,6 +27,11 @@ namespace AlarmWorkflow.Shared.Settings
         /// Gets/sets the order of the identifier section.
         /// </summary>
         public int Order { get; set; }
+        /// <summary>
+        /// Gets/sets the identifier of the parent section.
+        /// Use null for no parent section.
+        /// </summary>
+        public string Parent { get; set; }
 
         /// <summary>
         /// Gets/sets the settings that are contained in this identifier section.

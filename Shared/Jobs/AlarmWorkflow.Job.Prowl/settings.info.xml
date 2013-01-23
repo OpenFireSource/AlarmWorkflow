@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="ProwlJob" DisplayText="Prowl (Aufgabe)">
+  <Identifier Name="ProwlJob" DisplayText="Prowl" Parent="Aufgaben">
 
     <Setting Name="ProviderKey" DisplayText="Provider-Schlüssel" Category="Generell" />
     <Setting Name="ApplicationName" DisplayText="Anwendungsname" Category="Generell" />

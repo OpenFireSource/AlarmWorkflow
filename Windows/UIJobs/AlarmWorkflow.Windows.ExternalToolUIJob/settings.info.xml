@@ -1,5 +1,5 @@
 ﻿<SettingsDisplayConfiguration>
-  <Identifier Name="ExternalToolUIJob" DisplayText="Externes Tool (Windows-UI)">
+  <Identifier Name="ExternalToolUIJob" DisplayText="Externe Tools starten" Parent="Aufgaben (UI)">
     <Setting Name="ExternalTool" DisplayText="Externe Tools (pro Zeile 1)" Category="Allgemein" Editor="StringArrayTypeEditor"/>
   </Identifier>
 </SettingsDisplayConfiguration>

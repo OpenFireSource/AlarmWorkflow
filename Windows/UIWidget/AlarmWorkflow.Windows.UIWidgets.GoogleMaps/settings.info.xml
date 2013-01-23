@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="GoogleMapsWidget" DisplayText="Google-Maps (UI-Widget)">
+  <Identifier Name="GoogleMapsWidget" DisplayText="Google-Maps (UI-Widget)" Parent="CustomOperationViewer">
     <Setting Name="MapType" DisplayText="MapType" Category="Generell" Editor="DropDownTypeEditor" EditorParameter="Straße;Hybrid;Terrain;Satellit" />
     <Setting Name="RouteDescription" DisplayText="RouteDescription" Category="Generell" />
     <Setting Name="ZoomControl" DisplayText="ZoomControl" Category="Generell" />

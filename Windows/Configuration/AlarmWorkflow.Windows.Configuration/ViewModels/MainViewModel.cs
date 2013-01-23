@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Timers;
 using System.Windows;
 using System.Windows.Data;
@@ -19,6 +20,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #region Constants
 
         private const string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
+        private const string SectionNameShared = "Shared";
 
         #endregion
 
@@ -26,7 +28,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private SettingsManager _manager;
         private SettingsDisplayConfiguration _displayConfiguration;
-        private Dictionary<string, SectionViewModel> _sections;
+        private List<GroupedSectionViewModel> _sections;
 
         private Timer _serviceStatePollingTimer;
 
@@ -37,9 +39,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <summary>
         /// Gets a list of all sections that can be edited.
         /// </summary>
-        public IEnumerable<SectionViewModel> Sections
+        public IEnumerable<GroupedSectionViewModel> Sections
         {
-            get { return _sections.Values; }
+            get { return _sections; }
         }
         /// <summary>
         /// Gets the state of the service.
@@ -62,8 +64,15 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             // Remember settings that failed to save
             int iFailedSettings = 0;
             // First apply the setting values from the editors back to their setting items.
-            foreach (SectionViewModel svm in _sections.Values)
+            foreach (GroupedSectionViewModel gsvm in GetAllSections())
             {
+                SectionViewModel svm = gsvm.Section;
+                // If this section is a dummy-section, ignore it.
+                if (svm == null)
+                {
+                    continue;
+                }
+
                 foreach (CategoryViewModel cvm in svm.CategoryItems)
                 {
                     foreach (SettingItemViewModel sivm in cvm.SettingItems)
@@ -301,15 +310,20 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void BuildSectionsTree()
         {
-            _sections = new Dictionary<string, SectionViewModel>();
+            Dictionary<string, SectionViewModel> sectionsTemp = new Dictionary<string, SectionViewModel>();
+            Dictionary<string, string> sectionParents = new Dictionary<string, string>();
+
             foreach (SettingDescriptor descriptor in _manager)
             {
                 SectionViewModel svm = null;
-                if (!_sections.TryGetValue(descriptor.Identifier, out svm))
+                if (!sectionsTemp.TryGetValue(descriptor.Identifier, out svm))
                 {
-                    svm = new SectionViewModel(_displayConfiguration.GetIdentifier(descriptor.Identifier));
+                    IdentifierInfo identifier = _displayConfiguration.GetIdentifier(descriptor.Identifier);
+                    sectionParents[identifier.Name] = identifier.Parent;
+
+                    svm = new SectionViewModel(identifier);
                     svm.Identifier = descriptor.Identifier;
-                    _sections.Add(svm.Identifier, svm);
+                    sectionsTemp.Add(svm.Identifier, svm);
                 }
 
                 SettingInfo setting = _displayConfiguration.GetSetting(descriptor.Identifier, descriptor.SettingItem.Name);
@@ -321,10 +335,54 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 svm.Add(descriptor, setting);
             }
 
+            _sections = new List<GroupedSectionViewModel>();
+            // Create hierarchy, starting with the sections that don't have parents
+            foreach (var kvp in sectionParents.OrderBy(k => k.Value))
+            {
+                SectionViewModel section = sectionsTemp.FirstOrDefault(s => s.Key == kvp.Key).Value;
+                string parentName = kvp.Value;
+                bool hasParent = (parentName != null);
+
+                // Create group for this item
+                GroupedSectionViewModel group = new GroupedSectionViewModel(section);
+
+                if (hasParent)
+                {
+                    // Find parent group
+                    // TODO: If there is no parent group, create a dummy group
+                    GroupedSectionViewModel parentGroup = GetAllSections().FirstOrDefault(s => s.Identifier == parentName);
+                    if (parentGroup == null)
+                    {
+                        // Create a dummy group
+                        parentGroup = new GroupedSectionViewModel(null);
+                        parentGroup.Identifier = parentName;
+                        parentGroup.Header = parentName;
+                        _sections.Add(parentGroup);
+                    }
+
+                    parentGroup.Children.Add(group);
+                }
+                else
+                {
+                    _sections.Add(group);
+                }
+            }
+
+            // Always select the "Shared" section
+            _sections.First(s => s.Identifier == SectionNameShared).IsSelected = true;            
+
             // Apply sorting
             ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);
             view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
-            view.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
+        }
+
+        private IList<GroupedSectionViewModel> GetAllSections()
+        {
+            List<GroupedSectionViewModel> all = new List<GroupedSectionViewModel>();
+            all.AddRange(_sections);
+            all.AddRange(_sections.SelectMany(s => s.Children));
+            return all;
         }
 
         private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)

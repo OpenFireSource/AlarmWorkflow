@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="Addressing" DisplayText="Adressbuch" Order="-1000">
+  <Identifier Name="Addressing" DisplayText="Adressbuch" Order="-1000" Parent="Shared">
 
     <Setting Name="AddressBook" DisplayText="Adressbuch" Category="Adressbuch" Editor="AddressBookEditor"
              Description="Das Adressbuch, dass die Kontaktdaten von Kameraden, Personen etc. enthält." />

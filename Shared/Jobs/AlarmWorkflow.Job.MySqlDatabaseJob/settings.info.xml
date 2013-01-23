@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="MySqlDatabaseJob" DisplayText="MySQL (Aufgabe)">
+  <Identifier Name="MySqlDatabaseJob" DisplayText="MySQL" Parent="Aufgaben">
 
     <Setting Name="DBServer" DisplayText="Servername" Category="Server"
              Description="Der Name des Servers, auf dem die MySQL-Datenbank läuft." />

@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="AlarmSourcePrinterJob" DisplayText="Alarmquellendruck (Aufgabe)">
+  <Identifier Name="AlarmSourcePrinterJob" DisplayText="Alarmquellendruck" Parent="Aufgaben">
 
     <Setting Name="PrintServer" DisplayText="Druckerserver" Category="Drucker" />
     <Setting Name="PrinterName" DisplayText="Druckername" Category="Drucker" />

@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)">
+  <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)" Parent="CustomOperationViewer">
     <Setting Name="LineOne" DisplayText="1. Zeile" Category="Generell" />
     <Setting Name="LineTwo" DisplayText="2. Zeile" Category="Generell" />
     <Setting Name="LineThree" DisplayText="3. Zeile" Category="Generell" />
