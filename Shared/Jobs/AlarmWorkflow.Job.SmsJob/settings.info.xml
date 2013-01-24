@@ -3,7 +3,7 @@
     <Setting Name="UserName" DisplayText="Benutzername" Category="Anmeldung" />
     <Setting Name="Password" DisplayText="Passwort" Category="Anmeldung" />
 
-    <Setting Name="MessageFormat" DisplayText="Format" Description="Das Format der Nachricht." Category="Nachricht" />
+    <Setting Name="MessageFormat" DisplayText="Format" Description="Das Format der Nachricht." Category="Nachricht" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
 
     <Setting Name="Provider" DisplayText="SMS-Anbieter" Description="Der Anbieter, über den die SMS verschickt werden sollen." Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Job.SmsJob.ISmsProvider, AlarmWorkflow.Job.SmsJob" />
   </Identifier>

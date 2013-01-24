@@ -97,6 +97,9 @@
     <Compile Include="TypeEditors\KeyInputTypeEditor.xaml.cs">
       <DependentUpon>KeyInputTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\ObjectExpressionTypeEditor.xaml.cs">
+      <DependentUpon>ObjectExpressionTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
       <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -169,6 +172,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\KeyInputTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ObjectExpressionTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

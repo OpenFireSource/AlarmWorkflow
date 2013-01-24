@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.ObjectExpressionTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBox x:Name="txtText" Grid.Row="0" Margin="2" ToolTip="Objektausdruck" />
+        <Expander Grid.Row="1">
+            <Expander.Header>
+                <TextBlock>
+                    <Run Text="Verfügbare Eigenschaften" FontWeight="Bold" />
+                    <Run Text=" (klick zum Einfügen)" />
+                </TextBlock>
+            </Expander.Header>
+            <ItemsControl ItemsSource="{Binding ObjectPropertiesHelp}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <ContentControl Margin="2">
+                            <Hyperlink Command="{Binding InsertPropertyCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding }">
+                                <TextBlock Text="{Binding }" />
+                            </Hyperlink>
+                        </ContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Expander>
+    </Grid>
+</UserControl>

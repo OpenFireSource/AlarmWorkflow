@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace AlarmWorkflow.Shared.Core
@@ -143,5 +145,81 @@ namespace AlarmWorkflow.Shared.Core
             return true;
         }
 
+        /// <summary>
+        /// Returns an array containing the names of all properties in the specified type, including children, with no disallowed property names and not requiring CanWrite.
+        /// </summary>
+        /// <param name="type">The type to get all properties from. Must not be null.</param>
+        /// <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        public static string[] GetPropertyNames(Type type)
+        {
+            string[] disallowedPropertyNames = new string[0];
+            return GetPropertyNames(type, disallowedPropertyNames);
+        }
+
+        /// <summary>
+        /// Returns an array containing the names of all properties in the specified type, including children, and not requiring CanWrite.
+        /// </summary>
+        /// <param name="type">The type to get all properties from. Must not be null.</param>
+        /// <param name="disallowedPropertyNames">An array containing the names of the properties that shall be ignored in the result.</param>
+        /// <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        public static string[] GetPropertyNames(Type type, string[] disallowedPropertyNames)
+        {
+            bool requireCanWrite = false;
+            return GetPropertyNames(type, disallowedPropertyNames, requireCanWrite);
+        }
+
+        /// <summary>
+        /// Returns an array containing the names of all properties in the specified type, including children.
+        /// </summary>
+        /// <param name="type">The type to get all properties from. Must not be null.</param>
+        /// <param name="disallowedPropertyNames">An array containing the names of the properties that shall be ignored in the result.</param>
+        /// <param name="requireCanWrite">Whether or not only writeable properties are returned.</param>
+        /// <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        public static string[] GetPropertyNames(Type type, string[] disallowedPropertyNames, bool requireCanWrite)
+        {
+            Assertions.AssertNotNull(type, "type");
+            if (disallowedPropertyNames == null)
+            {
+                disallowedPropertyNames = new string[0];
+            }
+
+            List<string> propertiesTemp = new List<string>();
+            FillAllowedProperties(type, "", disallowedPropertyNames, requireCanWrite, propertiesTemp);
+            propertiesTemp.Sort();
+
+            return propertiesTemp.ToArray();
+        }
+
+        private static void FillAllowedProperties(Type child, string hierarchySoFar, string[] disallowedPropertyNames, bool requireCanWrite, IList<string> propertiesBucket)
+        {
+            foreach (PropertyInfo property in child.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (disallowedPropertyNames.Contains(property.Name))
+                {
+                    continue;
+                }
+                if (requireCanWrite && !property.CanWrite)
+                {
+                    continue;
+                }
+
+                // If the property may be extensible (just assume that blindly if it is not in the System-namespace)
+                Type propertyType = property.PropertyType;
+                if (!propertyType.Namespace.StartsWith("System"))
+                {
+                    FillAllowedProperties(propertyType, hierarchySoFar + property.Name + ".", disallowedPropertyNames, requireCanWrite, propertiesBucket);
+                }
+                else
+                {
+                    string name = property.Name;
+                    if (property.DeclaringType != null)
+                    {
+                        name = hierarchySoFar + name;
+                    }
+
+                    propertiesBucket.Add(name);
+                }
+            }
+        }
     }
 }
