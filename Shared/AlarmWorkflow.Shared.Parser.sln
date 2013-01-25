@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSTri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSMittelfrankenParser", "Parsers\AlarmWorkflow.Parser.ILSMittelfrankenParser\AlarmWorkflow.Parser.ILSMittelfrankenParser.csproj", "{E83C7D35-3213-4126-BF50-20A76B1C8EB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSDonauIllerParser", "Parsers\AlarmWorkflow.Parser.ILSDonauIllerParser\AlarmWorkflow.Parser.ILSDonauIllerParser.csproj", "{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
