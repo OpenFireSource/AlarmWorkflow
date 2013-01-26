@@ -1,24 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 3.4.5
--- http://www.phpmyadmin.net
---
--- Host: localhost
--- Erstellungszeit: 17. Dez 2012 um 20:07
--- Server Version: 5.5.16
--- PHP-Version: 5.3.8
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
 -- Datenbank: `alarmworkflow`
 --
+
+CREATE SCHEMA `alarmworkflow`;
 
 -- --------------------------------------------------------
 
@@ -33,20 +17,6 @@ CREATE TABLE IF NOT EXISTS `accessright` (
   UNIQUE KEY `Name_UNIQUE` (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `address`
---
-
-CREATE TABLE IF NOT EXISTS `address` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Person_Id` int(11) NOT NULL,
-  `AddressType` varchar(100) NOT NULL,
-  `AddressValue` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `FK_Person_Id_idx` (`Person_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -62,19 +32,6 @@ CREATE TABLE IF NOT EXISTS `operation` (
   `Serialized` longblob NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `person`
---
-
-CREATE TABLE IF NOT EXISTS `person` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `FirstName` varchar(200) NOT NULL,
-  `LastName` varchar(200) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -110,7 +67,6 @@ CREATE TABLE IF NOT EXISTS `tb_einsatz` (
 
 CREATE TABLE IF NOT EXISTS `user` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
-  `Person_Id` int(11) DEFAULT NULL,
   `Name` varchar(100) NOT NULL,
   `Password` blob,
   PRIMARY KEY (`Id`),
@@ -138,12 +94,6 @@ CREATE TABLE IF NOT EXISTS `user_accessright` (
 --
 
 --
--- Constraints der Tabelle `address`
---
-ALTER TABLE `address`
-  ADD CONSTRAINT `FK_Address_Person_Id` FOREIGN KEY (`Person_Id`) REFERENCES `person` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Constraints der Tabelle `user`
 --
 ALTER TABLE `user`
@@ -155,7 +105,3 @@ ALTER TABLE `user`
 ALTER TABLE `user_accessright`
   ADD CONSTRAINT `FK_User_AccessRight_User_Id` FOREIGN KEY (`User_Id`) REFERENCES `user` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `FK_User_AccessRight_AccessRight_Id` FOREIGN KEY (`AccessRight_Id`) REFERENCES `accessright` (`Id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
