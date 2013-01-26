@@ -251,7 +251,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                                 operation.Einsatzort.StreetNumber = streetNumber;
                                             }
 
-                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-", StringComparison.Ordinal)).Trim();
+                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-Nr", StringComparison.Ordinal)).Trim();
                                         }
                                         break;
                                     case "ORT":
@@ -324,7 +324,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Keywords.Keyword = msg;
+                                        operation.Picture = msg;
                                         break;
                                     case "STICHWORT B":
                                         operation.Keywords.B = msg;

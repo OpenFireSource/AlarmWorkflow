@@ -166,7 +166,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Keywords.Keyword = msg;
+                                        operation.Picture = msg;
                                         break;
                                     case "STICHWORT":
                                         operation.Keywords.EmergencyKeyword = msg;
