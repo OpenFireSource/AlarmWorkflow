@@ -34,6 +34,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// </summary>
         public UIConfigurationNea()
         {
+            VehicleMustContainAbbreviations = new string[0];
             Vehicles = new List<Vehicle>();
         }
 
@@ -55,7 +56,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
             }
 
             // If the resource does not contain any of the abbreviations, don't go further.
-            if(!VehicleMustContainAbbreviations.Any(v => resourceName.Contains(v)))
+            if (!VehicleMustContainAbbreviations.Any(v => resourceName.Contains(v)))
             {
                 return null;
             }
@@ -69,10 +70,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// <returns></returns>
         public static UIConfigurationNea Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachNeaOperationViewerConfig.xml");
-            if (configFile == null)
+            string configFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "IlsAnsbachNeaOperationViewerConfig.xml");
+            if (!File.Exists(configFile))
             {
-                return null;
+                return new UIConfigurationNea();
             }
 
             UIConfigurationNea configuration = new UIConfigurationNea();
@@ -96,7 +97,16 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
                     vehicle.Shortkey = shortkey;
                 }
 
-                FileInfo imageFile = new FileInfo(Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), resE.Attribute("Image").Value));
+                string imagePath = resE.Attribute("Image").Value;
+                FileInfo imageFile = null;
+                if (!Path.IsPathRooted(imagePath))
+                {
+                    imageFile = new FileInfo(Path.Combine(Utilities.GetLocalAppDataFolderPath(), imagePath));
+                }
+                else
+                {
+                    imageFile = new FileInfo(imagePath);
+                }
                 vehicle.Image = imageFile.FullName;
 
                 configuration.Vehicles.Add(vehicle);

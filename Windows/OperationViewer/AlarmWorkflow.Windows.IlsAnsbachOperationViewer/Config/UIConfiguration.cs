@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using AlarmWorkflow.Shared.Core;
-using System.Xml.Linq;
-using System.Linq;
-using System;
 
 namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 {
@@ -34,6 +34,7 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// </summary>
         public UIConfiguration()
         {
+            VehicleMustContainAbbreviations = new string[0];
             Vehicles = new List<Vehicle>();
         }
 
@@ -64,10 +65,10 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         /// <returns></returns>
         public static UIConfiguration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachOperationViewerConfig.xml");
-            if (configFile == null)
+            string configFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "IlsAnsbachOperationViewerConfig.xml");
+            if (!File.Exists(configFile))
             {
-                return null;
+                return new UIConfiguration();
             }
 
             UIConfiguration configuration = new UIConfiguration();

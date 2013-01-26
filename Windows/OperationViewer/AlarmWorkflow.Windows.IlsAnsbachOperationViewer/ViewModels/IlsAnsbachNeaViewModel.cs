@@ -313,12 +313,13 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
 
         /// <summary>
         /// Holds some additional information per operation.
+        /// TODO: This is being replaced by a dedicated table in the future.
         /// </summary>
         sealed class OperationInformationLibrary
         {
             #region Constants
 
-            private static readonly string FilePath = Path.Combine(Utilities.GetWorkingDirectory(), "Config", "OperationInformationLibrary.csv");
+            private static readonly string FilePath = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "OperationInformationLibrary.csv");
 
             #endregion
 

@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Parser.IlsAnsbachParser">
@@ -39,7 +40,6 @@
       <HintPath>..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.Shared">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -78,12 +78,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Config\IlsAnsbachNeaOperationViewerConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Config\IlsAnsbachOperationViewerConfig.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Config\IlsAnsbachNeaOperationViewerConfig_sample.xml" />
+    <Content Include="Config\IlsAnsbachOperationViewerConfig_sample.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
