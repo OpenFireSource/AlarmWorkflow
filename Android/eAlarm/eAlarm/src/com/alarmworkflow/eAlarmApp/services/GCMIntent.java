@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.alarmworkflow.eAlarmApp.C2DMClientActivity;
+import com.alarmworkflow.eAlarmApp.RegistrationActivity;
 import com.alarmworkflow.eAlarmApp.OperationDetail;
 import com.alarmworkflow.eAlarmApp.R;
+import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
+import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
+import com.alarmworkflow.eAlarmApp.datastorage.ServerConnection;
 
 import android.app.IntentService;
 import android.app.Notification;
@@ -60,7 +63,6 @@ public class GCMIntent extends IntentService implements
 
 	private static PowerManager.WakeLock sWakeLock;
 	private static final Object LOCK = GCMIntent.class;
-	private static final String TAG = GCMIntent.class.toString();
 
 	static void runIntentInService(Context context, Intent intent) {
 		synchronized (LOCK) {
@@ -116,13 +118,13 @@ public class GCMIntent extends IntentService implements
 	@Override
 	public final void onHandleIntent(Intent intent) {
 		try {
-			Log.i(this.toString(), "Iwas tut sich ;))");
+			Log.i(GCMIntent.class.getSimpleName(), "Incoming Data");
 			String action = intent.getAction();
 			if (action.equals("com.google.android.c2dm.intent.REGISTRATION")) {
-				Log.i(this.toString(), "Ah jemand tut sich registrieren");
+				Log.i(GCMIntent.class.getSimpleName(), "Incoming RegistrationID");
 				handleRegistration(intent);
 			} else if (action.equals("com.google.android.c2dm.intent.RECEIVE")) {
-				Log.i(this.toString(), "Ah jemand will was von mir :)");
+				Log.i(GCMIntent.class.getSimpleName(),"Incoming Message");
 				handleMessage(intent);
 			}
 		} finally {
@@ -137,27 +139,33 @@ public class GCMIntent extends IntentService implements
 		text = intent.getExtras().getString("text");
 		String longitude = intent.getExtras().getString("long");
 		String latitude = intent.getExtras().getString("lat");
+		String opID = intent.getExtras().getString("opid");
 		Date date = new Date();
 		String time = date.getTime() + "";
 		DataSource.getInstance(this).addOperation(header, text, longitude,
-				latitude, time);
+				latitude, time, opID);
 		initPreferences();
 		audman = ((AudioManager) getApplicationContext().getSystemService(
 				"audio"));
 		currentAudioVolume = audman.getStreamVolume(AudioManager.STREAM_ALARM);
-		if (overridesound)
+		if (overridesound) {
 			audman.setStreamVolume(AudioManager.STREAM_ALARM,
 					audman.getStreamMaxVolume(AudioManager.STREAM_ALARM), 0);
-		if (deviceOn)
-			switchDeviceOn();		
-		if (sound && alarmsound != "")
+		}
+		if (deviceOn) {
+			switchDeviceOn();
+		}
+		if (sound && alarmsound != "") {
 			playSound();
-		if (vibrate)
-			vibrate();		
-		if (openApp)
+		}
+		if (vibrate) {
+			vibrate();
+		}
+		if (openApp) {
 			openApplication(time);
-		else
+		} else {
 			generateNotification(getApplicationContext(), header, time);
+		}
 
 	}
 
@@ -177,7 +185,9 @@ public class GCMIntent extends IntentService implements
 				mediaPlayer.setOnCompletionListener(this);
 			}
 		} catch (IOException e) {
-			Log.i("THREAD", "oops");
+			Log.e(GCMIntent.class.getSimpleName(),
+					"Mediaplayer crashed during playing the sound "
+							+ e.getLocalizedMessage());
 		}
 
 	}
@@ -196,7 +206,6 @@ public class GCMIntent extends IntentService implements
 	}
 
 	private void openApplication(String time) {
-
 		startActivity(getNotifyIntent(time));
 	}
 
@@ -204,16 +213,10 @@ public class GCMIntent extends IntentService implements
 		new Thread(new Runnable() {
 			public void run() {
 				Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-				int dot = 200;
 				int dash = 500;
-				int short_gap = 200;
-				int medium_gap = 500;
-				int long_gap = 1000;
+				int gap = 300;
 				long[] pattern = { 0, // Start immediately
-						dot, short_gap, dot, short_gap, dot, // s
-						medium_gap, dash, short_gap, dash, short_gap, dash, // o
-						medium_gap, dot, short_gap, dot, short_gap, dot, // s
-						long_gap };
+						dash, gap, dash, gap, dash };
 
 				// Only perform this pattern one time (-1 means "do not repeat")
 				v.vibrate(pattern, -1);
@@ -259,12 +262,12 @@ public class GCMIntent extends IntentService implements
 			SharedPreferences prefs = PreferenceManager
 					.getDefaultSharedPreferences(this);
 			Editor edit = prefs.edit();
-			edit.putString(C2DMClientActivity.AUTH, registrationId);
+			edit.putString(RegistrationActivity.AUTH, registrationId);
 			edit.commit();
-			email = prefs.getString(C2DMClientActivity.EMAIL, "n/A");
+			email = prefs.getString(RegistrationActivity.EMAIL, "n/A");
 			Map<String, String> params = new HashMap<String, String>();
-			params.put(C2DMClientActivity.AUTH, registrationId);
-			params.put(C2DMClientActivity.EMAIL, email);
+			params.put(RegistrationActivity.AUTH, registrationId);
+			params.put(RegistrationActivity.EMAIL, email);
 			params.put(UUID, generateDeviceId());
 			try {
 				ServerConnection
@@ -278,8 +281,7 @@ public class GCMIntent extends IntentService implements
 
 		// unregistration succeeded
 		if (unregistered != null) {
-			// get old registration ID from shared preferences
-			// notify 3rd-party server about the unregistered ID
+
 		}
 
 		// last operation (registration or unregistration) returned an error;
@@ -289,7 +291,7 @@ public class GCMIntent extends IntentService implements
 				// (see Advanced Topics)
 			} else {
 				// Unrecoverable error, log it
-				Log.i(TAG, "Received error: " + error);
+				Log.i(GCMIntent.class.getSimpleName(), "Received error: " + error);
 			}
 		}
 	}

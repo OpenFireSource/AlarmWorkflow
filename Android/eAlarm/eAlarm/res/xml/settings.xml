@@ -62,5 +62,13 @@
             android:summary="Timeout nach dem der Bildschirm wieder abgeschaltet werden soll"
             android:title="Bildschirm-Timeout" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:key="information"
+        android:title="Informationen" >
+        <Preference
+            android:editable="false"
+            android:key="email"
+            android:title="Registrierte E-Mail Adresse" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

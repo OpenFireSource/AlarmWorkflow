@@ -3,20 +3,15 @@
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_menu_preferences"
-        android:title="Einstellungen"/>
-    <item
-        android:id="@+id/about"
-        android:icon="@drawable/ic_menu_info_details"
-        android:title="About"/>
+        android:title="Einstellungen"/>    
     <item
         android:id="@+id/clear"
         android:icon="@drawable/ic_menu_delete"
-        android:title="Liste löschen">
-    </item>
+        android:title="Liste löschen"/>
     <item
         android:id="@+id/testnotification"
         android:icon="@drawable/ic_menu_notifications"
-        android:title="Testnarchicht">
-    </item>
+        android:title="Testnarchicht"/>
+    
 
 </menu>

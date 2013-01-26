@@ -1,51 +1,54 @@
 package com.alarmworkflow.eAlarmApp;
 
-import mapviewballoons.example.simple.SimpleItemizedOverlay;
-
 import com.alarmworkflow.eAlarmApp.R;
-import com.alarmworkflow.eAlarmApp.general.CustomMapView;
-import com.alarmworkflow.eAlarmApp.services.DataSource;
-import com.alarmworkflow.eAlarmApp.services.MySQLiteHelper;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.MapActivity;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
+import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
+import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.widget.ListView;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 
-public class Map extends MapActivity {
-	private MapView mapView;
-	private MapController mapControl;
+public class Map extends FragmentActivity {
 
-	SimpleItemizedOverlay operationOverlay;
-	private ListView poiList;
+	GoogleMap mMap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapview);
-		mapView = (CustomMapView) findViewById(R.id.map);
-		poiList = (ListView) findViewById(R.id.poiList);
-		if(poiList != null)
-			Log.i("POI","POI Liste is da");
-		// Vielleicht ganz interessant fuer Anfahrt und co.
-		mapView.setTraffic(true);
-		// Zoombuttons
-		mapView.setBuiltInZoomControls(true);
-		mapControl = mapView.getController();
-		mapControl.setZoom(17);
-		operationOverlay = new SimpleItemizedOverlay(getResources().getDrawable(
-				R.drawable.brandmarker), mapView);
-		gotoEinsatz();
+		FragmentManager myFragmentManager = getSupportFragmentManager();
+		SupportMapFragment mySupportMapFragment = (SupportMapFragment) myFragmentManager
+				.findFragmentById(R.id.map);
+		mMap = mySupportMapFragment.getMap();
+		mMap.setTrafficEnabled(true);
+		mMap.setMyLocationEnabled(true);
+		mMap.getUiSettings().setAllGesturesEnabled(true);
+		mMap.getUiSettings().setCompassEnabled(true);
+		mMap.getUiSettings().setMyLocationButtonEnabled(true);
+		LatLng alarm = generateAlarmMarker();
+		if (savedInstanceState == null) {
+			if (alarm != null)
+				mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(alarm, 17));
+		}
+		ImageButton homeButton = (ImageButton) findViewById(R.id.back);
+		homeButton.setOnClickListener(new OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 
-	private void gotoEinsatz() {
+	private LatLng generateAlarmMarker() {
 		Intent intent = getIntent();
 		// ID des Einsatzes
 		String id = intent.getExtras().getString(MySQLiteHelper.COLUMN_ID);
@@ -55,35 +58,21 @@ public class Map extends MapActivity {
 		String lat = details.get(MySQLiteHelper.COLUMN_LAT);
 		// Longitude
 		String lon = details.get(MySQLiteHelper.COLUMN_LONG);
-
-		Drawable drawable = this.getResources().getDrawable(
-				R.drawable.brandmarker);
-
+		String description = details.get(MySQLiteHelper.COLUMN_HEADER) + "\n"
+				+ details.get(MySQLiteHelper.COLUMN_TEXT);
 		try {
-			// Geopoint-konform umwandeln (Koennte Exceptions schmeissen)
-			int latitude = (int) (Float.parseFloat(lat) * 1E6);
-			int longitude = (int) (Float.parseFloat(lon) * 1E6);
-			GeoPoint alarm = new GeoPoint(latitude, longitude);
-			mapControl.animateTo(alarm);
-			createEinsatzMarker(alarm);
+			double latitude = Double.parseDouble(lat);
+			double longitude = Double.parseDouble(lon);
+			LatLng alarm = new LatLng(latitude, longitude);
+			mMap.addMarker(new MarkerOptions().position(alarm)
+					.title("Einsatzort").snippet(description));
+
+			return alarm;
 
 		} catch (NumberFormatException e) {
 		}
+		return null;
 
-	}
-
-	private void createEinsatzMarker(GeoPoint p) {
-		OverlayItem item = new OverlayItem(p, "Einsatzort", "");
-		operationOverlay.addOverlay(item);
-		mapView.getOverlays().add(operationOverlay);
-		Log.i("MARKER", "Marker sollte hinzugefuegt worden sein");
-		Log.i("MARKER", mapView.getOverlays().size() + "");
-	}
-
-	@Override
-	protected boolean isRouteDisplayed() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }
