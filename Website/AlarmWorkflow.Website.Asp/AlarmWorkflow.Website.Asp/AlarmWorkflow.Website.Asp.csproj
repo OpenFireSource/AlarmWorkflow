@@ -69,10 +69,6 @@
     <Content Include="Global.asax" />
     <Content Include="Default.aspx" />
     <Content Include="Idle.aspx" />
-    <EmbeddedResource Include="settings.info.xml">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="settings.xml" />
     <Content Include="Styles\Site.css" />
     <Content Include="Web.config" />
   </ItemGroup>
