@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Website.Asp
         private static WebsiteConfiguration _instance;
 
         /// <summary>
-        ///     Gets the singleton Instance of this type.
+        /// Gets the singleton Instance of this type.
         /// </summary>
         public static WebsiteConfiguration Instance
         {
@@ -27,6 +27,8 @@ namespace AlarmWorkflow.Website.Asp
 
         #endregion
 
+        #region Constructors
+
         private WebsiteConfiguration()
         {
             SettingsManager.Instance.Initialize();
@@ -40,12 +42,15 @@ namespace AlarmWorkflow.Website.Asp
             Route = WebConfigurationManager.AppSettings["Route"].ToLower().Equals("true");
             ZoomControl = WebConfigurationManager.AppSettings["ZoomControl"].ToLower().Equals("true");
             GoogleZoomLevel = int.Parse(WebConfigurationManager.AppSettings["GoogleZoomLevel"]);
-            Maptype = getMapType();
+            Maptype = GetMapType();
             //Website
             NonAcknowledgedOnly = WebConfigurationManager.AppSettings["NonAcknowledgedOnly"].ToLower().Equals("true");
             UpdateIntervall = int.Parse(WebConfigurationManager.AppSettings["UpdateIntervall"]);
             MaxAge = int.Parse(WebConfigurationManager.AppSettings["MaxAge"]);
         }
+        #endregion
+
+        #region Fields
 
         internal bool Traffic { get; private set; }
         internal bool Tilt { get; private set; }
@@ -59,9 +64,11 @@ namespace AlarmWorkflow.Website.Asp
         internal bool NonAcknowledgedOnly { get; private set; }
         internal int GoogleZoomLevel { get; private set; }
 
+        #endregion
+
         #region Methods
 
-        private String getMapType()
+        private String GetMapType()
         {
             String type = WebConfigurationManager.AppSettings["MapType"].ToLower();
             switch (type)

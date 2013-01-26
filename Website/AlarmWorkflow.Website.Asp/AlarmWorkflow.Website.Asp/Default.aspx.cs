@@ -17,13 +17,17 @@ using AlarmWorkflow.Windows.UI.Models;
 namespace AlarmWorkflow.Website.Asp
 {
     /// <summary>
-    ///     Logic of the Default-page.
+    /// Logic of the Default-page.
     /// </summary>
     public partial class Default : Page
     {
+        #region Fields
+
         private readonly WebsiteConfiguration _configuration;
         protected String JSScripts;
         protected String OSMCode;
+
+        #endregion
 
         #region Constructors
 
@@ -202,31 +206,6 @@ namespace AlarmWorkflow.Website.Asp
             return false;
         }
 
-        /// <summary>
-        ///     Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
-        /// </summary>
-        /// <param name="e">
-        ///     The <see cref="T:System.EventArgs" /> object that contains the event data.
-        /// </param>
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-
-            // This page should not feature any postbacks (like the result from the user clicking on a link, button or such).
-            if (IsPostBack)
-            {
-                return;
-            }
-
-            if (String.IsNullOrWhiteSpace(Request["id"]))
-            {
-                CheckForUpdate();
-            }
-            else
-            {
-                SetAlarmDisplay();
-            }
-        }
 
         private void SetAlarmDisplay()
         {
@@ -426,6 +405,32 @@ namespace AlarmWorkflow.Website.Asp
         protected void UpdateTimer_Tick(object sender, EventArgs e)
         {
             CheckForUpdate();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Web.UI.Control.Load" /> event.
+        /// </summary>
+        /// <param name="e">
+        /// The <see cref="T:System.EventArgs" /> object that contains the event data.
+        /// </param>
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+
+            // This page should not feature any postbacks (like the result from the user clicking on a link, button or such).
+            if (IsPostBack)
+            {
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(Request["id"]))
+            {
+                CheckForUpdate();
+            }
+            else
+            {
+                SetAlarmDisplay();
+            }
         }
 
         #endregion

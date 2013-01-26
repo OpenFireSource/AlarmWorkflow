@@ -10,11 +10,23 @@ namespace AlarmWorkflow.Website.Asp
 {
     public partial class Idle : Page
     {
+        #region Event handlers
+
         protected void Page_Load(object sender, EventArgs e)
         {
             _UpdateTimer.Interval = WebsiteConfiguration.Instance.UpdateIntervall;
             LastUpdate.Text = "Letztes Update: " + DateTime.Now.ToString();
         }
+
+        protected void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            CheckForUpdate();
+            LastUpdate.Text = "Letztes Update: " + DateTime.Now.ToString();
+        }
+
+        #endregion
+
+        #region Methods
 
         private bool TryGetLatestOperation(out Operation operation)
         {
@@ -74,10 +86,6 @@ namespace AlarmWorkflow.Website.Asp
             Response.Redirect("Error.aspx");
         }
 
-        protected void UpdateTimer_Tick(object sender, EventArgs e)
-        {
-            CheckForUpdate();
-            LastUpdate.Text = "Letztes Update: " + DateTime.Now.ToString();
-        }
+        #endregion
     }
 }
