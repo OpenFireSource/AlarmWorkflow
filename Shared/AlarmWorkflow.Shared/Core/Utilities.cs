@@ -293,11 +293,22 @@ namespace AlarmWorkflow.Shared.Core
             {
                 if (!string.IsNullOrEmpty(item))
                 {
-                    nl.Add(item);
+                    nl.Add(RemoveDash(item));
                 }
             }
             return nl.ToArray();
         }
+
+        /// <summary>
+        /// Removes dashes at the beginnign and the ending of the Line.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns></returns>
+        public static string RemoveDash(String line)
+        {
+            return line.Trim('-').Trim();
+        }
+        
 
         /// <summary>
         /// Gets the service object of the specified type.

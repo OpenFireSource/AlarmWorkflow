@@ -7,13 +7,13 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
+namespace AlarmWorkflow.Parser.ILSNuernbergParser
 {
     /// <summary>
-    /// Provides a parser that parses faxes from the ILS Mittelfranken.
+    /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSMittelfrankenParser", typeof(IFaxParser))]
-    sealed class ILSMittelfrankenParser : IFaxParser
+    [Export("ILSNuernbergParser", typeof(IFaxParser))]
+    sealed class ILSNuernbergParser : IFaxParser
     {
         #region Constants
 
@@ -26,7 +26,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
 
         #region Constructor
 
-        public ILSMittelfrankenParser()
+        public ILSNuernbergParser()
         {
             _fdUnits = new Dictionary<string, string>();
             string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
@@ -251,7 +251,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                                 operation.Einsatzort.StreetNumber = streetNumber;
                                             }
 
-                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-Nr", StringComparison.Ordinal)).Trim();
+                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-", StringComparison.Ordinal)).Trim();
                                         }
                                         break;
                                     case "ORT":

@@ -324,7 +324,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Keywords.Keyword = msg;
+                                        operation.Picture = msg;
                                         break;
                                     case "STICHWORT B":
                                         operation.Keywords.B = msg;
