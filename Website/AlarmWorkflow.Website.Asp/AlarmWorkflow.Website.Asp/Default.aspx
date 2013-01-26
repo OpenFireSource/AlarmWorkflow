@@ -1,52 +1,57 @@
-﻿<%@ Page Title="AlarmWorkflow" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AlarmWorkflow.Website.Asp._Default" %>
+﻿<%@ Page Title="AlarmWorkflow" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="AlarmWorkflow.Website.Asp.Default" %>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script> 
+    <script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"> </script>
+    <script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"> </script> 
+    <script type="text/javascript"><%= JSScripts %></script>
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" />
-    <asp:Timer runat="server" ID="UpdateTimer" OnTick="UpdateTimer_Tick" Interval="10000" />
-    <asp:UpdatePanel runat="server" ID="TimedPanel" UpdateMode="Conditional">
+    
+    <asp:Table ID="OperationTable" runat="server" Width="100%" Height="100%" 
+               BorderColor="#333333" BorderStyle="Solid" BorderWidth="3px" 
+               GridLines="Both" Font-Size="45px" HorizontalAlign="Center">
+        <asp:TableRow  ID="trInformation" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+            <asp:TableCell ID="tcPicture" runat="server">
+                <asp:Label ID="lbPicture" Font-Size="55px" Font-Bold="True" runat="server"></asp:Label>
+            </asp:TableCell>
+            <asp:TableCell ID="tcOther" runat="server" Width="40%">
+                <asp:Label ID="lbOther" runat="server"></asp:Label>
+            </asp:TableCell>
+        </asp:TableRow>
+        <asp:TableRow ID="trLocation" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+            <asp:TableCell ID="tcAddress" runat="server">
+                <asp:Label ID="lbAddress" runat="server"></asp:Label>
+            </asp:TableCell>
+            <asp:TableCell ID="tcObject" runat="server">
+                <asp:Label ID="lbObject" runat="server"></asp:Label>
+            </asp:TableCell>
+        </asp:TableRow>
+        <asp:TableRow ID="trMap" Height="50%" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+            <asp:TableCell ID="tcGoogle" runat="server">
+                <div id="googlemap"  style="height: 100%; width: 100%;">
+                </div>
+            </asp:TableCell>
+            <asp:TableCell ID="tcOSM" runat="server">
+                <div id="osmmap"  style="height: 100%; width: 100%;">
+                    <script type="text/javascript"><%= OSMCode %></script>
+                </div>
+            </asp:TableCell>
+        </asp:TableRow>
+        <asp:TableRow ID="trResources" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
+            <asp:TableCell ID="tcResources" runat="server" ColumnSpan="2">
+                <asp:Label ID="lbResources" runat="server"></asp:Label>
+            </asp:TableCell>
+        </asp:TableRow>
+    </asp:Table>
+    <asp:Label Font-Size="15px" ID="DebugLabel" runat="server" Text="DebugInformation"/>
+    <asp:ScriptManager ID="_ScriptManager" runat="server" />
+    <asp:Timer runat="server" ID="_UpdateTimer" OnTick="UpdateTimer_Tick" Interval="10000" />
+    <asp:UpdatePanel runat="server" ID="_TimedPanel" UpdateMode="Conditional">
         <Triggers>
-            <asp:AsyncPostBackTrigger ControlID="UpdateTimer" EventName="Tick" />
+            <asp:AsyncPostBackTrigger ControlID="_UpdateTimer" EventName="Tick" />
         </Triggers>
         <ContentTemplate>
-            <asp:Panel runat="server" Visible="true" ID="pnlProgress">
-                <asp:Label runat="server" ID="lblProgressText" Text="Verbindung..." />
-            </asp:Panel>
-            <asp:Panel runat="server" Visible="false" ID="pnlNoAlarm">
-                <asp:Label ID="Label1" runat="server" Text="Aktuelle Uhrzeit: " />
-                <asp:Label runat="server" ID="DateStampLabel" />
-                <p />
-                <b>Kein aktueller Alarm!</b>
-            </asp:Panel>
-            <asp:Panel runat="server" Visible="false" ID="pnlAlarm">
-                <asp:Table runat="server">
-                    <asp:TableRow runat="server">
-                        <asp:TableCell runat="server" Text="Einsatznummer: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcOperationNumber" Text="(Einsatznummer)" />
-                        <asp:TableCell runat="server" Text="Stichwort: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcKeyword" Text="(Stichwort)" />
-                    </asp:TableRow>
-                    <asp:TableRow runat="server">
-                        <asp:TableCell runat="server" Text="Zeitstempel: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcTimestamp" Text="(Zeitstempel)" />
-                        <asp:TableCell runat="server" Text="Melder: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcMessenger" Text="(Melder)" />
-                    </asp:TableRow>
-                    <asp:TableRow runat="server">
-                        <asp:TableCell runat="server" Text="Einsatzort: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcDestinationLocation" Text="(Einsatzort)" />
-                    </asp:TableRow>
-                    <asp:TableRow runat="server">
-                        <asp:TableCell runat="server" Text="Kommentar: " Font-Bold="true" />
-                        <asp:TableCell runat="server" ID="tcComment" Text="(Kommentar)" />
-                    </asp:TableRow>
-                </asp:Table>
-                <p />
-                <asp:Label runat="server" Text="Anfahrtsplan:" Font-Bold="true" />
-                <br />
-                <asp:Image ID="imgRouteImage" runat="server" />
-            </asp:Panel>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>
