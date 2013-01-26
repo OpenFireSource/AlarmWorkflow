@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Web.Configuration;
 using AlarmWorkflow.Shared.Settings;
 
@@ -66,7 +66,7 @@ namespace AlarmWorkflow.Website.Asp
             String type = WebConfigurationManager.AppSettings["MapType"].ToLower();
             switch (type)
             {
-                case "stra�e":
+                case "straße":
                     return "ROADMAP";
                 case "hybrid":
                     return "HYBRID";
