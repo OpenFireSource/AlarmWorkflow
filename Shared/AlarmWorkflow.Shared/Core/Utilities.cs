@@ -298,7 +298,7 @@ namespace AlarmWorkflow.Shared.Core
             }
             return nl.ToArray();
         }
-
+        
         /// <summary>
         /// Gets the service object of the specified type.
         /// </summary>
