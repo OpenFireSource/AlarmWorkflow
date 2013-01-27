@@ -12,18 +12,20 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Schweinfurt.
     /// </summary>
-    [Export("ILSSchweinfurtParser", typeof(IFaxParser))]
-    sealed class ILSSchweinfurtParser : IFaxParser
+    [Export("ILSSchweinfurtParser", typeof (IFaxParser))]
+    internal sealed class ILSSchweinfurtParser : IFaxParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
+        private static readonly string[] Keywords = new[]
+            {
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
+                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+            };
 
         #endregion
-        
+
         #region Constructor
 
         public ILSSchweinfurtParser()
@@ -35,11 +37,11 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                 string[] result = unit.Split(new[] {"=;="}, StringSplitOptions.None);
                 if (result.Length == 2)
                 {
-                    _fdUnits.Add(result[0],result[1]);
+                    _fdUnits.Add(result[0], result[1]);
                 }
                 else
                 {
-                    _fdUnits.Add(unit,unit);
+                    _fdUnits.Add(unit, unit);
                 }
             }
         }
@@ -47,7 +49,9 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
         #endregion
 
         #region Fields
+
         private readonly Dictionary<String, String> _fdUnits;
+
         #endregion
 
         #region Methods
@@ -140,6 +144,54 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             return zipCode;
         }
 
+        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        {
+            if (line.Contains("MITTEILER"))
+            {
+                section = CurrentSection.BMitteiler;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZORT"))
+            {
+                section = CurrentSection.CEinsatzort;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("ZIELORT"))
+            {
+                section = CurrentSection.DZielort;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZGRUND"))
+            {
+                section = CurrentSection.EEinsatzgrund;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZMITTEL"))
+            {
+                section = CurrentSection.FEinsatzmittel;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("BEMERKUNG"))
+            {
+                section = CurrentSection.GBemerkung;
+                keywordsOnly = false;
+                return true;
+            }
+            if (line.Contains("ENDE FAX"))
+            {
+                section = CurrentSection.HFooter;
+                keywordsOnly = false;
+                return true;
+            }
+            keywordsOnly = true;
+            return false;
+        }
+
         #endregion
 
         #region IFaxParser Members
@@ -150,9 +202,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             OperationResource last = new OperationResource();
 
             lines = Utilities.Trim(lines);
-
             CurrentSection section = CurrentSection.AHeader;
-            bool keywordsOnly = true;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -166,16 +216,12 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                     // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                    // Switch sections. The parsing may differ in each section.
-                    switch (line.Trim())
+
+                    bool keywordsOnly;
+                    
+                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
                     {
-                        case "MITTEILER": { section = CurrentSection.BMitteiler; continue; }
-                        case "EINSATZORT": { section = CurrentSection.CEinsatzort; continue; }
-                        case "ZIELORT": { section = CurrentSection.DZielort; continue; }
-                        case "EINSATZGRUND": { section = CurrentSection.EEinsatzgrund; continue; }
-                        case "EINSATZMITTEL": { section = CurrentSection.FEinsatzmittel; continue; }
-                        case "BEMERKUNG": { section = CurrentSection.GBemerkung; keywordsOnly = false; continue; }
-                        case "ENDE FAX": { section = CurrentSection.HFooter; keywordsOnly = false; continue; }
+                        continue;
                     }
 
                     string msg = line;
@@ -433,6 +479,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
+
             /// <summary>
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
@@ -440,6 +487,5 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
         }
 
         #endregion
-
     }
 }

@@ -139,7 +139,53 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
             }
             return zipCode;
         }
-
+        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        {
+            if (line.Contains("MITTEILER"))
+            {
+                section = CurrentSection.BMitteiler;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZORT"))
+            {
+                section = CurrentSection.CEinsatzort;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("ZIELORT"))
+            {
+                section = CurrentSection.DZielort;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZGRUND"))
+            {
+                section = CurrentSection.EEinsatzgrund;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZMITTEL"))
+            {
+                section = CurrentSection.FEinsatzmittel;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("BEMERKUNG"))
+            {
+                section = CurrentSection.GBemerkung;
+                keywordsOnly = false;
+                return true;
+            }
+            if (line.Contains("ENDE FAX"))
+            {
+                section = CurrentSection.HFooter;
+                keywordsOnly = false;
+                return true;
+            }
+            keywordsOnly = true;
+            return false;
+        }
         #endregion
 
         #region IFaxParser Members
@@ -152,7 +198,6 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
             lines = Utilities.Trim(lines);
 
             CurrentSection section = CurrentSection.AHeader;
-            bool keywordsOnly = true;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -166,18 +211,11 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                     // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                    // Switch sections. The parsing may differ in each section.
-                    switch (line.Trim())
+                    bool keywordsOnly;
+                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
                     {
-                        case "MITTEILER": { section = CurrentSection.BMitteiler; continue; }
-                        case "EINSATZORT": { section = CurrentSection.CEinsatzort; continue; }
-                        case "ZIELORT": { section = CurrentSection.DZielort; continue; }
-                        case "EINSATZGRUND": { section = CurrentSection.EEinsatzgrund; continue; }
-                        case "EINSATZMITTEL": { section = CurrentSection.FEinsatzmittel; continue; }
-                        case "BEMERKUNG": { section = CurrentSection.GBemerkung; keywordsOnly = false; continue; }
-                        case "ENDE FAX": { section = CurrentSection.HFooter; keywordsOnly = false; continue; }
+                        continue;
                     }
-
                     string msg = line;
                     string prefix = "";
 
