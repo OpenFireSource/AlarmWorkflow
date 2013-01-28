@@ -32,7 +32,7 @@ namespace AlarmWorkflow.Website.Asp
             Operation operation;
             if (!TryGetLatestOperation(out operation, ref page))
             {
-                if (page.GetType().BaseType == typeof (Default) || page.GetType().BaseType == typeof (Idle))
+                if (page.GetType().BaseType != typeof (Error))
                 {
                     RedirectToErrorPage(ref page);
                 }
@@ -41,7 +41,7 @@ namespace AlarmWorkflow.Website.Asp
             {
                 if (operation == null)
                 {
-                    if (page.GetType().BaseType == typeof (Default) || page.GetType().BaseType == typeof (Error))
+                    if (page.GetType().BaseType != typeof (Idle))
                     {
                         RedirectToNoAlarm(ref page);
                     }
