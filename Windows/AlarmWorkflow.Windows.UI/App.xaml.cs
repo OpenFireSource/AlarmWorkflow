@@ -89,6 +89,19 @@ namespace AlarmWorkflow.Windows.UI
 
             InitializeServices();
             ExtensionManager = new ExtensionManager();
+
+            AlarmWorkflow.Windows.UI.Properties.Settings.Default.Reload();
+        }
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Application.Exit"/> event.
+        /// </summary>
+        /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs"/> that contains the event data.</param>
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
+
+            AlarmWorkflow.Windows.UI.Properties.Settings.Default.Save();
         }
 
         /// <summary>

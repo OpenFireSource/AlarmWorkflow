@@ -1,8 +1,11 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using AlarmWorkflow.Windows.UIContracts;
-using System;
 using System.Windows.Threading;
+using AlarmWorkflow.Windows.UIContracts;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -38,11 +41,33 @@ namespace AlarmWorkflow.Windows.UI
             {
                 return min;
             }
-            if (value >max)
+            if (value > max)
             {
                 return max;
             }
             return value;
+        }
+
+        internal static System.Drawing.Rectangle GetWindowRect(Window window)
+        {
+            IntPtr ptr = new WindowInteropHelper(window).Handle;
+            RECT rect = new RECT();
+            GetWindowRect(ptr, ref rect);
+
+            return new System.Drawing.Rectangle(rect.Left, rect.Top, (rect.Right - rect.Left), (rect.Bottom - rect.Top));
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
         }
     }
 }

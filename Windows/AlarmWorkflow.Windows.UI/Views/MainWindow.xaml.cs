@@ -26,11 +26,25 @@ namespace AlarmWorkflow.Windows.UI.Views
 
             _viewModel = new MainWindowViewModel();
             this.DataContext = _viewModel;
+
+            // Set window position and size
+            SetWindowPosition();
         }
 
         #endregion
 
         #region Methods
+
+        private void SetWindowPosition()
+        {
+            var pos = Properties.Settings.Default.WindowPosition;
+            this.Top = (double)pos.Top;
+            this.Left = (double)pos.Left;
+            this.Width = (double)pos.Width;
+            this.Height = (double)pos.Height;
+
+            this.WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+        }
 
         /// <summary>
         /// Raises the <see cref="E:System.Windows.Window.Closing"/> event.
@@ -44,7 +58,15 @@ namespace AlarmWorkflow.Windows.UI.Views
                 return;
             }
 
+            SaveWindowPosition();
             base.OnClosing(e);
+        }
+
+        private void SaveWindowPosition()
+        {
+            var rectangle = Helper.GetWindowRect(this);
+            Properties.Settings.Default.WindowPosition = rectangle;
+            Properties.Settings.Default.WindowMaximized = this.WindowState == System.Windows.WindowState.Maximized;
         }
 
         #endregion
