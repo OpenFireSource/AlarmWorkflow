@@ -29,6 +29,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSTri
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSMittelfrankenParser", "Parsers\AlarmWorkflow.Parser.ILSMittelfrankenParser\AlarmWorkflow.Parser.ILSMittelfrankenParser.csproj", "{E83C7D35-3213-4126-BF50-20A76B1C8EB0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSDonauIllerParser", "Parsers\AlarmWorkflow.Parser.ILSDonauIllerParser\AlarmWorkflow.Parser.ILSDonauIllerParser.csproj", "{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSCoburgParser", "Parsers\AlarmWorkflow.Parser.ILSCoburgParser\AlarmWorkflow.Parser.ILSCoburgParser.csproj", "{86D00334-96BC-4582-A410-81A4DC39D9E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSNuernbergParser", "Parsers\AlarmWorkflow.Parser.ILSNuernbergParser\AlarmWorkflow.Parser.ILSNuernbergParser.csproj", "{574AA68B-6ECD-4614-8041-8DE99F9DDA73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +97,18 @@ Global
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E83C7D35-3213-4126-BF50-20A76B1C8EB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D00334-96BC-4582-A410-81A4DC39D9E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D00334-96BC-4582-A410-81A4DC39D9E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D00334-96BC-4582-A410-81A4DC39D9E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D00334-96BC-4582-A410-81A4DC39D9E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -12,18 +12,19 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Rosenheim.
     /// </summary>
-    [Export("ILSRosenheimParser", typeof(IFaxParser))]
+    [Export("ILSRosenheimParser", typeof (IFaxParser))]
     public class ILSRosenheimParser : IFaxParser
     {
         #region Fields
-        private readonly string[] _keywords = new[]
-                                                        {
-                                                            "Einsatz-Nr.","Name","Straße","Abschnitt",
-                                                            "Ortsteil","Kreuzung","Objekt","Schlagw.",
-                                                            "Stichwort","Priorität","Alarmiert","gef. Gerät"
-                                                        };
 
-        private readonly Dictionary<String,String> _fdUnits;
+        private readonly Dictionary<String, String> _fdUnits;
+
+        private readonly string[] _keywords = new[]
+            {
+                "Einsatz-Nr.", "Name", "Straße", "Abschnitt",
+                "Ortsteil", "Kreuzung", "Objekt", "Schlagw.",
+                "Stichwort", "Priorität", "Alarmiert", "gef. Gerät"
+            };
 
         #endregion
 
@@ -38,11 +39,11 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                 string[] result = unit.Split(new[] {"=;="}, StringSplitOptions.None);
                 if (result.Length == 2)
                 {
-                    _fdUnits.Add(result[0],result[1]);
+                    _fdUnits.Add(result[0], result[1]);
                 }
                 else
                 {
-                    _fdUnits.Add(unit,unit);
+                    _fdUnits.Add(unit, unit);
                 }
             }
         }
@@ -68,15 +69,9 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                     {
                         continue;
                     }
-                    // Switch sections. The parsing may differ in each section.
-                    switch (line.Trim())
+                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
                     {
-                        case "MITTEILER": { section = CurrentSection.BMitteiler; continue; }
-                        case "EINSATZORT": { section = CurrentSection.CEinsatzort; continue; }
-                        case "EINSATZGRUND": { section = CurrentSection.DEinsatzgrund; continue; }
-                        case "EINSATZMITTEL": { section = CurrentSection.EEinsatzmittel; continue; }
-                        case "BEMERKUNG": { section = CurrentSection.FBemerkung; keywordsOnly = false; continue; }
-                        case "ENDE ALARMFAX — V2.0": { section = CurrentSection.GFooter; keywordsOnly = false; continue; }
+                        continue;
                     }
 
                     string msg = line;
@@ -86,7 +81,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                     string keyword = "";
                     if (keywordsOnly)
                     {
-
                         if (!StartsWithKeyword(line, out keyword))
                         {
                             continue;
@@ -136,7 +130,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                                 operation.Einsatzort.Street = msg.Substring(0, empty).Trim();
                                                 operation.Einsatzort.StreetNumber = msg.Substring(empty).Trim();
                                             }
-
                                         }
                                         break;
                                     case "ORTSTEIL":
@@ -166,7 +159,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Keywords.Keyword = msg;
+                                        operation.Picture = msg;
                                         break;
                                     case "STICHWORT":
                                         operation.Keywords.EmergencyKeyword = msg;
@@ -209,7 +202,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                     {
                                         last.RequestedEquipment.Add(msg);
                                     }
-                                    
+
                                     foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
                                     {
                                         if (last.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
@@ -245,6 +238,49 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
         #endregion
 
         #region Methods
+
+        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        {
+            if (line.Contains("MITTEILER"))
+            {
+                section = CurrentSection.BMitteiler;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZORT"))
+            {
+                section = CurrentSection.CEinsatzort;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZGRUND"))
+            {
+                section = CurrentSection.DEinsatzgrund;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZMITTEL"))
+            {
+                section = CurrentSection.EEinsatzmittel;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("BEMERKUNG"))
+            {
+                section = CurrentSection.FBemerkung;
+                keywordsOnly = false;
+                return true;
+            }
+            if (line.Contains("ENDE ALARMFAX — V2.0"))
+            {
+                section = CurrentSection.GFooter;
+                keywordsOnly = false;
+                return true;
+            }
+            keywordsOnly = true;
+            return false;
+        }
+
         private bool StartsWithKeyword(string line, out string keyword)
         {
             line = line.ToUpperInvariant();
@@ -308,5 +344,4 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
 
         #endregion
     }
-
 }
