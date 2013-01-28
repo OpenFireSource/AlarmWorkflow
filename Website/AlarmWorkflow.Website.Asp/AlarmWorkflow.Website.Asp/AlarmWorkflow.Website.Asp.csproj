@@ -101,6 +101,7 @@
     <Compile Include="Idle.aspx.designer.cs">
       <DependentUpon>Idle.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ServiceConnection.cs" />
     <Compile Include="WebsiteConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
