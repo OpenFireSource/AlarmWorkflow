@@ -136,77 +136,6 @@ namespace AlarmWorkflow.Website.Asp
 
         #region Methods
 
-        private void CheckForUpdate()
-        {
-            Operation operation;
-            if (!TryGetLatestOperation(out operation))
-            {
-                RedirectToErrorPage();
-            }
-            else
-            {
-                if (operation == null)
-                {
-                    RedirectToNoAlarm();
-                }
-                else
-                {
-                    if (operation.Id.ToString(CultureInfo.InvariantCulture) == HttpContext.Current.Request["id"])
-                    {
-                    }
-                    else
-                    {
-                        Response.Redirect("Default.aspx?id=" + operation.Id);
-                    }
-                }
-            }
-        }
-
-        private void RedirectToNoAlarm()
-        {
-            Response.Redirect("Idle.aspx");
-        }
-
-        private void RedirectToErrorPage()
-        {
-            Response.Redirect("Error.aspx");
-        }
-
-        private bool TryGetLatestOperation(out Operation operation)
-        {
-            int maxAgeInMinutes = WebsiteConfiguration.Instance.MaxAge;
-            bool onlyNonAcknowledged = WebsiteConfiguration.Instance.NonAcknowledgedOnly;
-            // For the moment, we are only interested about the latest operation (if any).
-            const int limitAmount = 1;
-
-            operation = null;
-
-            try
-            {
-                using (WrappedService<IAlarmWorkflowServiceInternal> service = InternalServiceProxy.GetServiceInstance())
-                {
-                    if (service.IsFaulted)
-                    {
-                        return false;
-                    }
-                    IList<int> ids = service.Instance.GetOperationIds(maxAgeInMinutes, onlyNonAcknowledged, limitAmount);
-                    if (ids.Count > 0)
-                    {
-                        // Retrieve the operation with full detail to allow us to access the route image
-                        OperationItem operationItem = service.Instance.GetOperationById(ids[0], OperationItemDetailLevel.Full);
-                        operation = operationItem.ToOperation();
-                    }
-                    return true;
-                }
-            }
-            catch (EndpointNotFoundException)
-            {
-                RedirectToErrorPage();
-            }
-            return false;
-        }
-
-
         private void SetAlarmDisplay()
         {
             Operation operation;
@@ -253,7 +182,8 @@ namespace AlarmWorkflow.Website.Asp
             }
             catch (EndpointNotFoundException)
             {
-                RedirectToErrorPage();
+                Page page = this;
+                ServiceConnection.Instance.RedirectToErrorPage(ref page);
             }
         }
 
@@ -404,7 +334,8 @@ namespace AlarmWorkflow.Website.Asp
 
         protected void UpdateTimer_Tick(object sender, EventArgs e)
         {
-            CheckForUpdate();
+            Page page = this;
+            ServiceConnection.Instance.CheckForUpdate(ref page);
         }
 
         /// <summary>
@@ -425,7 +356,8 @@ namespace AlarmWorkflow.Website.Asp
 
             if (String.IsNullOrWhiteSpace(Request["id"]))
             {
-                CheckForUpdate();
+                Page page = this;
+                ServiceConnection.Instance.CheckForUpdate(ref page);
             }
             else
             {

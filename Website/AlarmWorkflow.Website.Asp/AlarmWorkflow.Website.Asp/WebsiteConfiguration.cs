@@ -15,14 +15,7 @@ namespace AlarmWorkflow.Website.Asp
         /// </summary>
         public static WebsiteConfiguration Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new WebsiteConfiguration();
-                }
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new WebsiteConfiguration()); }
         }
 
         #endregion
@@ -48,6 +41,7 @@ namespace AlarmWorkflow.Website.Asp
             UpdateIntervall = int.Parse(WebConfigurationManager.AppSettings["UpdateIntervall"]);
             MaxAge = int.Parse(WebConfigurationManager.AppSettings["MaxAge"]);
         }
+
         #endregion
 
         #region Fields
