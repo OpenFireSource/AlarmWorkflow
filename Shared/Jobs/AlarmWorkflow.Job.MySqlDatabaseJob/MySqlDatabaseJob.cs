@@ -99,7 +99,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 queryText.AppendFormat("'{0}', ", operation.Messenger);
                 queryText.AppendFormat("'{0}', ", operation.Einsatzort.Property);
                 queryText.AppendFormat("'{0}', ", operation.Einsatzort.City);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Street);
+                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
                 queryText.AppendFormat("'{0}', ", operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
                 queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Alarmtime"));
                 queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Faxtime"));

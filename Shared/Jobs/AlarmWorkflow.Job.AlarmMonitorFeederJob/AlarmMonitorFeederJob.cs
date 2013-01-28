@@ -24,18 +24,18 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
             using (StreamWriter sw = new StreamWriter(_alarmTextFileName, false, encoding))
             {
                 sw.WriteLine(operation.OperationNumber);
-                sw.WriteLine(operation.Einsatzort.Location);
-                sw.WriteLine(operation.OperationPlan);
-                sw.WriteLine(operation.Comment);
-                sw.WriteLine(operation.Einsatzort.Intersection);
-                sw.WriteLine(operation.Picture);
-                sw.WriteLine(operation.Messenger);
-                sw.WriteLine(operation.Einsatzort.Property);
                 sw.WriteLine(operation.Einsatzort.City);
                 sw.WriteLine(operation.Einsatzort.Street);
-                sw.WriteLine(operation.Resources.ToString("{FullName} | {RequestedEquipment}", null));
                 sw.WriteLine(operation.Keywords.EmergencyKeyword);
-                sw.WriteLine(operation.Keywords.Keyword);
+                sw.WriteLine(operation.Keywords.Keyword);                
+                sw.WriteLine(operation.Picture);
+                sw.WriteLine(operation.Comment);
+                sw.WriteLine(operation.OperationPlan);
+                sw.WriteLine(operation.Einsatzort.Location);
+                sw.WriteLine(operation.Einsatzort.Intersection);                
+                sw.WriteLine(operation.Messenger);
+                sw.WriteLine(operation.Einsatzort.Property);                
+                sw.WriteLine(operation.Resources.ToString("{FullName} | {RequestedEquipment}", null));                
             }
         }
 
