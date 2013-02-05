@@ -41,6 +41,14 @@
     <Reference Include="AlarmWorkflow.Shared.Addressing">
       <HintPath>../../Build/AlarmWorkflow.Shared.Addressing.dll</HintPath>
     </Reference>
+    <Reference Include="CookComputing.XmlRpcV2, Version=2.1.0.3, Culture=neutral, PublicKeyToken=a7d6e17aa302004d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Build\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="sam2Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Build\sam2Net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -56,6 +64,7 @@
     </Compile>
     <Compile Include="Providers\GroupAlarmProvider.cs" />
     <Compile Include="Providers\RettAlarmProvider.cs" />
+    <Compile Include="Providers\SipGateProvider.cs" />
     <Compile Include="Providers\Sms77Provider.cs" />
     <Compile Include="SMSJob.cs" />
   </ItemGroup>
