@@ -78,6 +78,14 @@
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="CookComputing.XmlRpcV2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sam2Net.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
