@@ -10,10 +10,20 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
+/* Hint:
+ * There is information available for WPF printing.
+ * Some bugs have been reported that the print output is clipped or cut off.
+ * 
+ * Examine the tips from these links for cure:
+ * http://stackoverflow.com/questions/9674628/print-with-no-margin
+ * http://tech.pro/tutorial/881/printing-in-wpf
+ * http://stackoverflow.com/questions/12772202/printing-a-wpf-visual-in-landscape-orientation-printer-still-clips-at-portrait
+ */
+
 namespace AlarmWorkflow.Windows.PrintingUIJob
 {
     /// <summary>
-    /// A UI-Job that automatically prints 
+    /// A UI-Job that automatically prints the output of the UI.
     /// </summary>
     [Export("PrintingUIJob", typeof(IUIJob))]
     class PrintingUIJob : IUIJob
@@ -152,10 +162,16 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
             dialog.PrintTicket.CopyCount = _configuration.CopyCount;
 
+            // Get the print caps for measure and arrange
+            PrintCapabilities printCaps = printQueue.GetPrintCapabilities(dialog.PrintTicket);
+            PageImageableArea pia = printCaps.PageImageableArea;
+
             FrameworkElement visual = operationViewer.Visual;
+            visual.Margin = new Thickness(pia.OriginWidth, pia.OriginHeight, pia.OriginWidth, pia.OriginHeight);
+
             // Measure and arrange the visual before printing otherwise it looks unpredictably weird and may not fit on the page
             visual.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
-            visual.Arrange(new Rect(new Point(0, 0), visual.DesiredSize));
+            visual.Arrange(new Rect(new Point(pia.OriginWidth, pia.OriginHeight), visual.DesiredSize));
 
             dialog.PrintVisual(visual, "New alarm " + operation.OperationNumber);
         }
