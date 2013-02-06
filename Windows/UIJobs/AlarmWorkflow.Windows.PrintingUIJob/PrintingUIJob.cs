@@ -169,9 +169,17 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             FrameworkElement visual = operationViewer.Visual;
             visual.Margin = new Thickness(pia.OriginWidth, pia.OriginHeight, pia.OriginWidth, pia.OriginHeight);
 
+            // DEBUG
+            Logger.Instance.LogFormat(LogType.Debug, this, "PageImageableArea is = {0}", pia);
+            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's Margin is = {0}", visual.Margin);
+
             // Measure and arrange the visual before printing otherwise it looks unpredictably weird and may not fit on the page
             visual.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
-            visual.Arrange(new Rect(new Point(pia.OriginWidth, pia.OriginHeight), visual.DesiredSize));
+            Rect arrangeRect = new Rect(new Point(pia.OriginWidth, pia.OriginHeight), visual.DesiredSize);
+            visual.Arrange(arrangeRect);
+
+            // DEBUG
+            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's printing size / rect is = {0} / {1}", visual.DesiredSize, arrangeRect);
 
             dialog.PrintVisual(visual, "New alarm " + operation.OperationNumber);
         }
