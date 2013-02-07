@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS `tb_einsatz` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+INSERT INTO `tb_einsatz` (`id`, `Einsatznr`, `Einsatzort`, `Einsatzplan`, `Hinweis`, `Kreuzung`, `Meldebild`, `Mitteiler`, `Objekt`, `Ort`, `Strasse`, `Fahrzeuge`, `Einsatzstichwort`, `Alarmtime`, `Faxtime`, `Stichwort`) VALUES (1, '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
