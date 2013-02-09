@@ -8,7 +8,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
     {
         internal MapConfiguration()
         {
-            RouteDescription = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "RouteDescription").GetBoolean();
             Traffic = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Traffic").GetBoolean();
             Tilt = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Tilt").GetBoolean();
             Route = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Route").GetBoolean();
