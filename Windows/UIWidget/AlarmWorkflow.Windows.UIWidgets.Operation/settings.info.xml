@@ -1,8 +1,8 @@
 ﻿<SettingsDisplayConfiguration>
 
-  <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)">
-    <Setting Name="LineOne" DisplayText="1. Zeile" Category="Generell" />
-    <Setting Name="LineTwo" DisplayText="2. Zeile" Category="Generell" />
-    <Setting Name="LineThree" DisplayText="3. Zeile" Category="Generell" />
+  <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)" Parent="CustomOperationViewer">
+    <Setting Name="LineOne" DisplayText="1. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting Name="LineTwo" DisplayText="2. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting Name="LineThree" DisplayText="3. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
   </Identifier>
 </SettingsDisplayConfiguration>
