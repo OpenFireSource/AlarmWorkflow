@@ -24,7 +24,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         private readonly MapConfiguration _configuration;
         private readonly string _tempFile;
-        private readonly WebBrowser _webBrowser;
         private Operation _operation;
 
         #endregion Fields
@@ -105,20 +104,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         public GoogleMapsWidget()
         {
             InitializeComponent();
-            _webBrowser = new WebBrowser
-                              {
-                                  ScrollBarsEnabled = false
-                              };
-            _webBrowser.FileDownload += _webBrowser_FileDownload;
-            _formHost.Child = _webBrowser;
+            
             _configuration = new MapConfiguration();
             _tempFile = Path.GetTempFileName()+".html";
             BuildHTML();
-        }
-
-        void _webBrowser_FileDownload(object sender, EventArgs e)
-        {
-
         }
 
         #endregion Constructors
