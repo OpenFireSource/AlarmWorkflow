@@ -50,6 +50,10 @@ namespace AlarmWorkflow.Website.Asp
                 {
                     if (operation.Id.ToString(CultureInfo.InvariantCulture) == HttpContext.Current.Request["id"])
                     {
+                        if (operation.IsAcknowledged)
+                        {
+                            RedirectToNoAlarm(ref page);
+                        }
                     }
                     else
                     {
@@ -96,7 +100,7 @@ namespace AlarmWorkflow.Website.Asp
             return false;
         }
 
-        private void RedirectToNoAlarm(ref Page page)
+        internal void RedirectToNoAlarm(ref Page page)
         {
             page.Response.Redirect("Idle.aspx");
         }

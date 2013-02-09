@@ -165,13 +165,12 @@ namespace AlarmWorkflow.Website.Asp
             lbOther.Text = operation.Comment + " " + operation.OperationPlan + " " + operation.Keywords;
             lbAddress.Text = operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City;
             lbObject.Text = operation.Einsatzort.Property;
-            lbResources.Text = operation.Resources.ToString();
+            lbResources.Text = operation.Resources.ToString("{FullName} {RequestedEquipment} ", null);
         }
 
         private void GetOperation(string id, out Operation operation)
         {
             operation = null;
-
             try
             {
                 using (WrappedService<IAlarmWorkflowServiceInternal> service = InternalServiceProxy.GetServiceInstance())
@@ -192,7 +191,6 @@ namespace AlarmWorkflow.Website.Asp
             Dictionary<string, string> geocodes = new Dictionary<string, string>();
             string urladdress = HttpUtility.UrlEncode(address);
             string url = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + urladdress + "&sensor=false";
-
             WebResponse response = null;
             try
             {
@@ -366,5 +364,23 @@ namespace AlarmWorkflow.Website.Asp
         }
 
         #endregion
+
+        protected void ResetButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (WrappedService<IAlarmWorkflowServiceInternal> service = InternalServiceProxy.GetServiceInstance())
+                {
+                    service.Instance.AcknowledgeOperation(Int32.Parse(Request["id"]));
+                    Page page = this;
+                    ServiceConnection.Instance.RedirectToNoAlarm(ref page);
+                }
+            }
+            catch (EndpointNotFoundException)
+            {
+                Page page = this;
+                ServiceConnection.Instance.RedirectToErrorPage(ref page);
+            }
+        }
     }
 }
