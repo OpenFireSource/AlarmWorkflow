@@ -44,7 +44,10 @@
             </asp:TableCell>
         </asp:TableRow>
     </asp:Table>
-    <asp:Label Font-Size="15px" ID="DebugLabel" runat="server" Text="DebugInformation"/>
+     <asp:Label Font-Size="15px" ID="DebugLabel" runat="server" Text="DebugInformation"/>
+    <asp:LinkButton Style="padding-left: 5px" ID="ResetButton" runat="server" 
+        onclick="ResetButton_Click">Reset</asp:LinkButton>
+   
     <asp:ScriptManager ID="_ScriptManager" runat="server" />
     <asp:Timer runat="server" ID="_UpdateTimer" OnTick="UpdateTimer_Tick" Interval="10000" />
     <asp:UpdatePanel runat="server" ID="_TimedPanel" UpdateMode="Conditional">
