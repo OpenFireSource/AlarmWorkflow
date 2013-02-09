@@ -21,7 +21,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
         #region Fields
 
         private readonly string _tempFile;
-        private readonly WebBrowser _webBrowser;
         private Operation _operation;
 
         #endregion
@@ -31,12 +30,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
         public OSMWidget()
         {
             InitializeComponent();
-            _webBrowser = new WebBrowser
-                              {
-                                  ScrollBarsEnabled = false
-                              };
-            _webBrowser.FileDownload += _webBrowser_FileDownload;
-            _formHost.Child = _webBrowser;
             _tempFile = Path.GetTempFileName()+".html";
             BuildHTML();
         }
@@ -191,7 +184,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                               "<script type=\"text/javascript\" src=\"http://www.openstreetmap.org/openlayers/OpenStreetMap.js\"></script>" +
                               " " +
                               "<script type=\"text/javascript\">" +
-                              "//<![CDATA[" +
+                            
                               "" +
                               "var map;" +
                               "var layer_mapnik;" +
@@ -220,7 +213,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                               " " +
                               "    var marker = new OpenLayers.Marker(ll); " +
                               "    layer.addMarker(marker);" +
-                              "    //map.addPopup(feature.createPopup(feature.closeBox));" +
+                             
                               "}" +
                               " " +
                               "function getCycleTileURL(bounds) {" +
@@ -265,11 +258,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                               "    	                                          visibility: true, displayInLayerSwitcher: false });" +
                               "    map.addLayers([layer_mapnik, layer_markers]);" +
                               "    jumpTo(lon, lat, zoom); " +
-                              "    // Position des Markers" +
                               "    addMarker(layer_markers, lon, lat);" +
                               "}" +
                               "" +
-                              "//]]>" +
                               "    </script>" +
                               "</head>" +
                               "<body onload=\"drawmap();\">  " +

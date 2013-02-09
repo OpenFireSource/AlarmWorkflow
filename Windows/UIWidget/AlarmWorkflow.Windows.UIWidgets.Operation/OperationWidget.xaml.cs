@@ -2,6 +2,7 @@
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
+
 namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
     [Export("OperationWidget", typeof (IUIWidget))]
@@ -21,9 +22,25 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-            string lineOne = operation != null ? operation.ToString(SettingsManager.Instance.GetSetting("OperationWidget", "LineOne").GetString()) : "(n/A)";
-            string lineTwo = operation != null ? operation.ToString(SettingsManager.Instance.GetSetting("OperationWidget", "LineTwo").GetString()) : "(n/A)";
-            string lineThree = operation != null ? operation.ToString(SettingsManager.Instance.GetSetting("OperationWidget", "LineThree").GetString()) : "(n/A)";
+            string settingLineOne = SettingsManager.Instance.GetSetting("OperationWidget", "LineOne").GetString();
+            string lineOne = null;
+            if (!string.IsNullOrWhiteSpace(settingLineOne))
+            {
+                lineOne = operation != null ? operation.ToString(settingLineOne) : "(n/A)";
+            }
+            string settingLineTwo = SettingsManager.Instance.GetSetting("OperationWidget", "LineTwo").GetString();
+            string lineTwo = null;
+            if (!string.IsNullOrWhiteSpace(settingLineTwo))
+            {
+                lineTwo = operation != null ? operation.ToString(settingLineTwo) : "(n/A)";
+            }
+
+            string settingLineThree = SettingsManager.Instance.GetSetting("OperationWidget", "LineThree").GetString();
+            string lineThree = null;
+            if (!string.IsNullOrWhiteSpace(settingLineOne))
+            {
+                lineThree = operation != null ? operation.ToString(settingLineThree) : "(n/A)";
+            }
             LineOne.Inlines.Clear();
             LineOne.Inlines.Add(Helper.Traverse(lineOne));
             LineTwo.Inlines.Clear();
