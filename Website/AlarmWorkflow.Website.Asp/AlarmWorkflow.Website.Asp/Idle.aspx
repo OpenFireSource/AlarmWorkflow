@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent" >
     
     <div style="font-size: 60px; font-weight: 700; text-align: center; text-decoration: underline; width: 100%;">
-        Keine Alarm!
+        Kein Alarm!
     </div>
      
     <asp:ScriptManager ID="_ScriptManager" runat="server" />
