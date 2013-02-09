@@ -22,13 +22,6 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
         /// </summary>
         public int CopyCount { get; private set; }
         /// <summary>
-        /// Gets the interval in milliseconds to wait until printing is done.
-        /// This has the sole purpose to let the UI wait to update its bindings etc., which sometimes
-        /// just doesn't happen if we immediately, for example, print directly after the bindings should have been updated.
-        /// Don't set this interval to high!
-        /// </summary>
-        public int WaitInterval { get; private set; }
-        /// <summary>
         /// Gets whether or not to avoid printing operations that have already been printed.
         /// </summary>
         public bool RememberPrintedOperations { get; private set; }
@@ -57,7 +50,6 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             }
 
             configuration.CopyCount = SettingsManager.Instance.GetSetting("PrintingUIJob", "CopyCount").GetInt32();
-            configuration.WaitInterval = SettingsManager.Instance.GetSetting("PrintingUIJob", "WaitInterval").GetInt32();
             configuration.RememberPrintedOperations = SettingsManager.Instance.GetSetting("PrintingUIJob", "RememberPrintedOperations").GetBoolean();
 
             return configuration;

@@ -5,7 +5,6 @@
     <Setting Name="PrintServer" DisplayText="Druckerserver" Category="Drucker" />
     <Setting Name="PrinterName" DisplayText="Druckername" Category="Drucker" />
     <Setting Name="CopyCount" DisplayText="Kopien" Category="Auftrag" />
-    <Setting Name="WaitInterval" DisplayText="Wartezeit (in Millisekunden)" Category="Auftrag" />
     <Setting Name="RememberPrintedOperations" DisplayText="Gedruckte Alarme merken" Category="Auftrag" />
 
   </Identifier>

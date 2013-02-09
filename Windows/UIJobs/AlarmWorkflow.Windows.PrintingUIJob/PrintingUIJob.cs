@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Printing;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
@@ -151,10 +150,6 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 Logger.Instance.LogFormat(LogType.Warning, this, "Cannot print job because the configured printer seems not available! Check log entries.");
                 return;
             }
-
-            //// We need to wait for a bit to let the UI "catch a breath".
-            //// Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
-            //Thread.Sleep(_configuration.WaitInterval);
 
             PrintDialog dialog = new PrintDialog();
             dialog.PrintQueue = printQueue;
