@@ -25,10 +25,11 @@ namespace AlarmWorkflow.Windows.UI.Views
             InitializeComponent();
 
             _viewModel = new MainWindowViewModel();
+            _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_viewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
-            // Set window position and size
             SetWindowPosition();
+            SetContent(false);
         }
 
         #endregion
@@ -69,6 +70,18 @@ namespace AlarmWorkflow.Windows.UI.Views
             Properties.Settings.Default.WindowMaximized = this.WindowState == System.Windows.WindowState.Maximized;
         }
 
+        private void SetContent(bool alarmsAvailable)
+        {
+            if (alarmsAvailable)
+            {
+                this.content.Content = new ContentAlarmsAvailableControl();
+            }
+            else
+            {
+                this.content.Content = new ContentNoAlarmsControl();
+            }
+        }
+
         #endregion
 
         #region Event handlers
@@ -86,6 +99,14 @@ namespace AlarmWorkflow.Windows.UI.Views
                 _viewModel.AcknowledgeCurrentOperation(true);
 
                 e.Handled = true;
+            }
+        }
+
+        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HasDisplayableEvents")
+            {
+                SetContent(_viewModel.HasDisplayableEvents);
             }
         }
 

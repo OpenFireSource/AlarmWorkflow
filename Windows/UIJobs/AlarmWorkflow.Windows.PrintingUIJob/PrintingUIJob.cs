@@ -152,9 +152,9 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return;
             }
 
-            // We need to wait for a bit to let the UI "catch a breath".
-            // Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
-            Thread.Sleep(_configuration.WaitInterval);
+            //// We need to wait for a bit to let the UI "catch a breath".
+            //// Otherwise, if printing immediately, it may have side-effects that parts of the visual aren't visible (bindings not updated etc.).
+            //Thread.Sleep(_configuration.WaitInterval);
 
             PrintDialog dialog = new PrintDialog();
             dialog.PrintQueue = printQueue;

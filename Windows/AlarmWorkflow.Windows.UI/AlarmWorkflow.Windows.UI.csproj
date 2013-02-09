@@ -78,6 +78,12 @@
     <Compile Include="Security\CredentialConfirmationDialog.xaml.cs">
       <DependentUpon>CredentialConfirmationDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ContentAlarmsAvailableControl.xaml.cs">
+      <DependentUpon>ContentAlarmsAvailableControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ContentNoAlarmsControl.xaml.cs">
+      <DependentUpon>ContentNoAlarmsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DefaultOperationView.xaml.cs">
       <DependentUpon>DefaultOperationView.xaml</DependentUpon>
     </Compile>
@@ -117,6 +123,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Security\CredentialConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentAlarmsAvailableControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ContentNoAlarmsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
