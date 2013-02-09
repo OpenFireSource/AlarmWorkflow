@@ -257,7 +257,7 @@ namespace AlarmWorkflow.Website.Asp
             OSMCode = "    OpenLayers.Lang.setCode('de');    " +
                       "    var lon = " + result["long"] + " ;" +
                       "    var lat = " + result["lat"] + " ;" +
-                      "    var zoom = 16;" +
+                      "    var zoom =" + WebsiteConfiguration.Instance.OSMZoomLevel +" ;" +
                       "    map = new OpenLayers.Map('osmmap', {" +
                       "        projection: new OpenLayers.Projection(\"EPSG:900913\")," +
                       "        displayProjection: new OpenLayers.Projection(\"EPSG:4326\")," +
@@ -268,7 +268,7 @@ namespace AlarmWorkflow.Website.Asp
                       "        maxExtent:" +
                       "            new OpenLayers.Bounds(-20037508.34,-20037508.34," +
                       "                                    20037508.34, 20037508.34)," +
-                      "        numZoomLevels: 16," +
+                      "        numZoomLevels: 18," +
                       "        maxResolution: 156543," +
                       "        units: 'meters'" +
                       "    });" +

@@ -36,6 +36,8 @@ namespace AlarmWorkflow.Website.Asp
             ZoomControl = WebConfigurationManager.AppSettings["ZoomControl"].ToLower().Equals("true");
             GoogleZoomLevel = int.Parse(WebConfigurationManager.AppSettings["GoogleZoomLevel"]);
             Maptype = GetMapType();
+            //OSM
+            OSMZoomLevel = int.Parse(WebConfigurationManager.AppSettings["OSMZoomLevel"]);
             //Website
             NonAcknowledgedOnly = WebConfigurationManager.AppSettings["NonAcknowledgedOnly"].ToLower().Equals("true");
             UpdateIntervall = int.Parse(WebConfigurationManager.AppSettings["UpdateIntervall"]);
@@ -57,7 +59,7 @@ namespace AlarmWorkflow.Website.Asp
         internal int UpdateIntervall { get; private set; }
         internal bool NonAcknowledgedOnly { get; private set; }
         internal int GoogleZoomLevel { get; private set; }
-
+        internal int OSMZoomLevel { get; private set; }
         #endregion
 
         #region Methods
