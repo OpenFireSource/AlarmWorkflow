@@ -21,14 +21,7 @@
   
   <!-- Jobs configuration -->
   <Setting Name="JobsConfiguration" Type="System.String">
-    <![CDATA[<ExportConfiguration>
-    <Export Name="DisplayWakeUpJob" IsEnabled="False" />
-    <Export Name="MailingJob" IsEnabled="False" />
-    <Export Name="MySqlDatabaseJob" IsEnabled="False" />
-    <Export Name="SmsJob" IsEnabled="False" />
-    <Export Name="SQLCEDatabaseJob" IsEnabled="True" />
-    <Export Name="ProwlJob" IsEnabled="False" />
-  </ExportConfiguration>]]></Setting>
+    <![CDATA[<ExportConfiguration />]]></Setting>
   
   <!-- Alarm sources configuration -->
   <Setting Name="AlarmSourcesConfiguration" Type="System.String">
