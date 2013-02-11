@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.FDResourceConfigurationTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Configuration}" CanUserAddRows="True" CanUserDeleteRows="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Binding="{Binding Identifier}" Header="Kennung" Width="*" />
+            <DataGridTextColumn Binding="{Binding DisplayName}" Header="Anzeigenname" Width="*" />
+            <DataGridTextColumn Binding="{Binding ImagePath}" Header="Bilddatei" Width="*" />
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>

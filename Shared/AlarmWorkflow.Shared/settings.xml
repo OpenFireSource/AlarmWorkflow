@@ -11,7 +11,8 @@
   <Setting Name="FD.ZipCode" Type="System.String" IsNull="True" />
   <Setting Name="FD.Street" Type="System.String" IsNull="True" />
   <Setting Name="FD.StreetNumber" Type="System.String" IsNull="True" />
-  <Setting Name="FD.Units" Type="System.String">Demoeinheit=;=Einheit Demo</Setting>
+  <Setting Name="FD.Units" Type="System.String">
+    <![CDATA[<FDResourceConfiguration FDIdentification="" />]]></Setting>
 
   <!-- Route plan -->
   <Setting Name="DownloadRoutePlan" Type="System.Boolean">True</Setting>

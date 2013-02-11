@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not parse setting value. Maybe it is ill-formed. The instance will have no items. See log for further information..
+        /// </summary>
+        internal static string FDResourceConfigurationParseError {
+            get {
+                return ResourceManager.GetString("FDResourceConfigurationParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The file path must be in absolute format!.
         /// </summary>
         internal static string FileNameMustBeAbsolute {

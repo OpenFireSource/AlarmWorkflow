@@ -55,6 +55,8 @@
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
+    <Compile Include="Core\FDResource.cs" />
+    <Compile Include="Core\FDResourceConfiguration.cs" />
     <Compile Include="Core\ObjectExpressionTools.cs" />
     <Compile Include="Core\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />
