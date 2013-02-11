@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual C# Express 2010
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.MucLandParser", "Parsers\AlarmWorkflow.Parser.MucLandParser\AlarmWorkflow.Parser.MucLandParser.csproj", "{CC847151-5D19-497D-B606-B55B4AC5B617}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.IlsAnsbachParser", "Parsers\AlarmWorkflow.Parser.IlsAnsbachParser\AlarmWorkflow.Parser.IlsAnsbachParser.csproj", "{6D3D8F9C-12CD-4853-A235-29A1864AB0A0}"
@@ -8,8 +8,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSFFBParser", "Parsers\AlarmWorkflow.Parser.ILSFFBParser\AlarmWorkflow.Parser.ILSFFBParser.csproj", "{72D710CA-847B-45A6-9895-886BC985DF93}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSFFBGermeringParser", "Parsers\AlarmWorkflow.Parser.ILSFFBGermeringParser\AlarmWorkflow.Parser.ILSFFBGermeringParser.csproj", "{C449374E-98B3-4EF5-92B9-4FCDE3D5E403}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.GenericParser", "Parsers\AlarmWorkflow.Parser.GenericParser\AlarmWorkflow.Parser.GenericParser.csproj", "{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSStraubingParser", "Parsers\AlarmWorkflow.Parser.ILSStraubingParser\AlarmWorkflow.Parser.ILSStraubingParser.csproj", "{FF096858-FF3B-492C-ADFE-AB6E52650B03}"
 EndProject
@@ -35,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSCob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSNuernbergParser", "Parsers\AlarmWorkflow.Parser.ILSNuernbergParser\AlarmWorkflow.Parser.ILSNuernbergParser.csproj", "{574AA68B-6ECD-4614-8041-8DE99F9DDA73}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.NoParser", "Parsers\AlarmWorkflow.Parser.NoParser\AlarmWorkflow.Parser.NoParser.csproj", "{4AE46890-6E9E-411D-B3BB-4FE75410C06E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,10 +57,6 @@ Global
 		{C449374E-98B3-4EF5-92B9-4FCDE3D5E403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C449374E-98B3-4EF5-92B9-4FCDE3D5E403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C449374E-98B3-4EF5-92B9-4FCDE3D5E403}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90A3345E-F0BF-4E6E-93CE-DB1D382310DD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF096858-FF3B-492C-ADFE-AB6E52650B03}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -109,6 +105,10 @@ Global
 		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{574AA68B-6ECD-4614-8041-8DE99F9DDA73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

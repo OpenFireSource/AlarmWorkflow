@@ -117,52 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Controlfile_FilterText" xml:space="preserve">
-    <value>Steuerungsdateien (*.xml)|*.xml</value>
-  </data>
-  <data name="AreaBlankName" xml:space="preserve">
-    <value>Unbenannter Bereich</value>
-  </data>
-  <data name="SectionBlankName" xml:space="preserve">
-    <value>Unbenannter Abschnitt</value>
-  </data>
-  <data name="ParserDefinitionBlankName" xml:space="preserve">
-    <value>Unbenannter Parser</value>
-  </data>
-  <data name="NoDescriptionAvailableText" xml:space="preserve">
-    <value>(Keine Beschreibung verfügbar)</value>
-  </data>
-  <data name="CommentSectionParser_Description" xml:space="preserve">
-    <value>Ein Abschnitt, dessen Inhalte als Kommentare/Bemerkungen betrachtet werden (i.d.R. ein Fließtext über mehrere Zeilen).</value>
-  </data>
-  <data name="CommentSectionParser_DisplayName" xml:space="preserve">
-    <value>Kommentarabschnitt</value>
-  </data>
-  <data name="KeywordSectionParser_Description" xml:space="preserve">
-    <value>Ein Abschnitt, der Schlagwörter (z. B. "B", "T" etc.) enthält.</value>
-  </data>
-  <data name="KeywordSectionParser_DisplayName" xml:space="preserve">
-    <value>Schlagwörterabschnitt</value>
-  </data>
-  <data name="PropertyLocationSectionParser_Description" xml:space="preserve">
-    <value>Ein Abschnitt, der Ortsinformationen (z. B. "Einsatzort", "Zielort") enthält.</value>
-  </data>
-  <data name="PropertyLocationSectionParser_DisplayName" xml:space="preserve">
-    <value>Ortsinformationsabschnitt</value>
-  </data>
-  <data name="ResourcesSectionParser_Description" xml:space="preserve">
-    <value>Ein Abschnitt, der eine Auflistung der Einsatzmittel darstellt.</value>
-  </data>
-  <data name="ResourcesSectionParser_DisplayName" xml:space="preserve">
-    <value>Einsatzmittelabschnitt</value>
-  </data>
-  <data name="GenericParserBetaWarningText" xml:space="preserve">
-    <value>The generic parser is still in Beta-stadium! Please communicate any bugs or anomalies to the developers. Thank you!</value>
-  </data>
-  <data name="OperationNumberSectionParser_Description" xml:space="preserve">
-    <value>Ein Abschnitt, der die Einsatznummer enthält.</value>
-  </data>
-  <data name="OperationNumberSectionParser_DisplayName" xml:space="preserve">
-    <value>Einsatznummerabschnitt</value>
+  <data name="UsageWarning" xml:space="preserve">
+    <value>You have defined to use the 'NoParser'. Please note that this is just a placeholder parser in case you haven't selected a specific parser. Using this parser will not cause any errors, but will not do anything either. Please select the parser that fits best for you. When in doubt, contact the OpenFireSource-Team.</value>
   </data>
 </root>
