@@ -13,7 +13,7 @@
         <views:GeneralInformationControl Grid.Column="0" Margin="2" />
 
         <!-- Route Control -->
-        <views:RouteControl Grid.Column="1" Margin="2" />
+        <views:RouteControl Operation="{Binding Operation}" Grid.Column="1" Margin="2" />
     </Grid>
 
 </UserControl>

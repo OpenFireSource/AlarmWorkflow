@@ -4,8 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UIContracts.Security;
@@ -65,14 +63,6 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         }
 
         /// <summary>
-        /// Gets the route plan image.
-        /// </summary>
-        public ImageSource RoutePlanImage
-        {
-            get { return GetRoutePlanImage(); }
-        }
-
-        /// <summary>
         /// Gets a list containing all vehicles that have been manually deployed by pressing their associated shortkeys.
         /// </summary>
         public ObservableCollection<ResourceViewModel> ManuallyDeployedVehicles
@@ -106,25 +96,6 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         #endregion
 
         #region Methods
-
-        private ImageSource GetRoutePlanImage()
-        {
-            if (_operation == null)
-            {
-                return null;
-            }
-            if (_operation.RouteImage == null)
-            {
-                // Return dummy image
-                return Helper.GetNoRouteImage();
-            }
-
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = new MemoryStream(_operation.RouteImage);
-            image.EndInit();
-            return image;
-        }
 
         private void UpdateManuallyDeployedVehicles()
         {

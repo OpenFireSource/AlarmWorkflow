@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
+﻿using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -33,14 +30,6 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
                 // Update all other properties
                 UpdateProperties();
             }
-        }
-
-        /// <summary>
-        /// Gets the route plan image.
-        /// </summary>
-        public ImageSource RoutePlanImage
-        {
-            get { return GetRoutePlanImage(); }
         }
 
         /// <summary>
@@ -106,25 +95,6 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
             }
 
             return defaultValue;
-        }
-
-        private ImageSource GetRoutePlanImage()
-        {
-            if (_operation == null)
-            {
-                return null;
-            }
-            if (_operation.RouteImage == null)
-            {
-                // Return dummy image
-                return Helper.GetNoRouteImage();
-            }
-
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = new MemoryStream(_operation.RouteImage);
-            image.EndInit();
-            return image;
         }
 
         private void UpdateProperties()

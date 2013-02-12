@@ -16,9 +16,7 @@
   <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
 
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
-    <![CDATA[<ExportConfiguration>
-    <Export Name="PrintingUIJob" IsEnabled="False" />
-  </ExportConfiguration>]]>
+    <![CDATA[<ExportConfiguration />]]>
   </Setting>
 
 </SettingsConfiguration>

@@ -1,33 +1,16 @@
-﻿using System;
-using System.IO;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using AlarmWorkflow.Shared.Core;
+﻿using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     class OperationViewModel : ViewModelBase
     {
-        #region Fields
-
-        private Lazy<ImageSource> _routeImage;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
         /// Gets/sets the operation that this VM is based on.
         /// </summary>
         public Operation Operation { get; set; }
-        /// <summary>
-        /// Gets the route image that is displayed.
-        /// </summary>
-        public ImageSource RouteImage
-        {
-            get { return _routeImage.Value; }
-        }
 
         #endregion
 
@@ -49,22 +32,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             : this()
         {
             this.Operation = operation;
-
-            // This property is to be used with the RouteControl.
-            _routeImage = new Lazy<ImageSource>(() =>
-            {
-                // Lazy-load route image?
-                if (operation.RouteImage == null)
-                {
-                    return Helper.GetNoRouteImage();
-                }
-
-                BitmapImage image = new BitmapImage();
-                image.BeginInit();
-                image.StreamSource = new MemoryStream(operation.RouteImage);
-                image.EndInit();
-                return image;
-            });
         }
 
         #endregion

@@ -106,7 +106,7 @@
             </Border>
 
             <!-- The route control -->
-            <uiviews:RouteControl Grid.Column="2" Margin="1" />
+            <uiviews:RouteControl Operation="{Binding Operation}" Grid.Column="2" Margin="1" />
         </Grid>
     </Grid>
 </UserControl>

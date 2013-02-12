@@ -5,26 +5,12 @@ using System.Text;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
+namespace AlarmWorkflow.Windows.UIContracts.Converters
 {
-    /// <summary>
-    /// Provides functionality to retrieve the maps data from the internet.
-    /// </summary>
-    [Export("GoogleMapsProvider", typeof(IRoutePlanProvider))]
-    sealed class GoogleMapsProvider : IRoutePlanProvider
+    static class GoogleMapsProvider
     {
-        /// <summary>
-        /// Connects to Google Maps and queries an image displaying the route from the given start to finish position.
-        /// See documentation for further information.
-        /// </summary>
-        /// <remarks>When using this method, make sure that the <paramref name="source"/> and <paramref name="destination"/>-parameters contain meaningful data!
-        /// You can check this by calling <see cref="PropertyLocation.IsMeaningful"/> to see if the data is meaningful enough to return a good result.</remarks>
-        /// <param name="source"></param>
-        /// <param name="destination"></param>
-        /// <returns>The resulting PNG-image as a buffer. -or- null, if an error occurred during download of the image.</returns>
-        public Image GetRouteImage(PropertyLocation source, PropertyLocation destination)
+        internal static byte[] GetRouteImage(PropertyLocation source, PropertyLocation destination)
         {
             int width = 800;
             int height = 800;
@@ -52,10 +38,10 @@ namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
                     // TODO: Handle the errors!
                     case "NOT_FOUND":
                     case "ZERO_RESULTS":
-                        Logger.Instance.LogFormat(LogType.Warning, null, "The maps-request failed with status '{0}'. This is an indication that the location could not be retrieved. Sorry, but there's no workaround.", status);
+                        Logger.Instance.LogFormat(LogType.Warning, typeof(GoogleMapsProvider), "The maps-request failed with status '{0}'. This is an indication that the location could not be retrieved. Sorry, but there's no workaround.", status);
                         return null;
                     case "OVER_QUERY_LIMIT":
-                        Logger.Instance.LogFormat(LogType.Error, null, "The maps-request failed with status 'OVER_QUERY_LIMIT'. This indicates too many queries within a short timeframe.");
+                        Logger.Instance.LogFormat(LogType.Error, typeof(GoogleMapsProvider), "The maps-request failed with status 'OVER_QUERY_LIMIT'. This indicates too many queries within a short timeframe.");
                         return null;
 
                     case "MAX_WAYPOINTS_EXCEEDED":
@@ -63,7 +49,7 @@ namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
                     case "REQUEST_DENIED":
                     case "UNKNOWN_ERROR":
                     default:
-                        Logger.Instance.LogFormat(LogType.Error, null, "The maps-request failed with status '{0}'. Please contact the developers!", status);
+                        Logger.Instance.LogFormat(LogType.Error, typeof(GoogleMapsProvider), "The maps-request failed with status '{0}'. Please contact the developers!", status);
                         return null;
 
                     case "OK":
@@ -84,10 +70,13 @@ namespace AlarmWorkflow.RoutePlanProvider.GoogleMapsProvider
             WebRequest wr1 = WebRequest.Create(sbContinuationRequest.ToString());
             WebResponse res1 = wr1.GetResponse();
 
-            // Save the image as PNG
+            Image image = Image.FromStream(res1.GetResponseStream());
+
             using (MemoryStream ms = new MemoryStream())
             {
-                return Image.FromStream(res1.GetResponseStream());
+                image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+
+                return ms.ToArray();
             }
         }
     }

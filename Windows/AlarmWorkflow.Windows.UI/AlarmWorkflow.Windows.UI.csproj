@@ -144,9 +144,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\NoRouteImage.png" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <ItemGroup>

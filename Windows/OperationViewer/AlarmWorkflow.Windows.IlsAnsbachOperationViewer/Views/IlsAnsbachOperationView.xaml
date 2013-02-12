@@ -63,7 +63,7 @@
 
             <uiviews:GeneralInformationControl Grid.Column="0" Margin="1" />
 
-            <uiviews:RouteControl Grid.Column="1" Margin="1" />
+            <uiviews:RouteControl Operation="{Binding Operation}" Grid.Column="1" Margin="1" />
         </Grid>
     </Grid>
 </UserControl>

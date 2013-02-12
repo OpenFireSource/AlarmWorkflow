@@ -32,10 +32,6 @@ namespace AlarmWorkflow.Shared
         #region Properties
 
         internal string OperationStoreAlias { get; private set; }
-        internal string RoutePlanProviderAlias { get; private set; }
-        internal bool DownloadRoutePlan { get; private set; }
-        internal int RouteImageHeight { get; private set; }
-        internal int RouteImageWidth { get; private set; }
 
         /// <summary>
         /// Gets the information about the current fire department site.
@@ -56,11 +52,6 @@ namespace AlarmWorkflow.Shared
         private AlarmWorkflowConfiguration()
         {
             this.OperationStoreAlias = SettingsManager.Instance.GetSetting("Shared", "OperationStore").GetString();
-            this.RoutePlanProviderAlias = SettingsManager.Instance.GetSetting("Shared", "RoutePlanProvider").GetString();
-
-            this.DownloadRoutePlan = SettingsManager.Instance.GetSetting("Shared", "DownloadRoutePlan").GetBoolean();
-            this.RouteImageHeight = SettingsManager.Instance.GetSetting("Shared", "RouteImageHeight").GetInt32();
-            this.RouteImageWidth = SettingsManager.Instance.GetSetting("Shared", "RouteImageWidth").GetInt32();
 
             // FD Information
             this.FDInformation = new FireDepartmentInfo();

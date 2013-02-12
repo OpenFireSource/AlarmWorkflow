@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
@@ -24,7 +21,6 @@ namespace AlarmWorkflow.Shared
 
         private JobManager _jobManager;
         private IOperationStore _operationStore;
-        private IRoutePlanProvider _routePlanProvider;
 
         #endregion
 
@@ -52,13 +48,6 @@ namespace AlarmWorkflow.Shared
 
         #region Methods
 
-        private void InitializeRoutePlanProvider()
-        {
-
-            _routePlanProvider = ExportedTypeLibrary.Import<IRoutePlanProvider>(AlarmWorkflowConfiguration.Instance.RoutePlanProviderAlias);
-            Logger.Instance.LogFormat(LogType.Info, this, "Using route plan provider '{0}'.", _routePlanProvider.GetType().FullName);
-        }
-
         private void InitializeOperationStore()
         {
             _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
@@ -79,71 +68,6 @@ namespace AlarmWorkflow.Shared
         }
 
         /// <summary>
-        /// Downloads the route planning info if it is enabled and the location datas are meaningful enough.
-        /// </summary>
-        /// <param name="operation"></param>
-        private void DownloadRoutePlan(Operation operation)
-        {
-            if (!AlarmWorkflowConfiguration.Instance.DownloadRoutePlan)
-            {
-                return;
-            }
-
-            // Get start address and check if it is meaningful enough (if not then bail out)
-            PropertyLocation source = AlarmWorkflowConfiguration.Instance.FDInformation.Location;
-            if (!source.IsMeaningful)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Cannot download route plan because the location information for this fire department is not meaningful enough: '{0}'. Please fill the correct address!", source);
-                return;
-            }
-
-            // Get destination address and check if it is meaningful enough (if not then bail out)
-            PropertyLocation destination = operation.GetDestinationLocation();
-            if (!operation.GetDestinationLocation().IsMeaningful)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Destination location is unknown! Cannot download route plan!");
-            }
-            else
-            {
-                Logger.Instance.LogFormat(LogType.Trace, this, "Downloading route plan to destination '{0}'...", destination.ToString());
-
-                Stopwatch sw = Stopwatch.StartNew();
-                try
-                {
-                    Image image = _routePlanProvider.GetRouteImage(source, destination);
-
-                    if (image != null)
-                    {
-                        // Save the image as PNG
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            image.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-
-                            operation.RouteImage = ms.ToArray();
-                        }
-                    }
-
-                    sw.Stop();
-
-                    if (operation.RouteImage == null)
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "The download of the route plan did not succeed. Please check the log for information!");
-                    }
-                    else
-                    {
-                        Logger.Instance.LogFormat(LogType.Trace, this, "Downloaded route plan in '{0}' milliseconds.", sw.ElapsedMilliseconds);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    sw.Stop();
-                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while trying to download the route plan! The image will not be available.");
-                    Logger.Instance.LogException(this, ex);
-                }
-            }
-        }
-
-        /// <summary>
         /// Starts the monitor thread, which is waiting for a new Alarm.
         /// </summary>
         /// <exception cref="System.InvalidOperationException">Service start failed because of one of the following reasons. - There are no running alarm sources. - A general exception occurred.</exception>
@@ -155,7 +79,6 @@ namespace AlarmWorkflow.Shared
             }
 
             InitializeOperationStore();
-            InitializeRoutePlanProvider();
             InitializeAlarmSources();
 
             _jobManager = new JobManager();
@@ -269,8 +192,6 @@ namespace AlarmWorkflow.Shared
 
             // Dispose operation store
             _operationStore = null;
-            // Dispose route plan provider
-            _routePlanProvider = null;
 
             Logger.Instance.LogFormat(LogType.Info, this, "Stopped Service");
 
@@ -309,8 +230,6 @@ namespace AlarmWorkflow.Shared
                     Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
                     e.Operation.Timestamp = DateTime.Now;
                 }
-
-                DownloadRoutePlan(e.Operation);
 
                 Operation storedOperation = StoreOperation(e.Operation);
                 if (storedOperation == null)

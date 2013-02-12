@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.IlsAnsbachOperationViewer.ViewModels;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -40,14 +37,6 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         }
 
         /// <summary>
-        /// Gets the route plan image.
-        /// </summary>
-        public ImageSource RoutePlanImage
-        {
-            get { return GetRoutePlanImage(); }
-        }
-
-        /// <summary>
         /// Gets a list containing the resources requested for this operation.
         /// </summary>
         public IEnumerable<ResourceViewModel> VehicleResources
@@ -70,25 +59,6 @@ namespace AlarmWorkflow.Windows.IlsAnsbachOperationViewer
         #endregion
 
         #region Methods
-
-        private ImageSource GetRoutePlanImage()
-        {
-            if (_operation == null)
-            {
-                return null;
-            }
-            if (_operation.RouteImage == null)
-            {
-                // Return dummy image
-                return Helper.GetNoRouteImage();
-            }
-
-            BitmapImage image = new BitmapImage();
-            image.BeginInit();
-            image.StreamSource = new MemoryStream(_operation.RouteImage);
-            image.EndInit();
-            return image;
-        }
 
         private void UpdateProperties()
         {

@@ -16,12 +16,6 @@
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource, AlarmWorkflow.Shared"
              Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
 
-    <Setting Name="RoutePlanProvider" DisplayText="Routenplananbieter" Category="Routenplan" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IRoutePlanProvider, AlarmWorkflow.Shared"
-             Description="Welcher Anbieter zum Herunterladen des Routenplans verwendet werden soll." />
-    <Setting Name="DownloadRoutePlan" DisplayText="Routenplan herunterladen" Category="Routenplan" />
-    <Setting Name="RouteImageHeight" DisplayText="Höhe (pixel)" Category="Routenplan" />
-    <Setting Name="RouteImageWidth" DisplayText="Breite (pixel)" Category="Routenplan" />
-
   </Identifier>
 
 </SettingsDisplayConfiguration>

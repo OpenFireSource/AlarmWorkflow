@@ -3,7 +3,6 @@ echo -------------------------------------------------
 echo Build Shared...
 msbuild Shared\AlarmWorkflow.Shared.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Shared\AlarmWorkflow.Shared.AlarmSources.sln /p:Configuration=Debug /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.RoutePlanProviders.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Shared\AlarmWorkflow.Shared.Parser.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Debug /verbosity:minimal
 
