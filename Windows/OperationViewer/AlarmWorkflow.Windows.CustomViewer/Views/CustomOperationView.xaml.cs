@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     [Export("CustomOperationViewer", typeof(IOperationViewer))]
     public partial class CustomOperationView : UserControl, IOperationViewer
     {
-        private readonly string LayoutFile = Path.Combine(Utilities.GetWorkingDirectory(), "Config", "CustomOperationViewer.layout");
+        private readonly string LayoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");
         private readonly WidgetManager _WidgetManager;
 
         /// <summary>

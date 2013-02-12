@@ -57,7 +57,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             }
 
             // Load the file that stores the printed operations
-            string fileName = Path.Combine(Utilities.GetWorkingDirectory(), "Config\\PrintingUIPrintedOperations.lst");
+            string fileName = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
 
             List<string> alreadyPrintedOperations = new List<string>();
 

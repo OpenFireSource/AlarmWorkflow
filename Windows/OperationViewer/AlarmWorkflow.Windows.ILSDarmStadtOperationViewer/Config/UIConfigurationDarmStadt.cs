@@ -64,7 +64,7 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
         /// <returns></returns>
         public static UIConfiguration Load()
         {
-            string configFile = Path.Combine(Utilities.GetWorkingDirectory(Assembly.GetExecutingAssembly()), "Config\\IlsAnsbachOperationViewerConfig.xml");
+            string configFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "IlsDarmstadtOperationViewerConfig.xml");
             if (configFile == null)
             {
                 return null;
