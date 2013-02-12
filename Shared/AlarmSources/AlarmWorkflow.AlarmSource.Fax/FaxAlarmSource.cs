@@ -231,6 +231,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     }
                     else
                     {
+                        // Don't throw exception here, it will effectively stop the service. Issue warning and go ahead.
                         Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file. See log for more details.");
                         Logger.Instance.LogException(this, ex);
                     }
