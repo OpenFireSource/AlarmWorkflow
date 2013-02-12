@@ -116,7 +116,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             EnsureDirectoriesExist();
 
-            string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmss");
+            string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
             string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ".tif");
 
             // Moves the file to a different location, and throws if it failed.
@@ -233,8 +233,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     {
                         Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file. See log for more details.");
                         Logger.Instance.LogException(this, ex);
-                        // This fatal, quit processing.
-                        throw ex;
                     }
                 }
             }
