@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="CoreTests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\coretests\coretests.orderedtest" id="cf3aeff1-0dce-4b15-82c1-25f6ce9cb524" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="dfb24708-5b18-47ac-d784-acc8bde1c9e2" name="GetFilteredResourcesTest" storage="..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>
