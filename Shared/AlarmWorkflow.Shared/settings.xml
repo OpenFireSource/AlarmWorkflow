@@ -22,9 +22,7 @@
   
   <!-- Alarm sources configuration -->
   <Setting Name="AlarmSourcesConfiguration" Type="System.String">
-    <![CDATA[<ExportConfiguration>
-    <Export Name="FaxAlarmSource" IsEnabled="True" />
-  </ExportConfiguration>]]>
+    <![CDATA[<ExportConfiguration />]]>
   </Setting>
 
 </SettingsConfiguration>
