@@ -10,8 +10,11 @@
   <Setting Name="FD.ZipCode" Type="System.String" IsNull="True" />
   <Setting Name="FD.Street" Type="System.String" IsNull="True" />
   <Setting Name="FD.StreetNumber" Type="System.String" IsNull="True" />
+  
   <Setting Name="FD.Units" Type="System.String">
-    <![CDATA[<FDResourceConfiguration FDIdentification="" />]]></Setting>
+    <![CDATA[<FDResourceConfiguration FDIdentification="" />]]>
+  </Setting>
+  <Setting Name="FD.FilterUnits" Type="System.Boolean">False</Setting>
   
   <!-- Jobs configuration -->
   <Setting Name="JobsConfiguration" Type="System.String">

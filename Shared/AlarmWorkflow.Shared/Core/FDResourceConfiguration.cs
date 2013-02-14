@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
@@ -36,6 +37,44 @@ namespace AlarmWorkflow.Shared.Core
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Iterates over all <see cref="OperationResource"/>s in the given <see cref="P:Operation.Resource"/>
+        /// and returns only those that are configured in this configuration.
+        /// </summary>
+        /// <param name="operation">The <see cref="Operation"/> to filter its resources.</param>
+        /// <returns>A <see cref="OperationResourceCollection"/>-instance that contains only the resources that are configured in this configuration.</returns>
+        public OperationResourceCollection GetFilteredResources(Operation operation)
+        {
+            Assertions.AssertNotNull(operation, "operation");
+
+            OperationResourceCollection filtered = new OperationResourceCollection();
+            foreach (OperationResource item in operation.Resources)
+            {
+                if (IsMatch(item))
+                {
+                    filtered.Add(item);
+                }
+            }
+
+            return filtered;
+        }
+
+        private bool IsMatch(OperationResource resource)
+        {
+            bool containsIdentification = string.IsNullOrWhiteSpace(this.FDIdentification) ? true : resource.FullName.Contains(this.FDIdentification);
+            if (!containsIdentification)
+            {
+                return false;
+            }
+
+            if (!this.Items.Any(v => resource.FullName.Contains(v.Identifier)))
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Parses an XML-content and returns the <see cref="FDResourceConfiguration"/> from it.
