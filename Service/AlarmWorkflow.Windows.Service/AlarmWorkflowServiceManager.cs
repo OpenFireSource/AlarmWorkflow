@@ -1,6 +1,6 @@
 ﻿using System;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Service.WcfServices;
 

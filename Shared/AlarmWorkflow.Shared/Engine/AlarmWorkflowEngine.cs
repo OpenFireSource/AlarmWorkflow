@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Shared
+namespace AlarmWorkflow.Shared.Engine
 {
     /// <summary>
     /// Represents the main entry point of the AlarmWorkflow application. This class manages the parsing of the Alarmfaxes and is responsible for calling the configured jobs.

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Windows.ServiceContracts;
 

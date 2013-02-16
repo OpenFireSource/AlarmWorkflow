@@ -10,6 +10,7 @@ namespace AlarmWorkflow.Windows.Service
         /// </summary>
         static void Main(string[] args)
         {
+#if DEBUG
             if (Debugger.IsAttached)
             {
                 AlarmWorkflowService service = new AlarmWorkflowService();
@@ -18,6 +19,7 @@ namespace AlarmWorkflow.Windows.Service
                 service.Dispose();
                 return;
             }
+#endif
 
             ServiceBase.Run(new AlarmWorkflowService());
         }

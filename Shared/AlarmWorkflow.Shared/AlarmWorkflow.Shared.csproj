@@ -49,7 +49,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmWorkflowConfiguration.cs">
+    <Compile Include="Core\AlarmWorkflowConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assertions.cs" />
@@ -76,7 +76,7 @@
     <Compile Include="Extensibility\IAlarmSource.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />
     <Compile Include="Extensibility\IJob.cs" />
-    <Compile Include="AlarmWorkflowEngine.cs" />
+    <Compile Include="Engine\AlarmWorkflowEngine.cs" />
     <Compile Include="Core\ExportAttribute.cs" />
     <Compile Include="Core\ExportedType.cs" />
     <Compile Include="Core\ExportedTypeLibrary.cs" />
@@ -116,12 +116,6 @@
     <EmbeddedResource Include="settings.info.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="..\..\Resources\version.config">
-      <Link>version.config</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
