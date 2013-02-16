@@ -28,9 +28,6 @@ Third-party-components
 =============
 
 The AlarmWorkflow-project makes use of the following libraries:
-
-    WPF NotifyIcon by Hardcodet
-    http://www.hardcodet.net/projects/wpf-notifyicon
     
     DotNetZip-Library
     http://dotnetzip.codeplex.com/
