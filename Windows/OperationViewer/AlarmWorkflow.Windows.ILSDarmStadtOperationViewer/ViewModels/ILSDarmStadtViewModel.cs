@@ -80,7 +80,6 @@ namespace AlarmWorkflow.Windows.ILSDarmStadtOperationViewer
         /// </summary>
         public ILSDarmStadtOperationViewModel()
         {
-            UIConfiguration.Load();
         }
 
         #endregion
