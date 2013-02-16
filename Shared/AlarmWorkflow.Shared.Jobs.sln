@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.DisplayWa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Prowl", "Jobs\AlarmWorkflow.Job.Prowl\AlarmWorkflow.Job.Prowl.csproj", "{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.SQLCEDatabaseJob", "Jobs\AlarmWorkflow.Job.SQLCEDatabaseJob\AlarmWorkflow.Job.SQLCEDatabaseJob.csproj", "{54F3EDF4-296E-4037-9D02-47742A9A1119}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.GrowlJob", "Jobs\AlarmWorkflow.Job.GrowlJob\AlarmWorkflow.Job.GrowlJob.csproj", "{84D7024C-5620-46B5-8E0A-857A097268A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmMonitorFeederJob", "Jobs\AlarmWorkflow.Job.AlarmMonitorFeederJob\AlarmWorkflow.Job.AlarmMonitorFeederJob.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
@@ -47,8 +45,6 @@ Global
 		{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D45854B3-3FD6-4E30-9F5E-E59D54AABFD5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54F3EDF4-296E-4037-9D02-47742A9A1119}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84D7024C-5620-46B5-8E0A-857A097268A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{84D7024C-5620-46B5-8E0A-857A097268A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84D7024C-5620-46B5-8E0A-857A097268A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
