@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="UIConfiguration">
 
-  <Setting Name="OperationViewer" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="OperationViewer" Type="System.String">CustomOperationViewer</Setting>
 
   <Setting Name="OFP.Interval" Type="System.Int32" IsNull="False">2000</Setting>
   <Setting Name="OFP.MaxAge" Type="System.Int32" IsNull="False">7</Setting>
