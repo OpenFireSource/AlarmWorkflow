@@ -47,9 +47,23 @@ namespace AlarmWorkflow.Shared.Core
         public OperationResourceCollection GetFilteredResources(Operation operation)
         {
             Assertions.AssertNotNull(operation, "operation");
+            Assertions.AssertNotNull(operation.Resources, "operation.Resources");
+
+            return GetFilteredResources(operation.Resources);
+        }
+
+        /// <summary>
+        /// Iterates over all <see cref="OperationResource"/>s in the given <see cref="OperationResourceCollection"/>
+        /// and returns only those that are configured in this configuration.
+        /// </summary>
+        /// <param name="operationResourcesCollection">The <see cref="OperationResourceCollection"/> to filter.</param>
+        /// <returns>A <see cref="OperationResourceCollection"/>-instance that contains only the resources that are configured in this configuration.</returns>
+        public OperationResourceCollection GetFilteredResources(OperationResourceCollection operationResourcesCollection)
+        {
+            Assertions.AssertNotNull(operationResourcesCollection, "operationResourcesCollection");
 
             OperationResourceCollection filtered = new OperationResourceCollection();
-            foreach (OperationResource item in operation.Resources)
+            foreach (OperationResource item in operationResourcesCollection)
             {
                 if (IsMatch(item))
                 {

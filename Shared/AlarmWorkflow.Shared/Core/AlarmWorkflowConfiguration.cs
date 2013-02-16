@@ -36,10 +36,19 @@ namespace AlarmWorkflow.Shared.Core
         #region Properties
 
         /// <summary>
-        /// Gets the information about the current fire department site.
+        /// Gets the information about the current fire department.
         /// </summary>
         /// <remarks>This information is used (among others) to provide the route information to the operation destination.</remarks>
         public FireDepartmentInfo FDInformation { get; private set; }
+        /// <summary>
+        /// Gets the information about the configured resources in this fire department.
+        /// </summary>
+        /// <remarks>This information may be used for specific display of resources in UI or other components.</remarks>
+        public FDResourceConfiguration FDResources { get; private set; }
+        /// <summary>
+        /// Gets whether or not components shall filter their resources according to the resources configured by the <see cref="P:FDResources"/> configuration.
+        /// </summary>
+        public bool UseFDResourceFiltering { get; private set; }
 
         internal string OperationStoreAlias { get; private set; }
         internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
@@ -54,6 +63,7 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         private AlarmWorkflowConfiguration()
         {
+            // Public configuration
             this.FDInformation = new FireDepartmentInfo();
             this.FDInformation.Name = SettingsManager.Instance.GetSetting("Shared", "FD.Name").GetString();
             this.FDInformation.Location = new PropertyLocation();
@@ -62,6 +72,10 @@ namespace AlarmWorkflow.Shared.Core
             this.FDInformation.Location.Street = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString();
             this.FDInformation.Location.StreetNumber = SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString();
 
+            this.FDResources = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetValue<FDResourceConfiguration>();
+            this.UseFDResourceFiltering = SettingsManager.Instance.GetSetting("Shared", "FD.FilterUnits").GetBoolean();
+
+            // Internal configuration
             this.OperationStoreAlias = SettingsManager.Instance.GetSetting("Shared", "OperationStore").GetString();
             this.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
             this.EnabledAlarmSources = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
