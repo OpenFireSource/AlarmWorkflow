@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<OrderedTest name="Smoketests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\smoketests.orderedtest" id="bfb462ff-b575-4c41-bd08-a25049d0c71a" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Execution id="3aaaef61-cbe0-48bf-8b81-88d12368b3ea" />
+<OrderedTest name="smoketests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\smoketests.orderedtest" id="bfb462ff-b575-4c41-bd08-a25049d0c71a" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Execution id="e488acbf-2f51-44ee-8507-a4801d43afc9" />
   <TestLinks>
     <TestLink id="cf3aeff1-0dce-4b15-82c1-25f6ce9cb524" name="CoreTests" storage="shared\coretests\coretests.orderedtest" type="Microsoft.VisualStudio.TestTools.TestTypes.Ordered.AutoSuite, Microsoft.VisualStudio.QualityTools.Tips.OrderedTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="e5805333-d1af-4588-a1f9-3011cac4f0e4" name="AddressingTests" storage="shared.addressing\addressingtests.orderedtest" type="Microsoft.VisualStudio.TestTools.TestTypes.Ordered.AutoSuite, Microsoft.VisualStudio.QualityTools.Tips.OrderedTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
   </TestLinks>
 </OrderedTest>

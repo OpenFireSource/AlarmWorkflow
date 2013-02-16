@@ -33,7 +33,7 @@ namespace AlarmWorkflow.Shared.Addressing
         #region Constructors
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="AddressBook"/> class from being created.
+        /// Initializes a new instance of the <see cref="AddressBook"/> class.
         /// </summary>
         public AddressBook()
         {
@@ -70,7 +70,7 @@ namespace AlarmWorkflow.Shared.Addressing
             foreach (AddressBookEntry entry in Entries)
             {
                 IEnumerable<EntryDataItem> matching = entry.Data.Where(d => d.Identifier == type);
-                foreach (EntryDataItem eo in matching)
+                foreach (EntryDataItem eo in matching.Where(i => i.IsEnabled))
                 {
                     yield return Tuple.Create<AddressBookEntry, TCustomData>(entry, (TCustomData)eo.Data);
                 }

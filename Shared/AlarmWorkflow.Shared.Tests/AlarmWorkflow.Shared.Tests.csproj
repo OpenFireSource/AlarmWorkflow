@@ -53,10 +53,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Shared.Addressing\AddressBookTests.cs" />
     <Compile Include="Shared\CoreTests\FDResourceConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shared.Addressing\AddressingTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Shared\CoreTests\CoreTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
