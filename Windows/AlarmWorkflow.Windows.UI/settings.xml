@@ -14,7 +14,8 @@
   <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>
   <Setting Name="AcknowledgeOperationKey" Type="System.String" IsNull="False">B</Setting>
   <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
-
+  <Setting Name="SwitchAlarms" Type="System.Boolean">True</Setting>
+  <Setting Name="SwitchTime" Type="System.Int32">30</Setting>
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
     <![CDATA[<ExportConfiguration />]]>
   </Setting>

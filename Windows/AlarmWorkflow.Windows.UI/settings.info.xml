@@ -2,11 +2,14 @@
 
   <Identifier Name="UIConfiguration" DisplayText="Windows-UI">
 
-    <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts"
+    <Setting Name="OperationViewer" DisplayText="Alarmdarstellungs-Kennung" Category="Generell"
+             Editor="ExportTypeEditor"
+             EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts"
              Description="Die Komponente, die die Alarmdarstellung übernimmt." />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell"
              Description="Der Skalierungsfaktor. Werte zwischen 1 und 3 sind sinnvoll. Die Skalierung kann manuell mit dem Mausrad im UI justiert werden." />
-    <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell" Editor="KeyInputTypeEditor"
+    <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell"
+             Editor="KeyInputTypeEditor"
              Description="Die Taste, die einen Alarm bestätigt/zur Kenntnis nimmt. Bestätigte Alarme tauchen nicht mehr in der UI auf." />
     <Setting Name="TreatOldOperationsAsNew" DisplayText="Alte Alarme als Neu behandeln" Category="Debug"
              Description="Behandelt alte Alarme als neu. Im Produktiveinsatz nicht empfohlen!" />
@@ -25,7 +28,12 @@
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme"
              Description="Ab welchem Alter Alarme automatisch bestätigt werden." />
 
-    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
+    <Setting Name="SwitchTime" DisplayText="Wartezeit" Category="Automaitscher Wechsel"
+             Description="Die Zeit in Sekunden die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät" />
+    <Setting Name="SwitchAlarms" DisplayText="Automatischer Wechsel" Category="Automaitscher Wechsel"
+             Description="Gibt an ob bei meheren Alarmen die Anzeige automatisch zwischen allen Alarmen in einem definierten Abstand durchwechseln soll." />
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor"
+             EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />
 
   </Identifier>

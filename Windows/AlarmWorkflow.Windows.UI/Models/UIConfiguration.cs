@@ -51,7 +51,14 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets whether or not old operations shall be treated as new ones. Intended for debugging only!
         /// </summary>
         public bool TreatOldOperationsAsNew { get; private set; }
-
+        /// <summary>
+        /// Gets whether or not the selected alarm should change automatic, if mulitple alarms are available.
+        /// </summary>
+        public bool SwitchAlarms { get; private set; }
+        /// <summary>
+        /// Gets the time which should elapse between a change.
+        /// </summary>
+        public int SwitchTime { get; private set; }
         #endregion
 
         #region Constructors
@@ -100,6 +107,8 @@ namespace AlarmWorkflow.Windows.UI.Models
             // Jobs configuration
             configuration.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
 
+            configuration.SwitchAlarms = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchAlarms").GetBoolean();
+            configuration.SwitchTime = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchTime").GetInt32();
             return configuration;
         }
 
