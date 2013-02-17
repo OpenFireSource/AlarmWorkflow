@@ -8,8 +8,8 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
     /// <summary>
     /// Interaction logic for GrowlCustomDataEditor.xaml
     /// </summary>
-    [Export("GrowlCustomDataEditor", typeof(ICustomDataEditor))]
-    [Information(DisplayName = "INF_GrowlCustomDataEditor", Tag = "Growl")]
+    [Export("PushCustomDataEditor", typeof(ICustomDataEditor))]
+    [Information(DisplayName = "INF_PushCustomDataEditor", Tag = "Push")]
     public partial class GrowlCustomDataEditor : UserControl, ICustomDataEditor
     {
         #region Constructors
@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         {
             InitializeComponent();
 
-            foreach (string dcon in GrowlEntryObject.DefaultConsumers)
+            foreach (string dcon in PushEntryObject.DefaultConsumers)
             {
                 cboConsumer.Items.Add(dcon);
             }
@@ -36,14 +36,14 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
         {
             get
             {
-                GrowlEntryObject geo = new GrowlEntryObject();
+                PushEntryObject geo = new PushEntryObject();
                 geo.Consumer = cboConsumer.Text;
                 geo.RecipientApiKey = txtRecipientApiKey.Text;
                 return geo;
             }
             set
             {
-                GrowlEntryObject geo = (GrowlEntryObject)value;
+                PushEntryObject geo = (PushEntryObject)value;
                 cboConsumer.Text = geo.Consumer;
                 txtRecipientApiKey.Text = geo.RecipientApiKey;
             }
