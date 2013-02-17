@@ -8,8 +8,8 @@
     <ProjectGuid>{9A6598BB-3ED1-46A0-ADDC-98E53655BF76}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Job.Push</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Job.Push</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Job.PushJob</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Job.PushJob</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

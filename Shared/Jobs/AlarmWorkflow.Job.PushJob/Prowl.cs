@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -10,22 +9,11 @@ using System.Web;
 namespace AlarmWorkflow.Job.PushJob
 {
     /// <summary>
-    ///     Description of MyClass.
+    /// Prowl-Sender
     /// </summary>
     public class Prowl
     {
-        #region ProwlNotificaionPriortiy enum
-
-        public enum ProwlNotificaionPriortiy : sbyte
-        {
-            VeryLow = -2,
-            Moderate = -1,
-            Normal = 0,
-            High = 1,
-            Emergency = 2
-        }
-
-        #endregion
+        #region Constants
 
         private const string RequestUrl = "https://api.prowlapp.com/publicapi/add";
         private const string RequestContentType = "application/x-www-form-urlencoded";
@@ -33,154 +21,25 @@ namespace AlarmWorkflow.Job.PushJob
         private const string Apikey = "apikey";
         private const string Application = "application";
         private const string Event = "event";
-        private const string Description = "description";
-        private const string Developerkey = "providerkey ";
+        private const string Description = "message";
         private const string Priortiy = "priority";
-        private const string Url = "url";
-
-        private const string ContentTypeHtml = "text/html";
         private const int ApplicationMaxLength = 256;
         private const int DescriptionMaxLength = 10000;
         private const int EventMaxLength = 1024;
-        private const int DeveloperkeyMaxLength = 40;
-        private const int UrlMaxLenght = 512;
-
-        #region Sending to one Client
-
-        public void Notify(string apikey, string application, string header, string description)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description}
-                };
-            send(data);
-        }
-
-        public void Notify(string apikey, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Priortiy, ((sbyte) priority).ToString(CultureInfo.InvariantCulture)}
-                };
-            send(data);
-        }
-
-        public void Notify(string apikey, string application, string header, string description, string devKey)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Developerkey, devKey}
-                };
-            send(data);
-        }
-
-        public void Notify(string apikey, string application, string header, string description, Uri url)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Url, url.OriginalString}
-                };
-            send(data);
-        }
-
-
-        public void Notify(string apikey, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, string devKey)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Priortiy, ((sbyte) priority).ToString()},
-                    {Developerkey, devKey}
-                };
-            send(data);
-        }
-
-        public void Notify(string apikey, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, Uri url)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Url, url.OriginalString},
-                    {Priortiy, ((sbyte) priority).ToString()}
-                };
-            send(data);
-        }
-
-        public void Notify(string apikey, string application, string header, string description, string devKey, Uri url)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Developerkey, devKey},
-                    {Url, url.OriginalString}
-                };
-            send(data);
-        }
-
-
-        public void Notify(string apikey, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, string devKey, Uri url)
-        {
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Priortiy, ((sbyte) priority).ToString()},
-                    {Url, url.OriginalString},
-                    {Developerkey, devKey}
-                };
-            send(data);
-        }
 
         #endregion
 
-        #region Sending to multiple Clients
+        #region Methods
 
-        public void Notify(List<string> apiKeys, string application, string header, string description)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description}
-                };
-
-            send(data);
-        }
-
-        public void Notify(List<string> apiKeys, string application, string header, string description,
+        /// <summary>
+        /// Sends a prowlnotification with given data
+        /// </summary>
+        /// <param name="apiKeys">List of API-Keys</param>
+        /// <param name="application">Title of the Application</param>
+        /// <param name="header">Title of the Event</param>
+        /// <param name="message">Message</param>
+        /// <param name="priority">Priority of the message</param>
+        public void Notify(List<string> apiKeys, string application, string header, string message,
                            ProwlNotificaionPriortiy priority)
         {
             String[] keyArray = apiKeys.ToArray();
@@ -190,123 +49,16 @@ namespace AlarmWorkflow.Job.PushJob
                     {Apikey, apikey},
                     {Application, application},
                     {Event, header},
-                    {Description, description},
+                    {Description, message},
                     {Priortiy, ((sbyte) priority).ToString()}
                 };
 
-            send(data);
+            Send(data);
         }
 
-        public void Notify(List<string> apiKeys, string application, string header, string description, string devKey)
+        private void Send(Dictionary<string, string> postParameters)
         {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Developerkey, devKey}
-                };
-
-            send(data);
-        }
-
-        public void Notify(List<string> apiKeys, string application, string header, string description, Uri url)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Url, url.OriginalString}
-                };
-
-            send(data);
-        }
-
-        public void Notify(List<string> apiKeys, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, string devKey)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Priortiy, ((sbyte) priority).ToString()},
-                    {Developerkey, devKey}
-                };
-
-            send(data);
-        }
-
-        public void Notify(List<string> apiKeys, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, Uri url)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Url, url.OriginalString},
-                    {Priortiy, ((sbyte) priority).ToString()}
-                };
-
-            send(data);
-        }
-
-
-        public void Notify(List<string> apiKeys, string application, string header, string description, string devKey,
-                           Uri url)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Developerkey, devKey},
-                    {Url, url.OriginalString}
-                };
-            send(data);
-        }
-
-        public void Notify(List<string> apiKeys, string application, string header, string description,
-                           ProwlNotificaionPriortiy priority, string devKey, Uri url)
-        {
-            String[] keyArray = apiKeys.ToArray();
-            string apikey = String.Join(",", keyArray);
-            Dictionary<string, string> data = new Dictionary<string, string>
-                {
-                    {Apikey, apikey},
-                    {Application, application},
-                    {Event, header},
-                    {Description, description},
-                    {Priortiy, ((sbyte) priority).ToString()},
-                    {Url, url.OriginalString},
-                    {Developerkey, devKey}
-                };
-
-            send(data);
-        }
-
-        #endregion
-
-        private void send(Dictionary<string, string> postParameters)
-        {
-            if (!valiade(postParameters))
+            if (!Valiade(postParameters))
             {
                 return;
             }
@@ -330,22 +82,15 @@ namespace AlarmWorkflow.Job.PushJob
             if (responseStream != null)
             {
                 StreamReader streamReader = new StreamReader(responseStream, Encoding.Default);
-                pageContent = streamReader.ReadToEnd();
+                streamReader.ReadToEnd();
                 streamReader.Close();
             }
             if (responseStream != null) responseStream.Close();
             webResponse.Close();
-            analyseOutput(pageContent);
         }
 
-        private void analyseOutput(string pageContent)
-        {
-#pragma warning disable 168
-            string content = pageContent;
-#pragma warning restore 168
-        }
 
-        private static bool valiade(IDictionary<string, string> postParameters)
+        private static bool Valiade(IDictionary<string, string> postParameters)
         {
             if (!postParameters.ContainsKey(Apikey))
             {
@@ -363,22 +108,22 @@ namespace AlarmWorkflow.Job.PushJob
             {
                 return false;
             }
-            if (postParameters.ContainsKey(Developerkey))
-            {
-                if (postParameters[Developerkey].Length >= DeveloperkeyMaxLength)
-                {
-                    return false;
-                }
-            }
-            if (postParameters.ContainsKey(Url))
-            {
-                String url = postParameters[Url];
-                if (url.Length > UrlMaxLenght)
-                {
-                    return false;
-                }
-            }
             return true;
         }
+
+        #endregion
     }
+
+    #region Nested Types
+
+    public enum ProwlNotificaionPriortiy : sbyte
+    {
+        VeryLow = -2,
+        Moderate = -1,
+        Normal = 0,
+        High = 1,
+        Emergency = 2
+    }
+
+    #endregion
 }

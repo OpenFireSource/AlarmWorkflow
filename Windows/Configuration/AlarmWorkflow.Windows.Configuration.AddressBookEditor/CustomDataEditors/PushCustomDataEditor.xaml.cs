@@ -22,7 +22,6 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.CustomDataEditor
             InitializeComponent();
 
             foreach (string dcon in PushEntryObject.DefaultConsumers)
-            foreach (string dcon in PushEntryObject.DefaultConsumers)
             {
                 cboConsumer.Items.Add(dcon);
             }
