@@ -2,6 +2,12 @@
 <SettingsConfiguration Version="1" Identifier="UIConfiguration">
 
   <Setting Name="OperationViewer" Type="System.String">CustomOperationViewer</Setting>
+  <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>
+  <Setting Name="AcknowledgeOperationKey" Type="System.String" IsNull="False">B</Setting>
+
+  <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
+    <![CDATA[<ExportConfiguration />]]>
+  </Setting>
 
   <Setting Name="OFP.Interval" Type="System.Int32" IsNull="False">2000</Setting>
   <Setting Name="OFP.MaxAge" Type="System.Int32" IsNull="False">7</Setting>
@@ -10,14 +16,10 @@
 
   <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">False</Setting>
   <Setting Name="AOA.MaxAge" Type="System.Int32" IsNull="False">480</Setting>
-
-  <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>
-  <Setting Name="AcknowledgeOperationKey" Type="System.String" IsNull="False">B</Setting>
-  <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
-  <Setting Name="SwitchAlarms" Type="System.Boolean">True</Setting>
+  
+  <Setting Name="SwitchAlarms" Type="System.Boolean">False</Setting>
   <Setting Name="SwitchTime" Type="System.Int32">30</Setting>
-  <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
-    <![CDATA[<ExportConfiguration />]]>
-  </Setting>
+
+  <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
 
 </SettingsConfiguration>

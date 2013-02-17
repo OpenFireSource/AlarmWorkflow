@@ -6,10 +6,7 @@ using System.Windows.Threading;
 
 namespace AlarmWorkflow.Windows.UI
 {
-    /// <summary>
-    /// Provides some utilities when working with the Windows UI.
-    /// </summary>
-    public static class Helper
+    static class Helper
     {
         /// <summary>
         /// Convenience wrapper for the "Dispatcher.Invoke()" method which does not support lambdas.

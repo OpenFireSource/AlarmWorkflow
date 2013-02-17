@@ -135,14 +135,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             if (App.GetApp().Configuration.SwitchAlarms)
             {
-                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime*1000);
-                _switchTimer.Elapsed += new ElapsedEventHandler(_switchTimer_Elapsed);
+                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime * 1000);
+                _switchTimer.Elapsed += _switchTimer_Elapsed;
                 _switchTimer.Start();
             }
-            
         }
-
-       
 
         #endregion
 
@@ -282,7 +279,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             if (AvailableEvents.Count > 1)
             {
                 int current = AvailableEvents.IndexOf(SelectedEvent);
-                if (current == AvailableEvents.Count-1)
+                if (current == AvailableEvents.Count - 1)
                 {
                     SelectedEvent = AvailableEvents[0];
                 }
@@ -300,10 +297,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         #endregion
 
         #region Event handlers
-        void _switchTimer_Elapsed(object sender, ElapsedEventArgs e)
+
+        private void _switchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             App.Current.Dispatcher.Invoke(() => NextAlarm());
         }
+
         private void ServicePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
@@ -315,7 +314,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
 
                     IList<int> operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
-                    
+
                     IsMissingServiceConnectionHintVisible = false;
 
                     if (operations.Count == 0)
