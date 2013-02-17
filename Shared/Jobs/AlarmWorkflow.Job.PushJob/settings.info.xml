@@ -1,0 +1,7 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="PushJob" DisplayText="Push versenden" Parent="Aufgaben">
+    <Setting Name="MessageContent" DisplayText="Nachricht" Description="Der Inhalt der Nachricht." Category="Nachricht"
+             Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+  </Identifier>
+</SettingsDisplayConfiguration>

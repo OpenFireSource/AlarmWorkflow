@@ -4,14 +4,14 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 {
-    [Export("GrowlAddressProvider", typeof(IAddressProvider))]
-    sealed class GrowlAddressProvider : IAddressProvider
+    [Export("PushAddressProvider", typeof(IAddressProvider))]
+    sealed class PushAddressProvider : IAddressProvider
     {
         #region IAddressProvider Members
 
         string IAddressProvider.AddressType
         {
-            get { return "Growl"; }
+            get { return "Push"; }
         }
 
         object IAddressProvider.Convert(XElement element)
@@ -19,7 +19,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
             string consumer = element.TryGetAttributeValue("Consumer", null);
             string recApiKey = element.Value;
 
-            GrowlEntryObject geo = new GrowlEntryObject();
+            PushEntryObject geo = new PushEntryObject();
             geo.Consumer = consumer;
             geo.RecipientApiKey = recApiKey;
             return geo;
@@ -27,7 +27,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 
         XElement IAddressProvider.ConvertBack(object value)
         {
-            GrowlEntryObject geo = (GrowlEntryObject)value;
+            PushEntryObject geo = (PushEntryObject)value;
 
             XElement element = new XElement("dummy");
             element.Add(new XAttribute("Consumer", geo.Consumer));
