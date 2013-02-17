@@ -1,6 +1,7 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="MailingJob" DisplayText="E-Mail versenden" Parent="Aufgaben">
     <Setting Name="HostName" DisplayText="Hostname" Category="Mailserver" />
+    <Setting Name="UseSsl" DisplayText="SSL benutzen" Category="Mailserver" />
     <Setting Name="UserName" DisplayText="Benutzername" Category="Mailserver" />
     <Setting Name="Password" DisplayText="Passwort" Category="Mailserver" />
     <Setting Name="Authenticate" DisplayText="Authentifizierung benutzen" Category="Mailserver" />

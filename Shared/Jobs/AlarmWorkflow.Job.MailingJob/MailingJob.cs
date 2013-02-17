@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
@@ -51,6 +50,7 @@ namespace AlarmWorkflow.Job.MailingJob
             string userPassword = SettingsManager.Instance.GetSetting("MailingJob", "Password").GetString();
             int smtpPort = SettingsManager.Instance.GetSetting("MailingJob", "Port").GetInt32();
             bool smtpAuthenticate = SettingsManager.Instance.GetSetting("MailingJob", "Authenticate").GetBoolean();
+            bool useSsl = SettingsManager.Instance.GetSetting("MailingJob", "UseSsl").GetBoolean();
 
             _senderEmail = Helpers.ParseAddress(SettingsManager.Instance.GetSetting("MailingJob", "SenderAddress").GetString());
             if (_senderEmail == null)
@@ -61,6 +61,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
             // Create new SMTP client for sending mails
             _smptClient = new SmtpClient(smtpHostName, smtpPort);
+            _smptClient.EnableSsl = useSsl;
             if (smtpAuthenticate)
             {
                 _smptClient.Credentials = new NetworkCredential(userName, userPassword);
