@@ -7,7 +7,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         
-        <ComboBox x:Name="cboConsumer" Grid.Column="0" Margin="2" IsEditable="True" ToolTip="Growl-Empfängerplugin" Width="75" />
+        <ComboBox x:Name="cboConsumer" Grid.Column="0" Margin="2" IsEditable="True" ToolTip="Push-Empfängerplugin" Width="75" />
         <TextBox x:Name="txtRecipientApiKey" Grid.Column="1" Margin="2" ToolTip="API-Key des Empfängers" />
     </Grid>
 </UserControl>

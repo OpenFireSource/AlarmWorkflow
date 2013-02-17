@@ -48,13 +48,13 @@
     <Compile Include="AddressBook.cs" />
     <Compile Include="AddressBookEntry.cs" />
     <Compile Include="AddressBookManager.cs" />
-    <Compile Include="AddressProviders\GrowlAddressProvider.cs" />
+    <Compile Include="AddressProviders\PushAddressProvider.cs" />
     <Compile Include="AddressProviders\LoopAddressProvider.cs" />
     <Compile Include="AddressProviders\MailAddressProvider.cs" />
     <Compile Include="AddressProviders\MobilePhoneAddressProvider.cs" />
     <Compile Include="AddressBookEntryCollection.cs" />
     <Compile Include="EntryDataItem.cs" />
-    <Compile Include="EntryObjects\GrowlEntryObject.cs" />
+    <Compile Include="EntryObjects\PushEntryObject.cs" />
     <Compile Include="EntryObjects\LoopEntryObject.cs" />
     <Compile Include="EntryObjects\MailAddressEntryObject.cs" />
     <Compile Include="EntryObjects\MobilePhoneEntryObject.cs" />

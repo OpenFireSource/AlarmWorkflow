@@ -7,14 +7,14 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
     /// See documentation for further information.
     /// </summary>
     /// <remarks>This is a generalized way to talk any growl-consumer, including (but not limited to): Prowl, Growl etc.</remarks>
-    public class GrowlEntryObject
+    public class PushEntryObject
     {
         #region Fields
 
         /// <summary>
         /// Defines the consumers that are supported by default.
         /// </summary>
-        public static readonly string[] DefaultConsumers = { "Growl", "Prowl" };
+        public static readonly string[] DefaultConsumers = { "NMA", "Prowl" };
 
         #endregion
 
