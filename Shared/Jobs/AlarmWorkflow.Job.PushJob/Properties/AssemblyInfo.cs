@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 
-[assembly: AssemblyTitle("AlarmWorkflow.Job.Push")]
+[assembly: AssemblyTitle("AlarmWorkflow.Job.PushJob")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AlarmWorkflow.Job.Push")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
+[assembly: AssemblyProduct("AlarmWorkflow.Job.PushJob")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

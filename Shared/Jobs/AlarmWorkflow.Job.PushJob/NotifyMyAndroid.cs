@@ -9,9 +9,9 @@ using System.Web;
 namespace AlarmWorkflow.Job.PushJob
 {
     /// <summary>
-    ///     NMA-Sender
+    /// NMA-Sender
     /// </summary>
-    public class NMA
+    static class NMA
     {
         #region Constants
 
@@ -30,6 +30,7 @@ namespace AlarmWorkflow.Job.PushJob
         #endregion
 
         #region Methods
+  
         /// <summary>
         /// Sends a prowlnotification with given data
         /// </summary>
@@ -38,8 +39,7 @@ namespace AlarmWorkflow.Job.PushJob
         /// <param name="header">Title of the Event</param>
         /// <param name="message">Message</param>
         /// <param name="priority">Priority of the message</param>
-        public void Notify(List<string> apiKeys, string application, string header, string message,
-                           NMANotificationPriority priority)
+        public static void Notify(List<string> apiKeys, string application, string header, string message, NMANotificationPriority priority)
         {
             String[] keyArray = apiKeys.ToArray();
             string apikey = String.Join(",", keyArray);
@@ -56,9 +56,9 @@ namespace AlarmWorkflow.Job.PushJob
         }
 
 
-        private void Send(Dictionary<string, string> postParameters)
+        private static void Send(Dictionary<string, string> postParameters)
         {
-            if (!Valiade(postParameters))
+            if (!Validate(postParameters))
             {
                 return;
             }
@@ -69,27 +69,30 @@ namespace AlarmWorkflow.Job.PushJob
                                                              HttpUtility.UrlEncode(postParameters[key]) + "&"));
             postData = postData.Substring(0, postData.Length - 1);
             byte[] data = Encoding.UTF8.GetBytes(postData);
-            HttpWebRequest webRequest = (HttpWebRequest) WebRequest.Create(RequestUrl);
+
+            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(RequestUrl);
             webRequest.Method = RequestMethodType;
             webRequest.ContentType = RequestContentType;
             webRequest.ContentLength = data.Length;
-            Stream requestStream = webRequest.GetRequestStream();
-            requestStream.Write(data, 0, data.Length);
-            requestStream.Close();
-            HttpWebResponse webResponse = (HttpWebResponse) webRequest.GetResponse();
-            Stream responseStream = webResponse.GetResponseStream();
-            string pageContent = null;
-            if (responseStream != null)
+
+            using (Stream requestStream = webRequest.GetRequestStream())
             {
-                StreamReader streamReader = new StreamReader(responseStream, Encoding.Default);
-                streamReader.ReadToEnd();
-                streamReader.Close();
+                requestStream.Write(data, 0, data.Length);
             }
-            if (responseStream != null) responseStream.Close();
+
+            HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
+            using (Stream responseStream = webResponse.GetResponseStream())
+            {
+                using (StreamReader streamReader = new StreamReader(responseStream, Encoding.Default))
+                {
+                    streamReader.ReadToEnd();
+                }
+            }
+
             webResponse.Close();
         }
 
-        private static bool Valiade(IDictionary<string, string> postParameters)
+        private static bool Validate(IDictionary<string, string> postParameters)
         {
             if (!postParameters.ContainsKey(Apikey))
             {
@@ -116,7 +119,7 @@ namespace AlarmWorkflow.Job.PushJob
 
     #region Nested Types
 
-    public enum NMANotificationPriority : sbyte
+    internal enum NMANotificationPriority : sbyte
     {
         VeryLow = -2,
         Moderate = -1,

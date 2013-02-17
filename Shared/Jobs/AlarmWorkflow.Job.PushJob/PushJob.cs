@@ -10,9 +10,16 @@ using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.PushJob
 {
-    [Export("PushJob", typeof (IJob))]
-    public class PushJob : IJob
+    [Export("PushJob", typeof(IJob))]
+    class PushJob : IJob
     {
+        #region Constants
+
+        private const string ApplicationName = "Feuerwehr-Alarmierung";
+        private const string HeaderText = "Feuerwehralarm";
+
+        #endregion
+
         #region Fields
 
         private string _expression;
@@ -41,7 +48,7 @@ namespace AlarmWorkflow.Job.PushJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            Prowl(operation);
+            NotifyProwl(operation);
             NotifyMyAndroid(operation);
         }
 
@@ -56,23 +63,21 @@ namespace AlarmWorkflow.Job.PushJob
 
         private void NotifyMyAndroid(Operation operation)
         {
-            NMA sender = new NMA();
-            String content = operation.ToString(_expression);
+            string content = operation.ToString(_expression);
             List<String> nmaRecipients = (from pushEntryObject in _recipients where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
             if (nmaRecipients.Count != 0)
             {
-                sender.Notify(nmaRecipients, "Feuerwehr-Allarmierung", "Feuerwehralarm", content, NMANotificationPriority.Emergency);
+                NMA.Notify(nmaRecipients, ApplicationName, HeaderText, content, NMANotificationPriority.Emergency);
             }
         }
 
-        private void Prowl(Operation operation)
+        private void NotifyProwl(Operation operation)
         {
-            Prowl sender = new Prowl();
-            String content = operation.ToString(_expression);
+            string content = operation.ToString(_expression);
             List<String> prowlRecipients = (from pushEntryObject in _recipients where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
             if (prowlRecipients.Count != 0)
             {
-                sender.Notify(prowlRecipients, "Feuerwehr-Allarmierung", "Feuerwehralarm", content, ProwlNotificaionPriortiy.Emergency);
+                Prowl.Notify(prowlRecipients, ApplicationName, HeaderText, content, ProwlNotificationPriority.Emergency);
             }
         }
 
