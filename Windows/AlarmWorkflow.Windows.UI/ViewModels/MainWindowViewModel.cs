@@ -28,6 +28,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private Timer _servicePollingTimer;
         private bool _isMissingServiceConnectionHintVisible;
+        private Timer _switchTimer;
 
         #endregion
 
@@ -128,10 +129,20 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             InitializeOperationViewer();
 
             // Create timer with a custom interval from configuration
-            _servicePollingTimer = new System.Timers.Timer(App.GetApp().Configuration.OperationFetchingArguments.Interval);
-            _servicePollingTimer.Elapsed += new ElapsedEventHandler(ServicePollingTimer_Elapsed);
+            _servicePollingTimer = new Timer(App.GetApp().Configuration.OperationFetchingArguments.Interval);
+            _servicePollingTimer.Elapsed += ServicePollingTimer_Elapsed;
             _servicePollingTimer.Start();
+
+            if (App.GetApp().Configuration.SwitchAlarms)
+            {
+                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime*1000);
+                _switchTimer.Elapsed += new ElapsedEventHandler(_switchTimer_Elapsed);
+                _switchTimer.Start();
+            }
+            
         }
+
+       
 
         #endregion
 
@@ -266,11 +277,33 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             return AvailableEvents.Any(o => o.Operation.Id == operationId);
         }
-
+        private void NextAlarm()
+        {
+            if (AvailableEvents.Count > 1)
+            {
+                int current = AvailableEvents.IndexOf(SelectedEvent);
+                if (current == AvailableEvents.Count-1)
+                {
+                    SelectedEvent = AvailableEvents[0];
+                }
+                else
+                {
+                    SelectedEvent = AvailableEvents[current + 1];
+                }
+                Operation operationNew = _selectedEvent != null ? _selectedEvent.Operation : null;
+                _operationViewer.OnOperationChanged(operationNew);
+                OnPropertyChanged("SelectedEvent");
+                OnPropertyChanged("SelectedEvent.Operation");
+                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
+            }
+        }
         #endregion
 
         #region Event handlers
-
+        void _switchTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            App.Current.Dispatcher.Invoke(() => NextAlarm());
+        }
         private void ServicePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             try
