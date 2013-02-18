@@ -3,19 +3,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="txtText" Grid.Row="0" Margin="2" ToolTip="Objektausdruck" />
-        <Expander Grid.Row="1">
-            <Expander.Header>
-                <TextBlock>
-                    <Run Text="Verfügbare Eigenschaften" FontWeight="Bold" />
-                    <Run Text=" (klick zum Einfügen)" />
-                </TextBlock>
-            </Expander.Header>
-            <ItemsControl ItemsSource="{Binding ObjectPropertiesHelp}">
+        <TextBox x:Name="txtText" Grid.Row="0" Margin="2" ToolTip="Objektausdruck" AcceptsReturn="True" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible" />
+        <Button Grid.Row="1" Name="PART_OpenPopup" Click="PART_OpenPopup_Click">
+            <TextBlock>
+                <Run Text="Verfügbare Eigenschaften" FontWeight="Bold" />
+                <Run Text="anzeigen / ausblenden" />
+            </TextBlock>
+        </Button>
+
+        <Popup x:Name="PART_Popup" PopupAnimation="None" Focusable="True" PlacementTarget="{Binding ElementName=PART_OpenPopup}" Placement="Bottom"
+               LostFocus="PART_Popup_LostFocus">
+            <ItemsControl ItemsSource="{Binding ObjectPropertiesHelp}" MaxWidth="400" Background="WhiteSmoke">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal" />
@@ -23,7 +25,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <ContentControl Margin="2">
+                        <ContentControl Margin="1">
                             <Hyperlink Command="{Binding InsertPropertyCommand, RelativeSource={RelativeSource FindAncestor, AncestorType=UserControl}}" CommandParameter="{Binding }">
                                 <TextBlock Text="{Binding }" />
                             </Hyperlink>
@@ -31,6 +33,6 @@
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
-        </Expander>
+        </Popup>
     </Grid>
 </UserControl>

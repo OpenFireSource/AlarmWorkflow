@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// The InsertPropertyCommand command.
         /// </summary>
         public ICommand InsertPropertyCommand { get; private set; }
-        
+
         private void InsertPropertyCommand_Execute(object parameter)
         {
             // Sanity check
@@ -54,6 +54,32 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
             CommandHelper.WireupRelayCommands(this);
             this.DataContext = this;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void PART_OpenPopup_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (!PART_Popup.IsOpen)
+            {
+                PART_Popup.IsOpen = true;
+                PART_Popup.Focus();
+            }
+            else
+            {
+                PART_Popup.IsOpen = false;
+            }
+        }
+
+        private void PART_Popup_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (e.OriginalSource != PART_Popup)
+            {
+                return;
+            }
+            PART_Popup.IsOpen = false;
         }
 
         #endregion
