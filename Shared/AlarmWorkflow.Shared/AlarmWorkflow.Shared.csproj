@@ -60,6 +60,7 @@
     <Compile Include="Core\ObjectExpressionTools.cs" />
     <Compile Include="Core\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />
+    <Compile Include="Core\ObjectFormatterOptions.cs" />
     <Compile Include="Engine\JobContext.cs" />
     <Compile Include="Engine\IJobContext.cs" />
     <Compile Include="Core\Operation.cs" />
