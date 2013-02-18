@@ -104,33 +104,14 @@ namespace AlarmWorkflow.Job.MailingJob
 
                 // Construct message subject
                 message.Subject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - new alarm";
+                string bodyFormat = SettingsManager.Instance.GetSetting("MailingJob", "EMailBody").GetString();
+                string body = ObjectFormatter.ToString(operation, bodyFormat);
 
-                // Construct body text
-                StringBuilder bodyBuilder = new StringBuilder();
-                bodyBuilder.AppendLine("Zeitstempel: " + operation.Timestamp.ToString());
-                bodyBuilder.AppendLine("Stichwort: " + operation.Keywords.Keyword);
-                bodyBuilder.AppendLine("Einsatzstichwort: " + operation.Keywords.EmergencyKeyword);
-                bodyBuilder.AppendLine("Meldebild: " + operation.Picture);
-                bodyBuilder.AppendLine("Einsatznr: " + operation.OperationNumber);
-                bodyBuilder.AppendLine("Hinweis: " + operation.Comment);
-                bodyBuilder.AppendLine("Mitteiler: " + operation.Messenger);
-                bodyBuilder.AppendLine("Einsatzort: " + operation.Einsatzort.Location);
-                bodyBuilder.AppendLine("Straße: " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
-                bodyBuilder.AppendLine("Kreuzung: " + operation.Einsatzort.Intersection);
-                bodyBuilder.AppendLine("Ort: " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City);
-                bodyBuilder.AppendLine("Objekt: " + operation.Einsatzort.Property);
-                bodyBuilder.AppendLine("Einsatzplan: " + operation.OperationPlan);
-                bodyBuilder.AppendLine("Fahrzeuge: " + operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
-
-
-                message.Body = bodyBuilder.ToString();
+                message.Body = body;
                 message.BodyEncoding = Encoding.UTF8;
-
                 message.Priority = MailPriority.High;
-                // No HTML is needed
                 message.IsBodyHtml = false;
 
-                // Send the message asynchronously
                 try
                 {
                     _smptClient.Send(message);

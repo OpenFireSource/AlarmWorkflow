@@ -7,4 +7,24 @@
   <Setting Name="Authenticate" Type="System.Boolean">False</Setting>
   <Setting Name="Port" Type="System.Int32">25</Setting>
   <Setting Name="SenderAddress" Type="System.String" IsNull="False"></Setting>
+
+  <Setting Name="EMailBody" Type="System.String" IsNull="False">
+<![CDATA[AlarmMail vom {Timestamp} (Einsatzzeitpunkt)
+Einsatznr.: {OperationNumber}
+Stichwörter: {Keywords}
+Hinweis: {Comment}
+Meldebild: {Picture}
+
+Einsatzort: {Einsatzort}
+Kreuzung: {Einsatzort.Intersection}
+Objekt: {Einsatzort.Property}
+
+Zielort: {Zielort}
+Kreuzung: {Zielort.Intersection}
+Objekt: {Zielort.Property}
+
+Einsatzplan: {operation.OperationPlan}
+Mitteiler: {Messenger}
+Fahrzeuge:
+{Resources}]]></Setting>
 </SettingsConfiguration>

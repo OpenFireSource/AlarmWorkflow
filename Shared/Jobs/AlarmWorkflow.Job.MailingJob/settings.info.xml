@@ -1,5 +1,5 @@
 ﻿<SettingsDisplayConfiguration>
-  <Identifier Name="MailingJob" DisplayText="E-Mail versenden" Parent="Aufgaben">
+  <Identifier Name="MailingJob" DisplayText="E-Mail-Versand" Parent="Aufgaben">
     <Setting Name="HostName" DisplayText="Hostname" Category="Mailserver" />
     <Setting Name="UseSsl" DisplayText="SSL benutzen" Category="Mailserver" />
     <Setting Name="UserName" DisplayText="Benutzername" Category="Mailserver" />
@@ -7,5 +7,9 @@
     <Setting Name="Authenticate" DisplayText="Authentifizierung benutzen" Category="Mailserver" />
     <Setting Name="Port" DisplayText="Port" Category="Mailserver" />
     <Setting Name="SenderAddress" DisplayText="Absenderadresse" Category="Mailserver" />
+
+    <Setting Name="EMailBody" DisplayText="Nachrichtentext" Category="Mail" Description="Der Inhalt der Mail."
+             Editor="ObjectExpressionTypeEditor" 
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
   </Identifier>
 </SettingsDisplayConfiguration>
