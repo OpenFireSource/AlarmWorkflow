@@ -27,6 +27,9 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private List<MailAddressEntryObject> _recipients;
 
+        private string _mailSubject;
+        private string _mailBodyFormat;
+
         #endregion
 
         #region Constructors
@@ -67,6 +70,13 @@ namespace AlarmWorkflow.Job.MailingJob
                 _smptClient.Credentials = new NetworkCredential(userName, userPassword);
             }
 
+            _mailBodyFormat = SettingsManager.Instance.GetSetting("MailingJob", "EMailBody").GetString();
+            _mailSubject = SettingsManager.Instance.GetSetting("MailingJob", "EMailSubject").GetString();
+            if (string.IsNullOrWhiteSpace(_mailSubject))
+            {
+                _mailSubject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - Neuer Alarm";
+            }
+
             // Get recipients
             var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
@@ -102,12 +112,9 @@ namespace AlarmWorkflow.Job.MailingJob
                     }
                 }
 
-                // Construct message subject
-                message.Subject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - new alarm";
-                string bodyFormat = SettingsManager.Instance.GetSetting("MailingJob", "EMailBody").GetString();
-                string body = ObjectFormatter.ToString(operation, bodyFormat);
+                message.Subject = _mailSubject;
+                message.Body = ObjectFormatter.ToString(operation, _mailBodyFormat);
 
-                message.Body = body;
                 message.BodyEncoding = Encoding.UTF8;
                 message.Priority = MailPriority.High;
                 message.IsBodyHtml = false;

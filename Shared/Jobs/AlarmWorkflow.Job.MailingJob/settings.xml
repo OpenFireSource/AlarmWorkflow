@@ -8,6 +8,7 @@
   <Setting Name="Port" Type="System.Int32">25</Setting>
   <Setting Name="SenderAddress" Type="System.String" IsNull="False"></Setting>
 
+  <Setting Name="EMailSubject" Type="System.String" IsNull="True"></Setting>
   <Setting Name="EMailBody" Type="System.String" IsNull="False">
 <![CDATA[AlarmMail vom {Timestamp} (Einsatzzeitpunkt)
 Einsatznr.: {OperationNumber}
