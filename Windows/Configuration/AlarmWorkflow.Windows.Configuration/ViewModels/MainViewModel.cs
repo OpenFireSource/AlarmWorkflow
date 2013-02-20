@@ -129,6 +129,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void RestartServiceCommand_Execute(object parameter)
         {
+            if (!Helper.IsCurrentUserAdministrator())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
+                return;
+            }
             if (!ServiceHelper.IsServiceInstalled())
             {
                 UIUtilities.ShowWarning(Properties.Resources.ServiceIsNotInstalledError);
@@ -244,6 +249,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void StartServiceCommand_Execute(object parameter)
         {
+            if (!Helper.IsCurrentUserAdministrator())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
+                return;
+            }
+
             try
             {
                 ServiceHelper.StartService(true);
@@ -271,6 +282,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void StopServiceCommand_Execute(object parameter)
         {
+            if (!Helper.IsCurrentUserAdministrator())
+            {
+                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
+                return;
+            }
+
             try
             {
                 ServiceHelper.StopService(true);
