@@ -31,6 +31,31 @@ namespace AlarmWorkflow.Windows.UI
             return value;
         }
 
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern bool SystemParametersInfo(
+           int uAction, int uParam, ref bool lpvParam,
+           int flags);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern IntPtr GetForegroundWindow();
+
+        private const int SPI_GETSCREENSAVERRUNNING = 114;
+
+
+        /// <summary>
+        /// Gets if a screensaver is running
+        /// </summary>
+        /// <returns>Returns true if screensaver is running</returns>
+        public static bool GetScreenSaverRunning()
+        {
+            bool isRunning = false;
+
+            SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0,
+               ref isRunning, 0);
+            return isRunning;
+        }
+
         internal static System.Drawing.Rectangle GetWindowRect(Window window)
         {
             IntPtr ptr = new WindowInteropHelper(window).Handle;
