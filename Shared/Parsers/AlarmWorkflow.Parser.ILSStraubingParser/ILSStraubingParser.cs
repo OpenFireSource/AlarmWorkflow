@@ -15,20 +15,7 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
     sealed class ILSStraubingParser : IFaxParser
     {
 
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the ILSStraubingParser class.
-        /// </summary>
-        /// <param name="logger">The logger object.</param>
-        /// <param name="replaceList">The RreplaceList object.</param>
-        public ILSStraubingParser()
-        {
-
-        }
-
-        #endregion
-
+        
         #region IFaxParser Members
 
         Operation IFaxParser.Parse(string[] lines)

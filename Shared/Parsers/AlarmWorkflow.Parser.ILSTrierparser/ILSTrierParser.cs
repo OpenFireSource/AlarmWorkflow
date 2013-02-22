@@ -13,25 +13,7 @@ namespace AlarmWorkflow.Parser.ILSTrierParser
     [Export("ILSTrierParser", typeof(IFaxParser))]
     public class ILSTrierParser : IFaxParser
     {
-        private readonly Dictionary<string, string> _fdUnits;
-
-        public ILSTrierParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
-            {
-                string[] result = unit.Split(new[] { "=;=" }, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
+      
 
         Operation IFaxParser.Parse(string[] lines)
         {
@@ -119,15 +101,6 @@ namespace AlarmWorkflow.Parser.ILSTrierParser
                         Regex timeStamp = new Regex("\\d\\d:\\d\\d:\\d\\d");
                         line = timeStamp.Replace(line, "").Trim();
                         OperationResource resource = new OperationResource { FullName = line };
-                        foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                        {
-                            if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                            {
-                                resource.FullName = fdUnit.Value;
-                                operation.Resources.Add(resource);
-                                break;
-                            }
-                        }
                         operation.Resources.Add(resource);
                         break;
                     case CurrentSection.EFooter:

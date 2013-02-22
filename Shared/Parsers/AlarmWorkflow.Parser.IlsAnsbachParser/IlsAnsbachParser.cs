@@ -23,20 +23,6 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         #endregion
 
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the IlsAnsbachParser class.
-        /// </summary>
-        /// <param name="logger">The logger object.</param>
-        /// <param name="replaceList">The RreplaceList object.</param>
-        public IlsAnsbachParser()
-        {
-
-        }
-
-        #endregion
-
         #region Methods
 
         private DateTime ReadFaxTimestamp(string line, DateTime fallback)
