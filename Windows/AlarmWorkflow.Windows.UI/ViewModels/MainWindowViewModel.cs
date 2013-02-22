@@ -359,6 +359,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 if (Helper.GetScreenSaverRunning())
                 {
                     Cursor.Position = new Point(Cursor.Position.X + 1, Cursor.Position.Y + 1);
+                    Cursor.Position = new Point(Cursor.Position.X - 1, Cursor.Position.Y - 1);
                 }
             }
         }
