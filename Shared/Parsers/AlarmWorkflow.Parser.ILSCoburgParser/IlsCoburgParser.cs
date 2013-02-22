@@ -1,53 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSCoburgParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS ILSCoburgParser.
     /// </summary>
-    [Export("ILSCoburgParser", typeof(IFaxParser))]
-    sealed class ILSCoburgParser : IFaxParser
+    [Export("ILSCoburgParser", typeof (IFaxParser))]
+    internal sealed class ILSCoburgParser : IFaxParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
-
-        #endregion
-
-        #region Constructor
-
-        public ILSCoburgParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
+        private static readonly string[] Keywords = new[]
             {
-                string[] result = unit.Split(new[] { "=;=" }, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT B", "STICHWORT R", "STICHWORT T", "STICHWORT I", "STICHWORT S",
+                "EINSATZMITTEL", "ALARMIERT", "AUS"
+            };
 
-        #endregion
-
-        #region Fields
-        private readonly Dictionary<String, String> _fdUnits;
         #endregion
 
         #region Methods
@@ -139,7 +113,8 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
             }
             return zipCode;
         }
-        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
             {
@@ -183,9 +158,9 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
             return false;
         }
+
         #endregion
 
         #region IFaxParser Members
@@ -198,6 +173,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
             lines = Utilities.Trim(lines);
 
             CurrentSection section = CurrentSection.AHeader;
+            bool keywordsOnly = true;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -211,8 +187,8 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                     // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                    bool keywordsOnly;
-                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
+                   
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
                     }
@@ -379,9 +355,6 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                     case "STICHWORT R":
                                         operation.Keywords.R = msg;
                                         break;
-                                    case "PRIO.":
-                                        operation.Priority = msg;
-                                        break;
                                 }
                             }
                             break;
@@ -407,9 +380,9 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
 
                                     last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
                                 }
-                                else if (line.StartsWith("AUSSTATTUNG", StringComparison.CurrentCultureIgnoreCase))
+                                else if (line.StartsWith("AUS", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "Ausstattung");
+                                    msg = GetMessageText(line, "AUS");
 
                                     // Only add to requested equipment if there is some text,
                                     // otherwise the whole vehicle is the requested equipment
@@ -417,14 +390,6 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                     {
                                         last.RequestedEquipment.Add(msg);
                                         Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
-                                    }
-                                    foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                                    {
-                                        if (last.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                                        {
-                                            operation.OperationPlan += " - " + fdUnit.Value;
-                                            break;
-                                        }
                                     }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
@@ -471,6 +436,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
+
             /// <summary>
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
@@ -478,6 +444,5 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
         }
 
         #endregion
-
     }
 }

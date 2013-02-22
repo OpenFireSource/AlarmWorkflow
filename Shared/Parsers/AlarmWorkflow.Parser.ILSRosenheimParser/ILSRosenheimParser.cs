@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSRosenheimParser
 {
@@ -17,36 +15,12 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
     {
         #region Fields
 
-        private readonly Dictionary<String, String> _fdUnits;
-
         private readonly string[] _keywords = new[]
             {
                 "Einsatz-Nr.", "Name", "Straße", "Abschnitt",
                 "Ortsteil", "Kreuzung", "Objekt", "Schlagw.",
                 "Stichwort", "Priorität", "Alarmiert", "gef. Gerät"
             };
-
-        #endregion
-
-        #region Constructor
-
-        public ILSRosenheimParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
-            {
-                string[] result = unit.Split(new[] {"=;="}, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
 
         #endregion
 
@@ -69,7 +43,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                     {
                         continue;
                     }
-                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
                     }
@@ -203,14 +177,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                         last.RequestedEquipment.Add(msg);
                                     }
 
-                                    foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                                    {
-                                        if (last.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                                        {
-                                            operation.OperationPlan += " - " + fdUnit.Value;
-                                            break;
-                                        }
-                                    }
                                     operation.Resources.Add(last);
                                     last = new OperationResource();
                                 }
@@ -239,7 +205,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
 
         #region Methods
 
-        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
             {
@@ -277,7 +243,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
             return false;
         }
 

@@ -1,53 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSNuernbergParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSNuernbergParser", typeof(IFaxParser))]
-    sealed class ILSNuernbergParser : IFaxParser
+    [Export("ILSNuernbergParser", typeof (IFaxParser))]
+    internal sealed class ILSNuernbergParser : IFaxParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
-
-        #endregion
-
-        #region Constructor
-
-        public ILSNuernbergParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
+        private static readonly string[] Keywords = new[]
             {
-                string[] result = unit.Split(new[] { "=;=" }, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
+                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+            };
 
-        #endregion
-
-        #region Fields
-        private readonly Dictionary<String, String> _fdUnits;
         #endregion
 
         #region Methods
@@ -140,7 +114,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
             return zipCode;
         }
 
-        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
             {
@@ -184,7 +158,6 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
             return false;
         }
 
@@ -214,7 +187,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                     // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
                     }
@@ -421,14 +394,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                         last.RequestedEquipment.Add(msg);
                                         Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
                                     }
-                                    foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                                    {
-                                        if (last.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                                        {
-                                            operation.OperationPlan += " - " + fdUnit.Value;
-                                            break;
-                                        }
-                                    }
+
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 
@@ -474,6 +440,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
+
             /// <summary>
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
@@ -481,6 +448,5 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
         }
 
         #endregion
-
     }
 }
