@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSNuernbergParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSNuernbergParser", typeof(IFaxParser))]
-    sealed class ILSNuernbergParser : IFaxParser
+    [Export("ILSNuernbergParser", typeof (IFaxParser))]
+    internal sealed class ILSNuernbergParser : IFaxParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
+        private static readonly string[] Keywords = new[]
+            {
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
+                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+            };
 
         #endregion
-        
 
         #region Methods
 
@@ -395,7 +394,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                         last.RequestedEquipment.Add(msg);
                                         Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
                                     }
-                                   
+
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 
@@ -441,6 +440,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
+
             /// <summary>
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
@@ -448,6 +448,5 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
         }
 
         #endregion
-
     }
 }

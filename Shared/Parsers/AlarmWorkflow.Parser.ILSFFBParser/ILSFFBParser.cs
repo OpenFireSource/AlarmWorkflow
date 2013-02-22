@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
@@ -48,7 +46,8 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         case "EINSATZSTICHWORT": { section = CurrentSection.JEinsatzstichwort; break; }
                         case "HINWEIS": { section = CurrentSection.KHinweis; break; }
                         case "EINSATZMITTEL": { section = CurrentSection.LEinsatzmittel; break; }
-                        case "(ALARMSCHREIBEN ENDE)": { section = CurrentSection.MEnde; break; ;}
+                        case "(ALARMSCHREIBEN ENDE)": { section = CurrentSection.MEnde; break;
+                        }
                     }
                 }
 
@@ -89,7 +88,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         operation.Keywords.EmergencyKeyword = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.KHinweis:
-                        operation.Comment += GetMessageText(line, keyword);
+                        operation.Comment += " " + GetMessageText(line, keyword);
                         break;
                     case CurrentSection.LEinsatzmittel:
                         if (line.Equals("EINSATZMITTEL: ", StringComparison.InvariantCultureIgnoreCase))
@@ -100,14 +99,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         if (line.Contains('('))
                         {
                             string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
-                            if (tool.Length >= 2)
-                            {
-                                tool = tool.Substring(0, tool.Length - 2).Trim();
-                            }
-                            else
-                            {
-                                tool = String.Empty;
-                            }
+                            tool = tool.Length >= 2 ? tool.Substring(0, tool.Length - 2).Trim() : String.Empty;
                             string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
                             resource.FullName = unit;
                             resource.RequestedEquipment.Add(tool);

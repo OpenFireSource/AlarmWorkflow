@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSRosenheimParser
 {
@@ -26,7 +24,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
 
         #endregion
 
-        
         #region IFaxParser Members
 
         Operation IFaxParser.Parse(string[] lines)
@@ -179,7 +176,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                     {
                                         last.RequestedEquipment.Add(msg);
                                     }
-                                    
+
                                     operation.Resources.Add(last);
                                     last = new OperationResource();
                                 }
@@ -246,7 +243,6 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
             return false;
         }
 

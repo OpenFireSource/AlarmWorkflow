@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -308,7 +307,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                                     case "STICHWORT SO":
                                         operation.Keywords.S = msg.Substring(0,msg.IndexOf("STICHWORT TH:",StringComparison.InvariantCultureIgnoreCase)).Trim();
                                         operation.Keywords.T = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT TH:", StringComparison.InvariantCultureIgnoreCase),msg.IndexOf("STICHWORT IN:", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT TH:");
-                                        operation.CustomData["Stichwort IN"] = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT IN", System.StringComparison.InvariantCultureIgnoreCase)), "STICHWORT IN");
+                                        operation.CustomData["Stichwort IN"] = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT IN", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT IN");
                                         break;
                                         
                                     case "PRIO.":

@@ -1,29 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Mittelfranken.
     /// </summary>
-    [Export("ILSMittelfrankenParser", typeof(IFaxParser))]
-    sealed class ILSMittelfrankenParser : IFaxParser
+    [Export("ILSMittelfrankenParser", typeof (IFaxParser))]
+    internal sealed class ILSMittelfrankenParser : IFaxParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
+        private static readonly string[] Keywords = new[]
+            {
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
+                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+            };
 
         #endregion
-        
 
         #region Methods
 
@@ -114,6 +113,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             }
             return zipCode;
         }
+
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
@@ -160,6 +160,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             }
             return false;
         }
+
         #endregion
 
         #region IFaxParser Members
@@ -392,7 +393,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                     {
                                         last.RequestedEquipment.Add(msg);
                                         Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
-                                    }                                    
+                                    }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 
@@ -438,6 +439,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
+
             /// <summary>
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
@@ -445,6 +447,5 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
         }
 
         #endregion
-
     }
 }

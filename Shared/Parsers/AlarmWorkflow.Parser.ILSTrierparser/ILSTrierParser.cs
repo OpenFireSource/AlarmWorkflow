@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSTrierParser
 {
@@ -78,10 +76,10 @@ namespace AlarmWorkflow.Parser.ILSTrierParser
                         if (line.Contains("PLZ"))
                         {
                             operation.OperationPlan = line.Substring(0, line.ToUpper().IndexOf("PLZ", StringComparison.Ordinal));
-                            String temp = line.Substring(line.ToUpper().IndexOf("PLZ"));
+                            String temp = line.Substring(line.ToUpper().IndexOf("PLZ", StringComparison.Ordinal));
                             if (temp.Contains(" "))
                             {
-                                temp = temp.Substring(temp.IndexOf(" "));
+                                temp = temp.Substring(temp.IndexOf(" ", StringComparison.Ordinal));
                             }
                             operation.Einsatzort.ZipCode = temp.Trim();
                         }
