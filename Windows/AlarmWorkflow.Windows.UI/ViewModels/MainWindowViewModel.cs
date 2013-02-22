@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Timers;
 using System.Windows;
+using System.Windows.Forms;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.ServiceContracts;
@@ -11,6 +12,8 @@ using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Security;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using Point = System.Drawing.Point;
+using Timer = System.Timers.Timer;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
@@ -350,6 +353,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             catch (Exception ex)
             {
                 Logger.Instance.LogException(this, ex);
+            }
+            if (AvailableEvents.Count > 0)
+            {
+                if (Helper.GetScreenSaverRunning())
+                {
+                    Cursor.Position = new Point(Cursor.Position.X + 1, Cursor.Position.Y + 1);
+                }
             }
         }
 
