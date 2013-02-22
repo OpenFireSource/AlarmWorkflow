@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -14,21 +11,6 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
     [Export("ILSStraubingParser", typeof(IFaxParser))]
     sealed class ILSStraubingParser : IFaxParser
     {
-
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the ILSStraubingParser class.
-        /// </summary>
-        /// <param name="logger">The logger object.</param>
-        /// <param name="replaceList">The RreplaceList object.</param>
-        public ILSStraubingParser()
-        {
-
-        }
-
-        #endregion
-
         #region IFaxParser Members
 
         Operation IFaxParser.Parse(string[] lines)

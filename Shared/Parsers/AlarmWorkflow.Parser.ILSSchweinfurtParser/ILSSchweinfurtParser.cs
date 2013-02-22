@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
 {
@@ -25,35 +23,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             };
 
         #endregion
-
-        #region Constructor
-
-        public ILSSchweinfurtParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
-            {
-                string[] result = unit.Split(new[] {"=;="}, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
-
-        #endregion
-
-        #region Fields
-
-        private readonly Dictionary<String, String> _fdUnits;
-
-        #endregion
-
+        
         #region Methods
 
         private DateTime ReadFaxTimestamp(string line, DateTime fallback)
@@ -144,7 +114,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             return zipCode;
         }
 
-        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
             {
@@ -188,7 +158,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
+            
             return false;
         }
 
@@ -203,6 +173,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
 
             lines = Utilities.Trim(lines);
             CurrentSection section = CurrentSection.AHeader;
+			bool keywordsOnly = true; 
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -217,9 +188,9 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
 
-                    bool keywordsOnly;
                     
-                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
+                    
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
                     }
@@ -425,15 +396,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                                     {
                                         last.RequestedEquipment.Add(msg);
                                         Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
-                                    }
-                                    foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                                    {
-                                        if (last.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                                        {
-                                            operation.OperationPlan += " - " + fdUnit.Value;
-                                            break;
-                                        }
-                                    }
+                                    }                                   
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 

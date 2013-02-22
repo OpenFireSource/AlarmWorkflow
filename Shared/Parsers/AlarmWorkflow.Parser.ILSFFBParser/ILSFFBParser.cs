@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
@@ -13,38 +11,17 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
     [Export("ILSFFBParser", typeof(IFaxParser))]
     public class ILSFFBParser : IFaxParser
     {
-        private readonly Dictionary<string, string> _fdUnits;
+        #region Fields
+        
         private readonly string[] _keywords = new[]
                                                         {
                                                             "ALARM","E-Nr","EINSATZORT","STRAßE",
                                                             "ORTSTEIL/ORT","OBJEKT","EINSATZPLAN","MELDEBILD",
                                                             "EINSATZSTICHWORT","HINWEIS","EINSATZMITTEL","(ALARMSCHREIBEN ENDE)"
                                                         };
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the ILSFFBParser class.
-        /// </summary>
-        public ILSFFBParser()
-        {
-            _fdUnits = new Dictionary<string, string>();
-            string[] units = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetStringArray();
-            foreach (string unit in units)
-            {
-                string[] result = unit.Split(new[] { "=;=" }, StringSplitOptions.None);
-                if (result.Length == 2)
-                {
-                    _fdUnits.Add(result[0], result[1]);
-                }
-                else
-                {
-                    _fdUnits.Add(unit, unit);
-                }
-            }
-        }
-
+        
         #endregion
-
+        
         #region IFaxParser Members
 
         Operation IFaxParser.Parse(string[] lines)
@@ -69,7 +46,8 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         case "EINSATZSTICHWORT": { section = CurrentSection.JEinsatzstichwort; break; }
                         case "HINWEIS": { section = CurrentSection.KHinweis; break; }
                         case "EINSATZMITTEL": { section = CurrentSection.LEinsatzmittel; break; }
-                        case "(ALARMSCHREIBEN ENDE)": { section = CurrentSection.MEnde; break; ;}
+                        case "(ALARMSCHREIBEN ENDE)": { section = CurrentSection.MEnde; break;
+                        }
                     }
                 }
 
@@ -110,7 +88,7 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         operation.Keywords.EmergencyKeyword = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.KHinweis:
-                        operation.Comment += GetMessageText(line, keyword);
+                        operation.Comment += " " + GetMessageText(line, keyword);
                         break;
                     case CurrentSection.LEinsatzmittel:
                         if (line.Equals("EINSATZMITTEL: ", StringComparison.InvariantCultureIgnoreCase))
@@ -121,26 +99,12 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         if (line.Contains('('))
                         {
                             string tool = line.Substring(line.IndexOf("(", StringComparison.Ordinal) + 1);
-                            if (tool.Length >= 2)
-                            {
-                                tool = tool.Substring(0, tool.Length - 2).Trim();
-                            }
-                            else
-                            {
-                                tool = String.Empty;
-                            }
+                            tool = tool.Length >= 2 ? tool.Substring(0, tool.Length - 2).Trim() : String.Empty;
                             string unit = line.Substring(0, line.IndexOf("(", StringComparison.Ordinal));
                             resource.FullName = unit;
                             resource.RequestedEquipment.Add(tool);
-                            foreach (KeyValuePair<string, string> fdUnit in _fdUnits)
-                            {
-                                if (resource.FullName.ToLower().Contains(fdUnit.Key.ToLower()))
-                                {
-                                    resource.FullName = fdUnit.Value;
-                                    operation.Resources.Add(resource);
-                                    break;
-                                }
-                            }
+                            operation.Resources.Add(resource);
+                            
                         }
                         break;
                         
