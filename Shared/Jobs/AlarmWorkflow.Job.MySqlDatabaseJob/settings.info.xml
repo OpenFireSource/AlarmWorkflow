@@ -5,7 +5,8 @@
     <Setting Name="DBServer" DisplayText="Servername" Category="Server"
              Description="Der Name des Servers, auf dem die MySQL-Datenbank läuft." />
     <Setting Name="DBServerPort" DisplayText="Port" Category="Server"
-             Description="Der Port." />
+             Description="Der Port."
+             EditorParameter="1;65535" />
     <Setting Name="DBName" DisplayText="Datenbankname" Category="Datenbank"
              Description="Der Name der Datenbank." />
     <Setting Name="UserID" DisplayText="Benutzer-ID" Category="Datenbank"

@@ -20,7 +20,8 @@
              Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
     <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"
-             Description="Der Abstand (in Millisekunden) zur Überprüfung auf neue Faxe im Faxeingangs-Verzeichnis." />
+             Description="Der Abstand (in Millisekunden) zur Überprüfung auf neue Faxe im Faxeingangs-Verzeichnis."
+             EditorParameter="500;60000"/>
 
     <Setting Name="TestFaxKeywords" DisplayText="'Testfax'-Schlüsselwörter" Category="Testfax" Editor="StringArrayTypeEditor"
              Description="Faxe mit einem oder mehreren dieser Worte werden nicht ausgewertet." />

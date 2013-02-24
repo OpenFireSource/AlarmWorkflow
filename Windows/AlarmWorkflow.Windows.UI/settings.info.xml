@@ -8,7 +8,7 @@
              Description="Die Komponente, die die Alarmdarstellung übernimmt." />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell"
              Description="Der Skalierungsfaktor. Werte zwischen 1 und 3 sind sinnvoll. Die Skalierung kann manuell mit dem Mausrad im UI justiert werden."
-             EditorParameter="0.5;10"/>
+             EditorParameter="0.5;10" />
     <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell"
              Editor="KeyInputTypeEditor"
              Description="Die Taste, die einen Alarm bestätigt/zur Kenntnis nimmt. Bestätigte Alarme tauchen nicht mehr in der UI auf." />
@@ -18,21 +18,26 @@
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />
 
     <Setting Name="OFP.Interval" DisplayText="Aktualisierungsinterval (in Millisekunden)" Category="Alarmabfrage"
-             Description="Der Abstand, in dem die UI auf neue Alarme prüft." />
+             Description="Der Abstand, in dem die UI auf neue Alarme prüft."
+             EditorParameter="500;10000"/>
     <Setting Name="OFP.MaxAge" DisplayText="Max. Alter (in Tagen)" Category="Alarmabfrage"
-             Description="Wie alt Alarme maximal sein dürfen, um in der UI aufzutauchen." />
+             Description="Wie alt Alarme maximal sein dürfen, um in der UI aufzutauchen (0 für keine Beschränkung)."
+             EditorParameter="0;100"/>
     <Setting Name="OFP.OnlyNonAcknowledged" DisplayText="Nur neue Alarme" Category="Alarmabfrage"
              Description="Ob nur nicht-bestätigte (neue) Alarme auftauchen sollen." />
     <Setting Name="OFP.LimitAmount" DisplayText="Limit" Category="Alarmabfrage"
-             Description="Limitiert die Anzahl der maximalen Alarme, die pro Abfrage geholt werden." />
+             Description="Limitiert die Anzahl der maximalen Alarme, die pro Abfrage geholt werden (0 für keine Beschränkung)."
+             EditorParameter="0;100" />
 
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme"
              Description="Schaltet die automatische Bestätigung/Kenntnisnahme von Alarmen ein." />
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme"
-             Description="Ab welchem Alter Alarme automatisch bestätigt werden." />
+             Description="Ab welchem Alter Alarme automatisch bestätigt werden."
+             EditorParameter="1;6000"/>
 
     <Setting Name="SwitchTime" DisplayText="Wartezeit" Category="Automatischer Wechsel"
-             Description="Die Zeit in Sekunden, die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät." />
+             Description="Die Zeit in Sekunden, die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät."
+             EditorParameter="5;60000"/>
     <Setting Name="SwitchAlarms" DisplayText="Automatischer Wechsel" Category="Automatischer Wechsel"
              Description="Gibt an, ob bei mehreren Alarmen die Anzeige automatisch zwischen allen Alarmen in einem definierten Abstand durchwechseln soll." />
 
