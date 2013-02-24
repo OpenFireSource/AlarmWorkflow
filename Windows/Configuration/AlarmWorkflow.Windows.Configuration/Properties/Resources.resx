@@ -194,4 +194,10 @@ Hinweise zur Behebung:
   <data name="SettingSaveError_DefaultHints" xml:space="preserve">
     <value>(Es gibt zu diesem Fehler keine gesonderten Hinweise)</value>
   </data>
+  <data name="SettingSaveError_Title" xml:space="preserve">
+    <value>Fehler beim Speichern einer Einstellung</value>
+  </data>
+  <data name="SettingSaveFinished_Title" xml:space="preserve">
+    <value>Einstellungen gespeichert</value>
+  </data>
 </root>

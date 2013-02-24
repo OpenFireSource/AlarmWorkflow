@@ -62,13 +62,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private void SaveChangesCommand_Execute(object parameter)
         {
-            // Remember settings that failed to save
             int iFailedSettings = 0;
-            // First apply the setting values from the editors back to their setting items.
+
             foreach (GroupedSectionViewModel gsvm in GetAllSections())
             {
                 SectionViewModel svm = gsvm.Section;
-                // If this section is a dummy-section, ignore it.
                 if (svm == null)
                 {
                     continue;
@@ -78,14 +76,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 {
                     foreach (SettingItemViewModel sivm in cvm.SettingItems)
                     {
-                        // Find setting
                         SettingItem item = _manager.GetSetting(sivm.SettingDescriptor.Identifier, sivm.SettingDescriptor.SettingItem.Name);
-                        // Try to apply the value
+
                         object value = null;
                         try
                         {
                             value = sivm.TypeEditor.Value;
-                            // If that succeeded, apply the value
                             item.SetValue(value);
                         }
                         catch (Exception ex)
@@ -100,18 +96,27 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                             }
 
                             string message = string.Format(Properties.Resources.SettingSaveError, sivm.DisplayText, svm.DisplayText, exMessage, exHint);
-                            MessageBox.Show(message, "Fehler beim Speichern einer Einstellung", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show(message, Properties.Resources.SettingSaveError_Title, MessageBoxButton.OK, MessageBoxImage.Error);
                             iFailedSettings++;
                         }
                     }
                 }
             }
 
-            // Second, save the settings.
             _manager.SaveSettings();
 
-            string message2 = (iFailedSettings == 0) ? Properties.Resources.SavingSettingsSuccess : Properties.Resources.SavingSettingsWithErrors;
-            MessageBox.Show(message2, "Speichern", MessageBoxButton.OK, MessageBoxImage.Information);
+            string boxMessage = null;
+            MessageBoxImage boxImage = MessageBoxImage.Information;
+            if (iFailedSettings == 0)
+            {
+                boxMessage = Properties.Resources.SavingSettingsSuccess;
+            }
+            else
+            {
+                boxMessage = Properties.Resources.SavingSettingsWithErrors;
+                boxImage = MessageBoxImage.Warning;
+            }
+            MessageBox.Show(boxMessage, Properties.Resources.SettingSaveFinished_Title, MessageBoxButton.OK, boxImage);
         }
 
         #endregion

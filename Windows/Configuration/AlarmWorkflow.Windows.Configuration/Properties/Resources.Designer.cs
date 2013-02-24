@@ -262,5 +262,23 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
                 return ResourceManager.GetString("SettingSaveError_DefaultHints", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fehler beim Speichern einer Einstellung.
+        /// </summary>
+        internal static string SettingSaveError_Title {
+            get {
+                return ResourceManager.GetString("SettingSaveError_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einstellungen gespeichert.
+        /// </summary>
+        internal static string SettingSaveFinished_Title {
+            get {
+                return ResourceManager.GetString("SettingSaveFinished_Title", resourceCulture);
+            }
+        }
     }
 }
