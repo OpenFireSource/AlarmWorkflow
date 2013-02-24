@@ -10,6 +10,7 @@ using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -89,7 +90,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                         }
                         catch (Exception ex)
                         {
-                            string message = string.Format(Properties.Resources.SettingSaveError + "\n\n{2}", sivm.DisplayText, svm.DisplayText, ex.Message);
+                            string exMessage = ex.Message;
+                            string exHint = Properties.Resources.SettingSaveError_DefaultHints;
+
+                            ValueException vex = ex as ValueException;
+                            if (vex != null)
+                            {
+                                exHint = vex.Hint;
+                            }
+
+                            string message = string.Format(Properties.Resources.SettingSaveError, sivm.DisplayText, svm.DisplayText, exMessage, exHint);
                             MessageBox.Show(message, "Fehler beim Speichern einer Einstellung", MessageBoxButton.OK, MessageBoxImage.Error);
                             iFailedSettings++;
                         }
@@ -386,7 +396,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             }
 
             // Always select the "Shared" section
-            _sections.First(s => s.Identifier == SectionNameShared).IsSelected = true;            
+            _sections.First(s => s.Identifier == SectionNameShared).IsSelected = true;
 
             // Apply sorting
             ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);

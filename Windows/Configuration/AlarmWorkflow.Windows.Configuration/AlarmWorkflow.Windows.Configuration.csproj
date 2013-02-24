@@ -113,8 +113,6 @@
       <DependentUpon>ExportConfigurationTypeEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeEditors\TypeEditorCache.cs" />
-    <Compile Include="Validation\DoubleValidationRule.cs" />
-    <Compile Include="Validation\Int32ValidationRule.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\GroupedSectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

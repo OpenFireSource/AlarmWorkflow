@@ -11,6 +11,8 @@ namespace AlarmWorkflow.Windows.ConfigurationContracts
         /// <summary>
         /// Gets/sets the value that is edited.
         /// </summary>
+        /// <exception cref="T:ValueException">Thrown when fetching the value from this editor,
+        /// and the user-entered value is not a valid value for the type this editor represents.</exception>
         object Value { get; set; }
         /// <summary>
         /// Gets the visual element that is editing the value.

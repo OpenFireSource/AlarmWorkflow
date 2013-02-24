@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Globalization;
+using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
@@ -19,8 +21,6 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public DoubleTypeEditor()
         {
             InitializeComponent();
-
-            this.DataContext = this;
         }
 
         #endregion
@@ -30,7 +30,22 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// <summary>
         /// Gets/sets the value that is edited.
         /// </summary>
-        public object Value { get; set; }
+        public object Value
+        {
+            get
+            {
+                double value = double.NaN;
+                if (!double.TryParse(txtValue.Text, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+                {
+                    throw new ValueException(Properties.Resources.NumberTypeEditorValueNotValidMessage, Properties.Resources.NumberTypeEditorValueNotValidHint, double.MinValue, double.MaxValue);
+                }
+                return value;
+            }
+            set
+            {
+                txtValue.Text = Convert.ToString(value, CultureInfo.InvariantCulture);
+            }
+        }
 
         /// <summary>
         /// Gets the visual element that is editing the value.

@@ -120,6 +120,12 @@
   <data name="AdministratorRequiredMessage" xml:space="preserve">
     <value>Sie müssen Administratorrechte besitzen, um diese Aktion auszuführen!</value>
   </data>
+  <data name="NumberTypeEditorValueNotValidHint" xml:space="preserve">
+    <value>Der Wert muss zwischen '{0}' und '{1}' liegen.</value>
+  </data>
+  <data name="NumberTypeEditorValueNotValidMessage" xml:space="preserve">
+    <value>Der Wert lag außerhalb des gültigen Wertebereichs.</value>
+  </data>
   <data name="RestartServiceMessage" xml:space="preserve">
     <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
   </data>
@@ -177,6 +183,15 @@
     <value>Möchten Sie den Wert dieser Einstellung zurücksetzen?</value>
   </data>
   <data name="SettingSaveError" xml:space="preserve">
-    <value>Ein Fehler trat beim Speichern der Einstellung '{0}' (in '{1}') auf. Wahrscheinlich ist der Wert für die Einstellung falsch, oder der Editor hat einen Fehler gemacht. Der neue Wert wurde nicht übernommen. Nachricht:</value>
+    <value>Ein Fehler trat beim Speichern der Einstellung '{0}' (in '{1}') auf. Wahrscheinlich ist der Wert für die Einstellung falsch, oder der Editor hat einen Fehler gemacht. Der neue Wert wurde nicht übernommen. Nachricht:
+
+{2}
+
+Hinweise zur Behebung:
+
+{3}</value>
+  </data>
+  <data name="SettingSaveError_DefaultHints" xml:space="preserve">
+    <value>(Es gibt zu diesem Fehler keine gesonderten Hinweise)</value>
   </data>
 </root>

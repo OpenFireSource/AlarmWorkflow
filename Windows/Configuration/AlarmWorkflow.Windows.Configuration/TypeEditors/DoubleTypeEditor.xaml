@@ -1,14 +1,5 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.DoubleTypeEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:v="clr-namespace:AlarmWorkflow.Windows.Configuration.Validation">
-    <TextBox>
-        <TextBox.Text>
-            <Binding Path="Value">
-                <Binding.ValidationRules>
-                    <v:DoubleValidationRule />
-                </Binding.ValidationRules>
-            </Binding>
-        </TextBox.Text>
-    </TextBox>
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <TextBox x:Name="txtValue" />
 </UserControl>
