@@ -13,6 +13,13 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     [ConfigurationTypeEditor(typeof(System.Double))]
     public partial class DoubleTypeEditor : UserControl, ITypeEditor
     {
+        #region Fields
+
+        private double _minValue = double.MinValue;
+        private double _maxValue = double.MaxValue;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -35,11 +42,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             get
             {
                 double value = double.NaN;
-                if (!double.TryParse(txtValue.Text, NumberStyles.Number, CultureInfo.InvariantCulture, out value))
+                if (double.TryParse(txtValue.Text, NumberStyles.Number, CultureInfo.InvariantCulture, out value)
+                    && (value >= _minValue && value <= _maxValue))
                 {
-                    throw new ValueException(Properties.Resources.NumberTypeEditorValueNotValidMessage, Properties.Resources.NumberTypeEditorValueNotValidHint, double.MinValue, double.MaxValue);
+                    return value;
                 }
-                return value;
+                throw new ValueException(Properties.Resources.NumberTypeEditorValueNotValidMessage, Properties.Resources.NumberTypeEditorValueNotValidHint, _minValue, _maxValue);
             }
             set
             {
@@ -57,6 +65,32 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
+            if (string.IsNullOrWhiteSpace(editorParameter))
+            {
+                return;
+            }
+
+            string[] tokens = editorParameter.Split(';');
+            if (tokens.Length != 2)
+            {
+                return;
+            }
+
+            double vMin = 0;
+            double vMax = 0;
+            if (!double.TryParse(tokens[0], NumberStyles.Number, CultureInfo.InvariantCulture, out vMin) ||
+                !double.TryParse(tokens[1], NumberStyles.Number, CultureInfo.InvariantCulture, out vMax))
+            {
+                return;
+            }
+
+            if (vMin > vMax)
+            {
+                return;
+            }
+
+            _minValue = vMin;
+            _maxValue = vMax;
         }
 
         #endregion

@@ -1,8 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Globalization;
+using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
-using System.Globalization;
-using System;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
@@ -13,6 +13,13 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     [ConfigurationTypeEditor(typeof(System.Int32))]
     public partial class Int32TypeEditor : UserControl, ITypeEditor
     {
+        #region Fields
+
+        private int _minValue = int.MinValue;
+        private int _maxValue = int.MaxValue;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -35,11 +42,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             get
             {
                 int value = 0;
-                if (!int.TryParse(txtValue.Text, out value))
+                if (int.TryParse(txtValue.Text, out value)
+                    && (value >= _minValue && value <= _maxValue))
                 {
-                    throw new ValueException(Properties.Resources.NumberTypeEditorValueNotValidMessage, Properties.Resources.NumberTypeEditorValueNotValidHint, int.MinValue, int.MaxValue);
+                    return value;
                 }
-                return value;
+                throw new ValueException(Properties.Resources.NumberTypeEditorValueNotValidMessage, Properties.Resources.NumberTypeEditorValueNotValidHint, _minValue, _maxValue);
             }
             set
             {
@@ -57,6 +65,32 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
+            if (string.IsNullOrWhiteSpace(editorParameter))
+            {
+                return;
+            }
+
+            string[] tokens = editorParameter.Split(';');
+            if (tokens.Length != 2)
+            {
+                return;
+            }
+
+            int vMin = 0;
+            int vMax = 0;
+            if (!int.TryParse(tokens[0], out vMin) ||
+                !int.TryParse(tokens[1], out vMax))
+            {
+                return;
+            }
+
+            if (vMin > vMax)
+            {
+                return;
+            }
+
+            _minValue = vMin;
+            _maxValue = vMax;
         }
 
         #endregion

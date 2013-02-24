@@ -7,7 +7,8 @@
              EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer, AlarmWorkflow.Windows.UIContracts"
              Description="Die Komponente, die die Alarmdarstellung übernimmt." />
     <Setting Name="ScaleFactor" DisplayText="Skalierungsfaktor" Category="Generell"
-             Description="Der Skalierungsfaktor. Werte zwischen 1 und 3 sind sinnvoll. Die Skalierung kann manuell mit dem Mausrad im UI justiert werden." />
+             Description="Der Skalierungsfaktor. Werte zwischen 1 und 3 sind sinnvoll. Die Skalierung kann manuell mit dem Mausrad im UI justiert werden."
+             EditorParameter="0.5;10"/>
     <Setting Name="AcknowledgeOperationKey" DisplayText="Taste zur Kenntnisnahme" Category="Generell"
              Editor="KeyInputTypeEditor"
              Description="Die Taste, die einen Alarm bestätigt/zur Kenntnis nimmt. Bestätigte Alarme tauchen nicht mehr in der UI auf." />

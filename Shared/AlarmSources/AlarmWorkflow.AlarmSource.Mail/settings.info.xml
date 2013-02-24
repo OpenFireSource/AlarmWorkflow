@@ -3,7 +3,7 @@
   <Identifier Name="MailAlarmSource" DisplayText="E-Mail Konto" Order="-5000" Parent="Alarmquelle">
 
     <Setting Name="ServerName" DisplayText="Servername" Description="POP3/IMAP" Category="Server" />
-    <Setting Name="Port" DisplayText="Port" Category="Server" />
+    <Setting Name="Port" DisplayText="Port" Category="Server" EditorParameter="0;65535" />
     <Setting Name="POPIMAP" DisplayText="POP / IMAP" Category="Server" Editor="DropDownTypeEditor" EditorParameter="POP;IMAP" />
     <Setting Name="SSL" DisplayText="SSL" Category="Server" />
     <Setting Name="PollInterval" DisplayText="Abfrageintervall" Category="Server" />
