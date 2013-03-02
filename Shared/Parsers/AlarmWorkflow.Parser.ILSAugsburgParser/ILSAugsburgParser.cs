@@ -105,8 +105,7 @@ namespace AlarmWorkflow.Parser.ILSAugsburgParser
             return zipCode;
         }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
-        {
-            //MI TTE I LER must be considered when using tesseract because of recognition problems.
+        {           
             if (line.Contains("MITTEILER"))
             {
                 section = CurrentSection.BMitteiler;
