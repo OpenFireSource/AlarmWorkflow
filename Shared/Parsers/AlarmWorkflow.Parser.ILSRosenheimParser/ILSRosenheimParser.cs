@@ -133,7 +133,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Picture = msg;
+                                        operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT":
                                         operation.Keywords.EmergencyKeyword = msg;

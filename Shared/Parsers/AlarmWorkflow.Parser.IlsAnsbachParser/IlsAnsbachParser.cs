@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -17,8 +17,8 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
         #region Constants
 
         private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
+            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAÃŸE", "ORT", "OBJEKT", "PLANNUMMER", 
+            "STATION", "STRAÃŸE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
             "EINSATZMITTEL", "ALARMIERT", "GEFORDERTE AUSSTATTUNG" };
 
         #endregion
@@ -218,7 +218,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             {
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
@@ -270,7 +270,7 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
                             {
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');

@@ -1,4 +1,4 @@
-using AlarmWorkflow.AlarmSource.Fax;
+﻿using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
@@ -15,7 +15,7 @@ namespace AlarmWorkflow.Parser.NoParser
         /// </summary>
         public NoParser()
         {
-            Logger.Instance.LogFormat(LogType.Warning, this, AlarmWorkflow.Parser.NoParser.Properties.Resources.UsageWarning);
+            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.UsageWarning);
         }
 
         #endregion

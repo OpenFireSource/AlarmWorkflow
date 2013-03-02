@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CF604C5B-1AFB-4F6B-A702-F0CAE308DD76}</ProjectGuid>
+    <ProjectGuid>{852CB076-1773-469D-A665-5316C4E38861}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Parser.ILSDonauIllerParser</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Parser.ILSDonauIllerParser</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Parser.ILSAugsburgParser</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Parser.ILSAugsburgParser</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -26,14 +26,14 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\Build\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.AlarmSource.Fax">
+    <Reference Include="AlarmWorkflow.AlarmSource.Fax, Version=0.8.1.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Build\AlarmWorkflow.AlarmSource.Fax.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.Shared, Version=0.8.1.0, Culture=neutral, processorArchitecture=x86">
@@ -42,10 +42,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILSDonauIllerParser.cs" />
+    <Compile Include="ILSAugsburgParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
