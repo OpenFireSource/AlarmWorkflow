@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -18,7 +17,7 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
 
         private static readonly string[] Keywords = new[] { 
              "","ALARM", "EINSATZNR.", "NAME", "STRAßE","ABSCHNITT", "ORT", "ORTSTEIL", "OBJEKT", "MELDER", 
-            "STATION", "SCHLAGW", "GEF. GERÄT" };
+            "STATION", "SCHLAGW", "GEF. GERÄTE" };
 
         #endregion
 
@@ -113,7 +112,8 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
         }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
-            if (line.Contains("MITTEILER"))
+            //MI TTE I LER must be considered when using tesseract because of recognition problems.
+            if (line.Contains("MITTEILER") || line.Contains("M I TTE I LER"))
             {
                 section = CurrentSection.BMitteiler;
                 keywordsOnly = true;
@@ -286,14 +286,18 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
                                             }
                                         }
                                         break;
+                                    case "ORTSTEIL":
+                                        operation.CustomData["Einsatzort Ortsteil"] = msg;
+                                        break;
                                     case "OBJEKT":
                                         innerSection = InnerSection.CObjekt;
                                         operation.Einsatzort.Property = msg;
                                         break;
                                     case "MELDER":
                                         int planIndex = msg.IndexOf("EINSATZPLANNR.", StringComparison.InvariantCultureIgnoreCase);
-                                        operation.CustomData["Einsatzort Melder"] = msg.Substring(0, planIndex);
-                                        operation.OperationPlan = msg.Substring(msg.Substring(planIndex).IndexOf(':'));
+                                        operation.CustomData["Einsatzort Melder"] = msg.Substring(0, planIndex).Trim();
+                                        String temp = msg.Remove(0, "EINSATZPLANNR".Length);
+                                        operation.OperationPlan = temp.Substring(temp.IndexOf(':')+1).Trim();
                                         break;
                                     case "STATION":
                                         innerSection = InnerSection.DStation;
@@ -342,16 +346,15 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
                                     last.FullName = msg.Trim();
                                 }
 
-                                else if (line.StartsWith("GEF. GERÄT", StringComparison.CurrentCultureIgnoreCase))
+                                else if (line.StartsWith("GEF. GERÄTE", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "GEF. GERÄT");
+                                    msg = GetMessageText(line, "GEF. GERÄTE");
 
                                     // Only add to requested equipment if there is some text,
                                     // otherwise the whole vehicle is the requested equipment
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
                                         last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
                                     }
                                     operation.Resources.Add(last);
                                     last = new OperationResource();

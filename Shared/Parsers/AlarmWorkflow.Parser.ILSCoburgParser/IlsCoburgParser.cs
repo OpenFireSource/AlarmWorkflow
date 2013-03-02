@@ -388,8 +388,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                     // otherwise the whole vehicle is the requested equipment
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
-                                        last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
+                                        last.RequestedEquipment.Add(msg);                                        
                                     }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);

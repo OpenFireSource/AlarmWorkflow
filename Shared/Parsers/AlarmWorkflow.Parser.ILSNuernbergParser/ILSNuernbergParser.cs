@@ -392,7 +392,6 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
                                         last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
                                     }
 
                                     // This line will end the construction of this resource. Add it to the list and go to the next.

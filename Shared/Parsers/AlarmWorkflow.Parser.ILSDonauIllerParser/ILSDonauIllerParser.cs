@@ -358,7 +358,6 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
                                         last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
                                     }
                                 }
                                 else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase))
