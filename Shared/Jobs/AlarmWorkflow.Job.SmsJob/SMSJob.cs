@@ -42,22 +42,12 @@ namespace AlarmWorkflow.Job.SmsJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            StringBuilder messageText = new StringBuilder();
-            messageText.AppendFormat("Ort: {0}, ", operation.GetDestinationLocation());
-            if (!string.IsNullOrWhiteSpace(operation.Picture))
-            {
-                messageText.AppendFormat("{0}; ", operation.Picture);
-            }
-            if (!string.IsNullOrWhiteSpace(operation.Comment))
-            {
-                messageText.AppendFormat("{0}", operation.Comment);
-            }
-
+            
             string format = SettingsManager.Instance.GetSetting("SMSJob", "MessageFormat").GetString();
             string text = operation.ToString(format);
-
+            text = text.Replace("Ö", "Oe").Replace("Ä", "Ae").Replace("Ü", "Ue").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace("ß", "ss");
             // Truncate the string if it is too long
-            text = messageText.ToString().Truncate(160, true, true);
+            text = text.Truncate(160, true, true);
 
             // Invoke the provider-send asynchronous because it is a web request and may take a while
             _provider.Send(_userName, _password, _recipients.Select(r => r.PhoneNumber), text);
