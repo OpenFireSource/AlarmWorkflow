@@ -222,7 +222,7 @@ namespace AlarmWorkflow.Shared.Engine
                 Logger.Instance.LogFormat(LogType.Warning, this, "Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!", source.GetType().FullName);
                 return;
             }
-            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation ({0}) by Alarm Source ({1}). ", e.Operation, sender.GetType().Name);
+            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation: {0} by Alarm Source: {1}. ", e.Operation.ToString(), sender.GetType().Name);
             try
             {
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
