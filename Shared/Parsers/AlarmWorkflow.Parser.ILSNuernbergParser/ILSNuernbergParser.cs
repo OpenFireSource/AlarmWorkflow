@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -10,16 +9,16 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSNuernbergParser", typeof (IFaxParser))]
+    [Export("ILSNuernbergParser", typeof(IFaxParser))]
     internal sealed class ILSNuernbergParser : IFaxParser
     {
         #region Constants
 
         private static readonly string[] Keywords = new[]
             {
-                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
-                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
-                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE",
+                "ORT", "OBJEKT", "ABSCHNITT", "ZUSTÄNDIGE ILS", "ABTEILUNG", "KREUZUNG",
+                "STATION", "SCHLAGWORT", "PRIO"
             };
 
         #endregion
@@ -58,40 +57,6 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
             }
             keyword = null;
             return false;
-        }
-
-        /// <summary>
-        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="prefix">The prefix that is to be removed (optional).</param>
-        /// <returns></returns>
-        private string GetMessageText(string line, string prefix)
-        {
-            if (prefix == null)
-            {
-                prefix = "";
-            }
-
-            if (prefix.Length > 0)
-            {
-                line = line.Remove(0, prefix.Length).Trim();
-            }
-            else
-            {
-                int colonIndex = line.IndexOf(':');
-                if (colonIndex != -1)
-                {
-                    line = line.Remove(0, colonIndex + 1);
-                }
-            }
-
-            if (line.StartsWith(":"))
-            {
-                line = line.Remove(0, 1).Trim();
-            }
-
-            return line;
         }
 
         /// <summary>
@@ -143,15 +108,16 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
             if (line.Contains("EINSATZMITTEL"))
             {
                 section = CurrentSection.FEinsatzmittel;
-                keywordsOnly = true;
+                keywordsOnly = false;
                 return true;
             }
-            if (line.Contains("BEMERKUNG"))
+            if (line.Contains("BEMERKUNG") || line.Contains("OBJEKTINFO"))
             {
                 section = CurrentSection.GBemerkung;
                 keywordsOnly = false;
                 return true;
             }
+
             if (line.Contains("ENDE FAX"))
             {
                 section = CurrentSection.HFooter;
@@ -168,7 +134,6 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
         Operation IFaxParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
-            OperationResource last = new OperationResource();
 
             lines = Utilities.Trim(lines);
 
@@ -228,7 +193,11 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                 switch (prefix)
                                 {
                                     case "ABSENDER":
-                                        operation.CustomData["Absender"] = msg;
+                                        operation.CustomData["Absender"] = msg.Substring(0, msg.IndexOf("ALARMZEIT", StringComparison.InvariantCultureIgnoreCase));
+                                        String dateString = msg.Substring(msg.IndexOf("ALARMZEIT", StringComparison.InvariantCultureIgnoreCase)).Trim().Remove(0, "ALARMZEIT".Length + 1).Trim();
+                                        DateTime time = DateTime.Now;
+                                        DateTime.TryParse(dateString, out time);
+                                        operation.Timestamp = time;
                                         break;
                                     case "TERMIN":
                                         operation.CustomData["Termin"] = msg;
@@ -288,14 +257,19 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                             }
                                         }
                                         break;
-                                    case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
+                                    case "KREUZUNG":
+                                        operation.Einsatzort.Intersection = msg;
                                         break;
-                                    case "PLANNUMMER":
-                                        operation.CustomData["Einsatzort Plannummer"] = msg;
+                                    case "OBJEKT":
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "STATION":
                                         operation.CustomData["Einsatzort Station"] = msg;
+                                        break;
+                                    case "ABTEILUNG":
+                                    case "ZUSTÄNDIGE ILS":
+                                    case "ABSCHNITT":
+                                        //These fields are currently unassigned. If required this can be done.
                                         break;
                                 }
                             }
@@ -325,7 +299,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        operation.Zielort.Property = msg;
                                         break;
                                     case "STATION":
                                         operation.CustomData["Zielort Station"] = msg;
@@ -337,23 +311,9 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                             {
                                 switch (prefix)
                                 {
-                                    case "SCHLAGW.":
-                                        operation.Picture = msg;
-                                        break;
-                                    case "STICHWORT B":
-                                        operation.Keywords.B = msg;
-                                        break;
-                                    case "STICHWORT T":
-                                        operation.Keywords.T = msg;
-                                        break;
-                                    case "STICHWORT S":
-                                        operation.Keywords.S = msg;
-                                        break;
-                                    case "STICHWORT I":
-                                        operation.CustomData["Stichwort I"] = msg;
-                                        break;
-                                    case "STICHWORT R":
-                                        operation.Keywords.R = msg;
+                                    case "SCHLAGWORT":
+                                        operation.Keywords.Keyword = msg.Substring(0, msg.IndexOf("STICHWORT", StringComparison.InvariantCultureIgnoreCase));
+                                        operation.Keywords.EmergencyKeyword = msg.Substring(msg.IndexOf("STICHWORT", StringComparison.InvariantCultureIgnoreCase)).Trim().Remove(0, "STICHWORT".Length + 1).Trim();
                                         break;
                                     case "PRIO.":
                                         operation.Priority = msg;
@@ -365,41 +325,13 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                             {
                                 if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "NAME");
-                                    last.FullName = msg.Trim();
+                                    //Thats the line "Name : Alarmiert : Aus : AN". Should be ignored.
                                 }
-                                else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
+                                else
                                 {
-                                    msg = GetMessageText(line, "Alarmiert");
-
-                                    // In case that parsing the time failed, we just assume that the resource got requested right away.
-                                    DateTime dt;
-                                    // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
-                                    if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
-                                    {
-                                        // If this is NOT the case and it was parsed correctly, try it here
-                                        DateTime.TryParseExact(msg, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
-                                    }
-
-                                    last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
+                                    operation.Resources.Add(new OperationResource { FullName = msg });
                                 }
-                                else if (line.StartsWith("AUSSTATTUNG", StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    msg = GetMessageText(line, "Ausstattung");
-
-                                    // Only add to requested equipment if there is some text,
-                                    // otherwise the whole vehicle is the requested equipment
-                                    if (!string.IsNullOrWhiteSpace(msg))
-                                    {
-                                        last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
-                                    }
-
-                                    // This line will end the construction of this resource. Add it to the list and go to the next.
-                                    operation.Resources.Add(last);
-
-                                    last = new OperationResource();
-                                }
+                               
                             }
                             break;
                         case CurrentSection.GBemerkung:

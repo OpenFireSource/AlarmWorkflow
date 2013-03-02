@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -65,7 +65,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                             case "EINSATZORT":
                                 operation.Einsatzort.Location = msg;
                                 break;
-                            case "STRAßE":
+                            case "STRAÃŸE":
                             case "STRABE":
                                 operation.Einsatzort.Street = msg;
                                 break;
@@ -119,7 +119,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -133,7 +133,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -147,7 +147,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -161,7 +161,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -175,7 +175,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -189,7 +189,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -197,17 +197,17 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                     }
 
-                    int x8 = line.IndexOf("ering A-ÖSA");
+                    int x8 = line.IndexOf("ering A-Ã–SA");
                     if (x8 != -1)
                     {
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
-                        operation.Resources.AddEquipment("ÖSA", geraet);
+                        operation.Resources.AddEquipment("Ã–SA", geraet);
 
                     }
 
@@ -217,7 +217,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -231,7 +231,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
 
@@ -245,7 +245,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                         int anfang = line.IndexOf('(');
 
-                        string geraet = line.Substring(anfang + 1);       // Einführen einer Hilfsvariable "geraet"
+                        string geraet = line.Substring(anfang + 1);       // EinfÃ¼hren einer Hilfsvariable "geraet"
                         geraet = geraet.Substring(0, geraet.Length - 2);  // schneidet  ')' ab
                         geraet = geraet.Trim();                                 // entfernt  ggf. vorhandene Leerzeichen am Anfang und Ende
                         
@@ -253,7 +253,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                     }
 
-                    //Auswerten zusätzlich alarmierter Nachbarfeuerwehren
+                    //Auswerten zusÃ¤tzlich alarmierter Nachbarfeuerwehren
                     //int x12 = line.IndexOf("FF Unterpf");
                     //if (x12 != -1)
                     //{
@@ -322,7 +322,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                     //    Other_FD_Eic = true;
                     //}
 
-                    //// TODO: ist noch mit der ILS FFB zu klären ob auf dem Fax die Alarmzeit wieder kommt. Daher aktuell Alarzeit noch mit Faxeingang gleich
+                    //// TODO: ist noch mit der ILS FFB zu klÃ¤ren ob auf dem Fax die Alarmzeit wieder kommt. Daher aktuell Alarzeit noch mit Faxeingang gleich
 
                     //// Anzeige des Zeitpunkts des Alarmeingangs
                     //if (Alarmtime == false)
@@ -340,7 +340,7 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         Faxtime = true;
                     }
 
-                    // Fahrzeug füllen wenn leer
+                    // Fahrzeug fÃ¼llen wenn leer
                     //if (ReplVehicle == false)
                     //{
                     //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"] + " ";
@@ -349,24 +349,24 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
 
                     // Nur zu verwendne wenn auch in der Fahrzeuge ersetzt werden soll
 
-                    //if (operation.CustomData["Vehicles"].Contains("ß") == true)
+                    //if (operation.CustomData["Vehicles"].Contains("ÃŸ") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ß", "ss");
+                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ÃŸ", "ss");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ä") == true)
+                    //if (operation.CustomData["Vehicles"].Contains("Ã¤") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ä", "ae");
+                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("Ã¤", "ae");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ö") == true)
+                    //if (operation.CustomData["Vehicles"].Contains("Ã¶") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ö", "oe");
+                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("Ã¶", "oe");
                     //}
 
-                    //if (operation.CustomData["Vehicles"].Contains("ü") == true)
+                    //if (operation.CustomData["Vehicles"].Contains("Ã¼") == true)
                     //{
-                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("ü", "ue");
+                    //    operation.CustomData["Vehicles"] = operation.CustomData["Vehicles"].Replace("Ã¼", "ue");
                     //}
 
                     // Sonderzeichenersetzung im Meldebild
@@ -377,24 +377,24 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         ReplPicture = true;
                     }
 
-                    if (operation.Picture.Contains("ß") == true)
+                    if (operation.Picture.Contains("ÃŸ") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ß", "ss");
+                        operation.Picture = operation.Picture.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Picture.Contains("ä") == true)
+                    if (operation.Picture.Contains("Ã¤") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ä", "ae");
+                        operation.Picture = operation.Picture.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Picture.Contains("ö") == true)
+                    if (operation.Picture.Contains("Ã¶") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ö", "oe");
+                        operation.Picture = operation.Picture.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Picture.Contains("ü") == true)
+                    if (operation.Picture.Contains("Ã¼") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ü", "ue");
+                        operation.Picture = operation.Picture.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung im Ort
@@ -405,24 +405,24 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         ReplCity = true;
                     }
 
-                    if (operation.Einsatzort.City.Contains("ß") == true)
+                    if (operation.Einsatzort.City.Contains("ÃŸ") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ß", "ss");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ä") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¤") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ä", "ae");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ö") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¶") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ö", "oe");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ü") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¼") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ü", "ue");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung in der Strasse
@@ -433,24 +433,24 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         ReplStreet = true;
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ß") == true)
+                    if (operation.Einsatzort.Street.Contains("ÃŸ") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ß", "ss");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ä") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¤") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ä", "ae");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ö") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¶") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ö", "oe");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ü") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¼") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ü", "ue");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung im Hinweis
@@ -461,31 +461,31 @@ namespace AlarmWorkflow.Parser.ILSFFBGermeringParser
                         ReplComment = true;
                     }
 
-                    //Prüfen ob noch notwendig TODO!!!
+                    //PrÃ¼fen ob noch notwendig TODO!!!
                     //if (operation.Comment.Contains("EINSATZMITTEL") == true)
                     //{
                     //    operation.Comment = operation.Comment.Replace("EINSATZMITTEL:", " ");
                     //}
 
 
-                    if (operation.Comment.Contains("ß") == true)
+                    if (operation.Comment.Contains("ÃŸ") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ß", "ss");
+                        operation.Comment = operation.Comment.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Comment.Contains("ä") == true)
+                    if (operation.Comment.Contains("Ã¤") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ä", "ae");
+                        operation.Comment = operation.Comment.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Comment.Contains("ö") == true)
+                    if (operation.Comment.Contains("Ã¶") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ö", "oe");
+                        operation.Comment = operation.Comment.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Comment.Contains("ü") == true)
+                    if (operation.Comment.Contains("Ã¼") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ü", "ue");
+                        operation.Comment = operation.Comment.Replace("Ã¼", "ue");
                     }
 
 

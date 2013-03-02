@@ -1,6 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+Ôªøusing System;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -15,18 +13,145 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
     sealed class ILSAllgaeuParser : IFaxParser
     {
 
-        #region Constructors
+        #region Constants
 
-        /// <summary>
-        /// Initializes a new instance of the ILSAllgaeuParser class.
-        /// </summary>
-        /// <param name="logger">The logger object.</param>
-        /// <param name="replaceList">The RreplaceList object.</param>
-        public ILSAllgaeuParser()
+        private static readonly string[] Keywords = new[] { 
+             "","ALARM", "EINSATZNR.", "NAME", "STRA√üE","ABSCHNITT", "ORT", "ORTSTEIL", "OBJEKT", "MELDER", 
+            "STATION", "SCHLAGW", "GEF. GER√ÑTE" };
+
+        #endregion
+
+        #region Methods
+
+        private DateTime ReadFaxTimestamp(string line, DateTime fallback)
         {
+            DateTime date = fallback;
+            TimeSpan timestamp = date.TimeOfDay;
 
+            Match dt = Regex.Match(line, @"(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d");
+            Match ts = Regex.Match(line, @"([01]?[0-9]|2[0-3]):[0-5][0-9]");
+            if (dt.Success)
+            {
+                DateTime.TryParse(dt.Value, out date);
+            }
+            if (ts.Success)
+            {
+                TimeSpan.TryParse(ts.Value, out timestamp);
+            }
+
+            return new DateTime(date.Year, date.Month, date.Day, timestamp.Hours, timestamp.Minutes, timestamp.Seconds, timestamp.Milliseconds, DateTimeKind.Local);
         }
 
+        private bool StartsWithKeyword(string line, out string keyword)
+        {
+            line = line.ToUpperInvariant();
+            foreach (string kwd in Keywords)
+            {
+                if (line.StartsWith(kwd))
+                {
+                    keyword = kwd;
+                    return true;
+                }
+            }
+            keyword = null;
+            return false;
+        }
+
+        /// <summary>
+        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="prefix">The prefix that is to be removed (optional).</param>
+        /// <returns></returns>
+        private string GetMessageText(string line, string prefix)
+        {
+            if (prefix == null)
+            {
+                prefix = "";
+            }
+
+            if (prefix.Length > 0)
+            {
+                line = line.Remove(0, prefix.Length).Trim();
+            }
+            else
+            {
+                int colonIndex = line.IndexOf(':');
+                if (colonIndex != -1)
+                {
+                    line = line.Remove(0, colonIndex + 1);
+                }
+            }
+
+            if (line.StartsWith(":"))
+            {
+                line = line.Remove(0, 1).Trim();
+            }
+
+            return line;
+        }
+
+        /// <summary>
+        /// Attempts to read the zip code from the city, if available.
+        /// </summary>
+        /// <param name="cityText"></param>
+        /// <returns>The zip code of the city. -or- null, if there was no.</returns>
+        private string ReadZipCodeFromCity(string cityText)
+        {
+            string zipCode = "";
+            foreach (char c in cityText)
+            {
+                if (char.IsNumber(c))
+                {
+                    zipCode += c;
+                    continue;
+                }
+                break;
+            }
+            return zipCode;
+        }
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
+        {
+            //MI TTE I LER must be considered when using tesseract because of recognition problems.
+            if (line.Contains("MITTEILER") || line.Contains("M I TTE I LER"))
+            {
+                section = CurrentSection.BMitteiler;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZORT"))
+            {
+                section = CurrentSection.CEinsatzort;
+                //Is not true but only works that way
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZGRUND"))
+            {
+                section = CurrentSection.EEinsatzgrund;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZMITTEL"))
+            {
+                section = CurrentSection.FEinsatzmittel;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("BEMERKUNG"))
+            {
+                section = CurrentSection.GBemerkung;
+                keywordsOnly = false;
+                return true;
+            }
+            if (line.Contains("ENDE FAX"))
+            {
+                section = CurrentSection.HFooter;
+                keywordsOnly = false;
+                return true;
+            }
+            return false;
+        }
         #endregion
 
         #region IFaxParser Members
@@ -39,279 +164,213 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
             lines = Utilities.Trim(lines);
 
             CurrentSection section = CurrentSection.AHeader;
+            bool keywordsOnly = true;
 
+            InnerSection innerSection = InnerSection.AStra√üe;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
                 {
-
-                //Definition der bool Variablen
-                //bool nextIsOrt = false;
-                bool ReplStreet = false;
-                bool ReplCity = false;
-                bool ReplComment = false;
-                bool ReplPicture = false;
-                bool Faxtime = false;
-                bool nextIsOrt = false;
-                bool getAlarmTime = false;
-
-                foreach (string linex in lines)
-                {
-
-                    string msgx;
-                    string prefix;
-                    int x = linex.IndexOf(':');
-                    if (x != -1)
-                    {
-                        prefix = linex.Substring(0, x);
-                        msgx = linex.Substring(x + 1).Trim();
-
-                        prefix = prefix.Trim().ToUpperInvariant();
-                        switch (prefix)
-                        {
-
-                            //F¸llen der Standardinformatione Alarmfax Cases mit  ":"
-                            case "EINSATZORT":
-                                operation.Einsatzort.Location = msgx;
-                                break;
-                            case "STRAﬂE":
-                            case "STRABE":
-                                operation.Einsatzort.Street = msgx;
-                                break;                          
-                            case "EINSATZPLAN":
-                                operation.OperationPlan = msgx;
-                                break;
-                        }
-                    }
-                }
-
                     string line = lines[i];
                     if (line.Length == 0)
                     {
                         continue;
                     }
 
-                    // Einlesen mehrzeilige Bemerkung
-                    switch (line.Trim())
-                    {
+                    // Try to parse the header and extract date and time if possible
+                    operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                        case "BEMERKUNG / INFO": { section = CurrentSection.GBemerkung; continue; }
-                        case "EINSATZMITTEL": { section = CurrentSection.HFooter; continue; }
-                        default: break;
+
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
+                    {
+                        continue;
                     }
 
                     string msg = line;
+                    string prefix = "";
 
-                    // Bemerkung Section
+                    // Make the keyword check - or not (depends on the section we are in; see above)
+                    if (keywordsOnly)
+                    {
+                        string keyword;
+                        if (!StartsWithKeyword(line, out keyword))
+                        {
+                            continue;
+                        }
+
+                        int x = line.IndexOf(':');
+                        if (x == -1)
+                        {
+                            // If there is no colon found (may happen occasionally) then simply remove the length of the keyword from the beginning
+                            prefix = keyword;
+                            msg = line.Remove(0, prefix.Length).Trim();
+                        }
+                        else
+                        {
+                            prefix = line.Substring(0, x);
+                            msg = line.Substring(x + 1).Trim();
+                        }
+
+                        prefix = prefix.Trim().ToUpperInvariant();
+                    }
+
+                    // Parse each section
                     switch (section)
                     {
+                        case CurrentSection.AHeader:
+                            {
+                                switch (prefix)
+                                {
+                                    case "ALARM":
+                                        operation.Timestamp = ReadFaxTimestamp(msg, DateTime.Now);
+                                        break;
+                                    case "EINSATZNR.":
+                                        operation.OperationNumber = msg;
+                                        break;
 
+                                }
+                            }
+                            break;
+                        case CurrentSection.BMitteiler:
+                            {
+                                // This switch would not be necessary in this section (there is only "Name")...
+                                switch (prefix)
+                                {
+                                    case "NAME":
+                                        operation.Messenger = msg;
+                                        break;
+                                }
+                            }
+                            break;
+                        case CurrentSection.CEinsatzort:
+                            {
+
+                                switch (prefix)
+                                {
+                                    case "STRA√üE":
+                                        {
+                                            innerSection = InnerSection.AStra√üe;
+                                            // The street here is mangled together with the street number. Dissect them...
+                                            int streetNumberColonIndex = msg.LastIndexOf(':');
+                                            if (streetNumberColonIndex != -1)
+                                            {
+                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
+                                                string streetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
+                                                operation.Einsatzort.StreetNumber = streetNumber;
+                                            }
+
+                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-", StringComparison.Ordinal)).Trim();
+                                        }
+                                        break;
+                                    case "ABSCHNITT":
+                                        operation.Einsatzort.Intersection = msg;
+                                        break;
+                                    case "ORT":
+                                        {
+                                            innerSection = InnerSection.BOrt;
+                                            operation.Einsatzort.ZipCode = ReadZipCodeFromCity(msg);
+                                            if (string.IsNullOrWhiteSpace(operation.Einsatzort.ZipCode))
+                                            {
+                                                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find a zip code for city '{0}'. Route planning may fail or yield wrong results!", operation.Einsatzort.City);
+                                            }
+
+                                            operation.Einsatzort.City = msg.Remove(0, operation.Einsatzort.ZipCode.Length).Trim();
+
+                                            // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
+                                            // However we can (at least with google maps) omit this information without problems!
+                                            int dashIndex = operation.Einsatzort.City.IndexOf('-');
+                                            if (dashIndex != -1)
+                                            {
+                                                // Ignore everything after the dash
+                                                operation.Einsatzort.City = operation.Einsatzort.City.Substring(0, dashIndex).Trim();
+                                            }
+                                        }
+                                        break;
+                                    case "ORTSTEIL":
+                                        operation.CustomData["Einsatzort Ortsteil"] = msg;
+                                        break;
+                                    case "OBJEKT":
+                                        innerSection = InnerSection.CObjekt;
+                                        operation.Einsatzort.Property = msg;
+                                        break;
+                                    case "MELDER":
+                                        int planIndex = msg.IndexOf("EINSATZPLANNR.", StringComparison.InvariantCultureIgnoreCase);
+                                        operation.CustomData["Einsatzort Melder"] = msg.Substring(0, planIndex).Trim();
+                                        String temp = msg.Remove(0, "EINSATZPLANNR".Length);
+                                        operation.OperationPlan = temp.Substring(temp.IndexOf(':')+1).Trim();
+                                        break;
+                                    case "STATION":
+                                        innerSection = InnerSection.DStation;
+                                        operation.CustomData["Einsatzort Station"] = msg;
+                                        break;
+                                    default:
+                                        switch (innerSection)
+                                        {
+                                            case InnerSection.AStra√üe:
+                                                //Quite dirty because of Streetnumber. Looking for better solution
+                                                operation.Einsatzort.Street += msg;
+                                                break;
+                                            case InnerSection.BOrt:
+                                                operation.Einsatzort.City += msg;
+                                                break;
+                                            case InnerSection.CObjekt:
+                                                operation.Einsatzort.Property += msg;
+                                                break;
+                                            case InnerSection.DStation:
+                                                operation.CustomData["Einsatzort Station"] += msg;
+                                                break;
+                                        }
+                                        break;
+                                }
+                            }
+                            break;
+                        case CurrentSection.EEinsatzgrund:
+                            {
+                                switch (prefix)
+                                {
+                                    case "SCHLAGW.":
+                                        operation.Keywords.Keyword = msg;
+                                        break;
+                                    case "STICHWORT":
+                                        operation.Keywords.EmergencyKeyword = msg;
+                                        break;
+
+                                }
+                            }
+                            break;
+                        case CurrentSection.FEinsatzmittel:
+                            {
+                                if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    msg = GetMessageText(line, "NAME");
+                                    last.FullName = msg.Trim();
+                                }
+
+                                else if (line.StartsWith("GEF. GER√ÑTE", StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    msg = GetMessageText(line, "GEF. GER√ÑTE");
+
+                                    // Only add to requested equipment if there is some text,
+                                    // otherwise the whole vehicle is the requested equipment
+                                    if (!string.IsNullOrWhiteSpace(msg))
+                                    {
+                                        last.RequestedEquipment.Add(msg);
+                                    }
+                                    operation.Resources.Add(last);
+                                    last = new OperationResource();
+                                }
+                            }
+                            break;
                         case CurrentSection.GBemerkung:
                             {
                                 // Append with newline at the end in case that the message spans more than one line
                                 operation.Comment = operation.Comment += msg + "\n";
-                                operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
                             }
                             break;
                         case CurrentSection.HFooter:
                             // The footer can be ignored completely.
                             break;
-                        default:
-                            break;
                     }
-
-                    //Auslesen der Alarmierungszeit
-                    //int x0 = line.IndexOf("WM FF");
-                    //    if (x0 != -1)
-                    //TODO INFO ILS Ausstehend
-                    if ((line.Contains("Alarm")) && (getAlarmTime == false))
-                        {
-
-                            int anfang = line.IndexOf(':');
-
-                            string altime = line.Substring(anfang + 6);
-                            altime = altime.Substring(0, altime.Length - 3);
-                            altime = altime.Trim();
-                            operation.CustomData["Alarmtime"] = "Alarmzeit: " + altime;
-                            getAlarmTime = true;
-
-                        }                    
-
-                    // Auslesen des Zeitpunkts des Faxeingangs
-                    if (Faxtime == false)
-                    {
-                        DateTime uhrzeit = DateTime.Now;
-                        operation.CustomData["Faxtime"] = "Faxeingang: " + uhrzeit.ToString("HH:mm:ss ");
-                        Faxtime = true;
-                    }
-
-                    // Weitere Standardinfos auslesen, ohne ":"
-                    if (line.StartsWith("Einsatznummer"))
-                    {
-                        operation.OperationNumber = line.Substring(14);
-                    }
-
-                    if (line.StartsWith("Objekt"))
-                    {
-                        operation.Einsatzort.Property = line.Substring(7);
-                        operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
-                    }
-
-                    if (line.StartsWith("Name"))
-                    {
-                        operation.Messenger = operation.Messenger + line.Substring(5);
-                        operation.Messenger = operation.Messenger.Trim();
-                    }
-
-                    operation.Messenger = operation.Messenger + " ";
-                    
-                    //Perhaps not needed TODO Check
-                    if (operation.Messenger.Contains("Ausger¸ckt") == true)
-                    {
-                        operation.Messenger = operation.Messenger.Replace(": Alarmiert : Ausger¸ckt", "");
-                        operation.Messenger = operation.Messenger.Trim();
-                    }
-
-                    if (line.StartsWith("Schlagw."))
-                    {
-                        operation.Picture = operation.Picture + line.Substring(14);
-                        operation.Picture = operation.Picture.Trim();
-                    }
-
-                    if (line.StartsWith("Stichwort"))
-                    {
-                        operation.Keywords.EmergencyKeyword = operation.Keywords.EmergencyKeyword + line.Substring(11);
-                        operation.Keywords.EmergencyKeyword = operation.Keywords.EmergencyKeyword.Trim();
-                    }                   
-
-                    //Ort Einlesen
-                    if ((line.StartsWith("Ort")) && (nextIsOrt == false))
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City + line.Substring(4);
-                        operation.Einsatzort.City = operation.Einsatzort.City.Trim();
-                        nextIsOrt = true;
-                    }
-
-                    // Sonderzeichenersetzung im Meldebild
-
-                    if (ReplPicture == false)
-                    {
-                        operation.Picture = operation.Picture + " ";
-                        ReplPicture = true;
-                    }
-
-                    if (operation.Picture.Contains("ﬂ") == true)
-                    {
-                        operation.Picture = operation.Picture.Replace("ﬂ", "ss");
-                    }
-
-                    if (operation.Picture.Contains("‰") == true)
-                    {
-                        operation.Picture = operation.Picture.Replace("‰", "ae");
-                    }
-
-                    if (operation.Picture.Contains("ˆ") == true)
-                    {
-                        operation.Picture = operation.Picture.Replace("ˆ", "oe");
-                    }
-
-                    if (operation.Picture.Contains("¸") == true)
-                    {
-                        operation.Picture = operation.Picture.Replace("¸", "ue");
-                    }
-
-                    // Sonderzeichenersetzung im Ort
-
-                    if (ReplCity == false)
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City + " ";
-                        ReplCity = true;
-                    }
-
-                    if (operation.Einsatzort.City.Contains("ﬂ") == true)
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ﬂ", "ss");
-                    }
-
-                    if (operation.Einsatzort.City.Contains("‰") == true)
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("‰", "ae");
-                    }
-
-                    if (operation.Einsatzort.City.Contains("ˆ") == true)
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ˆ", "oe");
-                    }
-
-                    if (operation.Einsatzort.City.Contains("¸") == true)
-                    {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("¸", "ue");
-                    }
-
-                    // Sonderzeichenersetzung in der Strasse
-
-                    if (ReplStreet == false)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street + " ";
-                        ReplStreet = true;
-                    }
-
-                    if (operation.Einsatzort.Street.Contains("Haus-Nr.:") == true)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Haus-Nr.:", "");
-                    }
-
-                    if (operation.Einsatzort.Street.Contains("ﬂ") == true)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ﬂ", "ss");
-                    }
-
-                    if (operation.Einsatzort.Street.Contains("‰") == true)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("‰", "ae");
-                    }
-
-                    if (operation.Einsatzort.Street.Contains("ˆ") == true)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ˆ", "oe");
-                    }
-
-                    if (operation.Einsatzort.Street.Contains("¸") == true)
-                    {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("¸", "ue");
-                    }
-
-                    // Sonderzeichenersetzung im Hinweis
-
-                    if (ReplComment == false)
-                    {
-                        operation.Comment = operation.Comment + " ";
-                        ReplComment = true;
-                    }
-
-                    if (operation.Comment.Contains("ﬂ") == true)
-                    {
-                        operation.Comment = operation.Comment.Replace("ﬂ", "ss");
-                    }
-
-                    if (operation.Comment.Contains("‰") == true)
-                    {
-                        operation.Comment = operation.Comment.Replace("‰", "ae");
-                    }
-
-                    if (operation.Comment.Contains("ˆ") == true)
-                    {
-                        operation.Comment = operation.Comment.Replace("ˆ", "oe");
-                    }
-
-                    if (operation.Comment.Contains("¸") == true)
-                    {
-                        operation.Comment = operation.Comment.Replace("¸", "ue");
-                    }
-
-                    
-
-
                 }
                 catch (Exception ex)
                 {
@@ -324,12 +383,9 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
             {
                 operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
             }
-
             return operation;
         }
 
-
-        
         #endregion
 
         #region Nested types
@@ -337,14 +393,25 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
         private enum CurrentSection
         {
             AHeader,
+            BMitteiler,
+            CEinsatzort,
+            EEinsatzgrund,
+            FEinsatzmittel,
             GBemerkung,
             /// <summary>
-            /// Footer text. Can be ignored completely.
+            /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
             HFooter,
         }
-
+        private enum InnerSection
+        {
+            AStra√üe,
+            BOrt,
+            CObjekt,
+            DStation,
+        }
         #endregion
+
 
     }
 }
