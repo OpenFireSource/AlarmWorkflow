@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSNue
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.NoParser", "Parsers\AlarmWorkflow.Parser.NoParser\AlarmWorkflow.Parser.NoParser.csproj", "{4AE46890-6E9E-411D-B3BB-4FE75410C06E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Parser.ILSAugsburgParser", "Parsers\AlarmWorkflow.Parser.ILSAugsburgParser\AlarmWorkflow.Parser.ILSAugsburgParser.csproj", "{852CB076-1773-469D-A665-5316C4E38861}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,10 @@ Global
 		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AE46890-6E9E-411D-B3BB-4FE75410C06E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{852CB076-1773-469D-A665-5316C4E38861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{852CB076-1773-469D-A665-5316C4E38861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{852CB076-1773-469D-A665-5316C4E38861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{852CB076-1773-469D-A665-5316C4E38861}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
