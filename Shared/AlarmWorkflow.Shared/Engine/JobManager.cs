@@ -89,6 +89,7 @@ namespace AlarmWorkflow.Shared.Engine
         {
             if (job.IsAsync)
             {
+                Logger.Instance.LogFormat(LogType.Info, this, "Executing asnyc job {0}.", job.GetType().Name);
                 ThreadPool.QueueUserWorkItem(o =>
                 {
                     RunJobCore(context, operation, job);
@@ -96,6 +97,7 @@ namespace AlarmWorkflow.Shared.Engine
             }
             else
             {
+                Logger.Instance.LogFormat(LogType.Info, this, "Executing asnyc job {0}." , job.GetType().Name);
                 RunJobCore(context, operation, job);
             }
         }
