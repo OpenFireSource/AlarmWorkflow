@@ -237,10 +237,11 @@ namespace AlarmWorkflow.Shared.Engine
                 {
                     return;
                 }
-                Logger.Instance.LogFormat(LogType.Info, this,"Stored operation.");
+                Logger.Instance.LogFormat(LogType.Info, this,"Stored operation (ID: "+storedOperation.Id+").");
                 IJobContext context = JobContext.FromEventArgs(sender, e);
 
                 _jobManager.ExecuteJobs(context, storedOperation);
+                Logger.Instance.LogFormat(LogType.Info, this, "Finished handling operation (ID: " + storedOperation.Id + ").");
             }
             catch (Exception ex)
             {
