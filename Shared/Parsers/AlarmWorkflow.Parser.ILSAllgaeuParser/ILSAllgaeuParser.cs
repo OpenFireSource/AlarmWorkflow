@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -16,8 +16,8 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
         #region Constants
 
         private static readonly string[] Keywords = new[] { 
-             "","ALARM", "EINSATZNR.", "NAME", "STRAßE","ABSCHNITT", "ORT", "ORTSTEIL", "OBJEKT", "MELDER", 
-            "STATION", "SCHLAGW", "GEF. GERÄTE" };
+             "","ALARM", "EINSATZNR.", "NAME", "STRAÃŸE","ABSCHNITT", "ORT", "ORTSTEIL", "OBJEKT", "MELDER", 
+            "STATION", "SCHLAGW", "GEF. GERÃ„TE" };
 
         #endregion
 
@@ -166,7 +166,7 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
             CurrentSection section = CurrentSection.AHeader;
             bool keywordsOnly = true;
 
-            InnerSection innerSection = InnerSection.AStraße;
+            InnerSection innerSection = InnerSection.AStraÃŸe;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -247,9 +247,9 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
 
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
-                                            innerSection = InnerSection.AStraße;
+                                            innerSection = InnerSection.AStraÃŸe;
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
                                             if (streetNumberColonIndex != -1)
@@ -306,7 +306,7 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
                                     default:
                                         switch (innerSection)
                                         {
-                                            case InnerSection.AStraße:
+                                            case InnerSection.AStraÃŸe:
                                                 //Quite dirty because of Streetnumber. Looking for better solution
                                                 operation.Einsatzort.Street += msg;
                                                 break;
@@ -346,9 +346,9 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
                                     last.FullName = msg.Trim();
                                 }
 
-                                else if (line.StartsWith("GEF. GERÄTE", StringComparison.CurrentCultureIgnoreCase))
+                                else if (line.StartsWith("GEF. GERÃ„TE", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "GEF. GERÄTE");
+                                    msg = GetMessageText(line, "GEF. GERÃ„TE");
 
                                     // Only add to requested equipment if there is some text,
                                     // otherwise the whole vehicle is the requested equipment
@@ -405,7 +405,7 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
         }
         private enum InnerSection
         {
-            AStraße,
+            AStraÃŸe,
             BOrt,
             CObjekt,
             DStation,

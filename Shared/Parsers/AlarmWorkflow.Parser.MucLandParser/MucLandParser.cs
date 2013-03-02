@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -57,7 +57,7 @@ namespace AlarmWorkflow.Parser.MucLandParser
                         case "EINSATZORT":
                             operation.Einsatzort.Location = msg;
                             break;
-                        case "STRA�E":
+                        case "STRAßE":
                         case "STRABE":
                             operation.Einsatzort.Street = msg;
                             break;

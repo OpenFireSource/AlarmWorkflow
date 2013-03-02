@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
@@ -17,8 +17,8 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
 
         private static readonly string[] Keywords = new[]
             {
-                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
-                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
+                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAÃŸE", "ORT", "OBJEKT", "PLANNUMMER",
+                "STATION", "STRAÃŸE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
                 "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
             };
 
@@ -257,7 +257,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                             {
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
@@ -307,7 +307,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                             {
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');

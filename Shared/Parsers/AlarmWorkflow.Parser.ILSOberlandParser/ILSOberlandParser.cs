@@ -1,4 +1,4 @@
-using System;
+Ôªøusing System;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { "","EINSATZNUMMER", "ABSENDER", "NAME", "STRAﬂE", "ORT", "OBJEKT", "KREUZUNG", "STICHWORT", "SCHLAGW" };
+        private static readonly string[] Keywords = new[] { "","EINSATZNUMMER", "ABSENDER", "NAME", "STRA√üE", "ORT", "OBJEKT", "KREUZUNG", "STICHWORT", "SCHLAGW" };
 
         #endregion
 
@@ -158,7 +158,7 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
             CurrentSection section = CurrentSection.AHeader;
             bool keywordsOnly = true;
 
-            InnerSection innerSection = InnerSection.AStraﬂe;
+            InnerSection innerSection = InnerSection.AStra√üe;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -235,9 +235,9 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
 
                                 switch (prefix)
                                 {
-                                    case "STRAﬂE":
+                                    case "STRA√üE":
                                         {
-                                            innerSection = InnerSection.AStraﬂe;
+                                            innerSection = InnerSection.AStra√üe;
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
                                             if (streetNumberColonIndex != -1)
@@ -281,7 +281,7 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
                                     default:
                                         switch (innerSection)
                                         {
-                                            case InnerSection.AStraﬂe:
+                                            case InnerSection.AStra√üe:
                                                 //Quite dirty because of Streetnumber. Looking for better solution
                                                 operation.Einsatzort.Street += msg;
                                                 break;
@@ -359,7 +359,7 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
         }
         private enum InnerSection
         {
-            AStraﬂe,
+            AStra√üe,
             BOrt,
             CObjekt,
         }
