@@ -289,7 +289,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "PLANNUMMER":
                                         operation.CustomData["Einsatzort Plannummer"] = msg;
@@ -325,7 +325,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        operation.Zielort.Property = msg;
                                         break;
                                     case "STATION":
                                         operation.CustomData["Zielort Station"] = msg;
@@ -338,7 +338,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Picture = msg;
+                                        operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
                                         operation.Keywords.B = msg;

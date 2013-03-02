@@ -7,7 +7,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.Parser.ILSTraunsteinParser
 {
     /// <summary>
-    /// Provides a parser that parses faxes from the ILS Mittelfranken.
+    /// Provides a parser that parses faxes from the ILS Traunstein.
     /// </summary>
     [Export("ILSTraunsteinParser", typeof(IFaxParser))]
     sealed class ILSTraunsteinParser : IFaxParser
@@ -20,7 +20,6 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
             "EINSATZMITTELNAME", "GEF. GERÄT" };
 
         #endregion
-       
 
         #region Methods
 
@@ -282,7 +281,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "KREUZUNG":
                                         operation.Einsatzort.Intersection = msg;
@@ -298,7 +297,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Picture = msg;
+                                        operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
                                         operation.Keywords.B = msg.Substring(0,msg.IndexOf("STICHWORT RD:",StringComparison.InvariantCultureIgnoreCase)).Trim();

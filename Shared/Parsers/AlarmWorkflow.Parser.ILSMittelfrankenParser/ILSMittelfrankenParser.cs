@@ -10,16 +10,15 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Mittelfranken.
     /// </summary>
-    [Export("ILSMittelfrankenParser", typeof (IFaxParser))]
+    [Export("ILSMittelfrankenParser", typeof(IFaxParser))]
     internal sealed class ILSMittelfrankenParser : IFaxParser
     {
         #region Constants
 
         private static readonly string[] Keywords = new[]
             {
-                "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER",
-                "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO",
-                "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG"
+               "", "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT","STATION", "SCHLAGW", 
+                "EINSATZMITTEL", "ALARMIERT", "AUS"
             };
 
         #endregion
@@ -158,6 +157,11 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                 keywordsOnly = false;
                 return true;
             }
+            if (line.Contains("- PATIENT -"))
+            {
+                section = CurrentSection.ZNull;
+                return true;
+            }
             return false;
         }
 
@@ -174,6 +178,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
 
             CurrentSection section = CurrentSection.AHeader;
             bool keywordsOnly = true;
+            InnerSection innerSection = InnerSection.AStraße;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -256,6 +261,8 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                 {
                                     case "STRAßE":
                                         {
+                                            innerSection = InnerSection.AStraße;
+
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
                                             if (streetNumberColonIndex != -1)
@@ -270,6 +277,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                         break;
                                     case "ORT":
                                         {
+                                            innerSection = InnerSection.BOrt;
                                             operation.Einsatzort.ZipCode = ReadZipCodeFromCity(msg);
                                             if (string.IsNullOrWhiteSpace(operation.Einsatzort.ZipCode))
                                             {
@@ -277,25 +285,34 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                             }
 
                                             operation.Einsatzort.City = msg.Remove(0, operation.Einsatzort.ZipCode.Length).Trim();
-
-                                            // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
-                                            // However we can (at least with google maps) omit this information without problems!
-                                            int dashIndex = operation.Einsatzort.City.IndexOf('-');
-                                            if (dashIndex != -1)
-                                            {
-                                                // Ignore everything after the dash
-                                                operation.Einsatzort.City = operation.Einsatzort.City.Substring(0, dashIndex).Trim();
-                                            }
+                                            
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
-                                        break;
-                                    case "PLANNUMMER":
-                                        operation.CustomData["Einsatzort Plannummer"] = msg;
+                                        innerSection = InnerSection.CObjekt;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "STATION":
+                                        innerSection = InnerSection.DStation;
                                         operation.CustomData["Einsatzort Station"] = msg;
+                                        break;
+                                    default:
+                                        switch (innerSection)
+                                        {
+                                            case InnerSection.AStraße:
+                                                //Quite dirty because of Streetnumber. Looking for better solution
+                                                operation.Einsatzort.Street += msg;
+                                                break;
+                                            case InnerSection.BOrt:
+                                                operation.Einsatzort.City += msg;
+                                                break;
+                                            case InnerSection.CObjekt:
+                                                operation.Einsatzort.Property += msg;
+                                                break;
+                                            case InnerSection.DStation:
+                                                operation.CustomData["Einsatzort Station"] += msg;
+                                                break;
+                                        }
                                         break;
                                 }
                             }
@@ -306,6 +323,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                 {
                                     case "STRAßE":
                                         {
+                                            innerSection = InnerSection.AStraße;
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
                                             if (streetNumberColonIndex != -1)
@@ -319,16 +337,41 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                         break;
                                     case "ORT":
                                         {
-                                            string plz = ReadZipCodeFromCity(msg);
-                                            operation.Zielort.ZipCode = plz;
-                                            operation.Zielort.City = msg.Remove(0, plz.Length).Trim();
+                                            innerSection = InnerSection.BOrt;
+                                            operation.Zielort.ZipCode = ReadZipCodeFromCity(msg);
+                                            if (string.IsNullOrWhiteSpace(operation.Zielort.ZipCode))
+                                            {
+                                                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find a zip code for city '{0}'. Route planning may fail or yield wrong results!", operation.Zielort.City);
+                                            }
+
+                                            operation.Zielort.City = msg.Remove(0, operation.Zielort.ZipCode.Length).Trim();
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        innerSection = InnerSection.CObjekt;
+                                        operation.Zielort.Property = msg;
                                         break;
                                     case "STATION":
+                                        innerSection = InnerSection.DStation;
                                         operation.CustomData["Zielort Station"] = msg;
+                                        break;
+                                    default:
+                                        switch (innerSection)
+                                        {
+                                            case InnerSection.AStraße:
+                                                //Quite dirty because of Streetnumber. Looking for better solution
+                                                operation.Zielort.Street += msg;
+                                                break;
+                                            case InnerSection.BOrt:
+                                                operation.Zielort.City += msg;
+                                                break;
+                                            case InnerSection.CObjekt:
+                                                operation.Zielort.Property += msg;
+                                                break;
+                                            case InnerSection.DStation:
+                                                operation.CustomData["Zielort Station"] += msg;
+                                                break;
+                                        }
                                         break;
                                 }
                             }
@@ -338,25 +381,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                 switch (prefix)
                                 {
                                     case "SCHLAGW.":
-                                        operation.Picture = msg;
-                                        break;
-                                    case "STICHWORT B":
-                                        operation.Keywords.B = msg;
-                                        break;
-                                    case "STICHWORT T":
-                                        operation.Keywords.T = msg;
-                                        break;
-                                    case "STICHWORT S":
-                                        operation.Keywords.S = msg;
-                                        break;
-                                    case "STICHWORT I":
-                                        operation.CustomData["Stichwort I"] = msg;
-                                        break;
-                                    case "STICHWORT R":
-                                        operation.Keywords.R = msg;
-                                        break;
-                                    case "PRIO.":
-                                        operation.Priority = msg;
+                                        operation.Keywords.Keyword = msg;
                                         break;
                                 }
                             }
@@ -383,9 +408,9 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
 
                                     last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
                                 }
-                                else if (line.StartsWith("AUSSTATTUNG", StringComparison.CurrentCultureIgnoreCase))
+                                else if (line.StartsWith("AUS", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "Ausstattung");
+                                    msg = GetMessageText(line, "AUS");
 
                                     // Only add to requested equipment if there is some text,
                                     // otherwise the whole vehicle is the requested equipment
@@ -423,6 +448,28 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             {
                 operation.Comment = operation.Comment.Substring(0, operation.Comment.Length - 1).Trim();
             }
+            if (!string.IsNullOrWhiteSpace(operation.Einsatzort.City))
+            {
+                // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
+                // However we can (at least with google maps) omit this information without problems!
+                int dashIndex = operation.Einsatzort.City.IndexOf(" - ", System.StringComparison.Ordinal);
+                if (dashIndex != -1)
+                {
+                    // Ignore everything after the dash
+                    operation.Einsatzort.City = operation.Einsatzort.City.Substring(0, dashIndex).Trim();
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(operation.Zielort.City))
+            {
+                // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
+                // However we can (at least with google maps) omit this information without problems!
+                int dashIndex = operation.Zielort.City.IndexOf(" - ", StringComparison.Ordinal);
+                if (dashIndex != -1)
+                {
+                    // Ignore everything after the dash
+                    operation.Zielort.City = operation.Zielort.City.Substring(0, dashIndex).Trim();
+                }
+            }
             return operation;
         }
 
@@ -444,8 +491,17 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             /// Footer text. Introduced by "ENDE FAX". Can be ignored completely.
             /// </summary>
             HFooter,
+            // Temporary Region
+            ZNull
+            
         }
-
+        private enum InnerSection
+        {
+            AStraße,
+            BOrt,
+            CObjekt,
+            DStation,
+        }
         #endregion
     }
 }

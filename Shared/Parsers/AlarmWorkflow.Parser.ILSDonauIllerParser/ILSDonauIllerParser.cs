@@ -16,9 +16,9 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
         #region Constants
 
         private static readonly string[] Keywords = new[] { 
-            "ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER", "NAME", "STRAßE", "ORT", "OBJEKT", "PLANNUMMER", 
-            "STATION", "STRAßE", "ORT", "OBJEKT", "STATION", "SCHLAGW", "STICHWORT", "PRIO", 
-            "EINSATZMITTEL", "ALARMIERT", "AUSSTATTUNG" };
+             "","ABSENDER", "FAX", "TERMIN", "EINSATZNUMMER","BMA MELDER", "NAME", "STRAßE", "ORT", "OBJEKT", 
+            "STATION", "SCHLAGW", "STICHWORT", "PRIO","STICHWORT B","STICHWORT T","STICHWORT S","STICHWORT R", 
+            "EINSATZMITTEL", "ALARMIERT", "GEF. GERÄT" };
 
         #endregion
 
@@ -122,12 +122,7 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
             if (line.Contains("EINSATZORT"))
             {
                 section = CurrentSection.CEinsatzort;
-                keywordsOnly = true;
-                return true;
-            }
-            if (line.Contains("ZIELORT"))
-            {
-                section = CurrentSection.DZielort;
+                //Is not true but only works that way
                 keywordsOnly = true;
                 return true;
             }
@@ -170,6 +165,8 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
 
             CurrentSection section = CurrentSection.AHeader;
             bool keywordsOnly = true;
+
+            InnerSection innerSection = InnerSection.AStraße;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -233,6 +230,10 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     case "EINSATZNUMMER":
                                         operation.OperationNumber = msg;
                                         break;
+                                    case "BMA MELDER":
+                                        operation.CustomData["BMA Melder"] = msg;
+                                        break;
+
                                 }
                             }
                             break;
@@ -249,10 +250,12 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                             break;
                         case CurrentSection.CEinsatzort:
                             {
+
                                 switch (prefix)
                                 {
                                     case "STRAßE":
                                         {
+                                            innerSection = InnerSection.AStraße;
                                             // The street here is mangled together with the street number. Dissect them...
                                             int streetNumberColonIndex = msg.LastIndexOf(':');
                                             if (streetNumberColonIndex != -1)
@@ -267,6 +270,7 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                         break;
                                     case "ORT":
                                         {
+                                            innerSection = InnerSection.BOrt;
                                             operation.Einsatzort.ZipCode = ReadZipCodeFromCity(msg);
                                             if (string.IsNullOrWhiteSpace(operation.Einsatzort.ZipCode))
                                             {
@@ -286,46 +290,30 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
-                                        break;
-                                    case "PLANNUMMER":
-                                        operation.CustomData["Einsatzort Plannummer"] = msg;
+                                        innerSection = InnerSection.CObjekt;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "STATION":
+                                       innerSection = InnerSection.DStation;
                                         operation.CustomData["Einsatzort Station"] = msg;
                                         break;
-                                }
-                            }
-                            break;
-                        case CurrentSection.DZielort:
-                            {
-                                switch (prefix)
-                                {
-                                    case "STRAßE":
+                                    default:
+                                        switch (innerSection)
                                         {
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            int streetNumberColonIndex = msg.LastIndexOf(':');
-                                            if (streetNumberColonIndex != -1)
-                                            {
-                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                                                operation.Zielort.StreetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                                            }
-
-                                            operation.Zielort.Street = msg.Substring(0, msg.IndexOf("Haus-", StringComparison.Ordinal)).Trim();
+                                            case InnerSection.AStraße:
+                                                //Quite dirty because of Streetnumber. Looking for better solution
+                                                operation.Einsatzort.Street += msg;
+                                                break;
+                                            case InnerSection.BOrt:
+                                                operation.Einsatzort.City += msg;
+                                                break;
+                                            case InnerSection.CObjekt:
+                                                operation.Einsatzort.Property += msg;
+                                                break;
+                                            case InnerSection.DStation:
+                                                operation.CustomData["Einsatzort Station"] += msg;
+                                                break;
                                         }
-                                        break;
-                                    case "ORT":
-                                        {
-                                            string plz = ReadZipCodeFromCity(msg);
-                                            operation.Zielort.ZipCode = plz;
-                                            operation.Zielort.City = msg.Remove(0, plz.Length).Trim();
-                                        }
-                                        break;
-                                    case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
-                                        break;
-                                    case "STATION":
-                                        operation.CustomData["Zielort Station"] = msg;
                                         break;
                                 }
                             }
@@ -346,15 +334,10 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     case "STICHWORT S":
                                         operation.Keywords.S = msg;
                                         break;
-                                    case "STICHWORT I":
-                                        operation.CustomData["Stichwort I"] = msg;
-                                        break;
                                     case "STICHWORT R":
                                         operation.Keywords.R = msg;
                                         break;
-                                    case "PRIO.":
-                                        operation.Priority = msg;
-                                        break;
+                                    
                                 }
                             }
                             break;
@@ -365,7 +348,20 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     msg = GetMessageText(line, "NAME");
                                     last.FullName = msg.Trim();
                                 }
-                                else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
+                                
+                                else if (line.StartsWith("GEF. GERÄT", StringComparison.CurrentCultureIgnoreCase))
+                                {
+                                    msg = GetMessageText(line, "GEF. GERÄT");
+
+                                    // Only add to requested equipment if there is some text,
+                                    // otherwise the whole vehicle is the requested equipment
+                                    if (!string.IsNullOrWhiteSpace(msg))
+                                    {
+                                        last.RequestedEquipment.Add(msg);
+                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
+                                    }
+                                }
+                                else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     msg = GetMessageText(line, "Alarmiert");
 
@@ -379,18 +375,6 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     }
 
                                     last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
-                                }
-                                else if (line.StartsWith("AUSSTATTUNG", StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    msg = GetMessageText(line, "Ausstattung");
-
-                                    // Only add to requested equipment if there is some text,
-                                    // otherwise the whole vehicle is the requested equipment
-                                    if (!string.IsNullOrWhiteSpace(msg))
-                                    {
-                                        last.RequestedEquipment.Add(msg);
-                                        Logger.Instance.LogFormat(LogType.Info, this, "Aus '" + msg + "'");
-                                    }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 
@@ -432,7 +416,6 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
             AHeader,
             BMitteiler,
             CEinsatzort,
-            DZielort,
             EEinsatzgrund,
             FEinsatzmittel,
             GBemerkung,
@@ -441,7 +424,13 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
             /// </summary>
             HFooter,
         }
-
+        private enum InnerSection
+        {
+            AStraße,
+            BOrt,
+            CObjekt,
+            DStation,
+        }
         #endregion
 
     }

@@ -10,7 +10,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSNuernbergParser", typeof (IFaxParser))]
+    [Export("ILSNuernbergParser", typeof(IFaxParser))]
     internal sealed class ILSNuernbergParser : IFaxParser
     {
         #region Constants
@@ -289,7 +289,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg.StartsWith("6") ? msg.Substring(10, msg.Length - 10) : msg;
+                                        operation.Einsatzort.Property = msg;
                                         break;
                                     case "PLANNUMMER":
                                         operation.CustomData["Einsatzort Plannummer"] = msg;
@@ -325,7 +325,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.CustomData["Zielort Objekt"] = msg;
+                                        operation.Zielort.Property = msg;
                                         break;
                                     case "STATION":
                                         operation.CustomData["Zielort Station"] = msg;
