@@ -89,6 +89,7 @@ namespace AlarmWorkflow.Shared.Engine
             {
                 try
                 {
+                    Logger.Instance.LogFormat(LogType.Info, this, "Initializing Alarmsource '{0}'.", alarmSource.GetType().Name);
                     alarmSource.Initialize();
                     alarmSource.NewAlarm += AlarmSource_NewAlarm;
 
@@ -100,6 +101,7 @@ namespace AlarmWorkflow.Shared.Engine
 
                     // Start the thread
                     _alarmSourcesThreads.Add(alarmSource, ast);
+                    Logger.Instance.LogFormat(LogType.Info, this, "Starting Alarmsource '{0}'.", alarmSource.GetType().Name);
                     ast.Start(alarmSource);
 
                     iInitializedSources++;
@@ -220,7 +222,7 @@ namespace AlarmWorkflow.Shared.Engine
                 Logger.Instance.LogFormat(LogType.Warning, this, "Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!", source.GetType().FullName);
                 return;
             }
-
+            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation: {0} by Alarm Source: {1}. ", e.Operation.ToString(), sender.GetType().Name);
             try
             {
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
@@ -235,10 +237,11 @@ namespace AlarmWorkflow.Shared.Engine
                 {
                     return;
                 }
-
+                Logger.Instance.LogFormat(LogType.Info, this, "Stored operation (ID: {0} ).",e.Operation.Id);
                 IJobContext context = JobContext.FromEventArgs(sender, e);
 
                 _jobManager.ExecuteJobs(context, storedOperation);
+                Logger.Instance.LogFormat(LogType.Info, this, "Finished handling operation (ID: {0} ).", e.Operation.Id);
             }
             catch (Exception ex)
             {
