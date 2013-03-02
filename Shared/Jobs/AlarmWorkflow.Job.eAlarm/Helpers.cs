@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Job.eAlarm
     internal static class Helpers
     {
         /// <summary>
-        ///     Returns the longitude and the latitude for a given address
+        /// Returns the longitude and the latitude for a given address
         /// </summary>
         /// <param name="address">Address to search for</param>
         /// <returns>null or dictonary</returns>
@@ -24,7 +24,7 @@ namespace AlarmWorkflow.Job.eAlarm
             WebResponse response = null;
             try
             {
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
                 response = request.GetResponse();
                 XPathDocument document = new XPathDocument(response.GetResponseStream());
@@ -60,8 +60,8 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof (Helpers), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof (Helpers), ex);
+                Logger.Instance.LogFormat(LogType.Error, typeof(Helpers), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof(Helpers), ex);
             }
             finally
             {

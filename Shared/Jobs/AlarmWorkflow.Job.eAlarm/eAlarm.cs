@@ -105,13 +105,13 @@ namespace AlarmWorkflow.Job.eAlarm
         /// <summary>
         /// Send a Google Cloud Message. Uses the GCM service and your provided api key.
         /// </summary>
-        /// <param name="apiKey"></param>
-        /// <param name="postData"></param>
-        /// <param name="postDataContentType"></param>
+        /// <param name="apiKey">Server API Key</param>
+        /// <param name="postData">JSON-formated Data</param>
+        /// <param name="result">Errorresult</param>
+        /// <param name="postDataContentType">Possible change of dataformat </param>
         /// <returns>The response string from the google servers</returns>
         private bool SendGCMNotification(string apiKey, string postData, ref HttpStatusCode result, string postDataContentType = "application/json")
         {
-
             ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
 
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
@@ -122,7 +122,7 @@ namespace AlarmWorkflow.Job.eAlarm
             request.ContentType = postDataContentType;
             request.Headers.Add(string.Format("Authorization: key={0}", apiKey));
             request.ContentLength = byteArray.Length;
-            
+
             using (Stream dataStream = request.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
