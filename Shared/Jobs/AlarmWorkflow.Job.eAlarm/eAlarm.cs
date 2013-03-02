@@ -138,19 +138,23 @@ namespace AlarmWorkflow.Job.eAlarm
                     return false;
                 }
             }
-            catch
+            catch (Exception exception)
             {
-
+                Logger.Instance.LogFormat(LogType.Error, this,"No Respone by Googleserver.");
+                Logger.Instance.LogException(this,exception);
             }
             return true;
         }
 
-
-        public static bool ValidateServerCertificate(
-            object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors)
+        /// <summary>
+        /// Returns allways true for a server certrificate validation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="certificate"></param>
+        /// <param name="chain"></param>
+        /// <param name="sslPolicyErrors"></param>
+        /// <returns></returns>
+        public static bool ValidateServerCertificate(object sender,X509Certificate certificate,X509Chain chain,SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }
