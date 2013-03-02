@@ -34,9 +34,14 @@ The AlarmWorkflow-project makes use of the following libraries:
     
     S22.Imap by smiley22
     https://github.com/smiley22/S22.Imap
-  
+    
     AvalonDock
     http://avalondock.codeplex.com/
+    
+    Some icons by Microsoft, taken from the Visual Studio Image Libraries
+    
+    Some icons taken from the Windows 7 Icon Pack
+    http://download.chip.eu/de/Windows-7-Icon-Pack_4962481.html
 
 Furthermore, AlarmWorkflow uses the following applications:
 
