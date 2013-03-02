@@ -1,6 +1,5 @@
 package com.alarmworkflow.eAlarmApp;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,13 +7,13 @@ import java.util.Map;
 import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
 import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
-import com.alarmworkflow.eAlarmApp.datastorage.ServerConnection;
-
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -37,15 +36,27 @@ public class OperationView extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.operationview);
 		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		auth = prefs.getString(RegistrationActivity.AUTH, "n/a");
+		auth = prefs.getString("auth", "n/a");
 		if (auth == "n/a") {
-			Intent intent = new Intent(this, RegistrationActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
+			register();
 		}
 		lv = (AdapterView<ListAdapter>) findViewById(R.id.operationlist);
 		initList();
+	}
+
+	public void register() {
+		if (auth == "n/a") {
+			Log.w(OperationView.class.getSimpleName(),
+					"start registration process");
+			Intent registrationIntent = new Intent(
+					"com.google.android.c2dm.intent.REGISTER");
+			// sets the app name in the intent
+			registrationIntent.putExtra("app",
+					PendingIntent.getBroadcast(this, 0, new Intent(), 0));
+			registrationIntent.putExtra("sender", "885567138585");
+			startService(registrationIntent);
+		}
+
 	}
 
 	@Override
@@ -67,7 +78,7 @@ public class OperationView extends Activity {
 		switch (item.getItemId()) {
 		case R.id.settings:
 			startActivity(new Intent(this, Settings.class));
-			return true;		
+			return true;
 		case R.id.clear:
 			DataSource.getInstance(getApplicationContext()).clearList();
 			fillList();
@@ -77,20 +88,13 @@ public class OperationView extends Activity {
 			new Thread(new Runnable() {
 				public void run() {
 					HashMap<String, String> params = new HashMap<String, String>();
-					params.put("email",
-							prefs.getString(RegistrationActivity.EMAIL, ""));
 					params.put("header", "Testnarchicht");
 					params.put("text", "Testtext");
 					params.put("long", "0");
 					params.put("lat", "0");
 					params.put("opid", "Test");
-					try {
-						ServerConnection.post(
-								"https://gymolching-portal.de/gcm/send.php",
-								params);
-					} catch (IOException e) {
-						
-					}
+					// Sending Testmessage!
+
 				}
 			}).start();
 

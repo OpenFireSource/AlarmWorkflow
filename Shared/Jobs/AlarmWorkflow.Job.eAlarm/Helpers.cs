@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Xml.XPath;
+using AlarmWorkflow.Job.eAlarm.Properties;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.eAlarm
 {
-    static class Helpers
+    internal static class Helpers
     {
         /// <summary>
-        /// Returns the longitude and the latitude for a given address
+        ///     Returns the longitude and the latitude for a given address
         /// </summary>
         /// <param name="address">Address to search for</param>
         /// <returns>null or dictonary</returns>
@@ -23,7 +24,7 @@ namespace AlarmWorkflow.Job.eAlarm
             WebResponse response = null;
             try
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
                 request.Method = "GET";
                 response = request.GetResponse();
                 XPathDocument document = new XPathDocument(response.GetResponseStream());
@@ -48,23 +49,22 @@ namespace AlarmWorkflow.Job.eAlarm
                     XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
                     while (latIterator.MoveNext())
                     {
-                        geocodes.Add(Properties.Resources.LATITUDE, latIterator.Current.Value);
+                        geocodes.Add(Resources.LATITUDE, latIterator.Current.Value);
                     }
                     XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
                     while (lngIterator.MoveNext())
                     {
-                        geocodes.Add(Properties.Resources.LONGITUDE, lngIterator.Current.Value);
+                        geocodes.Add(Resources.LONGITUDE, lngIterator.Current.Value);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof(Helpers), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof(Helpers), ex);
+                Logger.Instance.LogFormat(LogType.Error, typeof (Helpers), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof (Helpers), ex);
             }
             finally
             {
-
                 if (response != null)
                 {
                     response.Close();
@@ -76,4 +76,3 @@ namespace AlarmWorkflow.Job.eAlarm
         }
     }
 }
-

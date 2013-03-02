@@ -1,4 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <SettingsConfiguration Version="1" Identifier="eAlarm">
   <Setting Name="header" Type="System.String" IsNull="False">DemoHeader</Setting>
   <Setting Name="text" Type="System.String" IsNull="False">DemoText</Setting>
