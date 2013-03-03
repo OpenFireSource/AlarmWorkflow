@@ -13,7 +13,7 @@ Einsatzort: {Einsatzort}
 Kreuzung: {Einsatzort.Intersection}
 Objekt: {Einsatzort.Property}
 
-Einsatzplan: {operation.OperationPlan}
+Einsatzplan: {OperationPlan}
 Mitteiler: {Messenger}
 Fahrzeuge:
 {Resources}]]>
