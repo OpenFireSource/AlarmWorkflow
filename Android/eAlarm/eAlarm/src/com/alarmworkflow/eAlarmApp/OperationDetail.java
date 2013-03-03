@@ -6,6 +6,8 @@ import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
 import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ public class OperationDetail extends Activity {
 	private TextView textView;
 	private TextView timestamp;
 	private DataSource datasource;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,7 +60,9 @@ public class OperationDetail extends Activity {
 		id = datasource.getID(time);
 		setTexts();
 		initButtons();
-
+		NotificationManager manager = (NotificationManager) this
+				.getSystemService(Context.NOTIFICATION_SERVICE);
+		manager.cancel(0);		
 	}
 
 	private void initButtons() {

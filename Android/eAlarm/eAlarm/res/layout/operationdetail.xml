@@ -82,7 +82,6 @@
                 android:id="@+id/operationtext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:text="@string/not_available"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textSize="10pt" />
@@ -91,7 +90,6 @@
                 android:id="@+id/operationtimestamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:text="@string/not_available"
                 android:textSize="8pt" />
         </LinearLayout>

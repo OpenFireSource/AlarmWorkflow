@@ -67,8 +67,8 @@ public class DataSource {
 				};
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_TEXT, text);
-		values.put(MySQLiteHelper.COLUMN_LAT, longitude);
-		values.put(MySQLiteHelper.COLUMN_LONG, latitude);
+		values.put(MySQLiteHelper.COLUMN_LAT, latitude);
+		values.put(MySQLiteHelper.COLUMN_LONG, longitude);
 		values.put(MySQLiteHelper.COLUMN_HEADER, header);
 		values.put(MySQLiteHelper.COLUMN_TIMESTAMP, timestamp);
 		try {
