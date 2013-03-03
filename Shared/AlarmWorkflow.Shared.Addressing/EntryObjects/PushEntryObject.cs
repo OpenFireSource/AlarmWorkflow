@@ -14,7 +14,7 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
         /// <summary>
         /// Defines the consumers that are supported by default.
         /// </summary>
-        public static readonly string[] DefaultConsumers = { "NMA", "Prowl" };
+        public static readonly string[] DefaultConsumers = { "NMA", "Prowl", "eAlarm" };
 
         #endregion
 

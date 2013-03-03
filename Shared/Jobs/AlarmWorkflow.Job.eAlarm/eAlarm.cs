@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using AlarmWorkflow.Job.eAlarm.Properties;
@@ -17,17 +19,14 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Job.eAlarm
 { //
     /// <summary>
-    ///     Implements a Job that send notifications to the Android App eAlarm.
-    ///     Author: Florian Ritterhoff (c) 2012
+    ///     Implements a Job that send notifications to the Android App eAlarm.     
     /// </summary>
     [Export("eAlarm", typeof(IJob))]
     public class eAlarm : IJob
     {
         #region Fields
 
-        private readonly List<String> _recipients;
-        private readonly List<MailAddressEntryObject> _recipientsEntry;
-        private HttpWebRequest webRequest;
+        private readonly List<PushEntryObject> _recipients;
 
         #endregion Fields
 
@@ -38,8 +37,7 @@ namespace AlarmWorkflow.Job.eAlarm
         /// </summary>
         public eAlarm()
         {
-            _recipientsEntry = new List<MailAddressEntryObject>();
-            _recipients = new List<string>();
+            _recipients = new List<PushEntryObject>();
         }
 
         #endregion Constructor
@@ -48,18 +46,12 @@ namespace AlarmWorkflow.Job.eAlarm
 
         bool IJob.Initialize()
         {
-            //Create Webrequest
-            webRequest = (HttpWebRequest)WebRequest.Create("https://gymolching-portal.de/gcm/send.php");
-            webRequest.Method = "POST";
-            webRequest.ContentType = "application/x-www-form-urlencoded";
-
             // Get recipients
-            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
-
-            _recipientsEntry.AddRange(recipients.Select(ri => ri.Item2));
+            IEnumerable<Tuple<AddressBookEntry, PushEntryObject>> recipients = AddressBookManager.GetInstance().GetCustomObjects<PushEntryObject>("Push");
+            _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
             // Require at least one recipient for initialization to succeed
-            if (_recipientsEntry.Count == 0)
+            if (_recipients.Count == 0)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Resources.NoRecipientsMessage);
                 return false;
@@ -70,18 +62,6 @@ namespace AlarmWorkflow.Job.eAlarm
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            //Gets the mail-addresses with googlemail.com or gmail.com
-            foreach (MailAddressEntryObject recipient in _recipientsEntry)
-            {
-                if (recipient.Address.Address.EndsWith("@gmail.com") ||
-                    recipient.Address.Address.EndsWith("@googlemail.com"))
-                {
-                    _recipients.Add(recipient.Address.Address);
-                }
-            }
-            string to = String.Join(",", _recipients.ToArray());
-
-            //TODO Fetching Longitude and Latitude!
             Dictionary<String, String> geoCode =
                 Helpers.GetGeocodes(operation.Einsatzort.Location + " " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
             String longitude = "0";
@@ -93,39 +73,27 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
             String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
-            var postParameters = new Dictionary<string, string>
-                                     {
-                                         {"email", to},
-                                         {"header", header},
-                                         {"text", body},
-                                         {"long", longitude},
-                                         {"lat", latitude}
-                                     };
-            string postData = postParameters.Keys.Aggregate("",
-                                                            (current, key) =>
-                                                            current +
-                                                            (HttpUtility.UrlEncode(key) + "=" +
-                                                             HttpUtility.UrlEncode(postParameters[key]) + "&"));
-
-            byte[] data = Encoding.UTF8.GetBytes(postData);
-            webRequest.ContentLength = data.Length;
-
-            Stream requestStream = webRequest.GetRequestStream();
-            var webResponse = (HttpWebResponse)webRequest.GetResponse();
-            Stream responseStream = webResponse.GetResponseStream();
-
-            requestStream.Write(data, 0, data.Length);
-            requestStream.Close();
-
-            if (responseStream != null)
+            Dictionary<string, string> postParameters = new Dictionary<string, string>
+                {
+                    {"header", header},
+                    {"text", body},
+                    {"lat", longitude},
+                    {"long", latitude}
+                };
+            String to = _recipients.Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Aggregate("[", (current, pushEntryObject) => current + ("\"" + pushEntryObject.RecipientApiKey + "\","));
+            to = to.Substring(0, to.Length - 1) + "]";
+            string postData = postParameters.Keys.Aggregate("", (current, key) => current + ("\"" + HttpUtility.UrlEncode(key) + "\":\"" + HttpUtility.UrlEncode(postParameters[key], Encoding.UTF8) + "\","));
+            postData = "{" + postData.Substring(0, postData.Length - 1) + "}";
+            string message = "{\"registration_ids\":" + to + ",\"data\":" + postData + "}";
+            Console.WriteLine(message);
+            HttpStatusCode result = (HttpStatusCode)0;
+            if (SendGCMNotification("AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0", message, ref result))
             {
-                var reader = new StreamReader(responseStream, Encoding.Default);
-                string pageContent = reader.ReadToEnd();
-                reader.Close();
-                responseStream.Close();
-                webResponse.Close();
-
-                //TODO Analyzing Response
+                Logger.Instance.LogFormat(LogType.Info, this, "Succesfully sent eAlarm notification");
+            }
+            else
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, "Error while sending eAlarm notification Errorcode: '{0}'", (int)result);
             }
         }
 
@@ -133,17 +101,74 @@ namespace AlarmWorkflow.Job.eAlarm
         {
             get { return false; }
         }
+        #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// Send a Google Cloud Message. Uses the GCM service and your provided api key.
+        /// </summary>
+        /// <param name="apiKey">Server API Key</param>
+        /// <param name="postData">JSON-formated Data</param>
+        /// <param name="result">Errorresult</param>
+        /// <param name="postDataContentType">Possible change of dataformat </param>
+        /// <returns>The response string from the google servers</returns>
+        private bool SendGCMNotification(string apiKey, string postData, ref HttpStatusCode result, string postDataContentType = "application/json")
+        {
+            ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
+
+            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://android.googleapis.com/gcm/send");
+            request.Method = "POST";
+            request.KeepAlive = false;
+            request.ContentType = postDataContentType;
+            request.Headers.Add(string.Format("Authorization: key={0}", apiKey));
+            request.ContentLength = byteArray.Length;
+
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+
+            try
+            {
+                WebResponse response = request.GetResponse();
+                HttpStatusCode responseCode = ((HttpWebResponse)response).StatusCode;
+                if (!responseCode.Equals(HttpStatusCode.OK))
+                {
+                    result = responseCode;
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, "No Respone by Googleserver.");
+                Logger.Instance.LogException(this, exception);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Returns allways true for a server certrificate validation
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="certificate"></param>
+        /// <param name="chain"></param>
+        /// <param name="sslPolicyErrors"></param>
+        /// <returns></returns>
+        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
+        }
         #endregion
 
         #region IDisposable Members
 
-        void System.IDisposable.Dispose()
+        void IDisposable.Dispose()
         {
-
         }
 
         #endregion
-
     }
 }

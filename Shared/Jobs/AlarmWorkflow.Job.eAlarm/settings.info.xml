@@ -1,6 +1,8 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="eAlarm" DisplayText="eAlarm" Parent="Aufgaben">
-    <Setting Name="header" DisplayText="Header" Category="Generell" />
-    <Setting Name="text" DisplayText="Text" Category="Generell"/>
+    <Setting Name="header" DisplayText="Header" Category="Generell" Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared"/>
+    <Setting Name="text" DisplayText="Text" Category="Generell" Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
   </Identifier>
 </SettingsDisplayConfiguration>
