@@ -1,11 +1,8 @@
 package com.alarmworkflow.eAlarmApp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import sun.misc.GC.LatencyRequest;
 
 import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
@@ -14,13 +11,15 @@ import com.google.android.gcm.GCMRegistrar;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,11 +28,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
 public class OperationView extends Activity {
 	private AdapterView<ListAdapter> lv;
+	private SimpleAdapter adapter;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -50,6 +51,30 @@ public class OperationView extends Activity {
 		}
 		lv = (AdapterView<ListAdapter>) findViewById(R.id.operationlist);
 		initList();
+		
+		EditText search = (EditText) findViewById(R.id.search);
+        search.addTextChangedListener(new TextWatcher() {
+ 
+            @Override
+            public void onTextChanged(CharSequence cs, int arg1, int arg2, int arg3) {
+                // When user changed the Text
+                OperationView.this.adapter.getFilter().filter(cs);
+                OperationView.this.adapter.notifyDataSetChanged();
+            }
+ 
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                    int arg3) {
+                // TODO Auto-generated method stub
+ 
+            }
+ 
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+        
 	}
 
 	public void register() {
@@ -77,6 +102,8 @@ public class OperationView extends Activity {
 		case R.id.settings:
 			startActivity(new Intent(this, Settings.class));
 			return true;
+		case R.id.about:
+			startActivity(new Intent(this, About.class));
 		case R.id.clear:
 			DataSource.getInstance(getApplicationContext()).clearList();
 			fillList();
@@ -91,7 +118,7 @@ public class OperationView extends Activity {
 								"AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0");
 						String locationProvider = LocationManager.NETWORK_PROVIDER;
 						// Acquire a reference to the system Location Manager
-						LocationManager locationManager = (LocationManager) eAlarm.context.getSystemService(eAlarm.context.LOCATION_SERVICE);
+						LocationManager locationManager = (LocationManager) eAlarm.context.getSystemService(Context.LOCATION_SERVICE);
 						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
 						Log.d("eAlarm", lastKnownLocation.getLongitude() + "  " + lastKnownLocation.getLatitude());
 						Message message = new Message.Builder()
@@ -144,13 +171,14 @@ public class OperationView extends Activity {
 	private void fillList() {
 		List<Map<String, String>> data = DataSource.getInstance(this)
 				.getOperations();
-		SimpleAdapter adapter = new SimpleAdapter(this, data,
+		adapter = new SimpleAdapter(this, data,
 				android.R.layout.simple_list_item_2, new String[] {
 						MySQLiteHelper.COLUMN_HEADER,
 						MySQLiteHelper.COLUMN_TIMESTAMP }, new int[] {
 						android.R.id.text1, android.R.id.text2 });
 		lv.setAdapter(adapter);
-
+	
+		
 	}
 
 	private void addListener() {

@@ -3,7 +3,7 @@
     <item
         android:id="@+id/settings"
         android:icon="@drawable/ic_menu_preferences"
-        android:title="Einstellungen"/>    
+        android:title="Einstellungen"/>
     <item
         android:id="@+id/clear"
         android:icon="@drawable/ic_menu_delete"
@@ -12,7 +12,10 @@
         android:id="@+id/testnotification"
         android:icon="@drawable/ic_menu_notifications"
         android:title="Testnarchicht"/>
-    <item android:id="@+id/about" android:title="About"></item>
-    
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_menu_info_details"
+        android:title="About">
+    </item>
 
 </menu>

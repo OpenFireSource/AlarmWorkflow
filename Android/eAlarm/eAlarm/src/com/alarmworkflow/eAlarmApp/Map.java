@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 
 public class Map extends FragmentActivity {
@@ -22,10 +21,7 @@ public class Map extends FragmentActivity {
 	GoogleMap mMap;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-				| WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-	
+	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.mapview);
 		FragmentManager myFragmentManager = getSupportFragmentManager();
