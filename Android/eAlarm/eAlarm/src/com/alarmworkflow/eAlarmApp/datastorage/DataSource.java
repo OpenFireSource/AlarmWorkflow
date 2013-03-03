@@ -59,20 +59,18 @@ public class DataSource {
 	}
 
 	public void addOperation(String header, String text, String longitude,
-			String latitude, String timestamp, String opID) {
+			String latitude, String timestamp) {
 		String[] Colums = { MySQLiteHelper.COLUMN_ID,
 				MySQLiteHelper.COLUMN_LAT, MySQLiteHelper.COLUMN_LONG,
 				MySQLiteHelper.COLUMN_TEXT, MySQLiteHelper.COLUMN_HEADER,
 				MySQLiteHelper.COLUMN_MD5, MySQLiteHelper.COLUMN_TIMESTAMP,
-				MySQLiteHelper.COLUMN_OPID, MySQLiteHelper.COLUMN_FEEDBACK };
+				};
 		ContentValues values = new ContentValues();
 		values.put(MySQLiteHelper.COLUMN_TEXT, text);
 		values.put(MySQLiteHelper.COLUMN_LAT, longitude);
 		values.put(MySQLiteHelper.COLUMN_LONG, latitude);
 		values.put(MySQLiteHelper.COLUMN_HEADER, header);
 		values.put(MySQLiteHelper.COLUMN_TIMESTAMP, timestamp);
-		values.put(MySQLiteHelper.COLUMN_FEEDBACK, "false");
-		values.put(MySQLiteHelper.COLUMN_OPID, opID);
 		try {
 			values.put(MySQLiteHelper.COLUMN_MD5, MD5(text + " " + header + " "
 					+ timestamp));
@@ -151,7 +149,7 @@ public class DataSource {
 				MySQLiteHelper.COLUMN_TIMESTAMP, MySQLiteHelper.COLUMN_HEADER,
 				MySQLiteHelper.COLUMN_LAT, MySQLiteHelper.COLUMN_LONG,
 				MySQLiteHelper.COLUMN_TEXT, MySQLiteHelper.COLUMN_TIMESTAMP,
-				MySQLiteHelper.COLUMN_OPID, MySQLiteHelper.COLUMN_FEEDBACK },
+				 },
 				MySQLiteHelper.COLUMN_ID + "=" + id, null, null, null, null);
 
 		if (c.moveToFirst()) {
@@ -165,10 +163,7 @@ public class DataSource {
 					c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_LAT)));
 			data.put(MySQLiteHelper.COLUMN_TEXT,
 					c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_TEXT)));
-			data.put(MySQLiteHelper.COLUMN_OPID,
-					c.getString(c.getColumnIndex(MySQLiteHelper.COLUMN_OPID)));
-			data.put(MySQLiteHelper.COLUMN_FEEDBACK, c.getString(c
-					.getColumnIndex(MySQLiteHelper.COLUMN_FEEDBACK)));
+			
 			String time = c.getString(c
 					.getColumnIndex(MySQLiteHelper.COLUMN_TIMESTAMP));
 			Date date = new Date(Long.parseLong(time));
@@ -181,16 +176,7 @@ public class DataSource {
 
 	}
 
-	public void setFeedback(Boolean setting, String id) {
-		ContentValues args = new ContentValues();
-		String value = "false";
-		if (setting) {
-			value = "true";
-		}
-		args.put(MySQLiteHelper.COLUMN_FEEDBACK, value);
-		database.update(MySQLiteHelper.TABLE_MAIN, args,
-				MySQLiteHelper.COLUMN_ID + "=" + id, null);
-	}
+	
 
 	public List<Map<String, String>> getOperations() {
 		List<Map<String, String>> array = new ArrayList<Map<String, String>>();

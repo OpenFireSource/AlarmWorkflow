@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Net;
 using System.Web;
 using System.Xml.XPath;
+using AlarmWorkflow.Job.eAlarm.Properties;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.eAlarm
 {
-    static class Helpers
+    internal static class Helpers
     {
         /// <summary>
         /// Returns the longitude and the latitude for a given address
@@ -48,12 +49,12 @@ namespace AlarmWorkflow.Job.eAlarm
                     XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
                     while (latIterator.MoveNext())
                     {
-                        geocodes.Add(Properties.Resources.LATITUDE, latIterator.Current.Value);
+                        geocodes.Add(Resources.LATITUDE, latIterator.Current.Value);
                     }
                     XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
                     while (lngIterator.MoveNext())
                     {
-                        geocodes.Add(Properties.Resources.LONGITUDE, lngIterator.Current.Value);
+                        geocodes.Add(Resources.LONGITUDE, lngIterator.Current.Value);
                     }
                 }
             }
@@ -64,7 +65,6 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             finally
             {
-
                 if (response != null)
                 {
                     response.Close();
@@ -76,4 +76,3 @@ namespace AlarmWorkflow.Job.eAlarm
         }
     }
 }
-
