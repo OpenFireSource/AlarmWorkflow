@@ -63,7 +63,7 @@ namespace AlarmWorkflow.Job.eAlarm
         void IJob.Execute(IJobContext context, Operation operation)
         {
             Dictionary<String, String> geoCode =
-                Helpers.GetGeocodes(operation.Einsatzort.Location + " " + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
+                Helpers.GetGeocodes(operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City);
             String longitude = "0";
             String latitude = "0";
             if (geoCode != null)
@@ -71,21 +71,21 @@ namespace AlarmWorkflow.Job.eAlarm
                 longitude = geoCode[Resources.LONGITUDE];
                 latitude = geoCode[Resources.LATITUDE];
             }
+          
             String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
             String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
             Dictionary<string, string> postParameters = new Dictionary<string, string>
                 {
                     {"header", header},
                     {"text", body},
-                    {"lat", longitude},
-                    {"long", latitude}
+                    {"lat", latitude},
+                    {"long", longitude}
                 };
             String to = _recipients.Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Aggregate("[", (current, pushEntryObject) => current + ("\"" + pushEntryObject.RecipientApiKey + "\","));
             to = to.Substring(0, to.Length - 1) + "]";
             string postData = postParameters.Keys.Aggregate("", (current, key) => current + ("\"" + HttpUtility.UrlEncode(key) + "\":\"" + HttpUtility.UrlEncode(postParameters[key], Encoding.UTF8) + "\","));
             postData = "{" + postData.Substring(0, postData.Length - 1) + "}";
             string message = "{\"registration_ids\":" + to + ",\"data\":" + postData + "}";
-            Console.WriteLine(message);
             HttpStatusCode result = (HttpStatusCode)0;
             if (SendGCMNotification("AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0", message, ref result))
             {

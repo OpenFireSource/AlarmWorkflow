@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -12,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
 
 import com.alarmworkflow.eAlarmApp.OperationDetail;
@@ -40,7 +41,7 @@ public class GCMIntentService extends GCMBaseIntentService {
 	@Override
 	protected void onRegistered(Context context, String registrationId) {
 		Log.i(TAG, "Device registered: regId = " + registrationId);
-		
+
 	}
 
 	/**
@@ -71,14 +72,13 @@ public class GCMIntentService extends GCMBaseIntentService {
 		String latitude = intent.getExtras().getString("lat");
 		Date date = new Date();
 		String time = date.getTime() + "";
-		DataSource.getInstance(this).addOperation(header, text, latitude,
-				longitude, time);
+		DataSource.getInstance(this).addOperation(header, text, longitude,
+				latitude, time);
 		initPreferences();
 		if (openApp) {
 			openApplication(time);
-		} else {
-			generateNotification(getApplicationContext(), header, time);
 		}
+		generateNotification(getApplicationContext(), header, text, time);
 		if (sound) {
 			Intent i = new Intent("com.alarmworkflow.eAlarmApp.MusicPlayer");
 			sendBroadcast(i);
@@ -134,9 +134,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 	private static Intent getNotifyIntent(String time) {
 		Intent intent = new Intent(eAlarm.context, OperationDetail.class);
 		intent.putExtra(MySQLiteHelper.COLUMN_TIMESTAMP, time);
+		
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
 				| Intent.FLAG_ACTIVITY_SINGLE_TOP
-				| Intent.FLAG_ACTIVITY_NEW_TASK);
+				| Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
 
 		return intent;
 	}
@@ -144,24 +145,20 @@ public class GCMIntentService extends GCMBaseIntentService {
 	/**
 	 * Issues a notification to inform the user that server has sent a message.
 	 */
-	private static void generateNotification(Context context, String message,
-			String time) {
+	private static void generateNotification(Context context, String title,
+			String message, String time) {
 		int icon = R.drawable.ic_launcher;
 		long when = System.currentTimeMillis();
 		NotificationManager notificationManager = (NotificationManager) context
 				.getSystemService(Context.NOTIFICATION_SERVICE);
-
-		Notification notification = new Notification(icon, message, when);
-		String title = context.getString(R.string.app_name);
 		Intent notificationIntent = getNotifyIntent(time);
 		PendingIntent intent = PendingIntent.getActivity(context, 0,
 				notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-		notification.setLatestEventInfo(context, title, message, intent);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notification.flags |= Notification.FLAG_NO_CLEAR;
-		notification.defaults = Notification.DEFAULT_LIGHTS;
-
-		notificationManager.notify(0, notification);
+		Builder test = new NotificationCompat.Builder(context)
+				.setLights(0xFF0000, 300, 100).setContentIntent(intent)
+				.setContentText(message).setContentTitle(title)
+				.setSmallIcon(icon).setWhen(when).setAutoCancel(true);
+		notificationManager.notify(0, test.getNotification());
 
 	}
 
