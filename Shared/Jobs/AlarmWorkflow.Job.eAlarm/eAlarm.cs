@@ -101,6 +101,9 @@ namespace AlarmWorkflow.Job.eAlarm
         {
             get { return false; }
         }
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// Send a Google Cloud Message. Uses the GCM service and your provided api key.
@@ -140,8 +143,8 @@ namespace AlarmWorkflow.Job.eAlarm
             }
             catch (Exception exception)
             {
-                Logger.Instance.LogFormat(LogType.Error, this,"No Respone by Googleserver.");
-                Logger.Instance.LogException(this,exception);
+                Logger.Instance.LogFormat(LogType.Error, this, "No Respone by Googleserver.");
+                Logger.Instance.LogException(this, exception);
             }
             return true;
         }
@@ -154,11 +157,10 @@ namespace AlarmWorkflow.Job.eAlarm
         /// <param name="chain"></param>
         /// <param name="sslPolicyErrors"></param>
         /// <returns></returns>
-        public static bool ValidateServerCertificate(object sender,X509Certificate certificate,X509Chain chain,SslPolicyErrors sslPolicyErrors)
+        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }
-
         #endregion
 
         #region IDisposable Members
