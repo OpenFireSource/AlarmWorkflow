@@ -12,6 +12,7 @@
         android:id="@+id/testnotification"
         android:icon="@drawable/ic_menu_notifications"
         android:title="Testnarchicht"/>
+    <item android:id="@+id/about" android:title="About"></item>
     
 
 </menu>

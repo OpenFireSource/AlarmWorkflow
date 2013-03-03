@@ -5,6 +5,12 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
-	<classpathentry kind="lib" path="C:/Users/Florian/Downloads/adt-bundle-windows-x86_64/sdk/add-ons/addon-google_apis-google-10/libs/maps.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Florian/Downloads/adt-bundle-windows-x86_64/sdk/add-ons/addon-google_apis-google-10/libs/maps.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/Users/Florian/Downloads/adt-bundle-windows-x86_64/sdk/add-ons/addon-google_apis-google-10/docs/reference/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/gcm.jar"/>
+	<classpathentry kind="lib" path="libs/gcm-server.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
