@@ -85,7 +85,6 @@ namespace AlarmWorkflow.Job.eAlarm
             string postData = postParameters.Keys.Aggregate("", (current, key) => current + ("\"" + HttpUtility.UrlEncode(key) + "\":\"" + HttpUtility.UrlEncode(postParameters[key], Encoding.UTF8) + "\","));
             postData = "{" + postData.Substring(0, postData.Length - 1) + "}";
             string message = "{\"registration_ids\":" + to + ",\"data\":" + postData + "}";
-            Console.WriteLine(message);
             HttpStatusCode result = (HttpStatusCode)0;
             if (SendGCMNotification("AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0", message, ref result))
             {
