@@ -1,20 +1,27 @@
 package com.alarmworkflow.eAlarmApp;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import sun.misc.GC.LatencyRequest;
+
 import com.alarmworkflow.eAlarmApp.R;
 import com.alarmworkflow.eAlarmApp.datastorage.DataSource;
 import com.alarmworkflow.eAlarmApp.datastorage.MySQLiteHelper;
-import com.alarmworkflow.eAlarmApp.datastorage.ServerConnection;
+import com.google.android.gcm.GCMRegistrar;
+import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Result;
+import com.google.android.gcm.server.Sender;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,8 +34,6 @@ import android.widget.SimpleAdapter;
 
 public class OperationView extends Activity {
 	private AdapterView<ListAdapter> lv;
-	private SharedPreferences prefs;
-	private String auth;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -36,16 +41,20 @@ public class OperationView extends Activity {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.operationview);
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		auth = prefs.getString(RegistrationActivity.AUTH, "n/a");
-		if (auth == "n/a") {
-			Intent intent = new Intent(this, RegistrationActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			startActivity(intent);
+		PreferenceManager.getDefaultSharedPreferences(this);
+		GCMRegistrar.checkDevice(this);
+		GCMRegistrar.checkManifest(this);
+		String regId = GCMRegistrar.getRegistrationId(this);
+		if (regId == "") {
+			register();
 		}
 		lv = (AdapterView<ListAdapter>) findViewById(R.id.operationlist);
 		initList();
+	}
+
+	public void register() {
+		GCMRegistrar.register(this,
+				com.alarmworkflow.eAlarmApp.general.CommonUtilities.SENDER_ID);
 	}
 
 	@Override
@@ -67,7 +76,7 @@ public class OperationView extends Activity {
 		switch (item.getItemId()) {
 		case R.id.settings:
 			startActivity(new Intent(this, Settings.class));
-			return true;		
+			return true;
 		case R.id.clear:
 			DataSource.getInstance(getApplicationContext()).clearList();
 			fillList();
@@ -76,21 +85,32 @@ public class OperationView extends Activity {
 
 			new Thread(new Runnable() {
 				public void run() {
-					HashMap<String, String> params = new HashMap<String, String>();
-					params.put("email",
-							prefs.getString(RegistrationActivity.EMAIL, ""));
-					params.put("header", "Testnarchicht");
-					params.put("text", "Testtext");
-					params.put("long", "0");
-					params.put("lat", "0");
-					params.put("opid", "Test");
+					
 					try {
-						ServerConnection.post(
-								"https://gymolching-portal.de/gcm/send.php",
-								params);
-					} catch (IOException e) {
-						
+						Sender sender = new Sender(
+								"AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0");
+						String locationProvider = LocationManager.NETWORK_PROVIDER;
+						// Acquire a reference to the system Location Manager
+						LocationManager locationManager = (LocationManager) eAlarm.context.getSystemService(eAlarm.context.LOCATION_SERVICE);
+						Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+						Log.d("eAlarm", lastKnownLocation.getLongitude() + "  " + lastKnownLocation.getLatitude());
+						Message message = new Message.Builder()
+								.delayWhileIdle(true)
+								.addData("header", "Testnarchicht")
+								.addData("text", "Testtext")
+								.addData("long", lastKnownLocation.getLongitude()+"").addData("lat", lastKnownLocation.getLatitude()+"")
+								.build();
+
+						Result result = sender.send(message,
+								GCMRegistrar.getRegistrationId(eAlarm.context),
+								1);
+
+						System.out.println(result.toString());
+
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
+
 				}
 			}).start();
 
@@ -98,6 +118,16 @@ public class OperationView extends Activity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		try {
+			GCMRegistrar.onDestroy(eAlarm.context);
+		} catch (Exception e) {
+			Log.e("UnRegister Receiver Error", "> " + e.getMessage());
+		}
+		super.onDestroy();
 	}
 
 	@Override
