@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Job.PushJob
         private const string Apikey = "apikey";
         private const string Application = "application";
         private const string Event = "event";
-        private const string Description = "message";
+        private const string Description = "description";
         private const string Priortiy = "priority";
         private const int ApplicationMaxLength = 256;
         private const int DescriptionMaxLength = 10000;
