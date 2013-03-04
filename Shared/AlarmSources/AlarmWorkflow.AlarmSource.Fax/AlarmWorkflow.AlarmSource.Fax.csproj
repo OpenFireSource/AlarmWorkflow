@@ -53,6 +53,7 @@
     <Compile Include="IFaxParser.cs" />
     <Compile Include="OcrSoftware\CuneiformOcrSoftware.cs" />
     <Compile Include="OcrSoftware\TesseractOcrSoftware.cs" />
+    <Compile Include="ProcessWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

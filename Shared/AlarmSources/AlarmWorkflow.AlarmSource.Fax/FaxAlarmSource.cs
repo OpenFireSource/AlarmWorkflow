@@ -56,12 +56,19 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
 
-            AssertCustomOcrPathExist();
-            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>(_configuration.OCRSoftware);
+            InitializeOcrSoftware();
 
             // Import parser with the given name/alias
             _parser = ExportedTypeLibrary.Import<IFaxParser>(_configuration.AlarmFaxParserAlias);
             Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
+        }
+
+        private void InitializeOcrSoftware()
+        {
+            AssertCustomOcrPathExist();
+
+            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>(_configuration.OCRSoftware);
+            Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitializeUsingOcrSoftware, _configuration.OCRSoftware);
         }
 
         private void AssertCustomOcrPathExist()

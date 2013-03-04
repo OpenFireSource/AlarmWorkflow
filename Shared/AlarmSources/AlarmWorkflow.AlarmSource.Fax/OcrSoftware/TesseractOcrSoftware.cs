@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
 using AlarmWorkflow.Shared.Core;
 
@@ -12,28 +11,22 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 
         string[] IOcrSoftware.ProcessImage(OcrProcessOptions options)
         {
-            using (Process proc = new Process())
+            using (ProcessWrapper proc = new ProcessWrapper())
             {
-                proc.EnableRaisingEvents = false;
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.CreateNoWindow = true;
-
                 // If there is no custom directory
                 if (string.IsNullOrEmpty(options.SoftwarePath))
                 {
-                    proc.StartInfo.WorkingDirectory = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
+                    proc.WorkingDirectory = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
                 }
                 else
                 {
-                    proc.StartInfo.WorkingDirectory = options.SoftwarePath;
+                    proc.WorkingDirectory = options.SoftwarePath;
                 }
 
+                proc.FileName = Path.Combine(proc.WorkingDirectory, "tesseract.exe");
+                proc.Arguments = options.ImagePath + " " + options.AnalyzedFileDestinationPath + " -psm 6 quiet";
 
-                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "tesseract.exe");
-                proc.StartInfo.Arguments = options.ImagePath + " " + options.AnalyzedFileDestinationPath + " -psm 6 quiet";
-
-                proc.Start();
-                proc.WaitForExit();
+                proc.StartAndWait();
             }
 
             // Correct txt path for tesseract (it will append .txt under windows always)

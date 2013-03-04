@@ -120,6 +120,9 @@
   <data name="CuneiformDeleteTempFileError" xml:space="preserve">
     <value>Could not delete temporary file '{0}'! You may want to delete them manually. See log for further information.</value>
   </data>
+  <data name="InitializeUsingOcrSoftware" xml:space="preserve">
+    <value>Using OCR software '{0}'.</value>
+  </data>
   <data name="OcrSoftwareParseBegin" xml:space="preserve">
     <value>Begin parsing of fax '{0}'...</value>
   </data>
@@ -128,5 +131,11 @@
   </data>
   <data name="OcrSoftwareParseEndSuccess" xml:space="preserve">
     <value>Finished parsing in '{0}' milliseconds.</value>
+  </data>
+  <data name="ProcessDataEvent" xml:space="preserve">
+    <value>Process data event: {0}</value>
+  </data>
+  <data name="ProcessErrorEvent" xml:space="preserve">
+    <value>Process error event: {0}</value>
   </data>
 </root>

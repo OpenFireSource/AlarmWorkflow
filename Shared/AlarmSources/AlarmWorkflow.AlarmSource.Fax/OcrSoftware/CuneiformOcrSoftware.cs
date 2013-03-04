@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -31,30 +30,25 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 
         private string[] AnalyzeSinglepageTiff(string singlepageTiffFileName, OcrProcessOptions options)
         {
-            using (Process proc = new Process())
+            using (ProcessWrapper proc = new ProcessWrapper())
             {
-                proc.EnableRaisingEvents = false;
-                proc.StartInfo.UseShellExecute = false;
-                proc.StartInfo.CreateNoWindow = true;
-
                 // If there is no custom directory
                 if (string.IsNullOrEmpty(options.SoftwarePath))
                 {
-                    proc.StartInfo.WorkingDirectory = Path.Combine(Utilities.GetWorkingDirectory(), "cuneiform");
+                    proc.WorkingDirectory = Path.Combine(Utilities.GetWorkingDirectory(), "cuneiform");
                 }
                 else
                 {
-                    proc.StartInfo.WorkingDirectory = options.SoftwarePath;
+                    proc.WorkingDirectory = options.SoftwarePath;
                 }
 
-                proc.StartInfo.FileName = Path.Combine(proc.StartInfo.WorkingDirectory, "cuneiform.exe");
+                proc.FileName = Path.Combine(proc.WorkingDirectory, "cuneiform.exe");
 
 
                 string singlepageTiffAnalyzedFile = Path.Combine(Path.GetDirectoryName(options.AnalyzedFileDestinationPath), Path.GetFileName(singlepageTiffFileName) + ".txt");
-                proc.StartInfo.Arguments = "-l ger --singlecolumn -o " + singlepageTiffAnalyzedFile + " " + singlepageTiffFileName;
+                proc.Arguments = "-l ger --singlecolumn -o " + singlepageTiffAnalyzedFile + " " + singlepageTiffFileName;
 
-                proc.Start();
-                proc.WaitForExit();
+                proc.StartAndWait();
 
                 string[] lines = File.ReadAllLines(singlepageTiffAnalyzedFile);
 
