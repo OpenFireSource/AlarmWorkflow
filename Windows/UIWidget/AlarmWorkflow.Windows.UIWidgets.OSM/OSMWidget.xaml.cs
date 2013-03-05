@@ -34,11 +34,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             BuildHTML();
         }
 
-        private void _webBrowser_FileDownload(object sender, EventArgs e)
-        {
-
-        }
-
         #endregion
 
         #region IUIWidget Members
