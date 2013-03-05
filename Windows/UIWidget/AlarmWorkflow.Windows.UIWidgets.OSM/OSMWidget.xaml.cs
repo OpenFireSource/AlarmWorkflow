@@ -20,7 +20,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
     {
         #region Fields
 
-        private readonly string _tempFile;
+        private readonly string _osmFile;
         private Operation _operation;
 
         #endregion
@@ -30,13 +30,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
         public OSMWidget()
         {
             InitializeComponent();
-            _tempFile = Path.GetTempFileName()+".html";
+            _osmFile = Path.Combine(Path.GetTempPath(), "osm.html");
             BuildHTML();
-        }
-
-        private void _webBrowser_FileDownload(object sender, EventArgs e)
-        {
-
         }
 
         #endregion
@@ -52,16 +47,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
         {
             if (operation == null)
             {
-                if (!String.IsNullOrWhiteSpace(_tempFile))
-                {
-                    File.Delete(_tempFile);
-                }
                 return;
             }
             _operation = operation;
             String html = BuildHTML();
-            File.WriteAllText(_tempFile, html);
-            _webBrowser.Navigate(_tempFile);
+            File.WriteAllText(_osmFile, html);
+            _webBrowser.Navigate(_osmFile);
         }
 
         UIElement IUIWidget.UIElement

@@ -6,7 +6,6 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Windows;
-using System.Windows.Forms;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -23,7 +22,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         #region Fields
 
         private readonly MapConfiguration _configuration;
-        private readonly string _tempFile;
+        private String _googleFile;
         private Operation _operation;
 
         #endregion Fields
@@ -78,7 +77,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                          "}";
 
         private const string BeginnHead = "<!DOCTYPE html>" +
-                                          "<html><head><meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /><style type=\"text/css\">" +
+                                          "<html><head>" +
+                                          "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" +
+                                          "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /><style type=\"text/css\">" +
                                           "html { height: 100% } body { height: 100%; margin: 0; padding: 0 } #map_canvas { height: 100% }" +
                                           "</style><script type=\"text/javascript\"" +
                                           "src=\"https://maps.googleapis.com/maps/api/js?sensor=true\"></script>" +
@@ -104,10 +105,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         public GoogleMapsWidget()
         {
             InitializeComponent();
-            
+            _googleFile = Path.Combine(Path.GetTempPath(), "google.html");
             _configuration = new MapConfiguration();
-            _tempFile = Path.GetTempFileName()+".html";
-            BuildHTML();
         }
 
         #endregion Constructors
@@ -138,21 +137,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         {
             if (operation == null)
             {
-                if (!String.IsNullOrWhiteSpace(_tempFile))
-                {
-                    try
-                    {
-                        File.Delete(_tempFile);
-                    }
-                    catch (IOException) { 
-                    }
-                }
                 return;
             }
             _operation = operation;
             String html = BuildHTML();
-            File.WriteAllText(_tempFile, html);
-            _webBrowser.Navigate(_tempFile);
+            File.WriteAllText(_googleFile, html);
+            _webBrowser.Navigate(_googleFile);
         }
 
         #endregion IUIWidget Members
@@ -166,18 +156,18 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             {
                 StringBuilder builder = new StringBuilder();
                 Dictionary<String, String> result = new Dictionary<String, String>();
-				result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                                                                 _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
                 if (result == null || result.Count != 2)
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";
                 }
-              
+
                 String longitute = result["long"];
                 String latitude = result["lat"];
                 String variables =
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
-                    "var zoomOnAddress = true;" +
+                    "var zoomOnAddress = false;" +
                     "var dest = new google.maps.LatLng(" + latitude + "," + longitute + ");" +
                     "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                     _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
@@ -206,6 +196,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 {
                     builder.Append(Traffic);
                 }
+
                 builder.Append("}");
                 if (_configuration.Route)
                 {
