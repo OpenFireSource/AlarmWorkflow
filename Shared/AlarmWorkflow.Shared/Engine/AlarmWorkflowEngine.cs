@@ -216,32 +216,41 @@ namespace AlarmWorkflow.Shared.Engine
         {
             IAlarmSource source = (IAlarmSource)sender;
 
+            Operation operation = e.Operation;
+
             // Sanity-checks
-            if (e.Operation == null)
+            if (operation == null)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, "Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!", source.GetType().FullName);
                 return;
             }
-            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation: {0} by Alarm Source: {1}. ", e.Operation.ToString(), sender.GetType().Name);
+            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation: {0} by Alarm Source: {1}. ", operation.ToString(), sender.GetType().Name);
             try
             {
+
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
-                if (e.Operation.Timestamp.Year == 1)
+                if (operation.Timestamp.Year == 1)
                 {
                     Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
-                    e.Operation.Timestamp = DateTime.Now;
+                    operation.Timestamp = DateTime.Now;
                 }
 
-                Operation storedOperation = StoreOperation(e.Operation);
-                if (storedOperation == null)
+                JobContext context = new JobContext(source, e);
+                context.Phase = JobPhase.OnOperationSurfaced;
+                _jobManager.ExecuteJobs(context, operation);
+
+                operation = StoreOperation(operation);
+                if (operation == null)
                 {
                     return;
                 }
-                Logger.Instance.LogFormat(LogType.Info, this, "Stored operation (ID: {0} ).",e.Operation.Id);
-                IJobContext context = JobContext.FromEventArgs(sender, e);
 
-                _jobManager.ExecuteJobs(context, storedOperation);
-                Logger.Instance.LogFormat(LogType.Info, this, "Finished handling operation (ID: {0} ).", e.Operation.Id);
+                context.Phase = JobPhase.AfterOperationStored;
+                _jobManager.ExecuteJobs(context, operation);
+
+                Logger.Instance.LogFormat(LogType.Info, this, "Stored operation (ID: {0} ).", operation.Id);
+
+                Logger.Instance.LogFormat(LogType.Info, this, "Finished handling operation (ID: {0} ).", operation.Id);
             }
             catch (Exception ex)
             {

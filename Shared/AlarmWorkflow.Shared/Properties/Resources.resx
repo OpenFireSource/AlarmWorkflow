@@ -126,8 +126,17 @@
   <data name="JobExecuteAsyncFailed" xml:space="preserve">
     <value>An error occurred while processing the asynchronous job '{0}'!</value>
   </data>
+  <data name="JobExecuteAsyncStart" xml:space="preserve">
+    <value>Beginning execution of async job '{0}' in phase '{1}'...</value>
+  </data>
+  <data name="JobExecuteFinished" xml:space="preserve">
+    <value>Finished execution of job '{0}'.</value>
+  </data>
   <data name="JobExecuteSyncFailed" xml:space="preserve">
     <value>An error occurred while processing the synchronous job '{0}'!</value>
+  </data>
+  <data name="JobExecuteSyncStart" xml:space="preserve">
+    <value>Beginning execution of sync job '{0}' in phase '{1}'...</value>
   </data>
   <data name="JobManagerDisposeJobFailed" xml:space="preserve">
     <value>The job '{0}' failed at dispose. This may have unpredictable consequences.</value>

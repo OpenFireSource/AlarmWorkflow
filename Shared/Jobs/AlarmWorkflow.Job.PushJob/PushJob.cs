@@ -48,6 +48,11 @@ namespace AlarmWorkflow.Job.PushJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             NotifyProwl(operation);
             NotifyMyAndroid(operation);
         }

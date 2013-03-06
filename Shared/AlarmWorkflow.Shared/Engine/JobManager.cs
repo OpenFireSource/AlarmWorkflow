@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using System.Threading;
+using AlarmWorkflow.Shared.Properties;
 
 namespace AlarmWorkflow.Shared.Engine
 {
@@ -89,7 +90,7 @@ namespace AlarmWorkflow.Shared.Engine
         {
             if (job.IsAsync)
             {
-                Logger.Instance.LogFormat(LogType.Info, this, "Executing asnyc job {0}.", job.GetType().Name);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobExecuteAsyncStart, job.GetType().Name, context.Phase);
                 ThreadPool.QueueUserWorkItem(o =>
                 {
                     RunJobCore(context, operation, job);
@@ -97,7 +98,7 @@ namespace AlarmWorkflow.Shared.Engine
             }
             else
             {
-                Logger.Instance.LogFormat(LogType.Info, this, "Executing asnyc job {0}." , job.GetType().Name);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobExecuteSyncStart, job.GetType().Name, context.Phase);
                 RunJobCore(context, operation, job);
             }
         }
@@ -108,6 +109,8 @@ namespace AlarmWorkflow.Shared.Engine
             try
             {
                 job.Execute(context, operation);
+
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.JobExecuteFinished, job.GetType().Name);
             }
             catch (Exception ex)
             {

@@ -62,6 +62,11 @@ namespace AlarmWorkflow.Job.eAlarm
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             Dictionary<String, String> geoCode =
                 Helpers.GetGeocodes(operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City);
             String longitude = "0";

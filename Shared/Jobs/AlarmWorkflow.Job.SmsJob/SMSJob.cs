@@ -42,6 +42,10 @@ namespace AlarmWorkflow.Job.SmsJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
             
             string format = SettingsManager.Instance.GetSetting("SMSJob", "MessageFormat").GetString();
             string text = operation.ToString(format);
