@@ -93,6 +93,11 @@ namespace AlarmWorkflow.Job.MailingJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             SendMail(operation);
         }
 

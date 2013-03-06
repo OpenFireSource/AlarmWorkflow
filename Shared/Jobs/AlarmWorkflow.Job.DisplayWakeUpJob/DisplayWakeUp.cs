@@ -107,6 +107,11 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             if (_configurations.Count == 0)
             {
                 return;

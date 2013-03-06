@@ -20,6 +20,11 @@ namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             UTF8Encoding encoding = new UTF8Encoding(false);
             using (StreamWriter sw = new StreamWriter(_alarmTextFileName, false, encoding))
             {

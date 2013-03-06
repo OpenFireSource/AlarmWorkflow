@@ -6,24 +6,20 @@ namespace AlarmWorkflow.Shared.Engine
 {
     internal class JobContext : IJobContext
     {
-        #region Methods
+        #region Constructors
 
-        internal static IJobContext FromEventArgs(object sender, AlarmSourceEventArgs args)
+        internal JobContext(IAlarmSource source, AlarmSourceEventArgs args)
         {
-            IAlarmSource source = sender as IAlarmSource;
+            Assertions.AssertNotNull(source, "source");
+            Assertions.AssertNotNull(args, "args");
 
-            Assertions.AssertNotNull(sender, "sender");
-
-            return new JobContext()
-            {
-                AlarmSourceName = source.GetType().Name,
-                Parameters = args.Parameters,
-            };
+            AlarmSourceName = source.GetType().Name;
+            Parameters = args.Parameters;
         }
 
         #endregion
 
-        #region IContext Members
+        #region IJobContext Members
 
         /// <summary>
         /// Gets the name of the alarm source that this context runs in.
@@ -35,6 +31,11 @@ namespace AlarmWorkflow.Shared.Engine
         /// This property is filled by the alarm source.
         /// </summary>
         public IDictionary<string, object> Parameters { get; private set; }
+
+        /// <summary>
+        /// Gets the phase in which this job is executed.
+        /// </summary>
+        public JobPhase Phase { get; internal set; }
 
         #endregion
     }

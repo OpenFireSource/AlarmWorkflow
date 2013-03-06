@@ -16,5 +16,9 @@ namespace AlarmWorkflow.Shared.Engine
         /// This property is filled by the alarm source.
         /// </summary>
         IDictionary<string, object> Parameters { get; }
+        /// <summary>
+        /// Gets the phase in which this job is executed.
+        /// </summary>
+        JobPhase Phase { get; }
     }
 }

@@ -88,11 +88,38 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Beginning execution of async job &apos;{0}&apos; in phase &apos;{1}&apos;....
+        /// </summary>
+        internal static string JobExecuteAsyncStart {
+            get {
+                return ResourceManager.GetString("JobExecuteAsyncStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished execution of job &apos;{0}&apos;..
+        /// </summary>
+        internal static string JobExecuteFinished {
+            get {
+                return ResourceManager.GetString("JobExecuteFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while processing the synchronous job &apos;{0}&apos;!.
         /// </summary>
         internal static string JobExecuteSyncFailed {
             get {
                 return ResourceManager.GetString("JobExecuteSyncFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Beginning execution of sync job &apos;{0}&apos; in phase &apos;{1}&apos;....
+        /// </summary>
+        internal static string JobExecuteSyncStart {
+            get {
+                return ResourceManager.GetString("JobExecuteSyncStart", resourceCulture);
             }
         }
         

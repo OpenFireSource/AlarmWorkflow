@@ -58,6 +58,12 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
+            // TODO: Job phase could be "surfaced" as well?
+            if (context.Phase != JobPhase.AfterOperationStored)
+            {
+                return;
+            }
+
             // TODO: May be made modular using a plug-in system and/or delegates in the future!
             switch (context.AlarmSourceName)
             {

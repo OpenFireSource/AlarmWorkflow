@@ -74,6 +74,7 @@
     <Compile Include="Diagnostics\Logger.cs" />
     <Compile Include="Diagnostics\LogType.cs" />
     <Compile Include="Engine\JobManager.cs" />
+    <Compile Include="Engine\JobPhase.cs" />
     <Compile Include="Extensibility\AlarmSourceEventArgs.cs" />
     <Compile Include="Extensibility\IAlarmSource.cs" />
     <Compile Include="Extensibility\IOperationStore.cs" />
