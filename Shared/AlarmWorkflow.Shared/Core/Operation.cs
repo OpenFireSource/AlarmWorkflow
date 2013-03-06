@@ -89,6 +89,10 @@ namespace AlarmWorkflow.Shared.Core
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
         /// </summary>
         public bool IsAcknowledged { get; set; }
+        /// <summary>
+        /// Gets/sets the loop information that is associated with this operation.
+        /// </summary>
+        public IList<string> Loops { get; set; }
 
         #endregion
 
@@ -102,6 +106,7 @@ namespace AlarmWorkflow.Shared.Core
             CustomData = new Dictionary<string, object>();
             Resources = new OperationResourceCollection();
             OperationGuid = Guid.NewGuid();
+            Loops = new List<string>();
 
             Einsatzort = new PropertyLocation();
             Zielort = new PropertyLocation();
