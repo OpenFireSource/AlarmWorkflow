@@ -43,7 +43,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             return _operationStore.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
         }
 
-        OperationItem IAlarmWorkflowServiceInternal.GetOperationById(int operationId, OperationItemDetailLevel detailLevel)
+        OperationItem IAlarmWorkflowServiceInternal.GetOperationById(int operationId)
         {
             Operation operation = _operationStore.GetOperationById(operationId);
             if (operation == null)
@@ -51,7 +51,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
                 return null;
             }
 
-            return new OperationItem(operation, detailLevel);
+            return new OperationItem(operation);
         }
 
         void IAlarmWorkflowServiceInternal.AcknowledgeOperation(int operationId)

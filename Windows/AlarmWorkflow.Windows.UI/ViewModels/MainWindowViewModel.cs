@@ -329,7 +329,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                             continue;
                         }
 
-                        OperationItem operationItem = service.Instance.GetOperationById(operationId, OperationItemDetailLevel.Full);
+                        OperationItem operationItem = service.Instance.GetOperationById(operationId);
                         Operation operation = operationItem.ToOperation();
 
                         if (ShouldAutomaticallyAcknowledgeOperation(operation))

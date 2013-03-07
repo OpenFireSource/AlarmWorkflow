@@ -49,7 +49,6 @@
     <Compile Include="IAlarmWorkflowService.cs" />
     <Compile Include="IAlarmWorkflowServiceInternal.cs" />
     <Compile Include="OperationItem.cs" />
-    <Compile Include="OperationItemDetailLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WrappedService.cs" />
   </ItemGroup>

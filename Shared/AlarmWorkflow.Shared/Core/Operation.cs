@@ -80,10 +80,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public IDictionary<string, object> CustomData { get; set; }
         /// <summary>
-        /// Gets/sets the image data that contains the route plan.
-        /// </summary>
-        public byte[] RouteImage { get; set; }
-        /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).

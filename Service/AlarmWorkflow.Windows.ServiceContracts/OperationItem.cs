@@ -90,11 +90,6 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         [DataMember()]
         public bool IsAcknowledged { get; set; }
         /// <summary>
-        /// Gets/sets the route plan image data.
-        /// </summary>
-        [DataMember()]
-        public byte[] RouteImage { get; set; }
-        /// <summary>
         /// Gets/sets the information about all resources (vehicles, requested equipment etc.).
         /// </summary>
         [DataMember()]
@@ -124,8 +119,7 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         /// Initializes a new instance of the <see cref="OperationItem"/> class.
         /// </summary>
         /// <param name="operation">The <see cref="Operation"/> to clone.</param>
-        /// <param name="detailLevel">The level of detail of the copied information.</param>
-        public OperationItem(Operation operation, OperationItemDetailLevel detailLevel)
+        public OperationItem(Operation operation)
             : this()
         {
             this.Id = operation.Id;
@@ -142,13 +136,7 @@ namespace AlarmWorkflow.Windows.ServiceContracts
             this.OperationPlan = operation.OperationPlan;
             this.Resources = operation.Resources;
             this.IsAcknowledged = operation.IsAcknowledged;
-
-            // Copy the expensive information only if requested
-            if (detailLevel == OperationItemDetailLevel.Full)
-            {
-                this.RouteImage = operation.RouteImage;
-                this.CustomData = operation.CustomData;
-            }
+            this.CustomData = operation.CustomData;
         }
 
         #endregion
@@ -175,7 +163,6 @@ namespace AlarmWorkflow.Windows.ServiceContracts
             operation.OperationPlan = this.OperationPlan;
             operation.Picture = this.Picture;
             operation.Resources = this.Resources;
-            operation.RouteImage = this.RouteImage;
             operation.CustomData = this.CustomData;
             operation.IsAcknowledged = this.IsAcknowledged;
             return operation;

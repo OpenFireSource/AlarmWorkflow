@@ -53,16 +53,14 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
             return _operationStore.GetOperationIds(rMaxAge, rOnlyNonAcknowledged, rLimitAmount);
         }
 
-        OperationItem IAlarmWorkflowService.GetOperationById(string operationId, string detailLevel)
+        OperationItem IAlarmWorkflowService.GetOperationById(string operationId)
         {
-            int rDetailLevel = 0;
             int rOperationId = -1;
             if (!int.TryParse(operationId, out rOperationId))
             {
                 // Invalid case
                 return null;
             }
-            int.TryParse(detailLevel, out rDetailLevel);
 
             Operation operation = _operationStore.GetOperationById(rOperationId);
             if (operation == null)
@@ -70,13 +68,7 @@ namespace AlarmWorkflow.Windows.Service.WcfServices
                 return null;
             }
 
-            OperationItemDetailLevel detail = OperationItemDetailLevel.Minimum;
-            if (rDetailLevel >= 0 && rDetailLevel <= 1)
-            {
-                detail = (OperationItemDetailLevel)rDetailLevel;
-            }
-
-            return new OperationItem(operation, detail);
+            return new OperationItem(operation);
         }
 
         #endregion

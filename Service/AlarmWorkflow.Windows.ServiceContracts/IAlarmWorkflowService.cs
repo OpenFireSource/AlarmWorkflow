@@ -25,10 +25,9 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         /// Returns an Operation by its Id. If there is no operation with the given id, null is returned.
         /// </summary>
         /// <param name="operationId">The Id of the operation to get.</param>
-        /// <param name="detailLevel">The detail level. Currently supported are 0 (minimum detail) and 1 (full detail). For mobile phones, 0 is recommended; otherwise, 1.</param>
         /// <returns>An Operation by its Id. If there is no operation with the given id, null is returned.</returns>
         [OperationContract()]
-        [WebGet(UriTemplate = "GetOperationById/id={operationId}&detail={detailLevel}", ResponseFormat = WebMessageFormat.Json)]
-        OperationItem GetOperationById(string operationId, string detailLevel);
+        [WebGet(UriTemplate = "GetOperationById/id={operationId}", ResponseFormat = WebMessageFormat.Json)]
+        OperationItem GetOperationById(string operationId);
     }
 }
