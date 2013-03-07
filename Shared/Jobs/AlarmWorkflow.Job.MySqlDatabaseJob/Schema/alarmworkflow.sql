@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `tb_einsatz` (
   `Alarmtime` varchar(255) DEFAULT NULL,
   `Faxtime` varchar(255) DEFAULT NULL,
   `Stichwort` varchar(20) DEFAULT NULL,
+  `Schleifen` TEXT DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
