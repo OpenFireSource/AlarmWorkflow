@@ -51,6 +51,12 @@ namespace AlarmWorkflow.Shared.Settings
         private Dictionary<string, SettingsConfigurationFile> _settings;
         private SettingsDisplayConfiguration _displayConfiguration;
 
+        /// <summary>
+        /// Stores all raw XML-elements representing settings that could not be loaded due to missing setting information.
+        /// This has the purpose of recording this info on-load, and storing it back again when saving, so that the settings don't get lost.
+        /// </summary>
+        private List<XElement> _unknownSettings;
+
         #endregion
 
         #region Constructors
@@ -61,6 +67,7 @@ namespace AlarmWorkflow.Shared.Settings
         private SettingsManager()
         {
             _settings = new Dictionary<string, SettingsConfigurationFile>();
+            _unknownSettings = new List<XElement>();
         }
 
         #endregion
@@ -236,6 +243,13 @@ namespace AlarmWorkflow.Shared.Settings
                     continue;
                 }
 
+                // Check if the setting identifier exists in our context. If this is not the case, file it under unknown.
+                if (!_settings.ContainsKey(identifier))
+                {
+                    _unknownSettings.Add(sectionE);
+                    continue;
+                }
+
                 foreach (XElement userSettingE in sectionE.Elements("UserSetting"))
                 {
                     string name = userSettingE.TryGetAttributeValue("Name", null);
@@ -335,6 +349,12 @@ namespace AlarmWorkflow.Shared.Settings
                 }
 
                 rootE.Add(identifyableE);
+            }
+
+            // After all known settings have been written, append the unknown settings (if any).
+            foreach (XElement unknownE in _unknownSettings)
+            {
+                rootE.Add(unknownE);
             }
 
             // Save to disk using explicit encoding

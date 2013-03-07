@@ -80,10 +80,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public IDictionary<string, object> CustomData { get; set; }
         /// <summary>
-        /// Gets/sets the image data that contains the route plan.
-        /// </summary>
-        public byte[] RouteImage { get; set; }
-        /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
@@ -92,7 +88,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets/sets the loop information that is associated with this operation.
         /// </summary>
-        public IList<string> Loops { get; set; }
+        public OperationLoopCollection Loops { get; set; }
 
         #endregion
 
@@ -106,7 +102,7 @@ namespace AlarmWorkflow.Shared.Core
             CustomData = new Dictionary<string, object>();
             Resources = new OperationResourceCollection();
             OperationGuid = Guid.NewGuid();
-            Loops = new List<string>();
+            Loops = new OperationLoopCollection();
 
             Einsatzort = new PropertyLocation();
             Zielort = new PropertyLocation();
