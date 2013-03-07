@@ -5,6 +5,7 @@ using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Properties;
 
 namespace AlarmWorkflow.Shared.Engine
 {
@@ -13,6 +14,12 @@ namespace AlarmWorkflow.Shared.Engine
     /// </summary>
     public sealed class AlarmWorkflowEngine : IDisposable
     {
+        #region Constants
+
+        private const string AlarmSourceThreadNameFormat = "AlarmWorkflow.Engine.Thread.${0}";
+
+        #endregion
+
         #region Fields
 
         private List<IAlarmSource> _alarmSources;
@@ -50,19 +57,19 @@ namespace AlarmWorkflow.Shared.Engine
         private void InitializeOperationStore()
         {
             _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
-            Logger.Instance.LogFormat(LogType.Info, this, "Using operation store '{0}'.", _operationStore.GetType().FullName);
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.InitializedOperationStore, _operationStore.GetType().FullName);
         }
 
         private void InitializeAlarmSources()
         {
             foreach (var export in ExportedTypeLibrary.GetExports(typeof(IAlarmSource)).Where(j => AlarmWorkflowConfiguration.Instance.EnabledAlarmSources.Contains(j.Attribute.Alias)))
             {
-                Logger.Instance.LogFormat(LogType.Info, this, "Enabling alarm source '{0}'...", export.Type.Name);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceEnabling, export.Type.Name);
 
                 IAlarmSource alarmSource = export.CreateInstance<IAlarmSource>();
                 _alarmSources.Add(alarmSource);
 
-                Logger.Instance.LogFormat(LogType.Info, this, "Alarm source '{0}' enabled.", export.Type.Name);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceEnabled, export.Type.Name);
             }
         }
 
@@ -77,19 +84,20 @@ namespace AlarmWorkflow.Shared.Engine
                 return;
             }
 
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.EngineStarting);
+
             InitializeOperationStore();
             InitializeAlarmSources();
 
             _jobManager = new JobManager();
             _jobManager.Initialize();
 
-            // Initialize each alarm source and register event handler
             int iInitializedSources = 0;
             foreach (IAlarmSource alarmSource in _alarmSources)
             {
                 try
                 {
-                    Logger.Instance.LogFormat(LogType.Info, this, "Initializing Alarmsource '{0}'.", alarmSource.GetType().Name);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceInitializing, alarmSource.GetType().Name);
                     alarmSource.Initialize();
                     alarmSource.NewAlarm += AlarmSource_NewAlarm;
 
@@ -97,33 +105,33 @@ namespace AlarmWorkflow.Shared.Engine
                     Thread ast = new Thread(AlarmSourceThreadWrapper);
                     // Use lower priority since we have many threads
                     ast.Priority = ThreadPriority.BelowNormal;
-                    ast.Name = string.Format("AlarmWorkflow.Engine.Thread.$" + alarmSource.GetType().Name);
+                    ast.Name = string.Format(AlarmSourceThreadNameFormat, alarmSource.GetType().Name);
 
                     // Start the thread
                     _alarmSourcesThreads.Add(alarmSource, ast);
-                    Logger.Instance.LogFormat(LogType.Info, this, "Starting Alarmsource '{0}'.", alarmSource.GetType().Name);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceStarting, alarmSource.GetType().Name);
                     ast.Start(alarmSource);
 
                     iInitializedSources++;
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Error initializing alarm source '{0}'. It will not run.", alarmSource.GetType().FullName);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Resources.AlarmSourceStartException, alarmSource.GetType().FullName);
                     Logger.Instance.LogException(this, ex);
                 }
             }
 
             if (iInitializedSources > 0)
             {
-                Logger.Instance.LogFormat(LogType.Info, this, "Started Service");
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.EngineStarted);
                 IsStarted = true;
                 return;
             }
             else
             {
                 // Having no alarm sources is very critical - throw exception
-                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ServiceStartFailedNoAlarmSourceException);
-                throw new InvalidOperationException(Properties.Resources.ServiceStartFailedNoAlarmSourceException);
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.EngineStartFailedNoAlarmSourceException);
+                throw new InvalidOperationException(Properties.Resources.EngineStartFailedNoAlarmSourceException);
             }
         }
 
@@ -145,7 +153,7 @@ namespace AlarmWorkflow.Shared.Engine
             catch (Exception ex)
             {
                 // Log any exception (the thread will end afterwards).
-                Logger.Instance.LogFormat(LogType.Error, this, "An unhandled exception occurred while running the thread for alarm source '{0}'. The thread is being terminated. Please check the log.", source.GetType().FullName);
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.AlarmSourceThreadException, source.GetType().FullName);
                 Logger.Instance.LogException(this, ex);
             }
         }
@@ -160,7 +168,7 @@ namespace AlarmWorkflow.Shared.Engine
                 return;
             }
 
-            Logger.Instance.LogFormat(LogType.Info, this, "Stopping Service");
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.EngineStopping);
 
             // Dispose and kill all threads
             foreach (IAlarmSource alarmSource in _alarmSources)
@@ -183,7 +191,7 @@ namespace AlarmWorkflow.Shared.Engine
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Error disposing alarm source '{0}'.", alarmSource.GetType().FullName);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Resources.AlarmSourceDisposeException, alarmSource.GetType().FullName);
                     Logger.Instance.LogException(this, ex);
                 }
             }
@@ -191,10 +199,9 @@ namespace AlarmWorkflow.Shared.Engine
             _jobManager.Dispose();
             _jobManager = null;
 
-            // Dispose operation store
             _operationStore = null;
 
-            Logger.Instance.LogFormat(LogType.Info, this, "Stopped Service");
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.EngineStopped);
 
             IsStarted = false;
         }
@@ -218,20 +225,20 @@ namespace AlarmWorkflow.Shared.Engine
 
             Operation operation = e.Operation;
 
-            // Sanity-checks
             if (operation == null)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!", source.GetType().FullName);
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.AlarmSourceNoOperation, source.GetType().FullName);
                 return;
             }
-            Logger.Instance.LogFormat(LogType.Info, this, "Recived operation: {0} by Alarm Source: {1}. ", operation.ToString(), sender.GetType().Name);
+
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceReceivedOperation, operation.ToString(), sender.GetType().Name);
             try
             {
 
-                // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
+                // If there is no timestamp, use the current time.
                 if (operation.Timestamp.Year == 1)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                    Logger.Instance.LogFormat(LogType.Warning, this, Resources.NewAlarmInvalidTimestamp);
                     operation.Timestamp = DateTime.Now;
                 }
 
@@ -248,13 +255,12 @@ namespace AlarmWorkflow.Shared.Engine
                 context.Phase = JobPhase.AfterOperationStored;
                 _jobManager.ExecuteJobs(context, operation);
 
-                Logger.Instance.LogFormat(LogType.Info, this, "Stored operation (ID: {0} ).", operation.Id);
-
-                Logger.Instance.LogFormat(LogType.Info, this, "Finished handling operation (ID: {0} ).", operation.Id);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmStored, operation.Id);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmHandlingFinished, operation.Id);
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the operation!");
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.NewAlarmHandlingException);
                 Logger.Instance.LogException(this, ex);
             }
         }
@@ -267,7 +273,7 @@ namespace AlarmWorkflow.Shared.Engine
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NewAlarmStoreOperationFailedMessage);
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.NewAlarmStoreOperationFailedMessage);
                 Logger.Instance.LogException(this, ex);
                 return null;
             }
