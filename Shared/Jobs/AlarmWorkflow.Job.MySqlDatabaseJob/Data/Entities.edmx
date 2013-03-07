@@ -6,46 +6,9 @@
     <edmx:StorageModels>
     <Schema Namespace="AlarmWorkflowModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AlarmWorkflowModelStoreContainer">
-          <EntitySet Name="accessright" EntityType="AlarmWorkflowModel.Store.accessright" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="address" EntityType="AlarmWorkflowModel.Store.address" store:Type="Tables" Schema="alarmworkflow" />
           <EntitySet Name="operation" EntityType="AlarmWorkflowModel.Store.operation" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="person" EntityType="AlarmWorkflowModel.Store.person" store:Type="Tables" Schema="alarmworkflow" />
           <EntitySet Name="tb_einsatz" EntityType="AlarmWorkflowModel.Store.tb_einsatz" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="user" EntityType="AlarmWorkflowModel.Store.user" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="user_accessright" EntityType="AlarmWorkflowModel.Store.user_accessright" store:Type="Tables" Schema="alarmworkflow" />
-          <AssociationSet Name="FK_Address_Person_Id" Association="AlarmWorkflowModel.Store.FK_Address_Person_Id">
-            <End Role="person" EntitySet="person" />
-            <End Role="address" EntitySet="address" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_AccessRight_AccessRight_Id" Association="AlarmWorkflowModel.Store.FK_User_AccessRight_AccessRight_Id">
-            <End Role="accessright" EntitySet="accessright" />
-            <End Role="user_accessright" EntitySet="user_accessright" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_AccessRight_User_Id" Association="AlarmWorkflowModel.Store.FK_User_AccessRight_User_Id">
-            <End Role="user" EntitySet="user" />
-            <End Role="user_accessright" EntitySet="user_accessright" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Person_Id" Association="AlarmWorkflowModel.Store.FK_User_Person_Id">
-            <End Role="person" EntitySet="person" />
-            <End Role="user" EntitySet="user" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="accessright">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
-        </EntityType>
-        <EntityType Name="address">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Person_Id" Type="int" Nullable="false" />
-          <Property Name="AddressType" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="AddressValue" Type="varchar" MaxLength="100" />
-        </EntityType>
         <EntityType Name="operation">
           <Key>
             <PropertyRef Name="Id" />
@@ -55,14 +18,6 @@
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
           <Property Name="OperationId" Type="guid" Nullable="false" />
           <Property Name="Serialized" Type="longblob" Nullable="false" />
-        </EntityType>
-        <EntityType Name="person">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="varchar" Nullable="false" MaxLength="200" />
-          <Property Name="LastName" Type="varchar" Nullable="false" MaxLength="200" />
         </EntityType>
         <EntityType Name="tb_einsatz">
           <Key>
@@ -84,119 +39,16 @@
           <Property Name="Alarmtime" Type="varchar" MaxLength="255" />
           <Property Name="Faxtime" Type="varchar" MaxLength="255" />
           <Property Name="Stichwort" Type="varchar" MaxLength="20" />
+          <Property Name="Schleifen" Type="text" />
         </EntityType>
-        <EntityType Name="user">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Person_Id" Type="int" />
-          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="100" />
-          <Property Name="Password" Type="blob" />
-        </EntityType>
-        <EntityType Name="user_accessright">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="User_Id" Type="int" Nullable="false" />
-          <Property Name="AccessRight_Id" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_Address_Person_Id">
-          <End Role="person" Type="AlarmWorkflowModel.Store.person" Multiplicity="1" />
-          <End Role="address" Type="AlarmWorkflowModel.Store.address" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="address">
-              <PropertyRef Name="Person_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_AccessRight_AccessRight_Id">
-          <End Role="accessright" Type="AlarmWorkflowModel.Store.accessright" Multiplicity="1" />
-          <End Role="user_accessright" Type="AlarmWorkflowModel.Store.user_accessright" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="accessright">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user_accessright">
-              <PropertyRef Name="AccessRight_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_AccessRight_User_Id">
-          <End Role="user" Type="AlarmWorkflowModel.Store.user" Multiplicity="1" />
-          <End Role="user_accessright" Type="AlarmWorkflowModel.Store.user_accessright" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user_accessright">
-              <PropertyRef Name="User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Person_Id">
-          <End Role="person" Type="AlarmWorkflowModel.Store.person" Multiplicity="0..1" />
-          <End Role="user" Type="AlarmWorkflowModel.Store.user" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user">
-              <PropertyRef Name="Person_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AlarmWorkflowEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="AccessRights" EntityType="AlarmWorkflowModel.AccessRight" />
-          <EntitySet Name="Addresses" EntityType="AlarmWorkflowModel.AddressData" />
           <EntitySet Name="Operations" EntityType="AlarmWorkflowModel.OperationData" />
-          <EntitySet Name="People" EntityType="AlarmWorkflowModel.PersonData" />
           <EntitySet Name="tb_einsatz" EntityType="AlarmWorkflowModel.tb_einsatz" />
-          <EntitySet Name="Users" EntityType="AlarmWorkflowModel.UserData" />
-          <EntitySet Name="User_AccessRight" EntityType="AlarmWorkflowModel.User_AccessRight" />
-          <AssociationSet Name="FK_User_AccessRight_AccessRight_Id" Association="AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id">
-            <End Role="accessright" EntitySet="AccessRights" />
-            <End Role="user_accessright" EntitySet="User_AccessRight" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Address_Person_Id" Association="AlarmWorkflowModel.FK_Address_Person_Id">
-            <End Role="person" EntitySet="People" />
-            <End Role="address" EntitySet="Addresses" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Person_Id" Association="AlarmWorkflowModel.FK_User_Person_Id">
-            <End Role="person" EntitySet="People" />
-            <End Role="user" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_AccessRight_User_Id" Association="AlarmWorkflowModel.FK_User_AccessRight_User_Id">
-            <End Role="user" EntitySet="Users" />
-            <End Role="user_accessright" EntitySet="User_AccessRight" />
-          </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="AccessRight">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="user_accessright" Relationship="AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id" FromRole="accessright" ToRole="user_accessright" />
-        </EntityType>
-        <EntityType Name="AddressData">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Person_Id" Type="Int32" Nullable="false" />
-          <Property Name="AddressType" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-          <Property Name="AddressValue" Type="String" MaxLength="100" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="person" Relationship="AlarmWorkflowModel.FK_Address_Person_Id" FromRole="address" ToRole="person" />
-        </EntityType>
+          </EntityContainer>
         <EntityType Name="OperationData">
           <Key>
             <PropertyRef Name="Id" />
@@ -206,16 +58,6 @@
           <Property Name="Timestamp" Type="DateTime" Nullable="false" />
           <Property Name="OperationId" Type="Guid" Nullable="false" />
           <Property Name="Serialized" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="PersonData">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="addresses" Relationship="AlarmWorkflowModel.FK_Address_Person_Id" FromRole="person" ToRole="address" />
-          <NavigationProperty Name="users" Relationship="AlarmWorkflowModel.FK_User_Person_Id" FromRole="person" ToRole="user" />
         </EntityType>
         <EntityType Name="tb_einsatz">
           <Documentation>
@@ -240,92 +82,14 @@
           <Property Name="Alarmtime" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="Faxtime" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
           <Property Name="Stichwort" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Type="String" Name="Schleifen" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="UserData">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Person_Id" Type="Int32" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-          <Property Name="Password" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="person" Relationship="AlarmWorkflowModel.FK_User_Person_Id" FromRole="user" ToRole="person" />
-          <NavigationProperty Name="user_accessright" Relationship="AlarmWorkflowModel.FK_User_AccessRight_User_Id" FromRole="user" ToRole="user_accessright" />
-        </EntityType>
-        <EntityType Name="User_AccessRight">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="User_Id" Type="Int32" Nullable="false" />
-          <Property Name="AccessRight_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="accessright" Relationship="AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id" FromRole="user_accessright" ToRole="accessright" />
-          <NavigationProperty Name="user" Relationship="AlarmWorkflowModel.FK_User_AccessRight_User_Id" FromRole="user_accessright" ToRole="user" />
-        </EntityType>
-        <Association Name="FK_User_AccessRight_AccessRight_Id">
-          <End Role="accessright" Type="AlarmWorkflowModel.AccessRight" Multiplicity="1" />
-          <End Role="user_accessright" Type="AlarmWorkflowModel.User_AccessRight" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="accessright">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user_accessright">
-              <PropertyRef Name="AccessRight_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Address_Person_Id">
-          <End Role="person" Type="AlarmWorkflowModel.PersonData" Multiplicity="1" />
-          <End Role="address" Type="AlarmWorkflowModel.AddressData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="address">
-              <PropertyRef Name="Person_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Person_Id">
-          <End Role="person" Type="AlarmWorkflowModel.PersonData" Multiplicity="0..1" />
-          <End Role="user" Type="AlarmWorkflowModel.UserData" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="person">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user">
-              <PropertyRef Name="Person_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_AccessRight_User_Id">
-          <End Role="user" Type="AlarmWorkflowModel.UserData" Multiplicity="1" />
-          <End Role="user_accessright" Type="AlarmWorkflowModel.User_AccessRight" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="user">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="user_accessright">
-              <PropertyRef Name="User_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AlarmWorkflowModelStoreContainer" CdmEntityContainer="AlarmWorkflowEntities">
-          <EntitySetMapping Name="AccessRights"><EntityTypeMapping TypeName="AlarmWorkflowModel.AccessRight"><MappingFragment StoreEntitySet="accessright">
-            <ScalarProperty Name="Id" ColumnName="Id" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Addresses"><EntityTypeMapping TypeName="AlarmWorkflowModel.AddressData"><MappingFragment StoreEntitySet="address">
-            <ScalarProperty Name="Id" ColumnName="Id" />
-            <ScalarProperty Name="Person_Id" ColumnName="Person_Id" />
-            <ScalarProperty Name="AddressType" ColumnName="AddressType" />
-            <ScalarProperty Name="AddressValue" ColumnName="AddressValue" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="Operations"><EntityTypeMapping TypeName="AlarmWorkflowModel.OperationData"><MappingFragment StoreEntitySet="operation">
             <ScalarProperty Name="Id" ColumnName="Id" />
             <ScalarProperty Name="IsAcknowledged" ColumnName="IsAcknowledged" />
@@ -333,13 +97,9 @@
             <ScalarProperty Name="OperationId" ColumnName="OperationId" />
             <ScalarProperty Name="Serialized" ColumnName="Serialized" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="People"><EntityTypeMapping TypeName="AlarmWorkflowModel.PersonData"><MappingFragment StoreEntitySet="person">
-            <ScalarProperty Name="Id" ColumnName="Id" />
-            <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-            <ScalarProperty Name="LastName" ColumnName="LastName" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="tb_einsatz"><EntityTypeMapping TypeName="AlarmWorkflowModel.tb_einsatz"><MappingFragment StoreEntitySet="tb_einsatz">
-            <ScalarProperty Name="id" ColumnName="id" />
+            <ScalarProperty Name="Schleifen" ColumnName="Schleifen" />
+                <ScalarProperty Name="id" ColumnName="id" />
             <ScalarProperty Name="Einsatznr" ColumnName="Einsatznr" />
             <ScalarProperty Name="Einsatzort" ColumnName="Einsatzort" />
             <ScalarProperty Name="Einsatzplan" ColumnName="Einsatzplan" />
@@ -356,18 +116,7 @@
             <ScalarProperty Name="Faxtime" ColumnName="Faxtime" />
             <ScalarProperty Name="Stichwort" ColumnName="Stichwort" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="Users"><EntityTypeMapping TypeName="AlarmWorkflowModel.UserData"><MappingFragment StoreEntitySet="user">
-            <ScalarProperty Name="Id" ColumnName="Id" />
-            <ScalarProperty Name="Person_Id" ColumnName="Person_Id" />
-            <ScalarProperty Name="Name" ColumnName="Name" />
-            <ScalarProperty Name="Password" ColumnName="Password" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="User_AccessRight"><EntityTypeMapping TypeName="AlarmWorkflowModel.User_AccessRight"><MappingFragment StoreEntitySet="user_accessright">
-            <ScalarProperty Name="Id" ColumnName="Id" />
-            <ScalarProperty Name="User_Id" ColumnName="User_Id" />
-            <ScalarProperty Name="AccessRight_Id" ColumnName="AccessRight_Id" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -388,30 +137,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Entities">
-        <EntityTypeShape EntityType="AlarmWorkflowModel.AccessRight" Width="1.5" PointX="0.5" PointY="0.5" Height="1.5956835937500005" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.AddressData" Width="1.5" PointX="10.75" PointY="0.5" Height="1.9802864583333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="13" PointY="0.5" Height="1.9802864583333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.PersonData" Width="1.5" PointX="8.5" PointY="0.5" Height="1.9802864583333335" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.tb_einsatz" Width="1.5" PointX="0.5" PointY="3.375" Height="4.0956022135416674" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.UserData" Width="1.5" PointX="5.75" PointY="0.5" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.User_AccessRight" Width="1.5" PointX="3.25" PointY="0.5" Height="1.9802864583333317" IsExpanded="true" />
-        <AssociationConnector Association="AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id" ManuallyRouted="false">
-          <ConnectorPoint PointX="2" PointY="1.2978417968750002" />
-          <ConnectorPoint PointX="3.25" PointY="1.2978417968750002" />
-        </AssociationConnector>
-        <AssociationConnector Association="AlarmWorkflowModel.FK_Address_Person_Id" ManuallyRouted="false">
-          <ConnectorPoint PointX="10" PointY="1.4901432291666668" />
-          <ConnectorPoint PointX="10.75" PointY="1.4901432291666668" />
-        </AssociationConnector>
-        <AssociationConnector Association="AlarmWorkflowModel.FK_User_Person_Id" ManuallyRouted="false">
-          <ConnectorPoint PointX="8.5" PointY="1.4901432291666668" />
-          <ConnectorPoint PointX="7.25" PointY="1.4901432291666668" />
-        </AssociationConnector>
-        <AssociationConnector Association="AlarmWorkflowModel.FK_User_AccessRight_User_Id" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.75" PointY="1.4901432291666659" />
-          <ConnectorPoint PointX="4.75" PointY="1.4901432291666659" />
-        </AssociationConnector>
-      </Diagram>
+        <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333326" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlarmWorkflowModel.tb_einsatz" Width="1.5" PointX="5.75" PointY="0.5" Height="4.0956022135416674" IsExpanded="true" />
+        </Diagram>
     </Diagrams>
   </Designer>
 </edmx:Edmx>

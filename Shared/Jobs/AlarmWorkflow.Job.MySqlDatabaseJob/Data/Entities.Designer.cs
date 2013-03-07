@@ -8,23 +8,15 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
-#region EDM Relationship Metadata
-
-[assembly: EdmRelationshipAttribute("AlarmWorkflowModel", "FK_User_AccessRight_AccessRight_Id", "accessright", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.AccessRight), "user_accessright", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.User_AccessRight), true)]
-[assembly: EdmRelationshipAttribute("AlarmWorkflowModel", "FK_Address_Person_Id", "person", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.PersonData), "address", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.AddressData), true)]
-[assembly: EdmRelationshipAttribute("AlarmWorkflowModel", "FK_User_Person_Id", "person", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.PersonData), "user", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.UserData), true)]
-[assembly: EdmRelationshipAttribute("AlarmWorkflowModel", "FK_User_AccessRight_User_Id", "user", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.UserData), "user_accessright", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(AlarmWorkflow.Job.MySqlDatabaseJob.Data.User_AccessRight), true)]
-
-#endregion
-
 namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
 {
     #region Contexts
@@ -76,38 +68,6 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<AccessRight> AccessRights
-        {
-            get
-            {
-                if ((_AccessRights == null))
-                {
-                    _AccessRights = base.CreateObjectSet<AccessRight>("AccessRights");
-                }
-                return _AccessRights;
-            }
-        }
-        private ObjectSet<AccessRight> _AccessRights;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<AddressData> Addresses
-        {
-            get
-            {
-                if ((_Addresses == null))
-                {
-                    _Addresses = base.CreateObjectSet<AddressData>("Addresses");
-                }
-                return _Addresses;
-            }
-        }
-        private ObjectSet<AddressData> _Addresses;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<OperationData> Operations
         {
             get
@@ -124,22 +84,6 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<PersonData> People
-        {
-            get
-            {
-                if ((_People == null))
-                {
-                    _People = base.CreateObjectSet<PersonData>("People");
-                }
-                return _People;
-            }
-        }
-        private ObjectSet<PersonData> _People;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<tb_einsatz> tb_einsatz
         {
             get
@@ -152,57 +96,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
             }
         }
         private ObjectSet<tb_einsatz> _tb_einsatz;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<UserData> Users
-        {
-            get
-            {
-                if ((_Users == null))
-                {
-                    _Users = base.CreateObjectSet<UserData>("Users");
-                }
-                return _Users;
-            }
-        }
-        private ObjectSet<UserData> _Users;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<User_AccessRight> User_AccessRight
-        {
-            get
-            {
-                if ((_User_AccessRight == null))
-                {
-                    _User_AccessRight = base.CreateObjectSet<User_AccessRight>("User_AccessRight");
-                }
-                return _User_AccessRight;
-            }
-        }
-        private ObjectSet<User_AccessRight> _User_AccessRight;
 
         #endregion
+
         #region AddTo Methods
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the AccessRights EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToAccessRights(AccessRight accessRight)
-        {
-            base.AddObject("AccessRights", accessRight);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Addresses EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToAddresses(AddressData addressData)
-        {
-            base.AddObject("Addresses", addressData);
-        }
     
         /// <summary>
         /// Deprecated Method for adding a new object to the Operations EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
@@ -213,322 +110,20 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the People EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPeople(PersonData personData)
-        {
-            base.AddObject("People", personData);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the tb_einsatz EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddTotb_einsatz(tb_einsatz tb_einsatz)
         {
             base.AddObject("tb_einsatz", tb_einsatz);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Users EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToUsers(UserData userData)
-        {
-            base.AddObject("Users", userData);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the User_AccessRight EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToUser_AccessRight(User_AccessRight user_AccessRight)
-        {
-            base.AddObject("User_AccessRight", user_AccessRight);
-        }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="AccessRight")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class AccessRight : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new AccessRight object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static AccessRight CreateAccessRight(global::System.Int32 id, global::System.String name)
-        {
-            AccessRight accessRight = new AccessRight();
-            accessRight.Id = id;
-            accessRight.Name = name;
-            return accessRight;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_AccessRight_AccessRight_Id", "user_accessright")]
-        public EntityCollection<User_AccessRight> user_accessright
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User_AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "user_accessright");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User_AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "user_accessright", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="AddressData")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class AddressData : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new AddressData object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="person_Id">Initial value of the Person_Id property.</param>
-        /// <param name="addressType">Initial value of the AddressType property.</param>
-        public static AddressData CreateAddressData(global::System.Int32 id, global::System.Int32 person_Id, global::System.String addressType)
-        {
-            AddressData addressData = new AddressData();
-            addressData.Id = id;
-            addressData.Person_Id = person_Id;
-            addressData.AddressType = addressType;
-            return addressData;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Person_Id
-        {
-            get
-            {
-                return _Person_Id;
-            }
-            set
-            {
-                OnPerson_IdChanging(value);
-                ReportPropertyChanging("Person_Id");
-                _Person_Id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Person_Id");
-                OnPerson_IdChanged();
-            }
-        }
-        private global::System.Int32 _Person_Id;
-        partial void OnPerson_IdChanging(global::System.Int32 value);
-        partial void OnPerson_IdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String AddressType
-        {
-            get
-            {
-                return _AddressType;
-            }
-            set
-            {
-                OnAddressTypeChanging(value);
-                ReportPropertyChanging("AddressType");
-                _AddressType = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("AddressType");
-                OnAddressTypeChanged();
-            }
-        }
-        private global::System.String _AddressType;
-        partial void OnAddressTypeChanging(global::System.String value);
-        partial void OnAddressTypeChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String AddressValue
-        {
-            get
-            {
-                return _AddressValue;
-            }
-            set
-            {
-                OnAddressValueChanging(value);
-                ReportPropertyChanging("AddressValue");
-                _AddressValue = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("AddressValue");
-                OnAddressValueChanged();
-            }
-        }
-        private global::System.String _AddressValue;
-        partial void OnAddressValueChanging(global::System.String value);
-        partial void OnAddressValueChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_Address_Person_Id", "person")]
-        public PersonData person
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_Address_Person_Id", "person").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_Address_Person_Id", "person").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<PersonData> personReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_Address_Person_Id", "person");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PersonData>("AlarmWorkflowModel.FK_Address_Person_Id", "person", value);
-                }
-            }
-        }
-
-        #endregion
-    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -560,6 +155,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -686,161 +282,8 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         partial void OnSerializedChanged();
 
         #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="PersonData")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class PersonData : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new PersonData object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="firstName">Initial value of the FirstName property.</param>
-        /// <param name="lastName">Initial value of the LastName property.</param>
-        public static PersonData CreatePersonData(global::System.Int32 id, global::System.String firstName, global::System.String lastName)
-        {
-            PersonData personData = new PersonData();
-            personData.Id = id;
-            personData.FirstName = firstName;
-            personData.LastName = lastName;
-            return personData;
-        }
 
-        #endregion
-        #region Primitive Properties
     
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String FirstName
-        {
-            get
-            {
-                return _FirstName;
-            }
-            set
-            {
-                OnFirstNameChanging(value);
-                ReportPropertyChanging("FirstName");
-                _FirstName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("FirstName");
-                OnFirstNameChanged();
-            }
-        }
-        private global::System.String _FirstName;
-        partial void OnFirstNameChanging(global::System.String value);
-        partial void OnFirstNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String LastName
-        {
-            get
-            {
-                return _LastName;
-            }
-            set
-            {
-                OnLastNameChanging(value);
-                ReportPropertyChanging("LastName");
-                _LastName = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("LastName");
-                OnLastNameChanged();
-            }
-        }
-        private global::System.String _LastName;
-        partial void OnLastNameChanging(global::System.String value);
-        partial void OnLastNameChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_Address_Person_Id", "address")]
-        public EntityCollection<AddressData> addresses
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<AddressData>("AlarmWorkflowModel.FK_Address_Person_Id", "address");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<AddressData>("AlarmWorkflowModel.FK_Address_Person_Id", "address", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_Person_Id", "user")]
-        public EntityCollection<UserData> users
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<UserData>("AlarmWorkflowModel.FK_User_Person_Id", "user");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<UserData>("AlarmWorkflowModel.FK_User_Person_Id", "user", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -865,6 +308,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1253,389 +697,37 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         private global::System.String _Stichwort;
         partial void OnStichwortChanging(global::System.String value);
         partial void OnStichwortChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="User_AccessRight")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class User_AccessRight : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new User_AccessRight object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="user_Id">Initial value of the User_Id property.</param>
-        /// <param name="accessRight_Id">Initial value of the AccessRight_Id property.</param>
-        public static User_AccessRight CreateUser_AccessRight(global::System.Int32 id, global::System.Int32 user_Id, global::System.Int32 accessRight_Id)
-        {
-            User_AccessRight user_AccessRight = new User_AccessRight();
-            user_AccessRight.Id = id;
-            user_AccessRight.User_Id = user_Id;
-            user_AccessRight.AccessRight_Id = accessRight_Id;
-            return user_AccessRight;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 User_Id
-        {
-            get
-            {
-                return _User_Id;
-            }
-            set
-            {
-                OnUser_IdChanging(value);
-                ReportPropertyChanging("User_Id");
-                _User_Id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("User_Id");
-                OnUser_IdChanged();
-            }
-        }
-        private global::System.Int32 _User_Id;
-        partial void OnUser_IdChanging(global::System.Int32 value);
-        partial void OnUser_IdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 AccessRight_Id
-        {
-            get
-            {
-                return _AccessRight_Id;
-            }
-            set
-            {
-                OnAccessRight_IdChanging(value);
-                ReportPropertyChanging("AccessRight_Id");
-                _AccessRight_Id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("AccessRight_Id");
-                OnAccessRight_IdChanged();
-            }
-        }
-        private global::System.Int32 _AccessRight_Id;
-        partial void OnAccessRight_IdChanging(global::System.Int32 value);
-        partial void OnAccessRight_IdChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_AccessRight_AccessRight_Id", "accessright")]
-        public AccessRight accessright
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "accessright").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "accessright").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<AccessRight> accessrightReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "accessright");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_AccessRight_Id", "accessright", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_AccessRight_User_Id", "user")]
-        public UserData user
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserData>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserData>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<UserData> userReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<UserData>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<UserData>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="UserData")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class UserData : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new UserData object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="name">Initial value of the Name property.</param>
-        public static UserData CreateUserData(global::System.Int32 id, global::System.String name)
-        {
-            UserData userData = new UserData();
-            userData.Id = id;
-            userData.Name = name;
-            return userData;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public Nullable<global::System.Int32> Person_Id
+        public global::System.String Schleifen
         {
             get
             {
-                return _Person_Id;
+                return _Schleifen;
             }
             set
             {
-                OnPerson_IdChanging(value);
-                ReportPropertyChanging("Person_Id");
-                _Person_Id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Person_Id");
-                OnPerson_IdChanged();
+                OnSchleifenChanging(value);
+                ReportPropertyChanging("Schleifen");
+                _Schleifen = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Schleifen");
+                OnSchleifenChanged();
             }
         }
-        private Nullable<global::System.Int32> _Person_Id;
-        partial void OnPerson_IdChanging(Nullable<global::System.Int32> value);
-        partial void OnPerson_IdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
-            }
-        }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.Byte[] Password
-        {
-            get
-            {
-                return StructuralObject.GetValidValue(_Password);
-            }
-            set
-            {
-                OnPasswordChanging(value);
-                ReportPropertyChanging("Password");
-                _Password = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("Password");
-                OnPasswordChanged();
-            }
-        }
-        private global::System.Byte[] _Password;
-        partial void OnPasswordChanging(global::System.Byte[] value);
-        partial void OnPasswordChanged();
+        private global::System.String _Schleifen;
+        partial void OnSchleifenChanging(global::System.String value);
+        partial void OnSchleifenChanged();
 
         #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_Person_Id", "person")]
-        public PersonData person
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_User_Person_Id", "person").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_User_Person_Id", "person").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<PersonData> personReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<PersonData>("AlarmWorkflowModel.FK_User_Person_Id", "person");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<PersonData>("AlarmWorkflowModel.FK_User_Person_Id", "person", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("AlarmWorkflowModel", "FK_User_AccessRight_User_Id", "user_accessright")]
-        public EntityCollection<User_AccessRight> user_accessright
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<User_AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user_accessright");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<User_AccessRight>("AlarmWorkflowModel.FK_User_AccessRight_User_Id", "user_accessright", value);
-                }
-            }
-        }
 
-        #endregion
+    
     }
 
     #endregion
+
     
 }
