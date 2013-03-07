@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmSour
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.PushJob", "Jobs\AlarmWorkflow.Job.PushJob\AlarmWorkflow.Job.PushJob.csproj", "{9A6598BB-3ED1-46A0-ADDC-98E53655BF76}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.OperationLoopFetcher", "Jobs\AlarmWorkflow.Job.OperationLoopFetcher\AlarmWorkflow.Job.OperationLoopFetcher.csproj", "{3E244964-D13D-4B5E-8903-02C310D1B945}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{9A6598BB-3ED1-46A0-ADDC-98E53655BF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A6598BB-3ED1-46A0-ADDC-98E53655BF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A6598BB-3ED1-46A0-ADDC-98E53655BF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E244964-D13D-4B5E-8903-02C310D1B945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E244964-D13D-4B5E-8903-02C310D1B945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E244964-D13D-4B5E-8903-02C310D1B945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E244964-D13D-4B5E-8903-02C310D1B945}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
