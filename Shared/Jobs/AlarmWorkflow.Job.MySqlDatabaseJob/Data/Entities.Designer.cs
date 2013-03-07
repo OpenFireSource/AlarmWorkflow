@@ -287,7 +287,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
     }
     
     /// <summary>
-    /// Legacy table from old AlarmWorkflow; still in use.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="AlarmWorkflowModel", Name="tb_einsatz")]
     [Serializable()]

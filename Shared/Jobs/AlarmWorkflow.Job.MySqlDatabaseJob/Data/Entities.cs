@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Linq;
+using System.Text;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
@@ -20,7 +21,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
             string uid = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
             string pwd = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
 
-            StringBuilder sb = new StringBuilder("metadata=res://*/Data.Entities.csdl|res://*/Data.Entities.ssdl|res://*/Data.Entities.msl;provider=MySql.Data.MySqlClient;provider connection string=\";server={SERVER};Port={PORT};User Id={UID};Password={PWD};database={DATABASE};Persist Security Info=True\"");
+            StringBuilder sb = new StringBuilder("metadata=res://*/Data.Entities.csdl|res://*/Data.Entities.ssdl|res://*/Data.Entities.msl;provider=MySql.Data.MySqlClient;provider connection string=\"server={SERVER};Port={PORT};User Id={UID};Password={PWD};database={DATABASE};Persist Security Info=True\"");
             sb.Replace("{SERVER}", server);
             sb.Replace("{PORT}", port.ToString());
             sb.Replace("{DATABASE}", dbName);
@@ -37,6 +38,23 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
         internal static AlarmWorkflowEntities CreateContext()
         {
             return new AlarmWorkflowEntities(ConnectionString);
+        }
+
+        internal static bool CheckDatabaseReachable()
+        {
+            using (AlarmWorkflowEntities entities = CreateContext())
+            {
+                try
+                {
+                    entities.tb_einsatz.Any();
+                    return true;
+                }
+                catch (System.Exception)
+                {
+                    // Intentionally left blank --> database not reachable or other error.
+                }
+                return false;
+            }
         }
     }
 }

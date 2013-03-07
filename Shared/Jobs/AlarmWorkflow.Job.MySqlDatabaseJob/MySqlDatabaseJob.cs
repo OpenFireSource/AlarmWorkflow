@@ -1,34 +1,13 @@
-﻿using System.Text;
+﻿using AlarmWorkflow.Job.MySqlDatabaseJob.Data;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
-using MySql.Data.MySqlClient;
 
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
-    /// <summary>
-    /// Legacy MySql-Database Job that writes to the "tb_einsatz" table.
-    /// </summary>
     [Export("MySqlDatabaseJob", typeof(IJob))]
     sealed class MySqlDatabaseJob : IJob
     {
-        #region Constants
-
-        private const string TableName = "tb_einsatz";
-
-        #endregion
-
-        #region Fields
-
-        private string _user;
-        private string _password;
-        private string _databaseName;
-        private string _serverName;
-
-        #endregion
-
         #region Constructor
 
         /// <summary>
@@ -40,37 +19,11 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
         #endregion
 
-        #region Methods
-
-        private MySqlConnection CreateConnection()
-        {
-            return new MySqlConnection("Persist Security Info=False;database=" + this._databaseName + ";server=" + this._serverName + ";user id=" + this._user + ";Password=" + this._password);
-        }
-
-        #endregion
-
         #region IJob Members
 
         bool IJob.Initialize()
         {
-            _databaseName = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBName").GetString();
-            _user = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
-            _password = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
-            _serverName = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServer").GetString();
-
-            // Check whether we can connect properly...
-            try
-            {
-                using (MySqlConnection conn = CreateConnection())
-                {
-                    conn.Open();
-                }
-            }
-            catch (System.Exception)
-            {
-                return false;
-            }
-            return true;
+            return AlarmWorkflowEntities.CheckDatabaseReachable();
         }
 
         void IJob.Execute(IJobContext context, Operation operation)
@@ -80,41 +33,34 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 return;
             }
 
-            using (MySqlConnection conn = CreateConnection())
+            WriteOperationToDatabase(operation);
+        }
+
+        private void WriteOperationToDatabase(Operation operation)
+        {
+            using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
             {
-                conn.Open();
-                if (conn.State != System.Data.ConnectionState.Open)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, "Could not open SQL Connection!");
-                    return;
-                }
+                tb_einsatz data = new tb_einsatz();
+                data.Einsatznr = operation.OperationNumber;
+                data.Einsatzort = operation.Einsatzort.Location;
+                data.Einsatzplan = operation.OperationPlan;
+                data.Hinweis = operation.Comment;
+                data.Kreuzung = operation.Einsatzort.Intersection;
+                data.Meldebild = operation.Picture;
+                data.Mitteiler = operation.Messenger;
+                data.Objekt = operation.Einsatzort.Property;
+                data.Ort = operation.Einsatzort.City;
+                data.Strasse = operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber;
+                data.Fahrzeuge = operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null);
+                data.Einsatzstichwort = operation.Keywords.EmergencyKeyword;
+                data.Stichwort = operation.Keywords.Keyword;
+                data.Schleifen = string.Join(";", operation.Loops);
+                // TODO: The two times are currently the same. This may change in future.
+                //data.ZeitpunktEingang = operation.Timestamp;
+                //data.ZeitpunktAlarm = operation.Timestamp;
 
-                // TODO: This string contains CustomData. When actually using this job this should be revised to NOT use any custom data (or make it extensible)!
-
-                StringBuilder queryText = new StringBuilder();
-                queryText.AppendFormat("INSERT INTO {0} ", TableName);
-                queryText.Append("(Einsatznr, Einsatzort, Einsatzplan, Hinweis, Kreuzung, Meldebild, Mitteiler, Objekt, Ort, Strasse, Fahrzeuge, Alarmtime, Faxtime, Einsatzstichwort, Stichwort, Schleifen) ");
-                queryText.Append("VALUES (");
-                queryText.AppendFormat("'{0}', ", operation.OperationNumber);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Location);
-                queryText.AppendFormat("'{0}', ", operation.OperationPlan);
-                queryText.AppendFormat("'{0}', ", operation.Comment);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Intersection);
-                queryText.AppendFormat("'{0}', ", operation.Picture);
-                queryText.AppendFormat("'{0}', ", operation.Messenger);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Property);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.City);
-                queryText.AppendFormat("'{0}', ", operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber);
-                queryText.AppendFormat("'{0}', ", operation.Resources.ToString("{FullName} {RequestedEquipment} | ", null));
-                queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Alarmtime"));
-                queryText.AppendFormat("'{0}', ", operation.GetCustomData<string>("Faxtime"));
-                queryText.AppendFormat("'{0}', ", operation.Keywords.EmergencyKeyword);
-                queryText.AppendFormat("'{0}', ", operation.Keywords.Keyword);
-                queryText.AppendFormat("'{0}'", string.Join(";", operation.Loops));
-                queryText.Append(")");
-
-                MySqlCommand cmd = new MySqlCommand(queryText.ToString(), conn);
-                cmd.ExecuteNonQuery();
+                entities.tb_einsatz.AddObject(data);
+                entities.SaveChanges();
             }
         }
 

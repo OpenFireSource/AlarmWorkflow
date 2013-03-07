@@ -60,28 +60,25 @@
           <Property Name="Serialized" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="tb_einsatz">
-          <Documentation>
-            <Summary>Legacy table from old AlarmWorkflow; still in use.</Summary>
-          </Documentation>
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Einsatznr" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Einsatzort" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Einsatzplan" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Hinweis" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Kreuzung" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Meldebild" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Mitteiler" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Objekt" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Ort" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Strasse" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Fahrzeuge" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Einsatzstichwort" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Alarmtime" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Faxtime" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Stichwort" Type="String" MaxLength="20" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Einsatznr" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Einsatzort" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Einsatzplan" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Hinweis" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Kreuzung" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Meldebild" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Mitteiler" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Objekt" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Ort" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Strasse" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Fahrzeuge" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Einsatzstichwort" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Alarmtime" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Faxtime" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Stichwort" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Schleifen" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
@@ -97,25 +94,29 @@
             <ScalarProperty Name="OperationId" ColumnName="OperationId" />
             <ScalarProperty Name="Serialized" ColumnName="Serialized" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="tb_einsatz"><EntityTypeMapping TypeName="AlarmWorkflowModel.tb_einsatz"><MappingFragment StoreEntitySet="tb_einsatz">
-            <ScalarProperty Name="Schleifen" ColumnName="Schleifen" />
+          <EntitySetMapping Name="tb_einsatz">
+            <EntityTypeMapping TypeName="AlarmWorkflowModel.tb_einsatz">
+              <MappingFragment StoreEntitySet="tb_einsatz">
+                <ScalarProperty Name="Schleifen" ColumnName="Schleifen" />
+                <ScalarProperty Name="Stichwort" ColumnName="Stichwort" />
+                <ScalarProperty Name="Faxtime" ColumnName="Faxtime" />
+                <ScalarProperty Name="Alarmtime" ColumnName="Alarmtime" />
+                <ScalarProperty Name="Einsatzstichwort" ColumnName="Einsatzstichwort" />
+                <ScalarProperty Name="Fahrzeuge" ColumnName="Fahrzeuge" />
+                <ScalarProperty Name="Strasse" ColumnName="Strasse" />
+                <ScalarProperty Name="Ort" ColumnName="Ort" />
+                <ScalarProperty Name="Objekt" ColumnName="Objekt" />
+                <ScalarProperty Name="Mitteiler" ColumnName="Mitteiler" />
+                <ScalarProperty Name="Meldebild" ColumnName="Meldebild" />
+                <ScalarProperty Name="Kreuzung" ColumnName="Kreuzung" />
+                <ScalarProperty Name="Hinweis" ColumnName="Hinweis" />
+                <ScalarProperty Name="Einsatzplan" ColumnName="Einsatzplan" />
+                <ScalarProperty Name="Einsatzort" ColumnName="Einsatzort" />
+                <ScalarProperty Name="Einsatznr" ColumnName="Einsatznr" />
                 <ScalarProperty Name="id" ColumnName="id" />
-            <ScalarProperty Name="Einsatznr" ColumnName="Einsatznr" />
-            <ScalarProperty Name="Einsatzort" ColumnName="Einsatzort" />
-            <ScalarProperty Name="Einsatzplan" ColumnName="Einsatzplan" />
-            <ScalarProperty Name="Hinweis" ColumnName="Hinweis" />
-            <ScalarProperty Name="Kreuzung" ColumnName="Kreuzung" />
-            <ScalarProperty Name="Meldebild" ColumnName="Meldebild" />
-            <ScalarProperty Name="Mitteiler" ColumnName="Mitteiler" />
-            <ScalarProperty Name="Objekt" ColumnName="Objekt" />
-            <ScalarProperty Name="Ort" ColumnName="Ort" />
-            <ScalarProperty Name="Strasse" ColumnName="Strasse" />
-            <ScalarProperty Name="Fahrzeuge" ColumnName="Fahrzeuge" />
-            <ScalarProperty Name="Einsatzstichwort" ColumnName="Einsatzstichwort" />
-            <ScalarProperty Name="Alarmtime" ColumnName="Alarmtime" />
-            <ScalarProperty Name="Faxtime" ColumnName="Faxtime" />
-            <ScalarProperty Name="Stichwort" ColumnName="Stichwort" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -138,7 +139,7 @@
     <Diagrams>
       <Diagram Name="Entities">
         <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.tb_einsatz" Width="1.5" PointX="5.75" PointY="0.5" Height="4.0956022135416674" IsExpanded="true" />
+        <EntityTypeShape EntityType="AlarmWorkflowModel.tb_einsatz" Width="1.5" PointX="3" PointY="0.5" Height="4.2879036458333335" />
         </Diagram>
     </Diagrams>
   </Designer>
