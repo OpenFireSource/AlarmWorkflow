@@ -61,6 +61,7 @@
     <Compile Include="Core\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />
     <Compile Include="Core\ObjectFormatterOptions.cs" />
+    <Compile Include="Core\OperationLoopCollection.cs" />
     <Compile Include="Engine\JobContext.cs" />
     <Compile Include="Engine\IJobContext.cs" />
     <Compile Include="Core\Operation.cs" />
