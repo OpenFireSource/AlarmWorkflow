@@ -39,11 +39,6 @@ namespace AlarmWorkflow.Shared.Diagnostics
         #region Constants
 
         private static readonly string DefaultLogPath = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs");
-        /// <summary>
-        /// The maximum length of the full type name until it gets truncated at the beginning.
-        /// This only applies if the source is inferred from the type name.
-        /// </summary>
-        private const int MaxSourceLength = 32;
 
         #endregion
 
@@ -176,17 +171,6 @@ namespace AlarmWorkflow.Shared.Diagnostics
             LogEntry entry = new LogEntry(type, GetLogSourceName(source), String.Format(CultureInfo.InvariantCulture, format, arguments));
             entry.Exception = exception;
             LogCore(entry);
-        }
-
-        /// <summary>
-        /// Initializes the logger.
-        /// </summary>
-        /// <param name="type">The type name of the log. This will be used as the folder name of this log.</param>
-        /// <exception cref="System.InvalidOperationException">This instance is already initialized.</exception>
-        public void Initialize(Type type)
-        {
-            Assertions.AssertNotNull(type, "type");
-            Initialize(type.Name);
         }
 
         /// <summary>

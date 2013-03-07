@@ -24,7 +24,7 @@ namespace AlarmWorkflow.Windows.Service
             InitializeComponent();
 
             // Set up the logger for this instance
-            Logger.Instance.Initialize(this.GetType());
+            Logger.Instance.Initialize(this.GetType().Name);
 
             _manager = new AlarmWorkflowServiceManager();
         }
