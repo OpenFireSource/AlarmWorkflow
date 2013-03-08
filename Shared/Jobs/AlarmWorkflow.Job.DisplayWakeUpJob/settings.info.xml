@@ -7,6 +7,8 @@
              EditorParameter="0;6000"/>
     <Setting Name="DisplayConfiguration" DisplayText="Anzeigenkonfiguration" Category="Erweitert" Editor="StringArrayTypeEditor"
              Description="Die Konfiguration der Anzeigen (ein Eintrag pro Zeile)." />
+    <Setting Name="IgnoreErrorInResponse" DisplayText="Fehler in Geräteantwort ignorieren" Category="Erweitert"
+             Description="Gibt an, ob etwaige Fehler in der Antwort ignoriert werden sollen und die Aktion als erfolgreich gemeldet werden soll." />
 
   </Identifier>
 

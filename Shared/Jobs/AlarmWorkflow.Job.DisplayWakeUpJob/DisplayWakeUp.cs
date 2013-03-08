@@ -19,7 +19,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     {
         #region Constants
 
-        private const int AutoSleepTimerThreadCheckInterval = 30 * 1000;
+        private const int AutoSleepTimerThreadCheckInterval = 5 * 1000;
 
         #endregion
 
@@ -30,6 +30,8 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
         private long _autoSleepAfterMinutes;
         private Thread _autoSleepTimerThread;
         private DateTime _lastAlarmTimestamp;
+
+        private bool _ignoreErrorInResponse;
 
         #endregion
 
@@ -71,7 +73,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                     if (diffInMinutes >= _autoSleepAfterMinutes)
                     {
                         Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.PutDisplayIntoSleepMessage, display.TurnOffMonitorUri.Authority);
-                        display.TurnOff();
+                        display.TurnOff(_ignoreErrorInResponse);
                     }
                 }
 
@@ -102,6 +104,8 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                 _autoSleepTimerThread.Start();
             }
 
+            _ignoreErrorInResponse = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "IgnoreErrorInResponse").GetBoolean();
+
             return true;
         }
 
@@ -122,7 +126,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
             foreach (DisplayConfiguration dc in _configurations)
             {
-                dc.TurnOn();
+                dc.TurnOn(_ignoreErrorInResponse);
             }
         }
 
@@ -159,41 +163,58 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             internal bool IsTurnedOn { get; set; }
             internal DateTime TurnOnTimestamp { get; set; }
 
-            internal void TurnOn()
+            internal void TurnOn(bool ignoreErrors)
             {
                 Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginTurnOnDisplayMessage, TurnOnMonitorUri.Authority);
-                SendRequestAsync(true);
+                SendRequestAsync(true, ignoreErrors);
             }
 
-            internal void TurnOff()
+            internal void TurnOff(bool ignoreErrors)
             {
                 Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginTurnOffDisplayMessage, TurnOffMonitorUri.Authority);
-                SendRequestAsync(false);
+                SendRequestAsync(false, ignoreErrors);
             }
 
-            private void SendRequestAsync(bool state)
+            private void SendRequestAsync(bool state, bool ignoreErrors)
             {
                 // Send the request asynchronously, we don't want to block the main thread!
                 ThreadPool.QueueUserWorkItem((o) =>
                 {
                     Uri uri = state ? TurnOnMonitorUri : TurnOffMonitorUri;
+
+                    bool success = false;
+
                     try
                     {
                         WebRequest request = WebRequest.Create(uri);
                         request.Timeout = WebRequestTimeout;
                         request.GetResponse();
 
-                        // When we get here we assume it was successful and set the properties appropriately
                         // TODO: Examining the response may be helpful.
-                        if (state)
-                        {
-                            TurnOnTimestamp = DateTime.UtcNow;
-                        }
-                        IsTurnedOn = state;
+
+                        success = true;
                     }
                     catch (Exception)
                     {
-                        Logger.Instance.LogFormat(LogType.Error, this, "Could not connect to the display for Uri '{0}'!", uri.ToString());
+                        if (ignoreErrors)
+                        {
+                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ConnectionToDeviceFailedWithSuppression, uri);
+                        }
+                        else
+                        {
+                            Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ConnectionToDeviceFailed, uri);
+                        }
+                    }
+                    finally
+                    {
+                        if (success || (!success && ignoreErrors))
+                        {
+                            if (state)
+                            {
+                                TurnOnTimestamp = DateTime.UtcNow;
+                            }
+                            IsTurnedOn = state;
+                        }
                     }
                 });
             }

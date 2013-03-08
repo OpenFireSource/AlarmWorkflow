@@ -123,6 +123,12 @@
   <data name="BeginTurnOnDisplayMessage" xml:space="preserve">
     <value>Turning on display '{0}'...</value>
   </data>
+  <data name="ConnectionToDeviceFailed" xml:space="preserve">
+    <value>Could not connect to the device for Uri '{0}'!</value>
+  </data>
+  <data name="ConnectionToDeviceFailedWithSuppression" xml:space="preserve">
+    <value>Could not connect to the device for Uri '{0}', however the job is configured to ignore errors.</value>
+  </data>
   <data name="NoConfigurationsFoundError" xml:space="preserve">
     <value>No display configurations have been found!</value>
   </data>

@@ -4,8 +4,11 @@
   <Setting Name="TurnOffTimeout" Type="System.Int32">180</Setting>
   
   <!-- Display configuration -->
-  <Setting Name="DisplayConfiguration" Type="System.String">-- One monitor per line
+  <Setting Name="DisplayConfiguration" Type="System.String"><![CDATA[-- One monitor per line
 -- TurnOnUrl;TurnOffUrl
-http://admin:TFTPowerControl@192.168.0.243:80/SWITCH.CGI?s1=1;http://admin:TFTPowerControl@192.168.0.243:80/SWITCH.CGI?s1=0</Setting>
+http://admin:TFTPowerControl@192.168.0.243:80/SWITCH.CGI?s1=1;http://admin:TFTPowerControl@192.168.0.243:80/SWITCH.CGI?s1=0]]>
+</Setting>
+
+  <Setting Name="IgnoreErrorInResponse" Type="System.Boolean">False</Setting>
   
 </SettingsConfiguration>
