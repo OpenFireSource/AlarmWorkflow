@@ -30,6 +30,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private bool _isMissingServiceConnectionHintVisible;
         private Timer _switchTimer;
 
+        private readonly object TimerLock = new object();
+
         #endregion
 
         #region Properties
@@ -240,23 +242,28 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 return;
             }
 
+            AcknowledgeOperationAndGoToFirst(SelectedEvent);
+        }
+
+        private void AcknowledgeOperationAndGoToFirst(OperationViewModel operation)
+        {
             try
             {
-                using (var service = InternalServiceProxy.GetServiceInstance())
+                if (!operation.Operation.IsAcknowledged)
                 {
-                    service.Instance.AcknowledgeOperation(SelectedEvent.Operation.Id);
-                    // If we get here, acknowledging was successful --> update operation
-                    SelectedEvent.Operation.IsAcknowledged = true;
+                    using (var service = InternalServiceProxy.GetServiceInstance())
+                    {
+                        service.Instance.AcknowledgeOperation(operation.Operation.Id);
+                    }
 
-                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", SelectedEvent.Operation.Id);
+                    operation.Operation.IsAcknowledged = true;
+                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", operation.Operation.Id);
                 }
 
-                // If we shall go to the next operation afterwards
-                if (gotoNextOperation)
-                {
-                    RemoveEvent(SelectedEvent);
-                    SelectedEvent = AvailableEvents.FirstOrDefault();
-                }
+                RemoveEvent(operation);
+
+                // Always select the first operation if possible
+                SelectedEvent = AvailableEvents.FirstOrDefault();
 
                 OnPropertyChanged("SelectedEvent");
                 OnPropertyChanged("SelectedEvent.Operation");
@@ -264,7 +271,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
             catch (Exception ex)
             {
-                // Safety first (defensive coding) - don't throw anything here. Instead leave it as it is!
                 Logger.Instance.LogFormat(LogType.Error, this, "Could not set operation to 'acknowledged'. Most likely a connection issue or internal error.");
                 Logger.Instance.LogException(this, ex);
             }
@@ -274,6 +280,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             return AvailableEvents.Any(o => o.Operation.Id == operationId);
         }
+
         private void NextAlarm()
         {
             if (AvailableEvents.Count > 1)
@@ -287,32 +294,39 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 {
                     SelectedEvent = AvailableEvents[current + 1];
                 }
-                Operation operationNew = _selectedEvent != null ? _selectedEvent.Operation : null;
-                _operationViewer.OnOperationChanged(operationNew);
-                OnPropertyChanged("SelectedEvent");
+
                 OnPropertyChanged("SelectedEvent.Operation");
                 OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
             }
         }
-        #endregion
-
-        #region Event handlers
 
         private void _switchTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            App.Current.Dispatcher.Invoke(() => NextAlarm());
+            lock (TimerLock)
+            {
+                App.Current.Dispatcher.Invoke(() => NextAlarm());
+            }
         }
 
         private void ServicePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
+            lock (TimerLock)
+            {
+                PollServiceAndRetrieveOperations();
+                CheckAutomaticAcknowledging();
+            }
+        }
+
+        private void PollServiceAndRetrieveOperations()
+        {
             try
             {
+                int maxAge = App.GetApp().Configuration.OperationFetchingArguments.MaxAge;
+                bool onlyNonAcknowledged = App.GetApp().Configuration.OperationFetchingArguments.OnlyNonAcknowledged;
+                int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
+
                 using (var service = InternalServiceProxy.GetServiceInstance())
                 {
-                    int maxAge = App.GetApp().Configuration.OperationFetchingArguments.MaxAge;
-                    bool onlyNonAcknowledged = App.GetApp().Configuration.OperationFetchingArguments.OnlyNonAcknowledged;
-                    int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
-
                     IList<int> operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
 
                     IsMissingServiceConnectionHintVisible = false;
@@ -362,7 +376,20 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             int daage = App.GetApp().Configuration.AutomaticOperationAcknowledgement.MaxAge;
             TimeSpan dat = daage > 0 ? TimeSpan.FromMinutes(daage) : Operation.DefaultAcknowledgingTimespan;
-            return !operation.IsAcknowledged && (DateTime.UtcNow - operation.Timestamp) > dat;
+            return !operation.IsAcknowledged && (DateTime.Now - operation.Timestamp) > dat;
+        }
+
+        private void CheckAutomaticAcknowledging()
+        {
+            foreach (OperationViewModel item in AvailableEvents.ToList().OrderBy(o => o.Operation.Timestamp))
+            {
+                if (!ShouldAutomaticallyAcknowledgeOperation(item.Operation))
+                {
+                    continue;
+                }
+
+                App.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
+            }
         }
 
         #endregion
