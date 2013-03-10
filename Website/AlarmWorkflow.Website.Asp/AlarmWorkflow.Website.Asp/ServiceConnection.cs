@@ -84,7 +84,7 @@ namespace AlarmWorkflow.Website.Asp
                     if (ids.Count > 0)
                     {
                         // Retrieve the operation with full detail to allow us to access the route image
-                        OperationItem operationItem = service.Instance.GetOperationById(ids[0], OperationItemDetailLevel.Full);
+                        OperationItem operationItem = service.Instance.GetOperationById(ids[0]);
                         operation = operationItem.ToOperation();
                     }
                     return true;
