@@ -117,25 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DocumentNameAppendix" xml:space="preserve">
-    <value> (Printed)</value>
+  <data name="NMA" xml:space="preserve">
+    <value>Sent Notify my Android Notifications. Server response was: {0}</value>
   </data>
-  <data name="FileNotFound" xml:space="preserve">
-    <value>The given file {0} wasn't found. Maybe it was removed before this job started.</value>
-  </data>
-  <data name="NoPrintingPossible" xml:space="preserve">
-    <value>No printing possible maybe due to unsupported alarmsource.</value>
-  </data>
-  <data name="NoSuchPrinterFoundError" xml:space="preserve">
-    <value>There was no printer found with name '{0}'! Please specify a valid name for the printer. Available printer names are: {1}</value>
-  </data>
-  <data name="PrintingDone" xml:space="preserve">
-    <value>Done printing of page {0}.</value>
-  </data>
-  <data name="UsedPrinter" xml:space="preserve">
-    <value>Using printer {0} for AlarmSourcePrinterJob.</value>
-  </data>
-  <data name="UsingDefaultPrinter" xml:space="preserve">
-    <value>Using default printer for AlarmSourcePrinterJob</value>
+  <data name="Prowl" xml:space="preserve">
+    <value>Sent Prowl Notifications. Server response was: {0}</value>
   </data>
 </root>
