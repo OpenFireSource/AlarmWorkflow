@@ -175,7 +175,7 @@ namespace AlarmWorkflow.Website.Asp
             {
                 using (WrappedService<IAlarmWorkflowServiceInternal> service = InternalServiceProxy.GetServiceInstance())
                 {
-                    OperationItem operationItem = service.Instance.GetOperationById(int.Parse(id), OperationItemDetailLevel.Full);
+                    OperationItem operationItem = service.Instance.GetOperationById(int.Parse(id));
                     operation = operationItem.ToOperation();
                 }
             }
