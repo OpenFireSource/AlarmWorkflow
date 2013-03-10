@@ -4,7 +4,9 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Linq;
+using AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Specialized.Printing;
@@ -26,29 +28,28 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         {
             if (!context.Parameters.ContainsKey("ArchivedFilePath") || !context.Parameters.ContainsKey("ImagePath"))
             {
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.NoPrintingPossible);
                 return;
             }
 
             System.IO.FileInfo sourceImageFile = new System.IO.FileInfo((string)context.Parameters["ImagePath"]);
             if (!sourceImageFile.Exists)
             {
-                // It was removed in the meanwhile or so
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, sourceImageFile.FullName);
                 return;
             }
 
             // Grab all created files to print
             string imagePath = (string)context.Parameters["ImagePath"];
 
-            PrintDocument doc = new PrintDocument();
-            doc.DocumentName = operation.OperationNumber + Properties.Resources.DocumentNameAppendix;
+            PrintDocument doc = new PrintDocument { DocumentName = operation.OperationNumber + Resources.DocumentNameAppendix };
             if (!_printingConfiguration.IsDefaultPrinter)
             {
                 doc.PrinterSettings.PrinterName = _printingConfiguration.PrinterName;
             }
 
             // Create dedicated task to wrap the events of the PrintDocument-class
-            PrintFaxTask task = new PrintFaxTask();
-            task.ImagePath = imagePath;
+            PrintFaxTask task = new PrintFaxTask { ImagePath = imagePath };
             task.Print(doc);
         }
 
@@ -69,6 +70,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             {
                 case "FaxAlarmSource": PrintFaxes(context, operation); break;
                 default:
+                    Logger.Instance.LogFormat(LogType.Trace, this, Resources.NoPrintingPossible);
                     break;
             }
         }
@@ -76,8 +78,15 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         bool IJob.Initialize()
         {
             _printingConfiguration = PrintJobConfiguration.FromSettings("AlarmSourcePrinterJob");
-
             AssertPrintJobConfigurationIsComplete();
+            if (!_printingConfiguration.IsDefaultPrinter)
+            {
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.UsedPrinter, _printingConfiguration.PrinterName);
+            }
+            else
+            {
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.UsingDefaultPrinter);
+            }
             return true;
         }
 
@@ -88,7 +97,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 IEnumerable<string> printerNames = PrinterSettings.InstalledPrinters.Cast<string>();
                 if (!printerNames.Any(p => p == _printingConfiguration.PrinterName))
                 {
-                    string message = string.Format(Properties.Resources.NoSuchPrinterFoundError, _printingConfiguration.PrinterName, string.Join(", ", printerNames));
+                    string message = string.Format(Resources.NoSuchPrinterFoundError, _printingConfiguration.PrinterName, string.Join(", ", printerNames));
                     throw new InvalidOperationException(message);
                 }
             }
@@ -117,7 +126,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             private int _currentPageIndex = -1;
             private IList<Image> _pages;
 
-            internal string ImagePath { get; set; }
+            internal string ImagePath { private get; set; }
 
             internal void Print(PrintDocument doc)
             {
@@ -133,7 +142,8 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
                 bool hasMorePages = _currentPageIndex < (_pages.Count - 1);
                 e.HasMorePages = hasMorePages;
-
+                
+                Logger.Instance.LogFormat(LogType.Trace, this,Resources.PrintingDone,_currentPageIndex);
                 // Draw this part
                 e.Graphics.DrawImage(_pages[_currentPageIndex], Point.Empty);
 
