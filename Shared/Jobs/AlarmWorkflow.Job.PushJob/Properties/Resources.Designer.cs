@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties {
+namespace AlarmWorkflow.Job.PushJob.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Job.PushJob.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,65 +61,20 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die  (Printed) ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sent Notify my Android Notifications. Server response was: {0} ähnelt.
         /// </summary>
-        internal static string DocumentNameAppendix {
+        internal static string NMA {
             get {
-                return ResourceManager.GetString("DocumentNameAppendix", resourceCulture);
+                return ResourceManager.GetString("NMA", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die The given file {0} wasn&apos;t found. Maybe it was removed before this job started. ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sent Prowl Notifications. Server response was: {0} ähnelt.
         /// </summary>
-        internal static string FileNotFound {
+        internal static string Prowl {
             get {
-                return ResourceManager.GetString("FileNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die No printing possible maybe due to unsupported alarmsource. ähnelt.
-        /// </summary>
-        internal static string NoPrintingPossible {
-            get {
-                return ResourceManager.GetString("NoPrintingPossible", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die There was no printer found with name &apos;{0}&apos;! Please specify a valid name for the printer. Available printer names are: {1} ähnelt.
-        /// </summary>
-        internal static string NoSuchPrinterFoundError {
-            get {
-                return ResourceManager.GetString("NoSuchPrinterFoundError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Done printing of page {0}. ähnelt.
-        /// </summary>
-        internal static string PrintingDone {
-            get {
-                return ResourceManager.GetString("PrintingDone", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Using printer {0} for AlarmSourcePrinterJob. ähnelt.
-        /// </summary>
-        internal static string UsedPrinter {
-            get {
-                return ResourceManager.GetString("UsedPrinter", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Using default printer for AlarmSourcePrinterJob ähnelt.
-        /// </summary>
-        internal static string UsingDefaultPrinter {
-            get {
-                return ResourceManager.GetString("UsingDefaultPrinter", resourceCulture);
+                return ResourceManager.GetString("Prowl", resourceCulture);
             }
         }
     }

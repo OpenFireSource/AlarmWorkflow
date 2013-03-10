@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.PushJob
 {
@@ -84,7 +85,8 @@ namespace AlarmWorkflow.Job.PushJob
             {
                 using (StreamReader streamReader = new StreamReader(responseStream, Encoding.Default))
                 {
-                    streamReader.ReadToEnd();
+                    String respone = streamReader.ReadToEnd();
+                    Logger.Instance.LogFormat(LogType.Info, typeof(Prowl), Properties.Resources.Prowl, respone);
                 }
             }
             webResponse.Close();
