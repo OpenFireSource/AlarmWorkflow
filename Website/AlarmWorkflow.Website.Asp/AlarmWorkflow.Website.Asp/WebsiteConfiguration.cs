@@ -24,7 +24,14 @@ namespace AlarmWorkflow.Website.Asp
 
         private WebsiteConfiguration()
         {
-            SettingsManager.Instance.Initialize();
+            try
+            {
+                SettingsManager.Instance.Initialize();
+            }
+            catch (Exception e)
+            {
+                //Allready initalized
+            }
             Home = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString() + " " +
                    SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString() + " " +
                    SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetString() + " " +
