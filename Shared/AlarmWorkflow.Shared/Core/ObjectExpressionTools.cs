@@ -203,9 +203,8 @@ namespace AlarmWorkflow.Shared.Core
                     continue;
                 }
 
-                // If the property may be extensible (just assume that blindly if it is not in the System-namespace)
                 Type propertyType = property.PropertyType;
-                if (!propertyType.Namespace.StartsWith("System"))
+                if (IsTypeExpandable(propertyType))
                 {
                     FillAllowedProperties(propertyType, hierarchySoFar + property.Name + ".", disallowedPropertyNames, requireCanWrite, propertiesBucket);
                 }
@@ -220,6 +219,13 @@ namespace AlarmWorkflow.Shared.Core
                     propertiesBucket.Add(name);
                 }
             }
+        }
+
+        private static bool IsTypeExpandable(Type propertyType)
+        {
+            bool isInSystemNamespace = propertyType.Namespace.StartsWith("System");
+            bool isAnEnumeration = propertyType.GetInterface(typeof(System.Collections.IEnumerable).Name) != null;
+            return !isInSystemNamespace && !isAnEnumeration;
         }
     }
 }
