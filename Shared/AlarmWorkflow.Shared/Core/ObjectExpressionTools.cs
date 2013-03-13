@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AlarmWorkflow.Shared.ObjectExpressions;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -20,7 +21,8 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="graph">The object graph to use. Must not be null.</param>
         /// <param name="expression">The expression of the property to set. Must not be empty.</param>
         /// <param name="value">The value to set.</param>
-        /// <exception cref="System.MissingFieldException">A certain property in the expression was not found.</exception>
+        /// <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+        /// <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
         public static void SetValueFromExpression(object graph, string expression, object value)
         {
             Assertions.AssertNotNull(graph, "graph");
@@ -65,7 +67,8 @@ namespace AlarmWorkflow.Shared.Core
         /// <param name="graph">The object graph to use. Must not be null.</param>
         /// <param name="expression">The expression of the property to set. Must not be empty.</param>
         /// <returns>The value of the property.</returns>
-        /// <exception cref="System.MissingFieldException">A certain property in the expression was not found.</exception>
+        /// <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+        /// <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
         public static object GetValueFromExpression(object graph, string expression)
         {
             Assertions.AssertNotNull(graph, "graph");
@@ -109,12 +112,13 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         /// <param name="graph">The object graph to use. Must not be null.</param>
         /// <param name="expression">The expression of the property. Must not be empty.</param>
-        /// <param name="throwOnMissing">Whether or not to throw an exception if any property in the expression did not exist.</param>
+        /// <param name="throwOnError">Whether or not to throw an exception if any property in the expression did not exist.</param>
         /// <param name="property">If the return value is <c>true</c>, this parameter contains the property that was found.</param>
         /// <param name="target">If the return value is <c>true</c>, this parameter contains the instance of the object on which the property was found.</param>
-        /// <returns>Whether or not the property could be found.</returns>
-        /// <exception cref="System.MissingFieldException">A certain property in the expression was not found.</exception>
-        public static bool GetPropertyFromExpression(object graph, string expression, bool throwOnMissing, out PropertyInfo property, out object target)
+        /// <returns>Whether or not the property could be retrieved. Returns false also in case of an error (if <paramref name="throwOnError"/> was set to false).</returns>
+        /// <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+        /// <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
+        public static bool GetPropertyFromExpression(object graph, string expression, bool throwOnError, out PropertyInfo property, out object target)
         {
             string[] tokens = expression.Split(new[] { '.' });
 
@@ -127,10 +131,18 @@ namespace AlarmWorkflow.Shared.Core
                 property = target.GetType().GetProperty(propertyName);
                 if (property == null)
                 {
-                    if (throwOnMissing)
+                    if (throwOnError)
                     {
                         string message = string.Format("Property with name '{0}' was not found in object type '{1}' (expression was '{2}').", propertyName, target.GetType().Name, expression);
                         throw new MissingFieldException(target.GetType().Name, propertyName);
+                    }
+                    return false;
+                }
+                else if (!IsPropertyGettable(property))
+                {
+                    if (throwOnError)
+                    {
+                        throw new ExpressionNotSupportedException(expression);
                     }
                     return false;
                 }
@@ -140,6 +152,20 @@ namespace AlarmWorkflow.Shared.Core
                     // Next iteration... step down one hierarchy level
                     target = property.GetValue(target, null);
                 }
+            }
+
+            return true;
+        }
+
+        private static bool IsPropertyGettable(PropertyInfo property)
+        {
+            if (!property.CanRead)
+            {
+                return false;
+            }
+            if (property.GetIndexParameters().Length > 0)
+            {
+                return false;
             }
 
             return true;

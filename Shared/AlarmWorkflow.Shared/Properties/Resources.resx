@@ -237,4 +237,7 @@
   <data name="SettingsDisplayConfigurationNotFoundException" xml:space="preserve">
     <value>There was no SettingsDisplayConfiguration found in this instance. Perhaps this instance was not initialized with "IncludeDisplayConfiguration" or it was and the configuration is not available at this point.</value>
   </data>
+  <data name="ExpressionNotSupportedExceptionMessage" xml:space="preserve">
+    <value>The expression '{0}' led to an unsupported member, thus it cannot be retrieved. Please revise this expression or remove it if not needed.</value>
+  </data>
 </root>

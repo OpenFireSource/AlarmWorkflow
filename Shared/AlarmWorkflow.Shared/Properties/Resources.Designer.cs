@@ -187,6 +187,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The expression &apos;{0}&apos; led to an unsupported member, thus it cannot be retrieved. Please revise this expression or remove it if not needed..
+        /// </summary>
+        internal static string ExpressionNotSupportedExceptionMessage {
+            get {
+                return ResourceManager.GetString("ExpressionNotSupportedExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not parse setting value. Maybe it is ill-formed. The instance will have no items. See log for further information..
         /// </summary>
         internal static string FDResourceConfigurationParseError {
