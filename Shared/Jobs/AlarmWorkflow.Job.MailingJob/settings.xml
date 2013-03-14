@@ -24,7 +24,7 @@ Zielort: {Zielort}
 Kreuzung: {Zielort.Intersection}
 Objekt: {Zielort.Property}
 
-Einsatzplan: {operation.OperationPlan}
+Einsatzplan: {OperationPlan}
 Mitteiler: {Messenger}
 Fahrzeuge:
 {Resources}]]></Setting>
