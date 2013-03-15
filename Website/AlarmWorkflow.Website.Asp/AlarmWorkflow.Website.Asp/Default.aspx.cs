@@ -162,7 +162,8 @@ namespace AlarmWorkflow.Website.Asp
             DebugLabel.Text += " - " + operation.Id;
             DebugLabel.Text += " - " + operation.IsAcknowledged;
             lbPicture.Text = operation.Picture;
-            lbOther.Text = operation.Comment + " " + operation.OperationPlan + " " + operation.Keywords;
+            lbOther.Text = operation.Comment + " " + operation.OperationPlan;
+            lbKeyword.Text = operation.Keywords.ToString();
             lbAddress.Text = operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City;
             lbObject.Text = operation.Einsatzort.Property;
             lbResources.Text = operation.Resources.ToString("{FullName} {RequestedEquipment} ", null);
@@ -194,7 +195,7 @@ namespace AlarmWorkflow.Website.Asp
             WebResponse response = null;
             try
             {
-                HttpWebRequest request = (HttpWebRequest) WebRequest.Create(url);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = "GET";
                 response = request.GetResponse();
                 using (Stream stream = response.GetResponseStream())
@@ -238,8 +239,8 @@ namespace AlarmWorkflow.Website.Asp
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof (Default), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof (Default), ex);
+                Logger.Instance.LogFormat(LogType.Error, typeof(Default), "Could not retrieve geocode for address '{0}'.", address);
+                Logger.Instance.LogException(typeof(Default), ex);
             }
             finally
             {
@@ -257,7 +258,7 @@ namespace AlarmWorkflow.Website.Asp
             OSMCode = "    OpenLayers.Lang.setCode('de');    " +
                       "    var lon = " + result["long"] + " ;" +
                       "    var lat = " + result["lat"] + " ;" +
-                      "    var zoom =" + WebsiteConfiguration.Instance.OSMZoomLevel +" ;" +
+                      "    var zoom =" + WebsiteConfiguration.Instance.OSMZoomLevel + " ;" +
                       "    map = new OpenLayers.Map('osmmap', {" +
                       "        projection: new OpenLayers.Projection(\"EPSG:900913\")," +
                       "        displayProjection: new OpenLayers.Projection(\"EPSG:4326\")," +
@@ -293,7 +294,7 @@ namespace AlarmWorkflow.Website.Asp
                 "var address = '" + operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " +
                 operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City + "';" +
                 "var Home = '" + _configuration.Home + "';" +
-                "var ZoomLevel =" + (_configuration.GoogleZoomLevel/100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
+                "var ZoomLevel =" + (_configuration.GoogleZoomLevel / 100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
                 "var mapType = google.maps.MapTypeId." + _configuration.Maptype + ";" +
                 "var mapOptions = {" +
                 "zoom: 10," +
