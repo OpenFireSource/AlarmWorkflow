@@ -29,5 +29,15 @@ namespace AlarmWorkflow.Windows.UIContracts
         {
             MessageBox.Show(string.Format(format, args), "Warnung", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
+
+        /// <summary>
+        /// Brings up a message box with "information" content.
+        /// </summary>
+        /// <param name="format">The text to display.</param>
+        /// <param name="args">The arguments.</param>
+        public static void ShowInfo(string format, params object[] args)
+        {
+            MessageBox.Show(string.Format(format, args), "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
     }
 }

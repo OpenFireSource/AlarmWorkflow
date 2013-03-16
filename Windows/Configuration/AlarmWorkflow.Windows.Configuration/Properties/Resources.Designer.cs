@@ -70,6 +70,24 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Die Daten wurden in die Zwischenablage kopiert. Sie können diese nun z. B. im OpenFireSource-Forum zur Unterstützung des Teams posten..
+        /// </summary>
+        internal static string CopyToClipboardDoneMessage {
+            get {
+                return ResourceManager.GetString("CopyToClipboardDoneMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Konnte nicht zur URI {0} navigieren. Der Fehler war: {1}.
+        /// </summary>
+        internal static string HyperlinkRequestUriFailedMessage {
+            get {
+                return ResourceManager.GetString("HyperlinkRequestUriFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Der Wert muss zwischen &apos;{0}&apos; und &apos;{1}&apos; liegen..
         /// </summary>
         internal static string NumberTypeEditorValueNotValidHint {

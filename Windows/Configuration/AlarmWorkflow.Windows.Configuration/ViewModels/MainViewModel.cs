@@ -10,6 +10,7 @@ using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Windows.Configuration.Views;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -312,6 +313,21 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 Logger.Instance.LogException(this, ex);
                 UIUtilities.ShowWarning(Properties.Resources.ServiceStopError, ex.Message);
             }
+        }
+
+        #endregion
+
+        #region Command "ShowAboutWindowCommand"
+
+        /// <summary>
+        /// The ShowAboutWindowCommand command.
+        /// </summary>
+        public ICommand ShowAboutWindowCommand { get; private set; }
+
+        private void ShowAboutWindowCommand_Execute(object parameter)
+        {
+            AboutWindow window = new AboutWindow();
+            window.ShowDialog();
         }
 
         #endregion

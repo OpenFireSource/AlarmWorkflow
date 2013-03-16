@@ -1,0 +1,72 @@
+﻿<Window x:Class="AlarmWorkflow.Windows.Configuration.Views.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Über..." Height="400" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" Margin="2">
+            <TabItem Header="Über">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Image Grid.Row="0" Source="../Images/OFSlogo.png" />
+
+                    <TextBlock Grid.Row="1" Margin="2,8,2,2">
+                        <Run Text="AlarmWorkflow" FontWeight="Bold" />
+                        <Run Text=", ein Teil von " />
+                        <Run Text="OpenFireSource" FontWeight="Bold" />
+                        <Run Text="." />
+                        <LineBreak />
+                        <LineBreak />
+                        <Run Text="Besuchen Sie uns im Internet unter " />
+                        <Hyperlink NavigateUri="http://openfiresource.de" RequestNavigate="Hyperlink_RequestNavigate">
+                            <TextBlock Text="http://openfiresource.de" />
+                        </Hyperlink>
+                        <Run Text="." />
+                    </TextBlock>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Installierte Pakete">
+                <ListView ItemsSource="{Binding InstalledPackagesInfo}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" />
+                            <GridViewColumn Header="Version" DisplayMemberBinding="{Binding Version}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+            <TabItem Header="Erweiterte Informationen">
+                <ListView ItemsSource="{Binding AdvancedInfoEntries}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Schlüssel" DisplayMemberBinding="{Binding Key}" />
+                            <GridViewColumn Header="Wert" DisplayMemberBinding="{Binding Value}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </TabItem>
+        </TabControl>
+
+
+        <Grid Grid.Row="1" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Content="In Zwischenablage _kopieren" Command="{Binding CopyToClipboardCommand}" />
+
+            <Button Grid.Column="2" Content="_Schließen" IsCancel="True" />
+        </Grid>
+
+    </Grid>
+</Window>
