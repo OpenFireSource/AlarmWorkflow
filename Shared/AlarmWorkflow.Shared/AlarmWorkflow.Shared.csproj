@@ -55,6 +55,7 @@
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
+    <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
     <Compile Include="Core\FDResource.cs" />
