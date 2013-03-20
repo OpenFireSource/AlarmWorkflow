@@ -19,7 +19,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
         internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
-        internal ReplaceDictionary ReplaceDictionary { get; private set; }
 
         #endregion
 
@@ -40,9 +39,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
             this.RoutineInterval = SettingsManager.Instance.GetSetting("FaxAlarmSource", "Routine.Interval").GetInt32();
             this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries));
-
-            // Parse replace dictionary
-            this.ReplaceDictionary = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ReplaceDictionary").GetValue<ReplaceDictionary>();
         }
 
         #endregion

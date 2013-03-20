@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Specialized;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors

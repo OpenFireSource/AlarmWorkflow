@@ -2,7 +2,7 @@
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.AlarmSource.Fax
+namespace AlarmWorkflow.Shared.Specialized
 {
     /// <summary>
     /// Provides a dictionary that is used to fix "misspelled" or falsely recognized strings by replacing them with other, meaningful strings, if their initial intent is known.

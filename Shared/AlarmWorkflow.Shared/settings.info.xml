@@ -12,6 +12,9 @@
              Description="Definiert die verfügbaren Einsatzmittel Ihrer Feuerwehr. Bestimmte Komponenten greifen auf diese Informationen zu, um z. B. die Anzeige zu filtern oder zusätzliche Informationen bereitzustellen." />
     <Setting Name="FD.FilterUnits" DisplayText="Einsatzmittel gemäß Konfiguration filtern" Category="Einsatzmittel" 
              Description="Bestimmt, ob die Einsatzmittel in den Komponenten gefiltert werden sollen (z. B. in der Benutzeroberfläche). Es werden dann nur die konfigurierten Einsatzmittel angezeigt." />
+    
+    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Auswertung" Editor="ReplaceDictionaryTypeEditor"
+             Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
     <Setting Name="OperationStore" DisplayText="Operation Store" Category="Erweitert" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IOperationStore, AlarmWorkflow.Shared"
              Description="Welcher Operation Store zum Speichern von Alarmen benutzt wird." />

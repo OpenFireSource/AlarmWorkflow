@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -49,6 +50,10 @@ namespace AlarmWorkflow.Shared.Core
         /// Gets whether or not components shall filter their resources according to the resources configured by the <see cref="P:FDResources"/> configuration.
         /// </summary>
         public bool UseFDResourceFiltering { get; private set; }
+        /// <summary>
+        /// Gets the replace dictionary to use for replacing strings with other strings in parsed content.
+        /// </summary>
+        public ReplaceDictionary ReplaceDictionary { get; private set; }
 
         internal string OperationStoreAlias { get; private set; }
         internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
@@ -74,6 +79,8 @@ namespace AlarmWorkflow.Shared.Core
 
             this.FDResources = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetValue<FDResourceConfiguration>();
             this.UseFDResourceFiltering = SettingsManager.Instance.GetSetting("Shared", "FD.FilterUnits").GetBoolean();
+
+            this.ReplaceDictionary = SettingsManager.Instance.GetSetting("Shared", "ReplaceDictionary").GetValue<ReplaceDictionary>();
 
             // Internal configuration
             this.OperationStoreAlias = SettingsManager.Instance.GetSetting("Shared", "OperationStore").GetString();

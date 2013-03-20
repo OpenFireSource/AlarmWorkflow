@@ -106,6 +106,7 @@
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
     <Compile Include="Specialized\Printing\PrintJobConfiguration.cs" />
+    <Compile Include="Specialized\ReplaceDictionary.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
