@@ -5,7 +5,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Specialized;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
-namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
+namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
     /// <summary>
     /// Interaction logic for ReplaceDictionaryTypeEditor.xaml

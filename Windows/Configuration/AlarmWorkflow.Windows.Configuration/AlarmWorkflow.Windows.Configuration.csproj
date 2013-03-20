@@ -103,6 +103,9 @@
     <Compile Include="TypeEditors\ObjectExpressionTypeEditor.xaml.cs">
       <DependentUpon>ObjectExpressionTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml.cs">
+      <DependentUpon>ReplaceDictionaryTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
       <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,10 @@
     <Page Include="TypeEditors\ObjectExpressionTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TypeEditors\StringArrayTypeEditor.xaml">
       <SubType>Designer</SubType>
