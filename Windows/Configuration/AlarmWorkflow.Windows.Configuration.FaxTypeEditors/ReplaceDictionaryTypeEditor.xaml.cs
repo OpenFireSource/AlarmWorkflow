@@ -72,6 +72,15 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
         /// </summary>
         public class ReplaceDictionaryEditWrapper : List<FakeKeyValuePair>
         {
+            #region Properties
+
+            /// <summary>
+            /// Gets/sets whether or not to interpret the tokens as regular expressions.
+            /// </summary>
+            public bool InterpretAsRegex { get; set; }
+
+            #endregion
+
             #region Constructors
 
             /// <summary>
@@ -81,6 +90,7 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
             public ReplaceDictionaryEditWrapper(ReplaceDictionary source)
                 : base()
             {
+                this.InterpretAsRegex = source.InterpretAsRegex;
                 foreach (var pair in source.Pairs)
                 {
                     this.Add(new FakeKeyValuePair() { Key = pair.Key, Value = pair.Value });
@@ -98,6 +108,8 @@ namespace AlarmWorkflow.Windows.Configuration.FaxTypeEditors
             public ReplaceDictionary GetReplaceDictionary()
             {
                 ReplaceDictionary dict = new ReplaceDictionary();
+                dict.InterpretAsRegex = this.InterpretAsRegex;
+
                 foreach (var fakePair in this)
                 {
                     // Skip over null or already existing pairs

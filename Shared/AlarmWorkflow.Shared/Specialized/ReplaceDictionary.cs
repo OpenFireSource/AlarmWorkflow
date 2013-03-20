@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Shared.Specialized
@@ -15,6 +17,10 @@ namespace AlarmWorkflow.Shared.Specialized
         /// Gets/sets the key/value pairs (key is the source string, value is the replaced, real string used for it).
         /// </summary>
         public IDictionary<string, string> Pairs { get; set; }
+        /// <summary>
+        /// Gets/sets whether or not the key tokens are to be interpreted as regular expressions.
+        /// </summary>
+        public bool InterpretAsRegex { get; set; }
 
         #endregion
 
@@ -57,9 +63,20 @@ namespace AlarmWorkflow.Shared.Specialized
 
             foreach (var pair in Pairs)
             {
-                input = input.Replace(pair.Key, pair.Value);
+                input = ReplaceInStringCore(input, pair);
             }
             return input;
+        }
+
+        private string ReplaceInStringCore(string input, KeyValuePair<string, string> pair)
+        {
+            if (InterpretAsRegex)
+            {
+                // Note: If the performance is too bad, compiling regexes could be a good idea.
+                Regex regex = new Regex(pair.Key);
+                return regex.Replace(input, pair.Value);
+            }
+            return input.Replace(pair.Key, pair.Value);
         }
 
         #endregion
@@ -69,6 +86,7 @@ namespace AlarmWorkflow.Shared.Specialized
         void IStringSettingConvertible.Convert(string settingValue)
         {
             XDocument doc = XDocument.Parse(settingValue);
+            InterpretAsRegex = doc.Root.TryGetAttributeValue("InterpretAsRegex", false);
 
             foreach (XElement rpn in doc.Root.Elements())
             {
@@ -79,7 +97,9 @@ namespace AlarmWorkflow.Shared.Specialized
         string IStringSettingConvertible.ConvertBack()
         {
             XDocument doc = new XDocument();
-            doc.Add(new XElement("ReplaceDictionary"));
+            XElement root = new XElement("ReplaceDictionary");
+            root.Add(new XAttribute("InterpretAsRegex", InterpretAsRegex));
+            doc.Add(root);
 
             foreach (var pair in this.Pairs)
             {
@@ -87,7 +107,7 @@ namespace AlarmWorkflow.Shared.Specialized
                 pairE.Add(new XAttribute("Old", pair.Key));
                 pairE.Add(new XAttribute("New", pair.Value));
 
-                doc.Root.Add(pairE);
+                root.Add(pairE);
             }
 
             return doc.ToString();
