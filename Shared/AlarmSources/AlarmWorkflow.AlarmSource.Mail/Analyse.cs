@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlarmWorkflow.Shared.Core;
 
 #endregion
 
@@ -23,8 +24,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
             if (fieldDemiliter == null) throw new ArgumentNullException("fieldDemiliter");
             if (multiLineJoin == null) throw new ArgumentNullException("multiLineJoin");
             
-            foreach (string line in lines)
+            foreach (string lineTmp in lines)
             {
+                string line = AlarmWorkflowConfiguration.Instance.ReplaceDictionary.ReplaceInString(lineTmp);
+
                 string current = line;
                 current = current.Replace("—", "-");
                 //Schaut wie viel Felder in der Zeile sind

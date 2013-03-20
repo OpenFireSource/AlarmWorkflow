@@ -35,6 +35,8 @@ namespace AlarmWorkflow.AlarmSource.Sms
                 message = reader.ReadElementContentAsString();
             }
 
+            alarmText = AlarmWorkflowConfiguration.Instance.ReplaceDictionary.ReplaceInString(alarmText);
+
             Operation operation = null;
             // Let the parser do the job...
             try
