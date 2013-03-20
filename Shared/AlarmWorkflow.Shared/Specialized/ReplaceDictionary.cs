@@ -46,10 +46,15 @@ namespace AlarmWorkflow.Shared.Specialized
         /// <summary>
         /// Replaces all known tokens in the given input string and returns it.
         /// </summary>
-        /// <param name="input">The line to replace all known tokens in.</param>
-        /// <returns></returns>
+        /// <param name="input">The line to replace all known tokens in. If the string is null or empty, no processing is done.</param>
+        /// <returns>The string from <paramref name="input"/> with all tokens replaced.</returns>
         public string ReplaceInString(string input)
         {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return input;
+            }
+
             foreach (var pair in Pairs)
             {
                 input = input.Replace(pair.Key, pair.Value);
