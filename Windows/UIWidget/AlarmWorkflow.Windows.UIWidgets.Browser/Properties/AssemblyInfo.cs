@@ -40,4 +40,4 @@ using AlarmWorkflow.Shared.Core;
 [assembly: AssemblyFileVersion("0.9.0.0")]
 
 
-[assembly: AlarmWorkflowPackage]
+[assembly: AlarmWorkflowPackage()]
