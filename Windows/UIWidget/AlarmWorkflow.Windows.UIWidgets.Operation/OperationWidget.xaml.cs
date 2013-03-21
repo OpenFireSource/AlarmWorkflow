@@ -5,47 +5,63 @@ using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
-    [Export("OperationWidget", typeof (IUIWidget))]
+    [Export("OperationWidget", typeof(IUIWidget))]
     public partial class OperationWidget : IUIWidget
     {
+        #region Fields
+
+        private string _expressionOne;
+        private string _expressionThree;
+        private string _expressionTwo;
+
+        #endregion
+
+        #region Constructor
+
         public OperationWidget()
         {
             InitializeComponent();
         }
 
+        #endregion
+
         #region IUIWidget Members
 
         bool IUIWidget.Initialize()
         {
+            _expressionOne = SettingsManager.Instance.GetSetting("OperationWidget", "LineOne").GetString();
+            _expressionTwo = SettingsManager.Instance.GetSetting("OperationWidget", "LineTwo").GetString();
+            _expressionThree = SettingsManager.Instance.GetSetting("OperationWidget", "LineThree").GetString();
+
             return true;
         }
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-            string settingLineOne = SettingsManager.Instance.GetSetting("OperationWidget", "LineOne").GetString();
             string lineOne = null;
-            if (!string.IsNullOrWhiteSpace(settingLineOne))
-            {
-                lineOne = operation != null ? operation.ToString(settingLineOne) : "(n/A)";
-            }
-            string settingLineTwo = SettingsManager.Instance.GetSetting("OperationWidget", "LineTwo").GetString();
             string lineTwo = null;
-            if (!string.IsNullOrWhiteSpace(settingLineTwo))
+            string lineThree = null;
+
+            if (!string.IsNullOrWhiteSpace(_expressionOne))
             {
-                lineTwo = operation != null ? operation.ToString(settingLineTwo) : "(n/A)";
+                lineOne = operation != null ? operation.ToString(_expressionOne) : "(n/A)";
+            }
+            if (!string.IsNullOrWhiteSpace(_expressionTwo))
+            {
+                lineTwo = operation != null ? operation.ToString(_expressionTwo) : "(n/A)";
+            }
+            if (!string.IsNullOrWhiteSpace(_expressionThree))
+            {
+                lineThree = operation != null ? operation.ToString(_expressionThree) : "(n/A)";
             }
 
-            string settingLineThree = SettingsManager.Instance.GetSetting("OperationWidget", "LineThree").GetString();
-            string lineThree = null;
-            if (!string.IsNullOrWhiteSpace(settingLineOne))
-            {
-                lineThree = operation != null ? operation.ToString(settingLineThree) : "(n/A)";
-            }
             LineOne.Inlines.Clear();
-            LineOne.Inlines.Add(Helper.Traverse(lineOne));
-            LineTwo.Inlines.Clear();
-            LineTwo.Inlines.Add(Helper.Traverse(lineTwo));
             LineThree.Inlines.Clear();
+            LineThree.Inlines.Clear();
+            LineTwo.Inlines.Clear();
+
+            LineOne.Inlines.Add(Helper.Traverse(lineOne));
+            LineTwo.Inlines.Add(Helper.Traverse(lineTwo));
             LineThree.Inlines.Add(Helper.Traverse(lineThree));
         }
 
@@ -62,7 +78,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         string IUIWidget.Title
         {
-            get { return "Operation-View"; }
+            get { return "Alarmtext"; }
         }
 
         #endregion

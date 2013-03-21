@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
@@ -41,7 +42,14 @@ namespace AlarmWorkflow.Windows.UIWidgets.Browser
         void IUIWidget.OnOperationChange(Operation operation)
         {
             String url = ObjectFormatter.ToString(operation, _expressionUrl, ObjectFormatterOptions.RemoveNewlines);
-            _webbrowser.Navigate(url);
+            try
+            {
+                _webbrowser.Navigate(url);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
         }
 
         UIElement IUIWidget.UIElement

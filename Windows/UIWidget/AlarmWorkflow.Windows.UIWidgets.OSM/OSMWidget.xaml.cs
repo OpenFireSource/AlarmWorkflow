@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Windows;
-using System.Windows.Forms;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -51,8 +50,22 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             }
             _operation = operation;
             String html = BuildHTML();
-            File.WriteAllText(_osmFile, html);
-            _webBrowser.Navigate(_osmFile);
+            try
+            {
+                File.WriteAllText(_osmFile, html);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
+            try
+            {
+                _webBrowser.Navigate(_osmFile);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
         }
 
         UIElement IUIWidget.UIElement
@@ -264,10 +277,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             else
             {
                 html = "";
-                
             }
             return html;
-
         }
 
         #endregion
