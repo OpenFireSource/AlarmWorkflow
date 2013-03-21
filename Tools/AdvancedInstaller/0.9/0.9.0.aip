@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="9.9" version="9.9" Modules="professional" RootPath="." Language="de" Id="{1559F149-B79D-49B3-9CAE-CB20DC79F366}">
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiValidationComponent">
+    <ROW Table="File" Column="Sequence" MinValue="1" MaxValue="32767" Description="Sequence with respect to the media images; order must track cabinet order." Options="0" ColumnType="2" ColumnIndex="7" ColumnSize="2" MsiKey="File#Sequence"/>
+    <ROW Table="Media" Column="LastSequence" MinValue="0" MaxValue="32767" Description="File sequence number for the last file for this media." Options="0" ColumnType="2" ColumnIndex="1" ColumnSize="2" MsiKey="Media#LastSequence"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_BackgroundColor" Value="lightblue" MultiBuildValue="DefaultBuild:deepskyblue" MsiKey="AI_BackgroundColor"/>
+    <ROW Property="AI_FINDEXE_TITLE" Value="Wöhle das Installationspaket für [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
+    <ROW Property="AI_FrameBtnsColor" Value="powderblue" MultiBuildValue="DefaultBuild:mediumorchid" MsiKey="AI_FrameBtnsColor"/>
+    <ROW Property="AI_FrameColor" Value="powderblue" MultiBuildValue="DefaultBuild:deepskyblue" MsiKey="AI_FrameColor"/>
+    <ROW Property="AI_ImagesColor" Value="powderblue" MultiBuildValue="DefaultBuild:deepskyblue" MsiKey="AI_ImagesColor"/>
+    <ROW Property="AI_UPGRADE" Value="No"/>
+    <ROW Property="ALLUSERS" Value="1"/>
+    <ROW Property="ARPHELPLINK" Value="http://openfiresource.de/"/>
+    <ROW Property="ARPHELPTELEPHONE" Value="http://openfiresource.de/"/>
+    <ROW Property="ARPURLINFOABOUT" Value="http://openfiresource.de/"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="http://openfiresource.de/"/>
+    <ROW Property="Manufacturer" Value="OpenFireSource"/>
+    <ROW Property="ProductCode" Value="1031:{1CECAD03-E49F-46E1-9598-F53A52532378} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1031"/>
+    <ROW Property="ProductName" Value="AlarmWorkflow"/>
+    <ROW Property="ProductVersion" Value="0.9.0" Type="32"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
+    <ROW Property="UpgradeCode" Value="{24C264A0-5133-4E89-A749-906315946881}"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="Alarmview_Dir" Directory_Parent="APPDIR" DefaultDir="Alarmv~1|Alarmview"/>
+    <ROW Directory="Auth_Dir" Directory_Parent="pear_Dir" DefaultDir="Auth"/>
+    <ROW Directory="Container_Dir" Directory_Parent="Auth_Dir" DefaultDir="Contai~1|Container"/>
+    <ROW Directory="FFWPlanegg_Dir" Directory_Parent="templates_Dir" DefaultDir="FFWPla~1|FFWPlanegg"/>
+    <ROW Directory="Fahrzeuge_Dir" Directory_Parent="modules_Dir" DefaultDir="Fahrze~1|Fahrzeuge"/>
+    <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="Progra~1|ProgramMenuFolder" IsPseudoRoot="1"/>
+    <ROW Directory="Status_Dir" Directory_Parent="modules_Dir" DefaultDir="Status"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+    <ROW Directory="adodb_Dir" Directory_Parent="includes_Dir" DefaultDir="adodb"/>
+    <ROW Directory="alarmDetails_Dir" Directory_Parent="modules_Dir" DefaultDir="alarmD~1|alarmDetails"/>
+    <ROW Directory="config_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="config"/>
+    <ROW Directory="contrib_Dir" Directory_Parent="adodb_Dir" DefaultDir="contrib"/>
+    <ROW Directory="cute_icons_for_site_Dir" Directory_Parent="adodb_Dir" DefaultDir="cute_i~1|cute_icons_for_site"/>
+    <ROW Directory="datadict_Dir" Directory_Parent="adodb_Dir" DefaultDir="datadict"/>
+    <ROW Directory="docs_Dir" Directory_Parent="adodb_Dir" DefaultDir="docs"/>
+    <ROW Directory="drivers_Dir" Directory_Parent="adodb_Dir" DefaultDir="drivers"/>
+    <ROW Directory="icons_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="icons"/>
+    <ROW Directory="includes_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="includes"/>
+    <ROW Directory="lang_Dir" Directory_Parent="adodb_Dir" DefaultDir="lang"/>
+    <ROW Directory="modules_Dir" Directory_Parent="includes_Dir" DefaultDir="modules"/>
+    <ROW Directory="old_Dir" Directory_Parent="session_Dir" DefaultDir="old"/>
+    <ROW Directory="pear_Dir" Directory_Parent="adodb_Dir" DefaultDir="pear"/>
+    <ROW Directory="perf_Dir" Directory_Parent="adodb_Dir" DefaultDir="perf"/>
+    <ROW Directory="plugin_layer_Dir" Directory_Parent="xajax_core_Dir" DefaultDir="plugin~1|plugin_layer"/>
+    <ROW Directory="response_Dir" Directory_Parent="xajax_plugins_Dir" DefaultDir="response"/>
+    <ROW Directory="session_Dir" Directory_Parent="adodb_Dir" DefaultDir="session"/>
+    <ROW Directory="support_Dir" Directory_Parent="plugin_layer_Dir" DefaultDir="support"/>
+    <ROW Directory="templates_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="templa~1|templates"/>
+    <ROW Directory="tests_Dir" Directory_Parent="adodb_Dir" DefaultDir="tests"/>
+    <ROW Directory="xajax_controls_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="xajax_~1|xajax_controls"/>
+    <ROW Directory="xajax_core_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="xajax_~2|xajax_core"/>
+    <ROW Directory="xajax_js_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="xajax_js"/>
+    <ROW Directory="xajax_plugins_Dir" Directory_Parent="Alarmview_Dir" DefaultDir="xajax_~3|xajax_plugins"/>
+    <ROW Directory="xsl_Dir" Directory_Parent="adodb_Dir" DefaultDir="xsl"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="ADOdb.php" ComponentId="{3A7B6A4B-1F15-409A-B458-8EEFC9DE5AA1}" Directory_="Container_Dir" Attributes="0" KeyPath="ADOdb.php"/>
+    <ROW Component="AI_ExePath" ComponentId="{276B07EF-806C-4F5B-951C-8DA7015F7D4D}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
+    <ROW Component="AlarmDB.php" ComponentId="{541913B4-ABD0-4CD5-B0FF-300B4E9F737A}" Directory_="includes_Dir" Attributes="0" KeyPath="AlarmDB.php"/>
+    <ROW Component="AlarmWorkflow.AlarmSource.Fax.dll" ComponentId="{9B88F806-C268-49F6-8BB4-48427AD1B9E0}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.AlarmSource.Fax.dll"/>
+    <ROW Component="AlarmWorkflow.AlarmSource.Mail.dll" ComponentId="{8C660028-7EEB-4420-B343-C3C2B9617C04}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.AlarmSource.Mail.dll"/>
+    <ROW Component="AlarmWorkflow.AlarmSource.Sms.dll" ComponentId="{38218B36-D3DC-4A2D-9B54-C8E8317F3AF2}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.AlarmSource.Sms.dll"/>
+    <ROW Component="AlarmWorkflow.Job.AlarmMonitorFeederJob." ComponentId="{DE63D205-2009-4B93-AB0B-07B8991B29FF}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.AlarmMonitorFeederJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.AlarmSourcePrinterJob." ComponentId="{F43439BD-6901-4C0D-AF4B-F75C6B146C4F}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.AlarmSourcePrinterJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.DisplayWakeUpJob.dll" ComponentId="{861C679A-4B2A-4830-BA36-84636C40A1AC}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.DisplayWakeUpJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.MailingJob.dll" ComponentId="{BB937245-CD36-4BF8-825A-B39217D7E562}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.MailingJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.MySqlDatabaseJob.dll" ComponentId="{6A1E58E7-8338-43F3-89B1-3CA501CE7BB4}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.MySqlDatabaseJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.MySqlDatabaseJob.dll.c" ComponentId="{8D836A0F-5012-4B95-A3F4-BBE6383D8DFC}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.MySqlDatabaseJob.dll.config"/>
+    <ROW Component="AlarmWorkflow.Job.PushJob.dll" ComponentId="{FEF7020F-E237-4DBF-AFDC-2E4FC0319D2F}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.PushJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.SmsJob.dll" ComponentId="{0ECE522A-1A18-4409-A52A-2EADD83081C2}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.SmsJob.dll"/>
+    <ROW Component="AlarmWorkflow.Job.eAlarm.dll" ComponentId="{E79F6952-DF24-4A9E-863F-F448DE5738B1}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Job.eAlarm.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSAllgaeuParser.dl" ComponentId="{5F3899BE-9B54-4B2E-9965-084EB77FFD90}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSAllgaeuParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSCoburgParser.dll" ComponentId="{53A0E382-15F4-4D06-B5E2-E8EC7AF14AF7}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSCoburgParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSDonauIllerParser" ComponentId="{9C3A61A5-4B3B-4645-AC05-CE65C16026EB}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSDonauIllerParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSFFBGermeringPars" ComponentId="{DDC1FCD2-E48F-43A2-BC03-952B086D77CF}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSFFBGermeringParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSFFBParser.dll" ComponentId="{6E260921-8AD5-4C0A-84BF-B402C66C6A84}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSFFBParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSKaiserslautern.d" ComponentId="{34933242-7741-478A-905B-0C70590E85D5}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSKaiserslautern.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSMittelfrankenPar" ComponentId="{10F913E9-C568-438B-A2DC-619B55419657}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSMittelfrankenParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSNuernbergParser." ComponentId="{A72029E1-0D37-46F9-A764-081F23D95C6B}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSNuernbergParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSOberlandParser.d" ComponentId="{C6C43F07-E8F6-4F75-A612-5A5F5A7D8D11}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSOberlandParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSRosenheimParser." ComponentId="{2BCDB07C-A6EB-4A37-A44B-CB13B33A51D3}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSRosenheimParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSSchweinfurtParse" ComponentId="{6C76AE23-D937-4ACC-BC58-626D60FB31A8}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSSchweinfurtParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSStraubingParser." ComponentId="{AAE15E35-35E0-470A-8B62-D31F05F57A7C}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSStraubingParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSTraunsteinParser" ComponentId="{EC5488E7-F539-4ACF-A6AC-0157F319536E}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSTraunsteinParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.ILSTrierparser.dll" ComponentId="{566F533B-9C9D-4EFA-B2C8-FAA459EC9F0C}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.ILSTrierparser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.IlsAnsbachParser.dl" ComponentId="{E883BBD5-BEE3-4A0F-907E-C552F8BC4B9E}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.IlsAnsbachParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.MucLandParser.dll" ComponentId="{06A5D6DA-2BA5-4D31-A601-32D71BA2DB14}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.MucLandParser.dll"/>
+    <ROW Component="AlarmWorkflow.Parser.NoParser.dll" ComponentId="{EDEFC3E5-F4BC-475A-995B-8765D837B955}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Parser.NoParser.dll"/>
+    <ROW Component="AlarmWorkflow.Shared.Addressing.dll" ComponentId="{D2AE3A90-4AB8-455D-A37C-CED5FDEF89F6}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Shared.Addressing.dll"/>
+    <ROW Component="AlarmWorkflow.Shared.dll" ComponentId="{3D2D42F4-1BE5-4F51-83E1-583461987A9B}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Shared.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.Configuration.Addr" ComponentId="{CA539CE2-AC6E-44C6-9E4D-FFAC0BBED6EF}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.Configuration.AddressBookEditor.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.Configuration.FaxT" ComponentId="{AC7EBDF3-9715-4465-9C0E-0002FA652F64}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.Configuration.FaxTypeEditors.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.Configuration.exe" ComponentId="{678A6F28-319D-4238-95B3-5ACEF271D261}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.Configuration.exe"/>
+    <ROW Component="AlarmWorkflow.Windows.ConfigurationContr" ComponentId="{AF058A52-8D70-4646-8620-A18EF51B401C}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.ConfigurationContracts.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.CustomViewer.dll" ComponentId="{1BC368BC-B765-4295-84CB-C711C6744D3A}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.CustomViewer.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.ExternalToolUIJob." ComponentId="{41D14A21-A9B6-4342-B1FF-055DBE4905AE}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.ExternalToolUIJob.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.ILSDarmStadtOperat" ComponentId="{A8BAB70C-DE99-42AE-87D1-9956511702B2}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.PrintingUIJob.dll" ComponentId="{AB25BC33-D335-4011-8731-1F153542E377}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.PrintingUIJob.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.Service.exe" ComponentId="{0EA325DC-0832-4E04-A027-D6B986084967}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.Service.exe"/>
+    <ROW Component="AlarmWorkflow.Windows.ServiceContracts.d" ComponentId="{782326FF-CB0A-455A-B945-E2BE2DE11104}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.ServiceContracts.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.UI.exe" ComponentId="{8C7E9978-6874-457A-A494-606E72CBCB65}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UI.exe"/>
+    <ROW Component="AlarmWorkflow.Windows.UIContracts.dll" ComponentId="{9782BBFB-3F6A-4874-8B72-AF06FA3EEA55}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UIContracts.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.UIWidgets.Clock.dl" ComponentId="{C3C61D56-7BE9-457A-A681-A5A7B6B567BE}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UIWidgets.Clock.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.UIWidgets.GoogleMa" ComponentId="{BDABB7EF-8766-4EDA-ACB7-C51D1AFF7BDF}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UIWidgets.GoogleMaps.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.UIWidgets.OSM.dll" ComponentId="{A4DE851D-CEAE-448B-AABA-C6683E8D0217}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UIWidgets.OSM.dll"/>
+    <ROW Component="AlarmWorkflow.Windows.UIWidgets.Operatio" ComponentId="{9EB13213-9058-440B-945A-F1CA0B8BC587}" Directory_="APPDIR" Attributes="0" KeyPath="AlarmWorkflow.Windows.UIWidgets.Operation.dll"/>
+    <ROW Component="AvalonDock.dll" ComponentId="{498FFFF7-3253-4F8E-8267-33D3FC3951B5}" Directory_="APPDIR" Attributes="0" KeyPath="AvalonDock.dll"/>
+    <ROW Component="FahrzeugeModule.php" ComponentId="{F4CA9EFC-119F-457E-85DA-3815CF69B778}" Directory_="Fahrzeuge_Dir" Attributes="0" KeyPath="FahrzeugeModule.php"/>
+    <ROW Component="MySql.Data.Entity.dll" ComponentId="{331444CE-6CB0-4290-8CC1-CAB1C2C0E740}" Directory_="APPDIR" Attributes="0" KeyPath="MySql.Data.Entity.dll"/>
+    <ROW Component="MySql.Data.dll" ComponentId="{9F3BB76A-E32B-4E5E-AD18-1A7FF1EA898C}" Directory_="APPDIR" Attributes="0" KeyPath="MySql.Data.dll"/>
+    <ROW Component="ProductInformation" ComponentId="{6D07A916-5943-47AD-95A5-95554551937E}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="README.rtf" ComponentId="{C0E768AF-7B7A-4639-BA04-BB584C77C57B}" Directory_="APPDIR" Attributes="0" KeyPath="README.rtf" Type="0"/>
+    <ROW Component="S22.Imap.dll" ComponentId="{ECDC421A-B5DE-4183-A9CA-B391655AF174}" Directory_="APPDIR" Attributes="0" KeyPath="S22.Imap.dll"/>
+    <ROW Component="adodb.gif" ComponentId="{3F994AA7-9E6E-47CF-8A4A-4E3FB144FA54}" Directory_="cute_icons_for_site_Dir" Attributes="0" KeyPath="adodb.gif"/>
+    <ROW Component="adodbaccess.inc.php" ComponentId="{D9C12944-0FEC-4E2B-A9D0-10936093F736}" Directory_="drivers_Dir" Attributes="0" KeyPath="adodbaccess.inc.php"/>
+    <ROW Component="adodbactiverecord.inc.php" ComponentId="{75956EA2-2227-4AD2-BDC8-A1B4170CA0A7}" Directory_="adodb_Dir" Attributes="0" KeyPath="adodbactiverecord.inc.php"/>
+    <ROW Component="adodbar.inc.php" ComponentId="{B881D6FE-F0AF-4D66-9BB7-F0ACD05178F7}" Directory_="lang_Dir" Attributes="0" KeyPath="adodbar.inc.php"/>
+    <ROW Component="adodbcompressbzip2.php" ComponentId="{9104EA49-D689-42B1-BD25-D4ACF2994321}" Directory_="session_Dir" Attributes="0" KeyPath="adodbcompressbzip2.php"/>
+    <ROW Component="adodbcryptsession.php" ComponentId="{38B58870-BC62-45EA-90A0-1716E8431198}" Directory_="old_Dir" Attributes="0" KeyPath="adodbcryptsession.php_1"/>
+    <ROW Component="alarmDetailsModule.php" ComponentId="{2F789632-AC15-40A2-B718-95125D0C4EE7}" Directory_="alarmDetails_Dir" Attributes="0" KeyPath="alarmDetailsModule.php"/>
+    <ROW Component="benchmark.php" ComponentId="{DEF44DCD-D362-495C-87B8-3C8D5F5DA265}" Directory_="tests_Dir" Attributes="0" KeyPath="benchmark.php"/>
+    <ROW Component="config.php" ComponentId="{0E9CDCBE-ABF6-4C3F-9EFC-E5198CA7DF79}" Directory_="config_Dir" Attributes="0" KeyPath="config.php"/>
+    <ROW Component="content.inc.php" ComponentId="{5FEE2906-A013-414E-AF28-21A62C6CC737}" Directory_="xajax_controls_Dir" Attributes="0" KeyPath="content.inc.php"/>
+    <ROW Component="content.php" ComponentId="{C64EA130-E21B-4E71-A978-7391FC013DF0}" Directory_="Alarmview_Dir" Attributes="0" KeyPath="content.php"/>
+    <ROW Component="convert0.10.2.xsl" ComponentId="{9BA53894-47FF-4635-B4C8-5BBD3AA6E406}" Directory_="xsl_Dir" Attributes="0" KeyPath="convert0.10.2.xsl"/>
+    <ROW Component="datadictaccess.inc.php" ComponentId="{250E1B56-E543-4E07-99D6-BA2DC4BA58A6}" Directory_="datadict_Dir" Attributes="0" KeyPath="datadictaccess.inc.php"/>
+    <ROW Component="docsactiverecord.htm" ComponentId="{8FFEEEFD-92CA-47A9-80A4-1D490ABBE7BA}" Directory_="docs_Dir" Attributes="0" KeyPath="docsactiverecord.htm"/>
+    <ROW Component="googleMap.inc.php" ComponentId="{3EE48F07-9A72-4E28-94A1-3E08403BD43B}" Directory_="response_Dir" Attributes="0" KeyPath="googleMap.inc.php"/>
+    <ROW Component="greendot.gif" ComponentId="{ACC847F7-F323-41AC-B8AD-88F1670F3DF5}" Directory_="icons_Dir" Attributes="0" KeyPath="greendot.gif"/>
+    <ROW Component="legacy.inc.php" ComponentId="{C666189F-84CA-4395-BDDD-5422F0A72CC9}" Directory_="xajax_core_Dir" Attributes="0" KeyPath="legacy.inc.php"/>
+    <ROW Component="log4net.dll" ComponentId="{D6961914-A345-4E73-8FBC-5589DA6C3110}" Directory_="APPDIR" Attributes="0" KeyPath="log4net.dll"/>
+    <ROW Component="module.php" ComponentId="{404F44CC-E593-41D5-91F7-59FEC03C329D}" Directory_="modules_Dir" Attributes="0" KeyPath="module.php"/>
+    <ROW Component="moduleconfig.php" ComponentId="{D1B032B2-3E81-4EED-A0AE-32672DF87BFD}" Directory_="Status_Dir" Attributes="0" KeyPath="moduleconfig.php_2"/>
+    <ROW Component="perfdb2.inc.php" ComponentId="{3746E9E7-9304-4E13-8969-F5A2F8E52602}" Directory_="perf_Dir" Attributes="0" KeyPath="perfdb2.inc.php"/>
+    <ROW Component="readme.Auth.txt" ComponentId="{A51F2A7D-27F3-4557-834A-30AB5F58461D}" Directory_="pear_Dir" Attributes="0" KeyPath="readme.Auth.txt"/>
+    <ROW Component="site.php" ComponentId="{4F606F1C-D881-46BD-AF92-E21517CE0228}" Directory_="FFWPlanegg_Dir" Attributes="0" KeyPath="site.php"/>
+    <ROW Component="toxmlrpc.inc.php" ComponentId="{B9943C0F-C477-4525-A0D5-688DE43164FF}" Directory_="contrib_Dir" Attributes="0" KeyPath="toxmlrpc.inc.php"/>
+    <ROW Component="updater.exe" ComponentId="{4BA77206-02B6-4EEA-9272-6FD0877667FC}" Directory_="APPDIR" Attributes="0" KeyPath="updater.exe"/>
+    <ROW Component="xajaxCallableObject.inc.php" ComponentId="{F5F39FDB-2FBB-405C-BE2E-EC6DB7AD9B0A}" Directory_="support_Dir" Attributes="0" KeyPath="xajaxCallableObject.inc.php"/>
+    <ROW Component="xajaxCallableObjectPlugin.inc.php" ComponentId="{A0B31C94-EDEE-4A6D-A5D8-30753D645067}" Directory_="plugin_layer_Dir" Attributes="0" KeyPath="xajaxCallableObjectPlugin.inc.php"/>
+    <ROW Component="xajax_core.js" ComponentId="{8EB00F09-4055-4D89-981F-56AD77154B81}" Directory_="xajax_js_Dir" Attributes="0" KeyPath="xajax_core.js"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="Funktion" Feature_Parent="Funktion_5" Title="MucLandParser" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.MucLandParser.dll"/>
+    <ROW Feature="Funktion_1" Title="Jobs" Description="Jobs" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath"/>
+    <ROW Feature="Funktion_10" Feature_Parent="MainFeature" Title="Service" Description="Beschreibung" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Windows.Service.exe AlarmWorkflow.Windows.ServiceContracts.d"/>
+    <ROW Feature="Funktion_11" Feature_Parent="MainFeature" Title="Base" Description="Beschreibung" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Shared.Addressing.dll AlarmWorkflow.Shared.dll ProductInformation log4net.dll"/>
+    <ROW Feature="Funktion_12" Feature_Parent="MainFeature" Title="Updater" Description="Beschreibung" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath updater.exe"/>
+    <ROW Feature="Funktion_13" Feature_Parent="Funktion_5" Title="ILS Allgäu" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSAllgaeuParser.dl"/>
+    <ROW Feature="Funktion_14" Feature_Parent="Funktion_5" Title="ILS Ansbach" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.IlsAnsbachParser.dl"/>
+    <ROW Feature="Funktion_15" Feature_Parent="Funktion_5" Title="ILS Coburg" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSCoburgParser.dll"/>
+    <ROW Feature="Funktion_16" Feature_Parent="Funktion_5" Title="ILS Donau-Iller" Display="11" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSDonauIllerParser"/>
+    <ROW Feature="Funktion_17" Feature_Parent="Funktion_5" Title="ILS FFB-Germering" Display="15" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSFFBGermeringPars"/>
+    <ROW Feature="Funktion_18" Feature_Parent="Funktion_5" Title="ILS FFB" Display="13" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSFFBParser.dll"/>
+    <ROW Feature="Funktion_19" Feature_Parent="Funktion_5" Title="ILS Kaiserslautern" Display="17" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSKaiserslautern.d"/>
+    <ROW Feature="Funktion_2" Title="Alarmquellen" Description="Alarmquellen" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath"/>
+    <ROW Feature="Funktion_20" Feature_Parent="Funktion_5" Title="ILS Mittelfranken" Display="19" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSMittelfrankenPar"/>
+    <ROW Feature="Funktion_21" Feature_Parent="Funktion_5" Title="ILS Nürnberg" Display="21" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSNuernbergParser."/>
+    <ROW Feature="Funktion_22" Feature_Parent="Funktion_5" Title="ILS Oberland" Display="23" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSOberlandParser.d"/>
+    <ROW Feature="Funktion_23" Feature_Parent="Funktion_5" Title="ILS Rosenheim" Display="25" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSRosenheimParser."/>
+    <ROW Feature="Funktion_24" Feature_Parent="Funktion_5" Title="ILS Schweinfurt" Display="27" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSSchweinfurtParse"/>
+    <ROW Feature="Funktion_25" Feature_Parent="Funktion_5" Title="ILS Straubing" Display="29" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSStraubingParser."/>
+    <ROW Feature="Funktion_26" Feature_Parent="Funktion_5" Title="ILS Traunstein" Display="31" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSTraunsteinParser"/>
+    <ROW Feature="Funktion_27" Feature_Parent="Funktion_5" Title="ILS Trier" Display="33" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Parser.ILSTrierparser.dll"/>
+    <ROW Feature="Funktion_28" Feature_Parent="Funktion_1" Title="AlarmMonitorFeeder" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.AlarmMonitorFeederJob."/>
+    <ROW Feature="Funktion_29" Feature_Parent="Funktion_1" Title="AlarmSourcePrinter" Display="11" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.AlarmSourcePrinterJob."/>
+    <ROW Feature="Funktion_3" Feature_Parent="Funktion_2" Title="Mail" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.AlarmSource.Mail.dll AvalonDock.dll S22.Imap.dll"/>
+    <ROW Feature="Funktion_30" Feature_Parent="Funktion_1" Title="DisplayWakeUp" Display="13" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.DisplayWakeUpJob.dll"/>
+    <ROW Feature="Funktion_31" Feature_Parent="Funktion_1" Title="eAlarm" Display="15" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.eAlarm.dll"/>
+    <ROW Feature="Funktion_32" Title="UI" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath"/>
+    <ROW Feature="Funktion_34" Feature_Parent="Funktion_32" Title="AlarmView" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="ADOdb.php AI_ExePath AlarmDB.php FahrzeugeModule.php adodb.gif adodbaccess.inc.php adodbactiverecord.inc.php adodbar.inc.php adodbcompressbzip2.php adodbcryptsession.php alarmDetailsModule.php benchmark.php config.php content.inc.php content.php convert0.10.2.xsl datadictaccess.inc.php docsactiverecord.htm googleMap.inc.php greendot.gif legacy.inc.php module.php moduleconfig.php perfdb2.inc.php readme.Auth.txt site.php toxmlrpc.inc.php xajaxCallableObject.inc.php xajaxCallableObjectPlugin.inc.php xajax_core.js"/>
+    <ROW Feature="Funktion_36" Feature_Parent="Funktion_32" Title="Windows-UI" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Windows.CustomViewer.dll AlarmWorkflow.Windows.ILSDarmStadtOperat AlarmWorkflow.Windows.UI.exe AlarmWorkflow.Windows.UIContracts.dll AlarmWorkflow.Windows.UIWidgets.Clock.dl AlarmWorkflow.Windows.UIWidgets.GoogleMa AlarmWorkflow.Windows.UIWidgets.OSM.dll AlarmWorkflow.Windows.UIWidgets.Operatio"/>
+    <ROW Feature="Funktion_37" Feature_Parent="Funktion_1" Title="ExternalUI" Display="17" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Windows.ExternalToolUIJob."/>
+    <ROW Feature="Funktion_38" Feature_Parent="Funktion_1" Title="PrintingUI" Display="19" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Windows.PrintingUIJob.dll"/>
+    <ROW Feature="Funktion_39" Feature_Parent="Funktion_32" Title="Configuration" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Windows.Configuration.Addr AlarmWorkflow.Windows.Configuration.FaxT AlarmWorkflow.Windows.Configuration.exe AlarmWorkflow.Windows.ConfigurationContr"/>
+    <ROW Feature="Funktion_4" Feature_Parent="Funktion_2" Title="SMS" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.AlarmSource.Sms.dll"/>
+    <ROW Feature="Funktion_5" Feature_Parent="Funktion_2" Title="Fax" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.AlarmSource.Fax.dll AlarmWorkflow.Parser.NoParser.dll"/>
+    <ROW Feature="Funktion_6" Feature_Parent="Funktion_1" Title="SMS" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.SmsJob.dll"/>
+    <ROW Feature="Funktion_7" Feature_Parent="Funktion_1" Title="Mail" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.MailingJob.dll"/>
+    <ROW Feature="Funktion_8" Feature_Parent="Funktion_1" Title="Push" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.PushJob.dll"/>
+    <ROW Feature="Funktion_9" Feature_Parent="MainFeature" Title="MySql" Description="Beschreibung" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath AlarmWorkflow.Job.MySqlDatabaseJob.dll AlarmWorkflow.Job.MySqlDatabaseJob.dll.c MySql.Data.Entity.dll MySql.Data.dll"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="0" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath README.rtf"/>
+    <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="ADOdb.php" Component_="ADOdb.php" FileName="ADOdb.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\pear\Auth\Container\ADOdb.php" SelfReg="false" NextFile="readme.Auth.txt"/>
+    <ROW File="AlarmDB.php" Component_="AlarmDB.php" FileName="AlarmDB.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\AlarmDB.php" SelfReg="false" NextFile="alarmDetailsModule.php"/>
+    <ROW File="AlarmWorkflow.AlarmSource.Fax.dll" Component_="AlarmWorkflow.AlarmSource.Fax.dll" FileName="AlarmW~1.dll|AlarmWorkflow.AlarmSource.Fax.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.AlarmSource.Fax.dll" SelfReg="false" NextFile="AlarmWorkflow.AlarmSource.Mail.dll"/>
+    <ROW File="AlarmWorkflow.AlarmSource.Mail.dll" Component_="AlarmWorkflow.AlarmSource.Mail.dll" FileName="AlarmW~2.dll|AlarmWorkflow.AlarmSource.Mail.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.AlarmSource.Mail.dll" SelfReg="false" NextFile="AlarmWorkflow.AlarmSource.Sms.dll"/>
+    <ROW File="AlarmWorkflow.AlarmSource.Sms.dll" Component_="AlarmWorkflow.AlarmSource.Sms.dll" FileName="AlarmW~3.dll|AlarmWorkflow.AlarmSource.Sms.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.AlarmSource.Sms.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.AlarmMonitorFeederJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.AlarmMonitorFeederJob.dll" Component_="AlarmWorkflow.Job.AlarmMonitorFeederJob." FileName="AlarmW~4.dll|AlarmWorkflow.Job.AlarmMonitorFeederJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.AlarmMonitorFeederJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.AlarmSourcePrinterJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.AlarmSourcePrinterJob.dll" Component_="AlarmWorkflow.Job.AlarmSourcePrinterJob." FileName="AlarmW~5.dll|AlarmWorkflow.Job.AlarmSourcePrinterJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.AlarmSourcePrinterJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.DisplayWakeUpJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.DisplayWakeUpJob.dll" Component_="AlarmWorkflow.Job.DisplayWakeUpJob.dll" FileName="AlarmW~6.dll|AlarmWorkflow.Job.DisplayWakeUpJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.DisplayWakeUpJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.eAlarm.dll"/>
+    <ROW File="AlarmWorkflow.Job.MailingJob.dll" Component_="AlarmWorkflow.Job.MailingJob.dll" FileName="AlarmW~8.dll|AlarmWorkflow.Job.MailingJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.MailingJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.MySqlDatabaseJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.MySqlDatabaseJob.dll" Component_="AlarmWorkflow.Job.MySqlDatabaseJob.dll" FileName="AlarmW~9.dll|AlarmWorkflow.Job.MySqlDatabaseJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.MySqlDatabaseJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.PushJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.MySqlDatabaseJob.dll.config" Component_="AlarmWorkflow.Job.MySqlDatabaseJob.dll.c" FileName="AlarmW~1.con|AlarmWorkflow.Job.MySqlDatabaseJob.dll.config" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.MySqlDatabaseJob.dll.config" SelfReg="false" NextFile="AlarmWorkflow.Windows.Configuration.exe.config"/>
+    <ROW File="AlarmWorkflow.Job.PushJob.dll" Component_="AlarmWorkflow.Job.PushJob.dll" FileName="Alarm~10.dll|AlarmWorkflow.Job.PushJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.PushJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.SmsJob.dll"/>
+    <ROW File="AlarmWorkflow.Job.SmsJob.dll" Component_="AlarmWorkflow.Job.SmsJob.dll" FileName="Alarm~11.dll|AlarmWorkflow.Job.SmsJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.SmsJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSAllgaeuParser.dll"/>
+    <ROW File="AlarmWorkflow.Job.eAlarm.dll" Component_="AlarmWorkflow.Job.eAlarm.dll" FileName="AlarmW~7.dll|AlarmWorkflow.Job.eAlarm.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Job.eAlarm.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.MailingJob.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSAllgaeuParser.dll" Component_="AlarmWorkflow.Parser.ILSAllgaeuParser.dl" FileName="Alarm~12.dll|AlarmWorkflow.Parser.ILSAllgaeuParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSAllgaeuParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.IlsAnsbachParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSCoburgParser.dll" Component_="AlarmWorkflow.Parser.ILSCoburgParser.dll" FileName="Alarm~14.dll|AlarmWorkflow.Parser.ILSCoburgParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSCoburgParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSDonauIllerParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSDonauIllerParser.dll" Component_="AlarmWorkflow.Parser.ILSDonauIllerParser" FileName="Alarm~15.dll|AlarmWorkflow.Parser.ILSDonauIllerParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSDonauIllerParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSFFBGermeringParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSFFBGermeringParser.dll" Component_="AlarmWorkflow.Parser.ILSFFBGermeringPars" FileName="Alarm~16.dll|AlarmWorkflow.Parser.ILSFFBGermeringParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSFFBGermeringParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSFFBParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSFFBParser.dll" Component_="AlarmWorkflow.Parser.ILSFFBParser.dll" FileName="Alarm~17.dll|AlarmWorkflow.Parser.ILSFFBParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSFFBParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSKaiserslautern.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSKaiserslautern.dll" Component_="AlarmWorkflow.Parser.ILSKaiserslautern.d" FileName="Alarm~18.dll|AlarmWorkflow.Parser.ILSKaiserslautern.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSKaiserslautern.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSMittelfrankenParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSMittelfrankenParser.dll" Component_="AlarmWorkflow.Parser.ILSMittelfrankenPar" FileName="Alarm~19.dll|AlarmWorkflow.Parser.ILSMittelfrankenParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSMittelfrankenParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSNuernbergParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSNuernbergParser.dll" Component_="AlarmWorkflow.Parser.ILSNuernbergParser." FileName="Alarm~20.dll|AlarmWorkflow.Parser.ILSNuernbergParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSNuernbergParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSOberlandParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSOberlandParser.dll" Component_="AlarmWorkflow.Parser.ILSOberlandParser.d" FileName="Alarm~21.dll|AlarmWorkflow.Parser.ILSOberlandParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSOberlandParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSRosenheimParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSRosenheimParser.dll" Component_="AlarmWorkflow.Parser.ILSRosenheimParser." FileName="Alarm~22.dll|AlarmWorkflow.Parser.ILSRosenheimParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSRosenheimParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSSchweinfurtParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSSchweinfurtParser.dll" Component_="AlarmWorkflow.Parser.ILSSchweinfurtParse" FileName="Alarm~23.dll|AlarmWorkflow.Parser.ILSSchweinfurtParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSSchweinfurtParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSStraubingParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSStraubingParser.dll" Component_="AlarmWorkflow.Parser.ILSStraubingParser." FileName="Alarm~24.dll|AlarmWorkflow.Parser.ILSStraubingParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSStraubingParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSTraunsteinParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSTraunsteinParser.dll" Component_="AlarmWorkflow.Parser.ILSTraunsteinParser" FileName="Alarm~25.dll|AlarmWorkflow.Parser.ILSTraunsteinParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSTraunsteinParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSTrierparser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.ILSTrierparser.dll" Component_="AlarmWorkflow.Parser.ILSTrierparser.dll" FileName="Alarm~26.dll|AlarmWorkflow.Parser.ILSTrierparser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.ILSTrierparser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.MucLandParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.IlsAnsbachParser.dll" Component_="AlarmWorkflow.Parser.IlsAnsbachParser.dl" FileName="Alarm~13.dll|AlarmWorkflow.Parser.IlsAnsbachParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.IlsAnsbachParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.ILSCoburgParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.MucLandParser.dll" Component_="AlarmWorkflow.Parser.MucLandParser.dll" FileName="Alarm~27.dll|AlarmWorkflow.Parser.MucLandParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.MucLandParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Parser.NoParser.dll"/>
+    <ROW File="AlarmWorkflow.Parser.NoParser.dll" Component_="AlarmWorkflow.Parser.NoParser.dll" FileName="Alarm~28.dll|AlarmWorkflow.Parser.NoParser.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Parser.NoParser.dll" SelfReg="false" NextFile="AlarmWorkflow.Shared.Addressing.dll"/>
+    <ROW File="AlarmWorkflow.Shared.Addressing.dll" Component_="AlarmWorkflow.Shared.Addressing.dll" FileName="Alarm~29.dll|AlarmWorkflow.Shared.Addressing.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Shared.Addressing.dll" SelfReg="false" NextFile="AlarmWorkflow.Shared.dll"/>
+    <ROW File="AlarmWorkflow.Shared.dll" Component_="AlarmWorkflow.Shared.dll" FileName="Alarm~30.dll|AlarmWorkflow.Shared.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Shared.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.Configuration.AddressBookEditor.dll"/>
+    <ROW File="AlarmWorkflow.Windows.Configuration.AddressBookEditor.dll" Component_="AlarmWorkflow.Windows.Configuration.Addr" FileName="Alarm~31.dll|AlarmWorkflow.Windows.Configuration.AddressBookEditor.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Configuration.AddressBookEditor.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.Configuration.FaxTypeEditors.dll"/>
+    <ROW File="AlarmWorkflow.Windows.Configuration.FaxTypeEditors.dll" Component_="AlarmWorkflow.Windows.Configuration.FaxT" FileName="Alarm~32.dll|AlarmWorkflow.Windows.Configuration.FaxTypeEditors.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Configuration.FaxTypeEditors.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.ConfigurationContracts.dll"/>
+    <ROW File="AlarmWorkflow.Windows.Configuration.exe" Component_="AlarmWorkflow.Windows.Configuration.exe" FileName="AlarmW~2.exe|AlarmWorkflow.Windows.Configuration.exe" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Configuration.exe" SelfReg="false" NextFile="AlarmWorkflow.Windows.Service.exe" DigSign="true"/>
+    <ROW File="AlarmWorkflow.Windows.Configuration.exe.config" Component_="AlarmWorkflow.Job.MySqlDatabaseJob.dll.c" FileName="AlarmW~2.con|AlarmWorkflow.Windows.Configuration.exe.config" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Configuration.exe.config" SelfReg="false" NextFile="AlarmWorkflow.Windows.Service.exe.config"/>
+    <ROW File="AlarmWorkflow.Windows.ConfigurationContracts.dll" Component_="AlarmWorkflow.Windows.ConfigurationContr" FileName="Alarm~33.dll|AlarmWorkflow.Windows.ConfigurationContracts.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.ConfigurationContracts.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.CustomViewer.dll"/>
+    <ROW File="AlarmWorkflow.Windows.CustomViewer.dll" Component_="AlarmWorkflow.Windows.CustomViewer.dll" FileName="Alarm~34.dll|AlarmWorkflow.Windows.CustomViewer.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.ExternalToolUIJob.dll"/>
+    <ROW File="AlarmWorkflow.Windows.ExternalToolUIJob.dll" Component_="AlarmWorkflow.Windows.ExternalToolUIJob." FileName="Alarm~35.dll|AlarmWorkflow.Windows.ExternalToolUIJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.ExternalToolUIJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.dll"/>
+    <ROW File="AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.dll" Component_="AlarmWorkflow.Windows.ILSDarmStadtOperat" FileName="Alarm~36.dll|AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.ILSDarmStadtOperationViewer.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.PrintingUIJob.dll"/>
+    <ROW File="AlarmWorkflow.Windows.PrintingUIJob.dll" Component_="AlarmWorkflow.Windows.PrintingUIJob.dll" FileName="Alarm~37.dll|AlarmWorkflow.Windows.PrintingUIJob.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.PrintingUIJob.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.ServiceContracts.dll"/>
+    <ROW File="AlarmWorkflow.Windows.Service.exe" Component_="AlarmWorkflow.Windows.Service.exe" FileName="AlarmW~3.exe|AlarmWorkflow.Windows.Service.exe" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Service.exe" SelfReg="false" NextFile="AlarmWorkflow.Windows.UI.exe" DigSign="true"/>
+    <ROW File="AlarmWorkflow.Windows.Service.exe.config" Component_="AlarmWorkflow.Job.MySqlDatabaseJob.dll.c" FileName="AlarmW~3.con|AlarmWorkflow.Windows.Service.exe.config" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.Service.exe.config" SelfReg="false" NextFile="AlarmWorkflow.Windows.UI.exe.config"/>
+    <ROW File="AlarmWorkflow.Windows.ServiceContracts.dll" Component_="AlarmWorkflow.Windows.ServiceContracts.d" FileName="Alarm~38.dll|AlarmWorkflow.Windows.ServiceContracts.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.ServiceContracts.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.UIContracts.dll"/>
+    <ROW File="AlarmWorkflow.Windows.UI.exe" Component_="AlarmWorkflow.Windows.UI.exe" FileName="AlarmW~5.exe|AlarmWorkflow.Windows.UI.exe" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UI.exe" SelfReg="false" NextFile="AlarmWorkflow.AlarmSource.Fax.dll" DigSign="true"/>
+    <ROW File="AlarmWorkflow.Windows.UI.exe.config" Component_="AlarmWorkflow.Job.MySqlDatabaseJob.dll.c" FileName="AlarmW~5.con|AlarmWorkflow.Windows.UI.exe.config" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UI.exe.config" SelfReg="false" NextFile="config.php"/>
+    <ROW File="AlarmWorkflow.Windows.UIContracts.dll" Component_="AlarmWorkflow.Windows.UIContracts.dll" FileName="Alarm~39.dll|AlarmWorkflow.Windows.UIContracts.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.UIWidgets.Clock.dll"/>
+    <ROW File="AlarmWorkflow.Windows.UIWidgets.Clock.dll" Component_="AlarmWorkflow.Windows.UIWidgets.Clock.dl" FileName="Alarm~40.dll|AlarmWorkflow.Windows.UIWidgets.Clock.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UIWidgets.Clock.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.UIWidgets.GoogleMaps.dll"/>
+    <ROW File="AlarmWorkflow.Windows.UIWidgets.GoogleMaps.dll" Component_="AlarmWorkflow.Windows.UIWidgets.GoogleMa" FileName="Alarm~41.dll|AlarmWorkflow.Windows.UIWidgets.GoogleMaps.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UIWidgets.GoogleMaps.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.UIWidgets.Operation.dll"/>
+    <ROW File="AlarmWorkflow.Windows.UIWidgets.OSM.dll" Component_="AlarmWorkflow.Windows.UIWidgets.OSM.dll" FileName="Alarm~43.dll|AlarmWorkflow.Windows.UIWidgets.OSM.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UIWidgets.OSM.dll" SelfReg="false" NextFile="AvalonDock.dll"/>
+    <ROW File="AlarmWorkflow.Windows.UIWidgets.Operation.dll" Component_="AlarmWorkflow.Windows.UIWidgets.Operatio" FileName="Alarm~42.dll|AlarmWorkflow.Windows.UIWidgets.Operation.dll" Attributes="0" SourcePath="..\..\..\Build\AlarmWorkflow.Windows.UIWidgets.Operation.dll" SelfReg="false" NextFile="AlarmWorkflow.Windows.UIWidgets.OSM.dll"/>
+    <ROW File="AvalonDock.dll" Component_="AvalonDock.dll" FileName="Avalon~1.dll|AvalonDock.dll" Attributes="0" SourcePath="..\..\..\Build\AvalonDock.dll" SelfReg="false" NextFile="log4net.dll"/>
+    <ROW File="FahrzeugeModule.php" Component_="FahrzeugeModule.php" FileName="Fahrze~1.php|FahrzeugeModule.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\Fahrzeuge\FahrzeugeModule.php" SelfReg="false" NextFile="moduleconfig.php_1"/>
+    <ROW File="MySql.Data.Entity.dll" Component_="MySql.Data.Entity.dll" FileName="MySqlD~2.dll|MySql.Data.Entity.dll" Attributes="0" SourcePath="..\..\..\Build\MySql.Data.Entity.dll" SelfReg="false" NextFile="S22.Imap.dll"/>
+    <ROW File="MySql.Data.dll" Component_="MySql.Data.dll" FileName="MySqlD~1.dll|MySql.Data.dll" Attributes="0" SourcePath="..\..\..\Build\MySql.Data.dll" SelfReg="false" NextFile="MySql.Data.Entity.dll"/>
+    <ROW File="README.rtf" Component_="README.rtf" FileName="README.rtf" Attributes="0" SourcePath="..\..\..\README.rtf" SelfReg="false"/>
+    <ROW File="README.txt_1" Component_="content.php" FileName="README.txt" Attributes="0" SourcePath="..\..\..\Website\Alarmview\README.txt" SelfReg="false" NextFile="site.php"/>
+    <ROW File="S22.Imap.dll" Component_="S22.Imap.dll" FileName="S22Ima~1.dll|S22.Imap.dll" Attributes="0" SourcePath="..\..\..\Build\S22.Imap.dll" SelfReg="false" NextFile="AlarmWorkflow.Job.MySqlDatabaseJob.dll.config"/>
+    <ROW File="adodb.gif" Component_="adodb.gif" FileName="adodb.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\cute_icons_for_site\adodb.gif" SelfReg="false" NextFile="adodb2.gif"/>
+    <ROW File="adodb.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodbi~1.php|adodb.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb.inc.php" SelfReg="false" NextFile="toxmlrpc.inc.php"/>
+    <ROW File="adodb2.gif" Component_="adodb.gif" FileName="adodb2.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\cute_icons_for_site\adodb2.gif" SelfReg="false" NextFile="datadictaccess.inc.php"/>
+    <ROW File="adodb_th.inc.php" Component_="adodbar.inc.php" FileName="adodb_~1.php|adodb_th.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb_th.inc.php" SelfReg="false" NextFile="license.txt"/>
+    <ROW File="adodbaccess.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~1.php|adodb-access.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-access.inc.php" SelfReg="false" NextFile="adodbado.inc.php"/>
+    <ROW File="adodbactiverecord.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~1.php|adodb-active-record.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-active-record.inc.php" SelfReg="false" NextFile="adodbcsvlib.inc.php"/>
+    <ROW File="adodbado.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~2.php|adodb-ado.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ado.inc.php" SelfReg="false" NextFile="adodbado5.inc.php"/>
+    <ROW File="adodbado5.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~3.php|adodb-ado5.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ado5.inc.php" SelfReg="false" NextFile="adodbado_access.inc.php"/>
+    <ROW File="adodbado_access.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~4.php|adodb-ado_access.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ado_access.inc.php" SelfReg="false" NextFile="adodbado_mssql.inc.php"/>
+    <ROW File="adodbado_mssql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~5.php|adodb-ado_mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ado_mssql.inc.php" SelfReg="false" NextFile="adodbborland_ibase.inc.php"/>
+    <ROW File="adodbar.inc.php" Component_="adodbar.inc.php" FileName="adodb-~1.php|adodb-ar.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-ar.inc.php" SelfReg="false" NextFile="adodbbg.inc.php"/>
+    <ROW File="adodbbg.inc.php" Component_="adodbar.inc.php" FileName="adodb-~2.php|adodb-bg.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-bg.inc.php" SelfReg="false" NextFile="adodbbgutf8.inc.php"/>
+    <ROW File="adodbbgutf8.inc.php" Component_="adodbar.inc.php" FileName="adodb-~3.php|adodb-bgutf8.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-bgutf8.inc.php" SelfReg="false" NextFile="adodbca.inc.php"/>
+    <ROW File="adodbborland_ibase.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~6.php|adodb-borland_ibase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-borland_ibase.inc.php" SelfReg="false" NextFile="adodbcsv.inc.php"/>
+    <ROW File="adodbca.inc.php" Component_="adodbar.inc.php" FileName="adodb-~4.php|adodb-ca.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-ca.inc.php" SelfReg="false" NextFile="adodbcn.inc.php"/>
+    <ROW File="adodbcn.inc.php" Component_="adodbar.inc.php" FileName="adodb-~5.php|adodb-cn.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-cn.inc.php" SelfReg="false" NextFile="adodbcz.inc.php"/>
+    <ROW File="adodbcompressbzip2.php" Component_="adodbcompressbzip2.php" FileName="adodb-~1.php|adodb-compress-bzip2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-compress-bzip2.php" SelfReg="false" NextFile="adodbcompressgzip.php"/>
+    <ROW File="adodbcompressgzip.php" Component_="adodbcompressbzip2.php" FileName="adodb-~2.php|adodb-compress-gzip.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-compress-gzip.php" SelfReg="false" NextFile="adodbcryptsession.php"/>
+    <ROW File="adodbcryptsession.php" Component_="adodbcompressbzip2.php" FileName="adodb-~3.php|adodb-cryptsession.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-cryptsession.php" SelfReg="false" NextFile="adodbcryptsession2.php"/>
+    <ROW File="adodbcryptsession.php_1" Component_="adodbcryptsession.php" FileName="adodb-~1.php|adodb-cryptsession.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\old\adodb-cryptsession.php" SelfReg="false" NextFile="adodbsessionclob.php_1"/>
+    <ROW File="adodbcryptsession2.php" Component_="adodbcompressbzip2.php" FileName="adodb-~4.php|adodb-cryptsession2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-cryptsession2.php" SelfReg="false" NextFile="adodbencryptmcrypt.php"/>
+    <ROW File="adodbcsv.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~7.php|adodb-csv.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-csv.inc.php" SelfReg="false" NextFile="adodbdb2.inc.php"/>
+    <ROW File="adodbcsvlib.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~2.php|adodb-csvlib.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-csvlib.inc.php" SelfReg="false" NextFile="adodbdatadict.inc.php"/>
+    <ROW File="adodbcz.inc.php" Component_="adodbar.inc.php" FileName="adodb-~6.php|adodb-cz.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-cz.inc.php" SelfReg="false" NextFile="adodbda.inc.php"/>
+    <ROW File="adodbda.inc.php" Component_="adodbar.inc.php" FileName="adodb-~7.php|adodb-da.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-da.inc.php" SelfReg="false" NextFile="adodbde.inc.php"/>
+    <ROW File="adodbdatadict.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~3.php|adodb-datadict.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-datadict.inc.php" SelfReg="false" NextFile="adodberror.inc.php"/>
+    <ROW File="adodbdb2.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~8.php|adodb-db2.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-db2.inc.php" SelfReg="false" NextFile="adodbfbsql.inc.php"/>
+    <ROW File="adodbde.inc.php" Component_="adodbar.inc.php" FileName="adodb-~8.php|adodb-de.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-de.inc.php" SelfReg="false" NextFile="adodben.inc.php"/>
+    <ROW File="adodben.inc.php" Component_="adodbar.inc.php" FileName="adodb-~9.php|adodb-en.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-en.inc.php" SelfReg="false" NextFile="adodbes.inc.php"/>
+    <ROW File="adodbencryptmcrypt.php" Component_="adodbcompressbzip2.php" FileName="adodb-~5.php|adodb-encrypt-mcrypt.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-encrypt-mcrypt.php" SelfReg="false" NextFile="adodbencryptmd5.php"/>
+    <ROW File="adodbencryptmd5.php" Component_="adodbcompressbzip2.php" FileName="adodb-~6.php|adodb-encrypt-md5.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-encrypt-md5.php" SelfReg="false" NextFile="adodbencryptsecret.php"/>
+    <ROW File="adodbencryptsecret.php" Component_="adodbcompressbzip2.php" FileName="adodb-~7.php|adodb-encrypt-secret.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-encrypt-secret.php" SelfReg="false" NextFile="adodbencryptsha1.php"/>
+    <ROW File="adodbencryptsha1.php" Component_="adodbcompressbzip2.php" FileName="adodb-~8.php|adodb-encrypt-sha1.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-encrypt-sha1.php" SelfReg="false" NextFile="adodbsess.txt"/>
+    <ROW File="adodberror.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~4.php|adodb-error.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-error.inc.php" SelfReg="false" NextFile="adodberrorhandler.inc.php"/>
+    <ROW File="adodberrorhandler.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~5.php|adodb-errorhandler.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-errorhandler.inc.php" SelfReg="false" NextFile="adodberrorpear.inc.php"/>
+    <ROW File="adodberrorpear.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~6.php|adodb-errorpear.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-errorpear.inc.php" SelfReg="false" NextFile="adodbexceptions.inc.php"/>
+    <ROW File="adodbes.inc.php" Component_="adodbar.inc.php" FileName="adodb~10.php|adodb-es.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-es.inc.php" SelfReg="false" NextFile="adodbesperanto.inc.php"/>
+    <ROW File="adodbesperanto.inc.php" Component_="adodbar.inc.php" FileName="adodb~11.php|adodb-esperanto.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-esperanto.inc.php" SelfReg="false" NextFile="adodbfr.inc.php"/>
+    <ROW File="adodbexceptions.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~7.php|adodb-exceptions.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-exceptions.inc.php" SelfReg="false" NextFile="adodbiterator.inc.php"/>
+    <ROW File="adodbfbsql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb-~9.php|adodb-fbsql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-fbsql.inc.php" SelfReg="false" NextFile="adodbfirebird.inc.php"/>
+    <ROW File="adodbfirebird.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~10.php|adodb-firebird.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-firebird.inc.php" SelfReg="false" NextFile="adodbibase.inc.php"/>
+    <ROW File="adodbfr.inc.php" Component_="adodbar.inc.php" FileName="adodb~12.php|adodb-fr.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-fr.inc.php" SelfReg="false" NextFile="adodbhu.inc.php"/>
+    <ROW File="adodbhu.inc.php" Component_="adodbar.inc.php" FileName="adodb~13.php|adodb-hu.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-hu.inc.php" SelfReg="false" NextFile="adodbit.inc.php"/>
+    <ROW File="adodbibase.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~11.php|adodb-ibase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ibase.inc.php" SelfReg="false" NextFile="adodbinformix.inc.php"/>
+    <ROW File="adodbinformix.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~12.php|adodb-informix.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-informix.inc.php" SelfReg="false" NextFile="adodbinformix72.inc.php"/>
+    <ROW File="adodbinformix72.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~13.php|adodb-informix72.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-informix72.inc.php" SelfReg="false" NextFile="adodbldap.inc.php"/>
+    <ROW File="adodbit.inc.php" Component_="adodbar.inc.php" FileName="adodb~14.php|adodb-it.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-it.inc.php" SelfReg="false" NextFile="adodbnl.inc.php"/>
+    <ROW File="adodbiterator.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~8.php|adodb-iterator.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-iterator.inc.php" SelfReg="false" NextFile="adodblib.inc.php"/>
+    <ROW File="adodbldap.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~14.php|adodb-ldap.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-ldap.inc.php" SelfReg="false" NextFile="adodbmssql.inc.php"/>
+    <ROW File="adodblib.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb-~9.php|adodb-lib.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-lib.inc.php" SelfReg="false" NextFile="adodbmemcache.lib.inc.php"/>
+    <ROW File="adodbmemcache.lib.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~10.php|adodb-memcache.lib.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-memcache.lib.inc.php" SelfReg="false" NextFile="adodbpager.inc.php"/>
+    <ROW File="adodbmssql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~15.php|adodb-mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mssql.inc.php" SelfReg="false" NextFile="adodbmssqlpo.inc.php"/>
+    <ROW File="adodbmssql_n.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~17.php|adodb-mssql_n.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mssql_n.inc.php" SelfReg="false" NextFile="adodbmysql.inc.php"/>
+    <ROW File="adodbmssqlpo.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~16.php|adodb-mssqlpo.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mssqlpo.inc.php" SelfReg="false" NextFile="adodbmssql_n.inc.php"/>
+    <ROW File="adodbmysql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~18.php|adodb-mysql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mysql.inc.php" SelfReg="false" NextFile="adodbmysqli.inc.php"/>
+    <ROW File="adodbmysqli.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~19.php|adodb-mysqli.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mysqli.inc.php" SelfReg="false" NextFile="adodbmysqlt.inc.php"/>
+    <ROW File="adodbmysqlt.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~20.php|adodb-mysqlt.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-mysqlt.inc.php" SelfReg="false" NextFile="adodbnetezza.inc.php"/>
+    <ROW File="adodbnetezza.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~21.php|adodb-netezza.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-netezza.inc.php" SelfReg="false" NextFile="adodboci8.inc.php"/>
+    <ROW File="adodbnl.inc.php" Component_="adodbar.inc.php" FileName="adodb~15.php|adodb-nl.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-nl.inc.php" SelfReg="false" NextFile="adodbpl.inc.php"/>
+    <ROW File="adodboci8.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~22.php|adodb-oci8.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-oci8.inc.php" SelfReg="false" NextFile="adodboci805.inc.php"/>
+    <ROW File="adodboci805.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~23.php|adodb-oci805.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-oci805.inc.php" SelfReg="false" NextFile="adodboci8po.inc.php"/>
+    <ROW File="adodboci8po.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~24.php|adodb-oci8po.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-oci8po.inc.php" SelfReg="false" NextFile="adodbodbc.inc.php"/>
+    <ROW File="adodbodbc.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~25.php|adodb-odbc.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbc.inc.php" SelfReg="false" NextFile="adodbodbc_db2.inc.php"/>
+    <ROW File="adodbodbc_db2.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~26.php|adodb-odbc_db2.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbc_db2.inc.php" SelfReg="false" NextFile="adodbodbc_mssql.inc.php"/>
+    <ROW File="adodbodbc_mssql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~27.php|adodb-odbc_mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbc_mssql.inc.php" SelfReg="false" NextFile="adodbodbc_oracle.inc.php"/>
+    <ROW File="adodbodbc_oracle.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~28.php|adodb-odbc_oracle.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbc_oracle.inc.php" SelfReg="false" NextFile="adodbodbtp.inc.php"/>
+    <ROW File="adodbodbtp.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~29.php|adodb-odbtp.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbtp.inc.php" SelfReg="false" NextFile="adodbodbtp_unicode.inc.php"/>
+    <ROW File="adodbodbtp_unicode.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~30.php|adodb-odbtp_unicode.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-odbtp_unicode.inc.php" SelfReg="false" NextFile="adodboracle.inc.php"/>
+    <ROW File="adodboracle.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~31.php|adodb-oracle.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-oracle.inc.php" SelfReg="false" NextFile="adodbpdo.inc.php"/>
+    <ROW File="adodbpager.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~11.php|adodb-pager.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-pager.inc.php" SelfReg="false" NextFile="adodbpear.inc.php"/>
+    <ROW File="adodbpdo.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~32.php|adodb-pdo.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-pdo.inc.php" SelfReg="false" NextFile="adodbpdo_mssql.inc.php"/>
+    <ROW File="adodbpdo_mssql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~33.php|adodb-pdo_mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-pdo_mssql.inc.php" SelfReg="false" NextFile="adodbpdo_mysql.inc.php"/>
+    <ROW File="adodbpdo_mysql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~34.php|adodb-pdo_mysql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-pdo_mysql.inc.php" SelfReg="false" NextFile="adodbpdo_oci.inc.php"/>
+    <ROW File="adodbpdo_oci.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~35.php|adodb-pdo_oci.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-pdo_oci.inc.php" SelfReg="false" NextFile="adodbpdo_pgsql.inc.php"/>
+    <ROW File="adodbpdo_pgsql.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~36.php|adodb-pdo_pgsql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-pdo_pgsql.inc.php" SelfReg="false" NextFile="adodbpostgres.inc.php"/>
+    <ROW File="adodbpear.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~12.php|adodb-pear.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-pear.inc.php" SelfReg="false" NextFile="adodbperf.inc.php"/>
+    <ROW File="adodbperf.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~13.php|adodb-perf.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-perf.inc.php" SelfReg="false" NextFile="adodbphp4.inc.php"/>
+    <ROW File="adodbphp4.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~14.php|adodb-php4.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-php4.inc.php" SelfReg="false" NextFile="adodbtime.inc.php"/>
+    <ROW File="adodbpl.inc.php" Component_="adodbar.inc.php" FileName="adodb~16.php|adodb-pl.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-pl.inc.php" SelfReg="false" NextFile="adodbptbr.inc.php"/>
+    <ROW File="adodbpostgres.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~37.php|adodb-postgres.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-postgres.inc.php" SelfReg="false" NextFile="adodbpostgres64.inc.php"/>
+    <ROW File="adodbpostgres64.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~38.php|adodb-postgres64.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-postgres64.inc.php" SelfReg="false" NextFile="adodbpostgres7.inc.php"/>
+    <ROW File="adodbpostgres7.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~39.php|adodb-postgres7.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-postgres7.inc.php" SelfReg="false" NextFile="adodbpostgres8.inc.php"/>
+    <ROW File="adodbpostgres8.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~40.php|adodb-postgres8.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-postgres8.inc.php" SelfReg="false" NextFile="adodbproxy.inc.php"/>
+    <ROW File="adodbproxy.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~41.php|adodb-proxy.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-proxy.inc.php" SelfReg="false" NextFile="adodbsapdb.inc.php"/>
+    <ROW File="adodbptbr.inc.php" Component_="adodbar.inc.php" FileName="adodb~17.php|adodb-pt-br.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-pt-br.inc.php" SelfReg="false" NextFile="adodbro.inc.php"/>
+    <ROW File="adodbro.inc.php" Component_="adodbar.inc.php" FileName="adodb~18.php|adodb-ro.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-ro.inc.php" SelfReg="false" NextFile="adodbru1251.inc.php"/>
+    <ROW File="adodbru1251.inc.php" Component_="adodbar.inc.php" FileName="adodb~19.php|adodb-ru1251.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-ru1251.inc.php" SelfReg="false" NextFile="adodbsv.inc.php"/>
+    <ROW File="adodbsapdb.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~42.php|adodb-sapdb.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sapdb.inc.php" SelfReg="false" NextFile="adodbsqlanywhere.inc.php"/>
+    <ROW File="adodbsess.txt" Component_="adodbcompressbzip2.php" FileName="adodb-~1.txt|adodb-sess.txt" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-sess.txt" SelfReg="false" NextFile="adodbsessionclob.php"/>
+    <ROW File="adodbsession.php" Component_="adodbcompressbzip2.php" FileName="adodb~11.php|adodb-session.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-session.php" SelfReg="false" NextFile="adodbsession2.php"/>
+    <ROW File="adodbsession.php_1" Component_="adodbcryptsession.php" FileName="adodb-~3.php|adodb-session.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\old\adodb-session.php" SelfReg="false" NextFile="crypt.inc.php_1"/>
+    <ROW File="adodbsession2.php" Component_="adodbcompressbzip2.php" FileName="adodb~12.php|adodb-session2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-session2.php" SelfReg="false" NextFile="adodbsessions.mysql.sql"/>
+    <ROW File="adodbsessionclob.php" Component_="adodbcompressbzip2.php" FileName="adodb-~9.php|adodb-session-clob.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-session-clob.php" SelfReg="false" NextFile="adodbsessionclob2.php"/>
+    <ROW File="adodbsessionclob.php_1" Component_="adodbcryptsession.php" FileName="adodb-~2.php|adodb-session-clob.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\old\adodb-session-clob.php" SelfReg="false" NextFile="adodbsession.php_1"/>
+    <ROW File="adodbsessionclob2.php" Component_="adodbcompressbzip2.php" FileName="adodb~10.php|adodb-session-clob2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-session-clob2.php" SelfReg="false" NextFile="adodbsession.php"/>
+    <ROW File="adodbsessions.mysql.sql" Component_="adodbcompressbzip2.php" FileName="adodb-~1.sql|adodb-sessions.mysql.sql" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-sessions.mysql.sql" SelfReg="false" NextFile="adodbsessions.oracle.clob.sql"/>
+    <ROW File="adodbsessions.oracle.clob.sql" Component_="adodbcompressbzip2.php" FileName="adodb-~2.sql|adodb-sessions.oracle.clob.sql" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-sessions.oracle.clob.sql" SelfReg="false" NextFile="adodbsessions.oracle.sql"/>
+    <ROW File="adodbsessions.oracle.sql" Component_="adodbcompressbzip2.php" FileName="adodb-~3.sql|adodb-sessions.oracle.sql" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\adodb-sessions.oracle.sql" SelfReg="false" NextFile="crypt.inc.php"/>
+    <ROW File="adodbsqlanywhere.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~43.php|adodb-sqlanywhere.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sqlanywhere.inc.php" SelfReg="false" NextFile="adodbsqlite.inc.php"/>
+    <ROW File="adodbsqlite.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~44.php|adodb-sqlite.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sqlite.inc.php" SelfReg="false" NextFile="adodbsqlitepo.inc.php"/>
+    <ROW File="adodbsqlitepo.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~45.php|adodb-sqlitepo.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sqlitepo.inc.php" SelfReg="false" NextFile="adodbsybase.inc.php"/>
+    <ROW File="adodbsv.inc.php" Component_="adodbar.inc.php" FileName="adodb~20.php|adodb-sv.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-sv.inc.php" SelfReg="false" NextFile="adodbuk1251.inc.php"/>
+    <ROW File="adodbsybase.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~46.php|adodb-sybase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sybase.inc.php" SelfReg="false" NextFile="adodbsybase_ase.inc.php"/>
+    <ROW File="adodbsybase_ase.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~47.php|adodb-sybase_ase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-sybase_ase.inc.php" SelfReg="false" NextFile="adodbvfp.inc.php"/>
+    <ROW File="adodbtime.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~15.php|adodb-time.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-time.inc.php" SelfReg="false" NextFile="adodbxmlschema.inc.php"/>
+    <ROW File="adodbuk1251.inc.php" Component_="adodbar.inc.php" FileName="adodb~21.php|adodb-uk1251.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\lang\adodb-uk1251.inc.php" SelfReg="false" NextFile="adodb_th.inc.php"/>
+    <ROW File="adodbvfp.inc.php" Component_="adodbaccess.inc.php" FileName="adodb~48.php|adodb-vfp.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\drivers\adodb-vfp.inc.php" SelfReg="false" NextFile="adodbar.inc.php"/>
+    <ROW File="adodbxmlschema.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~16.php|adodb-xmlschema.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-xmlschema.inc.php" SelfReg="false" NextFile="adodbxmlschema03.inc.php"/>
+    <ROW File="adodbxmlschema03.inc.php" Component_="adodbactiverecord.inc.php" FileName="adodb~17.php|adodb-xmlschema03.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\adodb-xmlschema03.inc.php" SelfReg="false" NextFile="adodb.inc.php"/>
+    <ROW File="alarmDetailsModule.php" Component_="alarmDetailsModule.php" FileName="alarmD~1.php|alarmDetailsModule.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\alarmDetails\alarmDetailsModule.php" SelfReg="false" NextFile="moduleconfig.php"/>
+    <ROW File="benchmark.php" Component_="benchmark.php" FileName="benchm~1.php|benchmark.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\benchmark.php" SelfReg="false" NextFile="client.php"/>
+    <ROW File="client.php" Component_="benchmark.php" FileName="client.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\client.php" SelfReg="false" NextFile="pdo.php"/>
+    <ROW File="config.php" Component_="config.php" FileName="config.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\config\config.php" SelfReg="false" NextFile="db_connect.php"/>
+    <ROW File="content.inc.php" Component_="content.inc.php" FileName="conten~1.php|content.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\content.inc.php" SelfReg="false" NextFile="document.inc.php"/>
+    <ROW File="content.php" Component_="content.php" FileName="content.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\content.php" SelfReg="false" NextFile="copyright.inc.php"/>
+    <ROW File="convert0.10.2.xsl" Component_="convert0.10.2.xsl" FileName="conver~1.xsl|convert-0.1-0.2.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\convert-0.1-0.2.xsl" SelfReg="false" NextFile="convert0.10.3.xsl"/>
+    <ROW File="convert0.10.3.xsl" Component_="convert0.10.2.xsl" FileName="conver~2.xsl|convert-0.1-0.3.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\convert-0.1-0.3.xsl" SelfReg="false" NextFile="convert0.20.1.xsl"/>
+    <ROW File="convert0.20.1.xsl" Component_="convert0.10.2.xsl" FileName="conver~3.xsl|convert-0.2-0.1.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\convert-0.2-0.1.xsl" SelfReg="false" NextFile="convert0.20.3.xsl"/>
+    <ROW File="convert0.20.3.xsl" Component_="convert0.10.2.xsl" FileName="conver~4.xsl|convert-0.2-0.3.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\convert-0.2-0.3.xsl" SelfReg="false" NextFile="remove0.2.xsl"/>
+    <ROW File="copyright.inc.php" Component_="content.php" FileName="copyri~1.php|copyright.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\copyright.inc.php" SelfReg="false" NextFile="greendot.gif"/>
+    <ROW File="crypt.inc.php" Component_="adodbcompressbzip2.php" FileName="crypti~1.php|crypt.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\crypt.inc.php" SelfReg="false" NextFile="adodbcryptsession.php_1"/>
+    <ROW File="crypt.inc.php_1" Component_="adodbcryptsession.php" FileName="crypti~1.php|crypt.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\old\crypt.inc.php" SelfReg="false" NextFile="session_schema.xml"/>
+    <ROW File="datadictaccess.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~1.php|datadict-access.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-access.inc.php" SelfReg="false" NextFile="datadictdb2.inc.php"/>
+    <ROW File="datadictdb2.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~2.php|datadict-db2.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-db2.inc.php" SelfReg="false" NextFile="datadictfirebird.inc.php"/>
+    <ROW File="datadictfirebird.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~3.php|datadict-firebird.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-firebird.inc.php" SelfReg="false" NextFile="datadictgeneric.inc.php"/>
+    <ROW File="datadictgeneric.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~4.php|datadict-generic.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-generic.inc.php" SelfReg="false" NextFile="datadictibase.inc.php"/>
+    <ROW File="datadictibase.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~5.php|datadict-ibase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-ibase.inc.php" SelfReg="false" NextFile="datadictinformix.inc.php"/>
+    <ROW File="datadictinformix.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~6.php|datadict-informix.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-informix.inc.php" SelfReg="false" NextFile="datadictmssql.inc.php"/>
+    <ROW File="datadictmssql.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~7.php|datadict-mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-mssql.inc.php" SelfReg="false" NextFile="datadictmysql.inc.php"/>
+    <ROW File="datadictmysql.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~8.php|datadict-mysql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-mysql.inc.php" SelfReg="false" NextFile="datadictoci8.inc.php"/>
+    <ROW File="datadictoci8.inc.php" Component_="datadictaccess.inc.php" FileName="datadi~9.php|datadict-oci8.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-oci8.inc.php" SelfReg="false" NextFile="datadictpostgres.inc.php"/>
+    <ROW File="datadictpostgres.inc.php" Component_="datadictaccess.inc.php" FileName="datad~10.php|datadict-postgres.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-postgres.inc.php" SelfReg="false" NextFile="datadictsapdb.inc.php"/>
+    <ROW File="datadictsapdb.inc.php" Component_="datadictaccess.inc.php" FileName="datad~11.php|datadict-sapdb.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-sapdb.inc.php" SelfReg="false" NextFile="datadictsybase.inc.php"/>
+    <ROW File="datadictsybase.inc.php" Component_="datadictaccess.inc.php" FileName="datad~12.php|datadict-sybase.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\datadict\datadict-sybase.inc.php" SelfReg="false" NextFile="docsactiverecord.htm"/>
+    <ROW File="db_connect.php" Component_="config.php" FileName="db_con~1.php|db_connect.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\config\db_connect.php" SelfReg="false" NextFile="content.php"/>
+    <ROW File="docsactiverecord.htm" Component_="docsactiverecord.htm" FileName="docs-a~1.htm|docs-active-record.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-active-record.htm" SelfReg="false" NextFile="docsadodb.htm"/>
+    <ROW File="docsadodb.htm" Component_="docsactiverecord.htm" FileName="docs-a~2.htm|docs-adodb.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-adodb.htm" SelfReg="false" NextFile="docsdatadict.htm"/>
+    <ROW File="docsdatadict.htm" Component_="docsactiverecord.htm" FileName="docs-d~1.htm|docs-datadict.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-datadict.htm" SelfReg="false" NextFile="docsoracle.htm"/>
+    <ROW File="docsoracle.htm" Component_="docsactiverecord.htm" FileName="docs-o~1.htm|docs-oracle.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-oracle.htm" SelfReg="false" NextFile="docsperf.htm"/>
+    <ROW File="docsperf.htm" Component_="docsactiverecord.htm" FileName="docs-p~1.htm|docs-perf.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-perf.htm" SelfReg="false" NextFile="docssession.htm"/>
+    <ROW File="docssession.htm" Component_="docsactiverecord.htm" FileName="docs-s~1.htm|docs-session.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-session.htm" SelfReg="false" NextFile="docssession.old.htm"/>
+    <ROW File="docssession.old.htm" Component_="docsactiverecord.htm" FileName="docs-s~2.htm|docs-session.old.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\docs-session.old.htm" SelfReg="false" NextFile="oldchangelog.htm"/>
+    <ROW File="document.inc.php" Component_="content.inc.php" FileName="docume~1.php|document.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\document.inc.php" SelfReg="false" NextFile="form.inc.php"/>
+    <ROW File="form.inc.php" Component_="content.inc.php" FileName="formin~1.php|form.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\form.inc.php" SelfReg="false" NextFile="group.inc.php"/>
+    <ROW File="googleMap.inc.php" Component_="googleMap.inc.php" FileName="google~1.php|googleMap.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_plugins\response\googleMap.inc.php" SelfReg="false" NextFile="tableUpdater.inc.php"/>
+    <ROW File="greendot.gif" Component_="greendot.gif" FileName="greendot.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\greendot.gif" SelfReg="false" NextFile="list16x16dot801.gif"/>
+    <ROW File="group.inc.php" Component_="content.inc.php" FileName="groupi~1.php|group.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\group.inc.php" SelfReg="false" NextFile="misc.inc.php"/>
+    <ROW File="index.html" Component_="content.php" FileName="index~1.htm|index.html" Attributes="0" SourcePath="..\..\..\Website\Alarmview\index.html" SelfReg="false" NextFile="index.php"/>
+    <ROW File="index.php" Component_="content.php" FileName="index.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\index.php" SelfReg="false" NextFile="mrd.html"/>
+    <ROW File="legacy.inc.php" Component_="legacy.inc.php" FileName="legacy~1.php|legacy.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\legacy.inc.php" SelfReg="false" NextFile="xajaxCallableObject.inc.php"/>
+    <ROW File="license.txt" Component_="adodbactiverecord.inc.php" FileName="license.txt" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\license.txt" SelfReg="false" NextFile="ADOdb.php"/>
+    <ROW File="list16x16dot801.gif" Component_="greendot.gif" FileName="list16~1.gif|list16x16-dot8-01.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-01.gif" SelfReg="false" NextFile="list16x16dot802.gif"/>
+    <ROW File="list16x16dot802.gif" Component_="greendot.gif" FileName="list16~2.gif|list16x16-dot8-02.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-02.gif" SelfReg="false" NextFile="list16x16dot804.gif"/>
+    <ROW File="list16x16dot804.gif" Component_="greendot.gif" FileName="list16~3.gif|list16x16-dot8-04.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-04.gif" SelfReg="false" NextFile="list16x16dot805.gif"/>
+    <ROW File="list16x16dot805.gif" Component_="greendot.gif" FileName="list16~4.gif|list16x16-dot8-05.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-05.gif" SelfReg="false" NextFile="list16x16dot808.gif"/>
+    <ROW File="list16x16dot808.gif" Component_="greendot.gif" FileName="list16~5.gif|list16x16-dot8-08.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-08.gif" SelfReg="false" NextFile="list16x16dot809.gif"/>
+    <ROW File="list16x16dot809.gif" Component_="greendot.gif" FileName="list16~6.gif|list16x16-dot8-09.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-09.gif" SelfReg="false" NextFile="list16x16dot810.gif"/>
+    <ROW File="list16x16dot810.gif" Component_="greendot.gif" FileName="list16~7.gif|list16x16-dot8-10.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-10.gif" SelfReg="false" NextFile="list16x16dot811.gif"/>
+    <ROW File="list16x16dot811.gif" Component_="greendot.gif" FileName="list16~8.gif|list16x16-dot8-11.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-11.gif" SelfReg="false" NextFile="list16x16dot812.gif"/>
+    <ROW File="list16x16dot812.gif" Component_="greendot.gif" FileName="list16~9.gif|list16x16-dot8-12.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-12.gif" SelfReg="false" NextFile="list16x16dot813.gif"/>
+    <ROW File="list16x16dot813.gif" Component_="greendot.gif" FileName="list1~10.gif|list16x16-dot8-13.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-13.gif" SelfReg="false" NextFile="list16x16dot814.gif"/>
+    <ROW File="list16x16dot814.gif" Component_="greendot.gif" FileName="list1~11.gif|list16x16-dot8-14.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-14.gif" SelfReg="false" NextFile="list16x16dot815.gif"/>
+    <ROW File="list16x16dot815.gif" Component_="greendot.gif" FileName="list1~12.gif|list16x16-dot8-15.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-15.gif" SelfReg="false" NextFile="list16x16dot816.gif"/>
+    <ROW File="list16x16dot816.gif" Component_="greendot.gif" FileName="list1~13.gif|list16x16-dot8-16.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-16.gif" SelfReg="false" NextFile="list16x16dot817.gif"/>
+    <ROW File="list16x16dot817.gif" Component_="greendot.gif" FileName="list1~14.gif|list16x16-dot8-17.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-17.gif" SelfReg="false" NextFile="list16x16dot818.gif"/>
+    <ROW File="list16x16dot818.gif" Component_="greendot.gif" FileName="list1~15.gif|list16x16-dot8-18.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-18.gif" SelfReg="false" NextFile="list16x16dot819.gif"/>
+    <ROW File="list16x16dot819.gif" Component_="greendot.gif" FileName="list1~16.gif|list16x16-dot8-19.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-19.gif" SelfReg="false" NextFile="list16x16dot820.gif"/>
+    <ROW File="list16x16dot820.gif" Component_="greendot.gif" FileName="list1~17.gif|list16x16-dot8-20.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\list16x16-dot8-20.gif" SelfReg="false" NextFile="reddot.gif"/>
+    <ROW File="log4net.dll" Component_="log4net.dll" FileName="log4net.dll" Attributes="0" SourcePath="..\..\..\Build\log4net.dll" SelfReg="false" NextFile="MySql.Data.dll"/>
+    <ROW File="misc.inc.php" Component_="content.inc.php" FileName="miscin~1.php|misc.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\misc.inc.php" SelfReg="false" NextFile="structure.inc.php"/>
+    <ROW File="module.php" Component_="module.php" FileName="module.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\module.php" SelfReg="false" NextFile="moduleconfig.php_2"/>
+    <ROW File="moduleconfig.php" Component_="alarmDetailsModule.php" FileName="module~1.php|moduleconfig.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\alarmDetails\moduleconfig.php" SelfReg="false" NextFile="FahrzeugeModule.php"/>
+    <ROW File="moduleconfig.php_1" Component_="FahrzeugeModule.php" FileName="module~1.php|moduleconfig.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\Fahrzeuge\moduleconfig.php" SelfReg="false" NextFile="module.php"/>
+    <ROW File="moduleconfig.php_2" Component_="moduleconfig.php" FileName="module~1.php|moduleconfig.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\Status\moduleconfig.php" SelfReg="false" NextFile="statusModule.php"/>
+    <ROW File="mrd.html" Component_="content.php" FileName="mrd~1.htm|mrd.html" Attributes="0" SourcePath="..\..\..\Website\Alarmview\mrd.html" SelfReg="false" NextFile="pla.html"/>
+    <ROW File="oldchangelog.htm" Component_="docsactiverecord.htm" FileName="old-ch~1.htm|old-changelog.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\old-changelog.htm" SelfReg="false" NextFile="readme.htm"/>
+    <ROW File="pdo.php" Component_="benchmark.php" FileName="pdo.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\pdo.php" SelfReg="false" NextFile="testactiverecord.php"/>
+    <ROW File="perfdb2.inc.php" Component_="perfdb2.inc.php" FileName="perf-d~1.php|perf-db2.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-db2.inc.php" SelfReg="false" NextFile="perfinformix.inc.php"/>
+    <ROW File="perfinformix.inc.php" Component_="perfdb2.inc.php" FileName="perf-i~1.php|perf-informix.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-informix.inc.php" SelfReg="false" NextFile="perfmssql.inc.php"/>
+    <ROW File="perfmssql.inc.php" Component_="perfdb2.inc.php" FileName="perf-m~1.php|perf-mssql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-mssql.inc.php" SelfReg="false" NextFile="perfmysql.inc.php"/>
+    <ROW File="perfmysql.inc.php" Component_="perfdb2.inc.php" FileName="perf-m~2.php|perf-mysql.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-mysql.inc.php" SelfReg="false" NextFile="perfoci8.inc.php"/>
+    <ROW File="perfoci8.inc.php" Component_="perfdb2.inc.php" FileName="perf-o~1.php|perf-oci8.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-oci8.inc.php" SelfReg="false" NextFile="perfpostgres.inc.php"/>
+    <ROW File="perfpostgres.inc.php" Component_="perfdb2.inc.php" FileName="perf-p~1.php|perf-postgres.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\perf\perf-postgres.inc.php" SelfReg="false" NextFile="pivottable.inc.php"/>
+    <ROW File="pivottable.inc.php" Component_="adodbactiverecord.inc.php" FileName="pivott~1.php|pivottable.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\pivottable.inc.php" SelfReg="false" NextFile="readme.txt"/>
+    <ROW File="pla.html" Component_="content.php" FileName="pla~1.htm|pla.html" Attributes="0" SourcePath="..\..\..\Website\Alarmview\pla.html" SelfReg="false" NextFile="README.txt_1"/>
+    <ROW File="readme.Auth.txt" Component_="readme.Auth.txt" FileName="readme~1.txt|readme.Auth.txt" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\pear\readme.Auth.txt" SelfReg="false" NextFile="perfdb2.inc.php"/>
+    <ROW File="readme.htm" Component_="docsactiverecord.htm" FileName="readme.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\readme.htm" SelfReg="false" NextFile="tips_portable_sql.htm"/>
+    <ROW File="readme.txt" Component_="adodbactiverecord.inc.php" FileName="readme.txt" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\readme.txt" SelfReg="false" NextFile="rsfilter.inc.php"/>
+    <ROW File="reddot.gif" Component_="greendot.gif" FileName="reddot.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\reddot.gif" SelfReg="false" NextFile="yellowdot.gif"/>
+    <ROW File="remove0.2.xsl" Component_="convert0.10.2.xsl" FileName="remove~1.xsl|remove-0.2.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\remove-0.2.xsl" SelfReg="false" NextFile="remove0.3.xsl"/>
+    <ROW File="remove0.3.xsl" Component_="convert0.10.2.xsl" FileName="remove~2.xsl|remove-0.3.xsl" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xsl\remove-0.3.xsl" SelfReg="false" NextFile="AlarmDB.php"/>
+    <ROW File="rsfilter.inc.php" Component_="adodbactiverecord.inc.php" FileName="rsfilt~1.php|rsfilter.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\rsfilter.inc.php" SelfReg="false" NextFile="server.php"/>
+    <ROW File="server.php" Component_="adodbactiverecord.inc.php" FileName="server.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\server.php" SelfReg="false" NextFile="adodbcompressbzip2.php"/>
+    <ROW File="session_schema.xml" Component_="adodbcompressbzip2.php" FileName="sessio~1.xml|session_schema.xml" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\session_schema.xml" SelfReg="false" NextFile="session_schema2.xml"/>
+    <ROW File="session_schema2.xml" Component_="adodbcompressbzip2.php" FileName="sessio~2.xml|session_schema2.xml" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\session\session_schema2.xml" SelfReg="false" NextFile="benchmark.php"/>
+    <ROW File="site.php" Component_="site.php" FileName="site.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\templates\FFWPlanegg\site.php" SelfReg="false" NextFile="styles.css"/>
+    <ROW File="statusModule.php" Component_="moduleconfig.php" FileName="status~1.php|statusModule.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\modules\Status\statusModule.php" SelfReg="false" NextFile="index.html"/>
+    <ROW File="structure.inc.php" Component_="content.inc.php" FileName="struct~1.php|structure.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\structure.inc.php" SelfReg="false" NextFile="validate_HTML401TRANSITIONAL.inc.php"/>
+    <ROW File="styles.css" Component_="site.php" FileName="styles.css" Attributes="0" SourcePath="..\..\..\Website\Alarmview\templates\FFWPlanegg\styles.css" SelfReg="false" NextFile="test.html"/>
+    <ROW File="tableUpdater.inc.php" Component_="googleMap.inc.php" FileName="tableU~1.php|tableUpdater.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_plugins\response\tableUpdater.inc.php" SelfReg="false" NextFile="tableUpdater.js"/>
+    <ROW File="tableUpdater.js" Component_="googleMap.inc.php" FileName="tableU~1.js|tableUpdater.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_plugins\response\tableUpdater.js" SelfReg="false" NextFile="README.rtf"/>
+    <ROW File="test.html" Component_="content.php" FileName="test~1.htm|test.html" Attributes="0" SourcePath="..\..\..\Website\Alarmview\test.html" SelfReg="false" NextFile="content.inc.php"/>
+    <ROW File="test.php" Component_="benchmark.php" FileName="test.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test.php" SelfReg="false" NextFile="test2.php"/>
+    <ROW File="test2.php" Component_="benchmark.php" FileName="test2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test2.php" SelfReg="false" NextFile="test3.php"/>
+    <ROW File="test3.php" Component_="benchmark.php" FileName="test3.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test3.php" SelfReg="false" NextFile="test4.php"/>
+    <ROW File="test4.php" Component_="benchmark.php" FileName="test4.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test4.php" SelfReg="false" NextFile="test5.php"/>
+    <ROW File="test5.php" Component_="benchmark.php" FileName="test5.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test5.php" SelfReg="false" NextFile="testcache.php"/>
+    <ROW File="test_rs_array.php" Component_="benchmark.php" FileName="test_r~1.php|test_rs_array.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test_rs_array.php" SelfReg="false" NextFile="time.php"/>
+    <ROW File="testactiverecord.php" Component_="benchmark.php" FileName="test-a~1.php|test-active-record.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-active-record.php" SelfReg="false" NextFile="testactiverecs2.php"/>
+    <ROW File="testactiverecs2.php" Component_="benchmark.php" FileName="test-a~2.php|test-active-recs2.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-active-recs2.php" SelfReg="false" NextFile="testdatadict.php"/>
+    <ROW File="testcache.php" Component_="benchmark.php" FileName="testca~1.php|testcache.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testcache.php" SelfReg="false" NextFile="testdatabases.inc.php"/>
+    <ROW File="testdatabases.inc.php" Component_="benchmark.php" FileName="testda~1.php|testdatabases.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testdatabases.inc.php" SelfReg="false" NextFile="testgenid.php"/>
+    <ROW File="testdatadict.php" Component_="benchmark.php" FileName="test-d~1.php|test-datadict.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-datadict.php" SelfReg="false" NextFile="testperf.php"/>
+    <ROW File="testgenid.php" Component_="benchmark.php" FileName="testge~1.php|testgenid.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testgenid.php" SelfReg="false" NextFile="testmssql.php"/>
+    <ROW File="testmssql.php" Component_="benchmark.php" FileName="testms~1.php|testmssql.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testmssql.php" SelfReg="false" NextFile="testoci8.php"/>
+    <ROW File="testoci8.php" Component_="benchmark.php" FileName="testoci8.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testoci8.php" SelfReg="false" NextFile="testoci8cursor.php"/>
+    <ROW File="testoci8cursor.php" Component_="benchmark.php" FileName="testoc~1.php|testoci8cursor.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testoci8cursor.php" SelfReg="false" NextFile="testpaging.php"/>
+    <ROW File="testpaging.php" Component_="benchmark.php" FileName="testpa~1.php|testpaging.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testpaging.php" SelfReg="false" NextFile="testpear.php"/>
+    <ROW File="testpear.php" Component_="benchmark.php" FileName="testpear.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testpear.php" SelfReg="false" NextFile="testsessions.php"/>
+    <ROW File="testperf.php" Component_="benchmark.php" FileName="test-p~1.php|test-perf.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-perf.php" SelfReg="false" NextFile="testpgblob.php"/>
+    <ROW File="testpgblob.php" Component_="benchmark.php" FileName="test-p~2.php|test-pgblob.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-pgblob.php" SelfReg="false" NextFile="testphp5.php"/>
+    <ROW File="testphp5.php" Component_="benchmark.php" FileName="test-p~3.php|test-php5.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-php5.php" SelfReg="false" NextFile="testxmlschema.php"/>
+    <ROW File="testsessions.php" Component_="benchmark.php" FileName="testse~1.php|testsessions.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\testsessions.php" SelfReg="false" NextFile="test_rs_array.php"/>
+    <ROW File="testxmlschema.php" Component_="benchmark.php" FileName="test-x~1.php|test-xmlschema.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\test-xmlschema.php" SelfReg="false" NextFile="test.php"/>
+    <ROW File="time.php" Component_="benchmark.php" FileName="time.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\time.php" SelfReg="false" NextFile="tmssql.php"/>
+    <ROW File="tips_portable_sql.htm" Component_="docsactiverecord.htm" FileName="tips_p~1.htm|tips_portable_sql.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\tips_portable_sql.htm" SelfReg="false" NextFile="tute.htm"/>
+    <ROW File="tmssql.php" Component_="benchmark.php" FileName="tmssql.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\tmssql.php" SelfReg="false" NextFile="xmlschemamssql.xml"/>
+    <ROW File="toexport.inc.php" Component_="adodbactiverecord.inc.php" FileName="toexpo~1.php|toexport.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\toexport.inc.php" SelfReg="false" NextFile="tohtml.inc.php"/>
+    <ROW File="tohtml.inc.php" Component_="adodbactiverecord.inc.php" FileName="tohtml~1.php|tohtml.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tohtml.inc.php" SelfReg="false" NextFile="xmlschema.dtd"/>
+    <ROW File="toxmlrpc.inc.php" Component_="toxmlrpc.inc.php" FileName="toxmlr~1.php|toxmlrpc.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\contrib\toxmlrpc.inc.php" SelfReg="false" NextFile="adodb.gif"/>
+    <ROW File="tute.htm" Component_="docsactiverecord.htm" FileName="tute.htm" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\docs\tute.htm" SelfReg="false" NextFile="adodbaccess.inc.php"/>
+    <ROW File="updater.exe" Component_="updater.exe" FileName="AlarmW~1.exe|AlarmWorkflow Updater.exe" Version="65535.65535.65535.65535" Attributes="0" SourcePath="&lt;AI_STUBS_32U&gt;updater.exe" SelfReg="false" NextFile="AlarmWorkflow.Windows.Configuration.exe" DigSign="true"/>
+    <ROW File="validate_HTML401TRANSITIONAL.inc.php" Component_="content.inc.php" FileName="valida~1.php|validate_HTML401TRANSITIONAL.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\validate_HTML401TRANSITIONAL.inc.php" SelfReg="false" NextFile="validate_XHTML10TRANSITIONAL.inc.php"/>
+    <ROW File="validate_XHTML10TRANSITIONAL.inc.php" Component_="content.inc.php" FileName="valida~2.php|validate_XHTML10TRANSITIONAL.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_controls\validate_XHTML10TRANSITIONAL.inc.php" SelfReg="false" NextFile="legacy.inc.php"/>
+    <ROW File="xajax.inc.php" Component_="legacy.inc.php" FileName="xajaxi~1.php|xajax.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajax.inc.php" SelfReg="false" NextFile="xajaxArgumentManager.inc.php"/>
+    <ROW File="xajaxArgumentManager.inc.php" Component_="legacy.inc.php" FileName="xajaxA~1.php|xajaxArgumentManager.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxArgumentManager.inc.php" SelfReg="false" NextFile="xajaxCall.inc.php"/>
+    <ROW File="xajaxCall.inc.php" Component_="legacy.inc.php" FileName="xajaxC~1.php|xajaxCall.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxCall.inc.php" SelfReg="false" NextFile="xajaxCompress.inc.php"/>
+    <ROW File="xajaxCallableObject.inc.php" Component_="xajaxCallableObject.inc.php" FileName="xajaxC~1.php|xajaxCallableObject.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\support\xajaxCallableObject.inc.php" SelfReg="false" NextFile="xajaxEvent.inc.php"/>
+    <ROW File="xajaxCallableObjectPlugin.inc.php" Component_="xajaxCallableObjectPlugin.inc.php" FileName="xajaxC~1.php|xajaxCallableObjectPlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\xajaxCallableObjectPlugin.inc.php" SelfReg="false" NextFile="xajaxDefaultIncludePlugin.inc.php"/>
+    <ROW File="xajaxCompress.inc.php" Component_="legacy.inc.php" FileName="xajaxC~2.php|xajaxCompress.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxCompress.inc.php" SelfReg="false" NextFile="xajaxControl.inc.php"/>
+    <ROW File="xajaxControl.inc.php" Component_="legacy.inc.php" FileName="xajaxC~3.php|xajaxControl.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxControl.inc.php" SelfReg="false" NextFile="xajaxLanguageManager.inc.php"/>
+    <ROW File="xajaxDefaultIncludePlugin.inc.php" Component_="xajaxCallableObjectPlugin.inc.php" FileName="xajaxD~1.php|xajaxDefaultIncludePlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\xajaxDefaultIncludePlugin.inc.php" SelfReg="false" NextFile="xajaxEventPlugin.inc.php"/>
+    <ROW File="xajaxEvent.inc.php" Component_="xajaxCallableObject.inc.php" FileName="xajaxE~1.php|xajaxEvent.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\support\xajaxEvent.inc.php" SelfReg="false" NextFile="xajaxUserFunction.inc.php"/>
+    <ROW File="xajaxEventPlugin.inc.php" Component_="xajaxCallableObjectPlugin.inc.php" FileName="xajaxE~1.php|xajaxEventPlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\xajaxEventPlugin.inc.php" SelfReg="false" NextFile="xajaxFunctionPlugin.inc.php"/>
+    <ROW File="xajaxFunctionPlugin.inc.php" Component_="xajaxCallableObjectPlugin.inc.php" FileName="xajaxF~1.php|xajaxFunctionPlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\xajaxFunctionPlugin.inc.php" SelfReg="false" NextFile="xajaxScriptPlugin.inc.php"/>
+    <ROW File="xajaxLanguageManager.inc.php" Component_="legacy.inc.php" FileName="xajaxL~1.php|xajaxLanguageManager.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxLanguageManager.inc.php" SelfReg="false" NextFile="xajaxPlugin.inc.php"/>
+    <ROW File="xajaxPlugin.inc.php" Component_="legacy.inc.php" FileName="xajaxP~1.php|xajaxPlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxPlugin.inc.php" SelfReg="false" NextFile="xajaxPluginManager.inc.php"/>
+    <ROW File="xajaxPluginManager.inc.php" Component_="legacy.inc.php" FileName="xajaxP~2.php|xajaxPluginManager.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxPluginManager.inc.php" SelfReg="false" NextFile="xajaxRequest.inc.php"/>
+    <ROW File="xajaxRequest.inc.php" Component_="legacy.inc.php" FileName="xajaxR~1.php|xajaxRequest.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxRequest.inc.php" SelfReg="false" NextFile="xajaxResponse.inc.php"/>
+    <ROW File="xajaxResponse.inc.php" Component_="legacy.inc.php" FileName="xajaxR~2.php|xajaxResponse.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxResponse.inc.php" SelfReg="false" NextFile="xajaxResponseManager.inc.php"/>
+    <ROW File="xajaxResponseManager.inc.php" Component_="legacy.inc.php" FileName="xajaxR~3.php|xajaxResponseManager.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajaxResponseManager.inc.php" SelfReg="false" NextFile="xajax_lang_de.inc.php"/>
+    <ROW File="xajaxScriptPlugin.inc.php" Component_="xajaxCallableObjectPlugin.inc.php" FileName="xajaxS~1.php|xajaxScriptPlugin.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\xajaxScriptPlugin.inc.php" SelfReg="false" NextFile="xajax.inc.php"/>
+    <ROW File="xajaxUserFunction.inc.php" Component_="xajaxCallableObject.inc.php" FileName="xajaxU~1.php|xajaxUserFunction.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\plugin_layer\support\xajaxUserFunction.inc.php" SelfReg="false" NextFile="xajaxCallableObjectPlugin.inc.php"/>
+    <ROW File="xajax_core.js" Component_="xajax_core.js" FileName="xajax_~1.js|xajax_core.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_core.js" SelfReg="false" NextFile="xajax_core_uncompressed.js"/>
+    <ROW File="xajax_core_uncompressed.js" Component_="xajax_core.js" FileName="xajax_~2.js|xajax_core_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_core_uncompressed.js" SelfReg="false" NextFile="xajax_debug.js"/>
+    <ROW File="xajax_debug.js" Component_="xajax_core.js" FileName="xajax_~3.js|xajax_debug.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_debug.js" SelfReg="false" NextFile="xajax_debug_uncompressed.js"/>
+    <ROW File="xajax_debug_uncompressed.js" Component_="xajax_core.js" FileName="xajax_~4.js|xajax_debug_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_debug_uncompressed.js" SelfReg="false" NextFile="xajax_lang_bg.js"/>
+    <ROW File="xajax_lang_bg.js" Component_="xajax_core.js" FileName="xajax_~5.js|xajax_lang_bg.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_bg.js" SelfReg="false" NextFile="xajax_lang_bg_uncompressed.js"/>
+    <ROW File="xajax_lang_bg_uncompressed.js" Component_="xajax_core.js" FileName="xajax_~6.js|xajax_lang_bg_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_bg_uncompressed.js" SelfReg="false" NextFile="xajax_lang_de.js"/>
+    <ROW File="xajax_lang_de.inc.php" Component_="legacy.inc.php" FileName="xajax_~1.php|xajax_lang_de.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajax_lang_de.inc.php" SelfReg="false" NextFile="xajax_lang_nl.inc.php"/>
+    <ROW File="xajax_lang_de.js" Component_="xajax_core.js" FileName="xajax_~7.js|xajax_lang_de.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_de.js" SelfReg="false" NextFile="xajax_lang_de_uncompressed.js"/>
+    <ROW File="xajax_lang_de_uncompressed.js" Component_="xajax_core.js" FileName="xajax_~8.js|xajax_lang_de_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_de_uncompressed.js" SelfReg="false" NextFile="xajax_lang_es.js"/>
+    <ROW File="xajax_lang_es.js" Component_="xajax_core.js" FileName="xajax_~9.js|xajax_lang_es.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_es.js" SelfReg="false" NextFile="xajax_lang_es_uncompressed.js"/>
+    <ROW File="xajax_lang_es_uncompressed.js" Component_="xajax_core.js" FileName="xajax~10.js|xajax_lang_es_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_es_uncompressed.js" SelfReg="false" NextFile="xajax_lang_fr.js"/>
+    <ROW File="xajax_lang_fr.js" Component_="xajax_core.js" FileName="xajax~11.js|xajax_lang_fr.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_fr.js" SelfReg="false" NextFile="xajax_lang_fr_uncompressed.js"/>
+    <ROW File="xajax_lang_fr_uncompressed.js" Component_="xajax_core.js" FileName="xajax~12.js|xajax_lang_fr_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_fr_uncompressed.js" SelfReg="false" NextFile="xajax_lang_nl.js"/>
+    <ROW File="xajax_lang_nl.inc.php" Component_="legacy.inc.php" FileName="xajax_~2.php|xajax_lang_nl.inc.php" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_core\xajax_lang_nl.inc.php" SelfReg="false" NextFile="xajax_core.js"/>
+    <ROW File="xajax_lang_nl.js" Component_="xajax_core.js" FileName="xajax~13.js|xajax_lang_nl.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_nl.js" SelfReg="false" NextFile="xajax_lang_nl_uncompressed.js"/>
+    <ROW File="xajax_lang_nl_uncompressed.js" Component_="xajax_core.js" FileName="xajax~14.js|xajax_lang_nl_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_nl_uncompressed.js" SelfReg="false" NextFile="xajax_lang_tr.js"/>
+    <ROW File="xajax_lang_tr.js" Component_="xajax_core.js" FileName="xajax~15.js|xajax_lang_tr.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_tr.js" SelfReg="false" NextFile="xajax_lang_tr_uncompressed.js"/>
+    <ROW File="xajax_lang_tr_uncompressed.js" Component_="xajax_core.js" FileName="xajax~16.js|xajax_lang_tr_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_lang_tr_uncompressed.js" SelfReg="false" NextFile="xajax_legacy.js"/>
+    <ROW File="xajax_legacy.js" Component_="xajax_core.js" FileName="xajax~17.js|xajax_legacy.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_legacy.js" SelfReg="false" NextFile="xajax_legacy_uncompressed.js"/>
+    <ROW File="xajax_legacy_uncompressed.js" Component_="xajax_core.js" FileName="xajax~18.js|xajax_legacy_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_legacy_uncompressed.js" SelfReg="false" NextFile="xajax_verbose.js"/>
+    <ROW File="xajax_verbose.js" Component_="xajax_core.js" FileName="xajax~19.js|xajax_verbose.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_verbose.js" SelfReg="false" NextFile="xajax_verbose_uncompressed.js"/>
+    <ROW File="xajax_verbose_uncompressed.js" Component_="xajax_core.js" FileName="xajax~20.js|xajax_verbose_uncompressed.js" Attributes="0" SourcePath="..\..\..\Website\Alarmview\xajax_js\xajax_verbose_uncompressed.js" SelfReg="false" NextFile="googleMap.inc.php"/>
+    <ROW File="xmlschema.dtd" Component_="adodbactiverecord.inc.php" FileName="xmlsch~1.dtd|xmlschema.dtd" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xmlschema.dtd" SelfReg="false" NextFile="xmlschema03.dtd"/>
+    <ROW File="xmlschema.xml" Component_="benchmark.php" FileName="xmlsch~2.xml|xmlschema.xml" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\xmlschema.xml" SelfReg="false" NextFile="toexport.inc.php"/>
+    <ROW File="xmlschema03.dtd" Component_="adodbactiverecord.inc.php" FileName="xmlsch~2.dtd|xmlschema03.dtd" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\xmlschema03.dtd" SelfReg="false" NextFile="convert0.10.2.xsl"/>
+    <ROW File="xmlschemamssql.xml" Component_="benchmark.php" FileName="xmlsch~1.xml|xmlschema-mssql.xml" Attributes="0" SourcePath="..\..\..\Website\Alarmview\includes\adodb\tests\xmlschema-mssql.xml" SelfReg="false" NextFile="xmlschema.xml"/>
+    <ROW File="yellowdot.gif" Component_="greendot.gif" FileName="yellow~1.gif|yellowdot.gif" Attributes="0" SourcePath="..\..\..\Website\Alarmview\icons\yellowdot.gif" SelfReg="false" NextFile="adodbactiverecord.inc.php"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" Languages="de" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" UseLargeSchema="true"/>
+    <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_de.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
+    <ROW Fragment="ConfigureDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\ConfigureDlg.aip"/>
+    <ROW Fragment="CustomizePage.aip" Path="&lt;AI_THEMES&gt;azure\fragments\CustomizePage.aip"/>
+    <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\FolderDlg.aip"/>
+    <ROW Fragment="FolderPage.aip" Path="&lt;AI_THEMES&gt;azure\fragments\FolderPage.aip"/>
+    <ROW Fragment="LicenseAgreementDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\LicenseAgreementDlg.aip"/>
+    <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\MaintenanceTypeDlg.aip"/>
+    <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="PrerequisitesDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\PrerequisitesDlg.aip"/>
+    <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;azure\fragments\SequenceDialogs.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;azure\fragments\UI.aip"/>
+    <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
+    <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\VerifyRemoveDlg.aip"/>
+    <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\VerifyRepairDlg.aip"/>
+    <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;azure\fragments\WelcomeDlg.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
+    <ROW Action="AI_DeleteLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_DeleteRLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractFiles" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractLzma" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+    <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
+    <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="55" Y="110" Width="372" Height="180" Attributes="3" Property="EulaRead" Text="..\..\..\README.rtf" Order="800" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ATTRIBUTE name="FixedSizeBitmaps" value="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="PrerequisitesDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control_="Next" Event="NewDialog" Argument="ConfigureDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="PrerequisitesDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ConfigureDlg" Control_="Next" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ConfigureDlg" Control_="Back" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ConfigureDlg" Control_="Tab" Event="SpawnDialog" Argument="CustomizePage" Condition="( AiTabPage ) AND ( 1 )" Ordering="0"/>
+    <ROW Dialog_="ConfigureDlg" Control_="Tab" Event="SpawnDialog" Argument="FolderPage" Condition="( AiTabPage ) AND ( NOT Installed )" Ordering="1"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="ConfigureDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="198"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="202"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="ChangeButton" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="501"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RemoveButton" Event="NewDialog" Argument="VerifyRemoveDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RepairButton" Event="NewDialog" Argument="VerifyRepairDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="1"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="399" Options="1"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="299" Options="1"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+    <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
+    <ROW Dialog_="PrerequisitesDlg" Control_="Next" Event="NewDialog" Argument="LicenseAgreementDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="PrerequisitesDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_ExtractFiles" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteCadLzma" Type="51" Source="AI_DeleteLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteLzma" Type="1025" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
+    <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
+    <ROW Action="AI_EstimateExtractFiles" Type="1" Source="Prereq.dll" Target="EstimateExtractFiles"/>
+    <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_ExtractFiles" Type="1025" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER"/>
+    <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
+    <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
+    <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
+    <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Type="1" Source="aicustact.dll" Target="GetLocalizedCredentials"/>
+    <ROW Action="AI_RunFinishActions" Type="1" Source="aicustact.dll" Target="RunFinishActions" WithoutSeq="true"/>
+    <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="AI_UPDATER_UNINSTALL" Type="18" Source="updater.exe" Target="/clean silent"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIniFileComponent">
+    <ROW IniFile="AppDir" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="AppDir" Value="[APPDIR]" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="ApplicationName" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="ApplicationName" Value="[ProductName]" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="ApplicationVersion" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="ApplicationVersion" Value="[ProductVersion]" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="CheckFrequency" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="CheckFrequency" Value="2" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="CompanyName" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="CompanyName" Value="[Manufacturer]" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="DefaultCommandLine" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="DefaultCommandLine" Value="/checknow" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="DownloadsFolder" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="DownloadsFolder" Value="[AppDataFolder][Manufacturer]\[ProductName]\updates\" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="ID" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="ID" Value="[UpgradeCode]" Action="0" Component_="updater.exe"/>
+    <ROW IniFile="URL" FileName="AlarmW~1.ini|AlarmWorkflow Updater.ini" DirProperty="APPDIR" Section="General" Key="URL" Value="http://openfiresource.de/packages/ai/updates.txt" Action="0" Component_="updater.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
+    <ROW Action="AI_UPDATER_UNINSTALL" Condition="($updater.exe = 2) AND (?updater.exe = 3) AND NOT (UPGRADINGPRODUCTCODE)" Sequence="1551"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="198" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="197" Builds="DefaultBuild"/>
+    <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="196" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="1549" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="1548" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (NOT PATCH)" Sequence="6599" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractFiles" Sequence="3998" Builds="DefaultBuild"/>
+    <ROW Action="AI_DATA_SETTER" Sequence="3997"/>
+    <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
+    <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+    <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
+    <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiServCtrlComponent">
+    <ROW ServiceControl="AlarmWorkflow.Windows.Service.exe" Name="AlarmworkflowService" Event="161" Wait="1" Component_="AlarmWorkflow.Windows.Service.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiServInstComponent">
+    <ROW ServiceInstall="AlarmWorkflow.Windows.Service.exe" Name="AlarmworkflowService" DisplayName="AlarmworkflowService" ServiceType="16" StartType="2" ErrorControl="1" Component_="AlarmWorkflow.Windows.Service.exe"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
+    <ROW Shortcut="AlarmWorkflowUpdater" Directory_="ProgramMenuFolder" Name="AlarmW~1|AlarmWorkflow Updater" Component_="updater.exe" Target="[#updater.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
+    <ATTRIBUTE name="UsedTheme" value="azure"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
+    <ROW PrereqKey="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD" DisplayName=".NET Framework 4.0" VersionMin="4.0" SetupFileUrl="http://download.microsoft.com/download/1/B/E/1BE39E79-7E39-46A3-96FF-047F95396215/dotNetFx40_Full_setup.exe" Location="1" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2" Operator="1"/>
+    <ATTRIBUTE name="PrereqsOrder" value="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
+    <ROW SearchKey="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD_NET_40_SEARCH" Prereq="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.0" Order="1" Property="AI_NET_40_ORIGINAL_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD_NET_45_SEARCH" Prereq="D62CCA_449F_4EB4_AA2F_C4376D7FBDAD" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.5" Order="2" Property="AI_NET_40_45_PREREQSEARCH_PROP"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterComponent">
+    <ROW Updater="updater.exe" URL="URL" SearchFreq="CheckFrequency" DownloadsFolder="DownloadsFolder" ID="ID" TargetDir="AppDir" AppName="ApplicationName" AppVersion="ApplicationVersion" CompanyName="CompanyName" DefCommandLine="DefaultCommandLine" IconIndex="0" UnistallCASeq="AI_UPDATER_UNINSTALL" Description="[|UpdaterName] [|ProductVersion] © [|Manufacturer], Inc, 2013"/>
+  </COMPONENT>
+</DOCUMENT>
