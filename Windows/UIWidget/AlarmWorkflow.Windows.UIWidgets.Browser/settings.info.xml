@@ -1,0 +1,7 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="Browser" DisplayText="Webbrowser (UI-Widget)" Parent="CustomOperationViewer">
+    <Setting Name="URL" DisplayText="URL" Category="Generell" Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+  </Identifier>
+</SettingsDisplayConfiguration>
