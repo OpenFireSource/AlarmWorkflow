@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
-using System.Windows.Controls;
 using System.Xml;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AvalonDock;
@@ -19,10 +19,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     ///     Interaction logic for CustomOperationViewer.xaml
     /// </summary>
     [Export("CustomOperationViewer", typeof(IOperationViewer))]
-    public partial class CustomOperationView : UserControl, IOperationViewer
+    public partial class CustomOperationView : IOperationViewer
     {
-        private readonly string LayoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");
-        private readonly WidgetManager _WidgetManager;
+        private readonly string _layoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");
+        private readonly WidgetManager _widgetManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomOperationView"/> class.
@@ -30,8 +30,8 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         public CustomOperationView()
         {
             InitializeComponent();
-            _WidgetManager = new WidgetManager();
-            List<ILayoutPanelElement> elements = _WidgetManager.InitializeViews();
+            _widgetManager = new WidgetManager();
+            List<ILayoutPanelElement> elements = _widgetManager.InitializeViews();
             foreach (ILayoutPanelElement layoutPanelElement in elements)
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
@@ -39,17 +39,17 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             List<String> fileIDs = new List<String>();
             var tempSerializer = new XmlLayoutSerializer(new DockingManager());
             tempSerializer.LayoutSerializationCallback += (sender, args) => fileIDs.Add(args.Model.ContentId);
-            if (File.Exists(LayoutFile))
+            if (File.Exists(_layoutFile))
             {
-                tempSerializer.Deserialize(LayoutFile);
+                tempSerializer.Deserialize(_layoutFile);
             }
-            bool everthingFound = _WidgetManager.Widgets.Select(uiWidget => fileIDs.Any(fileID => fileID.ToLower().Equals(uiWidget.ContentGuid.ToLower()))).All(found => found);
+            bool everthingFound = _widgetManager.Widgets.Select(uiWidget => fileIDs.Any(fileID => fileID.ToLower().Equals(uiWidget.ContentGuid.ToLower()))).All(found => found);
             if (everthingFound)
             {
                 var serializer = new XmlLayoutSerializer(dockingManager);
-                if (File.Exists(LayoutFile))
+                if (File.Exists(_layoutFile))
                 {
-                    serializer.Deserialize(LayoutFile);
+                    serializer.Deserialize(_layoutFile);
                 }
 
             }
@@ -57,17 +57,33 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnNewOperation(Operation operation)
         {
-            foreach (IUIWidget uiWidget in _WidgetManager.Widgets)
+            foreach (IUIWidget uiWidget in _widgetManager.Widgets)
             {
-                uiWidget.OnOperationChange(operation);
+                try
+                {
+                    uiWidget.OnOperationChange(operation);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Exception, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
-            foreach (IUIWidget uiWidget in _WidgetManager.Widgets)
+            foreach (IUIWidget uiWidget in _widgetManager.Widgets)
             {
-                uiWidget.OnOperationChange(operation);
+                try
+                {
+                    uiWidget.OnOperationChange(operation);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Exception, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 
@@ -79,7 +95,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             var serializer = new XmlLayoutSerializer(dockingManager);
-            XmlTextWriter writer = new XmlTextWriter(LayoutFile, Encoding.UTF8);
+            XmlTextWriter writer = new XmlTextWriter(_layoutFile, Encoding.UTF8);
             serializer.Serialize(writer);
             writer.Flush();
             writer.Close();
