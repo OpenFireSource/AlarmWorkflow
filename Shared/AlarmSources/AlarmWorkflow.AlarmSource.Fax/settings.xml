@@ -14,10 +14,4 @@
 Test]]>
   </Setting>
 
-  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False">
-    <![CDATA[<Dictionary>
-  <Entry Old="—" New="-" />
-</Dictionary>]]>
-  </Setting>
-
 </SettingsConfiguration>

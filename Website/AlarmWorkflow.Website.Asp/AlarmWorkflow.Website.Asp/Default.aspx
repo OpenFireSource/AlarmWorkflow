@@ -12,13 +12,15 @@
                BorderColor="#333333" BorderStyle="Solid" BorderWidth="3px" 
                GridLines="Both" Font-Size="45px" HorizontalAlign="Center">
         <asp:TableRow  ID="trInformation" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
-            <asp:TableCell ID="tcPicture" runat="server">
+            <asp:TableCell ID="tcPicture" runat="server" RowSpan="2">
                 <asp:Label ID="lbPicture" Font-Size="55px" Font-Bold="True" runat="server"></asp:Label>
             </asp:TableCell>
             <asp:TableCell ID="tcOther" runat="server" Width="40%">
                 <asp:Label ID="lbOther" runat="server"></asp:Label>
             </asp:TableCell>
         </asp:TableRow>
+        
+        <asp:TableRow ID="TableRow1" runat="server" HorizontalAlign="Center" VerticalAlign="Middle"><asp:TableCell runat="server"><asp:Label ID="lbKeyword" runat="server" Font-Bold="True"></asp:Label></asp:TableCell></asp:TableRow>
         <asp:TableRow ID="trLocation" runat="server" HorizontalAlign="Center" VerticalAlign="Middle">
             <asp:TableCell ID="tcAddress" runat="server">
                 <asp:Label ID="lbAddress" runat="server"></asp:Label>

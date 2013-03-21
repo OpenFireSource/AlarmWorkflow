@@ -103,6 +103,9 @@
     <Compile Include="TypeEditors\ObjectExpressionTypeEditor.xaml.cs">
       <DependentUpon>ObjectExpressionTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml.cs">
+      <DependentUpon>ReplaceDictionaryTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
       <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -113,11 +116,15 @@
       <DependentUpon>ExportConfigurationTypeEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeEditors\TypeEditorCache.cs" />
+    <Compile Include="ViewModels\AboutWindowViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
     <Compile Include="ViewModels\GroupedSectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\SettingItemViewModel.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
@@ -184,6 +191,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="TypeEditors\StringArrayTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,6 +204,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\ExportConfigurationTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AboutWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -253,6 +268,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\SaveAll_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Help_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OFSlogo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

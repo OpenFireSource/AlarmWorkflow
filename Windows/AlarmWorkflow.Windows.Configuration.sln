@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.Confi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.ConfigurationContracts", "Configuration\AlarmWorkflow.Windows.ConfigurationContracts\AlarmWorkflow.Windows.ConfigurationContracts.csproj", "{074FB127-C2E8-4B81-9579-EBB0D496659B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.Configuration.FaxTypeEditors", "Configuration\AlarmWorkflow.Windows.Configuration.FaxTypeEditors\AlarmWorkflow.Windows.Configuration.FaxTypeEditors.csproj", "{29AA219E-1F76-4DCE-A757-75E3E8756B9B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Windows.Configuration.AddressBookEditor", "Configuration\AlarmWorkflow.Windows.Configuration.AddressBookEditor\AlarmWorkflow.Windows.Configuration.AddressBookEditor.csproj", "{95E8F309-98EF-47BC-B953-C6D58AE62BD1}"
 EndProject
 Global
@@ -23,10 +21,6 @@ Global
 		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{074FB127-C2E8-4B81-9579-EBB0D496659B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{29AA219E-1F76-4DCE-A757-75E3E8756B9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29AA219E-1F76-4DCE-A757-75E3E8756B9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29AA219E-1F76-4DCE-A757-75E3E8756B9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29AA219E-1F76-4DCE-A757-75E3E8756B9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{95E8F309-98EF-47BC-B953-C6D58AE62BD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95E8F309-98EF-47BC-B953-C6D58AE62BD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95E8F309-98EF-47BC-B953-C6D58AE62BD1}.Release|Any CPU.ActiveCfg = Release|Any CPU

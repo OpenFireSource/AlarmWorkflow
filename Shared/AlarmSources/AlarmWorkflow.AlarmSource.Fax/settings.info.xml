@@ -16,8 +16,6 @@
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.IFaxParser, AlarmWorkflow.AlarmSource.Fax"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." />
-    <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Parser" Editor="ReplaceDictionaryTypeEditor"
-             Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
     <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"
              Description="Der Abstand (in Millisekunden) zur Überprüfung auf neue Faxe im Faxeingangs-Verzeichnis."

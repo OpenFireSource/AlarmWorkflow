@@ -80,5 +80,12 @@
                 </ContextMenu>
             </Label.ContextMenu>
         </Label>
+
+        <Separator />
+        
+        <Button Command="{Binding ShowAboutWindowCommand}" ToolTip="Über...">
+            <Image Source="../Images/Help_16.png" Width="16" Height="16" />
+        </Button>
+        
     </ToolBar>
 </UserControl>

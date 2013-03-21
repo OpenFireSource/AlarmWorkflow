@@ -15,6 +15,12 @@
     <![CDATA[<FDResourceConfiguration FDIdentification="" />]]>
   </Setting>
   <Setting Name="FD.FilterUnits" Type="System.Boolean">False</Setting>
+
+  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False">
+    <![CDATA[<Dictionary>
+  <Entry Old="—" New="-" />
+</Dictionary>]]>
+  </Setting>
   
   <!-- Jobs configuration -->
   <Setting Name="JobsConfiguration" Type="System.String">

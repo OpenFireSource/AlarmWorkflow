@@ -166,7 +166,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             foreach (string preParsedLine in parsedLines)
             {
                 // ... and add it to the list (
-                analyzedLines.Add(_configuration.ReplaceDictionary.ReplaceInString(preParsedLine));
+                analyzedLines.Add(AlarmWorkflowConfiguration.Instance.ReplaceDictionary.ReplaceInString(preParsedLine));
             }
 
             Operation operation = null;

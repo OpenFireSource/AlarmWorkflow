@@ -57,12 +57,16 @@
     <Compile Include="Shared\CoreTests\FDResourceConfigurationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\CoreTests\OperationLoopCollectionTests.cs" />
+    <Compile Include="Shared\SpecializedTests\ReplaceDictionaryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shared.Addressing\AddressingTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Shared\CoreTests\CoreTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shared\SpecializedTests\SpecializedTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Smoketests.orderedtest">
