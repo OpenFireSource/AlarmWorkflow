@@ -47,6 +47,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             {
                 doc.PrinterSettings.PrinterName = _printingConfiguration.PrinterName;
             }
+            doc.PrinterSettings.Copies = (short)_printingConfiguration.CopyCount;
 
             // Create dedicated task to wrap the events of the PrintDocument-class
             PrintFaxTask task = new PrintFaxTask { ImagePath = imagePath };
