@@ -47,11 +47,34 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             {
                 doc.PrinterSettings.PrinterName = _printingConfiguration.PrinterName;
             }
-            doc.PrinterSettings.Copies = (short)_printingConfiguration.CopyCount;
 
-            // Create dedicated task to wrap the events of the PrintDocument-class
-            PrintFaxTask task = new PrintFaxTask { ImagePath = imagePath };
-            task.Print(doc);
+            int desiredCopyCount = _printingConfiguration.CopyCount;
+            int maxSupportedCopyCount = doc.PrinterSettings.MaximumCopies;
+            int alternativeCopyPrintingAmount = 1;
+
+            if (desiredCopyCount <= maxSupportedCopyCount)
+            {
+                doc.PrinterSettings.Copies = (short)desiredCopyCount;
+            }
+            else
+            {
+                // It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
+                // In this case we simply repeat printing until we have reached our copy count.
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
+
+                // Setting this variable causes the loop below to execute the Print() method the specified number of times.
+                alternativeCopyPrintingAmount = desiredCopyCount;
+            }
+
+            for (int i = 0; i < alternativeCopyPrintingAmount; i++)
+            {
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationStart, i + 1, alternativeCopyPrintingAmount);
+
+                PrintFaxTask task = new PrintFaxTask() { ImagePath = imagePath };
+                task.Print(doc);
+
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationEnd);
+            }
         }
 
         #endregion
@@ -143,8 +166,8 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
                 bool hasMorePages = _currentPageIndex < (_pages.Count - 1);
                 e.HasMorePages = hasMorePages;
-                
-                Logger.Instance.LogFormat(LogType.Trace, this,Resources.PrintingDone,_currentPageIndex);
+
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintingDone, _currentPageIndex);
                 // Draw this part
                 e.Graphics.DrawImage(_pages[_currentPageIndex], Point.Empty);
 

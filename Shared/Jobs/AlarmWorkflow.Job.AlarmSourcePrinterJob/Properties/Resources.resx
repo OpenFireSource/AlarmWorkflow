@@ -132,8 +132,17 @@
   <data name="PrintingDone" xml:space="preserve">
     <value>Done printing of page {0}.</value>
   </data>
+  <data name="PrintIterationEnd" xml:space="preserve">
+    <value>Finished iteration.</value>
+  </data>
+  <data name="PrintIterationStart" xml:space="preserve">
+    <value>Beginning print iteration {0}/{1}...</value>
+  </data>
   <data name="UsedPrinter" xml:space="preserve">
     <value>Using printer {0} for AlarmSourcePrinterJob.</value>
+  </data>
+  <data name="UsedPrinterDoesNotSupportThatMuchCopies" xml:space="preserve">
+    <value>The current printer does not support printing more than {0} copies natively (you requested: {1}). Using alternative method of printing copies.</value>
   </data>
   <data name="UsingDefaultPrinter" xml:space="preserve">
     <value>Using default printer for AlarmSourcePrinterJob</value>
