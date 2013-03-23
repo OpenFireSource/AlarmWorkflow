@@ -186,15 +186,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 _operationViewer.OnNewOperation(operation);
             }
 
-            // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
-            OperationViewModel ovm = new OperationViewModel(operation);
-            AvailableEvents.Add(ovm);
-            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
+            AddOperation(operation);
 
             UpdateProperties();
 
             // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
-            if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.Timestamp < AvailableEvents[0].Operation.Timestamp))
+            if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.TimestampIncome < AvailableEvents[0].Operation.TimestampIncome))
             {
                 SelectedEvent = AvailableEvents[0];
             }
@@ -209,6 +206,24 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);
         }
 
+        private void AddOperation(Operation operation)
+        {
+            // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
+            OperationViewModel ovm = new OperationViewModel(operation);
+            AvailableEvents.Add(ovm);
+            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.TimestampIncome));
+
+            // If we shall have a limit of alarms in the UI...
+            // TODO: This does currently re-fetch all operations all over.
+            int maxAlarmsInUI = App.GetApp().Configuration.MaxAlarmsInUI;
+            if (maxAlarmsInUI > 0 && (AvailableEvents.Count > maxAlarmsInUI))
+            {
+                // ... remove older alarms until we have our amount.
+                int count = AvailableEvents.Count - maxAlarmsInUI;
+                AvailableEvents.RemoveRange(maxAlarmsInUI, count);
+            }
+        }
+
         private void UpdateProperties()
         {
             OnPropertyChanged("AvailableEvents");
@@ -219,7 +234,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private void RemoveEvent(OperationViewModel operation)
         {
             AvailableEvents.Remove(operation);
-            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.Timestamp));
+            AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.TimestampIncome));
 
             UpdateProperties();
         }
@@ -376,12 +391,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             int daage = App.GetApp().Configuration.AutomaticOperationAcknowledgement.MaxAge;
             TimeSpan dat = daage > 0 ? TimeSpan.FromMinutes(daage) : Operation.DefaultAcknowledgingTimespan;
-            return !operation.IsAcknowledged && (DateTime.Now - operation.Timestamp) > dat;
+            return !operation.IsAcknowledged && (DateTime.Now - operation.TimestampIncome) > dat;
         }
 
         private void CheckAutomaticAcknowledging()
         {
-            foreach (OperationViewModel item in AvailableEvents.ToList().OrderBy(o => o.Operation.Timestamp))
+            foreach (OperationViewModel item in AvailableEvents.ToList().OrderBy(o => o.Operation.TimestampIncome))
             {
                 if (!ShouldAutomaticallyAcknowledgeOperation(item.Operation))
                 {
