@@ -307,5 +307,23 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
                 return ResourceManager.GetString("SettingSaveFinished_Title", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A type editor with alias &apos;{0}&apos; was already registered. This new export is ignored. Please check assembly &apos;{1}&apos;..
+        /// </summary>
+        internal static string TypeEditorAlreadyRegisteredWarning {
+            get {
+                return ResourceManager.GetString("TypeEditorAlreadyRegisteredWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered type editor &apos;{0}&apos; with alias &apos;{1}&apos;..
+        /// </summary>
+        internal static string TypeEditorRegistered {
+            get {
+                return ResourceManager.GetString("TypeEditorRegistered", resourceCulture);
+            }
+        }
     }
 }

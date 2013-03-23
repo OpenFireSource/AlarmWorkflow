@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.Configuration.Properties;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
@@ -14,20 +16,33 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             TypeEditors = new Dictionary<string, Type>();
             TypeEditors[""] = typeof(TypeEditors.DefaultTypeEditor);
 
-            foreach (var export in ExportedTypeLibrary.GetExports(typeof(ITypeEditor)))
+            foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(ITypeEditor)))
             {
-                // 1. Use alias.
-                TypeEditors[export.Attribute.Alias] = export.Type;
+                RegisterTypeEditor(export.Attribute.Alias, export.Type);
 
-                // 2. Use attribute if available.
                 foreach (ConfigurationTypeEditorAttribute attribute in export.Type.GetCustomAttributes(typeof(ConfigurationTypeEditorAttribute), false))
                 {
-                    TypeEditors[attribute.SourceType.FullName] = export.Type;
+                    RegisterTypeEditor(attribute.SourceType.FullName, export.Type);
                 }
             }
             // TODO: Better editors!
-            TypeEditors["SimpleXmlTextEditor"] = typeof(TypeEditors.StringArrayTypeEditor);
+            // TODO: 'SimpleXmlTextEditor' still needed?
+            RegisterTypeEditor("SimpleXmlTextEditor", typeof(TypeEditors.StringArrayTypeEditor));
         }
+
+        private static void RegisterTypeEditor(string key, Type value)
+        {
+            if (TypeEditors.ContainsKey(key))
+            {
+                // Don't just overwrite. Log this and go ahead.
+                Logger.Instance.LogFormat(LogType.Warning, typeof(TypeEditorCache), Resources.TypeEditorAlreadyRegisteredWarning, key, value.Assembly);
+                return;
+            }
+
+            TypeEditors[key] = value;
+            Logger.Instance.LogFormat(LogType.Trace, typeof(TypeEditorCache), Resources.TypeEditorRegistered, value, key);
+        }
+
 
         internal static ITypeEditor CreateTypeEditor(string editor)
         {
