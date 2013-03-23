@@ -31,10 +31,15 @@ namespace AlarmWorkflow.Windows.ServiceContracts
         [DataMember()]
         public Guid OperationGuid { get; set; }
         /// <summary>
-        /// Gets/sets the date and time when this operation was created.
+        /// Gets/sets the date and time of the actual alarm.
         /// </summary>
         [DataMember()]
         public DateTime Timestamp { get; set; }
+        /// <summary>
+        /// Gets/sets the date and time when this operation was created.
+        /// </summary>
+        [DataMember()]
+        public DateTime TimestampIncome { get; set; }
         /// <summary>
         /// Gets or sets the Einsatznr object.
         /// </summary>
@@ -125,6 +130,7 @@ namespace AlarmWorkflow.Windows.ServiceContracts
             this.Id = operation.Id;
             this.OperationGuid = operation.OperationGuid;
             this.Timestamp = operation.Timestamp;
+            this.TimestampIncome = operation.TimestampIncome;
             this.OperationNumber = operation.OperationNumber;
             this.Messenger = operation.Messenger;
             this.Comment = operation.Comment;
@@ -153,6 +159,7 @@ namespace AlarmWorkflow.Windows.ServiceContracts
             operation.Id = this.Id;
             operation.OperationGuid = this.OperationGuid;
             operation.Timestamp = this.Timestamp;
+            operation.TimestampIncome = this.TimestampIncome;
             operation.OperationNumber = this.OperationNumber;
             operation.Messenger = this.Messenger;
             operation.Einsatzort = this.Einsatzort;

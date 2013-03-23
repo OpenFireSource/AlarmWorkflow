@@ -30,7 +30,12 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public Guid OperationGuid { get; set; }
         /// <summary>
-        /// Gets/sets the date and time when this operation was created.
+        /// Gets/sets the timestamp of when the operation materialized ("incoming" timestamp).
+        /// For the actual alarm timestamp, use the property <see cref="P:Timestamp"/>.
+        /// </summary>
+        public DateTime TimestampIncome { get; set; }
+        /// <summary>
+        /// Gets/sets the date and time of the actual alarm.
         /// </summary>
         public DateTime Timestamp { get; set; }
         /// <summary>
@@ -95,7 +100,7 @@ namespace AlarmWorkflow.Shared.Core
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Operation"/> class.
+        /// Initializes a new instance of the <see cref="Operation"/> class and sets the value of the <see cref="P:TimestampIncome"/>-property to <see cref="P:DateTime.Now"/>.
         /// </summary>
         public Operation()
         {
@@ -107,6 +112,8 @@ namespace AlarmWorkflow.Shared.Core
             Einsatzort = new PropertyLocation();
             Zielort = new PropertyLocation();
             Keywords = new OperationKeywords();
+
+            TimestampIncome = DateTime.Now;
         }
 
         #endregion
