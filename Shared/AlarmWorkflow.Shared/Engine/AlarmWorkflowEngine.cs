@@ -251,11 +251,12 @@ namespace AlarmWorkflow.Shared.Engine
                 {
                     return;
                 }
+                
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmStored, operation.Id);
 
                 context.Phase = JobPhase.AfterOperationStored;
                 _jobManager.ExecuteJobs(context, operation);
 
-                Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmStored, operation.Id);
                 Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmHandlingFinished, operation.Id);
             }
             catch (Exception ex)

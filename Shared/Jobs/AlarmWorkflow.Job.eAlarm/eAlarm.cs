@@ -104,7 +104,7 @@ namespace AlarmWorkflow.Job.eAlarm
 
         bool IJob.IsAsync
         {
-            get { return false; }
+            get { return true; }
         }
         #endregion
 
