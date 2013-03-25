@@ -65,7 +65,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Exception, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
+                    Logger.Instance.LogFormat(LogType.Error, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
                     Logger.Instance.LogException(this, ex);
                 }
             }
@@ -81,7 +81,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Exception, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
+                    Logger.Instance.LogFormat(LogType.Error, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
                     Logger.Instance.LogException(this, ex);
                 }
             }
