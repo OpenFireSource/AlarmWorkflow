@@ -11,17 +11,8 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.PrintingUIJob.Properties;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
-
-/* Hint:
- * There is information available for WPF printing.
- * Some bugs have been reported that the print output is clipped or cut off.
- * 
- * Examine the tips from these links for cure:
- * http://stackoverflow.com/questions/9674628/print-with-no-margin
- * http://tech.pro/tutorial/881/printing-in-wpf
- * http://stackoverflow.com/questions/12772202/printing-a-wpf-visual-in-landscape-orientation-printer-still-clips-at-portrait
- */
 
 namespace AlarmWorkflow.Windows.PrintingUIJob
 {
@@ -31,6 +22,12 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
     [Export("PrintingUIJob", typeof(IUIJob))]
     class PrintingUIJob : IUIJob
     {
+        #region Constants
+
+        private static readonly string PrintedOperationsCacheFileName = System.IO.Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
+
+        #endregion
+
         #region Fields
 
         private Configuration _configuration;
@@ -54,23 +51,18 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
         private bool CheckIsOperationAlreadyPrinted(Operation operation, bool addIfNot)
         {
-            // If we shall always print any operation (not recommended)
             if (!_configuration.RememberPrintedOperations)
             {
                 return false;
             }
 
-            // Load the file that stores the printed operations
-            string fileName = System.IO.Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
-
             List<string> alreadyPrintedOperations = new List<string>();
 
-            if (File.Exists(fileName))
+            if (File.Exists(PrintedOperationsCacheFileName))
             {
-                alreadyPrintedOperations = new List<string>(File.ReadAllLines(fileName));
+                alreadyPrintedOperations = new List<string>(File.ReadAllLines(PrintedOperationsCacheFileName));
                 if (alreadyPrintedOperations.Contains(operation.OperationNumber))
                 {
-                    // Already printed --> do nothing.
                     return true;
                 }
             }
@@ -78,7 +70,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             if (addIfNot)
             {
                 alreadyPrintedOperations.Add(operation.OperationNumber);
-                File.WriteAllLines(fileName, alreadyPrintedOperations.ToArray());
+                File.WriteAllLines(PrintedOperationsCacheFileName, alreadyPrintedOperations.ToArray());
             }
 
             return false;
@@ -91,23 +83,16 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return null;
             }
 
-            // Connect to the print server
-            PrintServer printServer = null;
-            try
+            PrintServer printServer = GetPrintServer();
+            if (printServer == null)
             {
-                printServer = new PrintServer(_configuration.PrintServer);
-            }
-            catch (PrintServerException ex)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, "Invalid print server name! Make sure that the print server under '{0}' is running or correct the print server name (leave blank to use local computer's print server).", ex.ServerName);
                 return null;
             }
 
             // Pick the desired printer (even if none is selected, for convenience)
-            var enpqt = new[] { EnumeratedPrintQueueTypes.Connections, EnumeratedPrintQueueTypes.Local };
+            EnumeratedPrintQueueTypes[] enpqt = new[] { EnumeratedPrintQueueTypes.Connections, EnumeratedPrintQueueTypes.Local };
             PrintQueue queue = printServer.GetPrintQueues(enpqt).FirstOrDefault(pq => pq.FullName.Equals(_configuration.PrinterName));
 
-            // If there was a printer found, return that one
             if (queue != null)
             {
                 return queue;
@@ -116,11 +101,24 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             // Otherwise see if we are supposed to return a custom named printer ...
             if (!string.IsNullOrWhiteSpace(_configuration.PrinterName))
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Did not find a printer with name '{0}'. Using the default, local printer.", _configuration.PrinterName);
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.PrintServerByNameNotFound, _configuration.PrinterName);
             }
 
             // Return the default, local printer (there is no default print queue for a print server other than the local server!).
             return LocalPrintServer.GetDefaultPrintQueue();
+        }
+
+        private PrintServer GetPrintServer()
+        {
+            try
+            {
+                return new PrintServer(_configuration.PrintServer);
+            }
+            catch (PrintServerException ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.InvalidPrintServerName, ex.ServerName);
+            }
+            return null;
         }
 
         #endregion
@@ -141,17 +139,15 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
         void IUIJob.OnNewOperation(IOperationViewer operationViewer, Operation operation)
         {
-            // Only print if we don't have already (verrrrrrrrrrrry helpful during debugging, but also a sanity-check)
             if (CheckIsOperationAlreadyPrinted(operation, true))
             {
                 return;
             }
 
             PrintQueue printQueue = _printQueue.Value;
-            // If printing is not possible (an error occurred because the print server is not available etc.).
             if (printQueue == null)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Cannot print job because the configured printer seems not available! Check log entries.");
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.CannotPrintNoPrintQueue);
                 return;
             }
 
@@ -202,8 +198,8 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
             canvas.Children.Add(brushRect);
             page.Children.Add(canvas);
-            
-            dialog.PrintDocument(document.DocumentPaginator, string.Format("New alarm {0}", operation.OperationNumber));
+
+            dialog.PrintDocument(document.DocumentPaginator, string.Format(Resources.PrintDocumentNameTemplate, operation.OperationNumber));
         }
 
         #endregion
