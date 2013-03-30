@@ -5,6 +5,10 @@ using System.Linq;
 using System.Printing;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
@@ -57,7 +61,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             }
 
             // Load the file that stores the printed operations
-            string fileName = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
+            string fileName = System.IO.Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
 
             List<string> alreadyPrintedOperations = new List<string>();
 
@@ -151,32 +155,55 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return;
             }
 
+            PrintUsingVisualBrush(operationViewer, operation, printQueue);
+        }
+
+        private void PrintUsingVisualBrush(IOperationViewer operationViewer, Operation operation, PrintQueue printQueue)
+        {
+            FrameworkElement frameworkElement = operationViewer.Visual;
+
             PrintDialog dialog = new PrintDialog();
             dialog.PrintQueue = printQueue;
             dialog.PrintTicket = dialog.PrintQueue.DefaultPrintTicket;
             dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
             dialog.PrintTicket.CopyCount = _configuration.CopyCount;
 
-            // Get the print caps for measure and arrange
             PrintCapabilities printCaps = printQueue.GetPrintCapabilities(dialog.PrintTicket);
             PageImageableArea pia = printCaps.PageImageableArea;
 
-            FrameworkElement visual = operationViewer.Visual;
-            visual.Margin = new Thickness(pia.OriginWidth, pia.OriginHeight, pia.OriginWidth, pia.OriginHeight);
+            frameworkElement.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
+            Rect arrangeRect = new Rect(new Point(pia.OriginWidth, pia.OriginHeight), frameworkElement.DesiredSize);
+            frameworkElement.Arrange(arrangeRect);
 
-            // DEBUG
-            Logger.Instance.LogFormat(LogType.Debug, this, "PageImageableArea is = {0}", pia);
-            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's Margin is = {0}", visual.Margin);
+            FixedDocument document = new FixedDocument();
 
-            // Measure and arrange the visual before printing otherwise it looks unpredictably weird and may not fit on the page
-            visual.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
-            Rect arrangeRect = new Rect(new Point(pia.OriginWidth, pia.OriginHeight), visual.DesiredSize);
-            visual.Arrange(arrangeRect);
+            PageContent pageContent = new PageContent();
+            FixedPage page = new FixedPage();
+            page.ContentBox = new Rect(pia.OriginWidth, pia.OriginHeight, pia.ExtentWidth, pia.ExtentHeight);
 
-            // DEBUG
-            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's printing size / rect is = {0} / {1}", visual.DesiredSize, arrangeRect);
+            ((IAddChild)pageContent).AddChild(page);
+            document.Pages.Add(pageContent);
+            page.Width = dialog.PrintableAreaWidth;
+            page.Height = dialog.PrintableAreaHeight;
 
-            dialog.PrintVisual(visual, "New alarm " + operation.OperationNumber);
+            Canvas canvas = new Canvas();
+            FixedPage.SetTop(canvas, 0d);
+            FixedPage.SetLeft(canvas, 0d);
+            canvas.Width = page.Width;
+            canvas.Height = page.Height;
+
+            VisualBrush brush = new VisualBrush(frameworkElement);
+            brush.Stretch = Stretch.Uniform;
+
+            Rectangle brushRect = new Rectangle();
+            brushRect.Width = page.Width;
+            brushRect.Height = page.Height;
+            brushRect.Fill = brush;
+
+            canvas.Children.Add(brushRect);
+            page.Children.Add(canvas);
+            
+            dialog.PrintDocument(document.DocumentPaginator, string.Format("New alarm {0}", operation.OperationNumber));
         }
 
         #endregion
