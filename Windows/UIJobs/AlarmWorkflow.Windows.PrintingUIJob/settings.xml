@@ -6,4 +6,7 @@
   <Setting Name="CopyCount" Type="System.Int32" IsNull="False">1</Setting>
   <Setting Name="RememberPrintedOperations" Type="System.Boolean" IsNull="False">True</Setting>
 
+  <!-- TODO: Find out if majority of users have problems with default printing algorithm and set this one to the default if this is the case. -->
+  <Setting Name="UseAlternativeAlgorithm" Type="System.Boolean">False</Setting>
+
 </SettingsConfiguration>

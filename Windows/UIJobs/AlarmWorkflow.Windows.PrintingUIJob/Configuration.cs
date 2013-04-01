@@ -25,6 +25,10 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
         /// Gets whether or not to avoid printing operations that have already been printed.
         /// </summary>
         public bool RememberPrintedOperations { get; private set; }
+        /// <summary>
+        /// Gets whether or not to use alternative algorithm for layouting and printing.
+        /// </summary>
+        public bool UseAlternativeAlgorithm { get; private set; }
 
         #endregion
 
@@ -51,6 +55,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
             configuration.CopyCount = SettingsManager.Instance.GetSetting("PrintingUIJob", "CopyCount").GetInt32();
             configuration.RememberPrintedOperations = SettingsManager.Instance.GetSetting("PrintingUIJob", "RememberPrintedOperations").GetBoolean();
+            configuration.UseAlternativeAlgorithm = SettingsManager.Instance.GetSetting("PrintingUIJob", "UseAlternativeAlgorithm").GetBoolean();
 
             return configuration;
         }

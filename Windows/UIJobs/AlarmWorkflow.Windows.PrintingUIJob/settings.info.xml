@@ -7,6 +7,9 @@
     <Setting Name="CopyCount" DisplayText="Kopien" Category="Auftrag" EditorParameter="1;100" />
     <Setting Name="RememberPrintedOperations" DisplayText="Gedruckte Alarme merken" Category="Auftrag" />
 
+    <Setting Name="UseAlternativeAlgorithm" DisplayText="Alternativen Algorithmus verwenden" Category="Erweitert"
+             Description="Wählen Sie dies, wenn die Ausdrucke bei Ihnen rechts abgeschnitten sind oder sonstige Absonderheiten aufweisen." />
+
   </Identifier>
 
 </SettingsDisplayConfiguration>

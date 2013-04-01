@@ -151,7 +151,27 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
                 return;
             }
 
-            PrintUsingVisualBrush(operationViewer, operation, printQueue);
+            if (_configuration.UseAlternativeAlgorithm)
+            {
+                /* This algorithm uses a VisualBrush to print the operation viewer.
+                 * This has proven functional in all cases.
+                 * 
+                 * The only "drawback" of this approach is that the layout seems to change,
+                 * in that the height is never the same, if contents in the Content-control change.
+                 * This may be fixed by a different layouting algorithm,
+                 * but could also be seen as a "feature" - it reduces the printed content.
+                 * 
+                 */
+                PrintUsingVisualBrush(operationViewer, operation, printQueue);
+            }
+            else
+            {
+                /* "Old" algorithm - shows certain problems where the layout is cut off on the right side.
+                 * Find out who has problems with this algorithm. If there are too many people having problems,
+                 * then remove this algorithm altogether.
+                 */
+                PrintUsingPrintVisual(operationViewer, operation, printQueue);
+            }
         }
 
         private void PrintUsingVisualBrush(IOperationViewer operationViewer, Operation operation, PrintQueue printQueue)
@@ -200,6 +220,36 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
             page.Children.Add(canvas);
 
             dialog.PrintDocument(document.DocumentPaginator, string.Format(Resources.PrintDocumentNameTemplate, operation.OperationNumber));
+        }
+
+        private void PrintUsingPrintVisual(IOperationViewer operationViewer, Operation operation, PrintQueue printQueue)
+        {
+            PrintDialog dialog = new PrintDialog();
+            dialog.PrintQueue = printQueue;
+            dialog.PrintTicket = dialog.PrintQueue.DefaultPrintTicket;
+            dialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
+            dialog.PrintTicket.CopyCount = _configuration.CopyCount;
+
+            // Get the print caps for measure and arrange
+            PrintCapabilities printCaps = printQueue.GetPrintCapabilities(dialog.PrintTicket);
+            PageImageableArea pia = printCaps.PageImageableArea;
+
+            FrameworkElement visual = operationViewer.Visual;
+            visual.Margin = new Thickness(pia.OriginWidth, pia.OriginHeight, pia.OriginWidth, pia.OriginHeight);
+
+            // DEBUG
+            Logger.Instance.LogFormat(LogType.Debug, this, "PageImageableArea is = {0}", pia);
+            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's Margin is = {0}", visual.Margin);
+
+            // Measure and arrange the visual before printing otherwise it looks unpredictably weird and may not fit on the page
+            visual.Measure(new Size(dialog.PrintableAreaWidth, dialog.PrintableAreaHeight));
+            Rect arrangeRect = new Rect(new Point(pia.OriginWidth, pia.OriginHeight), visual.DesiredSize);
+            visual.Arrange(arrangeRect);
+
+            // DEBUG
+            Logger.Instance.LogFormat(LogType.Debug, this, "Visual's printing size / rect is = {0} / {1}", visual.DesiredSize, arrangeRect);
+
+            dialog.PrintVisual(visual, "New alarm " + operation.OperationNumber);
         }
 
         #endregion
