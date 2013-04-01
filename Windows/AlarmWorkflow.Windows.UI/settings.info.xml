@@ -13,6 +13,10 @@
              Editor="KeyInputTypeEditor"
              Description="Die Taste, die einen Alarm bestätigt/zur Kenntnis nimmt. Bestätigte Alarme tauchen nicht mehr in der UI auf." />
 
+    <Setting Name="MaxAlarmsInUI" DisplayText="Max. Anzahl von Alarmen in der Oberfläche" Category="Generell"
+             Description="Die maximale Anzahl von gleichzeitigen Alarmen in der Oberfläche (0 für keine Beschränkung)."
+             EditorParameter="0;1000" />
+
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor"
              EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />

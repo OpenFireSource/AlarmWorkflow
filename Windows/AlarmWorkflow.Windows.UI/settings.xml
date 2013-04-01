@@ -4,6 +4,7 @@
   <Setting Name="OperationViewer" Type="System.String">CustomOperationViewer</Setting>
   <Setting Name="ScaleFactor" Type="System.Double" IsNull="False">2.0</Setting>
   <Setting Name="AcknowledgeOperationKey" Type="System.String" IsNull="False">B</Setting>
+  <Setting Name="MaxAlarmsInUI" Type="System.Int32">0</Setting>
 
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
     <![CDATA[<ExportConfiguration />]]>

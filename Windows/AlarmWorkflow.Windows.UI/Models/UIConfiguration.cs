@@ -40,6 +40,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public OperationFetchingParameters OperationFetchingArguments { get; set; }
         /// <summary>
+        /// Gets the maximum amount of parallel alarms in the UI.
+        /// </summary>
+        public int MaxAlarmsInUI { get; private set; }
+        /// <summary>
         /// Gets the names of the jobs that are enabled.
         /// </summary>
         public ReadOnlyCollection<string> EnabledJobs { get; private set; }
@@ -59,6 +63,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets the time which should elapse between a change.
         /// </summary>
         public int SwitchTime { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -101,6 +106,7 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.OperationFetchingArguments.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.MaxAge").GetInt32();
             configuration.OperationFetchingArguments.OnlyNonAcknowledged = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.OnlyNonAcknowledged").GetBoolean();
             configuration.OperationFetchingArguments.LimitAmount = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.LimitAmount").GetInt32();
+            configuration.MaxAlarmsInUI = SettingsManager.Instance.GetSetting("UIConfiguration", "MaxAlarmsInUI").GetInt32();
 
             configuration.TreatOldOperationsAsNew = SettingsManager.Instance.GetSetting("UIConfiguration", "TreatOldOperationsAsNew").GetBoolean();
 

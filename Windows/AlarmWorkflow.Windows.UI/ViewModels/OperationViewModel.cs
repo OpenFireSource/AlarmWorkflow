@@ -1,8 +1,10 @@
-﻿using AlarmWorkflow.Shared.Core;
+﻿using System.Diagnostics;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
+    [DebuggerDisplay("Op.: Id = {Operation.Id}, Timestamp/I = {Operation.TimestampIncome}, Timestamp/A = {Operation.Timestamp}")]
     class OperationViewModel : ViewModelBase
     {
         #region Properties
