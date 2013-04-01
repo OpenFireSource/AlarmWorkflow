@@ -214,7 +214,6 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.TimestampIncome));
 
             // If we shall have a limit of alarms in the UI...
-            // TODO: This does currently re-fetch all operations all over.
             int maxAlarmsInUI = App.GetApp().Configuration.MaxAlarmsInUI;
             if (maxAlarmsInUI > 0 && (AvailableEvents.Count > maxAlarmsInUI))
             {
