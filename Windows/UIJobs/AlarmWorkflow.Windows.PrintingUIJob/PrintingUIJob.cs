@@ -24,7 +24,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
     {
         #region Constants
 
-        private static readonly string PrintedOperationsCacheFileName = System.IO.Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUIPrintedOperations.txt");
+        private static readonly string PrintedOperationsCacheFileName = System.IO.Path.Combine(Utilities.GetLocalAppDataFolderPath(), "PrintingUI.PrintedOperations.lst");
 
         #endregion
 
@@ -58,10 +58,11 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
             List<string> alreadyPrintedOperations = new List<string>();
 
+            string comparisonString = operation.Id.ToString();
             if (File.Exists(PrintedOperationsCacheFileName))
             {
                 alreadyPrintedOperations = new List<string>(File.ReadAllLines(PrintedOperationsCacheFileName));
-                if (alreadyPrintedOperations.Contains(operation.OperationNumber))
+                if (alreadyPrintedOperations.Contains(comparisonString))
                 {
                     return true;
                 }
@@ -69,7 +70,7 @@ namespace AlarmWorkflow.Windows.PrintingUIJob
 
             if (addIfNot)
             {
-                alreadyPrintedOperations.Add(operation.OperationNumber);
+                alreadyPrintedOperations.Add(comparisonString);
                 File.WriteAllLines(PrintedOperationsCacheFileName, alreadyPrintedOperations.ToArray());
             }
 
