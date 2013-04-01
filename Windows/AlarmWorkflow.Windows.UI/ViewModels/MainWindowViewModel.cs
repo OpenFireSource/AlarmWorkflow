@@ -180,13 +180,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 isOperationNew = true;
             }
 
+            bool isNewToList = AddOperation(operation);
+
             // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)
-            if (isOperationNew)
+            if (isOperationNew && isNewToList)
             {
                 _operationViewer.OnNewOperation(operation);
             }
-
-            AddOperation(operation);
 
             UpdateProperties();
 
@@ -197,7 +197,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
 
             // Call the UI-jobs now on this specific job (only if the operation is not acknowledged and thus new)
-            if (isOperationNew)
+            if (isOperationNew && isNewToList)
             {
                 App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
             }
@@ -206,8 +206,16 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);
         }
 
-        private void AddOperation(Operation operation)
+        /// <summary>
+        /// Adds the operation to the list of available alarms and returns if the operation is a new one.
+        /// An operation is "new" if it was once added to the list.
+        /// </summary>
+        /// <param name="operation"></param>
+        /// <returns>Whether or not the added operation is "new".</returns>
+        private bool AddOperation(Operation operation)
         {
+            bool operationIsInList = IsOperationInList(operation);
+
             // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
             OperationViewModel ovm = new OperationViewModel(operation);
             AvailableEvents.Add(ovm);
@@ -221,6 +229,14 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 int count = AvailableEvents.Count - maxAlarmsInUI;
                 AvailableEvents.RemoveRange(maxAlarmsInUI, count);
             }
+
+            bool operationWasAddedToList = IsOperationInList(operation);
+            return (!operationIsInList && operationWasAddedToList);
+        }
+
+        private bool IsOperationInList(Operation operation)
+        {
+            return AvailableEvents.Any(o => o.Operation.Id == operation.Id);
         }
 
         private void UpdateProperties()
