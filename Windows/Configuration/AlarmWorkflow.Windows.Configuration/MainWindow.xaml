@@ -12,7 +12,13 @@
 
         <views:ToolbarView Grid.Row="0" />
 
-        <views:SettingsView Grid.Row="1" Margin="2" />
-        
+        <TabControl TabStripPlacement="Bottom" Grid.Row="1">
+            <TabItem Header="Einstellungen">
+                <views:SettingsView />
+            </TabItem>
+            <TabItem Header="Fehlerberichte">
+                <views:ErrorReportsView />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
