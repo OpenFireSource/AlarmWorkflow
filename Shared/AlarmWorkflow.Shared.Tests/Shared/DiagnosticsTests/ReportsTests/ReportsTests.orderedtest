@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="ReportsTests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\shared\diagnosticstests\reportstests\reportstests.orderedtest" id="50562a8e-bcb5-455a-b380-329494b2cfb5" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="fef6e90e-3264-a592-31b5-197b73c9cb82" name="CreateErrorReportBasic" storage="..\..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="3b98943c-9e1e-bfa3-979b-4d2f13877788" name="CreateErrorReportWithErrorReportManager" storage="..\..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="e5ce7fd5-7aae-b342-befb-ccebea035aeb" name="GetNewestReports" storage="..\..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>
