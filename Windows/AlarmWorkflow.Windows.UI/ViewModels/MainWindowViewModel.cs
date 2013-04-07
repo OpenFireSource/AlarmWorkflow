@@ -167,7 +167,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private void PushEvent(Operation operation)
         {
-            if (AvailableEvents.Any(o => o.Operation.Id == operation.Id))
+            if (ContainsEvent(operation.Id))
             {
                 return;
             }
@@ -175,27 +175,22 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             bool isOperationNew = !operation.IsAcknowledged;
             bool isNewToList = AddOperation(operation);
 
-            // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)
-            if (isOperationNew && isNewToList)
-            {
-                _operationViewer.OnNewOperation(operation);
-            }
-
-            UpdateProperties();
-
             // If no event is selected yet, select the newest one (also do this if the selected operation is older. Newer operations have priority!).
             if (SelectedEvent == null || (SelectedEvent != null && SelectedEvent.Operation.TimestampIncome < AvailableEvents[0].Operation.TimestampIncome))
             {
                 SelectedEvent = AvailableEvents[0];
             }
 
-            // Call the UI-jobs now on this specific job (only if the operation is not acknowledged and thus new)
-            if (isOperationNew && isNewToList)
+            if (isNewToList)
             {
-                App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
+                UpdateProperties();
+                if (isOperationNew)
+                {
+                    _operationViewer.OnNewOperation(operation);
+                    App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
+                }
             }
 
-            // When the jobs are done, change over to the job (necessary in most cases albeit not perfect solution :-/ )
             _operationViewer.OnOperationChanged(SelectedEvent.Operation);
         }
 
@@ -207,7 +202,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// <returns>Whether or not the added operation is "new".</returns>
         private bool AddOperation(Operation operation)
         {
-            bool operationIsInList = IsOperationInList(operation);
+            bool operationIsInList = ContainsEvent(operation.Id);
 
             // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
             OperationViewModel ovm = new OperationViewModel(operation);
@@ -223,13 +218,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 AvailableEvents.RemoveRange(maxAlarmsInUI, count);
             }
 
-            bool operationWasAddedToList = IsOperationInList(operation);
+            bool operationWasAddedToList = ContainsEvent(operation.Id);
             return (!operationIsInList && operationWasAddedToList);
-        }
-
-        private bool IsOperationInList(Operation operation)
-        {
-            return AvailableEvents.Any(o => o.Operation.Id == operation.Id);
         }
 
         private void UpdateProperties()
