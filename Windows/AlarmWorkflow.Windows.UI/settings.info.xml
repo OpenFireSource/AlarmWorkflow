@@ -45,9 +45,6 @@
     <Setting Name="SwitchAlarms" DisplayText="Automatischer Wechsel" Category="Automatischer Wechsel"
              Description="Gibt an, ob bei mehreren Alarmen die Anzeige automatisch zwischen allen Alarmen in einem definierten Abstand durchwechseln soll." />
 
-    <Setting Name="TreatOldOperationsAsNew" DisplayText="Alte Alarme als Neu behandeln" Category="Debug"
-             Description="Behandelt alte Alarme als neu. Im Produktiveinsatz nicht empfohlen!" />
-
   </Identifier>
 
 </SettingsDisplayConfiguration>

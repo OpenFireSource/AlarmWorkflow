@@ -167,19 +167,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private void PushEvent(Operation operation)
         {
-            // Sanity-check
             if (AvailableEvents.Any(o => o.Operation.Id == operation.Id))
             {
                 return;
             }
 
             bool isOperationNew = !operation.IsAcknowledged;
-            if (!isOperationNew && App.GetApp().Configuration.TreatOldOperationsAsNew)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Debug option activated - treating operation '{0}' as a new operation!", operation.OperationNumber);
-                isOperationNew = true;
-            }
-
             bool isNewToList = AddOperation(operation);
 
             // Notify operation viewer of this new operation (only if the operation is not acknowledged and thus new)

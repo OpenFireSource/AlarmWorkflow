@@ -21,6 +21,4 @@
   <Setting Name="SwitchAlarms" Type="System.Boolean">False</Setting>
   <Setting Name="SwitchTime" Type="System.Int32">30</Setting>
 
-  <Setting Name="TreatOldOperationsAsNew" Type="System.Boolean" IsNull="False">False</Setting>
-
 </SettingsConfiguration>

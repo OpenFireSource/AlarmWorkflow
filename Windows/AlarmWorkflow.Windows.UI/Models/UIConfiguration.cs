@@ -52,10 +52,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public Key AcknowledgeOperationKey { get; private set; }
         /// <summary>
-        /// Gets whether or not old operations shall be treated as new ones. Intended for debugging only!
-        /// </summary>
-        public bool TreatOldOperationsAsNew { get; private set; }
-        /// <summary>
         /// Gets whether or not the selected alarm should change automatic, if mulitple alarms are available.
         /// </summary>
         public bool SwitchAlarms { get; private set; }
@@ -107,8 +103,6 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.OperationFetchingArguments.OnlyNonAcknowledged = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.OnlyNonAcknowledged").GetBoolean();
             configuration.OperationFetchingArguments.LimitAmount = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.LimitAmount").GetInt32();
             configuration.MaxAlarmsInUI = SettingsManager.Instance.GetSetting("UIConfiguration", "MaxAlarmsInUI").GetInt32();
-
-            configuration.TreatOldOperationsAsNew = SettingsManager.Instance.GetSetting("UIConfiguration", "TreatOldOperationsAsNew").GetBoolean();
 
             // Jobs configuration
             configuration.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
