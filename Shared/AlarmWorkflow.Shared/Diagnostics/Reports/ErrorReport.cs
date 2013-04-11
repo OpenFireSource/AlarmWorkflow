@@ -33,6 +33,10 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
         /// <remarks>This should be set to allow easier investigation.
         /// Possible values could be, for example, "Windows Service", "Windows UI", "Configuration".</remarks>
         public string SourceComponentName { get; set; }
+        /// <summary>
+        /// Gets whether the source exception has caused the CLR to terminate.
+        /// </summary>
+        public bool IsTerminating { get; internal set; }
 
         #endregion
 
@@ -68,6 +72,7 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
             XElement root = new XElement("ErrorReport");
             root.Add(new XElement("Timestamp", Timestamp));
             root.Add(new XElement("ComponentName", SourceComponentName));
+            root.Add(new XElement("IsTerminating", IsTerminating));
             root.Add(Exception.Serialize());
 
             doc.Add(root);
@@ -87,6 +92,7 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
             ErrorReport report = new ErrorReport();
             report.Timestamp = DateTime.Parse(root.Element("Timestamp").Value).ToUniversalTime();
             report.SourceComponentName = root.Element("ComponentName").Value;
+            report.IsTerminating = bool.Parse(root.Element("IsTerminating").Value);
             report.Exception = ExceptionDetail.Deserialize(root.Element("ExceptionDetail"));
 
             return report;

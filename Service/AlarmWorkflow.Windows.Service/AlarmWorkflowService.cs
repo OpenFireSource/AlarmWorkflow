@@ -1,5 +1,6 @@
 ﻿using System.ServiceProcess;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Diagnostics.Reports;
 
 namespace AlarmWorkflow.Windows.Service
 {
@@ -22,6 +23,8 @@ namespace AlarmWorkflow.Windows.Service
         public AlarmWorkflowService()
         {
             InitializeComponent();
+
+            ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(this.GetType().Name);
 
             // Set up the logger for this instance
             Logger.Instance.Initialize(this.GetType().Name);

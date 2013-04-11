@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -54,9 +55,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             ErrorReports.Clear();
 
-            foreach (ErrorReport report in ErrorReportManager.GetNewestReports(null, 0))
+            try
             {
-                AddSingleErrorReport(report);
+                foreach (ErrorReport report in ErrorReportManager.GetNewestReports(null, 0))
+                {
+                    AddSingleErrorReport(report);
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                // TODO: Handling!
             }
         }
 

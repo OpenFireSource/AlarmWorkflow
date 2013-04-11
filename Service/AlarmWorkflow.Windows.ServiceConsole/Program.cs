@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Threading;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Diagnostics.Reports;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
 {
     class Program
     {
+        private const string ComponentName = "ServiceConsole";
+
         static void Main(string[] args)
         {
+            ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
+
             // Print welcome information :-)
             Console.WriteLine("********************************************************");
             Console.WriteLine("*                                                      *");
@@ -23,7 +28,7 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             // Catch all unhandled exceptions and display them.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            Logger.Instance.Initialize("ServiceConsole");
+            Logger.Instance.Initialize(ComponentName);
 
             // Initialize the service
             using (var service = new AlarmWorkflow.Windows.Service.AlarmWorkflowServiceManager())

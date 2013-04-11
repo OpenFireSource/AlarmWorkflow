@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Diagnostics.Reports;
 
 namespace AlarmWorkflow.Windows.Configuration
 {
@@ -8,6 +9,14 @@ namespace AlarmWorkflow.Windows.Configuration
     /// </summary>
     public partial class App : Application
     {
+        #region Constants
+
+        private const string ComponentName = "Configuration";
+
+        #endregion
+
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
         /// </summary>
@@ -15,7 +24,11 @@ namespace AlarmWorkflow.Windows.Configuration
         public App()
         {
             // Set up the logger for this instance
-            Logger.Instance.Initialize("Configuration");
+            Logger.Instance.Initialize(ComponentName);
+            ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
         }
+
+        #endregion
+
     }
 }

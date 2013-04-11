@@ -38,8 +38,15 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
             }
 
             ErrorReport report = new ErrorReport(exception);
-            report.Timestamp = DateTime.UtcNow;
             report.SourceComponentName = componentName;
+            return CreateErrorReportInternal(report);
+        }
+
+        private static ErrorReport CreateErrorReportInternal(ErrorReport report)
+        {
+            Assertions.AssertNotNull(report, "report");
+
+            report.Timestamp = DateTime.UtcNow;
 
             StoreErrorReport(report);
 
@@ -78,26 +85,26 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
         /// <summary>
         /// Looks up and returns the amount of all (new) error report files in the report directory.
         /// </summary>
-        /// <returns>The amount of all (new) error report files in the report directory.</returns>
-        /// <exception cref="System.IO.DirectoryNotFoundException">The error report directory did not exist.</exception>
+        /// <returns>The amount of all (new) error report files in the report directory. This returns 0 as well if the directory does currently not exist.</returns>
         public static int GetErrorReportsCount()
         {
             DirectoryInfo dir = GetErrorReportDirectory();
+            if (dir != null)
+            {
+                return dir.GetFiles("*." + ErrorReportExtension, SearchOption.TopDirectoryOnly).Length;
+            }
 
-            return dir.GetFiles("*." + ErrorReportExtension, SearchOption.TopDirectoryOnly).Length;
+            return 0;
         }
 
-        /// <summary>
-        /// Returns the <see cref="DirectoryInfo"/>-instance of the ErrorReport-root directory.</summary>
-        /// <exception cref="System.IO.DirectoryNotFoundException">The error report directory did not exist.</exception>
         private static DirectoryInfo GetErrorReportDirectory()
         {
             DirectoryInfo dir = new DirectoryInfo(ErrorReportPath);
-            if (!dir.Exists)
+            if (dir.Exists)
             {
-                throw new DirectoryNotFoundException(Resources.ErrorReportDirectoryNotFoundException);
+                return dir;
             }
-            return dir;
+            return null;
         }
 
         /// <summary>
@@ -107,10 +114,13 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
         /// <param name="maxAge">The maximum age of the reports. Use null to return all error reports.</param>
         /// <param name="maxCount">The maximum amount of error reports to return. Use 0 (zero) or less to return all error reports.</param>
         /// <returns>The newest reports in the error report-directory that match the given criteria.</returns>
-        /// <exception cref="System.IO.DirectoryNotFoundException">The error report directory did not exist.</exception>
         public static IEnumerable<ErrorReport> GetNewestReports(TimeSpan? maxAge, int maxCount)
         {
             DirectoryInfo dir = GetErrorReportDirectory();
+            if (dir == null)
+            {
+                yield break;
+            }
 
             int actualCount = 0;
             foreach (FileInfo file in dir
@@ -142,6 +152,26 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
                     yield break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Attaches an event handler to the <see cref="E:AppDomain.CurrentDomain.UnhandledException"/> event,
+        /// which automatically creates error reports for each escalated exception.
+        /// </summary>
+        /// <param name="componentName">The default component name to use for each new error report. Must not be null or empty.</param>
+        public static void RegisterAppDomainUnhandledExceptionListener(string componentName)
+        {
+            Assertions.AssertNotEmpty(componentName, "componentName");
+
+            AppDomain.CurrentDomain.UnhandledException += (o, e) =>
+            {
+                // TODO: Maybe include "IsTerminating" too?
+                Exception exception = (Exception)e.ExceptionObject;
+
+                ErrorReport report = new ErrorReport(exception);
+                report.IsTerminating = e.IsTerminating;
+                CreateErrorReportInternal(report);
+            };
         }
 
         #endregion
