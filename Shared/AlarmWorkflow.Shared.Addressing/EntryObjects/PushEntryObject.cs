@@ -3,10 +3,10 @@
 namespace AlarmWorkflow.Shared.Addressing.EntryObjects
 {
     /// <summary>
-    /// Represents a "Growl" entry in the address book. 
+    /// Represents a "Push" entry in the address book. 
     /// See documentation for further information.
     /// </summary>
-    /// <remarks>This is a generalized way to talk any growl-consumer, including (but not limited to): Prowl, Growl etc.</remarks>
+    /// <remarks>This is a generalized way to talk any push-notification-consumer, including (but not limited to): Prowl, Growl etc.</remarks>
     public class PushEntryObject
     {
         #region Fields
@@ -21,7 +21,7 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
         #region Properties
 
         /// <summary>
-        /// Gets/sets the name of the Growl-consumer.
+        /// Gets/sets the name of the consumer of push notifications.
         /// </summary>
         public string Consumer { get; set; }
         /// <summary>

@@ -240,4 +240,19 @@
   <data name="ExpressionNotSupportedExceptionMessage" xml:space="preserve">
     <value>The expression '{0}' led to an unsupported member, thus it cannot be retrieved. Please revise this expression or remove it if not needed.</value>
   </data>
+  <data name="JobGenericError" xml:space="preserve">
+    <value>An error occurred while initializing job type '{0}'. The error message was: {1}</value>
+  </data>
+  <data name="JobInitializeBegin" xml:space="preserve">
+    <value>Initializing job type '{0}'...</value>
+  </data>
+  <data name="JobInitializeError" xml:space="preserve">
+    <value>Job type '{0}' initialization failed. The job will not be executed.</value>
+  </data>
+  <data name="JobInitializeSuccess" xml:space="preserve">
+    <value>Job type '{0}' initialization successful.</value>
+  </data>
+  <data name="ServiceProviderRegisteredService" xml:space="preserve">
+    <value>Registered service type '{0}' (instance type: {1}).</value>
+  </data>
 </root>

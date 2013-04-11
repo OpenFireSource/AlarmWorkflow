@@ -268,6 +268,42 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while initializing job type &apos;{0}&apos;. The error message was: {1}.
+        /// </summary>
+        internal static string JobGenericError {
+            get {
+                return ResourceManager.GetString("JobGenericError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Initializing job type &apos;{0}&apos;....
+        /// </summary>
+        internal static string JobInitializeBegin {
+            get {
+                return ResourceManager.GetString("JobInitializeBegin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job type &apos;{0}&apos; initialization failed. The job will not be executed..
+        /// </summary>
+        internal static string JobInitializeError {
+            get {
+                return ResourceManager.GetString("JobInitializeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Job type &apos;{0}&apos; initialization successful..
+        /// </summary>
+        internal static string JobInitializeSuccess {
+            get {
+                return ResourceManager.GetString("JobInitializeSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The job &apos;{0}&apos; failed at dispose. This may have unpredictable consequences..
         /// </summary>
         internal static string JobManagerDisposeJobFailed {
@@ -318,6 +354,15 @@ namespace AlarmWorkflow.Shared.Properties {
         internal static string NewAlarmStoreOperationFailedMessage {
             get {
                 return ResourceManager.GetString("NewAlarmStoreOperationFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Registered service type &apos;{0}&apos; (instance type: {1})..
+        /// </summary>
+        internal static string ServiceProviderRegisteredService {
+            get {
+                return ResourceManager.GetString("ServiceProviderRegisteredService", resourceCulture);
             }
         }
         

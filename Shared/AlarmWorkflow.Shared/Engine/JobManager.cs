@@ -46,27 +46,31 @@ namespace AlarmWorkflow.Shared.Engine
 
         private void InitializeJobs()
         {
-            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IJob)).Where(j => AlarmWorkflowConfiguration.Instance.EnabledJobs.Contains(j.Attribute.Alias)))
+            foreach (var export in ExportedTypeLibrary
+                .GetExports(typeof(IJob))
+                .Where(j => AlarmWorkflowConfiguration.Instance.EnabledJobs.Contains(j.Attribute.Alias)))
             {
                 IJob job = export.CreateInstance<IJob>();
 
                 string jobName = job.GetType().Name;
-                Logger.Instance.LogFormat(LogType.Info, this, "Initializing job type '{0}'...", jobName);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeBegin, jobName);
 
                 try
                 {
                     if (!job.Initialize())
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Job type '{0}' initialization failed. The job will not be executed.", jobName);
+                        Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobInitializeError, jobName);
                         continue;
                     }
+
                     _jobs.Add(job);
 
-                    Logger.Instance.LogFormat(LogType.Info, this, "Job type '{0}' initialization successful.", jobName);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeSuccess, jobName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing job type '{0}'. The error message was: {1}", jobName, ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.JobGenericError, jobName, ex.Message);
+                    Logger.Instance.LogException(this, ex);
                 }
             }
         }
@@ -105,7 +109,6 @@ namespace AlarmWorkflow.Shared.Engine
 
         private void RunJobCore(IJobContext context, Operation operation, IJob job)
         {
-            // Run the job. If the job fails, ignore that exception as well but log it too!
             try
             {
                 job.Execute(context, operation);
@@ -116,7 +119,6 @@ namespace AlarmWorkflow.Shared.Engine
             {
                 string message = (job.IsAsync) ? Properties.Resources.JobExecuteAsyncFailed : Properties.Resources.JobExecuteSyncFailed;
 
-                // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
                 Logger.Instance.LogFormat(LogType.Warning, this, string.Format(message, job.GetType().Name));
                 Logger.Instance.LogException(this, ex);
             }

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Properties;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -43,9 +44,6 @@ namespace AlarmWorkflow.Shared.Core
 
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the Services class.
-        /// </summary>
         private ServiceProvider()
         {
             _serviceContainer = new ServiceContainer();
@@ -75,33 +73,16 @@ namespace AlarmWorkflow.Shared.Core
 
         #region IServiceContainer Member
 
-        /// <summary>
-        /// This method is not supported.
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <param name="callback"></param>
-        /// <param name="promote"></param>
         void IServiceContainer.AddService(Type serviceType, ServiceCreatorCallback callback, bool promote)
         {
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// This method is not supported.
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <param name="callback"></param>
         void IServiceContainer.AddService(Type serviceType, ServiceCreatorCallback callback)
         {
             throw new NotSupportedException();
         }
 
-        /// <summary>
-        /// This method is not supported.
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <param name="serviceInstance"></param>
-        /// <param name="promote"></param>
         void IServiceContainer.AddService(Type serviceType, object serviceInstance, bool promote)
         {
             throw new NotSupportedException();
@@ -116,14 +97,9 @@ namespace AlarmWorkflow.Shared.Core
         {
             _serviceContainer.AddService(serviceType, serviceInstance);
 
-            Logger.Instance.LogFormat(LogType.Info, this, "Registered service type '{0}' (instance type: {1}).", serviceType, serviceInstance.GetType());
+            Logger.Instance.LogFormat(LogType.Debug, this, Resources.ServiceProviderRegisteredService, serviceType, serviceInstance.GetType());
         }
 
-        /// <summary>
-        /// This method is not supported.
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <param name="promote"></param>
         void IServiceContainer.RemoveService(Type serviceType, bool promote)
         {
             throw new NotSupportedException();

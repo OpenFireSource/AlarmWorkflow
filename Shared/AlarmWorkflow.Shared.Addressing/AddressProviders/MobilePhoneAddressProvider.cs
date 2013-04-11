@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.Shared.Addressing.Properties;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
@@ -27,7 +28,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
             // Check for invalid chars in phone number
             if (phoneNumber.Any(c => char.IsLetter(c)))
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "The phone number '{0}' contains invalid chars! Make sure it does only contain digits (0-9)!", phoneNumber);
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.PhoneNumberContainsInvalidChars, phoneNumber);
                 return null;
             }
 

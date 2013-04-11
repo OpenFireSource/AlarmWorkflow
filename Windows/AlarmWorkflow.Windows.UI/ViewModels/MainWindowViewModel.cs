@@ -8,6 +8,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
+using AlarmWorkflow.Windows.UI.Properties;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.Security;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -155,7 +156,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             // If there is no operation viewer defined or it could not be found, use the default one and log it
             if (_operationViewer == null)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Could not find operation viewer with alias '{0}'. Using the default one. Please check the configuration file!", operationViewerAlias);
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.DesiredOperationViewerNotFound, operationViewerAlias);
                 _operationViewer = new Views.DefaultOperationView();
             }
 
@@ -270,7 +271,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     }
 
                     operation.Operation.IsAcknowledged = true;
-                    Logger.Instance.LogFormat(LogType.Info, this, "Operation with Id '{0}' was acknowledged.", operation.Operation.Id);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.AcknowledgedOperation, operation.Operation.Id);
                 }
 
                 RemoveEvent(operation);
@@ -284,7 +285,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "Could not set operation to 'acknowledged'. Most likely a connection issue or internal error.");
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.AcknowledgeOperationFailed);
                 Logger.Instance.LogException(this, ex);
             }
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.UI.Properties;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.UI.Extensibility
@@ -38,22 +39,23 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                 IUIJob job = export.CreateInstance<IUIJob>();
 
                 string jobName = job.GetType().Name;
-                Logger.Instance.LogFormat(LogType.Info, this, "Initializing UI-job type '{0}'...", jobName);
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeBegin, jobName);
 
                 try
                 {
                     if (!job.Initialize())
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "UI-Job type '{0}' initialization failed. The UI-job will not be executed.", jobName);
+                        Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobInitializeError, jobName);
                         continue;
                     }
                     _uiJobs.Add(job);
 
-                    Logger.Instance.LogFormat(LogType.Info, this, "UI-Job type '{0}' initialization successful.", jobName);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeSuccess, jobName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing UI-job type '{0}'. The error message was: {1}", jobName, ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.JobGenericError, jobName, ex.Message);
+                    Logger.Instance.LogException(this, ex);
                 }
             }
         }

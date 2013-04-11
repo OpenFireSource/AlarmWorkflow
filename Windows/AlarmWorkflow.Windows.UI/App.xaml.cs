@@ -43,13 +43,9 @@ namespace AlarmWorkflow.Windows.UI
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
-        /// Calling this default constructor will cause an exception, because it is not allowed to start the UI manually
-        /// (it must be started through the <see cref="UINotifyable"/> type)!
         /// </summary>
-        /// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application"/> class is created per <see cref="T:System.AppDomain"/>.</exception>
         public App()
         {
-            // Set up the logger for this instance
             Logger.Instance.Initialize(ComponentName);
             ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
 
@@ -61,10 +57,6 @@ namespace AlarmWorkflow.Windows.UI
 
         #region Methods
 
-        /// <summary>
-        /// Gets the app.
-        /// </summary>
-        /// <returns></returns>
         internal static App GetApp()
         {
             return (App)App.Current;
@@ -75,11 +67,11 @@ namespace AlarmWorkflow.Windows.UI
             try
             {
                 Configuration = UIConfiguration.Load();
-                Logger.Instance.LogFormat(LogType.Info, this, "The UI-configuration was successfully loaded.");
+                Logger.Instance.LogFormat(LogType.Info, this, AlarmWorkflow.Windows.UI.Properties.Resources.UIConfigurationLoaded);
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "The UI-configuration could not be loaded! Using default configuration.");
+                Logger.Instance.LogFormat(LogType.Error, this, AlarmWorkflow.Windows.UI.Properties.Resources.UIConfigurationLoadError);
                 Logger.Instance.LogException(this, ex);
 
                 // Use default configuration
@@ -112,12 +104,8 @@ namespace AlarmWorkflow.Windows.UI
             AlarmWorkflow.Windows.UI.Properties.Settings.Default.Save();
         }
 
-        /// <summary>
-        /// Initializes the services and registers them at the ServiceProvider.
-        /// </summary>
         private void InitializeServices()
         {
-            // Credentials-confirmation dialog service
             ServiceProvider.Instance.AddService(typeof(ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
         }
 

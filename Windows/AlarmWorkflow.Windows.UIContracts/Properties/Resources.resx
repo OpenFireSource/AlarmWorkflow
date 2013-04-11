@@ -117,34 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AcknowledgedOperation" xml:space="preserve">
-    <value>Operation with Id '{0}' was acknowledged.</value>
+  <data name="DestinationLocationIsUnknown" xml:space="preserve">
+    <value>Destination location is unknown! Cannot download route plan!</value>
   </data>
-  <data name="AcknowledgeOperationFailed" xml:space="preserve">
-    <value>Could not set operation to 'acknowledged'. Most likely a connection issue or internal error. See log for further information.</value>
+  <data name="DownloadRoutePlanBegin" xml:space="preserve">
+    <value>Downloading route plan to destination '{0}'...</value>
   </data>
-  <data name="DesiredOperationViewerNotFound" xml:space="preserve">
-    <value>Could not find operation viewer with alias '{0}'. Using the default one. Please check the configuration!</value>
+  <data name="DownloadRoutePlanError" xml:space="preserve">
+    <value>An error occurred while trying to download the route plan! The image will not be available.</value>
   </data>
-  <data name="JobGenericError" xml:space="preserve">
-    <value>An error occurred while initializing UI-job type '{0}'. The error message was: {1}</value>
+  <data name="DownloadRoutePlanFailed" xml:space="preserve">
+    <value>The download of the route plan did not succeed. Please check the log for information!</value>
   </data>
-  <data name="JobInitializeBegin" xml:space="preserve">
-    <value>Initializing UI-job type '{0}'...</value>
+  <data name="DownloadRoutePlanSuccess" xml:space="preserve">
+    <value>Downloaded route plan in '{0}' milliseconds.</value>
   </data>
-  <data name="JobInitializeError" xml:space="preserve">
-    <value>UI-Job type '{0}' initialization failed. The UI-job will not be executed.</value>
-  </data>
-  <data name="JobInitializeSuccess" xml:space="preserve">
-    <value>UI-Job type '{0}' initialization successful.</value>
-  </data>
-  <data name="UIConfigurationLoaded" xml:space="preserve">
-    <value>The UI-configuration was successfully loaded.</value>
-  </data>
-  <data name="UIConfigurationLoadError" xml:space="preserve">
-    <value>The UI-configuration could not be loaded! Using default configuration.</value>
-  </data>
-  <data name="UIServiceExitWarning" xml:space="preserve">
-    <value>Wenn Sie die Anwendung schließen, kann keine Benachrichtigung auf diesem System mehr angezeigt werden! Sind Sie sicher?</value>
+  <data name="RoutePlanningSourceLocationNotMeaningful" xml:space="preserve">
+    <value>Cannot download route plan because the location information for this fire department is not meaningful enough: '{0}'. Please fill in the correct address!</value>
   </data>
 </root>

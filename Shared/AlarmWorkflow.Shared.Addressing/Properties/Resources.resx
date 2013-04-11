@@ -126,6 +126,9 @@
   <data name="ConvertBackErrorMessage" xml:space="preserve">
     <value>An error occurred during converting a value using provider '{0}'. This data item will be ignored. See log for further information.</value>
   </data>
+  <data name="PhoneNumberContainsInvalidChars" xml:space="preserve">
+    <value>The phone number '{0}' contains invalid chars! Make sure it does only contain digits (0-9)!</value>
+  </data>
   <data name="UnknownNameSubstitute" xml:space="preserve">
     <value>(Unbenannt)</value>
   </data>
