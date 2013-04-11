@@ -2,6 +2,7 @@
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Diagnostics.Reports;
 using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UIContracts.Security;
@@ -13,6 +14,12 @@ namespace AlarmWorkflow.Windows.UI
     /// </summary>
     public partial class App : Application
     {
+        #region Constants
+
+        private const string ComponentName = "WindowsUI";
+
+        #endregion
+
         #region Fields
 
         private readonly object Lock = new object();
@@ -43,7 +50,8 @@ namespace AlarmWorkflow.Windows.UI
         public App()
         {
             // Set up the logger for this instance
-            Logger.Instance.Initialize("WindowsUI");
+            Logger.Instance.Initialize(ComponentName);
+            ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
 
             AlarmWorkflow.Shared.Settings.SettingsManager.Instance.Initialize();
             LoadConfiguration();

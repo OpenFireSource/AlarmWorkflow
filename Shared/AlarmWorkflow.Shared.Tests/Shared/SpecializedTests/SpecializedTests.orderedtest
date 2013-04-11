@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<OrderedTest name="specializedtests" storage="f:\virtual machines\shared folder\alarmworkflow\shared\alarmworkflow.shared.tests\shared\specializedtests\specializedtests.orderedtest" id="241c68e2-c91a-4602-ad01-a92ec2bd434e" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<OrderedTest name="specializedtests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\shared\specializedtests\specializedtests.orderedtest" id="241c68e2-c91a-4602-ad01-a92ec2bd434e" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <TestLinks>
     <TestLink id="eb4ed979-a416-9935-cb1a-99ad0637d2d3" name="CheckRegexMatchTest" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </TestLinks>

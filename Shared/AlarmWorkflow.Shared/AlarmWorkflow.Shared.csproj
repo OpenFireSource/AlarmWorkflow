@@ -56,6 +56,7 @@
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
     <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
+    <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
     <Compile Include="Core\FDResource.cs" />
@@ -107,6 +108,8 @@
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
     <Compile Include="Specialized\Printing\PrintJobConfiguration.cs" />
     <Compile Include="Specialized\ReplaceDictionary.cs" />
+    <Compile Include="Diagnostics\Reports\ErrorReport.cs" />
+    <Compile Include="Diagnostics\Reports\ErrorReportManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
@@ -124,6 +127,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

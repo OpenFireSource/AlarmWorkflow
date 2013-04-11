@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ServiceHelper.cs" />
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
@@ -118,12 +119,16 @@
     <Compile Include="TypeEditors\TypeEditorCache.cs" />
     <Compile Include="ViewModels\AboutWindowViewModel.cs" />
     <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\ErrorReportsViewModel.cs" />
     <Compile Include="ViewModels\GroupedSectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\SettingItemViewModel.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
       <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorReportsView.xaml.cs">
+      <DependentUpon>ErrorReportsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -208,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorReportsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
