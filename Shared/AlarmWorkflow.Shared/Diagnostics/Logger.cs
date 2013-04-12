@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using AlarmWorkflow.Shared.Core;
 using log4net;
 using log4net.Appender;
 using log4net.Core;
 using log4net.Layout;
+using log4net.Util;
 
 namespace AlarmWorkflow.Shared.Diagnostics
 {
@@ -45,7 +48,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
         #region Fields
 
         private ILog _log;
-
+        private object _lock = new object();
         #endregion
 
         #region Constructor
@@ -91,7 +94,6 @@ namespace AlarmWorkflow.Shared.Diagnostics
             {
                 return;
             }
-
             ILogger logger = _log.Logger;
 
             LoggingEventData data = new LoggingEventData();
@@ -104,11 +106,13 @@ namespace AlarmWorkflow.Shared.Diagnostics
             {
                 data.ExceptionString = entry.Exception.ToString();
             }
-
+            data.ThreadName = entry.Source;
+            data.Properties = new PropertiesDictionary();
+            data.Properties["Source"] = entry.Source;
             LoggingEvent le = new LoggingEvent(data);
-            le.Properties["Source"] = entry.Source;
 
             logger.Log(le);
+
         }
 
         private Level GetLog4netLevel(LogType logType)
@@ -196,6 +200,17 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
         #region Nested types
 
+        private class RemoteLogger : RemotingAppender
+        {
+            protected override void Append(LoggingEvent loggingEvent)
+            {
+                LoggingEventData data = loggingEvent.GetLoggingEventData(FixFlags.All);
+                data.ThreadName = ((String)loggingEvent.Properties["Source"]);
+                LoggingEvent logging = new LoggingEvent(data);
+                base.Append(logging);
+            }
+        }
+
         class Log4netConfigurator
         {
             internal static void Configure(string logName)
@@ -205,7 +220,7 @@ namespace AlarmWorkflow.Shared.Diagnostics
                 appenders.Add(CreateTraceAppender(logName));
                 appenders.Add(CreateFileAppender(logName));
                 appenders.Add(CreateEventLogAppender(logName));
-
+                appenders.Add(CreateRemoteAppender(logName));
                 foreach (IOptionHandler handler in appenders.OfType<IOptionHandler>())
                 {
                     handler.ActivateOptions();
@@ -229,12 +244,21 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
                 return appender;
             }
-
+            private static IAppender CreateRemoteAppender(string logname)
+            {
+                RemoteLogger appender = new RemoteLogger();
+                appender.Fix = FixFlags.All;
+                appender.Evaluator = new TimeEvaluator(120);
+                appender.Name = "AWF";
+                appender.Sink = "tcp://localhost:9090/LoggingSink";
+                appender.Lossy = false;
+                appender.BufferSize = 1;
+                return appender;
+            }
             private static IAppender CreateTraceAppender(string logName)
             {
                 TraceAppender appender = new TraceAppender();
                 appender.Layout = CreateTraceLayout();
-
                 return appender;
             }
 
@@ -282,11 +306,9 @@ namespace AlarmWorkflow.Shared.Diagnostics
 
             private static ILayout CreateFileLayout()
             {
-                PatternLayout layout = new PatternLayout();
-                layout.ConversionPattern = "%level;%date;%property{Source};%message%newline";
-
-                layout.ActivateOptions();
-                return layout;
+                XmlLayoutSchemaLog4j layoutSchemaLog4J = new XmlLayoutSchemaLog4j();
+                layoutSchemaLog4J.ActivateOptions();
+                return layoutSchemaLog4J;
             }
         }
 
