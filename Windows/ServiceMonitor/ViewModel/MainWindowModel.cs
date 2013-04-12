@@ -268,7 +268,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
                         try
                         {
                             IEnumerable<LoggingEvent> eventlist = XmlEntriesProvider.GetEntries(filename);
-                            foreach (var loggingEvent in eventlist)
+                            foreach (LoggingEvent loggingEvent in eventlist)
                             {
                                 AddNewLoggingEvent(loggingEvent, this);
                             }
@@ -445,7 +445,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
 
         internal void AddNewLoggingEvent(LoggingEvent loggingEvent, object listAppender)
         {
-            if (listAppender.GetType() == typeof(ListAppender) && LogView == LogTypeEnum.File)
+            if (listAppender.GetType() == typeof (ListAppender) && LogView == LogTypeEnum.File)
             {
                 return;
             }
@@ -458,7 +458,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
                 _dataGrid.Columns[1].SortDirection = ListSortDirection.Descending;
                 direction = ListSortDirection.Descending;
             }
-            view.SortDescriptions.Add(new SortDescription("TimeStamp", (ListSortDirection)direction));
+            view.SortDescriptions.Add(new SortDescription("TimeStamp", (ListSortDirection) direction));
             view.Filter = LogFilter;
             view.Refresh();
             switch (direction)
@@ -504,7 +504,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
             _showLevelDebug = _showLevelInfo = _showLevelWarn = _showLevelError = _showLevelFatal = true;
             BasicConfigurator.Configure(appender);
             ChannelServices.RegisterChannel(new TcpChannel(9090), false);
-            RemotingConfiguration.RegisterWellKnownServiceType(new WellKnownServiceTypeEntry(typeof(RemoteSink), "LoggingSink", WellKnownObjectMode.SingleCall));
+            RemotingConfiguration.RegisterWellKnownServiceType(new WellKnownServiceTypeEntry(typeof (RemoteSink), "LoggingSink", WellKnownObjectMode.SingleCall));
             UpdateServiceState();
             LogView = LogTypeEnum.Live;
         }
@@ -538,7 +538,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
         public ListAppender(MainWindowModel mainWindowModel)
         {
             _mainWindowModel = mainWindowModel;
-            ((IAppender)this).Name = "ListAppender";
+            ((IAppender) this).Name = "ListAppender";
         }
 
         void IAppender.Close()

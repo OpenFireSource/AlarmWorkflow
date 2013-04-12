@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ServiceMonitor
+namespace AlarmWorkflow.Windows.ServiceMonitor
 {
     /// <summary>
     /// Interaktionslogik für "App.xaml"

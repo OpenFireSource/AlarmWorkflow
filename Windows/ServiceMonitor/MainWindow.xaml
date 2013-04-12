@@ -113,6 +113,7 @@
                 </Border>
             </StackPanel>
         </GroupBox>
-        <Button Style="{StaticResource LogViewStyle}" Command="{Binding SwitchLogView}" Height="23" HorizontalAlignment="Right" Margin="0,67,12,0" Name="SwitchLogView" VerticalAlignment="Top" Width="162" />
+        <Button Style="{StaticResource LogViewStyle}" Command="{Binding SwitchLogView}" Height="23"
+                HorizontalAlignment="Right" Margin="0,67,12,0" Name="SwitchLogView" VerticalAlignment="Top" Width="162" />
     </Grid>
 </Window>

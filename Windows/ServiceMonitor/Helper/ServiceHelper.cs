@@ -11,6 +11,9 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.Helper
 {
     internal static class ServiceHelper
     {
+        internal static readonly string ServiceName = "AlarmworkflowService";
+        internal static readonly string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
+
         internal static bool IsCurrentUserAdministrator()
         {
             // Courtesy of http://stackoverflow.com/questions/1089046/in-net-c-test-if-user-is-an-administrative-user
@@ -33,8 +36,6 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.Helper
             }
             return isAdmin;
         }
-        internal static readonly string ServiceName = "AlarmworkflowService";
-        internal static readonly string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
 
         internal static bool IsServiceInstalled()
         {

@@ -11,7 +11,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.Helper
     {
         public static List<LoggingEvent> GetEntries(string dataSource)
         {
-            XmlReaderSettings settings = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
+            XmlReaderSettings settings = new XmlReaderSettings {ConformanceLevel = ConformanceLevel.Fragment};
             NameTable nt = new NameTable();
             XmlNamespaceManager mgr = new XmlNamespaceManager(nt);
             mgr.AddNamespace("log4j", "http://jakarta.apache.org/log4j");
