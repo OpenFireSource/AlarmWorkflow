@@ -92,45 +92,6 @@
 
         </Style.Triggers>
     </Style>
-    <Style x:Key="ServiceStateStyle" TargetType="Label">
-        <Style.Triggers>
-            <!-- Not installed -->
-            <DataTrigger Binding="{Binding ServiceState}" Value="NotInstalled">
-                <Setter Property="Content">
-                    <Setter.Value>
-                        <Hyperlink Command="{Binding InstallServiceCommand}">Nicht installiert (klicken)</Hyperlink>
-                    </Setter.Value>
-                </Setter>
-                <Setter Property="FontWeight" Value="Bold" />
-            </DataTrigger>
-            <!-- Stopping -->
-            <DataTrigger Binding="{Binding ServiceState}" Value="StopPending">
-                <Setter Property="Content" Value="Wird gestoppt..." />
-                <Setter Property="Foreground" Value="Red" />
-                <Setter Property="FontStyle" Value="Italic" />
-            </DataTrigger>
-            <!-- Stopped -->
-            <DataTrigger Binding="{Binding ServiceState}" Value="Stopped">
-                <Setter Property="Content" Value="Gestoppt" />
-                <Setter Property="Foreground" Value="Red" />
-                <Setter Property="FontWeight" Value="Bold" />
-            </DataTrigger>
-            <!-- Starting -->
-            <DataTrigger Binding="{Binding ServiceState}" Value="StartPending">
-                <Setter Property="Content" Value="Wird gestartet..." />
-                <Setter Property="Foreground" Value="Green" />
-                <Setter Property="FontStyle" Value="Italic" />
-            </DataTrigger>
-            <!-- Started -->
-            <DataTrigger Binding="{Binding ServiceState}" Value="Running">
-                <Setter Property="Content" Value="Läuft" />
-                <Setter Property="Foreground" Value="Green" />
-                <Setter Property="FontWeight" Value="Bold" />
-            </DataTrigger>
-        </Style.Triggers>
-        <!-- Indeterminate -->
-        <Setter Property="Content" Value="Frage Servicestatus ab..." />
-    </Style>
     
     <Style x:Key="LogViewStyle" TargetType="Button">
         <Style.Triggers>

@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="350" Width="879">
 
     <Grid>
-        <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="12,12,181,41" Name="DataGrid"
+        <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="12,12,181,12" Name="DataGrid"
                   ItemsSource="{Binding Events}" IsReadOnly="True"
                   RowStyle="{StaticResource LogItemDataGridRowStyle}">
             <DataGrid.Columns>
@@ -23,32 +23,6 @@
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>
-        <Label Margin="12,0,0,10" Content="Service Status: " FontWeight="Bold" Height="26" HorizontalAlignment="Left"
-               VerticalAlignment="Bottom" />
-        <Label MinWidth="100" VerticalContentAlignment="Center"
-               ToolTip="Rechtsklick, um auf die Serviceoptionen zuzugreifen" Margin="113,275,347,10" Height="26"
-               HorizontalAlignment="Left" VerticalAlignment="Bottom" Style="{StaticResource ServiceStateStyle}">
-
-            <Label.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Service installieren" Command="{Binding InstallServiceCommand}" />
-                    <MenuItem Header="Service deinstallieren" Command="{Binding UninstallServiceCommand}" />
-                    <Separator />
-                    <MenuItem Header="Service starten" Command="{Binding StartServiceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Images/servicerunning.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Service stoppen" Command="{Binding StopServiceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="/Images/servicestopped.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Service neustarten" Command="{Binding RestartServiceCommand}" />
-                </ContextMenu>
-            </Label.ContextMenu>
-        </Label>
         <!-- SHOW/HIDE -->
         <GroupBox
             Margin="682,12,12,0"

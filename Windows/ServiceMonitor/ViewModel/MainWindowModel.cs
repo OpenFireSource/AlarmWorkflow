@@ -8,7 +8,6 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Tcp;
 using System.Text;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -31,7 +30,6 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
         #region Fields
 
         private readonly DataGrid _dataGrid;
-        private readonly Timer _serviceStatePollingTimer;
         private ObservableCollection<LoggingEvent> _events;
         private LogTypeEnum _logView;
         private bool _showLevelDebug;
@@ -39,180 +37,6 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
         private bool _showLevelFatal;
         private bool _showLevelInfo;
         private bool _showLevelWarn;
-
-        #endregion
-
-        #region Command "RestartServiceCommand"
-
-        /// <summary>
-        /// The RestartServiceCommand command.
-        /// </summary>
-        public ICommand RestartServiceCommand { get; private set; }
-
-        private void RestartServiceCommand_Execute(object parameter)
-        {
-            if (!ServiceHelper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (!ServiceHelper.IsServiceInstalled())
-            {
-                UIUtilities.ShowWarning(Resources.ServiceIsNotInstalledError);
-                return;
-            }
-
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, Resources.RestartServiceMessage))
-            {
-                return;
-            }
-
-            ServiceHelper.StopService(false);
-            ServiceHelper.StartService(false);
-        }
-
-        #endregion
-
-        #region Command "InstallServiceCommand"
-
-        /// <summary>
-        /// The InstallServiceCommand command.
-        /// </summary>
-        public ICommand InstallServiceCommand { get; private set; }
-
-        private bool InstallServiceCommand_CanExecute(object parameter)
-        {
-            return !ServiceHelper.IsServiceInstalled();
-        }
-
-        private void InstallServiceCommand_Execute(object parameter)
-        {
-            if (!ServiceHelper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Resources.ServiceInstallConfirmationMessage))
-            {
-                return;
-            }
-
-            try
-            {
-                ServiceHelper.InstallService();
-
-                MessageBox.Show(Resources.ServiceInstallSuccessMessage);
-            }
-            catch (Exception ex)
-            {
-                UIUtilities.ShowWarning(Resources.ServiceInstallFailedMessage, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "UninstallServiceCommand"
-
-        /// <summary>
-        /// The UninstallServiceCommand command.
-        /// </summary>
-        public ICommand UninstallServiceCommand { get; private set; }
-
-        private bool UninstallServiceCommand_CanExecute(object parameter)
-        {
-            return ServiceHelper.IsServiceInstalled();
-        }
-
-        private void UninstallServiceCommand_Execute(object parameter)
-        {
-            if (!ServiceHelper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (ServiceHelper.IsServiceRunning())
-            {
-                UIUtilities.ShowWarning(Resources.ServiceUninstallErrorServiceIsRunningMessage);
-                return;
-            }
-
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Resources.ServiceUninstallConfirmationMessage))
-            {
-                return;
-            }
-            try
-            {
-                ServiceHelper.UninstallService();
-
-                MessageBox.Show(Resources.ServiceUninstallSuccessMessage);
-            }
-            catch (Exception ex)
-            {
-                UIUtilities.ShowWarning(Resources.ServiceUninstallFailedMessage, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "StartServiceCommand"
-
-        /// <summary>
-        /// The StartServiceCommand command.
-        /// </summary>
-        public ICommand StartServiceCommand { get; private set; }
-
-        private bool StartServiceCommand_CanExecute(object parameter)
-        {
-            return ServiceHelper.IsServiceInstalled() && !ServiceHelper.IsServiceRunning();
-        }
-
-        private void StartServiceCommand_Execute(object parameter)
-        {
-            if (!ServiceHelper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Resources.AdministratorRequiredMessage);
-                return;
-            }
-            try
-            {
-                ServiceHelper.StartService(true);
-            }
-            catch (Exception ex)
-            {
-                UIUtilities.ShowWarning(Resources.ServiceStartError, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "StopServiceCommand"
-
-        /// <summary>
-        /// The StopServiceCommand command.
-        /// </summary>
-        public ICommand StopServiceCommand { get; private set; }
-
-        private bool StopServiceCommand_CanExecute(object parameter)
-        {
-            return ServiceHelper.IsServiceInstalled() && ServiceHelper.IsServiceRunning();
-        }
-
-        private void StopServiceCommand_Execute(object parameter)
-        {
-            if (!ServiceHelper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Resources.AdministratorRequiredMessage);
-                return;
-            }
-            try
-            {
-                ServiceHelper.StopService(true);
-            }
-            catch (Exception ex)
-            {
-                UIUtilities.ShowWarning(Resources.ServiceStopError, ex.Message);
-            }
-        }
 
         #endregion
 
@@ -255,10 +79,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
             {
                 case LogTypeEnum.Live:
                     // Create OpenFileDialog
-                    OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.InitialDirectory = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs");
-                    dlg.DefaultExt = ".log";
-                    dlg.Filter = "Log documents (.log)|*.log";
+                    OpenFileDialog dlg = new OpenFileDialog {InitialDirectory = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "Logs"), DefaultExt = ".log", Filter = "Log documents (.log)|*.log"};
                     bool? result = dlg.ShowDialog();
 
                     if (result == true)
@@ -472,22 +293,7 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
             }
             OnPropertyChanged("Events");
         }
-
-        private void UpdateServiceState()
-        {
-            ServiceState = "NotInstalled";
-            try
-            {
-                if (ServiceHelper.IsServiceInstalled())
-                {
-                    ServiceState = ServiceHelper.GetServiceState().ToString();
-                }
-            }
-            catch (Exception)
-            {
-            }
-            OnPropertyChanged("ServiceState");
-        }
+        
 
         #endregion
 
@@ -498,27 +304,16 @@ namespace AlarmWorkflow.Windows.ServiceMonitor.ViewModel
             _dataGrid = mainWindow.DataGrid;
             _events = new ObservableCollection<LoggingEvent>();
             IAppender appender = new ListAppender(this);
-            _serviceStatePollingTimer = new Timer(2000d);
-            _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
-            _serviceStatePollingTimer.Start();
             _showLevelDebug = _showLevelInfo = _showLevelWarn = _showLevelError = _showLevelFatal = true;
             BasicConfigurator.Configure(appender);
             ChannelServices.RegisterChannel(new TcpChannel(9090), false);
             RemotingConfiguration.RegisterWellKnownServiceType(new WellKnownServiceTypeEntry(typeof (RemoteSink), "LoggingSink", WellKnownObjectMode.SingleCall));
-            UpdateServiceState();
+           
             LogView = LogTypeEnum.Live;
         }
 
         #endregion
-
-        #region Events
-
-        private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            UpdateServiceState();
-        }
-
-        #endregion
+       
     }
 
     #region Nested types
