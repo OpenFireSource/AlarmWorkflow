@@ -7,15 +7,12 @@
 
     <Grid>
         <DataGrid AutoGenerateColumns="False" HorizontalAlignment="Stretch" Margin="12,12,181,12" Name="DataGrid"
-                  ItemsSource="{Binding Events}" IsReadOnly="True"
-                  RowStyle="{StaticResource LogItemDataGridRowStyle}">
+                  ItemsSource="{Binding Events}" IsReadOnly="True" RowStyle="{StaticResource LogItemDataGridRowStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Level" Binding="{Binding Level}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Zeit"
-                                    Binding="{Binding TimeStamp, StringFormat=\{0:dd.MM.yy HH:mm:ss.ffff\}}">
-                </DataGridTextColumn>
+                <DataGridTextColumn Header="Zeit" Binding="{Binding TimeStamp, StringFormat=\{0:dd.MM.yy HH:mm:ss.ffff\}}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Quelle" Binding="{Binding ThreadName}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Narchicht" Binding="{Binding RenderedMessage}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Nachricht" Binding="{Binding RenderedMessage}"></DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
@@ -24,70 +21,38 @@
             </DataGrid.ContextMenu>
         </DataGrid>
         <!-- SHOW/HIDE -->
-        <GroupBox
-            Margin="682,12,12,0"
-            Padding="0,6,5,5"
-            FontSize="9"
-            Header="Zeigen/Verstecken"
-            VerticalAlignment="Top" HorizontalAlignment="Right">
-            <StackPanel
-                Orientation="Horizontal">
+        <GroupBox Margin="682,12,12,0" Padding="0,6,5,5" FontSize="9" Header="Zeigen/Verstecken"
+                  VerticalAlignment="Top" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
 
                 <StackPanel.Resources>
-                    <Style
-                        BasedOn="{StaticResource DefaultBorderStyle}"
-                        TargetType="{x:Type Border}">
-                        <Setter
-                            Property="Padding"
-                            Value="2" />
-                        <Setter
-                            Property="Margin"
-                            Value="10,0,0,0" />
+                    <Style BasedOn="{StaticResource DefaultBorderStyle}" TargetType="{x:Type Border}">
+                        <Setter Property="Padding" Value="2" />
+                        <Setter Property="Margin" Value="10,0,0,0" />
                     </Style>
                 </StackPanel.Resources>
 
-                <Border
-                    Background="{StaticResource DebugLevelColor}">
-                    <CheckBox
-                        IsChecked="{Binding Path=ShowLevelDebug}"
-                        Name="chkShowDebug"
-                        ToolTip="DEBUG/FINE" />
+                <Border Background="{StaticResource DebugLevelColor}">
+                    <CheckBox IsChecked="{Binding Path=ShowLevelDebug}" Name="chkShowDebug" ToolTip="DEBUG/FINE" />
                 </Border>
 
-                <Border
-                    Background="{StaticResource InfoLevelColor}">
-                    <CheckBox
-                        IsChecked="{Binding Path=ShowLevelInfo}"
-                        Name="chkShowInfo"
-                        ToolTip="INFO" />
+                <Border Background="{StaticResource InfoLevelColor}">
+                    <CheckBox IsChecked="{Binding Path=ShowLevelInfo}" Name="chkShowInfo" ToolTip="INFO" />
                 </Border>
 
-                <Border
-                    Background="{StaticResource WarnLevelColor}">
-                    <CheckBox
-                        IsChecked="{Binding Path=ShowLevelWarn}"
-                        Name="chkShowWarn"
-                        ToolTip="WARN" />
+                <Border Background="{StaticResource WarnLevelColor}">
+                    <CheckBox IsChecked="{Binding Path=ShowLevelWarn}" Name="chkShowWarn" ToolTip="WARN" />
                 </Border>
 
-                <Border
-                    Background="{StaticResource ErrorLevelColor}">
-                    <CheckBox
-                        IsChecked="{Binding Path=ShowLevelError}"
-                        Name="chkShowError"
-                        ToolTip="ERROR" />
+                <Border Background="{StaticResource ErrorLevelColor}">
+                    <CheckBox IsChecked="{Binding Path=ShowLevelError}" Name="chkShowError" ToolTip="ERROR" />
                 </Border>
 
-                <Border
-                    Background="{StaticResource FatalLevelColor}">
-                    <CheckBox
-                        IsChecked="{Binding Path=ShowLevelFatal}"
-                        Name="chkShowFatal"
-                        ToolTip="FATAL" />
+                <Border Background="{StaticResource FatalLevelColor}">
+                    <CheckBox IsChecked="{Binding Path=ShowLevelFatal}" Name="chkShowFatal" ToolTip="FATAL" />
                 </Border>
             </StackPanel>
         </GroupBox>
-        <Button Style="{StaticResource LogViewStyle}" Command="{Binding SwitchLogView}" Height="23"
-                HorizontalAlignment="Right" Margin="0,67,12,0" Name="SwitchLogView" VerticalAlignment="Top" Width="162" />
+        <Button Style="{StaticResource LogViewStyle}" Command="{Binding SwitchLogView}" Height="23" HorizontalAlignment="Right" Margin="0,67,12,0" Name="SwitchLogView" VerticalAlignment="Top" Width="162" />
     </Grid>
 </Window>

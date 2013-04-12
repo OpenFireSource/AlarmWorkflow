@@ -5,9 +5,9 @@ using log4net.Core;
 
 namespace AlarmWorkflow.Windows.ServiceMonitor.Helper
 {
-    public class RemoteSink : MarshalByRefObject, RemotingAppender.IRemoteLoggingSink
+    internal class RemoteSink : MarshalByRefObject, RemotingAppender.IRemoteLoggingSink
     {
-        public void LogEvents(LoggingEvent[] events)
+        void RemotingAppender.IRemoteLoggingSink.LogEvents(LoggingEvent[] events)
         {
             foreach (LoggingEvent loggingEvent in events)
             {
