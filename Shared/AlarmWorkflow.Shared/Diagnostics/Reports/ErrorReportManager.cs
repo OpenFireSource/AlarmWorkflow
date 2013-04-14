@@ -165,10 +165,10 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
 
             AppDomain.CurrentDomain.UnhandledException += (o, e) =>
             {
-                // TODO: Maybe include "IsTerminating" too?
                 Exception exception = (Exception)e.ExceptionObject;
 
                 ErrorReport report = new ErrorReport(exception);
+                report.SourceComponentName = componentName;
                 report.IsTerminating = e.IsTerminating;
                 CreateErrorReportInternal(report);
             };
