@@ -1,0 +1,32 @@
+AlarmWorkflow v0.9.1.0 Release Notes
+====================================
+
+Updates since v0.9.0.0
+----------------------
+
+General
+
+  * ReplaceDictionary available for public (not limited to FaxAlarmSource)
+  * ReplaceDictionary has the option to use RegEx for the entries (advanced usage)
+  * New property: 'Operation.TimestampIncome' for timestamp of alarm income
+
+Diagnostics
+
+  * Added error reports (catches unhandled exceptions and avoids termination of processes)
+
+UI
+
+  * Added error report view to ConfigurationEditor
+
+Fixes since v0.9.0.0
+--------------------
+
+Issues resolved
+
+  * -
+
+Other fixes
+
+  * AlarmSourcePrinterJob respects CopyCount from settings
+  * New algorithm for printing in PrintingUIJob
+  * Various fixes and reliability updates in PrintingUIJob
