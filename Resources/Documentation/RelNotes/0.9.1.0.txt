@@ -9,6 +9,8 @@ General
   * ReplaceDictionary available for public (not limited to FaxAlarmSource)
   * ReplaceDictionary has the option to use RegEx for the entries (advanced usage)
   * New property: 'Operation.TimestampIncome' for timestamp of alarm income
+  * Removed unnecessary settings from WindowsUI
+  * All parsers are now in one assembly to improve startup performance and less confusion
 
 Diagnostics
 
