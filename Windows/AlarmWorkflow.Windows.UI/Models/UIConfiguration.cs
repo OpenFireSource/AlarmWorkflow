@@ -36,10 +36,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public AutomaticOperationAcknowledgementSettings AutomaticOperationAcknowledgement { get; set; }
         /// <summary>
-        /// Gets/sets the operation fetching parameters used by the worker thread.
-        /// </summary>
-        public OperationFetchingParameters OperationFetchingArguments { get; set; }
-        /// <summary>
         /// Gets the maximum amount of parallel alarms in the UI.
         /// </summary>
         public int MaxAlarmsInUI { get; private set; }
@@ -70,7 +66,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         public UIConfiguration()
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
-            OperationFetchingArguments = new OperationFetchingParameters();
 
             ScaleFactor = 2.0d;
             AcknowledgeOperationKey = System.Windows.Input.Key.B;
@@ -98,10 +93,6 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.AutomaticOperationAcknowledgement.IsEnabled = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.IsEnabled").GetBoolean();
             configuration.AutomaticOperationAcknowledgement.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.MaxAge").GetInt32();
 
-            configuration.OperationFetchingArguments.Interval = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.Interval").GetInt32();
-            configuration.OperationFetchingArguments.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.MaxAge").GetInt32();
-            configuration.OperationFetchingArguments.OnlyNonAcknowledged = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.OnlyNonAcknowledged").GetBoolean();
-            configuration.OperationFetchingArguments.LimitAmount = SettingsManager.Instance.GetSetting("UIConfiguration", "OFP.LimitAmount").GetInt32();
             configuration.MaxAlarmsInUI = SettingsManager.Instance.GetSetting("UIConfiguration", "MaxAlarmsInUI").GetInt32();
 
             // Jobs configuration
@@ -129,40 +120,6 @@ namespace AlarmWorkflow.Windows.UI.Models
             /// Gets/sets the maximum age in minutes until an operation is automatically acknowleded.
             /// </summary>
             public int MaxAge { get; set; }
-        }
-
-        /// <summary>
-        /// Describes how operations shall be fetched by the worker thread.
-        /// </summary>
-        public class OperationFetchingParameters
-        {
-            /// <summary>
-            /// Gets/sets the interval in milliseconds when to check for new operations. Sane values range between 1500-3000.
-            /// </summary>
-            public int Interval { get; set; }
-            /// <summary>
-            /// Gets/sets the maximum age of operations to get. Used to limit traffic and keep the interface clean. Set to '0' for no maximum age (not recommended).
-            /// </summary>
-            public int MaxAge { get; set; }
-            /// <summary>
-            /// Gets/sets whether or not to limit operation retrieval to non-acknowledged operations. An operation is acknowledged after it is "done".
-            /// </summary>
-            public bool OnlyNonAcknowledged { get; set; }
-            /// <summary>
-            /// Gets/sets the limit of the overall amount of operations. Used to limit traffic and keep the interface clean.Set to '0' for no limit (not recommended).
-            /// </summary>
-            public int LimitAmount { get; set; }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="OperationFetchingParameters"/> class.
-            /// </summary>
-            public OperationFetchingParameters()
-            {
-                Interval = 2000;
-                MaxAge = 7;
-                OnlyNonAcknowledged = true;
-                LimitAmount = 5;
-            }
         }
 
         #endregion

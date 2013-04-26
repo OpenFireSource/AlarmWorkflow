@@ -131,8 +131,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             InitializeOperationViewer();
 
-            // Create timer with a custom interval from configuration
-            _servicePollingTimer = new Timer(App.GetApp().Configuration.OperationFetchingArguments.Interval);
+            _servicePollingTimer = new Timer(Constants.OfpInterval);
             _servicePollingTimer.Elapsed += ServicePollingTimer_Elapsed;
             _servicePollingTimer.Start();
 
@@ -335,13 +334,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             try
             {
-                int maxAge = App.GetApp().Configuration.OperationFetchingArguments.MaxAge;
-                bool onlyNonAcknowledged = App.GetApp().Configuration.OperationFetchingArguments.OnlyNonAcknowledged;
-                int limitAmount = App.GetApp().Configuration.OperationFetchingArguments.LimitAmount;
-
                 using (var service = InternalServiceProxy.GetServiceInstance())
                 {
-                    IList<int> operations = service.Instance.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+                    IList<int> operations = service.Instance.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, Constants.OfpLimitAmount);
 
                     IsMissingServiceConnectionHintVisible = false;
 

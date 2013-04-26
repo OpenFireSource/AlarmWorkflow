@@ -21,18 +21,6 @@
              EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />
 
-    <Setting Name="OFP.Interval" DisplayText="Aktualisierungsinterval (in Millisekunden)" Category="Alarmabfrage"
-             Description="Der Abstand, in dem die UI auf neue Alarme prüft."
-             EditorParameter="500;10000"/>
-    <Setting Name="OFP.MaxAge" DisplayText="Max. Alter (in Tagen)" Category="Alarmabfrage"
-             Description="Wie alt Alarme maximal sein dürfen, um in der UI aufzutauchen (0 für keine Beschränkung)."
-             EditorParameter="0;100"/>
-    <Setting Name="OFP.OnlyNonAcknowledged" DisplayText="Nur neue Alarme" Category="Alarmabfrage"
-             Description="Ob nur nicht-bestätigte (neue) Alarme auftauchen sollen." />
-    <Setting Name="OFP.LimitAmount" DisplayText="Limit" Category="Alarmabfrage"
-             Description="Limitiert die Anzahl der maximalen Alarme, die pro Abfrage geholt werden (0 für keine Beschränkung)."
-             EditorParameter="0;100" />
-
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme"
              Description="Schaltet die automatische Bestätigung/Kenntnisnahme von Alarmen ein." />
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme"

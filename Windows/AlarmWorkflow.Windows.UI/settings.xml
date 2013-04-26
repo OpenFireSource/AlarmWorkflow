@@ -10,11 +10,6 @@
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
 
-  <Setting Name="OFP.Interval" Type="System.Int32" IsNull="False">2000</Setting>
-  <Setting Name="OFP.MaxAge" Type="System.Int32" IsNull="False">7</Setting>
-  <Setting Name="OFP.OnlyNonAcknowledged" Type="System.Boolean" IsNull="False">True</Setting>
-  <Setting Name="OFP.LimitAmount" Type="System.Int32" IsNull="False">10</Setting>
-
   <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">False</Setting>
   <Setting Name="AOA.MaxAge" Type="System.Int32" IsNull="False">480</Setting>
   

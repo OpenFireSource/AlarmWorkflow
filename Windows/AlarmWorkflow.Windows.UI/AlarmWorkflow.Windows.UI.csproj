@@ -69,6 +69,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Constants.cs" />
     <Compile Include="Extensibility\ExtensionManager.cs" />
     <Compile Include="Models\InternalServiceProxy.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
