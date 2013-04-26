@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{EF6A7512-3B19-499B-8CCD-C5D9782CB226}</ProjectGuid>
+    <ProjectGuid>{D138D44E-9D0F-4E89-A983-FED8E63BF8E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Parser.ILSAllgaeuParser</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Parser.ILSAllgaeuParser</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Parser.Library</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Parser.Library</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,19 +33,45 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.AlarmSource.Fax">
-      <HintPath>..\..\..\Build\AlarmWorkflow.AlarmSource.Fax.dll</HintPath>
-    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.AlarmSource.Fax">
+      <HintPath>..\..\..\Build\AlarmWorkflow.AlarmSource.Fax.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ILSAllgaeuParser.cs" />
+    <Compile Include="IlsAnsbachParser.cs" />
+    <Compile Include="ILSAugsburgParser.cs" />
+    <Compile Include="IlsCoburgParser.cs" />
+    <Compile Include="ILSDonauIllerParser.cs" />
+    <Compile Include="ILSFFBParser.cs" />
+    <Compile Include="ILSKaiserslautern.cs" />
+    <Compile Include="ILSMittelfrankenParser.cs" />
+    <Compile Include="ILSNuernbergParser.cs" />
+    <Compile Include="ILSOberlandParser.cs" />
+    <Compile Include="ILSRosenheimParser.cs" />
+    <Compile Include="ILSSchweinfurtParser.cs" />
+    <Compile Include="ILSStraubingParser.cs" />
+    <Compile Include="ILSTraunsteinParser.cs" />
+    <Compile Include="ILSTrierParser.cs" />
+    <Compile Include="NoParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

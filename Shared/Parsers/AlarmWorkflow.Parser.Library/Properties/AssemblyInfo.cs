@@ -5,12 +5,12 @@ using AlarmWorkflow.Shared.Core;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AlarmWorkflow.Parser.NoParser")]
+[assembly: AssemblyTitle("AlarmWorkflow.Parser.Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AlarmWorkflow.Parser.NoParser")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
+[assembly: AssemblyProduct("AlarmWorkflow.Parser.Library")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using AlarmWorkflow.Shared.Core;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5693f89f-8fa3-43b7-b472-0baaa6c69dbc")]
+[assembly: Guid("c790b1a5-690f-437a-a020-82a686a6583a")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,7 +32,7 @@ using AlarmWorkflow.Shared.Core;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+[assembly: AssemblyVersion("0.9.1.0")]
+[assembly: AssemblyFileVersion("0.9.1.0")]
 
 [assembly: AlarmWorkflowPackage()]

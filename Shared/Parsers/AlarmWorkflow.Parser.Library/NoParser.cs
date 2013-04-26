@@ -2,7 +2,7 @@
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
-namespace AlarmWorkflow.Parser.NoParser
+namespace AlarmWorkflow.Parser.Library
 {
     [Export("NoParser", typeof(IFaxParser))]
     sealed class NoParser : IFaxParser
@@ -15,7 +15,7 @@ namespace AlarmWorkflow.Parser.NoParser
         /// </summary>
         public NoParser()
         {
-            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.UsageWarning);
+            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoParserUsageWarning);
         }
 
         #endregion

@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="UsageWarning" xml:space="preserve">
+  <data name="NoParserUsageWarning" xml:space="preserve">
     <value>You have defined to use the 'NoParser'. Please note that this is just a placeholder parser in case you haven't selected a specific parser. Using this parser will not cause any errors, but will not do anything either. Please select the parser that fits best for you. When in doubt, contact the OpenFireSource-Team.</value>
   </data>
 </root>

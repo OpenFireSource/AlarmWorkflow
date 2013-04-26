@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Parser.NoParser.Properties {
+namespace AlarmWorkflow.Parser.Library.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Parser.NoParser.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Parser.NoParser.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Parser.Library.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace AlarmWorkflow.Parser.NoParser.Properties {
         /// <summary>
         ///   Looks up a localized string similar to You have defined to use the &apos;NoParser&apos;. Please note that this is just a placeholder parser in case you haven&apos;t selected a specific parser. Using this parser will not cause any errors, but will not do anything either. Please select the parser that fits best for you. When in doubt, contact the OpenFireSource-Team..
         /// </summary>
-        internal static string UsageWarning {
+        internal static string NoParserUsageWarning {
             get {
-                return ResourceManager.GetString("UsageWarning", resourceCulture);
+                return ResourceManager.GetString("NoParserUsageWarning", resourceCulture);
             }
         }
     }
