@@ -32,3 +32,4 @@ Other fixes
   * AlarmSourcePrinterJob respects CopyCount from settings
   * New algorithm for printing in PrintingUIJob
   * Various fixes and reliability updates in PrintingUIJob
+  * Fixed "description" constant for Prowl
