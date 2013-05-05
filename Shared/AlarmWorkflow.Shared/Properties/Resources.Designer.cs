@@ -358,6 +358,42 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The copy count must be greater than zero!.
+        /// </summary>
+        internal static string PrintingQueueCopyCountMustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("PrintingQueueCopyCountMustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The printing queue must have a valid name!.
+        /// </summary>
+        internal static string PrintingQueueNameMustNotBeEmpty {
+            get {
+                return ResourceManager.GetString("PrintingQueueNameMustNotBeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Encountered invalid copy count for printing queue &apos;{0}&apos;. Using default of &apos;{1}&apos; for this queue..
+        /// </summary>
+        internal static string PrintingQueueParseErrorCopyCountIsInvalid {
+            get {
+                return ResourceManager.GetString("PrintingQueueParseErrorCopyCountIsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignoring printing queue with invalid name. Please check configuration!.
+        /// </summary>
+        internal static string PrintingQueueParseErrorNameIsInvalid {
+            get {
+                return ResourceManager.GetString("PrintingQueueParseErrorNameIsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Registered service type &apos;{0}&apos; (instance type: {1})..
         /// </summary>
         internal static string ServiceProviderRegisteredService {

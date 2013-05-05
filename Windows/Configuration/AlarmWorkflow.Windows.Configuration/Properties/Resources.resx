@@ -135,6 +135,20 @@
   <data name="NumberTypeEditorValueNotValidMessage" xml:space="preserve">
     <value>Der Wert lag außerhalb des gültigen Wertebereichs.</value>
   </data>
+  <data name="PrintingQueuesConfigurationWindowConfirmDeleteEntry" xml:space="preserve">
+    <value>Möchten Sie den gewählten Eintrag wirklich löschen?</value>
+  </data>
+  <data name="PrintingQueuesConfigurationWindowLeaveConfirmation_CAP" xml:space="preserve">
+    <value>Änderungen übernehmen</value>
+  </data>
+  <data name="PrintingQueuesConfigurationWindowLeaveConfirmation_MSG" xml:space="preserve">
+    <value>Möchten Sie die Änderungen übernehmen?
+
+Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit es endgültig gespeichert wird.</value>
+  </data>
+  <data name="PrintingQueuesConfigurationWindowTitle" xml:space="preserve">
+    <value>Druckerwege-Konfiguration</value>
+  </data>
   <data name="RestartServiceMessage" xml:space="preserve">
     <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
   </data>

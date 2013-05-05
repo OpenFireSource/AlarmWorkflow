@@ -31,4 +31,9 @@
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
 
+  <!-- Printing Queue Configuration (TODO: will be own category) -->
+  <Setting Name="PrintingQueuesConfiguration" Type="System.String">
+    <![CDATA[<PrintingQueuesConfiguration />]]>
+  </Setting>
+
 </SettingsConfiguration>

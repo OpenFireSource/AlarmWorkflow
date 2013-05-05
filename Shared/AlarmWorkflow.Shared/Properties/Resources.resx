@@ -255,4 +255,16 @@
   <data name="ServiceProviderRegisteredService" xml:space="preserve">
     <value>Registered service type '{0}' (instance type: {1}).</value>
   </data>
+  <data name="PrintingQueueCopyCountMustBeGreaterThanZero" xml:space="preserve">
+    <value>The copy count must be greater than zero!</value>
+  </data>
+  <data name="PrintingQueueNameMustNotBeEmpty" xml:space="preserve">
+    <value>The printing queue must have a valid name!</value>
+  </data>
+  <data name="PrintingQueueParseErrorCopyCountIsInvalid" xml:space="preserve">
+    <value>Encountered invalid copy count for printing queue '{0}'. Using default of '{1}' for this queue.</value>
+  </data>
+  <data name="PrintingQueueParseErrorNameIsInvalid" xml:space="preserve">
+    <value>Ignoring printing queue with invalid name. Please check configuration!</value>
+  </data>
 </root>
