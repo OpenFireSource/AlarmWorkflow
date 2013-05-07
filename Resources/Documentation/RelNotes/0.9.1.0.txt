@@ -19,6 +19,7 @@ Diagnostics
 UI
 
   * Added error report view to ConfigurationEditor
+  * Added "Browser" widget for CustomOperationViewer
 
 Fixes since v0.9.0.0
 --------------------
