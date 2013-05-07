@@ -106,6 +106,7 @@
     <Compile Include="Settings\SettingsDisplayConfiguration.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
+    <Compile Include="Specialized\Printing\GdiPrinter.cs" />
     <Compile Include="Specialized\Printing\PrintingQueueCollection.cs" />
     <Compile Include="Specialized\Printing\PrintingQueueManager.cs" />
     <Compile Include="Specialized\Printing\PrintingQueue.cs" />
