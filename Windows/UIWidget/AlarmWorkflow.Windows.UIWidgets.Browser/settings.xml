@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<SettingsConfiguration Version="1" Identifier="Browser">
+  <Setting Name="URL" Type="System.String">http://www.dwd.de/dyn/app/ws/maps/MS_x_x_0.gif</Setting>
+</SettingsConfiguration>

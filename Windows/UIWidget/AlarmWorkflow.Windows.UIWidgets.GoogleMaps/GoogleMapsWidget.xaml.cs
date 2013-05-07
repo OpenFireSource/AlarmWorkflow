@@ -22,7 +22,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         #region Fields
 
         private readonly MapConfiguration _configuration;
-        private String _googleFile;
+        private readonly String _googleFile;
         private Operation _operation;
 
         #endregion Fields
@@ -155,9 +155,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             if (_operation != null)
             {
                 StringBuilder builder = new StringBuilder();
-                Dictionary<String, String> result = new Dictionary<String, String>();
-                result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
-                                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
+                Dictionary<string, string> result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
                 if (result == null || result.Count != 2)
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";

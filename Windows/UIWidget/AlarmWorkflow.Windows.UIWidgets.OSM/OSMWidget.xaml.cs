@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Web;
 using System.Windows;
-using System.Windows.Forms;
 using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -152,9 +151,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             string html;
             if (_operation != null)
             {
-				Dictionary<String, String> result = new Dictionary<String, String>();
-                result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
-                                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
+                Dictionary<string, string> result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
+                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
                 if (result == null || result.Count != 2)
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";
