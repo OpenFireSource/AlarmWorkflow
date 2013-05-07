@@ -11,19 +11,19 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
     internal class WidgetManager
     {
-        private List<ILayoutPanelElement> _PanelElements = new List<ILayoutPanelElement>();
-        private List<IUIWidget> _Widgets = new List<IUIWidget>();
+        private List<ILayoutPanelElement> _panelElements = new List<ILayoutPanelElement>();
+        private List<IUIWidget> _widgets = new List<IUIWidget>();
 
         public List<IUIWidget> Widgets
         {
-            get { return _Widgets; }
-            set { _Widgets = value; }
+            get { return _widgets; }
+            set { _widgets = value; }
         }
 
         public List<ILayoutPanelElement> PanelElements
         {
-            get { return _PanelElements; }
-            set { _PanelElements = value; }
+            get { return _panelElements; }
+            set { _panelElements = value; }
         }
 
         internal List<ILayoutPanelElement> InitializeViews()
@@ -33,14 +33,14 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
 
-                string jobName = iuiWidget.GetType().Name;
-                Logger.Instance.LogFormat(LogType.Info, this, "Initializing ViewPlugin type '{0}'...", jobName);
+                string iuiWidgetName = iuiWidget.GetType().Name;
+                Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.Init, iuiWidgetName);
 
                 try
                 {
                     if (!iuiWidget.Initialize())
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "ViewPlugin type '{0}' initialization failed. The ViewPlugin will not be executed.", jobName);
+                        Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.InitFailed, iuiWidgetName);
                         continue;
                     }
                     var pane =
@@ -53,16 +53,16 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                                                          CanHide = false
                                                      });
 
-                    _PanelElements.Add(pane);
-                    _Widgets.Add(iuiWidget);
-                    Logger.Instance.LogFormat(LogType.Info, this, "ViewPlugin type '{0}' initialization successful.", jobName);
+                    _panelElements.Add(pane);
+                    _widgets.Add(iuiWidget);
+                    Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitSuccessful, iuiWidgetName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, "An error occurred while initializing ViewPlugin type '{0}'. The error message was: {1}", jobName, ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.InitError, iuiWidgetName, ex.Message);
                 }
             }
-            return _PanelElements;
+            return _panelElements;
         }
     }
 }
