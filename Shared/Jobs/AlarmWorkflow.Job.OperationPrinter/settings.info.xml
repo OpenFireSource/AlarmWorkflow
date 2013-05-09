@@ -1,5 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="OperationPrinterJob" DisplayText="Alarmdetails-Druck" Parent="Aufgaben">
+    <Setting Name="TemplateFile" DisplayText="Druckvorlagendatei" Category="Vorlage" Editor="FileTypeEditor" EditorParameter="HTML-Dateien (*.htm; *.html)|*.htm;*.html" />
     <Setting Name="PrintingQueueNames" DisplayText="Druckerwege" Category="Druck" Editor="PrintingQueueNamesTypeEditor" />
   </Identifier>
 </SettingsDisplayConfiguration>
