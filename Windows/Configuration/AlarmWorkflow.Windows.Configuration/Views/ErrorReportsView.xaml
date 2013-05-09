@@ -1,7 +1,7 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.Views.ErrorReportsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:conv="clr-namespace:AlarmWorkflow.Windows.Configuration.Converters"
+             xmlns:conv="clr-namespace:AlarmWorkflow.Windows.UIContracts.Converters;assembly=AlarmWorkflow.Windows.UIContracts"
              xmlns:rep="clr-namespace:AlarmWorkflow.Shared.Diagnostics.Reports;assembly=AlarmWorkflow.Shared">
     <UserControl.Resources>
         <conv:DateTimeUtcToLocalConverter x:Key="utcConv" />

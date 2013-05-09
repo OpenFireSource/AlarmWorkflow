@@ -31,9 +31,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
             set
             {
                 PrintingQueuesConfiguration pqc = StringSettingConvertibleTools.ConvertFromSetting<PrintingQueuesConfiguration>(value);
-
-                _viewModel = new PrintingQueuesEditorViewModel(pqc);
-                this.DataContext = _viewModel;
+                _viewModel.EditWrapper = pqc;
             }
         }
 
@@ -47,6 +45,9 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         public PrintingQueuesEditor()
         {
             InitializeComponent();
+
+            _viewModel = new PrintingQueuesEditorViewModel();
+            this.DataContext = _viewModel;
         }
 
         #endregion

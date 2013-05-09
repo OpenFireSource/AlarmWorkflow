@@ -52,7 +52,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Converters\GoogleMapsProvider.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\OperationToDestinationStringConverter.cs" />
     <Compile Include="Converters\OperationToRouteImageConverter.cs" />
     <Compile Include="Extensibility\IOperationViewer.cs" />

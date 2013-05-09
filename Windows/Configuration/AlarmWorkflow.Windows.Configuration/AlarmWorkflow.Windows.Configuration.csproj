@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ServiceHelper.cs" />
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">

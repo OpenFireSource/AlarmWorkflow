@@ -96,11 +96,9 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         /// <summary>
         /// Initializes a new instance of the <see cref="PrintingQueuesEditorViewModel"/> class.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public PrintingQueuesEditorViewModel(PrintingQueuesConfiguration configuration)
+        public PrintingQueuesEditorViewModel()
         {
             Entries = new ObservableCollection<PrintingQueue>();
-            EditWrapper = configuration;
         }
 
         #endregion
