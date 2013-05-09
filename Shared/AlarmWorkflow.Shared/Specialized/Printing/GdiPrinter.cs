@@ -1,6 +1,9 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Printing;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Properties;
 
 namespace AlarmWorkflow.Shared.Specialized.Printing
 {
@@ -29,7 +32,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
 
             int desiredCopyCount = queue.CopyCount;
             int maxSupportedCopyCount = doc.PrinterSettings.MaximumCopies;
-            int alternativeCopyPrintingAmount = 1;
+            int requiredPrintIterations = 1;
 
             if (desiredCopyCount <= maxSupportedCopyCount)
             {
@@ -37,22 +40,29 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
             }
             else
             {
-                //// It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
-                //// In this case we simply repeat printing until we have reached our copy count.
-                //Logger.Instance.LogFormat(LogType.Warning, this, Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
+                // It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
+                // In this case we simply repeat printing until we have reached our copy count.
+                Logger.Instance.LogFormat(LogType.Warning, typeof(GdiPrinter), Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
 
-                // Setting this variable causes the loop below to execute the Print() method the specified number of times.
-                alternativeCopyPrintingAmount = desiredCopyCount;
+                requiredPrintIterations = desiredCopyCount;
             }
 
-            for (int i = 0; i < alternativeCopyPrintingAmount; i++)
+            for (int i = 0; i < requiredPrintIterations; i++)
             {
-                //Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationStart, i + 1, alternativeCopyPrintingAmount);
+                Logger.Instance.LogFormat(LogType.Trace, typeof(GdiPrinter), Resources.PrintIterationStart, i + 1, requiredPrintIterations);
 
                 PrintTask task = new PrintTask();
-                task.Print(doc, printAction);
+                try
+                {
+                    task.Print(doc, printAction);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, typeof(GdiPrinter), Resources.GdiPrinterPrintTaskException);
+                    Logger.Instance.LogException(typeof(GdiPrinter), ex);
+                }
 
-                //Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationEnd);
+                Logger.Instance.LogFormat(LogType.Trace, typeof(GdiPrinter), Resources.PrintIterationEnd);
             }
         }
 
@@ -61,19 +71,35 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
         #region Nested types
 
         /// <summary>
-        /// Represents the delegate that is invoked as long until the return value returns <c>false</c>.
+        /// Represents the delegate that is invoked until the return value returns <c>false</c>.
         /// </summary>
+        /// <param name="pageIndex">The index of the page that is printed (one-based).</param>
         /// <param name="graphics">The graphics for the page to print.</param>
-        /// <param name="marginBounds"></param>
-        /// <param name="pageBounds"></param>
-        /// <param name="pageSettings"></param>
+        /// <param name="marginBounds">The area between the margins.</param>
+        /// <param name="pageBounds">The total area of the paper.</param>
+        /// <param name="pageSettings">The <see cref="PageSettings"/> for the page.</param>
         /// <returns>Whether or not there are still pages to be printed. Returns true if more, or false if no more pages are to be printed.</returns>
-        public delegate bool PrintDelegate(Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings);
+        public delegate bool PrintDelegate(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings);
 
-        class PrintTask
+        /// <summary>
+        /// Encapsulates one single GDI print task. Uses a custom <see cref="PrintDelegate"/> to print.
+        /// </summary>
+        sealed class PrintTask
         {
-            private PrintDelegate _printAction;
+            #region Fields
 
+            private PrintDelegate _printAction;
+            private int _currentPageIndex = 0;
+
+            #endregion
+
+            #region Methods
+
+            /// <summary>
+            /// Executes the print task using the given document and action.
+            /// </summary>
+            /// <param name="doc"></param>
+            /// <param name="printAction"></param>
             internal void Print(PrintDocument doc, PrintDelegate printAction)
             {
                 _printAction = printAction;
@@ -84,25 +110,29 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
 
             private void doc_PrintPage(object sender, PrintPageEventArgs e)
             {
-
+                _currentPageIndex++;
                 bool hasMorePages = false;
+
                 try
                 {
-                    hasMorePages = _printAction(e.Graphics, e.MarginBounds, e.PageBounds, e.PageSettings);
+                    hasMorePages = _printAction(_currentPageIndex, e.Graphics, e.MarginBounds, e.PageBounds, e.PageSettings);
                 }
-                catch (System.Exception)
+                catch (Exception ex)
                 {
-                    // TODO
+                    Logger.Instance.LogFormat(LogType.Error, typeof(PrintTask), Resources.PrintTaskPrintPageException, _currentPageIndex);
+                    Logger.Instance.LogException(typeof(PrintTask), ex);
                 }
+
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintingDone, _currentPageIndex);
+
                 e.HasMorePages = hasMorePages;
-
-                //Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintingDone, _currentPageIndex);
-
-                if (!hasMorePages)
+                if (!e.HasMorePages)
                 {
                     ((PrintDocument)sender).PrintPage -= doc_PrintPage;
                 }
             }
+
+            #endregion
         }
 
         #endregion

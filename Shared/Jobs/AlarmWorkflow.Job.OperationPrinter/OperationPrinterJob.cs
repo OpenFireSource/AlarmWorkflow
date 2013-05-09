@@ -56,7 +56,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             printThread.Join();
         }
 
-        private bool GdiPrinterPrintAction(Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
+        private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
         {
             pageSettings.Landscape = false;
 
