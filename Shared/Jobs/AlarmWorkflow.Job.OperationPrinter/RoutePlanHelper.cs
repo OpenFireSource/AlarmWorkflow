@@ -35,12 +35,14 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
             // https://developers.google.com/maps/documentation/directions/?hl=de
 
+            string originText = source.ToString();
+            string destinationText = destination.ToString();
+
             // Create initial request
             StringBuilder sbInitialRequest = new StringBuilder();
-            sbInitialRequest.Append("http://maps.google.com/maps/api/directions/xml?origin=");
-            sbInitialRequest.AppendFormat("{0} {1},{2},{3}", source.Street, source.StreetNumber, source.ZipCode, source.City);
-            sbInitialRequest.Append("&destination=");
-            sbInitialRequest.AppendFormat("{0} {1},{2},{3}", destination.Street, destination.StreetNumber, destination.ZipCode, destination.City);
+            sbInitialRequest.Append("http://maps.google.com/maps/api/directions/xml?");
+            sbInitialRequest.AppendFormat("origin={0}", originText);
+            sbInitialRequest.AppendFormat("&destination={0}", destinationText);
             sbInitialRequest.Append("&sensor=false");
 
             WebRequest wreqInitial = WebRequest.Create(sbInitialRequest.ToString());
@@ -82,8 +84,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             StringBuilder sbContinuationRequest = new StringBuilder();
             sbContinuationRequest.Append("http://maps.google.com/maps/api/staticmap?");
             sbContinuationRequest.AppendFormat("size={0}x{1}", width, height);
-            sbContinuationRequest.Append("&sensor=false&path=weight:3|color:red|");
-            sbContinuationRequest.AppendFormat("enc:{0}", overviewE.Value);
+            sbContinuationRequest.AppendFormat("&sensor=false&path=weight:3|color:red|enc:{0}", overviewE.Value);
 
             WebRequest wr1 = WebRequest.Create(sbContinuationRequest.ToString());
             using (WebResponse res1 = wr1.GetResponse())
