@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Specialized.Printing;
 using AlarmWorkflow.Windows.ConfigurationContracts;
-
-// TODO: This editor currently only supports one queue. In future, it will return a string[] for multiple queues.
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
 {
@@ -15,17 +15,19 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
     [Export("PrintingQueueNamesTypeEditor", typeof(ITypeEditor))]
     public partial class PrintingQueueNamesTypeEditor : UserControl, ITypeEditor
     {
+        #region Constants
+
+        // Use "\n" because Environment.NewLine (\n\r) gets parsed to \n when deserializing XML. Alternative: Find fix.
+        private static readonly string NewLineString = "\n";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
         /// Gets the array of available printing queue names.
         /// </summary>
-        public IEnumerable<string> Names { get; private set; }
-        /// <summary>
-        /// Gets/sets the list of all selected printing queue names.
-        /// </summary>
-        //public List<string> SelectedNames { get; set; }
-        public string SelectedName { get; set; }
+        public IList<CheckedStringItem> PrintingQueues { get; private set; }
 
         #endregion
 
@@ -38,7 +40,11 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         {
             InitializeComponent();
 
-            Names = PrintingQueueManager.GetInstance().Entries.Select(pq => pq.Name).OrderBy(p => p);
+            PrintingQueues = PrintingQueueManager.GetInstance().Entries
+                .Select(pq => pq.Name)
+                .OrderBy(p => p)
+                .Select(n => new CheckedStringItem(n))
+                .ToList();
 
             this.DataContext = this;
         }
@@ -52,8 +58,26 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         /// </summary>
         public object Value
         {
-            get { return SelectedName; }
-            set { SelectedName = (string)value; }
+            get
+            {
+                var selected = PrintingQueues.Where(n => n.IsChecked).Select(n => n.Value);
+                return string.Join(NewLineString, selected);
+            }
+            set
+            {
+                string sv = (string)value;
+
+                string[] selected = new string[0];
+                if (!string.IsNullOrWhiteSpace(sv))
+                {
+                    selected = sv.Split(new string[] { NewLineString }, StringSplitOptions.None);
+                }
+
+                foreach (CheckedStringItem item in PrintingQueues)
+                {
+                    item.IsChecked = selected.Contains(item.Value);
+                }
+            }
         }
 
         /// <summary>
@@ -69,5 +93,6 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         }
 
         #endregion
+
     }
 }

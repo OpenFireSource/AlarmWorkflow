@@ -71,6 +71,7 @@
     <Compile Include="Security\AuthorizationMode.cs" />
     <Compile Include="Security\ICredentialConfirmationDialogService.cs" />
     <Compile Include="UIUtilities.cs" />
+    <Compile Include="ViewModels\CheckedItem.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

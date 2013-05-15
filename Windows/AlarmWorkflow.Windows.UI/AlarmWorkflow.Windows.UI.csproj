@@ -145,10 +145,14 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.xml" />
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml" />
+    <EmbeddedResource Include="settings.info.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AlarmWorkflow.Windows.UIContracts\AlarmWorkflow.Windows.UIContracts.csproj">
