@@ -3,7 +3,9 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Threading;
+using AlarmWorkflow.Job.OperationPrinter.Properties;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
@@ -77,6 +79,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
             if (!File.Exists(_templateFile))
             {
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.OperationPrintTemplateNotFoundError, _templateFile);
                 return false;
             }
 

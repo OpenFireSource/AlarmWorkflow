@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Job.OperationPrinter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find the template under &apos;{0}&apos;. Please check that the file exists..
+        /// </summary>
+        internal static string OperationPrintTemplateNotFoundError {
+            get {
+                return ResourceManager.GetString("OperationPrintTemplateNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while retrieving the route image. The route image will not be available..
         /// </summary>
         internal static string RoutePlanHelperError {
