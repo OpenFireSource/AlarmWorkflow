@@ -12,8 +12,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// </summary>
         public Operation Operation { get; set; }
         /// <summary>
-        /// Gets/sets the Base64-encoded route image file.
+        /// Gets/sets the full file path of the route image file.
         /// </summary>
-        public string RouteImageBase64 { get; set; }
+        public string RouteImageFilePath { get; set; }
     }
 }

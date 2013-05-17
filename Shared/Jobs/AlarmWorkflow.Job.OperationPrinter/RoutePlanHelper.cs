@@ -13,11 +13,11 @@ namespace AlarmWorkflow.Job.OperationPrinter
 {
     static class RoutePlanHelper
     {
-        internal static string GetRouteAsBase64(PropertyLocation destination)
+        internal static string GetRouteAsStoredFile(PropertyLocation destination)
         {
             try
             {
-                return GetRouteAsBase64Core(destination);
+                return GetRouteAsStoredFileCore(destination);
             }
             catch (Exception ex)
             {
@@ -27,7 +27,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             return null;
         }
 
-        private static string GetRouteAsBase64Core(PropertyLocation destination)
+        private static string GetRouteAsStoredFileCore(PropertyLocation destination)
         {
             PropertyLocation source = AlarmWorkflowConfiguration.Instance.FDInformation.Location;
             int width = 800;
@@ -84,6 +84,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             StringBuilder sbContinuationRequest = new StringBuilder();
             sbContinuationRequest.Append("http://maps.google.com/maps/api/staticmap?");
             sbContinuationRequest.AppendFormat("size={0}x{1}", width, height);
+            // TODO: Maybe allow configuring the thickness and color, especially for b/w-printers?
             sbContinuationRequest.AppendFormat("&sensor=false&path=weight:3|color:red|enc:{0}", overviewE.Value);
 
             WebRequest wr1 = WebRequest.Create(sbContinuationRequest.ToString());
@@ -91,11 +92,10 @@ namespace AlarmWorkflow.Job.OperationPrinter
             {
                 using (Image image = Image.FromStream(res1.GetResponseStream()))
                 {
-                    using (MemoryStream ms = new MemoryStream())
+                    using (FileStream tempFile = File.OpenWrite(Path.GetTempFileName()))
                     {
-                        image.Save(ms, ImageFormat.Png);
-
-                        return Convert.ToBase64String(ms.ToArray());
+                        image.Save(tempFile, ImageFormat.Png);
+                        return tempFile.Name;
                     }
                 }
             }

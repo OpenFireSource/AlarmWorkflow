@@ -1,8 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.OperationPrinter
 {
@@ -22,7 +24,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
         {
             TemplateObject to = new TemplateObject();
             to.Operation = operation;
-            to.RouteImageBase64 = RoutePlanHelper.GetRouteAsBase64(operation.Einsatzort);
+            to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(operation.Einsatzort);
 
             // Create HTML to render
             StringBuilder sb = new StringBuilder();
@@ -31,7 +33,11 @@ namespace AlarmWorkflow.Job.OperationPrinter
                 sb.AppendLine(ObjectFormatter.ToString(to, line));
             }
 
-            return RenderOperationWithBrowser(to, sb.ToString(), size);
+            Image image = RenderOperationWithBrowser(to, sb.ToString(), size);
+
+            TryDeleteRouteImageFile(to);
+
+            return image;
         }
 
         private static Image RenderOperationWithBrowser(TemplateObject to, string htmlToRender, Size size)
@@ -66,6 +72,18 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     w.DrawToBitmap(bitmap, new Rectangle(0, 0, w.Width, w.Height));
                     return (Image)bitmap.Clone();
                 }
+            }
+        }
+
+        private static void TryDeleteRouteImageFile(TemplateObject to)
+        {
+            try
+            {
+                File.Delete(to.RouteImageFilePath);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(typeof(TemplateRenderer), ex);
             }
         }
     }

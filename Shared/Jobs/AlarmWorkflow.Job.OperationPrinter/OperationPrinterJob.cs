@@ -65,6 +65,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             Image rendered = TemplateRenderer.RenderOperation(_operation, _templateFile, pageBounds.Size);
             graphics.DrawImage(rendered, pageBounds.Location);
 
+            // TODO: Support printing more than one page. Clip contents at page boundaries and continue from there on the next page.
             // No more pages --> false.
             return false;
         }
