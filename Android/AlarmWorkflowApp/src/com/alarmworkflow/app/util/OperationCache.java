@@ -50,7 +50,7 @@ public class OperationCache {
 	 */
 	public Operation[] getRecentOperations(int maxAge, int amount){
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, -maxAge);
+		cal.add(Calendar.DATE, -(maxAge * 24 * 60));
 		
 		ArrayList<Operation> list = new ArrayList<Operation>();
 		for (int i = 0; i < _operations.size(); i++) {

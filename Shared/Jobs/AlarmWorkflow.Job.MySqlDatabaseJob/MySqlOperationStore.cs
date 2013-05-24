@@ -97,7 +97,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                             continue;
                         }
                         // If we shall ignore the age, or obey the maximum age...
-                        if (maxAge > 0 && (DateTime.Now - data.Timestamp).TotalDays > maxAge)
+                        if (maxAge > 0 && (DateTime.Now - data.Timestamp).TotalMinutes > maxAge)
                         {
                             continue;
                         }
