@@ -5,6 +5,14 @@ using AlarmWorkflow.Job.MySqlDatabaseJob.Data;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
+////////////////////////////////
+// TODO: Remove Operation.IsAcknowledged (redundant!)
+// TODO: Remove Operation.DefaultAcknowledgingTimespan (not used and not necessary!)
+// TODO: OperationData.Timestamp is redundant??? --> Keep for better performance (no deserialization needed)?
+// TODO: OperationData.Timestamp shall be set to Operation.TimestampIncome!!!
+// TODO: --> should all be done when updating tables!
+////////////////////////////////
+
 namespace AlarmWorkflow.Job.MySqlDatabaseJob
 {
     [Export("MySqlOperationStore", typeof(IOperationStore))]
@@ -114,12 +122,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             {
                 using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
-                    DateTime timestamp = (operation.Timestamp != DateTime.MinValue) ? operation.Timestamp : DateTime.Now;
-
                     OperationData data = new OperationData()
                     {
                         OperationId = operation.OperationGuid,
-                        Timestamp = timestamp,
+                        Timestamp = operation.TimestampIncome,
                         IsAcknowledged = operation.IsAcknowledged,
                         Serialized = Utilities.Serialize(operation),
                     };
