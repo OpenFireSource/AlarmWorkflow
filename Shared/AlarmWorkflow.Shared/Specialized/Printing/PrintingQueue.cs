@@ -85,6 +85,28 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
             get { return string.IsNullOrWhiteSpace(PrinterName); }
         }
 
+        /// <summary>
+        /// Returns whether or not this instance is properly configured.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>An instance is properly configured, if:
+        /// It is a local print server (no <see cref="PrintServer"/> specified) and <see cref="PrinterName"/> either has a value or not.
+        /// It is a remote print server (<see cref="PrintServer"/> has a valid value, not empty), and <see cref="PrinterName"/> is specified (not empty).</remarks>
+        public bool IsValid
+        {
+            get
+            {
+                if (IsLocalPrintServer)
+                {
+                    return true;
+                }
+                else
+                {
+                    return !string.IsNullOrWhiteSpace(this.PrinterName);
+                }
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -101,6 +123,20 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Assembles and returns the printer name.
+        /// </summary>
+        /// <returns>If the <see cref="PrintServer"/>-property is set, it prefixes the printer in a format such as "\\(PrintServer)\",
+        /// so that the full name equals to "\\(PrintServer)\(PrinterName)". Otherwise, only <see cref="PrinterName"/> is returned.</returns>
+        public string GetPrinterName()
+        {
+            if (!string.IsNullOrWhiteSpace(PrintServer))
+            {
+                return string.Format(@"\\{0}\{1}", PrintServer, PrinterName);
+            }
+            return PrinterName;
+        }
 
         /// <summary>
         /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.

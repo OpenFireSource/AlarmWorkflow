@@ -24,10 +24,16 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
             Assertions.AssertNotNull(queue, "queue");
             Assertions.AssertNotNull(printAction, "printAction");
 
+            if (!queue.IsValid)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, typeof(GdiPrinter), Resources.GdiPrinterPrintingQueueIsNotValid, queue.Name);
+                return;
+            }
+
             PrintDocument doc = new PrintDocument();
             if (!queue.IsDefaultPrinter)
             {
-                doc.PrinterSettings.PrinterName = queue.PrinterName;
+                doc.PrinterSettings.PrinterName = queue.GetPrinterName();
             }
 
             int desiredCopyCount = queue.CopyCount;

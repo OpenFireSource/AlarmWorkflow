@@ -285,4 +285,7 @@
   <data name="UsedPrinterDoesNotSupportThatMuchCopies" xml:space="preserve">
     <value>The selected printer does not support printing more than {0} copies natively (you requested: {1}). Using alternative method of printing copies.</value>
   </data>
+  <data name="GdiPrinterPrintingQueueIsNotValid" xml:space="preserve">
+    <value>The printing queue '{0}' is not valid. Printing will be canceled. Please check if PrintServer and PrinterName are properly configured.</value>
+  </data>
 </root>

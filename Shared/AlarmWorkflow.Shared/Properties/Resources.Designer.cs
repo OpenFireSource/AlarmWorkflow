@@ -214,6 +214,15 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The printing queue &apos;{0}&apos; is not valid. Printing will be canceled. Please check if PrintServer and PrinterName are properly configured..
+        /// </summary>
+        internal static string GdiPrinterPrintingQueueIsNotValid {
+            get {
+                return ResourceManager.GetString("GdiPrinterPrintingQueueIsNotValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An exception occurred while printing using GDI..
         /// </summary>
         internal static string GdiPrinterPrintTaskException {
