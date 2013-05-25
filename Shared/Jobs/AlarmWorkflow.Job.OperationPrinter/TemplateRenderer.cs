@@ -63,8 +63,9 @@ namespace AlarmWorkflow.Job.OperationPrinter
                 int realWidth = (suggestedWidth < size.Width) ? suggestedWidth : size.Width;
                 int realHeight = (suggestedHeight < size.Height) ? suggestedHeight : size.Height;
 
-                w.Width = realWidth;
-                w.Height = realHeight;
+                // If any of the Size-properties is set to zero, use the full size part.
+                w.Width = (realWidth > 0) ? realWidth : suggestedWidth;
+                w.Height = (realHeight > 0) ? realHeight : suggestedHeight;
 
                 // Get a Bitmap representation of the webpage as it's rendered in the WebBrowser control
                 using (Bitmap bitmap = new Bitmap(w.Width, w.Height))

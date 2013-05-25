@@ -78,8 +78,9 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
         /// <param name="marginBounds">The area between the margins.</param>
         /// <param name="pageBounds">The total area of the paper.</param>
         /// <param name="pageSettings">The <see cref="PageSettings"/> for the page.</param>
+        /// <param name="state">A custom user state object. May be used to store correlation information across multiple pages.</param>
         /// <returns>Whether or not there are still pages to be printed. Returns true if more, or false if no more pages are to be printed.</returns>
-        public delegate bool PrintDelegate(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings);
+        public delegate bool PrintDelegate(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings, ref object state);
 
         /// <summary>
         /// Encapsulates one single GDI print task. Uses a custom <see cref="PrintDelegate"/> to print.
@@ -90,6 +91,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
 
             private PrintDelegate _printAction;
             private int _currentPageIndex = 0;
+            private object _state;
 
             #endregion
 
@@ -115,7 +117,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
 
                 try
                 {
-                    hasMorePages = _printAction(_currentPageIndex, e.Graphics, e.MarginBounds, e.PageBounds, e.PageSettings);
+                    hasMorePages = _printAction(_currentPageIndex, e.Graphics, e.MarginBounds, e.PageBounds, e.PageSettings, ref _state);
                 }
                 catch (Exception ex)
                 {

@@ -58,16 +58,28 @@ namespace AlarmWorkflow.Job.OperationPrinter
             printThread.Join();
         }
 
-        private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings)
+        private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings, ref object state)
         {
             pageSettings.Landscape = false;
 
-            Image rendered = TemplateRenderer.RenderOperation(_operation, _templateFile, pageBounds.Size);
-            graphics.DrawImage(rendered, pageBounds.Location);
+            Image renderedImage = state as Image;
+            if (renderedImage == null)
+            {
+                // Store the whole rendered image and share it across multiple pages.
+                Size renderBounds = new Size(pageBounds.Width, 0);
 
-            // TODO: Support printing more than one page. Clip contents at page boundaries and continue from there on the next page.
-            // No more pages --> false.
-            return false;
+                renderedImage = TemplateRenderer.RenderOperation(_operation, _templateFile, renderBounds);
+                state = renderedImage;
+            }
+
+            // Calculate the source rectangle (the portion of the rendered image) depending on which page we are in.
+            int pagesNeeded = (int)Math.Ceiling((double)renderedImage.Height / (double)pageBounds.Size.Height);
+            Rectangle destRect = pageBounds;
+            Rectangle srcRect = new Rectangle(0, pageBounds.Height * (pageIndex - 1), pageBounds.Width, pageBounds.Height);
+
+            graphics.DrawImage(renderedImage, destRect, srcRect, GraphicsUnit.Pixel);
+
+            return pageIndex < pagesNeeded;
         }
 
         bool IJob.Initialize()
