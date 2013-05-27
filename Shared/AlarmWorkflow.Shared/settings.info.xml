@@ -23,6 +23,9 @@
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource, AlarmWorkflow.Shared"
              Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
 
+    <Setting Name="PrintingQueuesConfiguration" DisplayText="Druckerwege-Konfiguration" Category="Globale Druckkonfiguration" Editor="PrintingQueuesConfigurationTypeEditor"
+             Description="Konfiguriert die verschiedenen Druckerwege, an welche Druckaufträge gesendet werden können." />
+    
   </Identifier>
 
 </SettingsDisplayConfiguration>

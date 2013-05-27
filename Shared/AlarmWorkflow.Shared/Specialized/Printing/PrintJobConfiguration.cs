@@ -8,6 +8,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
     /// Provides a helper class that reads the printing settings for a single print job from an assembly's settings.
     /// A printing configuration may consist of several print jobs, one for each printer or multiple jobs per printer, or similar.
     /// </summary>
+    [Obsolete("Use the new 'PrintingQueueManager' instead!")]
     public class PrintJobConfiguration
     {
         #region Constants

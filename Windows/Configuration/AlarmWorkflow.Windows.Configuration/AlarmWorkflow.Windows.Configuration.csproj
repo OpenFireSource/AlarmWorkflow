@@ -68,7 +68,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="ServiceHelper.cs" />
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
@@ -107,6 +106,16 @@
     <Compile Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml.cs">
       <DependentUpon>ReplaceDictionaryTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml.cs">
+      <DependentUpon>PrintingQueueNamesTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesConfigurationTypeEditor.xaml.cs">
+      <DependentUpon>PrintingQueuesConfigurationTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesEditor.xaml.cs">
+      <DependentUpon>PrintingQueuesEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesEditorViewModel.cs" />
     <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
       <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -200,6 +209,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueuesConfigurationTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueuesEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TypeEditors\StringArrayTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -283,6 +304,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\OFSlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TypeEditors\PrintHS.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

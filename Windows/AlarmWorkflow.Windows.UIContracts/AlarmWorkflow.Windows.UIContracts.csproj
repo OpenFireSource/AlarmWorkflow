@@ -52,7 +52,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Converters\GoogleMapsProvider.cs" />
+    <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\OperationToDestinationStringConverter.cs" />
     <Compile Include="Converters\OperationToRouteImageConverter.cs" />
     <Compile Include="Extensibility\IOperationViewer.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Security\AuthorizationMode.cs" />
     <Compile Include="Security\ICredentialConfirmationDialogService.cs" />
     <Compile Include="UIUtilities.cs" />
+    <Compile Include="ViewModels\CheckedItem.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing.PrintingQueueNamesTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" Content="Wählen Sie die Drucker aus, auf denen gedruckt werden soll:" />
+        
+        <ItemsControl Grid.Row="1" Margin="2" ItemsSource="{Binding PrintingQueues}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Value, Mode=OneTime}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

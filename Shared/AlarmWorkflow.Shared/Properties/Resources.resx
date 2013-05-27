@@ -255,4 +255,37 @@
   <data name="ServiceProviderRegisteredService" xml:space="preserve">
     <value>Registered service type '{0}' (instance type: {1}).</value>
   </data>
+  <data name="PrintingQueueCopyCountMustBeGreaterThanZero" xml:space="preserve">
+    <value>The copy count must be greater than zero!</value>
+  </data>
+  <data name="PrintingQueueNameMustNotBeEmpty" xml:space="preserve">
+    <value>The printing queue must have a valid name!</value>
+  </data>
+  <data name="PrintingQueueParseErrorCopyCountIsInvalid" xml:space="preserve">
+    <value>Encountered invalid copy count for printing queue '{0}'. Using default of '{1}' for this queue.</value>
+  </data>
+  <data name="PrintingQueueParseErrorNameIsInvalid" xml:space="preserve">
+    <value>Ignoring printing queue with invalid name. Please check configuration!</value>
+  </data>
+  <data name="GdiPrinterPrintTaskException" xml:space="preserve">
+    <value>An exception occurred while printing using GDI.</value>
+  </data>
+  <data name="PrintingDone" xml:space="preserve">
+    <value>Done printing of page {0}.</value>
+  </data>
+  <data name="PrintIterationEnd" xml:space="preserve">
+    <value>Finished iteration.</value>
+  </data>
+  <data name="PrintIterationStart" xml:space="preserve">
+    <value>Beginning print iteration {0}/{1}...</value>
+  </data>
+  <data name="PrintTaskPrintPageException" xml:space="preserve">
+    <value>An error occurred while printing page '{0}'. The printing task will be aborted.</value>
+  </data>
+  <data name="UsedPrinterDoesNotSupportThatMuchCopies" xml:space="preserve">
+    <value>The selected printer does not support printing more than {0} copies natively (you requested: {1}). Using alternative method of printing copies.</value>
+  </data>
+  <data name="GdiPrinterPrintingQueueIsNotValid" xml:space="preserve">
+    <value>The printing queue '{0}' is not valid. Printing will be canceled. Please check if PrintServer and PrinterName are properly configured.</value>
+  </data>
 </root>
