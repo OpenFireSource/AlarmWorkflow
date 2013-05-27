@@ -11,6 +11,12 @@ General
   * New property: 'Operation.TimestampIncome' for timestamp of alarm income
   * Removed unnecessary settings from WindowsUI
   * All parsers are now in one assembly to improve startup performance and less confusion
+  * Fixed an developers' inconvenience in MySqlOperationStore
+  * New job: OperationPrinterJob which doesn't require a UI and uses HTML for report layouting
+
+Parsers
+
+  * New parser: LFSOffenbachParser
 
 Diagnostics
 
@@ -20,6 +26,7 @@ UI
 
   * Added error report view to ConfigurationEditor
   * Added "Browser" widget for CustomOperationViewer
+  * Removed "PrintingUIJob" (superseeded by OperationPrinterJob)
 
 Fixes since v0.9.0.0
 --------------------
@@ -31,6 +38,4 @@ Issues resolved
 Other fixes
 
   * AlarmSourcePrinterJob respects CopyCount from settings
-  * New algorithm for printing in PrintingUIJob
-  * Various fixes and reliability updates in PrintingUIJob
   * Fixed "description" constant for Prowl
