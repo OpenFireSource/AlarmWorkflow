@@ -1,0 +1,61 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:presentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <SolidColorBrush x:Key="BorderColor" Color="#777" presentationOptions:Freeze="True" />
+    
+    <Style x:Key="DefaultBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="{StaticResource BorderColor}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="3" />
+    </Style>
+    
+    <!-- LEVEL COLORS -->
+    <SolidColorBrush x:Key="DebugLevelColor" Color="SkyBlue" presentationOptions:Freeze="True" />
+    <SolidColorBrush x:Key="InfoLevelColor" Color="LightGreen" presentationOptions:Freeze="True" />
+    <SolidColorBrush x:Key="WarnLevelColor" Color="Moccasin" presentationOptions:Freeze="True" />
+    <SolidColorBrush x:Key="ErrorLevelColor" Color="Salmon" presentationOptions:Freeze="True" />
+    <SolidColorBrush x:Key="FatalLevelColor" Color="DarkRed" presentationOptions:Freeze="True" />
+    <Style x:Key="LogItemDataGridRowStyle" TargetType="{x:Type DataGridRow}">
+        <Style.Triggers>
+
+            <!-- Debug -->
+            <DataTrigger Binding="{Binding Level.Value, Mode=OneWay}" Value="30000">
+                <Setter Property="Background" Value="{StaticResource DebugLevelColor}" />
+            </DataTrigger>
+
+            <!-- Info -->
+            <DataTrigger Binding="{Binding Level.Value, Mode=OneWay}" Value="40000">
+                <Setter Property="Background" Value="{StaticResource InfoLevelColor}" />
+            </DataTrigger>
+
+            <!-- Warn -->
+            <DataTrigger Binding="{Binding Level.Value, Mode=OneWay}" Value="60000">
+                <Setter Property="Background" Value="{StaticResource WarnLevelColor}" />
+            </DataTrigger>
+
+            <!-- Error -->
+            <DataTrigger Binding="{Binding Level.Value, Mode=OneWay}" Value="70000">
+                <Setter Property="Background" Value="{StaticResource ErrorLevelColor}" />
+            </DataTrigger>
+
+            <!-- Fatal -->
+            <DataTrigger Binding="{Binding Level.Value, Mode=OneWay}" Value="110000">
+                <Setter Property="Background" Value="{StaticResource FatalLevelColor}" />
+            </DataTrigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LogViewStyle" TargetType="Button">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding LogView}" Value="File">
+                <Setter Property="Content" Value="Zu Livelogging wechseln"></Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding LogView}" Value="Live">
+                <Setter Property="Content" Value="Zu Filelogging wechseln"></Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>
