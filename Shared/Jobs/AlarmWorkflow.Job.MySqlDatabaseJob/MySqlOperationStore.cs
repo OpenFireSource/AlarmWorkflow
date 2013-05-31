@@ -74,7 +74,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
                     Operation operation = Utilities.Deserialize<Operation>(data.Serialized);
                     operation.Id = data.Id;
-                    operation.Timestamp = data.Timestamp;
+                    operation.TimestampIncome = data.Timestamp;
 
                     return operation;
                 }
