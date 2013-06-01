@@ -1,19 +1,18 @@
 ﻿using System;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.AlarmSource.Sms
 {
-    [Export("DefaultParser", typeof(ISmsParser))]
-    class DefaultParser : ISmsParser
+    [Export("DefaultSMSParser", typeof(IParser))]
+    class DefaultSMSParser : IParser
     {
         #region ISmsParser Members
 
-        Operation ISmsParser.Parse(string smsText)
+        Operation IParser.Parse(string[] lines)
         {
-            Operation operation = new Operation();
-            operation.Timestamp = DateTime.Now;
-            operation.Comment = smsText;
-
+            string text = string.Join("", lines);
+            Operation operation = new Operation {Timestamp = DateTime.Now, Comment = text};
             return operation;
         }
 

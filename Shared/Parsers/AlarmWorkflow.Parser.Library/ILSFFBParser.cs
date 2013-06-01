@@ -2,14 +2,15 @@
 using System.Linq;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSFFBParser
 {
     /// <summary>
     /// Description of ILSFFBParser.
     /// </summary>
-    [Export("ILSFFBParser", typeof(IFaxParser))]
-    public class ILSFFBParser : IFaxParser
+    [Export("ILSFFBParser", typeof(IParser))]
+    public class ILSFFBParser : IParser
     {
         #region Fields
         
@@ -22,9 +23,9 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
         
         #endregion
         
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             CurrentSection section = CurrentSection.AAnfang;

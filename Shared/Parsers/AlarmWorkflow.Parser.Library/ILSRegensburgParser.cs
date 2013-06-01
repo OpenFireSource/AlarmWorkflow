@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSRosenheimParser
+namespace AlarmWorkflow.Parser.ILSRegensburgParser
 {
     /// <summary>
-    /// Provides a parser that parses faxes from the ILS Rosenheim.
+    /// Provides a parser that parses faxes from the ILS Regensburg.
     /// </summary>
-    [Export("ILSRosenheimParser", typeof (IParser))]
-    public class ILSRosenheimParser : IParser
+    [Export("ILSRegensburgParser", typeof (IParser))]
+    public class ILSRegensburgParser : IParser
     {
         #region Fields
 
         private readonly string[] _keywords = new[]
             {
-                "Einsatz-Nr.", "Name", "Straße", "Abschnitt",
-                "Ortsteil", "Kreuzung", "Objekt", "Schlagw.",
-                "Stichwort", "Priorität", "Alarmiert", "gef. Gerät"
+                "Einsatznummer", "Name", "Straße", "Abschnitt", "Ort",
+                "Gemeinde", "Kreuzung", "Objekt", "Schlagw.",
+                "Stichwort", "Prio.", "Alarmiert", "gef. Gerät"
             };
 
         #endregion
@@ -83,7 +84,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                             {
                                 switch (prefix)
                                 {
-                                    case "EINSATZ-NR.":
+                                    case "EINSATZNUMMER":
                                         operation.OperationNumber = msg;
                                         break;
                                 }
@@ -99,29 +100,45 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                     case "STRAßE":
                                         {
                                             operation.Einsatzort.Street = msg;
-                                            int empty = msg.LastIndexOf(" ", StringComparison.Ordinal);
+                                            int empty = msg.LastIndexOf("Haus-Nr.:", StringComparison.Ordinal);
                                             if (empty != -1 && empty != msg.Length)
                                             {
                                                 operation.Einsatzort.Street = msg.Substring(0, empty).Trim();
-                                                operation.Einsatzort.StreetNumber = msg.Substring(empty).Trim();
+                                                operation.Einsatzort.StreetNumber = GetMessageText(msg.Substring(empty).Trim());
                                             }
                                         }
                                         break;
-                                    case "ORTSTEIL":
+                                    case "ORT":
                                         {
-                                            operation.Einsatzort.City = msg;
-                                            // The City-text often contains a dash after which the administrative city appears multiple times (like "City A - City A City A").
-                                            // However we can (at least with google maps) omit this information without problems!
-                                            int dashIndex = msg.IndexOf('-');
-                                            if (dashIndex != -1)
+                                            Match zip = Regex.Match(msg, @"[0-9]{5}");
+                                            if (zip.Success)
                                             {
-                                                // Ignore everything after the dash
-                                                operation.Einsatzort.City = operation.Einsatzort.City.Substring(0, dashIndex);
+                                                operation.Einsatzort.ZipCode = zip.Value;
+                                                operation.Einsatzort.City = msg.Replace(zip.Value, "").Trim();
                                             }
+                                            else
+                                            {
+                                                operation.Einsatzort.City = msg;
+                                            }
+                                            break;
+                                        }
+                                    case "GEMEINDE":
+                                        {
+                                            operation.CustomData.Add("GEMEINDE", msg);
                                         }
                                         break;
                                     case "OBJEKT":
-                                        operation.Einsatzort.Property = msg;
+                                        if (msg.Contains("EPN:"))
+                                        {
+                                            string epn = msg.Substring(msg.IndexOf("EPN", StringComparison.Ordinal));
+                                            epn = GetMessageText(epn, "EPN");
+                                            operation.OperationPlan = epn;
+                                            operation.Einsatzort.Property = msg.Substring(0, msg.IndexOf("EPN", StringComparison.Ordinal));
+                                        }
+                                        else
+                                        {
+                                            operation.Einsatzort.Property = msg;
+                                        }
                                         break;
                                     case "KREUZUNG":
                                         operation.Einsatzort.Intersection = msg;
@@ -139,7 +156,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
                                     case "STICHWORT":
                                         operation.Keywords.EmergencyKeyword = msg;
                                         break;
-                                    case "PRIORITÄT":
+                                    case "PRIO.":
                                         operation.Priority = msg;
                                         break;
                                 }
@@ -265,7 +282,7 @@ namespace AlarmWorkflow.Parser.ILSRosenheimParser
         /// <param name="line"></param>
         /// <param name="prefix">The prefix that is to be removed (optional).</param>
         /// <returns></returns>
-        private string GetMessageText(string line, string prefix)
+        private string GetMessageText(string line, string prefix = null)
         {
             if (prefix == null)
             {

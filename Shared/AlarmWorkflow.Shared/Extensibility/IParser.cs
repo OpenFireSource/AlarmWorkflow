@@ -1,14 +1,14 @@
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.AlarmSource.Fax
+namespace AlarmWorkflow.Shared.Extensibility
 {
     /// <summary>
-    /// Defines a parser which parses an incoming alarmfax.
+    /// Defines a parser which parses a string[].
     /// </summary>
-    public interface IFaxParser
+    public interface IParser
     {
         /// <summary>
-        /// Parses the contents of an analysed alarmfax into an <see cref="Operation"/>-representation.
+        /// Parses the contents of the given lines into an <see cref="Operation"/>-representation.
         /// </summary>
         /// <param name="lines">The line contents of the analysed file.</param>
         /// <returns>The operation-instance that contains the data from the fax.</returns>

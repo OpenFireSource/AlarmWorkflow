@@ -14,7 +14,12 @@
     <Setting Name="MailSubject" DisplayText="Betreff" Category="E-Mail" />
     <Setting Name="MailSender" DisplayText="Absender (Mailadresse)" Category="E-Mail" />
 
+    
+    <Setting Name="MailParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
+               Description="Welcher Parser die Informationen aus der Mail auswertet." />
 
+    <Setting Name="AnalyseAttachment" DisplayText="Anhänge auswerten" Category="Anhang" Description="Gibt an ob anstatt der Mailinhalts der Inhalt eines Anhangs ausgewertet werden soll."/>
+    <Setting Name="AttachmentName" DisplayText="Anhangname" Category="Anhang" Description="Der Name des Anhangs welcher ausgewertet werden soll." />
   </Identifier>
 
 </SettingsDisplayConfiguration>
