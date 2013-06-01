@@ -6,7 +6,7 @@ using AlarmWorkflow.Shared.Extensibility;
 namespace AlarmWorkflow.Parser.LKRKleveParser
 {
     /// <summary>
-    /// Description of ILSFFBParser.
+    /// Description of LSTKleveParser.
     /// </summary>
     [Export("LSTKleveParser", typeof(IParser))]
     public class LSTKleveParser : IParser

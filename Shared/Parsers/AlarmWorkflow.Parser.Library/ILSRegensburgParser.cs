@@ -10,7 +10,7 @@ using AlarmWorkflow.Shared.Extensibility;
 namespace AlarmWorkflow.Parser.ILSRegensburgParser
 {
     /// <summary>
-    /// Provides a parser that parses faxes from the ILS Rosenheim.
+    /// Provides a parser that parses faxes from the ILS Regensburg.
     /// </summary>
     [Export("ILSRegensburgParser", typeof (IParser))]
     public class ILSRegensburgParser : IParser
