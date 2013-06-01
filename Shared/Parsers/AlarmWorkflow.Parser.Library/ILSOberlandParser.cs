@@ -3,11 +3,12 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSOberlandParser
 {
-    [Export("ILSOberlandParser", typeof(IFaxParser))]
-    public class ILSOberlandParser : IFaxParser
+    [Export("ILSOberlandParser", typeof(IParser))]
+    public class ILSOberlandParser : IParser
     {
         #region Constants
 
@@ -147,9 +148,9 @@ namespace AlarmWorkflow.Parser.ILSOberlandParser
         }
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
 

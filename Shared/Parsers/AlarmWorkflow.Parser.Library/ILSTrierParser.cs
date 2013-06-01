@@ -2,18 +2,19 @@
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSTrierParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILSTrierParser.
     /// </summary>
-    [Export("ILSTrierParser", typeof(IFaxParser))]
-    public class ILSTrierParser : IFaxParser
+    [Export("ILSTrierParser", typeof(IParser))]
+    public class ILSTrierParser : IParser
     {
       
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             lines = Utilities.Trim(lines);

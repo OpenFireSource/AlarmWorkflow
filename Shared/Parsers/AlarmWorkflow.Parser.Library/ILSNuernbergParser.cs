@@ -3,14 +3,15 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSNuernbergParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Nuernberg.
     /// </summary>
-    [Export("ILSNuernbergParser", typeof(IFaxParser))]
-    internal sealed class ILSNuernbergParser : IFaxParser
+    [Export("ILSNuernbergParser", typeof(IParser))]
+    internal sealed class ILSNuernbergParser : IParser
     {
         #region Constants
 
@@ -129,9 +130,9 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
 
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
 

@@ -5,14 +5,15 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.IlsAnsbachParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILS Ansbach.
     /// </summary>
-    [Export("IlsAnsbachParser", typeof(IFaxParser))]
-    sealed class IlsAnsbachParser : IFaxParser
+    [Export("IlsAnsbachParser", typeof(IParser))]
+    sealed class IlsAnsbachParser : IParser
     {
         #region Constants
 
@@ -115,9 +116,9 @@ namespace AlarmWorkflow.Parser.IlsAnsbachParser
 
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             OperationResource last = new OperationResource();

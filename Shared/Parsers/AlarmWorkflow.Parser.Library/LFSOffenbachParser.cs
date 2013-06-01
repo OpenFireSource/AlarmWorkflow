@@ -3,11 +3,12 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.LFSOffenbachParser
 {
-    [Export("LFSOffenbachParser", typeof(IFaxParser))]
-    class LFSOffenbachParser : IFaxParser
+    [Export("LFSOffenbachParser", typeof(IParser))]
+    class LFSOffenbachParser : IParser
     {
         #region Fields
 
@@ -19,9 +20,9 @@ namespace AlarmWorkflow.Parser.LFSOffenbachParser
 
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             CurrentSection section = CurrentSection.AAnfang;

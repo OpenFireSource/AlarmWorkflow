@@ -3,14 +3,15 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSAllgaeuParser
 {
     /// <summary>
     /// Provides a parser that parses faxes from the ILSAllgaeuParser.
     /// </summary>
-    [Export("ILSAllgaeuParser", typeof(IFaxParser))]
-    sealed class ILSAllgaeuParser : IFaxParser
+    [Export("ILSAllgaeuParser", typeof(IParser))]
+    sealed class ILSAllgaeuParser : IParser
     {
 
         #region Constants
@@ -154,9 +155,9 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
         }
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             OperationResource last = new OperationResource();

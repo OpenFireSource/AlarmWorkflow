@@ -3,11 +3,12 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Parser.ILSAugsburgParser
 {
-    [Export("ILSAugsburgParser", typeof(IFaxParser))]
-    public class ILSAugsburgParser : IFaxParser
+    [Export("ILSAugsburgParser", typeof(IParser))]
+    public class ILSAugsburgParser : IParser
     {
         #region Constants
 
@@ -154,9 +155,9 @@ namespace AlarmWorkflow.Parser.ILSAugsburgParser
         }
         #endregion
 
-        #region IFaxParser Members
+        #region IParser Members
 
-        Operation IFaxParser.Parse(string[] lines)
+        Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
             OperationResource last = new OperationResource();
