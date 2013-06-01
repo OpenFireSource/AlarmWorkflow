@@ -9,7 +9,7 @@ namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
     /// <summary>
     /// Provides a parser that parses faxes and mails from the ILS Darmstadt-Dieburg.
     /// </summary>
-    [Export("IlsAnsbachParser", typeof(IParser))]
+    [Export("ILSDarmstadtDieburgParser", typeof(IParser))]
     class ILSDarmstadtDieburgParser : IParser
     {
         #region Fields
