@@ -11,7 +11,7 @@ using S22.Imap;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
-    [Export("MailAlarmSource", typeof (IAlarmSource))]
+    [Export("MailAlarmSource", typeof(IAlarmSource))]
     internal class MailAlarmSource : IAlarmSource
     {
         #region Fields
@@ -140,7 +140,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                             byte[] buffer = new byte[attachment.ContentStream.Length];
                             attachment.ContentStream.Read(buffer, 0, buffer.Length);
                             string content = Encoding.UTF8.GetString(buffer);
-                            string[] lines = content.Split(Convert.ToChar(Environment.NewLine.ToCharArray()));
+                            string[] lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                             operation = _mailParser.Parse(lines);
                         }
                     }
@@ -151,7 +151,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 }
                 else
                 {
-                   operation= _mailParser.Parse(message.Body.Split(Environment.NewLine.ToCharArray()));
+                    operation = _mailParser.Parse(message.Body.Split(new string[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries));
                 }
                 if (operation != null)
                 {
