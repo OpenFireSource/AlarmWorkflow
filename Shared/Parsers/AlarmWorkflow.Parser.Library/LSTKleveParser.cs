@@ -8,8 +8,8 @@ namespace AlarmWorkflow.Parser.LKRKleveParser
     /// <summary>
     /// Description of ILSFFBParser.
     /// </summary>
-    [Export("LKRKleveParser", typeof(IParser))]
-    public class LKRKleveParser : IParser
+    [Export("LSTKleveParser", typeof(IParser))]
+    public class LSTKleveParser : IParser
     {
         #region Fields
 

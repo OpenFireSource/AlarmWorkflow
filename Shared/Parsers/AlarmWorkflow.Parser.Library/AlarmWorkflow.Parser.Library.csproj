@@ -62,7 +62,7 @@
     <Compile Include="ILSTraunsteinParser.cs" />
     <Compile Include="ILSTrierParser.cs" />
     <Compile Include="LFSOffenbachParser.cs" />
-    <Compile Include="LKRKleveParser.cs" />
+    <Compile Include="LSTKleveParser.cs" />
     <Compile Include="FEZMuenchenLandParser.cs" />
     <Compile Include="NoParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
