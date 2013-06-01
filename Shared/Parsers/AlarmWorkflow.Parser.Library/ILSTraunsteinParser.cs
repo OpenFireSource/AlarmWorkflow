@@ -110,7 +110,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
             }
             return zipCode;
         }
-        private bool GetSection(String line, ref CurrentSection section, out bool keywordsOnly)
+        private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
             {
@@ -148,7 +148,6 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                 keywordsOnly = false;
                 return true;
             }
-            keywordsOnly = true;
             return false;
         }
         #endregion
@@ -162,6 +161,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
 
             lines = Utilities.Trim(lines);
 
+            bool keywordsOnly = true;
             CurrentSection section = CurrentSection.AHeader;
             for (int i = 0; i < lines.Length; i++)
             {
@@ -173,11 +173,9 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                         continue;
                     }
 
-                    // Try to parse the header and extract date and time if possible
-                    operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
+                    
 
-                    bool keywordsOnly;
-                    if (GetSection(line.Trim(), ref section, out keywordsOnly))
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
                     }
@@ -224,6 +222,12 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                                         operation.CustomData["Termin"] = msg;
                                         break;
                                     case "EINSATZNUMMER":
+                                        // Try to parse the header and extract date and time if possible
+                                        operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
+                                        if (msg.ToUpperInvariant().Contains("ALARMZEIT"))
+                                        {
+                                            msg = msg.Substring(0, msg.ToUpperInvariant().IndexOf("ALARMZEIT")).Trim();
+                                        }
                                         operation.OperationNumber = msg;
                                         break;
                                 }
