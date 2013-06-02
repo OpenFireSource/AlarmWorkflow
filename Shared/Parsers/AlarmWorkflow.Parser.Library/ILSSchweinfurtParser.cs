@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS Schweinfurt.
-    /// </summary>
-    [Export("ILSSchweinfurtParser", typeof (IParser))]
-    internal sealed class ILSSchweinfurtParser : IParser
+    [Export("ILSSchweinfurtParser", typeof(IParser))]
+    sealed class ILSSchweinfurtParser : IParser
     {
         #region Constants
 
@@ -24,7 +20,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
             };
 
         #endregion
-        
+
         #region Methods
 
         private DateTime ReadFaxTimestamp(string line, DateTime fallback)
@@ -159,7 +155,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                 keywordsOnly = false;
                 return true;
             }
-            
+
             return false;
         }
 
@@ -174,7 +170,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
 
             lines = Utilities.Trim(lines);
             CurrentSection section = CurrentSection.AHeader;
-			bool keywordsOnly = true; 
+            bool keywordsOnly = true;
             for (int i = 0; i < lines.Length; i++)
             {
                 try
@@ -189,8 +185,8 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
 
-                    
-                    
+
+
                     if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
@@ -396,7 +392,7 @@ namespace AlarmWorkflow.Parser.ILSSchweinfurtParser
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
                                         last.RequestedEquipment.Add(msg);
-                                    }                                   
+                                    }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 

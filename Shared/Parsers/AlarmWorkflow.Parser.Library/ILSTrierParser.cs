@@ -1,19 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSTrierParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILSTrierParser.
-    /// </summary>
     [Export("ILSTrierParser", typeof(IParser))]
-    public class ILSTrierParser : IParser
+    class ILSTrierParser : IParser
     {
-      
-
         Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
@@ -109,12 +103,6 @@ namespace AlarmWorkflow.Parser.ILSTrierParser
             return operation;
         }
 
-        /// <summary>
-        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="prefix">The prefix that is to be removed (optional).</param>
-        /// <returns></returns>
         private string GetMessageText(string line, string prefix)
         {
             if (prefix == null)
@@ -142,6 +130,7 @@ namespace AlarmWorkflow.Parser.ILSTrierParser
 
             return line;
         }
+
         #region Nested types
 
         private enum CurrentSection

@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Linq;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSFFBParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Description of ILSFFBParser.
-    /// </summary>
     [Export("ILSFFBParser", typeof(IParser))]
-    public class ILSFFBParser : IParser
+    class ILSFFBParser : IParser
     {
         #region Fields
-        
+
         private readonly string[] _keywords = new[]
                                                         {
                                                             "ALARM","E-Nr","EINSATZORT","STRAßE",
                                                             "ORTSTEIL/ORT","OBJEKT","EINSATZPLAN","MELDEBILD",
                                                             "EINSATZSTICHWORT","HINWEIS","EINSATZMITTEL","(ALARMSCHREIBEN ENDE)"
                                                         };
-        
+
         #endregion
-        
+
         #region IParser Members
 
         Operation IParser.Parse(string[] lines)
@@ -47,8 +43,10 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                         case "EINSATZSTICHWORT": { section = CurrentSection.JEinsatzstichwort; break; }
                         case "HINWEIS": { section = CurrentSection.KHinweis; break; }
                         case "EINSATZMITTEL": { section = CurrentSection.LEinsatzmittel; break; }
-                        case "(ALARMSCHREIBEN ENDE)": { section = CurrentSection.MEnde; break;
-                        }
+                        case "(ALARMSCHREIBEN ENDE)":
+                            {
+                                section = CurrentSection.MEnde; break;
+                            }
                     }
                 }
 
@@ -105,10 +103,10 @@ namespace AlarmWorkflow.Parser.ILSFFBParser
                             resource.FullName = unit;
                             resource.RequestedEquipment.Add(tool);
                             operation.Resources.Add(resource);
-                            
+
                         }
                         break;
-                        
+
                     case CurrentSection.MEnde:
                         break;
 

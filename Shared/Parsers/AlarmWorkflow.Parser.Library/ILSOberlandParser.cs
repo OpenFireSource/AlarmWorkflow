@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSOberlandParser
+namespace AlarmWorkflow.Parser.Library
 {
     [Export("ILSOberlandParser", typeof(IParser))]
-    public class ILSOberlandParser : IParser
+    class ILSOberlandParser : IParser
     {
         #region Constants
 
-        private static readonly string[] Keywords = new[] { "","EINSATZNUMMER", "ABSENDER", "NAME", "STRAßE", "ORT", "OBJEKT", "KREUZUNG", "STICHWORT", "SCHLAGW" };
+        private static readonly string[] Keywords = new[] { "", "EINSATZNUMMER", "ABSENDER", "NAME", "STRAßE", "ORT", "OBJEKT", "KREUZUNG", "STICHWORT", "SCHLAGW" };
 
         #endregion
 

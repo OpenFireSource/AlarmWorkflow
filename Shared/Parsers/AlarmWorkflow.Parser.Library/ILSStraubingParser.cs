@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Globalization;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSStraubingParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS ILSDonauIllerParser.
-    /// </summary>
     [Export("ILSStraubingParser", typeof(IParser))]
     sealed class ILSStraubingParser : IParser
     {
@@ -343,13 +338,13 @@ namespace AlarmWorkflow.Parser.ILSStraubingParser
                             {
                                 if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    
+
                                 }
                                 else
                                 {
                                     String name = line.Substring(0, line.IndexOf(":", StringComparison.Ordinal)).Trim();
                                     String timestamp = line.Substring(line.IndexOf(":", StringComparison.Ordinal)).Trim(':').Trim();
-                                    operation.Resources.Add(new OperationResource(){FullName = name,Timestamp = timestamp});
+                                    operation.Resources.Add(new OperationResource() { FullName = name, Timestamp = timestamp });
                                 }
                             }
                             break;

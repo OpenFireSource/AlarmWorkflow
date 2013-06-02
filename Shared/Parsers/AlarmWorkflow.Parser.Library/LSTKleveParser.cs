@@ -3,13 +3,10 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.LKRKleveParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Description of LSTKleveParser.
-    /// </summary>
     [Export("LSTKleveParser", typeof(IParser))]
-    public class LSTKleveParser : IParser
+    class LSTKleveParser : IParser
     {
         #region Fields
 
@@ -126,12 +123,12 @@ namespace AlarmWorkflow.Parser.LKRKleveParser
                         }
                     case CurrentSection.LNRN:
                         {
-                            operation.CustomData.Add("NRN",GetMessageText(line));
+                            operation.CustomData.Add("NRN", GetMessageText(line));
                             break;
                         }
                     case CurrentSection.MADAC:
                         {
-                            operation.CustomData.Add("ADAC",GetMessageText(line));
+                            operation.CustomData.Add("ADAC", GetMessageText(line));
                             break;
                         }
                     case CurrentSection.NInfo:
@@ -150,7 +147,7 @@ namespace AlarmWorkflow.Parser.LKRKleveParser
                             break;
                         }
                     case CurrentSection.QEinsatzmittel:
-                        { 
+                        {
                             //TODO: Auswerten wenn Format bekannt ist.
                             break;
                         }

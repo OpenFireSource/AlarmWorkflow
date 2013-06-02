@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.LFSOffenbachParser
+namespace AlarmWorkflow.Parser.Library
 {
     [Export("LFSOffenbachParser", typeof(IParser))]
     class LFSOffenbachParser : IParser

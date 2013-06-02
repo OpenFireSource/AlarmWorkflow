@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSNuernbergParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS Nuernberg.
-    /// </summary>
     [Export("ILSNuernbergParser", typeof(IParser))]
-    internal sealed class ILSNuernbergParser : IParser
+    sealed class ILSNuernbergParser : IParser
     {
         #region Constants
 
@@ -332,7 +328,7 @@ namespace AlarmWorkflow.Parser.ILSNuernbergParser
                                 {
                                     operation.Resources.Add(new OperationResource { FullName = msg });
                                 }
-                               
+
                             }
                             break;
                         case CurrentSection.GBemerkung:

@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSRosenheimParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS Rosenheim.
-    /// </summary>
-    [Export("ILSRosenheimParser", typeof (IParser))]
-    public class ILSRosenheimParser : IParser
+    [Export("ILSRosenheimParser", typeof(IParser))]
+    class ILSRosenheimParser : IParser
     {
         #region Fields
 

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSAugsburgParser
+namespace AlarmWorkflow.Parser.Library
 {
     [Export("ILSAugsburgParser", typeof(IParser))]
-    public class ILSAugsburgParser : IParser
+    class ILSAugsburgParser : IParser
     {
         #region Constants
 
@@ -106,7 +105,7 @@ namespace AlarmWorkflow.Parser.ILSAugsburgParser
             return zipCode;
         }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
-        {           
+        {
             if (line.Contains("MITTEILER"))
             {
                 section = CurrentSection.BMitteiler;

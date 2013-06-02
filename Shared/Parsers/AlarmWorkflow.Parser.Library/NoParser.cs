@@ -1,5 +1,4 @@
-﻿using AlarmWorkflow.AlarmSource.Fax;
-using AlarmWorkflow.Shared.Core;
+﻿using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 

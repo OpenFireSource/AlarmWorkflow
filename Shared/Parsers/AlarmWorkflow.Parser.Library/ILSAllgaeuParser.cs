@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSAllgaeuParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILSAllgaeuParser.
-    /// </summary>
     [Export("ILSAllgaeuParser", typeof(IParser))]
     sealed class ILSAllgaeuParser : IParser
     {
@@ -298,7 +294,7 @@ namespace AlarmWorkflow.Parser.ILSAllgaeuParser
                                         int planIndex = msg.IndexOf("EINSATZPLANNR.", StringComparison.InvariantCultureIgnoreCase);
                                         operation.CustomData["Einsatzort Melder"] = msg.Substring(0, planIndex).Trim();
                                         String temp = msg.Remove(0, "EINSATZPLANNR".Length);
-                                        operation.OperationPlan = temp.Substring(temp.IndexOf(':')+1).Trim();
+                                        operation.OperationPlan = temp.Substring(temp.IndexOf(':') + 1).Trim();
                                         break;
                                     case "STATION":
                                         innerSection = InnerSection.DStation;

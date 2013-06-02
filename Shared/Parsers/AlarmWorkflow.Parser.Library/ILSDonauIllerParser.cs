@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSDonauIllerParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS ILSDonauIllerParser.
-    /// </summary>
     [Export("ILSDonauIllerParser", typeof(IParser))]
     sealed class ILSDonauIllerParser : IParser
     {
@@ -295,7 +291,7 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                         operation.Einsatzort.Property = msg;
                                         break;
                                     case "STATION":
-                                       innerSection = InnerSection.DStation;
+                                        innerSection = InnerSection.DStation;
                                         operation.CustomData["Einsatzort Station"] = msg;
                                         break;
                                     default:
@@ -338,7 +334,7 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     case "STICHWORT R":
                                         operation.Keywords.R = msg;
                                         break;
-                                    
+
                                 }
                             }
                             break;
@@ -349,7 +345,7 @@ namespace AlarmWorkflow.Parser.ILSDonauIllerParser
                                     msg = GetMessageText(line, "NAME");
                                     last.FullName = msg.Trim();
                                 }
-                                
+
                                 else if (line.StartsWith("GEF. GERÄT", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     msg = GetMessageText(line, "GEF. GERÄT");

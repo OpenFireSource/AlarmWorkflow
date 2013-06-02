@@ -4,11 +4,8 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes and mails from the ILS Darmstadt-Dieburg.
-    /// </summary>
     [Export("ILSDarmstadtDieburgParser", typeof(IParser))]
     class ILSDarmstadtDieburgParser : IParser
     {
@@ -123,7 +120,7 @@ namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
                             Match alarm = Regex.Match(line, @"((0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d ([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]) (\d{5})");
                             if (alarm.Success)
                             {
-                                operation.Resources.Add(new OperationResource { FullName = alarm.Groups[6].Value, Timestamp = alarm.Groups[1].Value});
+                                operation.Resources.Add(new OperationResource { FullName = alarm.Groups[6].Value, Timestamp = alarm.Groups[1].Value });
                             }
                             break;
                         }
@@ -134,7 +131,7 @@ namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
                         }
                     case CurrentSection.OTelefon:
                         {
-                            operation.Messenger += string.Format(@" Tel.:{0}",GetMessageText(line));
+                            operation.Messenger += string.Format(@" Tel.:{0}", GetMessageText(line));
                             break;
                         }
                     case CurrentSection.PAusdruck:
@@ -150,7 +147,7 @@ namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
                     case CurrentSection.REnde:
                         {
                             break;
-                        } 
+                        }
                 }
             }
 
@@ -248,6 +245,6 @@ namespace AlarmWorkflow.Parser.ILSDarmstadtDieburgParser
             PAusdruck,
             QReferenznummer,
             REnde
-            }
+        }
     }
 }

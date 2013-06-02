@@ -1,17 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSKaiserslautern
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILSKaiserslautern.
-    /// </summary>
     [Export("ILSKaiserslautern", typeof(IParser))]
     sealed class ILSKaiserslautern : IParser
     {
@@ -46,43 +39,43 @@ namespace AlarmWorkflow.Parser.ILSKaiserslautern
                 try
                 {
 
-                //Definition der bool Variablen
-                //bool nextIsOrt = false;
-                bool ReplStreet = false;
-                bool ReplCity = false;
-                bool ReplComment = false;
-                bool ReplPicture = false;
-                bool Faxtime = false;
-                bool nextIsOrt = false;                
+                    //Definition der bool Variablen
+                    //bool nextIsOrt = false;
+                    bool ReplStreet = false;
+                    bool ReplCity = false;
+                    bool ReplComment = false;
+                    bool ReplPicture = false;
+                    bool Faxtime = false;
+                    bool nextIsOrt = false;
 
-                foreach (string linex in lines)
-                {
-
-                    string msgx;
-                    string prefix;
-                    int x = linex.IndexOf(':');
-                    if (x != -1)
+                    foreach (string linex in lines)
                     {
-                        prefix = linex.Substring(0, x);
-                        msgx = linex.Substring(x + 1).Trim();
 
-                        prefix = prefix.Trim().ToUpperInvariant();
-                        switch (prefix)
+                        string msgx;
+                        string prefix;
+                        int x = linex.IndexOf(':');
+                        if (x != -1)
                         {
+                            prefix = linex.Substring(0, x);
+                            msgx = linex.Substring(x + 1).Trim();
 
-                            //Füllen der Standardinformatione Alarmfax Cases mit  ":"
-                            case "EINSATZORT":
-                                operation.Einsatzort.Location = msgx;
-                                break;                                                      
-                            case "EINSATZPLAN":
-                                operation.OperationPlan = msgx;
-                                break;
-                            case "Hinweis":
-                                operation.Comment = msgx;
-                                break;
+                            prefix = prefix.Trim().ToUpperInvariant();
+                            switch (prefix)
+                            {
+
+                                //Füllen der Standardinformatione Alarmfax Cases mit  ":"
+                                case "EINSATZORT":
+                                    operation.Einsatzort.Location = msgx;
+                                    break;
+                                case "EINSATZPLAN":
+                                    operation.OperationPlan = msgx;
+                                    break;
+                                case "Hinweis":
+                                    operation.Comment = msgx;
+                                    break;
+                            }
                         }
                     }
-                }
 
                     string line = lines[i];
                     if (line.Length == 0)
@@ -136,7 +129,7 @@ namespace AlarmWorkflow.Parser.ILSKaiserslautern
                     if (x1 != -1)
                     {
                         operation.OperationNumber = line.Substring(46);
-                    }                    
+                    }
 
                     if (line.StartsWith("Objekt"))
                     {
@@ -154,7 +147,7 @@ namespace AlarmWorkflow.Parser.ILSKaiserslautern
                         operation.Einsatzort.Street = operation.Einsatzort.Street + line.Substring(7);
                         operation.Einsatzort.Street = operation.Einsatzort.Street.Trim();
                     }
-                    
+
                     if (line.StartsWith("Diagnose"))
                     {
                         operation.Picture = operation.Picture + line.Substring(9);
@@ -292,7 +285,7 @@ namespace AlarmWorkflow.Parser.ILSKaiserslautern
                         operation.Comment = operation.Comment.Replace("ü", "ue");
                     }
 
-                    
+
 
 
                 }
@@ -312,7 +305,7 @@ namespace AlarmWorkflow.Parser.ILSKaiserslautern
         }
 
 
-        
+
         #endregion
 
         #region Nested types

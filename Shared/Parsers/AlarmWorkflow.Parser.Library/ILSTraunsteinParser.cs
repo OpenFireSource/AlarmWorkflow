@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSTraunsteinParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS Traunstein.
-    /// </summary>
     [Export("ILSTraunsteinParser", typeof(IParser))]
     sealed class ILSTraunsteinParser : IParser
     {
@@ -174,7 +170,7 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                         continue;
                     }
 
-                    
+
 
                     if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
@@ -305,15 +301,15 @@ namespace AlarmWorkflow.Parser.ILSTraunsteinParser
                                         operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
-                                        operation.Keywords.B = msg.Substring(0,msg.IndexOf("STICHWORT RD:",StringComparison.InvariantCultureIgnoreCase)).Trim();
+                                        operation.Keywords.B = msg.Substring(0, msg.IndexOf("STICHWORT RD:", StringComparison.InvariantCultureIgnoreCase)).Trim();
                                         operation.Keywords.R = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT RD:", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT RD");
                                         break;
                                     case "STICHWORT SO":
-                                        operation.Keywords.S = msg.Substring(0,msg.IndexOf("STICHWORT TH:",StringComparison.InvariantCultureIgnoreCase)).Trim();
-                                        operation.Keywords.T = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT TH:", StringComparison.InvariantCultureIgnoreCase),msg.IndexOf("STICHWORT IN:", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT TH:");
+                                        operation.Keywords.S = msg.Substring(0, msg.IndexOf("STICHWORT TH:", StringComparison.InvariantCultureIgnoreCase)).Trim();
+                                        operation.Keywords.T = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT TH:", StringComparison.InvariantCultureIgnoreCase), msg.IndexOf("STICHWORT IN:", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT TH:");
                                         operation.CustomData["Stichwort IN"] = GetMessageText(msg.Substring(msg.IndexOf("STICHWORT IN", StringComparison.InvariantCultureIgnoreCase)), "STICHWORT IN");
                                         break;
-                                        
+
                                     case "PRIO.":
                                         operation.Priority = msg;
                                         break;

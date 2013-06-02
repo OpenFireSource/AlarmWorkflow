@@ -1,14 +1,10 @@
 using System;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.FEZMuenchenLandParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Description of MucLandParser.
-    /// </summary>
     [Export("FEZMuenchenLandParser", typeof(IParser))]
     sealed class FEZMuenchenLandParser : IParser
     {

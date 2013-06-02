@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS Mittelfranken.
-    /// </summary>
     [Export("ILSMittelfrankenParser", typeof(IParser))]
-    internal sealed class ILSMittelfrankenParser : IParser
+    sealed class ILSMittelfrankenParser : IParser
     {
         #region Constants
 
@@ -286,7 +282,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
                                             }
 
                                             operation.Einsatzort.City = msg.Remove(0, operation.Einsatzort.ZipCode.Length).Trim();
-                                            
+
                                         }
                                         break;
                                     case "OBJEKT":
@@ -493,7 +489,7 @@ namespace AlarmWorkflow.Parser.ILSMittelfrankenParser
             HFooter,
             // Temporary Region
             ZNull
-            
+
         }
         private enum InnerSection
         {

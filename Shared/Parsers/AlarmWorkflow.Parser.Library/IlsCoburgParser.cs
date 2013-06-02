@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using AlarmWorkflow.AlarmSource.Fax;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 
-namespace AlarmWorkflow.Parser.ILSCoburgParser
+namespace AlarmWorkflow.Parser.Library
 {
-    /// <summary>
-    /// Provides a parser that parses faxes from the ILS ILSCoburgParser.
-    /// </summary>
-    [Export("ILSCoburgParser", typeof (IParser))]
-    internal sealed class ILSCoburgParser : IParser
+    [Export("ILSCoburgParser", typeof(IParser))]
+    sealed class ILSCoburgParser : IParser
     {
         #region Constants
 
@@ -188,7 +184,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                     // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
 
-                   
+
                     if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
                         continue;
@@ -389,7 +385,7 @@ namespace AlarmWorkflow.Parser.ILSCoburgParser
                                     // otherwise the whole vehicle is the requested equipment
                                     if (!string.IsNullOrWhiteSpace(msg))
                                     {
-                                        last.RequestedEquipment.Add(msg);                                        
+                                        last.RequestedEquipment.Add(msg);
                                     }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
