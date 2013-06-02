@@ -14,7 +14,7 @@
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="OCR-Software" Editor="DirectoryTypeEditor"
              Description="Wenn leer gelassen, wird das Standardverzeichnis genommen."/>
 
-    <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.IFaxParser, AlarmWorkflow.AlarmSource.Fax"
+    <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." />
 
     <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"

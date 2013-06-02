@@ -50,7 +50,6 @@
     <Compile Include="Extensibility\OcrProcessOptions.cs" />
     <Compile Include="FaxConfiguration.cs" />
     <Compile Include="FaxAlarmSource.cs" />
-    <Compile Include="IFaxParser.cs" />
     <Compile Include="OcrSoftware\CuneiformOcrSoftware.cs" />
     <Compile Include="OcrSoftware\TesseractOcrSoftware.cs" />
     <Compile Include="ProcessWrapper.cs" />

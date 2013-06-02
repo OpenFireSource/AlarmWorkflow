@@ -14,7 +14,7 @@ namespace AlarmWorkflow.AlarmSource.Sms
         #region Fields
 
         private AlarmServer _server;
-        private ISmsParser _parser;
+        private IParser _parser;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace AlarmWorkflow.AlarmSource.Sms
             // Let the parser do the job...
             try
             {
-                operation = _parser.Parse(alarmText);
+                operation = _parser.Parse(new[]{alarmText});
             }
             catch (Exception ex)
             {
@@ -65,11 +65,11 @@ namespace AlarmWorkflow.AlarmSource.Sms
         {
             string smsParserAlias = SettingsManager.Instance.GetSetting("SmsAlarmSource", "SMSParser").GetString();
 
-            _parser = ExportedTypeLibrary.Import<ISmsParser>(smsParserAlias);
+            _parser = ExportedTypeLibrary.Import<IParser>(smsParserAlias);
             if (_parser == null)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SmsParserNotFoundError, smsParserAlias);
-                _parser = new DefaultParser();
+                _parser = new DefaultSMSParser();
             }
         }
 

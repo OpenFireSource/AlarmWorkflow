@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Text;
 using System.Threading;
+using AlarmWorkflow.AlarmSource.Mail.Properties;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -16,6 +17,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region Fields
 
         private readonly MailConfiguration _configuration;
+        private ImapClient _imapClient;
+        private IParser _mailParser;
 
         #endregion Fields
 
@@ -41,6 +44,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         void IAlarmSource.Initialize()
         {
+            _mailParser = ExportedTypeLibrary.Import<IParser>(_configuration.ParserAlias);
         }
 
         void IAlarmSource.RunThread()
@@ -48,23 +52,20 @@ namespace AlarmWorkflow.AlarmSource.Mail
             switch (_configuration.POPIMAP.ToLower())
             {
                 case "imap":
-                    using (
-                        _ImapClient =
-                        new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.UserName,
-                                       _configuration.Password, AuthMethod.Login, _configuration.SSL))
+                    using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL))
                     {
-                        if (_ImapClient.Supports("IDLE"))
+                        _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
+                        if (_imapClient.Supports("IDLE"))
                         {
-                            _ImapClient.NewMessage += ImapClientNewMessage;
+                            _imapClient.NewMessage += ImapClientNewMessage;
                         }
                         else
                         {
-                            Logger.Instance.LogFormat(LogType.Info, this,
-                                                      "IMAP IDLE wird vom Server nicht unterstützt!!!");
+                            Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.NoIDLESupport);
                         }
                         while (true)
                         {
-                            CheckImapMail(_ImapClient);
+                            CheckImapMail(_imapClient);
                             Thread.Sleep(1000);
                         }
                     }
@@ -82,6 +83,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         private void ImapClientNewMessage(object sender, IdleMessageEventArgs e)
         {
+
         }
 
         #endregion IAlarmSource Members
@@ -106,7 +108,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                     uint[] uids = client.Search(SearchCondition.Unseen());
                     foreach (MailMessage msg in uids.Select(uid => client.GetMessage(uid)))
                     {
-                        Logger.Instance.LogFormat(LogType.Debug, this, "NEUE MAIL " + msg.Subject);
+                        Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);
                         MailOperation(msg);
                     }
                     break;
@@ -127,100 +129,37 @@ namespace AlarmWorkflow.AlarmSource.Mail
             if (message.Subject.ToLower().Contains(_configuration.MailSubject.ToLower()) &&
                 message.From.Address.ToLower() == _configuration.MailSender.ToLower())
             {
-                message.Body = message.Body.Replace("----------------------------------------", String.Empty);
-                string[] lines = message.Body.Split(Environment.NewLine.ToCharArray(),
-                                                    StringSplitOptions.RemoveEmptyEntries);
-                IList<string> fields = new List<string>
-                                           {
-                                               "Ort",
-                                               "Ortsteil",
-                                               "Straße",
-                                               "Hausnummer",
-                                               "Koordinaten X/Y (GK)",
-                                               "Zusatzinfos zum Objekt",
-                                               "Betroffene",
-                                               "Einsatzart",
-                                               "Stichwort",
-                                               "Sondersignal",
-                                               "Zusatzinformationen",
-                                               "Alarmierungen",
-                                               "Meldende(r)",
-                                               "Telefon"
-                                           };
-                IDictionary<string, string> result = Analyse.AnalyseData(lines, fields, ":", Environment.NewLine);
-                var op = new Operation();
-                op.OperationNumber = op.Id.ToString();
-                foreach (var pair in result)
+                Operation operation = null;
+                if (_configuration.AnalyseAttachment)
                 {
-                    string value = pair.Value.Replace(Environment.NewLine, ";");
-                    switch (pair.Key)
+                    if (message.Attachments.Count > 0)
                     {
-                        case "Ort":
-                            op.Einsatzort.City = value;
-                            break;
-
-                        case "Ortsteil":
-                            op.Einsatzort.City += " " + value;
-                            break;
-
-                        case "Straße":
-                            op.Einsatzort.Street = value;
-                            break;
-
-                        case "Hausnummer":
-                            op.Einsatzort.StreetNumber = value;
-                            break;
-
-                        case "Koordinaten X/Y (GK)":
-                            op.CustomData.Add("Koordinaten", value);
-                            break;
-
-                        case "Zusatzinfos zum Objekt":
-                            op.CustomData.Add("Zusatzinfos", value);
-                            break;
-
-                        case "Einsatzart":
-                            op.Keywords.EmergencyKeyword = value;
-                            break;
-
-                        case "Stichwort":
-                            op.Keywords.Keyword = value;
-                            break;
-
-                        case "Sondersignal":
-                            op.CustomData.Add("Sondersignal", value);
-                            break;
-
-                        case "Zusatzinformationen":
-                            op.Picture = value;
-                            break;
-                        case "Betroffene":
-                            op.CustomData.Add("Betroffene", value);
-                            break;
-                        case "Alarmierungen":
-                            String[] units = value.Split(';');
-                            units[1] = "";
-                            foreach (string loop in from unit in units where unit.Contains(" ") where unit.Length > unit.LastIndexOf(" ", System.StringComparison.Ordinal) select unit.Substring(unit.LastIndexOf(" ", System.StringComparison.Ordinal)) into loop select loop.Trim())
-                            {
-                                op.Resources.AddResource(loop);
-                            }
-
-                            break;
-
-                        case "Meldende(r)":
-                            op.Messenger = value;
-                            break;
-
-                        case "Telefon":
-                            break;
+                        if (message.Attachments[0].Name.ToLowerInvariant() == _configuration.AttachmentName.ToLowerInvariant())
+                        {
+                            Attachment attachment = message.Attachments[0];
+                            byte[] buffer = new byte[attachment.ContentStream.Length];
+                            attachment.ContentStream.Read(buffer, 0, buffer.Length);
+                            string content = Encoding.UTF8.GetString(buffer);
+                            string[] lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+                            operation = _mailParser.Parse(lines);
+                        }
+                    }
+                    else
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Resources.NoAttachmentFound);
                     }
                 }
-                OnNewAlarm(op);
+                else
+                {
+                    operation = _mailParser.Parse(message.Body.Split(new string[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries));
+                }
+                if (operation != null)
+                {
+                    OnNewAlarm(operation);
+                }
             }
         }
 
         #endregion Methods
-
-        private ImapClient _ImapClient { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using AlarmWorkflow.Shared.Settings;
+﻿using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
@@ -19,7 +20,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         internal string MailSubject { get; private set; }
         internal string MailSender { get; private set; }
-
+        
+        internal bool AnalyseAttachment { get; private set; }
+        internal string AttachmentName { get; private set; }
+        internal string ParserAlias { get; private set; }
         #endregion
 
         #region Constructors
@@ -39,6 +43,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
             MailSubject = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSubject").GetString();
             MailSender = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSender").GetString();
+
+            AnalyseAttachment = SettingsManager.Instance.GetSetting("MailAlarmSource", "AnalyseAttachment").GetBoolean();
+            AttachmentName = SettingsManager.Instance.GetSetting("MailAlarmSource", "AttachmentName").GetString();
+            ParserAlias = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailParser").GetString();
         }
 
         #endregion
