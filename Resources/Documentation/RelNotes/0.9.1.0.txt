@@ -13,10 +13,15 @@ General
   * All parsers are now in one assembly to improve startup performance and less confusion
   * Fixed an developers' inconvenience in MySqlOperationStore
   * New job: OperationPrinterJob which doesn't require a UI and uses HTML for report layouting
+  * Parsers - previously distinguished - are now usable by any alarm source and not limited to Fax anymore
 
 Parsers
 
-  * New parser: LFSOffenbachParser
+  * New: LFS Offenbach
+  * New: ILS Darmstadt/Dieburg
+  * New: ILS Regensburg
+  * New: LST Kleve
+  * Re-added: FEZ München Land
 
 Diagnostics
 
@@ -26,7 +31,7 @@ UI
 
   * Added error report view to ConfigurationEditor
   * Added "Browser" widget for CustomOperationViewer
-  * Removed "PrintingUIJob" (superseeded by OperationPrinterJob)
+  * Removed "PrintingUIJob" (superseded by OperationPrinterJob)
 
 Fixes since v0.9.0.0
 --------------------
