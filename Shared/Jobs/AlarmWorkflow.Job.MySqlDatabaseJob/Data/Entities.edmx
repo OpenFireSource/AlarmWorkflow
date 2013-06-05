@@ -7,7 +7,6 @@
     <Schema Namespace="AlarmWorkflowModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="AlarmWorkflowModelStoreContainer">
           <EntitySet Name="operation" EntityType="AlarmWorkflowModel.Store.operation" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="tb_einsatz" EntityType="AlarmWorkflowModel.Store.tb_einsatz" store:Type="Tables" Schema="alarmworkflow" />
         </EntityContainer>
         <EntityType Name="operation">
           <Key>
@@ -19,35 +18,12 @@
           <Property Name="OperationId" Type="guid" Nullable="false" />
           <Property Name="Serialized" Type="longblob" Nullable="false" />
         </EntityType>
-        <EntityType Name="tb_einsatz">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Einsatznr" Type="varchar" MaxLength="255" />
-          <Property Name="Einsatzort" Type="varchar" MaxLength="255" />
-          <Property Name="Einsatzplan" Type="varchar" MaxLength="255" />
-          <Property Name="Hinweis" Type="varchar" MaxLength="255" />
-          <Property Name="Kreuzung" Type="varchar" MaxLength="255" />
-          <Property Name="Meldebild" Type="varchar" MaxLength="255" />
-          <Property Name="Mitteiler" Type="varchar" MaxLength="255" />
-          <Property Name="Objekt" Type="varchar" MaxLength="255" />
-          <Property Name="Ort" Type="varchar" MaxLength="255" />
-          <Property Name="Strasse" Type="varchar" MaxLength="255" />
-          <Property Name="Fahrzeuge" Type="varchar" MaxLength="255" />
-          <Property Name="Einsatzstichwort" Type="varchar" MaxLength="255" />
-          <Property Name="Alarmtime" Type="varchar" MaxLength="255" />
-          <Property Name="Faxtime" Type="varchar" MaxLength="255" />
-          <Property Name="Stichwort" Type="varchar" MaxLength="20" />
-          <Property Name="Schleifen" Type="text" />
-        </EntityType>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="AlarmWorkflowEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Operations" EntityType="AlarmWorkflowModel.OperationData" />
-          <EntitySet Name="tb_einsatz" EntityType="AlarmWorkflowModel.tb_einsatz" />
           </EntityContainer>
         <EntityType Name="OperationData">
           <Key>
@@ -58,28 +34,6 @@
           <Property Name="Timestamp" Type="DateTime" Nullable="false" />
           <Property Name="OperationId" Type="Guid" Nullable="false" />
           <Property Name="Serialized" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="tb_einsatz">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Einsatznr" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Einsatzort" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Einsatzplan" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Hinweis" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Kreuzung" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Meldebild" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Mitteiler" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Objekt" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Ort" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Strasse" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Fahrzeuge" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Einsatzstichwort" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Alarmtime" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Faxtime" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Stichwort" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Schleifen" MaxLength="65535" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -94,29 +48,6 @@
             <ScalarProperty Name="OperationId" ColumnName="OperationId" />
             <ScalarProperty Name="Serialized" ColumnName="Serialized" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="tb_einsatz">
-            <EntityTypeMapping TypeName="AlarmWorkflowModel.tb_einsatz">
-              <MappingFragment StoreEntitySet="tb_einsatz">
-                <ScalarProperty Name="Schleifen" ColumnName="Schleifen" />
-                <ScalarProperty Name="Stichwort" ColumnName="Stichwort" />
-                <ScalarProperty Name="Faxtime" ColumnName="Faxtime" />
-                <ScalarProperty Name="Alarmtime" ColumnName="Alarmtime" />
-                <ScalarProperty Name="Einsatzstichwort" ColumnName="Einsatzstichwort" />
-                <ScalarProperty Name="Fahrzeuge" ColumnName="Fahrzeuge" />
-                <ScalarProperty Name="Strasse" ColumnName="Strasse" />
-                <ScalarProperty Name="Ort" ColumnName="Ort" />
-                <ScalarProperty Name="Objekt" ColumnName="Objekt" />
-                <ScalarProperty Name="Mitteiler" ColumnName="Mitteiler" />
-                <ScalarProperty Name="Meldebild" ColumnName="Meldebild" />
-                <ScalarProperty Name="Kreuzung" ColumnName="Kreuzung" />
-                <ScalarProperty Name="Hinweis" ColumnName="Hinweis" />
-                <ScalarProperty Name="Einsatzplan" ColumnName="Einsatzplan" />
-                <ScalarProperty Name="Einsatzort" ColumnName="Einsatzort" />
-                <ScalarProperty Name="Einsatznr" ColumnName="Einsatznr" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -139,7 +70,6 @@
     <Diagrams>
       <Diagram Name="Entities">
         <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="0.5" PointY="0.5" Height="1.9802864583333326" IsExpanded="true" />
-        <EntityTypeShape EntityType="AlarmWorkflowModel.tb_einsatz" Width="1.5" PointX="3" PointY="0.5" Height="4.2879036458333335" />
         </Diagram>
     </Diagrams>
   </Designer>

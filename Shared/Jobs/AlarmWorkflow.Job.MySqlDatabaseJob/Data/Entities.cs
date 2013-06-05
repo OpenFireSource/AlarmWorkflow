@@ -46,7 +46,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
             {
                 try
                 {
-                    entities.tb_einsatz.Any();
+                    entities.Operations.Any();
                     return true;
                 }
                 catch (System.Exception)

@@ -62,7 +62,6 @@
     </Compile>
     <Compile Include="Data\Entities.cs" />
     <Compile Include="Data\OperationData.cs" />
-    <Compile Include="MySqlDatabaseJob.cs" />
     <Compile Include="MySqlOperationStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
