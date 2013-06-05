@@ -15,6 +15,7 @@ General
   * New job: OperationPrinterJob which doesn't require a UI and uses HTML for report layouting
   * Parsers - previously distinguished - are now usable by any alarm source and not limited to Fax anymore
   * Removed deprecated MySqlDatabaseJob (AlarmView/PHP has been phased out)
+  * Removed AlarmView/PHP
 
 Parsers
 
