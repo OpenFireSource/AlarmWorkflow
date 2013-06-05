@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="9.9" version="10.0" Modules="update" RootPath="." Language="de" Id="{D3E8888C-EABC-4084-A1A5-3C7112F572E1}">
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;aiu-ue.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.UpdaterEditorComponent">
+    <ROW Section="0.9.0.0" Key="Name" Value="AlarmWorkflow"/>
+    <ROW Section="0.9.0.0" Key="ProductVersion" Value="0.9.0.0"/>
+    <ROW Section="0.9.0.0" Key="URL" Value="http://openfiresource.de/packages/ai/0.9.0.0/setup.exe"/>
+    <ROW Section="0.9.0.0" Key="Size" Value="0.9\0.9.0-SetupFiles\0.9.0.exe"/>
+    <ROW Section="0.9.0.0" Key="MD5" Value="0.9\0.9.0-SetupFiles\0.9.0.exe"/>
+    <ROW Section="0.9.0.0" Key="ServerFileName" Value="0.9.0.exe"/>
+    <ROW Section="0.9.0.0" Key="RegistryKey" Value="HKUD\Software\OpenFireSource\AlarmWorkflow\Version"/>
+    <ROW Section="0.9.0.0" Key="Version" Value="0.9.0.0"/>
+    <ATTRIBUTE name="OutputFileName" value=".txt"/>
+  </COMPONENT>
+</DOCUMENT>
