@@ -1,3 +1,5 @@
+Ôªøusing System;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
@@ -13,8 +15,8 @@ namespace AlarmWorkflow.Parser.Library
         private readonly string[] _keywords = new[]
             {
                 "Einsatznr", "EArt", "Stichwort",
-                "Diagnose", "Meldender", "Priorit‰t", "Ort ",
-                "Ortsteil", "Straﬂe", "Kreuzung", "NRN", "ADAC", "Info", "Objektname", "Routenausgabe", "beteiligte Einsatzmittel", "Ausdruck"
+                "Diagnose", "Meldender", "Priorit√§t", "Ort ",
+                "Ortsteil", "Stra√üe", "Kreuzung", "NRN", "ADAC", "Info", "Objektname", "Routenausgabe", "beteiligte Einsatzmittel:", "Ausdruck", "BMA-Nummer"
             };
 
         #endregion
@@ -29,7 +31,7 @@ namespace AlarmWorkflow.Parser.Library
             foreach (string line in lines)
             {
                 string keyword;
-                if (GetKeyword(line, out keyword))
+                if (GetKeyword(line.TrimStart(), out keyword))
                 {
                     switch (keyword)
                     {
@@ -38,17 +40,18 @@ namespace AlarmWorkflow.Parser.Library
                         case "Stichwort": { section = CurrentSection.DStichwort; break; }
                         case "Diagnose": { section = CurrentSection.EDiagnose; break; }
                         case "Meldender": { section = CurrentSection.FMeldender; break; }
-                        case "Priorit‰t": { section = CurrentSection.GPriorit‰t; break; }
+                        case "Priorit√§t": { section = CurrentSection.GPriorit√§t; break; }
                         case "Ort ": { section = CurrentSection.HOrt; break; }
                         case "Ortsteil": { section = CurrentSection.IOrtsteil; break; }
-                        case "Straﬂe": { section = CurrentSection.JStraﬂe; break; }
+                        case "Stra√üe": { section = CurrentSection.JStra√üe; break; }
                         case "Kreuzung": { section = CurrentSection.KKreuzung; break; }
                         case "ADAC": { section = CurrentSection.MADAC; break; }
                         case "Info": { section = CurrentSection.NInfo; break; }
                         case "NRN": { section = CurrentSection.LNRN; break; }
                         case "Objektname": { section = CurrentSection.OObjektname; break; }
+                        case "BMA-Nummer": { section = CurrentSection.SBMA; break; }
                         case "Routenausgabe": { section = CurrentSection.PRoutenausgabe; break; }
-                        case "beteiligte Einsatzmittel": { section = CurrentSection.QEinsatzmittel; break; }
+                        case "beteiligte Einsatzmittel:": { section = CurrentSection.QEinsatzmittel; break; }
                         case "Ausdruck": { section = CurrentSection.REnde; break; }
                     }
                 }
@@ -85,7 +88,7 @@ namespace AlarmWorkflow.Parser.Library
                             operation.Messenger = GetMessageText(line);
                             break;
                         }
-                    case CurrentSection.GPriorit‰t:
+                    case CurrentSection.GPriorit√§t:
                         {
                             operation.Priority = GetMessageText(line);
                             section = CurrentSection.AAnfang;
@@ -101,7 +104,7 @@ namespace AlarmWorkflow.Parser.Library
                             operation.Einsatzort.City += " - " + GetMessageText(line);
                             break;
                         }
-                    case CurrentSection.JStraﬂe:
+                    case CurrentSection.JStra√üe:
                         {
                             string text = GetMessageText(line);
                             Match hausnummer = Regex.Match(text, @"[0-9]+");
@@ -139,6 +142,13 @@ namespace AlarmWorkflow.Parser.Library
                     case CurrentSection.OObjektname:
                         {
                             operation.Einsatzort.Property = GetMessageText(line);
+                            operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
+                            break;
+                        }
+                    case CurrentSection.SBMA:
+                        {
+                            operation.Einsatzort.Property += " BMA: " + GetMessageText(line);
+                            operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
                             break;
                         }
                     case CurrentSection.PRoutenausgabe:
@@ -148,11 +158,25 @@ namespace AlarmWorkflow.Parser.Library
                         }
                     case CurrentSection.QEinsatzmittel:
                         {
-                            //TODO: Auswerten wenn Format bekannt ist.
+                            Match alarmtime = Regex.Match(line, @"(([01]?\d|2[0-3]):[0-5]\d:[0-5]\d)|(--:--:--)");
+                            if (alarmtime.Success)
+                            {
+                                string time = alarmtime.Value;
+                                string unit = line.Replace(time, "").Trim();
+                                operation.Resources.Add(new OperationResource { FullName = unit, Timestamp = time });
+                            }
                             break;
                         }
                     case CurrentSection.REnde:
                         {
+                            Match datetime = Regex.Match(line, @"[123]\d\. \w* 20\d{2}, (([01]?\d|2[0-3]):[0-5]\d)");
+                            if (datetime.Success)
+                            {
+                                CultureInfo ci = new CultureInfo("de");
+                                DateTime timeStamp;
+                                operation.Timestamp = DateTime.TryParse(datetime.Value, ci, DateTimeStyles.None, out timeStamp) ? timeStamp : DateTime.Now;
+
+                            }
                             break;
                         }
                 }
@@ -223,10 +247,10 @@ namespace AlarmWorkflow.Parser.Library
             DStichwort,
             EDiagnose,
             FMeldender,
-            GPriorit‰t,
+            GPriorit√§t,
             HOrt,
             IOrtsteil,
-            JStraﬂe,
+            JStra√üe,
             KKreuzung,
             LNRN,
             MADAC,
@@ -234,7 +258,8 @@ namespace AlarmWorkflow.Parser.Library
             OObjektname,
             PRoutenausgabe,
             QEinsatzmittel,
-            REnde
+            REnde,
+            SBMA
         }
 
         #endregion
