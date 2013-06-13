@@ -40,8 +40,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
-            <Slider Grid.Row="1" Value="{Binding UiScaleFactor}" Minimum="1" Maximum="5" Focusable="False" />
         </Grid>
 
         <!-- Details view -->

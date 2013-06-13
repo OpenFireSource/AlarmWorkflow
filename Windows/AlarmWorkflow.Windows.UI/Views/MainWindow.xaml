@@ -7,19 +7,26 @@
 
     <!-- Layout root -->
     <Grid>
-        <Grid.LayoutTransform>
-            <ScaleTransform CenterX="0" CenterY="0" ScaleX="{Binding UiScaleFactor}" ScaleY="{Binding UiScaleFactor}" />
-        </Grid.LayoutTransform>
+        <Expander Panel.ZIndex="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Opacity="0.5" ToolTip="Einstellungen">
+            <Slider Grid.Row="1" Value="{Binding UiScaleFactor}" Minimum="1" Maximum="4" Focusable="False" Width="50" Opacity="1" />
+        </Expander>
 
-        <DockPanel>
+        <Grid>
+            <Grid.LayoutTransform>
+                <ScaleTransform CenterX="0" CenterY="0" ScaleX="{Binding UiScaleFactor}" ScaleY="{Binding UiScaleFactor}" />
+            </Grid.LayoutTransform>
 
-            <!-- Information bars -->
-            <Border DockPanel.Dock="Top" Visibility="{Binding IsMissingServiceConnectionHintVisible, Converter={StaticResource btv}}" Background="LightYellow" BorderBrush="Black" BorderThickness="2">
-                <Label Content="Die Verbindung zum Service konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass der Service auf diesem PC läuft." />
-            </Border>
 
-            <!-- Docked as Fill -->
-            <ContentControl x:Name="content" />
-        </DockPanel>
+            <DockPanel Panel.ZIndex="0">
+
+                <!-- Information bars -->
+                <Border DockPanel.Dock="Top" Visibility="{Binding IsMissingServiceConnectionHintVisible, Converter={StaticResource btv}}" Background="LightYellow" BorderBrush="Black" BorderThickness="2">
+                    <Label Content="Die Verbindung zum Service konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass der Service auf diesem PC läuft." />
+                </Border>
+
+                <!-- Docked as Fill -->
+                <ContentControl x:Name="content" />
+            </DockPanel>
+        </Grid>
     </Grid>
 </Window>
