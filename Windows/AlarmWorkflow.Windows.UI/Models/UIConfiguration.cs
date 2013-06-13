@@ -103,6 +103,16 @@ namespace AlarmWorkflow.Windows.UI.Models
             return configuration;
         }
 
+        /// <summary>
+        /// Sets and saves only the changeable settings (like the zoom factor).
+        /// </summary>
+        public void SaveChangeables()
+        {
+            SettingsManager.Instance.GetSetting("UIConfiguration", "ScaleFactor").SetValue(_scaleFactor);
+
+            SettingsManager.Instance.SaveSettings();
+        }
+
         #endregion
 
         #region Nested types

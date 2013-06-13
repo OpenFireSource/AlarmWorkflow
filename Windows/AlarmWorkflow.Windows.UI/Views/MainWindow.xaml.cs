@@ -60,6 +60,8 @@ namespace AlarmWorkflow.Windows.UI.Views
             }
 
             SaveWindowPosition();
+            App.GetApp().Configuration.SaveChangeables();
+
             base.OnClosing(e);
         }
 
