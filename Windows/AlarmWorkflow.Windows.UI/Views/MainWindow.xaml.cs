@@ -28,6 +28,8 @@ namespace AlarmWorkflow.Windows.UI.Views
             _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_viewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
+            this.Loaded += Window_Loaded;
+
             SetWindowPosition();
             SetContent(false);
         }
@@ -43,8 +45,6 @@ namespace AlarmWorkflow.Windows.UI.Views
             this.Left = (double)pos.Left;
             this.Width = (double)pos.Width;
             this.Height = (double)pos.Height;
-
-            this.WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
         }
 
         /// <summary>
@@ -85,6 +85,11 @@ namespace AlarmWorkflow.Windows.UI.Views
         #endregion
 
         #region Event handlers
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+        }
 
         private void Window_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
