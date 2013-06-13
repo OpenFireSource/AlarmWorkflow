@@ -372,6 +372,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
             catch (Exception ex)
             {
+                IsMissingServiceConnectionHintVisible = false;
                 Logger.Instance.LogException(this, ex);
             }
         }
