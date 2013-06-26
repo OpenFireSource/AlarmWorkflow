@@ -34,6 +34,8 @@ UI
   * Added error report view to ConfigurationEditor
   * Added "Browser" widget for CustomOperationViewer
   * Removed "PrintingUIJob" (superseded by OperationPrinterJob)
+  * UI stores zoom setting when leaving
+  * UI shows zoom slider in a more unobtrusive way
 
 Fixes since v0.9.0.0
 --------------------
@@ -46,3 +48,4 @@ Other fixes
 
   * AlarmSourcePrinterJob respects CopyCount from settings
   * Fixed "description" constant for Prowl
+  * Fixed erroneous setting of UI's WindowState sometimes leading to wrong positioning
