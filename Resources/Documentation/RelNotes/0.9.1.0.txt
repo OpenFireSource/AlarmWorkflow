@@ -16,6 +16,7 @@ General
   * Parsers - previously distinguished - are now usable by any alarm source and not limited to Fax anymore
   * Removed deprecated MySqlDatabaseJob (AlarmView/PHP has been phased out)
   * Removed AlarmView/PHP
+  * New database architecture and schema
 
 Parsers
 
