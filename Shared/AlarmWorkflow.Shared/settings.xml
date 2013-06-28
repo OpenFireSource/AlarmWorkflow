@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="Shared">
 
-  <!-- Generic -->
-  <Setting Name="OperationStore" Type="System.String" IsNull="False">MySqlOperationStore</Setting>
-
   <!-- Fire department information -->
   <Setting Name="FD.Name" Type="System.String">Name Ihrer Feuerwehr</Setting>
   <Setting Name="FD.City" Type="System.String" IsNull="True" />

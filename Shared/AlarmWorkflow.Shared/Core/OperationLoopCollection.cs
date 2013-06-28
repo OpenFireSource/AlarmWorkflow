@@ -10,6 +10,15 @@ namespace AlarmWorkflow.Shared.Core
     [Serializable()]
     public sealed class OperationLoopCollection : Collection<string>
     {
+        #region Constants
+
+        /// <summary>
+        /// Defines the separator used when joining loops together to a string.
+        /// </summary>
+        public static readonly char LoopSeparator = ';';
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -19,6 +28,23 @@ namespace AlarmWorkflow.Shared.Core
             : base()
         {
 
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OperationLoopCollection"/> class,
+        /// and adds all loops in the given, separated list to this collection.
+        /// </summary>
+        /// <param name="loops">A string representing a separated list of loops, that may have been created by <see cref="ToString()"/>.</param>
+        public OperationLoopCollection(string loops)
+            :this()
+        {
+            if (!string.IsNullOrWhiteSpace(loops))
+            {
+                foreach (string item in loops.Split(LoopSeparator))
+                {
+                    this.Add(item);
+                }
+            }
         }
 
         #endregion
@@ -72,6 +98,15 @@ namespace AlarmWorkflow.Shared.Core
             }
 
             base.SetItem(index, item);
+        }
+
+        /// <summary>
+        /// Returns all loop items, joined together to a string.
+        /// </summary>
+        /// <returns>All loop items joined together to a string.</returns>
+        public override string ToString()
+        {
+            return string.Join(LoopSeparator.ToString(), this.Items);
         }
 
         #endregion

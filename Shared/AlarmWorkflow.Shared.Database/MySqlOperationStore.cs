@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AlarmWorkflow.Job.MySqlDatabaseJob.Data;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Database.Data;
 using AlarmWorkflow.Shared.Extensibility;
 
-////////////////////////////////
-// TODO: Remove Operation.IsAcknowledged (redundant!)
-// TODO: Remove Operation.DefaultAcknowledgingTimespan (not used and not necessary!)
-// TODO: OperationData.Timestamp is redundant??? --> Keep for better performance (no deserialization needed)?
-// TODO: OperationData.Timestamp shall be set to Operation.TimestampIncome!!!
-// TODO: --> should all be done when updating tables!
-////////////////////////////////
-
-namespace AlarmWorkflow.Job.MySqlDatabaseJob
+namespace AlarmWorkflow.Shared.Database
 {
     [Export("MySqlOperationStore", typeof(IOperationStore))]
     class MySqlOperationStore : IOperationStore
@@ -45,13 +37,11 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                 using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
                     OperationData data = entities.Operations.FirstOrDefault(d => d.Id == operationId);
-                    // If either there is no operation by this id, or the operation exists and is already acknowledged, do nothing
                     if (data == null || data.IsAcknowledged)
                     {
                         return;
                     }
 
-                    // Acknowledge this operation and save changes
                     data.IsAcknowledged = true;
                     entities.SaveChanges();
                 }
@@ -72,11 +62,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                         return null;
                     }
 
-                    Operation operation = Utilities.Deserialize<Operation>(data.Serialized);
-                    operation.Id = data.Id;
-                    operation.TimestampIncome = data.Timestamp;
-
-                    return operation;
+                    return data.ToOperation();
                 }
             }
         }
@@ -89,7 +75,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
 
                 using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
-                    foreach (OperationData data in entities.Operations.OrderByDescending(o => o.Timestamp))
+                    foreach (OperationData data in entities.Operations.OrderByDescending(o => o.TimestampIncome))
                     {
                         // If we only want non-acknowledged ones
                         if (onlyNonAcknowledged && data.IsAcknowledged)
@@ -97,7 +83,7 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
                             continue;
                         }
                         // If we shall ignore the age, or obey the maximum age...
-                        if (maxAge > 0 && (DateTime.Now - data.Timestamp).TotalMinutes > maxAge)
+                        if (maxAge > 0 && (DateTime.Now - data.TimestampIncome).TotalMinutes > maxAge)
                         {
                             continue;
                         }
@@ -122,17 +108,10 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob
             {
                 using (AlarmWorkflowEntities entities = AlarmWorkflowEntities.CreateContext())
                 {
-                    OperationData data = new OperationData()
-                    {
-                        OperationId = operation.OperationGuid,
-                        Timestamp = operation.TimestampIncome,
-                        IsAcknowledged = operation.IsAcknowledged,
-                        Serialized = Utilities.Serialize(operation),
-                    };
+                    OperationData data = new OperationData(operation);
                     entities.Operations.AddObject(data);
                     entities.SaveChanges();
 
-                    // Update Operation ID afterwards
                     operation.Id = data.Id;
                     return operation;
                 }

@@ -56,7 +56,8 @@ namespace AlarmWorkflow.Shared.Engine
 
         private void InitializeOperationStore()
         {
-            _operationStore = ExportedTypeLibrary.Import<IOperationStore>(AlarmWorkflowConfiguration.Instance.OperationStoreAlias);
+            // Note: This approach will take the first occurrence. This is fine for the moment, since we plan to only support MySQL.
+            _operationStore = ExportedTypeLibrary.Import<IOperationStore>();
             Logger.Instance.LogFormat(LogType.Info, this, Resources.InitializedOperationStore, _operationStore.GetType().FullName);
         }
 

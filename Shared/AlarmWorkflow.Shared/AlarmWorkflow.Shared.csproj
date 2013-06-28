@@ -53,6 +53,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\CsvHelper.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
     <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />

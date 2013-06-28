@@ -1,15 +1,15 @@
-using System.Reflection;
+﻿using System.Reflection;
 using System.Runtime.InteropServices;
 using AlarmWorkflow.Shared.Core;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AlarmWorkflow.Job.MySqlDatabaseJob")]
+[assembly: AssemblyTitle("AlarmWorkflow.Shared.Database")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The AlarmWorkflow-Team")]
-[assembly: AssemblyProduct("AlarmWorkflow.Job.MySqlDatabaseJob")]
+[assembly: AssemblyProduct("AlarmWorkflow.Shared.Database")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using AlarmWorkflow.Shared.Core;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d06ebc47-56e2-43ca-904d-65a58e3e371a")]
+[assembly: Guid("5f86c5da-f806-4bb0-a517-ac49b4873ba8")]
 
 // Version information for an assembly consists of the following four values:
 //

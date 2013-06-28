@@ -1,19 +1,15 @@
 ﻿<SettingsDisplayConfiguration>
-
-  <Identifier Name="MySqlDatabaseJob" DisplayText="MySQL" Parent="Aufgaben">
-
+  <Identifier Name="Database" DisplayText="Datenbank" Parent="Shared">
     <Setting Name="DBServer" DisplayText="Servername" Category="Server"
-             Description="Der Name des Servers, auf dem die MySQL-Datenbank läuft." />
+             Description="Der Name des Servers, auf dem die Datenbank läuft." />
     <Setting Name="DBServerPort" DisplayText="Port" Category="Server"
-             Description="Der Port."
+             Description="Der Port des Datenbankservers."
              EditorParameter="1;65535" />
     <Setting Name="DBName" DisplayText="Datenbankname" Category="Datenbank"
-             Description="Der Name der Datenbank." />
+             Description="Der Name der Datenbank auf dem Datenbankserver." />
     <Setting Name="UserID" DisplayText="Benutzer-ID" Category="Datenbank"
              Description="Der Benutzername zum Anmelden auf dem Datenbankserver." />
     <Setting Name="UserPWD" DisplayText="Passwort" Category="Datenbank"
              Description="Das Passwort zum Anmelden auf dem Datenbankserver." />
-
   </Identifier>
-
 </SettingsDisplayConfiguration>

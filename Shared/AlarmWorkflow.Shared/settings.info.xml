@@ -16,8 +16,6 @@
     <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Auswertung" Editor="ReplaceDictionaryTypeEditor"
              Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
-    <Setting Name="OperationStore" DisplayText="Operation Store" Category="Erweitert" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IOperationStore, AlarmWorkflow.Shared"
-             Description="Welcher Operation Store zum Speichern von Alarmen benutzt wird." />
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IJob, AlarmWorkflow.Shared"
              Description="Welche Aufgaben nach eingehenden Alarmen ausgeführt werden sollen." />
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource, AlarmWorkflow.Shared"

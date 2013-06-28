@@ -55,7 +55,6 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public ReplaceDictionary ReplaceDictionary { get; private set; }
 
-        internal string OperationStoreAlias { get; private set; }
         internal ReadOnlyCollection<string> EnabledJobs { get; private set; }
         internal ReadOnlyCollection<string> EnabledAlarmSources { get; private set; }
 
@@ -83,7 +82,6 @@ namespace AlarmWorkflow.Shared.Core
             this.ReplaceDictionary = SettingsManager.Instance.GetSetting("Shared", "ReplaceDictionary").GetValue<ReplaceDictionary>();
 
             // Internal configuration
-            this.OperationStoreAlias = SettingsManager.Instance.GetSetting("Shared", "OperationStore").GetString();
             this.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
             this.EnabledAlarmSources = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("Shared", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
         }

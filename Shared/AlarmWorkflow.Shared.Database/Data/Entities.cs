@@ -2,7 +2,7 @@
 using System.Text;
 using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
+namespace AlarmWorkflow.Shared.Database.Data
 {
     partial class AlarmWorkflowEntities
     {
@@ -15,11 +15,11 @@ namespace AlarmWorkflow.Job.MySqlDatabaseJob.Data
 
         private static string BuildConnectionString()
         {
-            string server = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServer").GetString();
-            int port = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBServerPort").GetInt32();
-            string dbName = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "DBName").GetString();
-            string uid = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserID").GetString();
-            string pwd = SettingsManager.Instance.GetSetting("MySqlDatabaseJob", "UserPWD").GetString();
+            string server = SettingsManager.Instance.GetSetting("Database", "DBServer").GetString();
+            int port = SettingsManager.Instance.GetSetting("Database", "DBServerPort").GetInt32();
+            string dbName = SettingsManager.Instance.GetSetting("Database", "DBName").GetString();
+            string uid = SettingsManager.Instance.GetSetting("Database", "UserID").GetString();
+            string pwd = SettingsManager.Instance.GetSetting("Database", "UserPWD").GetString();
 
             StringBuilder sb = new StringBuilder("metadata=res://*/Data.Entities.csdl|res://*/Data.Entities.ssdl|res://*/Data.Entities.msl;provider=MySql.Data.MySqlClient;provider connection string=\"server={SERVER};Port={PORT};User Id={UID};Password={PWD};database={DATABASE};Persist Security Info=True\"");
             sb.Replace("{SERVER}", server);
