@@ -17,6 +17,7 @@ General
   * Removed deprecated MySqlDatabaseJob (AlarmView/PHP has been phased out)
   * Removed AlarmView/PHP
   * New database architecture and schema
+  * OperationLoopFetcher functional (EXPERIMENTAL)
 
 Parsers
 

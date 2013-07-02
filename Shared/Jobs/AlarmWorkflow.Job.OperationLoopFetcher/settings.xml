@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="OperationLoopFetcherJob">
+  <Setting Name="LoopsFilePath" Type="System.String" IsNull="False">C:\Loops.txt</Setting>
+  <Setting Name="MaxEntryAge" Type="System.Int32" IsNull="False">60</Setting>
+  <Setting Name="EntryDateTimeFormat" Type="System.String" IsNull="False">dd.MM.yyyy HH:mm:ss,ff</Setting>
+</SettingsConfiguration>

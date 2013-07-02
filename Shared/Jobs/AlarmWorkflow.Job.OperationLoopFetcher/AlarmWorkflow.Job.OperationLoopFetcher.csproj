@@ -37,12 +37,20 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>../../Build/AlarmWorkflow.Shared.dll</HintPath>
+      <HintPath>../../../Build/AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="OperationLoopFetcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OperationLoopFileWriter.bat" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.info.xml" />
+    <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
