@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
-using System.Linq;
+using System.Threading;
 using AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Shared.Specialized.Printing;
 
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
@@ -16,12 +17,6 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
     [Export("AlarmSourcePrinterJob", typeof(IJob))]
     class AlarmSourcePrinterJob : IJob
     {
-        #region Fields
-
-        private PrintJobConfiguration _printingConfiguration;
-
-        #endregion
-
         #region Methods
 
         private void PrintFaxes(IJobContext context, Operation operation)
@@ -42,38 +37,17 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             // Grab all created files to print
             string imagePath = (string)context.Parameters["ImagePath"];
 
-            PrintDocument doc = new PrintDocument { DocumentName = operation.OperationNumber + Resources.DocumentNameAppendix };
-            if (!_printingConfiguration.IsDefaultPrinter)
+            foreach (string queueName in SettingsManager.Instance.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
             {
-                doc.PrinterSettings.PrinterName = _printingConfiguration.PrinterName;
-            }
+                PrintingQueue pq = PrintingQueueManager.GetInstance().GetPrintingQueue(queueName);
+                if (pq == null || !pq.IsEnabled)
+                {
+                    continue;
+                }
 
-            int desiredCopyCount = _printingConfiguration.CopyCount;
-            int maxSupportedCopyCount = doc.PrinterSettings.MaximumCopies;
-            int alternativeCopyPrintingAmount = 1;
-
-            if (desiredCopyCount <= maxSupportedCopyCount)
-            {
-                doc.PrinterSettings.Copies = (short)desiredCopyCount;
-            }
-            else
-            {
-                // It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
-                // In this case we simply repeat printing until we have reached our copy count.
-                Logger.Instance.LogFormat(LogType.Warning, this, Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
-
-                // Setting this variable causes the loop below to execute the Print() method the specified number of times.
-                alternativeCopyPrintingAmount = desiredCopyCount;
-            }
-
-            for (int i = 0; i < alternativeCopyPrintingAmount; i++)
-            {
-                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationStart, i + 1, alternativeCopyPrintingAmount);
-
-                PrintFaxTask task = new PrintFaxTask() { ImagePath = imagePath };
-                task.Print(doc);
-
-                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintIterationEnd);
+                PrintFaxTask task = new PrintFaxTask();
+                task.ImagePath = imagePath;
+                task.Print(pq);
             }
         }
 
@@ -101,30 +75,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         bool IJob.Initialize()
         {
-            _printingConfiguration = PrintJobConfiguration.FromSettings("AlarmSourcePrinterJob");
-            AssertPrintJobConfigurationIsComplete();
-            if (!_printingConfiguration.IsDefaultPrinter)
-            {
-                Logger.Instance.LogFormat(LogType.Info, this, Resources.UsedPrinter, _printingConfiguration.PrinterName);
-            }
-            else
-            {
-                Logger.Instance.LogFormat(LogType.Info, this, Resources.UsingDefaultPrinter);
-            }
             return true;
-        }
-
-        private void AssertPrintJobConfigurationIsComplete()
-        {
-            if (!_printingConfiguration.IsDefaultPrinter)
-            {
-                IEnumerable<string> printerNames = PrinterSettings.InstalledPrinters.Cast<string>();
-                if (!printerNames.Any(p => p == _printingConfiguration.PrinterName))
-                {
-                    string message = string.Format(Resources.NoSuchPrinterFoundError, _printingConfiguration.PrinterName, string.Join(", ", printerNames));
-                    throw new InvalidOperationException(message);
-                }
-            }
         }
 
         bool IJob.IsAsync
@@ -147,61 +98,48 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         class PrintFaxTask
         {
-            private int _currentPageIndex = -1;
             private IList<Image> _pages;
 
             internal string ImagePath { private get; set; }
 
-            internal void Print(PrintDocument doc)
+            internal void Print(PrintingQueue queue)
             {
                 _pages = SplitMultipageTiff(ImagePath);
 
-                doc.PrintPage += doc_PrintPage;
-                doc.Print();
+                ThreadPool.QueueUserWorkItem(w => GdiPrinter.Print(queue, GdiPrinterPrintAction));
             }
 
-            private void doc_PrintPage(object sender, PrintPageEventArgs e)
+            private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings, ref object state)
             {
-                _currentPageIndex++;
+                graphics.DrawImage(_pages[pageIndex - 1], Point.Empty);
 
-                bool hasMorePages = _currentPageIndex < (_pages.Count - 1);
-                e.HasMorePages = hasMorePages;
-
-                Logger.Instance.LogFormat(LogType.Trace, this, Resources.PrintingDone, _currentPageIndex);
-                // Draw this part
-                e.Graphics.DrawImage(_pages[_currentPageIndex], Point.Empty);
-
-                if (!hasMorePages)
-                {
-                    ((PrintDocument)sender).PrintPage -= doc_PrintPage;
-                    _pages.Clear();
-                    _pages = null;
-                }
+                return pageIndex < _pages.Count;
             }
-        }
 
-        private static IList<Image> SplitMultipageTiff(string tiffFileName)
-        {
-            List<Image> images = new List<Image>();
-
-            using (Image tiffImage = Image.FromFile(tiffFileName))
+            private static IList<Image> SplitMultipageTiff(string tiffFileName)
             {
-                Guid objGuid = tiffImage.FrameDimensionsList[0];
-                FrameDimension dimension = new FrameDimension(objGuid);
-                int noOfPages = tiffImage.GetFrameCount(dimension);
+                List<Image> images = new List<Image>();
 
-                foreach (Guid guid in tiffImage.FrameDimensionsList)
+                using (Image tiffImage = Image.FromFile(tiffFileName))
                 {
-                    for (int index = 0; index < noOfPages; index++)
+                    Guid objGuid = tiffImage.FrameDimensionsList[0];
+                    FrameDimension dimension = new FrameDimension(objGuid);
+                    int noOfPages = tiffImage.GetFrameCount(dimension);
+
+                    foreach (Guid guid in tiffImage.FrameDimensionsList)
                     {
-                        FrameDimension currentFrame = new FrameDimension(guid);
-                        tiffImage.SelectActiveFrame(currentFrame, index);
-                        images.Add((Image)tiffImage.Clone());
+                        for (int index = 0; index < noOfPages; index++)
+                        {
+                            FrameDimension currentFrame = new FrameDimension(guid);
+                            tiffImage.SelectActiveFrame(currentFrame, index);
+                            images.Add((Image)tiffImage.Clone());
+                        }
                     }
                 }
+
+                return images;
             }
 
-            return images;
         }
 
         #endregion

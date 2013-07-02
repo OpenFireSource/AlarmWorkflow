@@ -113,7 +113,6 @@
     <Compile Include="Specialized\Printing\PrintingQueueManager.cs" />
     <Compile Include="Specialized\Printing\PrintingQueue.cs" />
     <Compile Include="Specialized\Printing\PrintingQueuesConfiguration.cs" />
-    <Compile Include="Specialized\Printing\PrintJobConfiguration.cs" />
     <Compile Include="Specialized\ReplaceDictionary.cs" />
     <Compile Include="Diagnostics\Reports\ErrorReport.cs" />
     <Compile Include="Diagnostics\Reports\ErrorReportManager.cs" />

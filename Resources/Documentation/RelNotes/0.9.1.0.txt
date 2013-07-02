@@ -18,6 +18,7 @@ General
   * Removed AlarmView/PHP
   * New database architecture and schema
   * OperationLoopFetcher functional (EXPERIMENTAL)
+  * AlarmSourcePrinterJob uses new printing mechanism
 
 Parsers
 
