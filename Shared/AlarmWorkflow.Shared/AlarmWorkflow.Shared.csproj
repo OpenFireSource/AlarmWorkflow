@@ -61,8 +61,6 @@
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
-    <Compile Include="Core\FDResource.cs" />
-    <Compile Include="Core\FDResourceConfiguration.cs" />
     <Compile Include="Core\ObjectExpressionTools.cs" />
     <Compile Include="Core\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />

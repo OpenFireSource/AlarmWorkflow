@@ -42,15 +42,6 @@ namespace AlarmWorkflow.Shared.Core
         /// <remarks>This information is used (among others) to provide the route information to the operation destination.</remarks>
         public FireDepartmentInfo FDInformation { get; private set; }
         /// <summary>
-        /// Gets the information about the configured resources in this fire department.
-        /// </summary>
-        /// <remarks>This information may be used for specific display of resources in UI or other components.</remarks>
-        public FDResourceConfiguration FDResources { get; private set; }
-        /// <summary>
-        /// Gets whether or not components shall filter their resources according to the resources configured by the <see cref="P:FDResources"/> configuration.
-        /// </summary>
-        public bool UseFDResourceFiltering { get; private set; }
-        /// <summary>
         /// Gets the replace dictionary to use for replacing strings with other strings in parsed content.
         /// </summary>
         public ReplaceDictionary ReplaceDictionary { get; private set; }
@@ -75,9 +66,6 @@ namespace AlarmWorkflow.Shared.Core
             this.FDInformation.Location.City = SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
             this.FDInformation.Location.Street = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString();
             this.FDInformation.Location.StreetNumber = SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString();
-
-            this.FDResources = SettingsManager.Instance.GetSetting("Shared", "FD.Units").GetValue<FDResourceConfiguration>();
-            this.UseFDResourceFiltering = SettingsManager.Instance.GetSetting("Shared", "FD.FilterUnits").GetBoolean();
 
             this.ReplaceDictionary = SettingsManager.Instance.GetSetting("Shared", "ReplaceDictionary").GetValue<ReplaceDictionary>();
 

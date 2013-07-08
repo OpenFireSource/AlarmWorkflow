@@ -19,6 +19,7 @@ General
   * New database architecture and schema
   * OperationLoopFetcher functional (EXPERIMENTAL)
   * AlarmSourcePrinterJob uses new printing mechanism
+  * Removed FDResourceConfiguration (to be reintroduced at a later stage)
 
 Parsers
 

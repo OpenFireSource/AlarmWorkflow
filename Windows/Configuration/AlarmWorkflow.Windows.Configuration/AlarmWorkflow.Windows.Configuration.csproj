@@ -76,9 +76,6 @@
     <Compile Include="TypeEditors\DropDownTypeEditor.xaml.cs">
       <DependentUpon>DropDownTypeEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TypeEditors\FDResourceConfigurationTypeEditor.xaml.cs">
-      <DependentUpon>FDResourceConfigurationTypeEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TypeEditors\FileTypeEditor.xaml.cs">
       <DependentUpon>FileTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -166,10 +163,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\DropDownTypeEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TypeEditors\FDResourceConfigurationTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
