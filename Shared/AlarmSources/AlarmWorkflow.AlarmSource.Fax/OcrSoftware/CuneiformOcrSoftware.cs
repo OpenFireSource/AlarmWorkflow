@@ -46,7 +46,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 
 
                 string singlepageTiffAnalyzedFile = Path.Combine(Path.GetDirectoryName(options.AnalyzedFileDestinationPath), Path.GetFileName(singlepageTiffFileName) + ".txt");
-                proc.Arguments = "-l ger --singlecolumn -o " + singlepageTiffAnalyzedFile + " " + singlepageTiffFileName;
+                proc.Arguments = string.Format("-l ger --singlecolumn -o \"{0}\" \"{1}\"", singlepageTiffAnalyzedFile, singlepageTiffFileName);
 
                 proc.StartAndWait();
 
