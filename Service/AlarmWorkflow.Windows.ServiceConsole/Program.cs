@@ -2,6 +2,7 @@
 using System.Threading;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
+using AlarmWorkflow.Windows.Service;
 
 namespace AlarmWorkflow.Windows.ServiceConsole
 {
@@ -23,49 +24,50 @@ namespace AlarmWorkflow.Windows.ServiceConsole
             Console.WriteLine("*                                                      *");
             Console.WriteLine("********************************************************");
             Console.WriteLine();
-            Console.WriteLine("Starting service...");
+            Console.WriteLine(Properties.Resources.MainStartingService);
 
             // Catch all unhandled exceptions and display them.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Logger.Instance.Initialize(ComponentName);
 
-            // Initialize the service
-            using (var service = new AlarmWorkflow.Windows.Service.AlarmWorkflowServiceManager())
+            try
             {
-                // Start the service
-                service.OnStart();
-
-                // Wait for user exit
-                while (true)
+                using (AlarmWorkflowServiceManager service = new AlarmWorkflowServiceManager())
                 {
-                    if (Console.KeyAvailable)
+                    service.OnStart();
+
+                    // Wait for user exit
+                    while (true)
                     {
-                        if (Console.ReadKey().Key == ConsoleKey.Escape)
+                        if (Console.KeyAvailable)
                         {
-                            break;
+                            if (Console.ReadKey().Key == ConsoleKey.Escape)
+                            {
+                                break;
+                            }
                         }
+
+                        Thread.Sleep(1);
                     }
 
-                    Thread.Sleep(1);
+                    Console.WriteLine(Properties.Resources.MainShuttingDownService);
+                    service.OnStop();
                 }
-
-                // Stop service
-                service.OnStop();
             }
+            catch (Exception ex)
+            {
+                WriteExceptionInformation(ex);
 
-            Console.WriteLine("Shutting down complete. Press any key to exit.");
-            Console.ReadKey();
+                Console.WriteLine(Properties.Resources.MainFailStartingServiceException);
+                Console.ReadKey();
+            }
         }
 
         private static void WriteExceptionInformation(Exception exception)
         {
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("An error occurred while running the service. Error details:");
-            Console.WriteLine("Type = {0}", exception.GetType().FullName);
-            Console.WriteLine("Message = {0}", exception.Message);
-            Console.WriteLine("StackTrace = {0}", exception.StackTrace);
-            Console.WriteLine();
+            Console.WriteLine(Properties.Resources.UnhandledExceptionTrace, exception.GetType().FullName, exception.Message, exception.StackTrace);
 
             Console.ResetColor();
         }
@@ -74,47 +76,5 @@ namespace AlarmWorkflow.Windows.ServiceConsole
         {
             WriteExceptionInformation((Exception)e.ExceptionObject);
         }
-
-        #region Event handlers
-
-        // TODO: Use within log4net
-        private static void LoggingListener(LogEntry entry)
-        {
-            ConsoleColor back = ConsoleColor.Black;
-            ConsoleColor fore = ConsoleColor.White;
-
-            switch (entry.MessageType)
-            {
-                case LogType.None:
-                case LogType.Info:
-                    break;
-                case LogType.Console:
-                    fore = ConsoleColor.Blue;
-                    break;
-                case LogType.Debug:
-                    fore = ConsoleColor.Cyan;
-                    break;
-                case LogType.Error:
-                    fore = ConsoleColor.DarkYellow;
-                    break;
-                case LogType.Exception:
-                    fore = ConsoleColor.Red;
-                    break;
-                case LogType.Trace:
-                    fore = ConsoleColor.Gray;
-                    break;
-                case LogType.Warning:
-                    fore = ConsoleColor.Yellow;
-                    break;
-                default:
-                    break;
-            }
-
-            Console.BackgroundColor = back;
-            Console.ForegroundColor = fore;
-            Console.WriteLine("{0}", entry.Message);
-        }
-
-        #endregion
     }
 }
