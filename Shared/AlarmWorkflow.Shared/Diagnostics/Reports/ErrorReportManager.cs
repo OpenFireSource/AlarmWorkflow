@@ -15,8 +15,11 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
     {
         #region Constants
 
-        private static readonly string ErrorReportPath = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "ErrorReports");
-        private static readonly string ErrorReportArchivePath = Path.Combine(ErrorReportPath, "Archive");
+        /// <summary>
+        /// Defines the path where the error reports are stored.
+        /// </summary>
+        public static readonly string ErrorReportPath = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "ErrorReports");
+
         private const string ErrorReportPathTemplate = "{0}_{1}.{2}";
         private const string ErrorReportExtension = "erx";
 

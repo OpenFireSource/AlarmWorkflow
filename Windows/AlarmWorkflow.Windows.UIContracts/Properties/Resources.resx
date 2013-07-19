@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CopyToClipboardDoneMessage" xml:space="preserve">
+    <value>Die Daten wurden in die Zwischenablage kopiert.</value>
+  </data>
+  <data name="CopyToClipboardFailedMessage" xml:space="preserve">
+    <value>Konnte nicht auf die Zwischenablage zugreifen. Möglicherweise greift aktuell ein anderes Programm darauf zu. Bitte versuchen Sie es in ein paar Sekunden erneut.</value>
+  </data>
   <data name="DestinationLocationIsUnknown" xml:space="preserve">
     <value>Destination location is unknown! Cannot download route plan!</value>
   </data>

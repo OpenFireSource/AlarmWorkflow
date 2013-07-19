@@ -1,4 +1,7 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.UIContracts.Properties;
 
 namespace AlarmWorkflow.Windows.UIContracts
 {
@@ -7,6 +10,15 @@ namespace AlarmWorkflow.Windows.UIContracts
     /// </summary>
     public static class UIUtilities
     {
+        #region Constants
+
+        /// <summary>
+        /// Defines the format that should be used for german formatting of <see cref="System.DateTime"/> instances.
+        /// </summary>
+        public static readonly string DateTimeFormatGermany = "dd.MM.yyyy HH:mm:ss";
+        
+        #endregion
+
         /// <summary>
         /// Brings up a message box and asks for confirmation.
         /// </summary>
@@ -38,6 +50,24 @@ namespace AlarmWorkflow.Windows.UIContracts
         public static void ShowInfo(string format, params object[] args)
         {
             MessageBox.Show(string.Format(format, args), "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Copies some text to the clipboard and gives the user feedback on success or failure.
+        /// </summary>
+        /// <param name="text">The text to copy to the clipboard.</param>
+        public static void CopyToClipboardInteractive(string text)
+        {
+            try
+            {
+                Clipboard.SetText(text);
+                UIUtilities.ShowInfo(Resources.CopyToClipboardDoneMessage);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(typeof(UIUtilities), ex);
+                UIUtilities.ShowWarning(Resources.CopyToClipboardFailedMessage);
+            }
         }
     }
 }

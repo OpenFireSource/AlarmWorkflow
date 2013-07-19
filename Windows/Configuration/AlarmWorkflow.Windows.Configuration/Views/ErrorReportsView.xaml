@@ -22,11 +22,15 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Margin="0,0,0,1" FontWeight="Bold" Text="Verfügbare Berichte:" />
+            <ContentControl Grid.Row="0" Margin="0,0,0,1">
+                <Hyperlink Command="{Binding GoToErrorReportsDirectoryCommand}" ToolTip="Klicken, um zum Fehlerberichtsverzeichnis zu wechseln">
+                    <TextBlock FontWeight="Bold" Text="Verfügbare Berichte:" />
+                </Hyperlink>
+            </ContentControl>
             <ListView x:Name="lsvReports" Grid.Row="1" ItemsSource="{Binding ErrorReports}" AllowDrop="True" Drop="lsvReports_Drop">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Datum" DisplayMemberBinding="{Binding Report.Timestamp, Converter={StaticResource utcConv}}" Width="100" />
+                        <GridViewColumn Header="Datum" DisplayMemberBinding="{Binding TimestampLocalized}" />
                         <GridViewColumn Header="Komponente" DisplayMemberBinding="{Binding Report.SourceComponentName}" Width="150" />
                     </GridView>
                 </ListView.View>

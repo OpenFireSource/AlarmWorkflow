@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
+using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
@@ -30,6 +32,24 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         private void RefreshErrorReportsListCommand_Execute(object parameter)
         {
             RefreshErrorReportsList();
+        }
+
+        #endregion
+
+        #region Command "GoToErrorReportsDirectoryCommand"
+
+        /// <summary>
+        /// The GoToErrorReportsDirectoryCommand command.
+        /// </summary>
+        public ICommand GoToErrorReportsDirectoryCommand { get; private set; }
+
+        private void GoToErrorReportsDirectoryCommand_Execute(object parameter)
+        {
+            string directory = ErrorReportManager.ErrorReportPath;
+            if (Directory.Exists(directory))
+            {
+                Process.Start(directory);
+            }
         }
 
         #endregion
@@ -64,7 +84,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             }
             catch (DirectoryNotFoundException)
             {
-                // TODO: Handling!
+                // Nothing - if the directory is not found, there just have been no errors yet.
             }
         }
 
@@ -78,10 +98,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Nested types
 
-        internal class ErrorReportViewModel
+        internal class ErrorReportViewModel : ViewModelBase
         {
+            #region Properties
+
             public ErrorReport Report { get; set; }
 
+            public string TimestampLocalized
+            {
+                get { return Report.Timestamp.ToLocalTime().ToString(UIUtilities.DateTimeFormatGermany); }
+            }
             public IEnumerable<ExceptionDetail> FlattenedExceptionDetails
             {
                 get
@@ -94,6 +120,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                     }
                 }
             }
+
+            #endregion
         }
 
         #endregion

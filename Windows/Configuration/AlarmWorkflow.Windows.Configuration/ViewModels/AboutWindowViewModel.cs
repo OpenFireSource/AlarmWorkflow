@@ -4,11 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Windows;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.Configuration.Properties;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -158,16 +155,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 sb.AppendFormat("{0} = {1}", entry.Key, entry.Value).AppendLine();
             }
 
-            try
-            {
-                Clipboard.SetText(sb.ToString());
-                UIUtilities.ShowInfo(Resources.CopyToClipboardDoneMessage);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Resources.CopyToClipboardFailedMessage);
-            }
+            UIUtilities.CopyToClipboardInteractive(sb.ToString());
         }
 
         #endregion
