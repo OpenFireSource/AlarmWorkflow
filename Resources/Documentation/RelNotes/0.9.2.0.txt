@@ -1,0 +1,25 @@
+AlarmWorkflow v0.9.2.0 Release Notes
+====================================
+
+Updates since v0.9.1.0
+----------------------
+
+General
+
+  * a
+  * b
+  * c
+
+Fixes since v0.9.1.0
+--------------------
+
+Issues resolved
+
+  * #123
+  * #456
+  * #1337
+
+Other fixes
+
+  * This
+  * That
