@@ -133,6 +133,7 @@ namespace AlarmWorkflow.Shared.Diagnostics.Reports
                 {
                     XDocument doc = XDocument.Parse(File.ReadAllText(file.FullName));
                     report = ErrorReport.Deserialize(doc.ToString());
+                    report.ReportFileName = file.Name;
                 }
                 catch (Exception)
                 {
