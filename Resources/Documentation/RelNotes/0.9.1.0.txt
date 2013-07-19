@@ -46,7 +46,7 @@ Fixes since v0.9.0.0
 
 Issues resolved
 
-  * -
+  * See http://www.openfiresource.de/bugs/changelog_page.php?version_id=8
 
 Other fixes
 
