@@ -6,16 +6,14 @@ Updates since v0.9.1.0
 
 General
 
-  * a
-  * b
-  * c
+  * MailingJob: Support expressions for mail subject
 
 Fixes since v0.9.1.0
 --------------------
 
 Issues resolved
 
-  * #123
+  * #91
   * #456
   * #1337
 
