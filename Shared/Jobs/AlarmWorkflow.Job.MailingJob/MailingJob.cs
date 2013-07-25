@@ -62,7 +62,6 @@ namespace AlarmWorkflow.Job.MailingJob
                 return false;
             }
 
-            // Create new SMTP client for sending mails
             _smptClient = new SmtpClient(smtpHostName, smtpPort);
             _smptClient.EnableSsl = useSsl;
             if (smtpAuthenticate)
@@ -77,11 +76,9 @@ namespace AlarmWorkflow.Job.MailingJob
                 _mailSubject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - Neuer Alarm";
             }
 
-            // Get recipients
             var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
-            // Require at least one recipient for initialization to succeed
             if (_recipients.Count == 0)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoRecipientsMessage);
@@ -117,15 +114,15 @@ namespace AlarmWorkflow.Job.MailingJob
                     }
                 }
 
-                message.Subject = ObjectFormatter.ToString(operation, _mailSubject);
-                message.Body = ObjectFormatter.ToString(operation, _mailBodyFormat);
-
-                message.BodyEncoding = Encoding.UTF8;
-                message.Priority = MailPriority.High;
-                message.IsBodyHtml = false;
-
                 try
                 {
+                    message.Subject = ObjectFormatter.ToString(operation, _mailSubject);
+                    message.Body = ObjectFormatter.ToString(operation, _mailBodyFormat);
+
+                    message.BodyEncoding = Encoding.UTF8;
+                    message.Priority = MailPriority.High;
+                    message.IsBodyHtml = false;
+
                     _smptClient.Send(message);
                 }
                 catch (Exception ex)
@@ -153,7 +150,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
         #region IDisposable Members
 
-        void System.IDisposable.Dispose()
+        void IDisposable.Dispose()
         {
 
         }
