@@ -288,4 +288,7 @@
   <data name="GdiPrinterPrintingQueueIsNotValid" xml:space="preserve">
     <value>The printing queue '{0}' is not valid. Printing will be canceled. Please check if PrintServer and PrinterName are properly configured.</value>
   </data>
+  <data name="ErrorWhileInvokingUserExpressionResolver" xml:space="preserve">
+    <value>An error occurred while invoking user-provided expression resolver. A default value will be used for this expression. Please see log for further information.</value>
+  </data>
 </root>

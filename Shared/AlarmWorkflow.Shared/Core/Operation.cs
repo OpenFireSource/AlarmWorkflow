@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AlarmWorkflow.Shared.ObjectExpressions;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -236,7 +237,27 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            return ObjectFormatter.ToString(this, format);
+            ObjectExpressionFormatter<Operation> formatter = new ObjectExpressionFormatter<Operation>(ResolveProperty);
+            if (formatProvider != null)
+            {
+                formatter.FormatProvider = formatProvider;
+            }
+            return formatter.ToString(this, format);
+        }
+
+        private static ResolveExpressionResult ResolveProperty(Operation operation, string expression)
+        {
+            // Look inside the custom dictionary for a key named like the expression.
+
+            ResolveExpressionResult result = ResolveExpressionResult.Fail;
+
+            if (operation.CustomData.ContainsKey(expression))
+            {
+                result.ResolvedValue = operation.CustomData[expression];
+                result.Success = true;
+            }
+
+            return result;
         }
 
         #endregion
