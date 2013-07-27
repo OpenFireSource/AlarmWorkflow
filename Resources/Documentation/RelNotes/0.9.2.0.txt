@@ -7,6 +7,7 @@ Updates since v0.9.1.0
 General
 
   * MailingJob: Support expressions for mail subject
+  * Object formatting: Using CustomData now consistently possible
 
 Fixes since v0.9.1.0
 --------------------
@@ -14,10 +15,7 @@ Fixes since v0.9.1.0
 Issues resolved
 
   * #91
-  * #456
-  * #1337
 
 Other fixes
 
-  * This
-  * That
+  * -
