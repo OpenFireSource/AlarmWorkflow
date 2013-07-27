@@ -237,7 +237,23 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
+            return ToString(format, ObjectFormatterOptions.Default, formatProvider);
+        }
+
+        /// <summary>
+        /// Converts the value of the current <see cref="Operation"/> object to its equivalent string representation
+        /// using the specified format and culture-specific format information.
+        /// </summary>
+        /// <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+        /// If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+        /// If it wasn't found there either, a default string is printed.</param>
+        /// <param name="options">Options to use for controlling formatting.</param>
+        /// <param name="formatProvider">The format provider to use for formatting.</param>
+        /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
+        public string ToString(string format, ObjectFormatterOptions options, IFormatProvider formatProvider)
+        {
             ObjectExpressionFormatter<Operation> formatter = new ObjectExpressionFormatter<Operation>(ResolveProperty);
+            formatter.Options = options;
             return formatter.ToString(this, format);
         }
 

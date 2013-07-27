@@ -10,6 +10,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.ObjectExpressions;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.MailingJob
@@ -116,7 +117,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
                 try
                 {
-                    message.Subject = operation.ToString(_mailSubject);
+                    message.Subject = operation.ToString(_mailSubject, ObjectFormatterOptions.RemoveNewlines, null);
                     message.Body = operation.ToString(_mailBodyFormat);
 
                     message.BodyEncoding = Encoding.UTF8;
