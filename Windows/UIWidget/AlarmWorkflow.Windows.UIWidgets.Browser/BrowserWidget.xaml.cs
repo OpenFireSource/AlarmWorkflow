@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.ObjectExpressions;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 

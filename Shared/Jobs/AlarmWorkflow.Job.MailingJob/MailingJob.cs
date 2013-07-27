@@ -116,8 +116,8 @@ namespace AlarmWorkflow.Job.MailingJob
 
                 try
                 {
-                    message.Subject = ObjectFormatter.ToString(operation, _mailSubject);
-                    message.Body = ObjectFormatter.ToString(operation, _mailBodyFormat);
+                    message.Subject = operation.ToString(_mailSubject);
+                    message.Body = operation.ToString(_mailBodyFormat);
 
                     message.BodyEncoding = Encoding.UTF8;
                     message.Priority = MailPriority.High;

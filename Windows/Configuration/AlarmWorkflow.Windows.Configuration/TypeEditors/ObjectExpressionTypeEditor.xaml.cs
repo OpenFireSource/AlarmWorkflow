@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.ObjectExpressions;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AlarmWorkflow.Shared.ObjectExpressions;
+using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Shared.Core
+namespace AlarmWorkflow.Shared.ObjectExpressions
 {
     /// <summary>
     /// Provides tools that use an expression string to access properties from an object.

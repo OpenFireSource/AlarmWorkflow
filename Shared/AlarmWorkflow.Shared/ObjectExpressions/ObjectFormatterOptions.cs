@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AlarmWorkflow.Shared.Core
+namespace AlarmWorkflow.Shared.ObjectExpressions
 {
     /// <summary>
     /// Specifies the options that can be used to alter the way the <see cref="T:ObjectFormatter" /> formats an object.

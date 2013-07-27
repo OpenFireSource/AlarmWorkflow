@@ -61,10 +61,10 @@
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
-    <Compile Include="Core\ObjectExpressionTools.cs" />
-    <Compile Include="Core\ObjectFormatter.cs" />
+    <Compile Include="ObjectExpressions\ObjectExpressionTools.cs" />
+    <Compile Include="ObjectExpressions\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />
-    <Compile Include="Core\ObjectFormatterOptions.cs" />
+    <Compile Include="ObjectExpressions\ObjectFormatterOptions.cs" />
     <Compile Include="Core\OperationLoopCollection.cs" />
     <Compile Include="Engine\JobContext.cs" />
     <Compile Include="Engine\IJobContext.cs" />

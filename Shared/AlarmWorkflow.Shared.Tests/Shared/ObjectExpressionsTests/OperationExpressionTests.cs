@@ -1,4 +1,5 @@
 ﻿using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.ObjectExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AlarmWorkflow.Shared.Tests.Shared.ObjectExpressionsTests

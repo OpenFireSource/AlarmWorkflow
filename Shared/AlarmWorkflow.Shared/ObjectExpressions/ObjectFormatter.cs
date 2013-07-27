@@ -1,6 +1,5 @@
-﻿using AlarmWorkflow.Shared.ObjectExpressions;
-
-namespace AlarmWorkflow.Shared.Core
+﻿
+namespace AlarmWorkflow.Shared.ObjectExpressions
 {
     /// <summary>
     /// Provides tools to format an object's ToString()-representation.

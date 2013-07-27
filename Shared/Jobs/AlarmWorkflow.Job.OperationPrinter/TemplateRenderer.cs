@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.ObjectExpressions;
 
 namespace AlarmWorkflow.Job.OperationPrinter
 {
