@@ -238,10 +238,6 @@ namespace AlarmWorkflow.Shared.Core
         public string ToString(string format, IFormatProvider formatProvider)
         {
             ObjectExpressionFormatter<Operation> formatter = new ObjectExpressionFormatter<Operation>(ResolveProperty);
-            if (formatProvider != null)
-            {
-                formatter.FormatProvider = formatProvider;
-            }
             return formatter.ToString(this, format);
         }
 

@@ -39,12 +39,6 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         /// Gets/sets the options that shall be used for formatting.
         /// </summary>
         public ObjectFormatterOptions Options { get; set; }
-        /// <summary>
-        /// Gets/sets the <see cref="IFormatProvider"/> to use for formatting values.
-        /// See documentation for further information.
-        /// </summary>
-        /// <remarks>By default, the format provider from <see cref="System.Globalization.CultureInfo.CurrentCulture"/> is used.</remarks>
-        public IFormatProvider FormatProvider { get; set; }
 
         #endregion
 
@@ -56,7 +50,6 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         public ObjectExpressionFormatter()
         {
             Options = ObjectFormatterOptions.Default;
-            FormatProvider = CultureInfo.CurrentCulture;
         }
 
         /// <summary>
