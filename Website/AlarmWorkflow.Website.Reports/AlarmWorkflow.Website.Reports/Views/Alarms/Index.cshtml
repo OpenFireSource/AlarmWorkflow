@@ -1,0 +1,26 @@
+﻿@model IEnumerable<AlarmWorkflow.Website.Reports.Models.Alarm>
+
+@{
+    ViewBag.Title = "Alarmübersicht";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    Auf dieser Seite können Sie alle bisherigen Alarme ansehen.
+</p>
+<table>
+    <tr>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        </td>
+    </tr>
+}
+
+</table>
