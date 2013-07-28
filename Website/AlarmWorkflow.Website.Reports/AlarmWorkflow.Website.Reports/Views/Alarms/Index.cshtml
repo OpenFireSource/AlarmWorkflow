@@ -1,4 +1,5 @@
-﻿@model IEnumerable<AlarmWorkflow.Website.Reports.Models.Alarm>
+﻿@model IEnumerable<AlarmWorkflow.Shared.Core.Operation>
+@using AlarmWorkflow.Shared.Core
 
 @{
     ViewBag.Title = "Alarmübersicht";
@@ -11,14 +12,21 @@
 </p>
 <table>
     <tr>
+        <th>Zeitpunkt</th>
+        <th>Bemerkung</th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+           <b>@item.TimestampIncome</b>
+        </td>
+        <td>
+           <b>@item.Comment.Truncate(64)</b>
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { item.Id })
         </td>
     </tr>
 }

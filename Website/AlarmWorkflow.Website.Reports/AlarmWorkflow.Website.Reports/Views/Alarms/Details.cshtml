@@ -1,0 +1,68 @@
+﻿@model AlarmWorkflow.Shared.Core.Operation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Allgemeine Daten</h2>
+
+<table>
+
+  <tr>
+    <td><b>Zeitpunkt:</b></td>
+    <td>
+      <table>
+        <tr>
+          <td><b>Eingang:</b></td>
+          <td>@Model.TimestampIncome <img src="../../Images/helpicon.png" title="Zeitpunkt des Eingangs des Alarms." alt="" /> </td>
+        </tr>
+        <tr>
+          <td><b>Empfang:</b></td>
+          <td>@Model.Timestamp <img src="../../Images/helpicon.png" title="Zeitstempel der Alarmquelle (Fax, SMS etc.)." alt="" /></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  
+  <tr>
+    <td><b>Einsatzort:</b></td>
+    <td>@Model.Einsatzort.ToString()</td>
+  </tr>
+  
+  @if (Model.Zielort.IsMeaningful)
+  {
+  <tr>
+    <td><b>Zielort:</b></td>
+    <td>@Model.Zielort.ToString()</td>
+  </tr>      
+  }
+  
+  <tr>
+    <td><b>Bemerkung:</b></td>
+    <td>@Model.Comment</td>
+  </tr>
+
+  <tr>
+    <td><b>Mitteiler:</b></td>
+    <td>@Model.Messenger</td>
+  </tr> 
+
+</table>
+
+<h2>Spezifische Daten</h2>
+
+<table>
+
+  @foreach (KeyValuePair<string,object> pair in Model.CustomData)
+  {
+  <tr>
+     <td><b>@pair.Key:</b></td>
+     <td>@pair.Value</td>
+  </tr>
+  }
+
+</table>
+
+<p>
+    @Html.ActionLink("Zurück", "Index")
+</p>
