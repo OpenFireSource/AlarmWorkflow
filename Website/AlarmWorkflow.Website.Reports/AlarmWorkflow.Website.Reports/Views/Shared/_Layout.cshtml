@@ -12,13 +12,13 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("OpenFireSource AlarmWorkflow", "Index", "Home")</p>
+                    <p class="site-title">@Html.ActionLink("OpenFireSource AlarmWorkflow Web Interface", "Index", "Home", new { area = "" }, null)</p>
                 </div>
                 <div class="float-right">
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                            <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, null)</li>
                         </ul>
                     </nav>
                 </div>
@@ -33,7 +33,7 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; @DateTime.Now.Year - OpenFireSource AlarmWorkflow</p>
+                    <p>&copy; @DateTime.Now.Year - <a href="http://openfiresource.de">OpenFireSource</a></p>
                 </div>
             </div>
         </footer>

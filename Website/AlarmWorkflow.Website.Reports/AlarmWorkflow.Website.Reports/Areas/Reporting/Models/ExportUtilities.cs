@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Xml.Linq;
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Website.Reports.Models
+namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Models
 {
     class ExportUtilities
     {

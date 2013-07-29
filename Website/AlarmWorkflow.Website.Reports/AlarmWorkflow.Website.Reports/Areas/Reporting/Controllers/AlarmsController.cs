@@ -2,15 +2,16 @@
 using System.IO;
 using System.Web.Mvc;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Website.Reports.Areas.Reporting.Models;
 using AlarmWorkflow.Website.Reports.Models;
 using AlarmWorkflow.Windows.ServiceContracts;
 
-namespace AlarmWorkflow.Website.Reports.Controllers
+namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
 {
     public class AlarmsController : Controller
     {
         /// <summary>
-        /// GET: /Alarms/
+        /// GET: /Reporting/Alarms/
         /// </summary>
         /// <returns></returns>
         public ActionResult Index()
@@ -32,7 +33,7 @@ namespace AlarmWorkflow.Website.Reports.Controllers
         }
 
         /// <summary>
-        /// GET: /Alarms/Details/
+        /// GET: /Reporting/Alarms/Details/
         /// </summary>
         /// <param name="id">Id of the operation.</param>
         /// <returns></returns>
@@ -45,7 +46,7 @@ namespace AlarmWorkflow.Website.Reports.Controllers
         }
 
         /// <summary>
-        /// GET: /Alarms/Export/
+        /// GET: /Reporting/Alarms/Export/
         /// </summary>
         /// <param name="id">Id of the operation.</param>
         /// <returns></returns>

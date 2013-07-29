@@ -172,12 +172,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AlarmsController.cs" />
+    <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
+    <Compile Include="Areas\Reporting\Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExportUtilities.cs" />
+    <Compile Include="Areas\Reporting\Models\ExportUtilities.cs" />
     <Compile Include="Models\InternalServiceProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -284,16 +285,22 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Filters\" />
+    <Folder Include="Areas\Reporting\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Alarms\Index.cshtml" />
+    <Content Include="Areas\Reporting\Views\Alarms\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Alarms\Details.cshtml" />
+    <Content Include="Areas\Reporting\Views\Alarms\Details.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Reporting\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Reporting\Views\_ViewStart.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

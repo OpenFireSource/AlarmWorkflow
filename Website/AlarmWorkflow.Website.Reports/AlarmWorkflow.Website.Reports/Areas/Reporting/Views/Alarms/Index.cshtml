@@ -23,12 +23,13 @@
            <b>@item.TimestampIncome</b>
         </td>
         <td>
-           <b>@item.Comment.Truncate(64)</b>
+           <b title="@item.Comment">@item.Comment.Truncate(64)</b>
         </td>
         <td>
             @Html.ActionLink("Details", "Details", new { item.Id })
         </td>
     </tr>
 }
-
 </table>
+
+<p><b>Anzahl Alarme: </b>@Model.Count()</p>
