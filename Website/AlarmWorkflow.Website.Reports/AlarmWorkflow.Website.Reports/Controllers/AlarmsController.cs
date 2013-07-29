@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Web.Mvc;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Website.Reports.Models;
@@ -40,6 +41,24 @@ namespace AlarmWorkflow.Website.Reports.Controllers
             using (var service = InternalServiceProxy.GetServiceInstance())
             {
                 return View(service.Instance.GetOperationById(id).ToOperation());
+            }
+        }
+
+        /// <summary>
+        /// GET: /Alarms/Export/
+        /// </summary>
+        /// <param name="id">Id of the operation.</param>
+        /// <returns></returns>
+        public ActionResult Export(int id)
+        {
+            using (var service = InternalServiceProxy.GetServiceInstance())
+            {
+                Operation operation = service.Instance.GetOperationById(id).ToOperation();
+                Stream stream = ExportUtilities.ExportOperation(operation);
+
+                FileStreamResult result = new FileStreamResult(stream, "text/xml");
+                result.FileDownloadName = string.Format("{0}.xml", id);
+                return result;
             }
         }
     }
