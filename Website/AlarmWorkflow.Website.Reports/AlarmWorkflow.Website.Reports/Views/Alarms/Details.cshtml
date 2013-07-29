@@ -24,13 +24,13 @@
   </tr>
   <tr>
     <td><b>Einsatzort:</b></td>
-    <td>@Model.Einsatzort.ToString()</td>
+    <td><a href="@string.Format("https://www.google.de/maps?q={0}", Model.Einsatzort.ToString())">@Model.Einsatzort.ToString()</a></td>
   </tr>
   @if (Model.Zielort.IsMeaningful)
   {
   <tr>
     <td><b>Zielort:</b></td>
-    <td>@Model.Zielort.ToString()</td>
+    <td><a href="@string.Format("https://www.google.de/maps?q={0}", Model.Zielort.ToString())">@Model.Zielort.ToString()</a></td>
   </tr>
   }
   <tr>
