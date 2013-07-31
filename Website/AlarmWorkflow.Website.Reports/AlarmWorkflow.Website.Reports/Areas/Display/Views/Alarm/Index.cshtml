@@ -1,0 +1,117 @@
+﻿@{
+    Layout = "IndexLayout.cshtml";
+    ViewBag.Title = "Alarmanzeige";
+}
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script> 
+<script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"> </script>
+<script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"> </script> 
+<script type="text/javascript">
+
+    // Stores the current operation, so we don't get the expensive data all over each time.
+    var currentOpId = -1;
+
+    // Poll the service and read operation data, then apply to DOM.
+    window.setInterval(function () {
+
+        $.get('/Display/Alarm/GetLatestOperation', function (result) {
+
+            $("#paneLoading").hide();
+
+            if (result.success == true) {
+
+                $("#paneError").hide();
+
+                if (currentOpId != result.op.Id) {
+                    currentOpId = result.op.Id;
+
+                    $("#opicture").text(result.op.Picture);
+                    $("#ocomment").text(result.op.Comment);
+                    $("#oplan").text(result.op.OperationPlan);
+
+                    var address = result.op.Einsatzort.Street + " " +
+                                result.op.Einsatzort.StreetNumber + ", " +
+                                result.op.Einsatzort.ZipCode + " " +
+                                result.op.Einsatzort.City;
+                    $("#oaddress").text(address);
+                    $("#oobject").text(result.op.Einsatzort.Property);
+
+                    // Prepare Keywords for display.
+                    var kwd = "Stichwörter: " +
+                                result.op.Keywords.Keyword + ", " +
+                                result.op.Keywords.EmergencyKeyword + ", " +
+                                result.op.Keywords.B + ", " +
+                                result.op.Keywords.R + ", " +
+                                result.op.Keywords.S + ", " +
+                                result.op.Keywords.T;
+
+                    $("#okeywords").text(kwd);
+
+                    // Resources
+                    var rsc = "";
+                    for (var i = 0; i < result.op.Resources.length; i++) {
+                        rsc = rsc + result.op.Resources[i].FullName + ", ";
+                    }
+                    $("#orsc").text(rsc);
+
+                    $("#paneOperation").show();
+                }
+            }
+            else {
+                // Reset current operation and display warning.
+                currentOpId = -1;
+                $("#paneOperation").hide();
+                $("#paneError").show();
+            }
+        });
+    }, 3000);</script>
+
+<!-- Pane initially shown -->
+<div id="paneLoading"">
+    <span>Lade, bitte warten...</span>
+</div>
+    
+<!-- Pane to be displayed in case of an error-->
+<div id="paneError" hidden="hidden">
+    <span style="color: Red; font-size: large; font-weight: bold">Ein Fehler ist aufgetreten. Bitte sehen Sie in den Serverlogs nach.</span>
+</div>
+    
+<!-- Pane to be displayed otherwise -->
+<div id="paneOperation">
+    <table style="border-color: #333333; border-style: solid; border-width: 3px; font-size: 45px; height: 100%; width: 100%; border-collapse: separate">
+        <tr>
+            <td style="width: 60%; margin-left: auto; margin-right: auto" rowspan="2">
+                <span id="opicture" style="font-size: 55px; font-weight: bold" />
+            </td>
+            <td style="width: 40%; margin-left: auto; margin-right: auto">
+                <span id="ocomment" /> <span id="oplan" />
+            </td>
+        </tr>
+        <tr>
+            <td style="margin-left: auto; margin-right: auto" colspan="2">
+                <span id="okeywords" style="font-weight: bold" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span id="oaddress" />
+            </td>
+            <td>
+                <span id="oobject" />
+            </td>
+        </tr>
+        <tr style="height: 50%">
+            <td>
+                <div id="googlemap" style="height: 100%; width: 100%" />
+            </td>
+            <td>
+                <div id="osmmap" style="height: 100%; width: 100%" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span id="orsc" />
+            </td>
+        </tr>
+    </table>
+</div>

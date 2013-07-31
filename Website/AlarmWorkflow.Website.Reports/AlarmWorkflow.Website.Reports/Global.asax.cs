@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
+﻿using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Website.Reports
 {
@@ -16,6 +13,8 @@ namespace AlarmWorkflow.Website.Reports
     {
         protected void Application_Start()
         {
+            Logger.Instance.Initialize("AlarmWorkflow.Website.Mvc");
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);

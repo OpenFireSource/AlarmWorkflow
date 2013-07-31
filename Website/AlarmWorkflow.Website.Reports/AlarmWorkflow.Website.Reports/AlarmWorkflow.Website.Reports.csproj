@@ -172,6 +172,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Display\Controllers\AlarmController.cs" />
+    <Compile Include="Areas\Display\DisplayAreaRegistration.cs" />
+    <Compile Include="Areas\Display\Models\GetLastOperationData.cs" />
     <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
     <Compile Include="Areas\Reporting\Controllers\AlarmsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -285,6 +288,7 @@
     <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Display\Views\Shared\" />
     <Folder Include="Areas\Reporting\Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +305,18 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\Reporting\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Display\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Display\Views\_ViewStart.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Display\Views\Alarm\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Display\Views\Alarm\IndexLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
