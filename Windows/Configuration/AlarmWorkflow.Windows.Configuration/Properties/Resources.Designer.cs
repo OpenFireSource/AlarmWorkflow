@@ -70,6 +70,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Der endgültige Wert liegt außerhalb der erlaubten Grenzen von &apos;{0}&apos; - &apos;{1}&apos; (beide einschließlich) in der Einheit {2}..
+        /// </summary>
+        internal static string DurationTypeEditorOutsideBoundaries {
+            get {
+                return ResourceManager.GetString("DurationTypeEditorOutsideBoundaries", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Konnte nicht zur URI {0} navigieren. Der Fehler war: {1}.
         /// </summary>
         internal static string HyperlinkRequestUriFailedMessage {

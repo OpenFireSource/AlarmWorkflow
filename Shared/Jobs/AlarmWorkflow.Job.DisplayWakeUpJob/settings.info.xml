@@ -2,9 +2,10 @@
 
   <Identifier Name="DisplayWakeUpJob" DisplayText="Display-Wake Up" Parent="Aufgaben">
 
-    <Setting Name="TurnOffTimeout" DisplayText="Ausschalten nach (Minuten)" Category="Generell"
-             Description="Nach wie vielen Minuten die Bildschirme wieder ausgeschaltet werden sollen, wenn kein neuer Alarm kommt (0 für kein Timeout)."
-             EditorParameter="0;6000"/>
+    <Setting Name="TurnOffTimeout" DisplayText="Ausschalten nach..." Category="Generell"
+             Description="Nach welcher Wartezeit die Bildschirme wieder ausgeschaltet werden sollen, wenn kein neuer Alarm kommt (0 für kein Timeout)."
+             Editor="DurationTypeEditor"
+             EditorParameter="Min=0;Max=6000;Scale=Minutes" />
     <Setting Name="DisplayConfiguration" DisplayText="Anzeigenkonfiguration" Category="Erweitert" Editor="StringArrayTypeEditor"
              Description="Die Konfiguration der Anzeigen (ein Eintrag pro Zeile)." />
     <Setting Name="IgnoreErrorInResponse" DisplayText="Fehler in Geräteantwort ignorieren" Category="Erweitert"

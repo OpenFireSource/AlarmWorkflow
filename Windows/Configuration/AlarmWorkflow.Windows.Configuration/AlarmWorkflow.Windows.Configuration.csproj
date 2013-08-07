@@ -76,6 +76,9 @@
     <Compile Include="TypeEditors\DropDownTypeEditor.xaml.cs">
       <DependentUpon>DropDownTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\DurationTypeEditor.xaml.cs">
+      <DependentUpon>DurationTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\FileTypeEditor.xaml.cs">
       <DependentUpon>FileTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
     <Page Include="TypeEditors\DropDownTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DurationTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="TypeEditors\FileTypeEditor.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -23,13 +23,15 @@
 
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme"
              Description="Schaltet die automatische Bestätigung/Kenntnisnahme von Alarmen ein." />
-    <Setting Name="AOA.MaxAge" DisplayText="Max. Alter (in Minuten)" Category="Automatische Kenntnisnahme"
+    <Setting Name="AOA.MaxAge" DisplayText="Max. Alter" Category="Automatische Kenntnisnahme"
              Description="Ab welchem Alter Alarme automatisch bestätigt werden."
-             EditorParameter="1;6000"/>
+             Editor="DurationTypeEditor"
+             EditorParameter="Min=1;Max=6000;Scale=Minutes" />
 
     <Setting Name="SwitchTime" DisplayText="Wartezeit" Category="Automatischer Wechsel"
-             Description="Die Zeit in Sekunden, die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät."
-             EditorParameter="5;60000"/>
+             Description="Die Zeit, die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät."
+             Editor="DurationTypeEditor"
+             EditorParameter="Min=5;Max=60000;Scale=Seconds"/>
     <Setting Name="SwitchAlarms" DisplayText="Automatischer Wechsel" Category="Automatischer Wechsel"
              Description="Gibt an, ob bei mehreren Alarmen die Anzeige automatisch zwischen allen Alarmen in einem definierten Abstand durchwechseln soll." />
 

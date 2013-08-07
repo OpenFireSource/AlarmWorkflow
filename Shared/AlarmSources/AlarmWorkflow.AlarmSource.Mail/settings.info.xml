@@ -6,7 +6,9 @@
     <Setting Name="Port" DisplayText="Port" Category="Server" EditorParameter="1;65535" />
     <Setting Name="POPIMAP" DisplayText="POP / IMAP" Category="Server" Editor="DropDownTypeEditor" EditorParameter="POP;IMAP" />
     <Setting Name="SSL" DisplayText="SSL" Category="Server" />
-    <Setting Name="PollInterval" DisplayText="Abfrageintervall" Category="Server" EditorParameter="500;600000" />
+    <Setting Name="PollInterval" DisplayText="Abfrageintervall" Category="Server" 
+             Editor="DurationTypeEditor"
+             EditorParameter="Min=500;Max=600000;Scale=Milliseconds" />
 
     <Setting Name="UserName" DisplayText="Benutzername" Category="Konto" />
     <Setting Name="Password" DisplayText="Passwort" Category="Konto" />

@@ -120,6 +120,9 @@
   <data name="AdministratorRequiredMessage" xml:space="preserve">
     <value>Sie müssen Administratorrechte besitzen, um diese Aktion auszuführen!</value>
   </data>
+  <data name="DurationTypeEditorOutsideBoundaries" xml:space="preserve">
+    <value>Der endgültige Wert liegt außerhalb der erlaubten Grenzen von '{0}' - '{1}' (beide einschließlich) in der Einheit {2}.</value>
+  </data>
   <data name="HyperlinkRequestUriFailedMessage" xml:space="preserve">
     <value>Konnte nicht zur URI {0} navigieren. Der Fehler war: {1}</value>
   </data>

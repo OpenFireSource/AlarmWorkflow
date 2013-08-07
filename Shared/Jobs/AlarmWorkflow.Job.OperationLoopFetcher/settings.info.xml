@@ -1,7 +1,9 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="OperationLoopFetcherJob" DisplayText="Externe Schleifeninfos" Parent="Aufgaben">
     <Setting Name="LoopsFilePath" DisplayText="Schleifeninfo-Datei" Editor="FileTypeEditor" />
-    <Setting Name="MaxEntryAge" DisplayText="Maximales Eintragsalter" />
+    <Setting Name="MaxEntryAge" DisplayText="Maximales Eintragsalter"
+             Editor="DurationTypeEditor"
+             EditorParameter="Min=0;Max=7200;Scale=Seconds" />
     <Setting Name="EntryDateTimeFormat" DisplayText="Datumsformat" Category="Erweitert" />
   </Identifier>
 </SettingsDisplayConfiguration>

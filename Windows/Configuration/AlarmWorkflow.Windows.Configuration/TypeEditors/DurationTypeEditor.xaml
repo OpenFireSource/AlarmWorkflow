@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.DurationTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Column="0" Margin="1" MinWidth="80" Text="{Binding Duration, ValidatesOnExceptions=True}" TextAlignment="Center" />
+        <TextBlock Grid.Column="1" Margin="2,1,2,1" x:Name="PART_OpenPopup" VerticalAlignment="Center">
+            <Hyperlink Click="PART_OpenPopup_Click">
+                <TextBlock Text="{Binding UnderlyingDurationScale}" ToolTip="Die effektive Einheit in der zugrundeliegenden Einstellung. Klicken für detailliertere Einstellung." />
+            </Hyperlink>
+        </TextBlock>
+
+        <Popup x:Name="PART_Popup" PopupAnimation="None" Focusable="True" PlacementTarget="{Binding ElementName=PART_OpenPopup}" Placement="Bottom"
+               LostFocus="PART_Popup_LostFocus">
+            <Border Background="WhiteSmoke" BorderBrush="Gray" BorderThickness="1" Padding="2">
+                <Grid Margin="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="40" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="0" Content="T:" ToolTip="Tage" />
+                    <TextBox Grid.Column="1" Text="{Binding Days, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="2" Content="S:" ToolTip="Stunden" />
+                    <TextBox Grid.Column="3" Text="{Binding Hours, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="4" Content="M:" ToolTip="Minuten" />
+                    <TextBox Grid.Column="5" Text="{Binding Minutes, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="6" Content="s:" ToolTip="Sekunden" />
+                    <TextBox Grid.Column="7" Text="{Binding Seconds, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="8" Content="ms:" ToolTip="Millisekunden" />
+                    <TextBox Grid.Column="9" Text="{Binding Milliseconds, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="10" Content="=" ToolTip="Die berechnete Dauer für die Einstellung." />
+                    <TextBox Grid.Column="11" MinWidth="80" Text="{Binding Duration, ValidatesOnExceptions=True}" TextAlignment="Center" />
+
+                    <Label Grid.Column="12" Content="{Binding UnderlyingDurationScale}" ToolTip="Die effektive Einheit in der zugrundeliegenden Einstellung." />
+                </Grid>
+            </Border>
+        </Popup>
+
+    </Grid>
+</UserControl>

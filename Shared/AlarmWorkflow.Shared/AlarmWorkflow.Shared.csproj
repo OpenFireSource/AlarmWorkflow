@@ -57,6 +57,7 @@
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
     <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
+    <Compile Include="Core\OptionStringHelper.cs" />
     <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
