@@ -9,11 +9,16 @@ General
   * MailingJob: Support expressions for mail subject
   * Object formatting: Using CustomData now consistently possible
 
+UI
+
+  * Added editor for editing durations
+
 Fixes since v0.9.1.0
 --------------------
 
 Issues resolved
 
+  * #73
   * #91
 
 Other fixes
