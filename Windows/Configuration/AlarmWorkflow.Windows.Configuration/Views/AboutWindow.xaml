@@ -30,7 +30,29 @@
                             <TextBlock Text="http://openfiresource.de" />
                         </Hyperlink>
                         <Run Text="." />
-                    </TextBlock>
+                    </TextBlock>                    
+                </Grid>
+            </TabItem>
+            <TabItem Header="Lizenz">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Image Grid.Column="0" Source="../Images/GPLv3.png" />
+                    <TextBlock Grid.Column="1" Margin="2" TextWrapping="WrapWithOverflow">
+                            <Run Text="Dieses Programm (und alle Komponenten) ist lizenziert unter der" />
+                            <Run Text="GNU General Public License Version 3" FontWeight="Bold" />
+                            <Run Text=". Weitere Informationen finden Sie unter: " />                            
+                            <Hyperlink NavigateUri="http://www.gnu.org/licenses/" RequestNavigate="Hyperlink_RequestNavigate">
+                                <TextBlock Text="http://www.gnu.org/licenses/" />
+                            </Hyperlink>
+                            <Run Text="." />
+                        </TextBlock>
                 </Grid>
             </TabItem>
             <TabItem Header="Installierte Pakete">

@@ -6,7 +6,7 @@ Open-Source, extensible application which analyzes an alarm fax and takes custom
 License
 =============
 
-This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See gpl-3.0.txt for further information.
+This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See License.txt for further information.
 
     AlarmWorkflow - Alarmfax processing and task scheduling application
     Copyright (C) 2012	The AlarmWorkflow-Team
