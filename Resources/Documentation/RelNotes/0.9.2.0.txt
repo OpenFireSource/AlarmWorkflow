@@ -12,6 +12,7 @@ General
 UI
 
   * Added editor for editing durations
+  * Made exports more user-friendly in ConfEd
 
 Fixes since v0.9.1.0
 --------------------
