@@ -11,6 +11,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Browser
     /// Provides a Browserwidget
     /// </summary>
     [Export("BrowserWidget", typeof(IUIWidget))]
+    [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class BrowserWidget : IUIWidget
     {
         #region Fields

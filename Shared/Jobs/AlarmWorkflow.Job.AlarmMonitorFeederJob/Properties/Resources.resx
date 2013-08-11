@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExportUIWidgetDescription" xml:space="preserve">
-    <value>Zeigt einen Anfahrtsplan mittels OpenStreetMap an.</value>
+  <data name="ExportJobDescription" xml:space="preserve">
+    <value>Schreibt in eine Datei zur Kommunikation mit AlarmMonitor.</value>
   </data>
-  <data name="ExportUIWidgetDisplayName" xml:space="preserve">
-    <value>OpenStreetMap</value>
+  <data name="ExportJobDisplayName" xml:space="preserve">
+    <value>AlarmMonitor-Feeder</value>
   </data>
 </root>

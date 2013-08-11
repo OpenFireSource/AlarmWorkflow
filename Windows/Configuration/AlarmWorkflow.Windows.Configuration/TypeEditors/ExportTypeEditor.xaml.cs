@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
@@ -12,6 +14,12 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     [Export("ExportTypeEditor", typeof(ITypeEditor))]
     public partial class ExportTypeEditor : UserControl, ITypeEditor
     {
+        #region Fields
+
+        private ViewModel _viewModel;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -20,19 +28,19 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public ExportTypeEditor()
         {
             InitializeComponent();
+
+            _viewModel = new ViewModel();
+            this.DataContext = _viewModel;
         }
 
         #endregion
 
         #region ITypeEditor Members
 
-        /// <summary>
-        /// Gets/sets the value that is edited.
-        /// </summary>
-        public object Value
+        object ITypeEditor.Value
         {
-            get { return cboExport.Text; }
-            set { cboExport.Text = (string)value; }
+            get { return _viewModel.Value; }
+            set { _viewModel.Value = value; }
         }
 
         /// <summary>
@@ -45,24 +53,107 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
-            if (string.IsNullOrWhiteSpace(editorParameter))
+            if (!string.IsNullOrWhiteSpace(editorParameter))
             {
-                return;
+                Type type = Type.GetType(editorParameter);
+                if (type != null)
+                {
+                    var exports = ExportedTypeLibrary.GetExports(type).Select(e => GetEntryViewModel(e)).OrderBy(e => e.DisplayName);
+                    _viewModel.Exports.AddRange(exports);
+                    return;
+                }
             }
 
-            // Find out the type - if the type could not be found, make the combobox editable
-            Type type = Type.GetType(editorParameter);
-            if (type == null)
+            throw new InvalidOperationException(string.Format(Properties.Resources.ExportEditorsTypeRequired, editorParameter));
+        }
+
+        #endregion
+
+        #region Methods
+
+        private static ExportEntryViewModel GetEntryViewModel(ExportedType export)
+        {
+            ExportEntryViewModel vm = new ExportEntryViewModel();
+            vm.Name = export.Attribute.Alias;
+            vm.DisplayName = InformationAttribute.GetDisplayName(export.Type);
+            vm.Description = InformationAttribute.GetDescription(export.Type);
+            if (string.IsNullOrWhiteSpace(vm.Description))
             {
-                cboExport.IsEditable = true;
-                return;
+                // If there is no useful description, set it to null to make TargetNullValue in binding effective.
+                vm.Description = null;
             }
 
-            // Otherwise list all exports
-            foreach (ExportedType export in ExportedTypeLibrary.GetExports(type).OrderBy(et => et.Attribute.Alias))
+            return vm;
+        }
+
+        #endregion
+
+        #region Nested types
+
+        class ViewModel : ViewModelBase
+        {
+            #region Fields
+
+            private object _rawValue;
+
+            #endregion
+
+            #region Properties
+
+            /// <summary>
+            /// Gets/sets the list of exports to use for displaying.
+            /// </summary>
+            public IList<ExportEntryViewModel> Exports { get; set; }
+            /// <summary>
+            /// Gets/sets the currently selected item.
+            /// </summary>
+            public ExportEntryViewModel SelectedItem { get; set; }
+            /// <summary>
+            /// Gets/sets the object from the settings.
+            /// Wraps it automatically for usage.
+            /// </summary>
+            public object Value
             {
-                cboExport.Items.Add(export.Attribute.Alias);
+                get
+                {
+                    // Sometimes the alias of an export is set, which doesn't exist anymore.
+                    // In this case return the initially stored name instead.
+                    if (SelectedItem == null)
+                    {
+                        return _rawValue;
+                    }
+                    return SelectedItem.Name;
+                }
+                set
+                {
+                    _rawValue = value;
+
+                    string name = (string)value;
+                    SelectedItem = Exports.FirstOrDefault(e => e.Name == name);
+                    OnPropertyChanged("SelectedItem");
+                }
             }
+
+            #endregion
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ViewModel"/> class.
+            /// </summary>
+            public ViewModel()
+            {
+                Exports = new List<ExportEntryViewModel>();
+            }
+
+            #endregion
+        }
+
+        class ExportEntryViewModel : ViewModelBase
+        {
+            public string Name { get; set; }
+            public string DisplayName { get; set; }
+            public string Description { get; set; }
         }
 
         #endregion

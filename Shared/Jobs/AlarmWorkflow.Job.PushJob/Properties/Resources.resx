@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExportJobDescription" xml:space="preserve">
+    <value>Versendet Push-Nachrichten mittels verschiedener Anbieter.</value>
+  </data>
+  <data name="ExportJobDisplayName" xml:space="preserve">
+    <value>Push-Versand</value>
+  </data>
   <data name="NMA" xml:space="preserve">
     <value>Sent Notify my Android Notifications. Server response was: {0}</value>
   </data>

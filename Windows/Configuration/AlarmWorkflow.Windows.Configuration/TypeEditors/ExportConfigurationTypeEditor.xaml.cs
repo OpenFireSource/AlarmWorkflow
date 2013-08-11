@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.ConfigurationContracts;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
@@ -12,22 +12,11 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
     /// Interaction logic for ExportConfigurationTypeEditor.xaml
     /// </summary>
     [Export("ExportConfigurationTypeEditor", typeof(ITypeEditor))]
-    public partial class ExportConfigurationTypeEditor : UserControl, ITypeEditor, INotifyPropertyChanged
+    public partial class ExportConfigurationTypeEditor : UserControl, ITypeEditor
     {
         #region Fields
 
-        private object _value;
-        private Type _exportedType;
-        private ExportConfiguration _configuration;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the list of all exports.
-        /// </summary>
-        public List<ExportConfiguration.ExportEntry> Exports { get; private set; }
+        private ViewModel _viewModel;
 
         #endregion
 
@@ -40,48 +29,18 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         {
             InitializeComponent();
 
-            Exports = new List<ExportConfiguration.ExportEntry>();
-
-            this.DataContext = this;
+            _viewModel = new ViewModel();
+            this.DataContext = _viewModel;
         }
 
         #endregion
 
         #region ITypeEditor Members
 
-        /// <summary>
-        /// Gets/sets the value that is edited.
-        /// </summary>
-        public object Value
+        object ITypeEditor.Value
         {
-            get { return _configuration; }
-            set
-            {
-                _value = value;
-
-                // Parse the export configuration
-                _configuration = ExportConfiguration.Parse((string)_value);
-                // Add/Remove exports from the ETL (if exported type is available)
-                if (_exportedType != null)
-                {
-                    List<ExportedType> validExports = ExportedTypeLibrary.GetExports(_exportedType);
-
-                    // Find out which exports are new to show in the list ...
-                    var newExports = validExports.Select(e => e.Attribute.Alias).Except(_configuration.Exports.Select(e => e.Name));
-                    // ... and which exports are no longer needed.
-                    var obsoleteExports = _configuration.Exports.Select(e => e.Name).Except(validExports.Select(e => e.Attribute.Alias));
-
-                    // Remove the ones we no longer need ...
-                    _configuration.Exports.RemoveAll(e => obsoleteExports.Contains(e.Name));
-                    // ... and add those we do need.
-                    _configuration.Exports.AddRange(newExports.Select(e => new ExportConfiguration.ExportEntry() { Name = e }));
-                }
-
-                // Set reference to exports list for UI
-                this.Exports = _configuration.Exports;
-
-                OnPropertyChanged("Exports");
-            }
+            get { return _viewModel.Value; }
+            set { _viewModel.Value = value; }
         }
 
         /// <summary>
@@ -94,31 +53,124 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         void ITypeEditor.Initialize(string editorParameter)
         {
-            if (string.IsNullOrWhiteSpace(editorParameter))
+            if (!string.IsNullOrWhiteSpace(editorParameter))
             {
-                return;
+                Type type = Type.GetType(editorParameter);
+                if (type != null)
+                {
+                    _viewModel.ExportedType = type;
+                    return;
+                }
             }
 
-            // Find out the type - if the type could not be found, go out.
-            _exportedType = Type.GetType(editorParameter);
+            throw new InvalidOperationException(string.Format(Properties.Resources.ExportEditorsTypeRequired, editorParameter));
         }
 
         #endregion
 
-        #region INotifyPropertyChanged Members
+        #region Nested types
 
-        /// <summary>
-        /// Raised when the property changed.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
+        class ViewModel : ViewModelBase
         {
-            var copy = PropertyChanged;
-            if (copy != null)
+            #region Properties
+
+            /// <summary>
+            /// Gets the list of all exports.
+            /// </summary>
+            public IList<ExportEntryViewModel> Exports { get; private set; }
+
+            /// <summary>
+            /// Gets/sets the exported type.
+            /// </summary>
+            public Type ExportedType { get; set; }
+
+            /// <summary>
+            /// Gets/sets the value that is edited.
+            /// </summary>
+            public object Value
             {
-                copy(this, new PropertyChangedEventArgs(propertyName));
+                get
+                {
+                    ExportConfiguration configuration = new ExportConfiguration();
+                    foreach (ExportEntryViewModel entry in Exports)
+                    {
+                        configuration.Exports.Add(new ExportConfiguration.ExportEntry()
+                        {
+                            Name = entry.Name,
+                            IsEnabled = entry.IsEnabled
+                        });
+                    }
+                    return configuration;
+                }
+                set
+                {
+                    ExportConfiguration configuration = ExportConfiguration.Parse((string)value);
+
+                    List<ExportedType> validExports = ExportedTypeLibrary.GetExports(ExportedType);
+
+                    // Find out which exports are new to show in the list ...
+                    var newExports = validExports.Select(e => e.Attribute.Alias).Except(configuration.Exports.Select(e => e.Name));
+                    // ... and which exports are no longer needed.
+                    var obsoleteExports = configuration.Exports.Select(e => e.Name).Except(validExports.Select(e => e.Attribute.Alias));
+
+                    // Remove the ones we no longer need ...
+                    configuration.Exports.RemoveAll(e => obsoleteExports.Contains(e.Name));
+                    // ... and add those we do need.
+                    configuration.Exports.AddRange(newExports.Select(e => new ExportConfiguration.ExportEntry() { Name = e }));
+
+                    this.Exports = configuration.Exports
+                        .Select(e => GetEntryViewModel(e, validExports))
+                        .OrderBy(e => e.DisplayName)
+                        .ToList();
+
+                    OnPropertyChanged("Exports");
+                }
             }
+
+            #endregion
+
+            #region Constructors
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ViewModel"/> class.
+            /// </summary>
+            public ViewModel()
+                : base()
+            {
+
+            }
+
+            #endregion
+
+            #region Methods
+
+            private static ExportEntryViewModel GetEntryViewModel(ExportConfiguration.ExportEntry entry, IList<ExportedType> validExports)
+            {
+                Type myType = validExports.Single(e => e.Attribute.Alias == entry.Name).Type;
+
+                ExportEntryViewModel vm = new ExportEntryViewModel();
+                vm.IsEnabled = entry.IsEnabled;
+                vm.Name = entry.Name;
+                vm.DisplayName = InformationAttribute.GetDisplayName(myType);
+                vm.Description = InformationAttribute.GetDescription(myType);
+                if (string.IsNullOrWhiteSpace(vm.Description))
+                {
+                    // If there is no useful description, set it to null to make TargetNullValue in binding effective.
+                    vm.Description = null;
+                }
+
+                return vm;
+            }
+
+            #endregion
+        }
+
+        class ExportEntryViewModel : ViewModelBase
+        {
+            public bool IsEnabled { get; set; }
+            public string Name { get; set; }
+            public string DisplayName { get; set; }
+            public string Description { get; set; }
         }
 
         #endregion

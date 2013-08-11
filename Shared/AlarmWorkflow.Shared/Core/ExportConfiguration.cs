@@ -24,9 +24,9 @@ namespace AlarmWorkflow.Shared.Core
         #region Constructors
 
         /// <summary>
-        /// Prevents a default instance of the <see cref="ExportConfiguration"/> class from being created.
+        /// Initializes a new instance of the <see cref="ExportConfiguration"/> class.
         /// </summary>
-        private ExportConfiguration()
+        public ExportConfiguration()
         {
             Exports = new List<ExportEntry>();
         }

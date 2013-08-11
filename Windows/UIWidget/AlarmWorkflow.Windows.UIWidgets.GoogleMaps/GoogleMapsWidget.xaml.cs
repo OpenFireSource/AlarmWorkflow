@@ -17,6 +17,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export("GoogleMapsWidget", typeof(IUIWidget))]
+    [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class GoogleMapsWidget : IUIWidget
     {
         #region Fields

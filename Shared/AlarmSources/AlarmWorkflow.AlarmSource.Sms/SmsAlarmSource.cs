@@ -9,6 +9,7 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.AlarmSource.Sms
 {
     [Export("SmsAlarmSource", typeof(IAlarmSource))]
+    [Information(DisplayName = "ExportAlarmSourceDisplayName", Description = "ExportAlarmSourceDescription")]
     class SmsAlarmSource : IAlarmSource
     {
         #region Fields

@@ -129,6 +129,12 @@
   <data name="ConnectionToDeviceFailedWithSuppression" xml:space="preserve">
     <value>Could not connect to the device for Uri '{0}', however the job is configured to ignore errors.</value>
   </data>
+  <data name="ExportJobDescription" xml:space="preserve">
+    <value>Schaltet Anzeigen ein und aus.</value>
+  </data>
+  <data name="ExportJobDisplayName" xml:space="preserve">
+    <value>Display Wake-Up</value>
+  </data>
   <data name="NoConfigurationsFoundError" xml:space="preserve">
     <value>No display configurations have been found!</value>
   </data>

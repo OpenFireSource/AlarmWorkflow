@@ -12,6 +12,7 @@ using S22.Imap;
 namespace AlarmWorkflow.AlarmSource.Mail
 {
     [Export("MailAlarmSource", typeof(IAlarmSource))]
+    [Information(DisplayName = "ExportAlarmSourceDisplayName", Description = "ExportAlarmSourceDescription")]
     internal class MailAlarmSource : IAlarmSource
     {
         #region Fields

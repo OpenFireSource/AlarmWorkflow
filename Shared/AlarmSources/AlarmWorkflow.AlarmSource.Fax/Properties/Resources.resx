@@ -120,6 +120,24 @@
   <data name="CuneiformDeleteTempFileError" xml:space="preserve">
     <value>Could not delete temporary file '{0}'! You may want to delete them manually. See log for further information.</value>
   </data>
+  <data name="ExportAlarmSourceDescription" xml:space="preserve">
+    <value>Wertet eingehende Faxe aus, die in ein Verzeichnis auf dem lokalen PC geschrieben werden.</value>
+  </data>
+  <data name="ExportAlarmSourceDisplayName" xml:space="preserve">
+    <value>Fax</value>
+  </data>
+  <data name="ExportCuneiformOcrDescription" xml:space="preserve">
+    <value>Benutzt Cuneiform für Texterkennung.</value>
+  </data>
+  <data name="ExportCuneiformOcrDisplayName" xml:space="preserve">
+    <value>Cuneiform</value>
+  </data>
+  <data name="ExportTesseractOcrDescription" xml:space="preserve">
+    <value>Benutzt Tesseract für Texterkennung.</value>
+  </data>
+  <data name="ExportTesseractOcrDisplayName" xml:space="preserve">
+    <value>Tesseract</value>
+  </data>
   <data name="InitializeUsingOcrSoftware" xml:space="preserve">
     <value>Using OCR software '{0}'.</value>
   </data>

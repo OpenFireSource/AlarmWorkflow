@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ExportAlarmSourceDescription" xml:space="preserve">
+    <value>Wertet E-Mails aus, die an ein E-Mail-Konto gesendet werden.</value>
+  </data>
+  <data name="ExportAlarmSourceDisplayName" xml:space="preserve">
+    <value>E-Mail</value>
+  </data>
   <data name="NoAttachmentFound" xml:space="preserve">
     <value>No attachment found in the mail so we canot analyse one.</value>
   </data>

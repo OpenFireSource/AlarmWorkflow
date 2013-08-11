@@ -11,6 +11,7 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Job.PushJob
 {
     [Export("PushJob", typeof(IJob))]
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class PushJob : IJob
     {
         #region Constants

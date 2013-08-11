@@ -14,6 +14,7 @@ using AlarmWorkflow.Shared.Specialized.Printing;
 namespace AlarmWorkflow.Job.OperationPrinter
 {
     [Export("OperationPrinterJob", typeof(IJob))]
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class OperationPrinterJob : IJob
     {
         #region Fields

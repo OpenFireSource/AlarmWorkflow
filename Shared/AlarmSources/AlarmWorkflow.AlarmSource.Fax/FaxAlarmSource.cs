@@ -15,6 +15,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
     /// Implements the <see cref="IAlarmSource"/>-interface to provide an alarm source that handles incoming faxes.
     /// </summary>
     [Export("FaxAlarmSource", typeof(IAlarmSource))]
+    [Information(DisplayName = "ExportAlarmSourceDisplayName", Description = "ExportAlarmSourceDescription")]
     sealed class FaxAlarmSource : IAlarmSource
     {
         #region Constants

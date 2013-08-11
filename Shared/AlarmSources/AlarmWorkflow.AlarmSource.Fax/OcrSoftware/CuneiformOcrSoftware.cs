@@ -10,6 +10,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 {
     [Export("Cuneiform", typeof(IOcrSoftware))]
+    [Information(DisplayName = "ExportCuneiformOcrDisplayName", Description = "ExportCuneiformOcrDescription")]
     sealed class CuneiformOcrSoftware : IOcrSoftware
     {
         #region IOcrSoftware Members

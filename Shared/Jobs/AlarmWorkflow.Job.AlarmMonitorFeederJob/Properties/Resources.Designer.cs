@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.AlarmSource.Sms.Properties {
+namespace AlarmWorkflow.Job.AlarmMonitorFeederJob.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.AlarmSource.Sms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.AlarmSource.Sms.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Job.AlarmMonitorFeederJob.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,20 @@ namespace AlarmWorkflow.AlarmSource.Sms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wertet SMS aus, die von der Android-SMS-Anwendung empfangen werden..
+        ///   Looks up a localized string similar to Schreibt in eine Datei zur Kommunikation mit AlarmMonitor..
         /// </summary>
-        internal static string ExportAlarmSourceDescription {
+        internal static string ExportJobDescription {
             get {
-                return ResourceManager.GetString("ExportAlarmSourceDescription", resourceCulture);
+                return ResourceManager.GetString("ExportJobDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS.
+        ///   Looks up a localized string similar to AlarmMonitor-Feeder.
         /// </summary>
-        internal static string ExportAlarmSourceDisplayName {
+        internal static string ExportJobDisplayName {
             get {
-                return ResourceManager.GetString("ExportAlarmSourceDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while parsing the SMS contents!.
-        /// </summary>
-        internal static string SmsParserError {
-            get {
-                return ResourceManager.GetString("SmsParserError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There was no parser found with alias &apos;{0}&apos;. Using default parser..
-        /// </summary>
-        internal static string SmsParserNotFoundError {
-            get {
-                return ResourceManager.GetString("SmsParserNotFoundError", resourceCulture);
+                return ResourceManager.GetString("ExportJobDisplayName", resourceCulture);
             }
         }
     }

@@ -18,7 +18,8 @@ namespace AlarmWorkflow.Job.MailingJob
     /// <summary>
     /// Implements a Job that send emails with the common alarm information.
     /// </summary>
-    [Export("MailingJob", typeof(IJob))]
+    [Export("MailingJob", typeof(IJob))]    
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     sealed class MailingJob : IJob
     {
         #region Fields

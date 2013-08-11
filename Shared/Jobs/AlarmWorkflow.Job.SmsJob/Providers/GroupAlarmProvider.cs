@@ -10,6 +10,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.Job.SmsJob.Providers
 {
     [Export("GroupAlarm", typeof(ISmsProvider))]
+    [Information(DisplayName = "ExportGroupAlarmDisplayName", Description = "ExportGroupAlarmDescription")]
     class GroupAlarmProvider : ISmsProvider
     {
         #region ISmsProvider Members

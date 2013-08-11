@@ -5,6 +5,7 @@ using AlarmWorkflow.Shared.Extensibility;
 namespace AlarmWorkflow.Parser.Library
 {
     [Export("NoParser", typeof(IParser))]
+    [Information(DisplayName = "ExportNoParserDisplayName", Description = "ExportNoParserDescription")]
     sealed class NoParser : IParser
     {
         #region Constructors

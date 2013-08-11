@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.AlarmSource.Sms.Properties {
+namespace AlarmWorkflow.Windows.UIWidgets.Browser.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.AlarmSource.Sms.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.AlarmSource.Sms.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UIWidgets.Browser.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,38 +61,20 @@ namespace AlarmWorkflow.AlarmSource.Sms.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wertet SMS aus, die von der Android-SMS-Anwendung empfangen werden..
+        ///   Looks up a localized string similar to Zeigt eine Webseite an..
         /// </summary>
-        internal static string ExportAlarmSourceDescription {
+        internal static string ExportUIWidgetDescription {
             get {
-                return ResourceManager.GetString("ExportAlarmSourceDescription", resourceCulture);
+                return ResourceManager.GetString("ExportUIWidgetDescription", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS.
+        ///   Looks up a localized string similar to Webbrowser.
         /// </summary>
-        internal static string ExportAlarmSourceDisplayName {
+        internal static string ExportUIWidgetDisplayName {
             get {
-                return ResourceManager.GetString("ExportAlarmSourceDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to An error occurred while parsing the SMS contents!.
-        /// </summary>
-        internal static string SmsParserError {
-            get {
-                return ResourceManager.GetString("SmsParserError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There was no parser found with alias &apos;{0}&apos;. Using default parser..
-        /// </summary>
-        internal static string SmsParserNotFoundError {
-            get {
-                return ResourceManager.GetString("SmsParserNotFoundError", resourceCulture);
+                return ResourceManager.GetString("ExportUIWidgetDisplayName", resourceCulture);
             }
         }
     }

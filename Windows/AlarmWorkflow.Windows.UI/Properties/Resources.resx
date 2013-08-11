@@ -147,4 +147,10 @@
   <data name="UIServiceExitWarning" xml:space="preserve">
     <value>Wenn Sie die Anwendung schließen, kann keine Benachrichtigung auf diesem System mehr angezeigt werden! Sind Sie sicher?</value>
   </data>
+  <data name="ExportDowDescription" xml:space="preserve">
+    <value>Eine Standardansicht für Alarme.</value>
+  </data>
+  <data name="ExportDowDisplayName" xml:space="preserve">
+    <value>Standard</value>
+  </data>
 </root>

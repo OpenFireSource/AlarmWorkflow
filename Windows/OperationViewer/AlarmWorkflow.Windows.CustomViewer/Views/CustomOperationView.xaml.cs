@@ -19,6 +19,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     ///     Interaction logic for CustomOperationViewer.xaml
     /// </summary>
     [Export("CustomOperationViewer", typeof(IOperationViewer))]
+    [Information(DisplayName = "ExportCowDisplayName", Description = "ExportCowDescription")]
     public partial class CustomOperationView : IOperationViewer
     {
         private readonly string _layoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");

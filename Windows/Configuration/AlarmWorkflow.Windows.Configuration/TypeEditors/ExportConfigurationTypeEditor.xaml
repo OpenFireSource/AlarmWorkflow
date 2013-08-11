@@ -4,7 +4,28 @@
     <ItemsControl ItemsSource="{Binding Exports}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <CheckBox IsChecked="{Binding IsEnabled}" Content="{Binding Name}" />
+                <CheckBox IsChecked="{Binding IsEnabled}">
+                    <TextBlock>
+                        <TextBlock.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding DisplayName}" FontWeight="Bold" />
+                                <TextBlock>
+                                    <Run Text="Name:" />
+                                    <Run Text="{Binding Name}" FontStyle="Italic" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Beschreibung:" />
+                                    <Run Text="{Binding Description, TargetNullValue='Keine Beschreibung verfügbar.'}" FontStyle="Italic" />
+                                </TextBlock>
+                            </StackPanel>
+                        </TextBlock.ToolTip>
+                        
+                        <Run Text="{Binding DisplayName}" FontWeight="Black" />
+                        <Run Text=" (" />
+                        <Run Text="{Binding Name}" />
+                        <Run Text=")" />
+                    </TextBlock>
+                </CheckBox>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

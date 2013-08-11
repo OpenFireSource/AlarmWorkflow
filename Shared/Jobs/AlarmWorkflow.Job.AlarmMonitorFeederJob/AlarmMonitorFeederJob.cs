@@ -8,6 +8,7 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Job.AlarmMonitorFeederJob
 {
     [Export("AlarmMonitorFeederJob", typeof(IJob))]
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class AlarmMonitorFeederJob : IJob
     {
         #region Fields

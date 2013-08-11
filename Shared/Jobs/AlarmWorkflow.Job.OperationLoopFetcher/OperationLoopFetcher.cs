@@ -13,6 +13,7 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
     /// The loop information is gathered by various devices.
     /// </summary>
     [Export("OperationLoopFetcher", typeof(IJob))]
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class OperationLoopFetcher : IJob
     {
         #region Fields

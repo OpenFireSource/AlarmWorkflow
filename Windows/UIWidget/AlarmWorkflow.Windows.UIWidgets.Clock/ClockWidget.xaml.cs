@@ -10,6 +10,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export("ClockWidget", typeof (IUIWidget))]
+    [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class ClockWidget : IUIWidget
     {
         #region Fields

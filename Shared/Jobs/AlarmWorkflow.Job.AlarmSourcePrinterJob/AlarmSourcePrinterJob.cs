@@ -15,6 +15,7 @@ using AlarmWorkflow.Shared.Specialized.Printing;
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 {
     [Export("AlarmSourcePrinterJob", typeof(IJob))]
+    [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class AlarmSourcePrinterJob : IJob
     {
         #region Methods

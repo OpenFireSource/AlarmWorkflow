@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ExportUIWidgetDescription" xml:space="preserve">
-    <value>Zeigt einen Anfahrtsplan mittels OpenStreetMap an.</value>
+  <data name="ExportJobDescription" xml:space="preserve">
+    <value>Liest Schleifeninfos Dritter Programme ein und hängt sie an den Alarm an.</value>
   </data>
-  <data name="ExportUIWidgetDisplayName" xml:space="preserve">
-    <value>OpenStreetMap</value>
+  <data name="ExportJobDisplayName" xml:space="preserve">
+    <value>Externe Schleifeninfos</value>
   </data>
 </root>

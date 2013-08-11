@@ -9,6 +9,7 @@ namespace AlarmWorkflow.Windows.UI.Views
     /// Interaction logic for DefaultOperationView.xaml
     /// </summary>
     [Export("DefaultOperationView", typeof(IOperationViewer))]
+    [Information(DisplayName = "ExportDowDisplayName", Description = "ExportDowDescription")]
     public partial class DefaultOperationView : UserControl, IOperationViewer
     {
         #region Fields

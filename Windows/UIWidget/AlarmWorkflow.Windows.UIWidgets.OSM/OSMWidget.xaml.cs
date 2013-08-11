@@ -15,6 +15,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
     ///     Interaktionslogik für UserControl1.xaml
     /// </summary>
     [Export("OSMWidget", typeof(IUIWidget))]
+    [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class OSMWidget : IUIWidget
     {
         #region Fields

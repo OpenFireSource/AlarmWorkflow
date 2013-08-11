@@ -6,6 +6,7 @@ using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
     [Export("OperationWidget", typeof(IUIWidget))]
+    [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class OperationWidget : IUIWidget
     {
 
