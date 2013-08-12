@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="SettingsDisplayConfiguration">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Identifier">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="Setting">
+                <xs:complexType>
+                  <xs:attribute name="Name" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Name der Einstellung.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="DisplayText" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>Anzeigetext der Einstellung.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Description" type="xs:string" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Beschreibung der Einstellung.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Category" type="xs:string" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Die Kategorie, in der die Einstellung gezeigt wird.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Editor" type="xs:string" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Mit welchem Editor die Einstellung bearbeitet wird.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="EditorParameter" type="xs:string" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Welche(r) Parameter dem Editor zur Bearbeitung der Einstellung mitgegeben wird.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="Name" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Name der Gruppe ("Section").</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="DisplayText" type="xs:string" use="required">
+              <xs:annotation>
+                <xs:documentation>Anzeigetext der Gruppe.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Description" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>Beschreibung der Gruppe.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Order" type="xs:integer" use="optional">
+              <xs:annotation>
+                <xs:documentation>Reihenfolge der Gruppe.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="Parent" type="xs:string" use="optional">
+              <xs:annotation>
+                <xs:documentation>Ob und welcher Gruppe diese Gruppe untergeordnet ist.</xs:documentation>
+              </xs:annotation>
+            </xs:attribute>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
