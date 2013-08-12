@@ -1,3 +1,18 @@
+Ôªø// This file is part of AlarmWorkflow.
+// 
+// AlarmWorkflow is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AlarmWorkflow is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -13,7 +28,7 @@ namespace AlarmWorkflow.Parser.Library
 
         private readonly string[] _keywords = new[]
             {
-                "Ort ", "Ortsteil", "Straﬂe", "Hausnummer", "Koordinaten ", "Zusatzinfos", "Betroffene",
+                "Ort ", "Ortsteil", "Stra√üe", "Hausnummer", "Koordinaten ", "Zusatzinfos", "Betroffene",
                 "Einsatzart", "Stichwort", "Sondersignal", "Zusatzinformationen", "Alarmierungen",
                 "Meldende", "Telefon", "Ausdruck", "Referenznummer",
             };
@@ -36,7 +51,7 @@ namespace AlarmWorkflow.Parser.Library
                     {
                         case "Ort ": { section = CurrentSection.BOrt; break; }
                         case "Ortsteil": { section = CurrentSection.COrtsteil; break; }
-                        case "Straﬂe": { section = CurrentSection.DStraﬂe; break; }
+                        case "Stra√üe": { section = CurrentSection.DStra√üe; break; }
                         case "Hausnummer": { section = CurrentSection.EHausnummer; break; }
                         case "Koordinaten ": { section = CurrentSection.FKoordinaten; break; }
                         case "Zusatzinfos": { section = CurrentSection.GZusatzinfos; break; }
@@ -70,7 +85,7 @@ namespace AlarmWorkflow.Parser.Library
                             operation.Einsatzort.City += " " + GetMessageText(line);
                             break;
                         }
-                    case CurrentSection.DStraﬂe:
+                    case CurrentSection.DStra√üe:
                         {
                             operation.Einsatzort.Street = GetMessageText(line);
                             break;
@@ -230,7 +245,7 @@ namespace AlarmWorkflow.Parser.Library
             AAnfang,
             BOrt,
             COrtsteil,
-            DStraﬂe,
+            DStra√üe,
             EHausnummer,
             FKoordinaten,
             GZusatzinfos,

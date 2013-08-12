@@ -1,3 +1,18 @@
+ï»¿// This file is part of AlarmWorkflow.
+// 
+// AlarmWorkflow is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AlarmWorkflow is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using System.Globalization;
 using System.Linq;
@@ -15,9 +30,9 @@ namespace AlarmWorkflow.Parser.Library
 
         private readonly string[] _keywords = new[]
             {
-                "Einsatznummer", "Name", "Straße", "Abschnitt", "Ort",
+                "Einsatznummer", "Name", "StraÃŸe", "Abschnitt", "Ort",
                 "Gemeinde", "Kreuzung", "Objekt", "Schlagw.",
-                "Stichwort", "Prio.", "Alarmiert", "gef. Gerät"
+                "Stichwort", "Prio.", "Alarmiert", "gef. GerÃ¤t"
             };
 
         #endregion
@@ -93,7 +108,7 @@ namespace AlarmWorkflow.Parser.Library
                             {
                                 switch (prefix)
                                 {
-                                    case "STRAßE":
+                                    case "STRAÃŸE":
                                         {
                                             operation.Einsatzort.Street = msg;
                                             int empty = msg.LastIndexOf("Haus-Nr.:", StringComparison.Ordinal);
@@ -180,9 +195,9 @@ namespace AlarmWorkflow.Parser.Library
 
                                     last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
                                 }
-                                else if (line.StartsWith("GEF. GERÄT", StringComparison.CurrentCultureIgnoreCase))
+                                else if (line.StartsWith("GEF. GERÃ„T", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "GEF. GERÄT");
+                                    msg = GetMessageText(line, "GEF. GERÃ„T");
 
                                     // Only add to requested equipment if there is some text,
                                     // otherwise the whole vehicle is the requested equipment
@@ -251,7 +266,7 @@ namespace AlarmWorkflow.Parser.Library
                 keywordsOnly = false;
                 return true;
             }
-            if (line.Contains("ENDE ALARMFAX — V2.0"))
+            if (line.Contains("ENDE ALARMFAX â€” V2.0"))
             {
                 section = CurrentSection.GFooter;
                 keywordsOnly = false;

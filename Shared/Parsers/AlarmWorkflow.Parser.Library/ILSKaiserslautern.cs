@@ -1,3 +1,18 @@
+ï»¿// This file is part of AlarmWorkflow.
+// 
+// AlarmWorkflow is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AlarmWorkflow is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
+
 using System;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -63,7 +78,7 @@ namespace AlarmWorkflow.Parser.Library
                             switch (prefix)
                             {
 
-                                //Füllen der Standardinformatione Alarmfax Cases mit  ":"
+                                //FÃ¼llen der Standardinformatione Alarmfax Cases mit  ":"
                                 case "EINSATZORT":
                                     operation.Einsatzort.Location = msgx;
                                     break;
@@ -142,7 +157,7 @@ namespace AlarmWorkflow.Parser.Library
                         operation.Messenger = operation.Messenger + line.Substring(10);
                     }
 
-                    if (line.StartsWith("Straße"))
+                    if (line.StartsWith("StraÃŸe"))
                     {
                         operation.Einsatzort.Street = operation.Einsatzort.Street + line.Substring(7);
                         operation.Einsatzort.Street = operation.Einsatzort.Street.Trim();
@@ -176,24 +191,24 @@ namespace AlarmWorkflow.Parser.Library
                         ReplPicture = true;
                     }
 
-                    if (operation.Picture.Contains("ß") == true)
+                    if (operation.Picture.Contains("ÃŸ") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ß", "ss");
+                        operation.Picture = operation.Picture.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Picture.Contains("ä") == true)
+                    if (operation.Picture.Contains("Ã¤") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ä", "ae");
+                        operation.Picture = operation.Picture.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Picture.Contains("ö") == true)
+                    if (operation.Picture.Contains("Ã¶") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ö", "oe");
+                        operation.Picture = operation.Picture.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Picture.Contains("ü") == true)
+                    if (operation.Picture.Contains("Ã¼") == true)
                     {
-                        operation.Picture = operation.Picture.Replace("ü", "ue");
+                        operation.Picture = operation.Picture.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung im Ort
@@ -204,24 +219,24 @@ namespace AlarmWorkflow.Parser.Library
                         ReplCity = true;
                     }
 
-                    if (operation.Einsatzort.City.Contains("ß") == true)
+                    if (operation.Einsatzort.City.Contains("ÃŸ") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ß", "ss");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ä") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¤") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ä", "ae");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ö") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¶") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ö", "oe");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Einsatzort.City.Contains("ü") == true)
+                    if (operation.Einsatzort.City.Contains("Ã¼") == true)
                     {
-                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("ü", "ue");
+                        operation.Einsatzort.City = operation.Einsatzort.City.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung in der Strasse
@@ -237,24 +252,24 @@ namespace AlarmWorkflow.Parser.Library
                         operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Haus-Nr.:", "");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ß") == true)
+                    if (operation.Einsatzort.Street.Contains("ÃŸ") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ß", "ss");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ä") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¤") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ä", "ae");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ö") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¶") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ö", "oe");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Einsatzort.Street.Contains("ü") == true)
+                    if (operation.Einsatzort.Street.Contains("Ã¼") == true)
                     {
-                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("ü", "ue");
+                        operation.Einsatzort.Street = operation.Einsatzort.Street.Replace("Ã¼", "ue");
                     }
 
                     // Sonderzeichenersetzung im Hinweis
@@ -265,24 +280,24 @@ namespace AlarmWorkflow.Parser.Library
                         ReplComment = true;
                     }
 
-                    if (operation.Comment.Contains("ß") == true)
+                    if (operation.Comment.Contains("ÃŸ") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ß", "ss");
+                        operation.Comment = operation.Comment.Replace("ÃŸ", "ss");
                     }
 
-                    if (operation.Comment.Contains("ä") == true)
+                    if (operation.Comment.Contains("Ã¤") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ä", "ae");
+                        operation.Comment = operation.Comment.Replace("Ã¤", "ae");
                     }
 
-                    if (operation.Comment.Contains("ö") == true)
+                    if (operation.Comment.Contains("Ã¶") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ö", "oe");
+                        operation.Comment = operation.Comment.Replace("Ã¶", "oe");
                     }
 
-                    if (operation.Comment.Contains("ü") == true)
+                    if (operation.Comment.Contains("Ã¼") == true)
                     {
-                        operation.Comment = operation.Comment.Replace("ü", "ue");
+                        operation.Comment = operation.Comment.Replace("Ã¼", "ue");
                     }
 
 
