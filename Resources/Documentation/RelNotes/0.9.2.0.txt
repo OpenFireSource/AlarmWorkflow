@@ -8,11 +8,13 @@ General
 
   * MailingJob: Support expressions for mail subject
   * Object formatting: Using CustomData now consistently possible
+  * Tesseract is new default OCR software
 
 UI
 
   * Added editor for editing durations
   * Made exports more user-friendly in ConfEd
+  * Added license information to ConfEd
 
 Fixes since v0.9.1.0
 --------------------
