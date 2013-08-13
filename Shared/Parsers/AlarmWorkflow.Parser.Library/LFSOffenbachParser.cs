@@ -96,7 +96,7 @@ namespace AlarmWorkflow.Parser.Library
                         operation.Comment = operation.Comment.Trim();
                         break;
                     case CurrentSection.OFaxtime:
-                        operation.Timestamp = ReadFaxTimestamp(line, operation.Timestamp);
+                        operation.Timestamp = ReadFaxTimestamp(line, DateTime.Now);
                         break;
                     case CurrentSection.MEnde:
                         break;
