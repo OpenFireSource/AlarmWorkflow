@@ -53,8 +53,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region IAlarmSource Members
 
         /// <summary>
-        ///     Raised when a new alarm has surfaced and processed for the Engine to handle.
-        ///     See documentation for further information.
+        /// Raised when a new alarm has surfaced and processed for the Engine to handle.
+        /// See documentation for further information.
         /// </summary>
         public event EventHandler<AlarmSourceEventArgs> NewAlarm;
 
@@ -68,23 +68,12 @@ namespace AlarmWorkflow.AlarmSource.Mail
             switch (_configuration.POPIMAP.ToLower())
             {
                 case "imap":
-                    using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL))
+                    while (true)
                     {
-                        _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
-                        if (_imapClient.Supports("IDLE"))
-                        {
-                            _imapClient.NewMessage += ImapClientNewMessage;
-                        }
-                        else
-                        {
-                            Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.NoIDLESupport);
-                        }
-                        while (true)
-                        {
-                            CheckImapMail(_imapClient);
-                            Thread.Sleep(1000);
-                        }
+                        CheckImapMail();
+                        Thread.Sleep(_configuration.PollInterval);
                     }
+
             }
         }
 
@@ -95,11 +84,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
             {
                 copy(this, new AlarmSourceEventArgs(operation));
             }
-        }
-
-        private void ImapClientNewMessage(object sender, IdleMessageEventArgs e)
-        {
-
         }
 
         #endregion IAlarmSource Members
@@ -114,30 +98,26 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #region Methods
 
-        private void CheckImapMail(ImapClient client)
+        private void CheckImapMail()
         {
-            const int maxtrys = 10;
-            for (int i = 0; i < maxtrys; i++)
+            using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL))
             {
+                _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
                 try
                 {
-                    uint[] uids = client.Search(SearchCondition.Unseen());
-                    foreach (MailMessage msg in uids.Select(uid => client.GetMessage(uid)))
+                    uint[] uids = _imapClient.Search(SearchCondition.Unseen());
+                    foreach (MailMessage msg in uids.Select(uid => _imapClient.GetMessage(uid)))
                     {
                         Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);
                         MailOperation(msg);
                     }
-                    break;
-                }
-                catch (NotAuthenticatedException)
-                {
-                    client.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
                 }
                 catch (Exception ex)
                 {
                     Logger.Instance.LogFormat(LogType.Error, this, ex.ToString());
                 }
             }
+
         }
 
         private void MailOperation(MailMessage message)
@@ -167,7 +147,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 }
                 else
                 {
-                    operation = _mailParser.Parse(message.Body.Split(new string[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries));
+                    operation = _mailParser.Parse(message.Body.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries));
                 }
                 if (operation != null)
                 {
