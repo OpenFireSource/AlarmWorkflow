@@ -68,8 +68,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Security\AuthorizationMode.cs" />
-    <Compile Include="Security\ICredentialConfirmationDialogService.cs" />
     <Compile Include="UIUtilities.cs" />
     <Compile Include="ViewModels\CheckedItem.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />

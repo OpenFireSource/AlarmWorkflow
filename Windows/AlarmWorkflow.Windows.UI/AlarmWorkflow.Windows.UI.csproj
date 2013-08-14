@@ -74,10 +74,9 @@
     <Compile Include="Models\InternalServiceProxy.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Helper.cs" />
-    <Compile Include="Security\CredentialConfirmationDialogService.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
-    <Compile Include="Security\CredentialConfirmationDialog.xaml.cs">
-      <DependentUpon>CredentialConfirmationDialog.xaml</DependentUpon>
+    <Compile Include="Windows\AcknowledgeOperationWindow.xaml.cs">
+      <DependentUpon>AcknowledgeOperationWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ContentAlarmsAvailableControl.xaml.cs">
       <DependentUpon>ContentAlarmsAvailableControl.xaml</DependentUpon>
@@ -123,7 +122,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Security\CredentialConfirmationDialog.xaml">
+    <Page Include="Windows\AcknowledgeOperationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

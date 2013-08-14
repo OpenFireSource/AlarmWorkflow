@@ -15,12 +15,10 @@
 
 using System;
 using System.Windows;
-using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
 using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
-using AlarmWorkflow.Windows.UIContracts.Security;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -102,7 +100,6 @@ namespace AlarmWorkflow.Windows.UI
         {
             base.OnStartup(e);
 
-            InitializeServices();
             ExtensionManager = new ExtensionManager();
 
             AlarmWorkflow.Windows.UI.Properties.Settings.Default.Reload();
@@ -117,11 +114,6 @@ namespace AlarmWorkflow.Windows.UI
             base.OnExit(e);
 
             AlarmWorkflow.Windows.UI.Properties.Settings.Default.Save();
-        }
-
-        private void InitializeServices()
-        {
-            ServiceProvider.Instance.AddService(typeof(ICredentialConfirmationDialogService), new Security.CredentialConfirmationDialogService());
         }
 
         #endregion

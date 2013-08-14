@@ -1,0 +1,30 @@
+﻿<Window x:Class="AlarmWorkflow.Windows.UI.Windows.AcknowledgeOperationDialog" x:ClassModifier="internal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Alarmbestägung" SizeToContent="WidthAndHeight" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="20" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Margin="2" Text="Bitte bestätigen Sie diesen Alarm:" />
+
+        <Button Grid.Row="2" Grid.Column="1" Margin="2" Content="Bestätigen" Click="btnOK_Click" IsDefault="True" FontWeight="Bold" />
+        <Button Grid.Row="2" Grid.Column="2" Margin="2" Click="btnCancel_Click" IsCancel="True">
+            <Button.Content>
+                <TextBlock>
+                    <Run Text="Abbrechen (" />
+                    <Run Text="{Binding Time}" />
+                    <Run Text="s)" />
+                </TextBlock>
+            </Button.Content>
+        </Button>
+    </Grid>
+</Window>

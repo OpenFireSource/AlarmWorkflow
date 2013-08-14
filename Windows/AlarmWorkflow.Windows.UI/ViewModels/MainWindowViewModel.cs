@@ -24,8 +24,8 @@ using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.Properties;
+using AlarmWorkflow.Windows.UI.Windows;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
-using AlarmWorkflow.Windows.UIContracts.Security;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
@@ -258,19 +258,16 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// <param name="gotoNextOperation">Whether or not to change to the next operation (recommended).</param>
         public void AcknowledgeCurrentOperation(bool gotoNextOperation)
         {
-            // Sanity-checks
             if (SelectedEvent == null || SelectedEvent.Operation.IsAcknowledged)
             {
                 return;
             }
 
-            // Require confirmation of this action
-            if (!ServiceProvider.Instance.GetService<ICredentialConfirmationDialogService>().Invoke("Einsatz zur Kenntnis nehmen", AuthorizationMode.SimpleConfirmation))
+            AcknowledgeOperationDialog dlgAcknowledge = new AcknowledgeOperationDialog();
+            if (dlgAcknowledge.ShowDialog() == true)
             {
-                return;
+                AcknowledgeOperationAndGoToFirst(SelectedEvent);
             }
-
-            AcknowledgeOperationAndGoToFirst(SelectedEvent);
         }
 
         private void AcknowledgeOperationAndGoToFirst(OperationViewModel operation)
