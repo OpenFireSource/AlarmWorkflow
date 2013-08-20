@@ -65,16 +65,13 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         void IAlarmSource.RunThread()
         {
-            switch (_configuration.POPIMAP.ToLower())
+            while (true)
             {
-                case "imap":
-                    while (true)
-                    {
-                        CheckImapMail();
-                        Thread.Sleep(_configuration.PollInterval);
-                    }
-
+                CheckImapMail();
+                Thread.Sleep(_configuration.PollInterval);
             }
+
+
         }
 
         private void OnNewAlarm(Operation operation)
