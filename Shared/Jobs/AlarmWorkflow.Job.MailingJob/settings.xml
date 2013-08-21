@@ -28,4 +28,6 @@ Einsatzplan: {OperationPlan}
 Mitteiler: {Messenger}
 Fahrzeuge:
 {Resources}]]></Setting>
+
+  <Setting Name="AttachImage" Type="System.Boolean">False</Setting>
 </SettingsConfiguration>

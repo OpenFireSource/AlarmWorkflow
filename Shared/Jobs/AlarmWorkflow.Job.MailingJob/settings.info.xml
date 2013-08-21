@@ -15,5 +15,6 @@
     <Setting Name="EMailBody" DisplayText="Nachrichtentext" Category="Mail" Description="Der Inhalt der Mail."
              Editor="ObjectExpressionTypeEditor" 
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting Name="AttachImage" DisplayText="Fax anhängen" Description="Aktiviert die Möglichkeit das Fax an die Mail im Jpeg Format anzuhängen."></Setting>
   </Identifier>
 </SettingsDisplayConfiguration>

@@ -15,6 +15,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -33,7 +35,7 @@ namespace AlarmWorkflow.Job.MailingJob
     /// <summary>
     /// Implements a Job that send emails with the common alarm information.
     /// </summary>
-    [Export("MailingJob", typeof(IJob))]    
+    [Export("MailingJob", typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     sealed class MailingJob : IJob
     {
@@ -46,6 +48,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private string _mailSubject;
         private string _mailBodyFormat;
+        private bool _attachImage;
 
         #endregion
 
@@ -93,6 +96,8 @@ namespace AlarmWorkflow.Job.MailingJob
                 _mailSubject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - Neuer Alarm";
             }
 
+            _attachImage = SettingsManager.Instance.GetSetting("MailingJob", "AttachImage").GetBoolean();
+
             var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
             _recipients.AddRange(recipients.Select(ri => ri.Item2));
 
@@ -112,10 +117,10 @@ namespace AlarmWorkflow.Job.MailingJob
                 return;
             }
 
-            SendMail(operation);
+            SendMail(operation, context);
         }
 
-        private void SendMail(Operation operation)
+        private void SendMail(Operation operation, IJobContext context)
         {
             using (MailMessage message = new MailMessage())
             {
@@ -139,6 +144,34 @@ namespace AlarmWorkflow.Job.MailingJob
                     message.BodyEncoding = Encoding.UTF8;
                     message.Priority = MailPriority.High;
                     message.IsBodyHtml = false;
+
+                    if (_attachImage)
+                    {
+                        Attachment attachment = null;
+                        if (context.Parameters.Keys.Contains("ImagePath"))
+                        {
+                            string imagePath = (string)context.Parameters["ImagePath"];
+                            if (!string.IsNullOrWhiteSpace(imagePath))
+                            {
+                                if (File.Exists(imagePath))
+                                {
+                                    string[] convertTiffToJpeg = Helpers.ConvertTiffToJpeg(imagePath);
+                                    using (Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg))
+                                    {
+                                        attachment = new Attachment(stream, "fax.jpg");
+                                    }
+                                    foreach (string s in convertTiffToJpeg)
+                                    {
+                                        File.Delete(s);
+                                    }
+                                }
+                            }
+                        }
+                        if (attachment != null)
+                        {
+                            message.Attachments.Add(attachment);
+                        }
+                    }
 
                     _smptClient.Send(message);
                 }
