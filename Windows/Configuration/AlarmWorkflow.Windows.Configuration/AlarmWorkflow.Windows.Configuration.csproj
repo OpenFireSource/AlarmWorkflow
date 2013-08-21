@@ -73,6 +73,9 @@
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
       <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\ColorTypeEditor.xaml.cs">
+      <DependentUpon>ColorTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\DropDownTypeEditor.xaml.cs">
       <DependentUpon>DropDownTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -162,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\BooleanTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ColorTypeEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
