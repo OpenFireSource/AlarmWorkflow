@@ -9,21 +9,22 @@ General
   * MailingJob: Support expressions for mail subject
   * Object formatting: Using CustomData now consistently possible
   * Tesseract is new default OCR software
+  * Possible to attach fax in MailingJob
 
 UI
 
   * Added editor for editing durations
   * Made exports more user-friendly in ConfEd
   * Added license information to ConfEd
+  * Acknowledging-dialog now cancels action after 5 seconds until manually confirmed
 
 Fixes since v0.9.1.0
 --------------------
 
 Issues resolved
 
-  * #73
-  * #91
+  * See http://openfiresource.de/bugs/changelog_page.php?version_id=9
 
 Other fixes
 
-  * -
+  * Fix of parsing timestamp in LFSOffenbachParser
