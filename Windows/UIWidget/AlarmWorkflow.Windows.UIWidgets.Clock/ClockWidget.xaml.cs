@@ -15,47 +15,111 @@
 
 using System;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Clock
 {
     /// <summary>
-    ///     Interaktionslogik für UserControl1.xaml
+    /// Interaktionslogik für UserControl1.xaml
     /// </summary>
-    [Export("ClockWidget", typeof (IUIWidget))]
+    [Export("ClockWidget", typeof(IUIWidget))]
     [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class ClockWidget : IUIWidget
     {
         #region Fields
 
         private Operation _operation;
+        private readonly bool _blink;
+        private readonly int _waitTime;
+        private readonly Color _color;
+        private bool _odd;
+        private readonly DispatcherTimer _countdown;
+        private readonly DispatcherTimer _clockTimer;
 
         #endregion Fields
 
         #region Constructors
 
+        /// <summary>
+        /// Provides a ClockWidget
+        /// </summary>
         public ClockWidget()
         {
+            object convertFromString = ColorConverter.ConvertFromString(SettingsManager.Instance.GetSetting("ClockWidget", "Color").GetString());
+            if (convertFromString != null)
+            {
+                _color = (Color)convertFromString;
+            }
+            else
+            {
+                _color = Colors.Red;
+            }
+            _waitTime = SettingsManager.Instance.GetSetting("ClockWidget", "WaitTime").GetInt32();
+            _blink = SettingsManager.Instance.GetSetting("ClockWidget", "Blink").GetBoolean();
+
             InitializeComponent();
-            DispatcherTimer timer = new DispatcherTimer
-                                        {
-                                            Interval = TimeSpan.FromSeconds(1.0)
-                                        };
-            timer.Start();
-            timer.Tick += delegate
-                              {
-                                  _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
-                                  if (_operation != null)
-                                  {
-                                      TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
-                                      _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
-                                  }
-                              };
+
+            _clockTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.0) };
+            _clockTimer.Start();
+            _clockTimer.Tick += ClockTimer_Tick;
+
+            if (_blink)
+            {
+                _countdown = new DispatcherTimer { Interval = TimeSpan.FromMinutes(_waitTime) };
+                _countdown.Tick += Countdown_Tick;
+                _countdown.Start();
+            }
         }
 
         #endregion Constructors
+
+        #region Event handlers
+
+        void Countdown_Tick(object sender, EventArgs e)
+        {
+            _clockBlock.Foreground = new SolidColorBrush(_color);
+            _alarmClock.Foreground = new SolidColorBrush(_color);
+            _countdown.Stop();
+            _clockTimer.Tick -= ClockTimer_Tick;
+            _clockTimer.Tick += BlinkTimer_Tick;
+        }
+
+        void ClockTimer_Tick(object sender, EventArgs e)
+        {
+            _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
+            if (_operation != null)
+            {
+                TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
+                _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
+            }
+        }
+        void BlinkTimer_Tick(object sender, EventArgs e)
+        {
+
+            if (_odd)
+            {
+                _clockBlock.Text = "";
+                _alarmClock.Text = "";
+                _odd = false;
+            }
+            else
+            {
+                _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
+                if (_operation != null)
+                {
+                    TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
+                    _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
+                }
+                _odd = true;
+            }
+
+        }
+
+        #endregion
 
         #region IUIWidget Member
 

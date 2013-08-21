@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="ClockWidget">
+  <Setting Name="Blink" Type="System.Boolean">False</Setting>
+  <Setting Name="WaitTime" Type="System.Int32">10</Setting>
+  <Setting Name="Color" Type="System.String">#FFFF0000</Setting>
+</SettingsConfiguration>

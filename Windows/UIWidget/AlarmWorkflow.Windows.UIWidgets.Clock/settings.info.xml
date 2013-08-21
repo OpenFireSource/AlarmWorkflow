@@ -1,0 +1,9 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="ClockWidget" DisplayText="Uhr-Widget" Parent="CustomOperationViewer">
+     <Setting Name="Blink" DisplayText="Blinkender Alarmtimer" Description="Alarmzeit blinkt nach gegebener Zeit."></Setting>
+     <Setting Name="WaitTime" DisplayText="Wartezeit"
+            Editor="DurationTypeEditor"
+            EditorParameter="Min=1;Max=3600;Scale=Minutes" />
+    <Setting Name="Color" DisplayText="Farbe" Editor="ColorTypeEditor"/>
+  </Identifier>
+</SettingsDisplayConfiguration>
