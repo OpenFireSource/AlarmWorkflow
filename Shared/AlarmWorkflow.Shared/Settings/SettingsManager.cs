@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -113,12 +114,27 @@ namespace AlarmWorkflow.Shared.Settings
             assemblyFiles.AddRange(Directory.GetFiles(Utilities.GetWorkingDirectory(), "*.dll", SearchOption.TopDirectoryOnly));
             assemblyFiles.AddRange(Directory.GetFiles(Utilities.GetWorkingDirectory(), "*.exe", SearchOption.TopDirectoryOnly));
 
+            Stopwatch sw = Stopwatch.StartNew();
+
             LoadSettings(assemblyFiles);
+
+            sw.Stop();
+            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.SettingsManagerScanSettingsFinished, sw.ElapsedMilliseconds);
+
             // If we shall also initialize the display configuration
             if (settingsInitialization == SettingsInitialization.IncludeDisplayConfiguration)
             {
+                sw.Restart();
+
                 LoadSettingsDisplayConfiguration(assemblyFiles);
+
+                sw.Stop();
+                Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.SettingsManagerScanSettingsDisplayConfigurationFinished, sw.ElapsedMilliseconds);
             }
+
+            // After the configuration files have been parsed, we need to see if there are any user-configuration files and read those values in.
+            // User values override default values.
+            LoadUserConfigurationFile();
 
             _isInitialized = true;
         }
@@ -180,10 +196,6 @@ namespace AlarmWorkflow.Shared.Settings
                     throw;
                 }
             }
-
-            // After the configuration files have been parsed, we need to see if there are any user-configuration files and read those values in.
-            // User values override default values.
-            LoadUserConfigurationFile();
         }
 
         private void LoadSettingsDisplayConfiguration(IList<string> assemblyFiles)
@@ -236,27 +248,26 @@ namespace AlarmWorkflow.Shared.Settings
         /// </summary>
         private void LoadUserConfigurationFile()
         {
-            // If the file does not exist, there is nothing to do yet.
             if (!File.Exists(UserSettingsFilePath))
             {
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.SettingsManagerUserSettingsFileSkip);
                 return;
             }
 
-            // Read the XML-Document
             XDocument doc = null;
             using (StreamReader reader = new StreamReader(UserSettingsFilePath, Encoding.UTF8))
             {
                 doc = XDocument.Load(reader);
             }
 
+            if (!doc.IsXmlValid(Properties.Resources.UserSettingsXsd))
+            {
+                throw new XmlException(Properties.Resources.SettingsManagerUserSettingsFileInvalid);
+            }
+
             foreach (XElement sectionE in doc.Root.Elements("Section"))
             {
-                string identifier = sectionE.TryGetAttributeValue("Identifier", null);
-                if (string.IsNullOrWhiteSpace(identifier))
-                {
-                    // TODO: Log
-                    continue;
-                }
+                string identifier = sectionE.Attribute("Identifier").Value;
 
                 // Check if the setting identifier exists in our context. If this is not the case, file it under unknown.
                 if (!_settings.ContainsKey(identifier))
@@ -267,12 +278,7 @@ namespace AlarmWorkflow.Shared.Settings
 
                 foreach (XElement userSettingE in sectionE.Elements("UserSetting"))
                 {
-                    string name = userSettingE.TryGetAttributeValue("Name", null);
-                    if (string.IsNullOrWhiteSpace(identifier))
-                    {
-                        // TODO: Log
-                        continue;
-                    }
+                    string name = userSettingE.Attribute("Name").Value;
 
                     bool isNull = userSettingE.TryGetAttributeValue("IsNull", false);
                     string value = userSettingE.Value;
@@ -286,6 +292,8 @@ namespace AlarmWorkflow.Shared.Settings
                     affectedSettingItem.SetStringValue(value, isNull, false);
                 }
             }
+
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.SettingsManagerUserSettingsFileLoaded);
         }
 
         /// <summary>
@@ -329,10 +337,8 @@ namespace AlarmWorkflow.Shared.Settings
             XDocument doc = new XDocument();
 
             XElement rootE = new XElement("UserSettings");
-            rootE.Add(new XAttribute("Version", 1));
             doc.Add(rootE);
 
-            // Store setting values
             foreach (var pair in _settings)
             {
                 XElement identifyableE = new XElement("Section");
@@ -366,13 +372,11 @@ namespace AlarmWorkflow.Shared.Settings
                 rootE.Add(identifyableE);
             }
 
-            // After all known settings have been written, append the unknown settings (if any).
             foreach (XElement unknownE in _unknownSettings)
             {
                 rootE.Add(unknownE);
             }
 
-            // Save to disk using explicit encoding
             using (StreamWriter writer = new StreamWriter(UserSettingsFilePath, false, Encoding.UTF8))
             {
                 doc.Save(writer);

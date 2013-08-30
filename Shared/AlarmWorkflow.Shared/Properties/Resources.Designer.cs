@@ -475,33 +475,6 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The setting &apos;{0}&apos; has no type defined! Skipping setting..
-        /// </summary>
-        internal static string SettingItemEmptyType {
-            get {
-                return ResourceManager.GetString("SettingItemEmptyType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Encountered setting with no name! Setting index (one-based): {0}. Skipping setting..
-        /// </summary>
-        internal static string SettingItemInvalidName {
-            get {
-                return ResourceManager.GetString("SettingItemInvalidName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The setting &apos;{0}&apos; has an invalid type! Supported types are: {1}. Skipping setting..
-        /// </summary>
-        internal static string SettingItemInvalidType {
-            get {
-                return ResourceManager.GetString("SettingItemInvalidType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No setting with the name &apos;{0}&apos; has been found!.
         /// </summary>
         internal static string SettingNotFoundExceptionMessage {
@@ -574,11 +547,114 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:element name=&quot;SettingsDisplayConfiguration&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;Identifier&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:sequence&gt;
+        ///              &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Setting&quot;&gt;
+        ///                &lt;xs:complexType&gt;
+        ///                  &lt;xs:attribute name=&quot;Name&quot; type=&quot;xs:string&quot; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsInfoXsd {
+            get {
+                return ResourceManager.GetString("SettingsInfoXsd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished scan of setting display configurations in {0} milliseconds..
+        /// </summary>
+        internal static string SettingsManagerScanSettingsDisplayConfigurationFinished {
+            get {
+                return ResourceManager.GetString("SettingsManagerScanSettingsDisplayConfigurationFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Finished scan of setting definitions in {0} milliseconds..
+        /// </summary>
+        internal static string SettingsManagerScanSettingsFinished {
+            get {
+                return ResourceManager.GetString("SettingsManagerScanSettingsFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The user.settings is malformed! Personalized user settings cannot be loaded. Please review your file. If you are sure that you haven&apos;t done any custom modifications to this file, please contact the team..
+        /// </summary>
+        internal static string SettingsManagerUserSettingsFileInvalid {
+            get {
+                return ResourceManager.GetString("SettingsManagerUserSettingsFileInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User settings loaded..
+        /// </summary>
+        internal static string SettingsManagerUserSettingsFileLoaded {
+            get {
+                return ResourceManager.GetString("SettingsManagerUserSettingsFileLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User settings file does not exist; skipping..
+        /// </summary>
+        internal static string SettingsManagerUserSettingsFileSkip {
+            get {
+                return ResourceManager.GetString("SettingsManagerUserSettingsFileSkip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:element name=&quot;SettingsConfiguration&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Setting&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:simpleContent&gt;
+        ///              &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        ///                &lt;xs:attribute name=&quot;Name&quot; type=&quot;xs:string&quot; use=&quot;required&quot;&gt;
+        ///                  &lt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SettingsXsd {
+            get {
+                return ResourceManager.GetString("SettingsXsd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The selected printer does not support printing more than {0} copies natively (you requested: {1}). Using alternative method of printing copies..
         /// </summary>
         internal static string UsedPrinterDoesNotSupportThatMuchCopies {
             get {
                 return ResourceManager.GetString("UsedPrinterDoesNotSupportThatMuchCopies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:element name=&quot;UserSettings&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Section&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:sequence&gt;
+        ///              &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;UserSetting&quot;&gt;
+        ///                &lt;xs:complexType&gt;
+        ///                  &lt;xs:simpleContent&gt;
+        ///                [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string UserSettingsXsd {
+            get {
+                return ResourceManager.GetString("UserSettingsXsd", resourceCulture);
             }
         }
     }

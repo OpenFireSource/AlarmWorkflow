@@ -76,6 +76,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public ICommand SaveChangesCommand { get; private set; }
 
+        private bool SaveChangesCommand_CanExecute(object parameter)
+        {
+            return _manager != null;
+        }
+
         private void SaveChangesCommand_Execute(object parameter)
         {
             int iFailedSettings = 0;
@@ -356,11 +361,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            _manager = SettingsManager.Instance;
-            _manager.Initialize(SettingsManager.SettingsInitialization.IncludeDisplayConfiguration);
-
-            _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
-            BuildSectionsTree();
+            InitializeSettings();
 
             _serviceStatePollingTimer = new Timer(2000d);
             _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
@@ -370,6 +371,28 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #endregion
 
         #region Methods
+
+        private void InitializeSettings()
+        {
+            try
+            {
+                SettingsManager manager = SettingsManager.Instance;
+                manager.Initialize(SettingsManager.SettingsInitialization.IncludeDisplayConfiguration);
+
+                _manager = manager;
+
+                _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
+
+                BuildSectionsTree();
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SettingsInitializationError);
+                Logger.Instance.LogException(this, ex);
+
+                UIUtilities.ShowWarning(Properties.Resources.SettingsInitializationError);
+            }
+        }
 
         private void BuildSectionsTree()
         {

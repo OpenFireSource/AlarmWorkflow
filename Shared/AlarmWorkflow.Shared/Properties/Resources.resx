@@ -204,15 +204,6 @@
   <data name="SettingIdentifierNotFoundExceptionMessage" xml:space="preserve">
     <value>No setting identifier with the name '{0}' has been found!</value>
   </data>
-  <data name="SettingItemEmptyType" xml:space="preserve">
-    <value>The setting '{0}' has no type defined! Skipping setting.</value>
-  </data>
-  <data name="SettingItemInvalidName" xml:space="preserve">
-    <value>Encountered setting with no name! Setting index (one-based): {0}. Skipping setting.</value>
-  </data>
-  <data name="SettingItemInvalidType" xml:space="preserve">
-    <value>The setting '{0}' has an invalid type! Supported types are: {1}. Skipping setting.</value>
-  </data>
   <data name="SettingNotFoundExceptionMessage" xml:space="preserve">
     <value>No setting with the name '{0}' has been found!</value>
   </data>
@@ -290,5 +281,30 @@
   </data>
   <data name="ErrorWhileInvokingUserExpressionResolver" xml:space="preserve">
     <value>An error occurred while invoking user-provided expression resolver. A default value will be used for this expression. Please see log for further information.</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SettingsInfoXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\settings.info.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\settings.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsManagerScanSettingsDisplayConfigurationFinished" xml:space="preserve">
+    <value>Finished scan of setting display configurations in {0} milliseconds.</value>
+  </data>
+  <data name="SettingsManagerScanSettingsFinished" xml:space="preserve">
+    <value>Finished scan of setting definitions in {0} milliseconds.</value>
+  </data>
+  <data name="UserSettingsXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\user.settings.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="SettingsManagerUserSettingsFileInvalid" xml:space="preserve">
+    <value>The user.settings is malformed! Personalized user settings cannot be loaded. Please review your file. If you are sure that you haven't done any custom modifications to this file, please contact the team.</value>
+  </data>
+  <data name="SettingsManagerUserSettingsFileLoaded" xml:space="preserve">
+    <value>User settings loaded.</value>
+  </data>
+  <data name="SettingsManagerUserSettingsFileSkip" xml:space="preserve">
+    <value>User settings file does not exist; skipping.</value>
   </data>
 </root>

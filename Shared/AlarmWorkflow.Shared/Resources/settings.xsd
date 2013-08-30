@@ -9,32 +9,42 @@
               <xs:extension base="xs:string">
                 <xs:attribute name="Name" type="xs:string" use="required">
                   <xs:annotation>
-                    <xs:documentation>Eindeutiger Name der Einstellung.</xs:documentation>
+                    <xs:documentation>Unique name of the setting.</xs:documentation>
                   </xs:annotation>
                 </xs:attribute>
                 <xs:attribute name="Type" use="required">
                   <xs:annotation>
-                    <xs:documentation>Zugrundeliegender Typ der Einstellung.</xs:documentation>
+                    <xs:documentation>Underlying type of the setting.</xs:documentation>
                   </xs:annotation>
                   <xs:simpleType>
                     <xs:restriction base="xs:string">
                       <xs:enumeration value="System.String">
                         <xs:annotation>
                           <xs:documentation>
-                            Die Einstellung ist ein String.
-                            Einstellungen diesen Typs können in beliebige Objekte umgewandelt werden, die sich in von und nach System.String konvertieren lassen.
-                            Sehen Sie hierzu die Dokumentation des Interfaces 'IStringSettingConvertible' an.
+                            Setting is a String.
+                            Settings of this type can be converted in special objects which can be converted from and to a System.String.
+                            Please see the documentation of the interface 'IStringSettingConvertible' for this.
                           </xs:documentation>
                         </xs:annotation>
                       </xs:enumeration>
                       <xs:enumeration value="System.Int32">
                         <xs:annotation>
-                          <xs:documentation>Die Einstellung ist eine 32-Bit Ganzahl mit Vorzeichen.</xs:documentation>
+                          <xs:documentation>Setting is a 32-bit signed integer number.</xs:documentation>
                         </xs:annotation>
                       </xs:enumeration>
                       <xs:enumeration value="System.Boolean">
                         <xs:annotation>
-                          <xs:documentation>Die Einstellung ist ein Boolean/Wahrheitswert.</xs:documentation>
+                          <xs:documentation>Setting is a boolean.</xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                      <xs:enumeration value="System.Single">
+                        <xs:annotation>
+                          <xs:documentation>Setting is a single-precision floating-point number.</xs:documentation>
+                        </xs:annotation>
+                      </xs:enumeration>
+                      <xs:enumeration value="System.Double">
+                        <xs:annotation>
+                          <xs:documentation>Setting is a double-precision floating-point number.</xs:documentation>
                         </xs:annotation>
                       </xs:enumeration>
                     </xs:restriction>
@@ -42,7 +52,7 @@
                 </xs:attribute>
                 <xs:attribute name="IsNull" use="optional">
                   <xs:annotation>
-                    <xs:documentation>Stellt fest, ob die Einstellung den Wert "Null" haben kann, oder nicht.</xs:documentation>
+                    <xs:documentation>Determines whether or not the setting can have 'null' as a possible value.</xs:documentation>
                   </xs:annotation>
                   <xs:simpleType>
                     <xs:restriction base="xs:string">
@@ -56,21 +66,12 @@
           </xs:complexType>
         </xs:element>
       </xs:sequence>
-      <xs:attribute name="Version" use="required">
-        <xs:annotation>
-          <xs:documentation>Die Version des Dokuments.</xs:documentation>
-        </xs:annotation>
-        <xs:simpleType>
-          <xs:restriction base="xs:unsignedByte">
-            <xs:enumeration value="1" />
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:attribute>
       <xs:attribute name="Identifier" type="xs:string" use="required">
         <xs:annotation>
-          <xs:documentation>Eindeutiger Name der Gruppe ("Section").</xs:documentation>
+          <xs:documentation>Unique name of this group ("section").</xs:documentation>
         </xs:annotation>
       </xs:attribute>
+      <xs:attribute name="Version" type="xs:integer" use="optional" />
     </xs:complexType>
   </xs:element>
 </xs:schema>

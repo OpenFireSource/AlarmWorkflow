@@ -135,7 +135,17 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\settings.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\settings.info.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\user.settings.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

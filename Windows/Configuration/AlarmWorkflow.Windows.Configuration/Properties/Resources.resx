@@ -223,6 +223,9 @@ Hinweise zur Behebung:
   <data name="SettingSaveFinished_Title" xml:space="preserve">
     <value>Einstellungen gespeichert</value>
   </data>
+  <data name="SettingsInitializationError" xml:space="preserve">
+    <value>Es ist ein Fehler während des Ladens der Einstellungen aufgetreten. Die Bearbeitung der Einstellung werden verhindert. Bitte sehen Sie in den Logs nach.</value>
+  </data>
   <data name="TypeEditorAlreadyRegisteredWarning" xml:space="preserve">
     <value>A type editor with alias '{0}' was already registered. This new export is ignored. Please check assembly '{1}'.</value>
   </data>

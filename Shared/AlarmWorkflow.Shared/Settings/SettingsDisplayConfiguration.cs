@@ -43,7 +43,7 @@ namespace AlarmWorkflow.Shared.Settings
         #endregion
 
         #region Constructors
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingsDisplayConfiguration"/> class.
         /// </summary>
@@ -62,38 +62,25 @@ namespace AlarmWorkflow.Shared.Settings
         /// <param name="doc"></param>
         internal void ParseAdd(XDocument doc)
         {
-            if (doc.Root.Name.LocalName != "SettingsDisplayConfiguration")
+            if (!doc.IsXmlValid(Properties.Resources.SettingsInfoXsd))
             {
                 return;
             }
-            
-            // Iterate over all <Identifier />-tags
+
             foreach (XElement identifierE in doc.Root.Elements("Identifier"))
             {
-                // Read information from attribs
                 IdentifierInfo identifier = new IdentifierInfo();
-                identifier.Name = identifierE.TryGetAttributeValue("Name", null);
-                if (string.IsNullOrWhiteSpace(identifier.Name))
-                {
-                    // TODO: Log warning
-                    continue;
-                }
+                identifier.Name = identifierE.Attribute("Name").Value;
 
                 identifier.DisplayText = identifierE.TryGetAttributeValue("DisplayText", identifier.Name);
                 identifier.Description = identifierE.TryGetAttributeValue("Description", null);
                 identifier.Order = identifierE.TryGetAttributeValue("Order", 0);
                 identifier.Parent = identifierE.TryGetAttributeValue("Parent", null);
 
-                // Iterate over all <Setting />-tags
                 foreach (XElement settingE in identifierE.Elements("Setting"))
                 {
                     SettingInfo setting = new SettingInfo();
-                    setting.Name = settingE.TryGetAttributeValue("Name", null);
-                    if (string.IsNullOrWhiteSpace(setting.Name))
-                    {
-                        // TODO: Log warning
-                        continue;
-                    }
+                    setting.Name = settingE.Attribute("Name").Value;
 
                     setting.Category = settingE.TryGetAttributeValue("Category", null);
                     setting.DisplayText = settingE.TryGetAttributeValue("DisplayText", setting.Name);

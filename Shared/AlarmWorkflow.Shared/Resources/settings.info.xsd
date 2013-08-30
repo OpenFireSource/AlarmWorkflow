@@ -10,32 +10,32 @@
                 <xs:complexType>
                   <xs:attribute name="Name" type="xs:string" use="required">
                     <xs:annotation>
-                      <xs:documentation>Name der Einstellung.</xs:documentation>
+                      <xs:documentation>Name of the setting.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="DisplayText" type="xs:string" use="required">
                     <xs:annotation>
-                      <xs:documentation>Anzeigetext der Einstellung.</xs:documentation>
+                      <xs:documentation>Display text of the setting.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="Description" type="xs:string" use="optional">
                     <xs:annotation>
-                      <xs:documentation>Beschreibung der Einstellung.</xs:documentation>
+                      <xs:documentation>Description of the setting.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="Category" type="xs:string" use="optional">
                     <xs:annotation>
-                      <xs:documentation>Die Kategorie, in der die Einstellung gezeigt wird.</xs:documentation>
+                      <xs:documentation>Category in which the setting shall be shown.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="Editor" type="xs:string" use="optional">
                     <xs:annotation>
-                      <xs:documentation>Mit welchem Editor die Einstellung bearbeitet wird.</xs:documentation>
+                      <xs:documentation>Which editor shall edit this setting.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                   <xs:attribute name="EditorParameter" type="xs:string" use="optional">
                     <xs:annotation>
-                      <xs:documentation>Welche(r) Parameter dem Editor zur Bearbeitung der Einstellung mitgegeben wird.</xs:documentation>
+                      <xs:documentation>The parameters, which will be handed over to the editor for editing.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
                 </xs:complexType>
@@ -43,27 +43,27 @@
             </xs:sequence>
             <xs:attribute name="Name" type="xs:string" use="required">
               <xs:annotation>
-                <xs:documentation>Name der Gruppe ("Section").</xs:documentation>
+                <xs:documentation>Group (or section) for the settings.</xs:documentation>
               </xs:annotation>
             </xs:attribute>
             <xs:attribute name="DisplayText" type="xs:string" use="required">
               <xs:annotation>
-                <xs:documentation>Anzeigetext der Gruppe.</xs:documentation>
+                <xs:documentation>Display text of the group.</xs:documentation>
               </xs:annotation>
             </xs:attribute>
             <xs:attribute name="Description" type="xs:string" use="optional">
               <xs:annotation>
-                <xs:documentation>Beschreibung der Gruppe.</xs:documentation>
+                <xs:documentation>Description of the group.</xs:documentation>
               </xs:annotation>
             </xs:attribute>
             <xs:attribute name="Order" type="xs:integer" use="optional">
               <xs:annotation>
-                <xs:documentation>Reihenfolge der Gruppe.</xs:documentation>
+                <xs:documentation>The order of this group within all groups.</xs:documentation>
               </xs:annotation>
             </xs:attribute>
             <xs:attribute name="Parent" type="xs:string" use="optional">
               <xs:annotation>
-                <xs:documentation>Ob und welcher Gruppe diese Gruppe untergeordnet ist.</xs:documentation>
+                <xs:documentation>Which group this group shall be located in.</xs:documentation>
               </xs:annotation>
             </xs:attribute>
           </xs:complexType>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<SettingsConfiguration Version="1" Identifier="Shared">
+<SettingsConfiguration Identifier="Shared">
 
   <!-- Fire department information -->
   <Setting Name="FD.Name" Type="System.String">Name Ihrer Feuerwehr</Setting>

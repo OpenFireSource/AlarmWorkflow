@@ -347,6 +347,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Es ist ein Fehler während des Ladens der Einstellungen aufgetreten. Die Bearbeitung der Einstellung werden verhindert. Bitte sehen Sie in den Logs nach..
+        /// </summary>
+        internal static string SettingsInitializationError {
+            get {
+                return ResourceManager.GetString("SettingsInitializationError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A type editor with alias &apos;{0}&apos; was already registered. This new export is ignored. Please check assembly &apos;{1}&apos;..
         /// </summary>
         internal static string TypeEditorAlreadyRegisteredWarning {

@@ -15,15 +15,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Linq;
 using System.Resources;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Schema;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -240,6 +240,34 @@ namespace AlarmWorkflow.Shared.Core
                 return el.Value;
             }
             return defaultValue;
+        }
+
+        /// <summary>
+        /// Performs a check against a <see cref="XDocument"/> to see if the schema is valid.
+        /// </summary>
+        /// <param name="doc">The <see cref="XDocument"/> to check its schema.</param>
+        /// <param name="schema">The schema to use for validation.</param>
+        /// <returns>A boolean value indicating whether or not the schema of the given <see cref="XDocument"/> is valid, or not.</returns>
+        public static bool IsXmlValid(this XDocument doc, string schema)
+        {
+            Assertions.AssertNotNull(doc, "doc");
+            Assertions.AssertNotEmpty(schema, "schema");
+
+            try
+            {
+                XmlSchemaSet xss = new XmlSchemaSet();
+                xss.Add(string.Empty, XmlReader.Create(new StringReader(schema)));
+                doc.Validate(xss, null, false);
+            }
+            catch (XmlSchemaException)
+            {
+                return false;
+            }
+            catch (XmlException)
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion
