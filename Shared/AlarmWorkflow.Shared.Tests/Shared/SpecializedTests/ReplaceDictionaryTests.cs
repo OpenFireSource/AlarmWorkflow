@@ -39,5 +39,17 @@ namespace AlarmWorkflow.Shared.Tests.Shared.CoreTests
 
             Assert.IsTrue(result.Contains(replacementChar));
         }
+
+        [TestMethod()]
+        public void FixIssueWithNullEntries()
+        {
+            ReplaceDictionary dict = new ReplaceDictionary();
+            dict.Pairs.Add(string.Empty, null);
+
+            // They ought to return just the input string with no errors.
+            dict.ReplaceInString(null);
+            dict.ReplaceInString("");
+            dict.ReplaceInString("abcdefg");
+        }
     }
 }

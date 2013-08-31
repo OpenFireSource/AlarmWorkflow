@@ -85,6 +85,12 @@ namespace AlarmWorkflow.Shared.Specialized
 
         private string ReplaceInStringCore(string input, KeyValuePair<string, string> pair)
         {
+            // Sanity-checks
+            if (string.IsNullOrEmpty(pair.Key))
+            {
+                return input;
+            }
+
             if (InterpretAsRegex)
             {
                 // Note: If the performance is too bad, compiling regexes could be a good idea.
