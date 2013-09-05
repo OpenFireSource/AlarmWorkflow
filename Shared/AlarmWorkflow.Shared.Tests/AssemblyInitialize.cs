@@ -13,31 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AlarmWorkflow.Shared.Addressing.EntryObjects
+namespace AlarmWorkflow.Shared.Tests
 {
-    /// <summary>
-    /// Represents a "Phone" entry in the address book.
-    /// </summary>
-    public class MobilePhoneEntryObject
+    [TestClass()]
+    public class AssemblyInitialize
     {
-        #region Constants
-
-        /// <summary>
-        /// Defines the type identifier for this entry object.
-        /// </summary>
-        public const string TypeId = "MobilePhone";
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets/sets the phone number represented by this entry object.
-        /// </summary>
-        public string PhoneNumber { get; set; }
-
-        #endregion
+        [AssemblyInitialize()]
+        public static void AssemblyInit(TestContext context)
+        {
+            Logger.Instance.Initialize("AlarmWorkflow.Shared.Tests");
+            SettingsManager.Instance.Initialize();
+        }
     }
 }

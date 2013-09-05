@@ -26,7 +26,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 
         string IAddressProvider.AddressType
         {
-            get { return "Push"; }
+            get { return PushEntryObject.TypeId; }
         }
 
         object IAddressProvider.Convert(XElement element)

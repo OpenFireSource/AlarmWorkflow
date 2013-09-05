@@ -10,6 +10,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Shared", "AlarmWorkflow.Shared\AlarmWorkflow.Shared.csproj", "{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Shared.Addressing", "AlarmWorkflow.Shared.Addressing\AlarmWorkflow.Shared.Addressing.csproj", "{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Referenced projects", "Referenced projects", "{1AF0BF18-0C49-4279-849E-565D2683EBB2}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = AlarmWorkflow.Shared.vsmdi
@@ -23,8 +29,20 @@ Global
 		{52A3EB2B-70EC-47B4-BFB7-4FB8A34377BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52A3EB2B-70EC-47B4-BFB7-4FB8A34377BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52A3EB2B-70EC-47B4-BFB7-4FB8A34377BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE} = {1AF0BF18-0C49-4279-849E-565D2683EBB2}
+		{C22ECEB2-57CC-4F41-AE02-1C10E70BE44B} = {1AF0BF18-0C49-4279-849E-565D2683EBB2}
 	EndGlobalSection
 EndGlobal

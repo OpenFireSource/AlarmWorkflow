@@ -40,12 +40,6 @@ namespace AlarmWorkflow.Job.eAlarm
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     public class eAlarm : IJob
     {
-        #region Fields
-
-        private readonly List<PushEntryObject> _recipients;
-
-        #endregion Fields
-
         #region Constructor
 
         /// <summary>
@@ -53,7 +47,6 @@ namespace AlarmWorkflow.Job.eAlarm
         /// </summary>
         public eAlarm()
         {
-            _recipients = new List<PushEntryObject>();
         }
 
         #endregion Constructor
@@ -62,17 +55,6 @@ namespace AlarmWorkflow.Job.eAlarm
 
         bool IJob.Initialize()
         {
-            // Get recipients
-            IEnumerable<Tuple<AddressBookEntry, PushEntryObject>> recipients = AddressBookManager.GetInstance().GetCustomObjects<PushEntryObject>("Push");
-            _recipients.AddRange(recipients.Select(ri => ri.Item2));
-
-            // Require at least one recipient for initialization to succeed
-            if (_recipients.Count == 0)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, Resources.NoRecipientsMessage);
-                return false;
-            }
-
             return true;
         }
 
@@ -92,7 +74,7 @@ namespace AlarmWorkflow.Job.eAlarm
                 longitude = geoCode[Resources.LONGITUDE];
                 latitude = geoCode[Resources.LATITUDE];
             }
-          
+
             String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
             String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
             Dictionary<string, string> postParameters = new Dictionary<string, string>
@@ -102,7 +84,7 @@ namespace AlarmWorkflow.Job.eAlarm
                     {"lat", latitude},
                     {"long", longitude}
                 };
-            String to = _recipients.Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Aggregate("[", (current, pushEntryObject) => current + ("\"" + pushEntryObject.RecipientApiKey + "\","));
+            String to = GetRecipients(operation).Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Aggregate("[", (current, pushEntryObject) => current + ("\"" + pushEntryObject.RecipientApiKey + "\","));
             to = to.Substring(0, to.Length - 1) + "]";
             string postData = postParameters.Keys.Aggregate("", (current, key) => current + ("\"" + HttpUtility.UrlEncode(key) + "\":\"" + HttpUtility.UrlEncode(postParameters[key], Encoding.UTF8) + "\","));
             postData = "{" + postData.Substring(0, postData.Length - 1) + "}";
@@ -118,10 +100,17 @@ namespace AlarmWorkflow.Job.eAlarm
             }
         }
 
+        private IList<PushEntryObject> GetRecipients(Operation operation)
+        {
+            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
+            return recipients.Select(ri => ri.Item2).ToList();
+        }
+
         bool IJob.IsAsync
         {
             get { return true; }
         }
+
         #endregion
 
         #region Methods

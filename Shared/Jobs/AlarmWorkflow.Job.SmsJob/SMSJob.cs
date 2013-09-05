@@ -15,7 +15,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
@@ -35,7 +34,6 @@ namespace AlarmWorkflow.Job.SmsJob
     {
         #region Fields
 
-        private List<MobilePhoneEntryObject> _recipients;
         private string _userName;
         private string _password;
         private ISmsProvider _provider;
@@ -49,7 +47,6 @@ namespace AlarmWorkflow.Job.SmsJob
         /// </summary>
         public SmsJob()
         {
-            _recipients = new List<MobilePhoneEntryObject>();
         }
 
         #endregion
@@ -62,7 +59,14 @@ namespace AlarmWorkflow.Job.SmsJob
             {
                 return;
             }
-            
+
+            IList<MobilePhoneEntryObject> recipients = GetRecipients(operation);
+            if (recipients.Count == 0)
+            {
+                Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.NoRecipientsErrorMessage);
+                return;
+            }
+
             string format = SettingsManager.Instance.GetSetting("SMSJob", "MessageFormat").GetString();
             string text = operation.ToString(format);
             text = text.Replace("Ö", "Oe").Replace("Ä", "Ae").Replace("Ü", "Ue").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace("ß", "ss");
@@ -70,7 +74,13 @@ namespace AlarmWorkflow.Job.SmsJob
             text = text.Truncate(160, true, true);
 
             // Invoke the provider-send asynchronous because it is a web request and may take a while
-            _provider.Send(_userName, _password, _recipients.Select(r => r.PhoneNumber), text);
+            _provider.Send(_userName, _password, recipients.Select(r => r.PhoneNumber), text);
+        }
+
+        private IList<MobilePhoneEntryObject> GetRecipients(Operation operation)
+        {
+            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<MobilePhoneEntryObject>(MobilePhoneEntryObject.TypeId, operation);
+            return recipients.Select(ri => ri.Item2).ToList();
         }
 
         bool IJob.Initialize()
@@ -78,15 +88,6 @@ namespace AlarmWorkflow.Job.SmsJob
             _userName = SettingsManager.Instance.GetSetting("SMSJob", "UserName").GetString();
             _password = SettingsManager.Instance.GetSetting("SMSJob", "Password").GetString();
             _provider = ExportedTypeLibrary.Import<ISmsProvider>(SettingsManager.Instance.GetSetting("SMSJob", "Provider").GetString());
-
-            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MobilePhoneEntryObject>("MobilePhone");
-            _recipients.AddRange(recipients.Select(ri => ri.Item2));
-
-            if (_recipients.Count == 0)
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NoRecipientsErrorMessage);
-                return false;
-            }
 
             return true;
         }

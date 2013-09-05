@@ -44,8 +44,6 @@ namespace AlarmWorkflow.Job.MailingJob
         private SmtpClient _smptClient;
         private MailAddress _senderEmail;
 
-        private List<MailAddressEntryObject> _recipients;
-
         private string _mailSubject;
         private string _mailBodyFormat;
         private bool _attachImage;
@@ -59,7 +57,7 @@ namespace AlarmWorkflow.Job.MailingJob
         /// </summary>
         public MailingJob()
         {
-            _recipients = new List<MailAddressEntryObject>();
+
         }
 
         #endregion
@@ -98,15 +96,6 @@ namespace AlarmWorkflow.Job.MailingJob
 
             _attachImage = SettingsManager.Instance.GetSetting("MailingJob", "AttachImage").GetBoolean();
 
-            var recipients = AddressBookManager.GetInstance().GetCustomObjects<MailAddressEntryObject>("Mail");
-            _recipients.AddRange(recipients.Select(ri => ri.Item2));
-
-            if (_recipients.Count == 0)
-            {
-                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoRecipientsMessage);
-                return false;
-            }
-
             return true;
         }
 
@@ -124,8 +113,15 @@ namespace AlarmWorkflow.Job.MailingJob
         {
             using (MailMessage message = new MailMessage())
             {
+                IList<MailAddressEntryObject> recipients = GetMailRecipients(operation);
+                if (recipients.Count == 0)
+                {
+                    Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.NoRecipientsMessage);
+                    return;
+                }
+
                 message.From = _senderEmail;
-                foreach (var recipient in _recipients)
+                foreach (MailAddressEntryObject recipient in recipients)
                 {
                     switch (recipient.Type)
                     {
@@ -189,6 +185,12 @@ namespace AlarmWorkflow.Job.MailingJob
                     Logger.Instance.LogException(this, ex);
                 }
             }
+        }
+
+        private IList<MailAddressEntryObject> GetMailRecipients(Operation operation)
+        {
+            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<MailAddressEntryObject>(MailAddressEntryObject.TypeId, operation);
+            return recipients.Select(ri => ri.Item2).ToList();
         }
 
         bool IJob.IsAsync

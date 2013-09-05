@@ -24,6 +24,15 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
     /// </summary>
     public class MailAddressEntryObject
     {
+        #region Constants
+
+        /// <summary>
+        /// Defines the type identifier for this entry object.
+        /// </summary>
+        public const string TypeId = "Mail";
+
+        #endregion
+
         #region Properties
 
         /// <summary>

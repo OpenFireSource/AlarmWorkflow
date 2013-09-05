@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
+using AlarmWorkflow.Shared.Addressing.Extensibility;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
@@ -33,6 +34,7 @@ namespace AlarmWorkflow.Shared.Addressing
         #region Fields
 
         private List<IAddressProvider> _addressProviders;
+        private List<IAddressFilter> _addressFilter;
 
         #endregion
 
@@ -55,13 +57,28 @@ namespace AlarmWorkflow.Shared.Addressing
             this.Entries = new AddressBookEntryCollection();
 
             // TODO: Make static
+            // TODO: Make ETL an interface and use locator to ease testing!
             _addressProviders = new List<IAddressProvider>();
             _addressProviders.AddRange(ExportedTypeLibrary.ImportAll<IAddressProvider>());
+
+            _addressFilter = new List<IAddressFilter>();
+            AddSpecifiedAddressFilters();
         }
 
         #endregion
 
         #region Methods
+
+        private void AddSpecifiedAddressFilters()
+        {
+            IList<string> exports = SettingsManager.Instance.GetSetting("Addressing", "FiltersConfiguration").GetValue<ExportConfiguration>().GetEnabledExports();
+            foreach (var export in ExportedTypeLibrary
+                .GetExports(typeof(IAddressFilter))
+                .Where(j => exports.Contains(j.Attribute.Alias)))
+            {
+                _addressFilter.Add(export.CreateInstance<IAddressFilter>());
+            }
+        }
 
         private IAddressProvider GetAddressProvider(string type)
         {
@@ -78,16 +95,32 @@ namespace AlarmWorkflow.Shared.Addressing
         /// </summary>
         /// <typeparam name="TCustomData">The custom data to expect.</typeparam>
         /// <param name="type">The type to query.</param>
-        /// <returns></returns>
+        /// <returns>An enumerable of tuples that contain both the entry and the custom data of this entry.</returns>
         public IEnumerable<Tuple<AddressBookEntry, TCustomData>> GetCustomObjects<TCustomData>(string type)
         {
-            // TODO: This should be a Lookup<AddressBookEntry, EntryDataItem> instead of returning a ton of tuples!
+            return GetCustomObjectsFiltered<TCustomData>(type, null);
+        }
+
+        /// <summary>
+        /// Performs a query over all entries in this instance and returns all entries including their data items of the given type.
+        /// Includes only entries that successfully match all the <see cref="IAddressFilter"/>s specified in the configuration.
+        /// </summary>
+        /// <typeparam name="TCustomData">The custom data to expect.</typeparam>
+        /// <param name="type">The type to query.</param>
+        /// <param name="operation">The <see cref="Operation"/> to use for filtering. Using null performs no filtering.</param>
+        /// <returns>An enumerable of tuples that contain both the entry and the custom data of this entry.</returns>
+        public IEnumerable<Tuple<AddressBookEntry, TCustomData>> GetCustomObjectsFiltered<TCustomData>(string type, Operation operation)
+        {
             foreach (AddressBookEntry entry in Entries)
             {
-                IEnumerable<EntryDataItem> matching = entry.Data.Where(d => d.Identifier == type);
-                foreach (EntryDataItem eo in matching.Where(i => i.IsEnabled))
+                if (operation != null && _addressFilter.Any(fl => !fl.QueryAcceptEntry(operation, entry)))
                 {
-                    yield return Tuple.Create<AddressBookEntry, TCustomData>(entry, (TCustomData)eo.Data);
+                    continue;
+                }
+
+                foreach (TCustomData data in entry.GetDataItems<TCustomData>(type))
+                {
+                    yield return Tuple.Create<AddressBookEntry, TCustomData>(entry, data);
                 }
             }
         }

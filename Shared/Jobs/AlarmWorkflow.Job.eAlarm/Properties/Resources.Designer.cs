@@ -61,24 +61,6 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kommuniziert mit der eAlarm-Android App..
-        /// </summary>
-        internal static string ExportJobDescription {
-            get {
-                return ResourceManager.GetString("ExportJobDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to eAlarm.
-        /// </summary>
-        internal static string ExportJobDisplayName {
-            get {
-                return ResourceManager.GetString("ExportJobDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to LATITUDE.
         /// </summary>
         internal static string LATITUDE {
@@ -93,15 +75,6 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         internal static string LONGITUDE {
             get {
                 return ResourceManager.GetString("LONGITUDE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There are no recipients configured!.
-        /// </summary>
-        internal static string NoRecipientsMessage {
-            get {
-                return ResourceManager.GetString("NoRecipientsMessage", resourceCulture);
             }
         }
     }

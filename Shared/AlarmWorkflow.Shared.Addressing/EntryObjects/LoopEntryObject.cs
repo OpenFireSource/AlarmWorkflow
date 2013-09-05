@@ -22,6 +22,15 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
     /// </summary>
     public class LoopEntryObject
     {
+        #region Constants
+
+        /// <summary>
+        /// Defines the type identifier for this entry object.
+        /// </summary>
+        public const string TypeId = "Loop";
+
+        #endregion
+
         #region Properties
 
         /// <summary>

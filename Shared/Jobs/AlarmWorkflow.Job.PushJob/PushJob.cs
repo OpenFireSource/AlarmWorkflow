@@ -39,7 +39,6 @@ namespace AlarmWorkflow.Job.PushJob
         #region Fields
 
         private string _expression;
-        private List<PushEntryObject> _recipients;
 
         #endregion
 
@@ -55,9 +54,6 @@ namespace AlarmWorkflow.Job.PushJob
 
         bool IJob.Initialize()
         {
-            _recipients = new List<PushEntryObject>();
-            IEnumerable<Tuple<AddressBookEntry, PushEntryObject>> recipients = AddressBookManager.GetInstance().GetCustomObjects<PushEntryObject>("Push");
-            _recipients.AddRange(recipients.Select(ri => ri.Item2));
             _expression = SettingsManager.Instance.GetSetting("PushJob", "MessageContent").GetString();
             return true;
         }
@@ -82,10 +78,16 @@ namespace AlarmWorkflow.Job.PushJob
 
         #region Methods
 
+        private IList<PushEntryObject> GetRecipients(Operation operation)
+        {
+            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
+            return recipients.Select(ri => ri.Item2).ToList();
+        }
+
         private void NotifyMyAndroid(Operation operation)
         {
             string content = operation.ToString(_expression);
-            List<String> nmaRecipients = (from pushEntryObject in _recipients where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
+            List<String> nmaRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
             if (nmaRecipients.Count != 0)
             {
                 NMA.Notify(nmaRecipients, ApplicationName, HeaderText, content, NMANotificationPriority.Emergency);
@@ -95,7 +97,7 @@ namespace AlarmWorkflow.Job.PushJob
         private void NotifyProwl(Operation operation)
         {
             string content = operation.ToString(_expression);
-            List<String> prowlRecipients = (from pushEntryObject in _recipients where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
+            List<String> prowlRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
             if (prowlRecipients.Count != 0)
             {
                 Prowl.Notify(prowlRecipients, ApplicationName, HeaderText, content, ProwlNotificationPriority.Emergency);

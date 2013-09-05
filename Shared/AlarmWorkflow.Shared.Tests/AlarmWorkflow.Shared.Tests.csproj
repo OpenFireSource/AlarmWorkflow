@@ -53,7 +53,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyInitialize.cs" />
     <Compile Include="Shared.Addressing\AddressBookTests.cs" />
+    <Compile Include="Shared.Addressing\FilteringTests.cs" />
     <Compile Include="Shared\CoreTests\OptionStringHelperTests.cs" />
     <Compile Include="Shared\CoreTests\CsvHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,6 +80,8 @@
     <None Include="Smoketests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Shadow Include="Test References\AlarmWorkflow.Shared.accessor" />
+    <Shadow Include="Test References\AlarmWorkflow.Shared.Addressing.accessor" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

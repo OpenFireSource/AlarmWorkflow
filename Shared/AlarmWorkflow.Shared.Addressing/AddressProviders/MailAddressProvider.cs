@@ -26,7 +26,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 
         string IAddressProvider.AddressType
         {
-            get { return "Mail"; }
+            get { return MailAddressEntryObject.TypeId; }
         }
 
         object IAddressProvider.Convert(XElement element)

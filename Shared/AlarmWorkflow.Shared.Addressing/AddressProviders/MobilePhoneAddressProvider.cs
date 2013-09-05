@@ -29,7 +29,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 
         string IAddressProvider.AddressType
         {
-            get { return "MobilePhone"; }
+            get { return MobilePhoneEntryObject.TypeId; }
         }
 
         object IAddressProvider.Convert(XElement element)

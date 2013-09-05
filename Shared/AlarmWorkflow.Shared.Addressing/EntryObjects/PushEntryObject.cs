@@ -24,6 +24,15 @@ namespace AlarmWorkflow.Shared.Addressing.EntryObjects
     /// <remarks>This is a generalized way to talk any push-notification-consumer, including (but not limited to): Prowl, Growl etc.</remarks>
     public class PushEntryObject
     {
+        #region Constants
+
+        /// <summary>
+        /// Defines the type identifier for this entry object.
+        /// </summary>
+        public const string TypeId = "Push";
+
+        #endregion
+
         #region Fields
 
         /// <summary>

@@ -1,7 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="Addressing">
-
-  <!-- Addressbook -->
   <Setting Name="AddressBook" Type="System.String">
     <![CDATA[<AddressBook>
   <Entry FirstName="John" LastName="Doe">
@@ -13,5 +11,7 @@
   </Entry>
 </AddressBook>]]>
   </Setting>
-
+  <Setting Name="FiltersConfiguration" Type="System.String">
+    <![CDATA[<ExportConfiguration />]]>
+  </Setting>
 </SettingsConfiguration>

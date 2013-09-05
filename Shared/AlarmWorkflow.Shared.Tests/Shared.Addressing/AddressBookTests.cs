@@ -90,5 +90,20 @@ namespace AlarmWorkflow.Shared.Tests.Shared.Addressing
 
             return addressBook;
         }
+
+        [TestMethod()]
+        public void IgnoreDisabledDataItems()
+        {
+            AddressBookEntry entry = new AddressBookEntry();
+            entry.FirstName = "John";
+            entry.LastName = "Doe";
+            entry.Data.Add(new EntryDataItem() { Identifier = LoopEntryObject.TypeId, IsEnabled = true, Data = new LoopEntryObject() { Loop = "123" } });
+            // This item shall be ignored when retrieving all data items.
+            entry.Data.Add(new EntryDataItem() { Identifier = LoopEntryObject.TypeId, IsEnabled = false, Data = new LoopEntryObject() { Loop = "i'm being ignored" } });
+
+            var result = entry.GetDataItems<LoopEntryObject>(LoopEntryObject.TypeId).ToList();
+            Assert.AreEqual(1, result.Count);
+            Assert.AreEqual("123", result[0].Loop);
+        }
     }
 }

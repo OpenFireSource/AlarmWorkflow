@@ -124,7 +124,7 @@
     <value>E-Mail-Versand</value>
   </data>
   <data name="NoRecipientsMessage" xml:space="preserve">
-    <value>There are no recipients configured!</value>
+    <value>There are no recipients to send mails to.</value>
   </data>
   <data name="NoSenderAddressMessage" xml:space="preserve">
     <value>There is no sender address given! A sender address is required to send mails.</value>

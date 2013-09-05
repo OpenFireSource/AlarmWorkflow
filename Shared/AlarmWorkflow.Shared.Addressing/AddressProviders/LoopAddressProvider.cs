@@ -26,7 +26,7 @@ namespace AlarmWorkflow.Shared.Addressing.AddressProviders
 
         string IAddressProvider.AddressType
         {
-            get { return "Loop"; }
+            get { return LoopEntryObject.TypeId; }
         }
 
         object IAddressProvider.Convert(XElement element)

@@ -123,6 +123,12 @@
   <data name="AddressBook_StartScanMessage" xml:space="preserve">
     <value>Begin scanning address book contents...</value>
   </data>
+  <data name="ByLoopAddressFilterDescription" xml:space="preserve">
+    <value>Filtert die Einträge gemäß den Schleifeninformationen von FMS-Programmen.</value>
+  </data>
+  <data name="ByLoopAddressFilterDisplayName" xml:space="preserve">
+    <value>Schleifenfilter</value>
+  </data>
   <data name="ConvertBackErrorMessage" xml:space="preserve">
     <value>An error occurred during converting a value using provider '{0}'. This data item will be ignored. See log for further information.</value>
   </data>

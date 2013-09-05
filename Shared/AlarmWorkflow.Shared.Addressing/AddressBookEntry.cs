@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace AlarmWorkflow.Shared.Addressing
 {
@@ -50,6 +51,27 @@ namespace AlarmWorkflow.Shared.Addressing
         public AddressBookEntry()
         {
             Data = new List<EntryDataItem>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns all data items of this entry that are of the specified type.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>Includes only data items that have <see cref="EntryDataItem.IsEnabled"/> set to true.</remarks>
+        /// <typeparam name="TCustomData">The custom data to expect.</typeparam>
+        /// <param name="type">The type to query.</param>
+        /// <returns>An enumerable containing all data items of this entry that are of the specified type.</returns>
+        public IEnumerable<TCustomData> GetDataItems<TCustomData>(string type)
+        {
+            IEnumerable<EntryDataItem> matching = this.Data.Where(d => d.Identifier == type);
+            foreach (EntryDataItem eo in matching.Where(i => i.IsEnabled))
+            {
+                yield return (TCustomData)eo.Data;
+            }
         }
 
         #endregion

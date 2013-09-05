@@ -129,7 +129,4 @@
   <data name="LONGITUDE" xml:space="preserve">
     <value>LONGITUDE</value>
   </data>
-  <data name="NoRecipientsMessage" xml:space="preserve">
-    <value>There are no recipients configured!</value>
-  </data>
 </root>

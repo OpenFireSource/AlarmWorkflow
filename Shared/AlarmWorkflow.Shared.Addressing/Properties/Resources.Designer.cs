@@ -79,6 +79,24 @@ namespace AlarmWorkflow.Shared.Addressing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filtert die Einträge gemäß den Schleifeninformationen von FMS-Programmen..
+        /// </summary>
+        internal static string ByLoopAddressFilterDescription {
+            get {
+                return ResourceManager.GetString("ByLoopAddressFilterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schleifenfilter.
+        /// </summary>
+        internal static string ByLoopAddressFilterDisplayName {
+            get {
+                return ResourceManager.GetString("ByLoopAddressFilterDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred during converting a value using provider &apos;{0}&apos;. This data item will be ignored. See log for further information..
         /// </summary>
         internal static string ConvertBackErrorMessage {
