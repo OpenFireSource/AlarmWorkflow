@@ -10,6 +10,8 @@ General
   * Object formatting: Using CustomData now consistently possible
   * Tesseract is new default OCR software
   * Possible to attach fax in MailingJob
+  * Added filtering of addressbook entries based on loop information
+  * All assemblies are now set to 0.9.2.0
 
 UI
 
@@ -17,6 +19,7 @@ UI
   * Made exports more user-friendly in ConfEd
   * Added license information to ConfEd
   * Acknowledging-dialog now cancels action after 5 seconds until manually confirmed
+  * Clock widget can now blink
 
 Fixes since v0.9.1.0
 --------------------
@@ -28,3 +31,5 @@ Issues resolved
 Other fixes
 
   * Fix of parsing timestamp in LFSOffenbachParser
+  * Avoid exception in ReplaceDictionary if a pair key is null
+  * Minor spelling issue corrections
