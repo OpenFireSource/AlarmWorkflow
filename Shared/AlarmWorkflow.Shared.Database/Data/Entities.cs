@@ -13,8 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Linq;
 using System.Text;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Shared.Database.Data
@@ -55,7 +57,19 @@ namespace AlarmWorkflow.Shared.Database.Data
             return new AlarmWorkflowEntities(ConnectionString);
         }
 
-        internal static bool CheckDatabaseReachable()
+        /// <summary>
+        /// Checks if the we can reach the database server, otherwise throw an exception.
+        /// </summary>
+        internal static void AssertDatabaseReachable()
+        {
+            if (!CheckDatabaseReachable())
+            {
+                Logger.Instance.LogFormat(LogType.Error, typeof(AlarmWorkflowEntities), Properties.Resources.DatabaseNotReachableErrorMessage);
+                throw new InvalidOperationException(Properties.Resources.DatabaseNotReachableErrorMessage);
+            }
+        }
+
+        private static bool CheckDatabaseReachable()
         {
             using (AlarmWorkflowEntities entities = CreateContext())
             {

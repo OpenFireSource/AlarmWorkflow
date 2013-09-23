@@ -7,12 +7,14 @@ Updates since v0.9.2.0
 General
 
   * Please change date format in operation loop fetcher from "HH:" to "H:".
+  * Added exception when trying to start service without connection to database server.
 
 Fixes since v0.9.2.0
 --------------------
 
 Issues resolved
 
+  * #109
   * #114
 
 Other fixes

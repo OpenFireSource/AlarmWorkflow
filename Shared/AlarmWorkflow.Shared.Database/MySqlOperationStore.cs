@@ -38,7 +38,7 @@ namespace AlarmWorkflow.Shared.Database
         /// </summary>
         public MySqlOperationStore()
         {
-
+            AlarmWorkflowEntities.AssertDatabaseReachable();
         }
 
         #endregion
