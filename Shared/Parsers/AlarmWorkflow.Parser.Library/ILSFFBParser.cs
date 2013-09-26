@@ -96,7 +96,14 @@ namespace AlarmWorkflow.Parser.Library
                         operation.OperationPlan = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.HMeldebild:
-                        operation.Picture = GetMessageText(line, keyword);
+                        if (operation.Picture != null)
+                        {
+                            operation.Picture += GetMessageText(line, keyword);
+                        }
+                        else
+                        {
+                            operation.Picture = GetMessageText(line, keyword);
+                        }
                         break;
                     case CurrentSection.JEinsatzstichwort:
                         operation.Keywords.EmergencyKeyword = GetMessageText(line, keyword);
