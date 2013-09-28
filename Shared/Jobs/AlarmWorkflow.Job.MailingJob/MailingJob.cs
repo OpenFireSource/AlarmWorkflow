@@ -152,10 +152,8 @@ namespace AlarmWorkflow.Job.MailingJob
                                 if (File.Exists(imagePath))
                                 {
                                     string[] convertTiffToJpeg = Helpers.ConvertTiffToJpeg(imagePath);
-                                    using (Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg))
-                                    {
-                                        attachment = new Attachment(stream, "fax.jpg");
-                                    }
+                                    Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg);
+                                    attachment = new Attachment(stream, "fax.jpg");
                                     foreach (string s in convertTiffToJpeg)
                                     {
                                         File.Delete(s);
