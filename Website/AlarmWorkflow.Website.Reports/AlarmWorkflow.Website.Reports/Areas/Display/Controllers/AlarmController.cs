@@ -35,9 +35,13 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
                     if (ids.Count == 1)
                     {
                         OperationItem item = service.Instance.GetOperationById(ids[0]);
-
                         data.success = true;
                         data.op = item;
+                    }
+                    else if (ids.Count == 0)
+                    {
+                        data.success = true;
+                        data.op = null;
                     }
                 }
             }

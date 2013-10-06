@@ -2,6 +2,7 @@
     background-color: #e2e2e2;
     margin: 0;
     padding: 0;
+    height: 100%;
 }
 
 body {
@@ -529,8 +530,7 @@ input[type="checkbox"].input-validation-error {
 ----------------------------------------------------------*/
 table {
     border-collapse: collapse;
-    border-spacing: 0;
-    margin-top: 0.75em;
+    border-spacing: 0;    
     border: 0 none;
 }
 
@@ -578,8 +578,11 @@ th {
     }
 
 td {
-    padding: 0.25em 2em 0.25em 0em;
+    padding: 0.25em 0.25em 0.25em 0em;
     border: 0 none;
+}
+td.alarm {
+    border: 1px solid #000000;
 }
 
 tr.pager td {

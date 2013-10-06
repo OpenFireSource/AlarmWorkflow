@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
@@ -6,13 +6,13 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
-    </head>
-    <body style="border-top: 0px; padding-top: 0px">
-        <div>
-            @RenderBody()
-        </div>
 
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
+    </head>
+    <body style="height:100%; width: 100%; border-top: 0px; padding-top: 0px">
+        <div style="height:100%; width: 100%;">
+            @RenderBody()
+        </div>
     </body>
 </html>

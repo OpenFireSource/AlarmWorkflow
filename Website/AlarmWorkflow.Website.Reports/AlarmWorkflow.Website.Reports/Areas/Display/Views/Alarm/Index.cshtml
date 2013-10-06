@@ -3,115 +3,232 @@
     ViewBag.Title = "Alarmanzeige";
 }
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script> 
-<script type="text/javascript" src="http://www.openlayers.org/api/OpenLayers.js"> </script>
-<script type="text/javascript" src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"> </script> 
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
 <script type="text/javascript">
 
     // Stores the current operation, so we don't get the expensive data all over each time.
     var currentOpId = -1;
-
-    // Poll the service and read operation data, then apply to DOM.
-    window.setInterval(function () {
-
+    //Vars needed by google
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var map;
+    var maxZoomService = new google.maps.MaxZoomService();
+    var geocoder = new google.maps.Geocoder();
+    var addressCoor = null;
+    var showRoute = false;
+    var zoomOnAddress = true;
+    var useTilt = true;
+    var useTraffic = true;
+    var zoomLevel = 0.8;//In Prozent
+    var home = '*****FEUERWEHR*****';
+    function calcRoute(start, end) {
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+        directionsService.route(request, function (result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(result);
+                var l = result.routes[0].overview_path.length;
+                addressCoor = result.routes[0].overview_path[l - 1];
+            }
+        });
+    }
+    function loadOperationData() {
+        console.log("Loading Operation");
         $.get('/Display/Alarm/GetLatestOperation', function (result) {
 
+            console.log("Got Operation");
             $("#paneLoading").hide();
 
             if (result.success == true) {
 
                 $("#paneError").hide();
+                if (result.op == null) {
+                    $("#paneIdle").show();
+                    $("#paneOperation").hide();
+                } else {
 
-                if (currentOpId != result.op.Id) {
-                    currentOpId = result.op.Id;
+                    $("#paneIdle").hide();
+                    if (currentOpId != result.op.Id) {
+                        currentOpId = result.op.Id;
 
-                    $("#opicture").text(result.op.Picture);
-                    $("#ocomment").text(result.op.Comment);
-                    $("#oplan").text(result.op.OperationPlan);
+                        $("#opicture").text(result.op.Picture);
+                        $("#ocomment").text(result.op.Comment);
 
-                    var address = result.op.Einsatzort.Street + " " +
-                                result.op.Einsatzort.StreetNumber + ", " +
-                                result.op.Einsatzort.ZipCode + " " +
-                                result.op.Einsatzort.City;
-                    $("#oaddress").text(address);
-                    $("#oobject").text(result.op.Einsatzort.Property);
+                        var oaddress = "";
+                        if (result.op.Einsatzort.Street != null) {
+                            oaddress += result.op.Einsatzort.Street + " ";
+                        }
+                        if (result.op.Einsatzort.StreetNumber != null) {
+                            oaddress += result.op.Einsatzort.StreetNumber + " ";
+                        }
+                        if (result.op.Einsatzort.ZipCode != null) {
+                            oaddress += result.op.Einsatzort.ZipCode + " ";
+                        }
+                        if (result.op.Einsatzort.City != null) {
+                            oaddress += result.op.Einsatzort.City;
+                        }
+                        oaddress = oaddress.replace("  ", " ");
+                        $("#oaddress").text(oaddress);
 
-                    // Prepare Keywords for display.
-                    var kwd = "Stichwörter: " +
-                                result.op.Keywords.Keyword + ", " +
-                                result.op.Keywords.EmergencyKeyword + ", " +
-                                result.op.Keywords.B + ", " +
-                                result.op.Keywords.R + ", " +
-                                result.op.Keywords.S + ", " +
-                                result.op.Keywords.T;
+                        // Prepare Keywords for display.
+                        var okeywords = "Stichwörter: ";
+                        if (result.op.Keywords.Keyword != null) { okeywords += result.op.Keywords.Keyword + " "; }
+                        if (result.op.Keywords.EmergencyKeyword != null) { okeywords += result.op.Keywords.EmergencyKeyword + " "; }
+                        if (result.op.Keywords.B != null) { okeywords += result.op.Keywords.B + " "; }
+                        if (result.op.Keywords.R != null) { okeywords += result.op.Keywords.R + " "; }
+                        if (result.op.Keywords.S != null) { okeywords += result.op.Keywords.S + " "; }
+                        if (result.op.Keywords.T != null) { okeywords += result.op.Keywords.T; }
 
-                    $("#okeywords").text(kwd);
+                        okeywords = okeywords.replace("  ", " ");
+                        $("#okeywords").text(okeywords);
 
-                    // Resources
-                    var rsc = "";
-                    for (var i = 0; i < result.op.Resources.length; i++) {
-                        rsc = rsc + result.op.Resources[i].FullName + ", ";
+                        // Resources
+                        var orsc = "";
+                        for (var i = 0; i < result.op.Resources.length; i++) {
+                            orsc += $.trim(result.op.Resources[i].FullName) + ", ";
+                        }
+                        $("#orsc").text(orsc);
+
+                        $("#paneOperation").show();
+                        //GoogleMaps Stuff
+                        google.maps.visualRefresh = true;
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+                        var firstTime = true;
+                        var address = oaddress;
+                        var dest = null;
+
+                        //mapTypeId: google.maps.MapTypeId.ROADMAP
+                        //mapTypeId: google.maps.MapTypeId.HYBRID
+                        //mapTypeId: google.maps.MapTypeId.TERRAIN
+                        var mapType = google.maps.MapTypeId.HYBRID;
+                        geocoder.geocode({ 'address': address }, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                dest = results[0].geometry.location;
+                            }
+                        });
+                        if (!showRoute) {
+
+                            geocoder.geocode({ 'address': address }, function (results, status) {
+                                if (status == google.maps.GeocoderStatus.OK) {
+                                    dest = results[0].geometry.location;
+                                    new google.maps.Marker({
+                                        position: dest,
+                                        map: map,
+                                    });
+                                    map.setCenter(dest);
+                                    map.setZoom(18);
+                                    maxZoomService.getMaxZoomAtLatLng(dest, function (response) {
+                                        if (response.status == google.maps.MaxZoomStatus.OK) {
+                                            var zoom = Math.round(response.zoom * zoomLevel);
+                                            map.setZoom(zoom);
+                                        }
+                                    });
+
+                                }
+                            });
+                        }
+                        var mapOptions = {
+                            zoom: 10, //Init
+                            overviewMapControl: false,
+                            panControl: false,
+                            mapTypeControl: true,
+                            streetViewControl: false,
+                            zoomControl: true,
+                            mapTypeId: mapType
+                        };
+                        map = new google.maps.Map(document.getElementById("ogoogle"), mapOptions);
+                        //45°
+                        if (useTilt) {
+                            map.setTilt(45);
+                        }
+                        //TRAFFIC
+                        if (useTraffic) {
+                            var trafficLayer = new google.maps.TrafficLayer();
+                            trafficLayer.setMap(map);
+                        }
+                        if (showRoute) {
+                            //ROUTE
+                            directionsDisplay.setMap(map);
+                            calcRoute(home, address);
+
+                            google.maps.event.addListener(map, 'tilesloaded', function () {
+                                if (zoomOnAddress && firstTime) {
+                                    firstTime = false;
+                                    geocoder.geocode({ 'address': address }, function (results, status) {
+                                        if (status == google.maps.GeocoderStatus.OK) {
+                                            var coor = results[0].geometry.location;
+                                            if (addressCoor != null) {
+                                                map.setCenter(addressCoor);
+                                                map.setZoom(18);
+                                                maxZoomService.getMaxZoomAtLatLng(addressCoor, function (response) {
+                                                    if (response.status == google.maps.MaxZoomStatus.OK) {
+                                                        var zoom = Math.round(response.zoom * zoomLevel);
+                                                        map.setZoom(zoom);
+                                                    }
+                                                });
+                                            } else {
+                                                map.setCenter(coor);
+                                                map.setZoom(18);
+                                                maxZoomService.getMaxZoomAtLatLng(coor, function (response) {
+                                                    if (response.status == google.maps.MaxZoomStatus.OK) {
+                                                        var zoom = Math.round(response.zoom * zoomLevel);
+                                                        map.setZoom(zoom);
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
-                    $("#orsc").text(rsc);
-
-                    $("#paneOperation").show();
                 }
-            }
-            else {
+            } else {
                 // Reset current operation and display warning.
                 currentOpId = -1;
                 $("#paneOperation").hide();
+                $("#paneIdle").hide();
                 $("#paneError").show();
             }
+        }).fail(function () {
+            // Reset current operation and display warning.
+            currentOpId = -1;
+            $("#paneOperation").hide();
+            $("#paneIdle").hide();
+            $("#paneError").show();
         });
-    }, 3000);</script>
+    }
+    // Poll the service and read operation data, then apply to DOM.
+    window.setInterval(loadOperationData, 3000);
+    $(loadOperationData);
+
+</script>
 
 <!-- Pane initially shown -->
-<div id="paneLoading"">
+<div id="paneLoading">
     <span>Lade, bitte warten...</span>
+    <script type="text/javascript">
+        loadOperationData();
+    </script>
 </div>
-    
+
 <!-- Pane to be displayed in case of an error-->
-<div id="paneError" hidden="hidden">
-    <span style="color: Red; font-size: large; font-weight: bold">Ein Fehler ist aufgetreten. Bitte sehen Sie in den Serverlogs nach.</span>
+<div id="paneError" style="display: table; height: 100%; width: 100%;">
+    <span style="color: Red; font-size: 6em; text-align: center; font-weight: bold; display:table-cell; vertical-align:middle;">Ein Fehler ist aufgetreten.<br/> Bitte sehen Sie in den Serverlogs nach.</span>
 </div>
-    
+<!-- Pane to be displayed in case of an error-->
+<div id="paneIdle" style="display: table; height: 100%; width: 100%;">
+    <span style="color: green; font-size: 6em; text-align: center; font-weight: bold; display:table-cell; vertical-align:middle;">Es liegt kein Einsatz vor.</span>
+</div>
 <!-- Pane to be displayed otherwise -->
-<div id="paneOperation">
-    <table style="border-color: #333333; border-style: solid; border-width: 3px; font-size: 45px; height: 100%; width: 100%; border-collapse: separate">
-        <tr>
-            <td style="width: 60%; margin-left: auto; margin-right: auto" rowspan="2">
-                <span id="opicture" style="font-size: 55px; font-weight: bold" />
-            </td>
-            <td style="width: 40%; margin-left: auto; margin-right: auto">
-                <span id="ocomment" /> <span id="oplan" />
-            </td>
-        </tr>
-        <tr>
-            <td style="margin-left: auto; margin-right: auto" colspan="2">
-                <span id="okeywords" style="font-weight: bold" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span id="oaddress" />
-            </td>
-            <td>
-                <span id="oobject" />
-            </td>
-        </tr>
-        <tr style="height: 50%">
-            <td>
-                <div id="googlemap" style="height: 100%; width: 100%" />
-            </td>
-            <td>
-                <div id="osmmap" style="height: 100%; width: 100%" />
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <span id="orsc" />
-            </td>
-        </tr>
+<div style="background-color: #83C6FA; height: 100%; width: 100%" id="paneOperation">
+    <table style="height: 100%; width: 100%; font-size:1.8em; text-align: center">
+        <tr><td class="alarm" id="opicture"></td><td class="alarm" id="okeywords"></td></tr>
+        <tr><td class="alarm" id="oaddress"></td><td class="alarm" id="ocomment"></td></tr>
+        <tr><td class="alarm" colspan="2" style="height: 40%; width: 100%;" id="ogoogle"></td></tr>
+        <tr><td class="alarm" colspan="2" id="orsc"></td></tr>
     </table>
 </div>
