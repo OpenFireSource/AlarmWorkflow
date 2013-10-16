@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.MailingJo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.DisplayWakeUpJob", "Jobs\AlarmWorkflow.Job.DisplayWakeUpJob\AlarmWorkflow.Job.DisplayWakeUpJob.csproj", "{D3E75ABB-8816-4E2A-B107-87C393CE96F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmMonitorFeederJob", "Jobs\AlarmWorkflow.Job.AlarmMonitorFeederJob\AlarmWorkflow.Job.AlarmMonitorFeederJob.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.eAlarm", "Jobs\AlarmWorkflow.Job.eAlarm\AlarmWorkflow.Job.eAlarm.csproj", "{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.AlarmSourcePrinterJob", "Jobs\AlarmWorkflow.Job.AlarmSourcePrinterJob\AlarmWorkflow.Job.AlarmSourcePrinterJob.csproj", "{27EE337B-3AA5-41B1-AB0B-3C114EA64105}"
@@ -18,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.OperationLoopFetcher", "Jobs\AlarmWorkflow.Job.OperationLoopFetcher\AlarmWorkflow.Job.OperationLoopFetcher.csproj", "{3E244964-D13D-4B5E-8903-02C310D1B945}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.OperationPrinter", "Jobs\AlarmWorkflow.Job.OperationPrinter\AlarmWorkflow.Job.OperationPrinter.csproj", "{BA0DD586-4E5A-4FF5-9614-612AF6BBED91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.OperationFileExporter", "Jobs\AlarmWorkflow.Job.OperationFileExporter\AlarmWorkflow.Job.OperationFileExporter.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,6 @@ Global
 		{D3E75ABB-8816-4E2A-B107-87C393CE96F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3E75ABB-8816-4E2A-B107-87C393CE96F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3E75ABB-8816-4E2A-B107-87C393CE96F6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79D2FA21-105A-447A-98FE-44A3FCDA4CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,6 +57,10 @@ Global
 		{BA0DD586-4E5A-4FF5-9614-612AF6BBED91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA0DD586-4E5A-4FF5-9614-612AF6BBED91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA0DD586-4E5A-4FF5-9614-612AF6BBED91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

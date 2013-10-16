@@ -118,9 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ExportJobDescription" xml:space="preserve">
-    <value>Schreibt in eine Datei zur Kommunikation mit AlarmMonitor.</value>
+    <value>Exportiert Alarme zur Verwendung in Programmen von Drittanbietern.</value>
   </data>
   <data name="ExportJobDisplayName" xml:space="preserve">
-    <value>AlarmMonitor-Feeder</value>
+    <value>Einsatzdateiexporter</value>
+  </data>
+  <data name="ExportToAMFailed" xml:space="preserve">
+    <value>Failed exporting to AlarmMonitor-format!</value>
+  </data>
+  <data name="ExportToEVAFailed" xml:space="preserve">
+    <value>Failed exporting to EVA-format!</value>
   </data>
 </root>

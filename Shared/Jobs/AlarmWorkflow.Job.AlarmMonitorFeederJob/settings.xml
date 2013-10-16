@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<SettingsConfiguration Version="1" Identifier="AlarmMonitorFeederJob">
-
-  <Setting Name="DestinationFileName" Type="System.String">C:\Alarmtext.txt</Setting>
-
-</SettingsConfiguration>

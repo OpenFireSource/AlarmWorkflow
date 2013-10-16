@@ -1,0 +1,8 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="OperationFileExporter" DisplayText="Einsatzdateiexporter" Parent="Aufgaben">
+    <Setting Name="AMExportEnabled" DisplayText="AlarmMonitor-Datei Export aktiviert" Category="AlarmMonitor" />
+    <Setting Name="AMDestinationFileName" DisplayText="Zieldatei" Category="AlarmMonitor" Editor="FileTypeEditor" />
+    <Setting Name="EVAExportEnabled" DisplayText="EVA-Datei Export aktiviert" Category="EVA" />
+    <Setting Name="EVADestinationFileName" DisplayText="Zieldatei" Category="EVA" Editor="FileTypeEditor" EditorParameter="XML-Dateien (*.xml)|*.xml" />
+  </Identifier>
+</SettingsDisplayConfiguration>

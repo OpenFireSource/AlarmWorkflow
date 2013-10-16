@@ -7,15 +7,16 @@ Updates since v0.9.2.0
 General
 
   * Please change date format in operation loop fetcher from "HH:" to "H:".
-  * Added exception when trying to start service without connection to database server.
+  + Added exception when trying to start service without connection to database server.
+  + Added export to EVA-format
+  * Changed job AlarmMonitorFeeder to OperationFileExporter. Old settings have been removed, please apply again!
 
 Fixes since v0.9.2.0
 --------------------
 
 Issues resolved
 
-  * #109
-  * #114
+  * See http://openfiresource.de/bugs/changelog_page.php?version_id=10
 
 Other fixes
 

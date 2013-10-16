@@ -1,9 +1,0 @@
-﻿<SettingsDisplayConfiguration>
-
-  <Identifier Name="AlarmMonitorFeederJob" DisplayText="AlarmMonitor-Feeder" Parent="Aufgaben">
-    
-    <Setting Name="DestinationFileName" DisplayText="Zieldatei" Description="Die Datei in die der Alarm geschrieben werden soll." Editor="FileTypeEditor" />
-
-  </Identifier>
-
-</SettingsDisplayConfiguration>
