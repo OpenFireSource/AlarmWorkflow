@@ -21,8 +21,7 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web;
-using AlarmWorkflow.Job.eAlarm.Properties;
+using System.Web.Script.Serialization;
 using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
@@ -34,7 +33,7 @@ using AlarmWorkflow.Shared.Settings;
 namespace AlarmWorkflow.Job.eAlarm
 { //
     /// <summary>
-    ///     Implements a Job that send notifications to the Android App eAlarm.     
+    /// Implements a Job that send notifications to the Android App eAlarm.     
     /// </summary>
     [Export("eAlarm", typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
@@ -65,31 +64,33 @@ namespace AlarmWorkflow.Job.eAlarm
                 return;
             }
 
-            Dictionary<String, String> geoCode =
-                Helpers.GetGeocodes(operation.Einsatzort.Street + " " + operation.Einsatzort.StreetNumber + " " + operation.Einsatzort.ZipCode + " " + operation.Einsatzort.City);
-            String longitude = "0";
-            String latitude = "0";
-            if (geoCode != null)
+            string body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
+            string header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
+            string location = operation.Einsatzort.ToString();
+            bool encryption = SettingsManager.Instance.GetSetting("eAlarm", "Encryption").GetBoolean();
+            string encryptionKey = SettingsManager.Instance.GetSetting("eAlarm", "EncryptionKey").GetString();
+            if (encryption)
             {
-                longitude = geoCode[Resources.LONGITUDE];
-                latitude = geoCode[Resources.LATITUDE];
+                body = Helper.Encrypt(body, encryptionKey);
+                header = Helper.Encrypt(header, encryptionKey);
+                location = Helper.Encrypt(location, encryptionKey);
             }
 
-            String body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
-            String header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
-            Dictionary<string, string> postParameters = new Dictionary<string, string>
-                {
-                    {"header", header},
-                    {"text", body},
-                    {"lat", latitude},
-                    {"long", longitude}
-                };
-            String to = GetRecipients(operation).Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Aggregate("[", (current, pushEntryObject) => current + ("\"" + pushEntryObject.RecipientApiKey + "\","));
-            to = to.Substring(0, to.Length - 1) + "]";
-            string postData = postParameters.Keys.Aggregate("", (current, key) => current + ("\"" + HttpUtility.UrlEncode(key) + "\":\"" + HttpUtility.UrlEncode(postParameters[key], Encoding.UTF8) + "\","));
-            postData = "{" + postData.Substring(0, postData.Length - 1) + "}";
-            string message = "{\"registration_ids\":" + to + ",\"data\":" + postData + "}";
-            HttpStatusCode result = (HttpStatusCode)0;
+            string[] to = GetRecipients(operation).Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Select(pushEntryObject => pushEntryObject.RecipientApiKey).ToArray();
+
+            Content content = new Content()
+            {
+                registration_ids = to,
+                data = new Content.Data()
+                    {
+                        awf_title = header,
+                        awf_message = body,
+                        awf_location = location
+                    }
+            };
+            string message = new JavaScriptSerializer().Serialize(content);
+
+            HttpStatusCode result = 0;
             if (SendGCMNotification("AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0", message, ref result))
             {
                 Logger.Instance.LogFormat(LogType.Info, this, "Succesfully sent eAlarm notification");

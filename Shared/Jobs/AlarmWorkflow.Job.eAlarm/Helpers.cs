@@ -14,80 +14,44 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Web;
-using System.Xml.XPath;
-using AlarmWorkflow.Shared.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AlarmWorkflow.Job.eAlarm
 {
-    static class Helpers
+    internal class Helper
     {
-        /// <summary>
-        /// Returns the longitude and the latitude for a given address
-        /// </summary>
-        /// <param name="address">Address to search for</param>
-        /// <returns>null or dictonary</returns>
-        internal static Dictionary<string, string> GetGeocodes(string address)
+        private static RijndaelManaged GetRijndaelManaged(string secretKey)
         {
-            Dictionary<string, string> geocodes = new Dictionary<string, string>();
-            string urladdress = HttpUtility.UrlEncode(address);
-            string url = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + urladdress + "&sensor=false";
-
-            WebResponse response = null;
-            try
+            byte[] keyBytes = new byte[16];
+            byte[] secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
+            Array.Copy(secretKeyBytes, keyBytes, Math.Min(keyBytes.Length, secretKeyBytes.Length));
+            return new RijndaelManaged
             {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                response = request.GetResponse();
-                XPathDocument document = new XPathDocument(response.GetResponseStream());
-                XPathNavigator navigator = document.CreateNavigator();
-                // get response status
-                XPathNodeIterator statusIterator = navigator.Select("/GeocodeResponse/status");
-                while (statusIterator.MoveNext())
-                {
-                    if (statusIterator.Current.Value != "OK")
-                    {
-                        return null;
-                    }
-                }
-                // gets first restult
-                XPathNodeIterator resultIterator = navigator.Select("/GeocodeResponse/result");
-                resultIterator.MoveNext();
-                XPathNodeIterator geometryIterator = resultIterator.Current.Select("geometry");
-                geometryIterator.MoveNext();
-                XPathNodeIterator locationIterator = geometryIterator.Current.Select("location");
-                while (locationIterator.MoveNext())
-                {
-                    XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
-                    while (latIterator.MoveNext())
-                    {
-                        geocodes.Add(Properties.Resources.LATITUDE, latIterator.Current.Value);
-                    }
-                    XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
-                    while (lngIterator.MoveNext())
-                    {
-                        geocodes.Add(Properties.Resources.LONGITUDE, lngIterator.Current.Value);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogFormat(LogType.Error, typeof(Helpers), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof(Helpers), ex);
-            }
-            finally
-            {
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.PKCS7,
+                KeySize = 128,
+                BlockSize = 128,
+                Key = keyBytes,
+                IV = keyBytes
+            };
+        }
 
-                if (response != null)
-                {
-                    response.Close();
-                    response = null;
-                }
-            }
+        private static byte[] Encrypt(byte[] plainBytes, RijndaelManaged rijndaelManaged)
+        {
+            return rijndaelManaged.CreateEncryptor().TransformFinalBlock(plainBytes, 0, plainBytes.Length);
+        }
 
-            return geocodes;
+        /// <summary>
+        /// Encrypts plaintext using AES 128bit key and a Chain Block Cipher and returns a base64 encoded string
+        /// </summary>
+        /// <param name="plainText">Plain text to encrypt</param>
+        /// <param name="key">Secret key</param>
+        /// <returns>Base64 encoded string</returns>
+        internal static string Encrypt(string plainText, string key)
+        {
+            byte[] plainBytes = Encoding.UTF8.GetBytes(plainText);
+            return Convert.ToBase64String(Encrypt(plainBytes, GetRijndaelManaged(key)));
         }
     }
 }
