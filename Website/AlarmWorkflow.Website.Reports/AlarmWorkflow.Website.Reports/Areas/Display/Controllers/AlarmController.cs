@@ -31,7 +31,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
             {
                 using (var service = InternalServiceProxy.GetServiceInstance())
                 {
-                    IList<int> ids = service.Instance.GetOperationIds(0, true, 1);
+                    IList<int> ids = service.Instance.GetOperationIds(WebsiteConfiguration.Instance.MaxAge, WebsiteConfiguration.Instance.NonAcknowledgedOnly, 1);
                     if (ids.Count == 1)
                     {
                         OperationItem item = service.Instance.GetOperationById(ids[0]);

@@ -1,11 +1,12 @@
 ﻿@{
     Layout = "IndexLayout.cshtml";
     ViewBag.Title = "Alarmanzeige";
+
+    var config = AlarmWorkflow.Website.Reports.Areas.Display.Models.WebsiteConfiguration.Instance;
 }
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
 <script type="text/javascript">
-
     // Stores the current operation, so we don't get the expensive data all over each time.
     var currentOpId = -1;
     //Vars needed by google
@@ -15,12 +16,12 @@
     var maxZoomService = new google.maps.MaxZoomService();
     var geocoder = new google.maps.Geocoder();
     var addressCoor = null;
-    var showRoute = false;
+    var showRoute = @(config.Route.ToString().ToLower());
     var zoomOnAddress = true;
-    var useTilt = true;
-    var useTraffic = true;
+    var useTilt = @(config.Tilt.ToString().ToLower());
+    var useTraffic = @(config.Traffic.ToString().ToLower());
     var zoomLevel = 0.8;//In Prozent
-    var home = '*****FEUERWEHR*****';
+    var home = "@(config.Home)";
     function calcRoute(start, end) {
         var request = {
             origin: start,
@@ -100,10 +101,6 @@
                         var address = oaddress;
                         var dest = null;
 
-                        //mapTypeId: google.maps.MapTypeId.ROADMAP
-                        //mapTypeId: google.maps.MapTypeId.HYBRID
-                        //mapTypeId: google.maps.MapTypeId.TERRAIN
-                        var mapType = google.maps.MapTypeId.HYBRID;
                         geocoder.geocode({ 'address': address }, function (results, status) {
                             if (status == google.maps.GeocoderStatus.OK) {
                                 dest = results[0].geometry.location;
@@ -131,13 +128,13 @@
                             });
                         }
                         var mapOptions = {
-                            zoom: 10, //Init
+                            zoom: 10,
                             overviewMapControl: false,
                             panControl: false,
                             mapTypeControl: true,
                             streetViewControl: false,
-                            zoomControl: true,
-                            mapTypeId: mapType
+                            zoomControl: @(config.ZoomControl.ToString().ToLower()),
+                            mapTypeId: @(config.MapTypeGoogle)
                         };
                         map = new google.maps.Map(document.getElementById("ogoogle"), mapOptions);
                         //45°
@@ -202,7 +199,7 @@
         });
     }
     // Poll the service and read operation data, then apply to DOM.
-    window.setInterval(loadOperationData, 3000);
+    window.setInterval(loadOperationData, @(config.UpdateIntervalMs));
     $(loadOperationData);
 
 </script>

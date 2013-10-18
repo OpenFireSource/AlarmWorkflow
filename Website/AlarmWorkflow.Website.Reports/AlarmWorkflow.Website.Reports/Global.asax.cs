@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Website.Reports
 {
@@ -13,6 +14,7 @@ namespace AlarmWorkflow.Website.Reports
     {
         protected void Application_Start()
         {
+            SettingsManager.Instance.Initialize();
             Logger.Instance.Initialize("AlarmWorkflow.Website.Mvc");
 
             AreaRegistration.RegisterAllAreas();
