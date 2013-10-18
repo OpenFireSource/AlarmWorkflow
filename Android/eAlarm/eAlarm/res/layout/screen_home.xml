@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/home_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:paddingBottom="25dip"
+                android:src="@drawable/ic_launcher" >
+            </ImageView>
+			<LinearLayout
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_gravity="center_vertical"
+			    android:orientation="vertical" >
+	            <TextView
+	                android:id="@+id/home_eAlarm"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="0dip"
+	                android:text="@string/app_name_homescreen"
+	                android:textSize="23.0sp" >
+	            </TextView>
+	            
+               <TextView
+                   android:id="@+id/home_beta"
+                   android:layout_width="fill_parent"
+                   android:layout_height="fill_parent"
+                   android:gravity="right"
+                   android:paddingBottom="23dip"
+                   android:text="@string/beta"
+                   android:textColor="#254f8b"
+                   android:textSize="14.0sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+        
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/home_recentMessages"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="launchRecentMessages"
+        android:text="@string/recent_messages" >
+    </Button>
+
+    <Button
+        android:id="@+id/home_rules"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:onClick="launchRules"
+        android:text="@string/rules" />
+
+    <Button
+        android:id="@+id/home_settings"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="launchSettings"
+        android:text="@string/settings" />
+
+    
+    <Button
+        android:id="@+id/home_help"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="showHelp"
+        android:text="@string/help" />
+    
+    <Button
+        android:id="@+id/home_disableAll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:onClick="disableEnableNotifications"
+        android:text="@string/disable_all_notifications" />
+
+    <TextView
+        android:id="@+id/home_healthCheck"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/health_check_placeholder" >
+    </TextView>
+
+</LinearLayout>

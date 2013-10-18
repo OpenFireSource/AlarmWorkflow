@@ -1,0 +1,113 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:key="rule_title"
+        android:persistent="true"
+        android:title="@string/rule_editor_title" >
+    </EditTextPreference>
+
+    <CheckBoxPreference
+        android:key="rule_local_enable"
+        android:persistent="true"
+        android:summary="@string/enabled_locally_summary"
+        android:title="@string/enabled_locally" />
+
+    <PreferenceScreen
+        android:enabled="true"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/rule_notification_settings_summary"
+        android:title="@string/notification_settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="rule_global"
+            android:persistent="true"
+            android:summary="@string/rule_global_notifications_summary"
+            android:title="@string/rule_global_notifications" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="rule_toast"
+            android:persistent="true"
+            android:summary="@string/showWindow_summary"
+            android:title="@string/showWindow" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="rule_ringtone"
+            android:persistent="true"
+            android:summary="@string/play_ringtone_summary"
+            android:title="@string/play_ringtone" />
+
+        <RingtonePreference
+            android:key="rule_customringtone"
+            android:persistent="true"
+            android:ringtoneType="ringtone|notification"
+            android:showDefault="false"
+            android:showSilent="false"
+            android:summary="@string/choose_notification_tone_summary"
+            android:title="@string/choose_notification_tone" android:dependency="rule_ringtone"/>
+
+        <CheckBoxPreference
+            android:key="rule_vibrate"
+            android:persistent="true"
+            android:summary="@string/vibrate_summary"
+            android:title="@string/vibrate" />
+        <CheckBoxPreference
+            android:key="rule_ledflash"
+            android:persistent="true"
+            android:summary="@string/led_flash_summary"
+            android:title="@string/led_flash" />
+        <CheckBoxPreference
+            android:key="rule_speakmessage"
+            android:persistent="true"
+            android:summary="@string/speak_message_summary"
+            android:title="@string/speak_message" />
+        <CheckBoxPreference
+            android:key="rule_overwritesystem"
+            android:persistent="true"
+            android:summary="@string/overwritesystem_summary"
+            android:title="@string/overwritesystem" />
+        <CheckBoxPreference
+            android:key="rule_open"
+            android:summary="@string/open_summary"
+            android:title="@string/open_title" />
+        <CheckBoxPreference
+            android:dependency="rule_open"
+            android:key="rule_unlock"
+            android:summary="@string/unlock_summary"
+            android:title="@string/unlock_title" />
+    </PreferenceScreen>
+
+    <Preference
+        android:enabled="true"
+        android:key="rule_messages"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/rule_message_summary"
+        android:title="@string/messages" />
+    <Preference
+        android:enabled="true"
+        android:key="rule_delete"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/rule_delete_summary"
+        android:title="@string/delete" />
+
+    <PreferenceCategory android:title="Filtereinstellungen" >
+        <TimePickerPreference
+            android:key="rule_startTime"
+            android:title="@string/startTime" />
+        <TimePickerPreference
+            android:key="rule_stopTime"
+            android:title="@string/stopTime" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="rule_prio"
+            android:title="Priorität" />
+        <EditTextPreference
+            android:key="rule_searchtext"
+            android:summary="Inhalt welcher enthalten sein muss damit diese Regel alarmiert wird."
+            android:title="Inhalt" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
