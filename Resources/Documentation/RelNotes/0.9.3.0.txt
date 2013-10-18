@@ -10,7 +10,14 @@ General
   + Added exception when trying to start service without connection to database server.
   + Added export to EVA-format
   * Changed job AlarmMonitorFeeder to OperationFileExporter. Old settings have been removed, please apply again!
+  * [eAlarm Job] Updated job for updated App
 
+Apps
+
+  + [eAlarm] Added encryption
+  + [eAlarm] Added rules and notification
+  * [eAlarm] Geocoding done in App now
+  
 Fixes since v0.9.2.0
 --------------------
 
