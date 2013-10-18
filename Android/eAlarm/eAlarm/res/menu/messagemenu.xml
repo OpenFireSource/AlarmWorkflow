@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/home"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/main_menu">
+    </item>
+    <item
+        android:id="@+id/mark_seen"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/mark_all_as_seen">
+    </item>
+    <item
+        android:id="@+id/delete_all"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/delete_all">
+    </item>
+    <item
+        android:id="@+id/delete_read"
+        android:showAsAction="ifRoom|collapseActionView"
+        android:title="@string/delete_read">
+    </item>
+
+</menu>

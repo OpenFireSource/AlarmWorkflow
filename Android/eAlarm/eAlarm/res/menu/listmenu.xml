@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/menu_legalnotices"
+        android:showAsAction="ifRoom"
+        android:title="@string/menu_legalnotices"/>
+    <item
+        android:id="@+id/menu_versioninfo"
+        android:showAsAction="ifRoom"
+        android:title="@string/version"/>
+
+</menu>

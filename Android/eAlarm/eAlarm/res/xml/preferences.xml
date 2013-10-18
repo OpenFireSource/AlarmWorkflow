@@ -1,0 +1,155 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <Preference
+        android:enabled="true"
+        android:key="@string/stopReadingNow"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/stop_reading_now_summary"
+        android:title="@string/stop_reading_now" />
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="@string/masterEnable"
+        android:persistent="true"
+        android:summary="@string/master_enable_checkbox_summary"
+        android:title="@string/master_enable_checkbox" />
+
+    <PreferenceScreen
+        android:enabled="true"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/notification_settings_summary"
+        android:title="@string/notification_settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/showToast"
+            android:persistent="true"
+            android:summary="@string/showWindow_summary"
+            android:title="@string/showWindow" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/playRingtone"
+            android:persistent="true"
+            android:summary="@string/play_ringtone_summary"
+            android:title="@string/play_ringtone" />
+
+        <RingtonePreference
+            android:key="@string/choosenNotification"
+            android:persistent="true"
+            android:ringtoneType="ringtone|notification"
+            android:showDefault="false"
+            android:showSilent="false"
+            android:summary="@string/choose_notification_tone_summary"
+            android:title="@string/choose_notification_tone" android:dependency="@string/playRingtone"/>
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/vibrateNotify"
+            android:persistent="true"
+            android:summary="@string/vibrate_summary"
+            android:title="@string/vibrate" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="@string/ledFlash"
+            android:persistent="true"
+            android:summary="@string/led_flash_summary"
+            android:title="@string/led_flash" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/speakMessage"
+            android:persistent="true"
+            android:summary="@string/speak_message_summary"
+            android:title="@string/speak_message" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="overwritesystem"
+            android:persistent="true"
+            android:summary="@string/overwritesystem_summary"
+            android:title="@string/overwritesystem" />
+        <CheckBoxPreference
+            android:key="@string/open"
+            android:summary="@string/open_summary"
+            android:title="@string/open_title" />
+        <CheckBoxPreference
+            android:dependency="@string/open"
+            android:key="@string/unlock"
+            android:summary="@string/unlock_summary"
+            android:title="@string/unlock_title" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:summary="@string/encryption_summary"
+        android:title="@string/encryption" >
+        <CheckBoxPreference
+            android:enabled="true"
+            android:key="@string/encryption"
+            android:summary="@string/encryption_summary_enable"
+            android:title="@string/encryption" />
+
+        <EditTextPreference
+            android:dependency="@string/encryption"
+            android:key="@string/encryption_key"
+            android:summary="@string/encryption_key_summary"
+            android:title="@string/encryption_key" />
+    </PreferenceScreen>
+    <PreferenceScreen
+        android:enabled="true"
+        android:persistent="false"
+        android:selectable="true"
+        android:summary="@string/advanced_settings_summary"
+        android:title="@string/advanced_settings" >
+        <Preference
+            android:key="@string/previewSpeech"
+            android:summary="@string/preview_summary"
+            android:title="@string/preview" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="@string/delayReadingTime"
+            android:maxLength="2"
+            android:persistent="true"
+            android:summary="@string/delay_readout_summary"
+            android:title="@string/delay_readout" >
+        </EditTextPreference>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/shakeToStop"
+            android:persistent="true"
+            android:summary="@string/shakestop_summary"
+            android:title="@string/shakestop" />
+
+        <EditTextPreference
+            android:inputType="number"
+            android:key="@string/shakeThreshold"
+            android:maxLength="4"
+            android:persistent="true"
+            android:summary="@string/shakethreshhold_summary"
+            android:title="@string/shakethreshhold" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:inputType="number"
+            android:key="@string/shakeWaitTime"
+            android:maxLength="2"
+            android:persistent="true"
+            android:summary="@string/shakewaittime_summary"
+            android:title="@string/shakewaittime" >
+        </EditTextPreference>
+        <EditTextPreference
+            android:defaultValue="%t. %m"
+            android:key="@string/speakFormat"
+            android:persistent="true"
+            android:summary="@string/speakformat_summary"
+            android:title="@string/speakformat" >
+        </EditTextPreference>
+    </PreferenceScreen>
+
+    <PreferenceCategory
+        android:key="information"
+        android:title="Informationen" >
+        <Preference
+            android:key="gcmid"
+            android:title="GCM-ID" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
