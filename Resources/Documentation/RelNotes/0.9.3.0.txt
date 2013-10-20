@@ -12,6 +12,11 @@ General
   * Changed job AlarmMonitorFeeder to OperationFileExporter. Old settings have been removed, please apply again!
   * [eAlarm Job] Updated job for updated App
 
+Parsers
+
+  + Added parser for ILS Passau
+  * Minor refactoring of some parsers
+  
 Apps
 
   + [eAlarm] Added encryption
