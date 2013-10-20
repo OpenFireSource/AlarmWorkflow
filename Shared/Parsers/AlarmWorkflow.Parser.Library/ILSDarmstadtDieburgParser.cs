@@ -30,7 +30,7 @@ namespace AlarmWorkflow.Parser.Library
             {
                 "Ort ", "Ortsteil", "Straße", "Hausnummer", "Koordinaten ", "Zusatzinfos", "Betroffene",
                 "Einsatzart", "Stichwort", "Sondersignal", "Zusatzinformationen", "Alarmierungen",
-                "Meldende", "Telefon", "Ausdruck", "Referenznummer",
+                "Meldende", "Telefon", "Ausdruck", "Referenznummer"
             };
 
         #endregion

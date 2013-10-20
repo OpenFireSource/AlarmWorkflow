@@ -67,40 +67,6 @@ namespace AlarmWorkflow.Parser.Library
         }
 
         /// <summary>
-        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="prefix">The prefix that is to be removed (optional).</param>
-        /// <returns></returns>
-        private string GetMessageText(string line, string prefix)
-        {
-            if (prefix == null)
-            {
-                prefix = "";
-            }
-
-            if (prefix.Length > 0)
-            {
-                line = line.Remove(0, prefix.Length).Trim();
-            }
-            else
-            {
-                int colonIndex = line.IndexOf(':');
-                if (colonIndex != -1)
-                {
-                    line = line.Remove(0, colonIndex + 1);
-                }
-            }
-
-            if (line.StartsWith(":"))
-            {
-                line = line.Remove(0, 1).Trim();
-            }
-
-            return line;
-        }
-
-        /// <summary>
         /// Attempts to read the zip code from the city, if available.
         /// </summary>
         /// <param name="cityText"></param>
@@ -174,7 +140,6 @@ namespace AlarmWorkflow.Parser.Library
         Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
-            OperationResource last = new OperationResource();
 
             lines = Utilities.Trim(lines);
 
