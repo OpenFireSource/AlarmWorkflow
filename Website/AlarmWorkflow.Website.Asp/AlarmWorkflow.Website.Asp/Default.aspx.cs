@@ -375,7 +375,17 @@ namespace AlarmWorkflow.Website.Asp
             }
             else
             {
-                SetAlarmDisplay();
+                try
+                {
+                    SetAlarmDisplay();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogException(this, ex);
+
+                    Page page = this;
+                    ServiceConnection.Instance.RedirectToErrorPage(ref page);
+                }
             }
         }
 
