@@ -56,10 +56,12 @@
     <Compile Include="AssemblyInitialize.cs" />
     <Compile Include="Shared.Addressing\AddressBookTests.cs" />
     <Compile Include="Shared.Addressing\FilteringTests.cs" />
+    <Compile Include="Shared\CoreTests\OperationTests.cs" />
     <Compile Include="Shared\CoreTests\OptionStringHelperTests.cs" />
     <Compile Include="Shared\CoreTests\CsvHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared\CoreTests\OperationLoopCollectionTests.cs" />
+    <Compile Include="Shared\CoreTests\UtilitiesTests.cs" />
     <Compile Include="Shared\DiagnosticsTests\ReportsTests\ErrorReportTests.cs" />
     <Compile Include="Shared\ObjectExpressionsTests\OperationExpressionTests.cs" />
     <Compile Include="Shared\SpecializedTests\ReplaceDictionaryTests.cs" />
