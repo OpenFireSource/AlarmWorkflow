@@ -28,10 +28,7 @@ Third-party-components
 =============
 
 The AlarmWorkflow-project makes use of the following libraries:
-    
-    DotNetZip-Library
-    http://dotnetzip.codeplex.com/
-    
+
     S22.Imap by smiley22
     https://github.com/smiley22/S22.Imap
     
