@@ -1,0 +1,28 @@
+AlarmWorkflow v0.9.4.0 Release Notes
+====================================
+
+Updates since v0.9.3.0
+----------------------
+
+General
+
+  * -
+
+Parsers
+
+  * -
+
+Apps
+
+  * -
+
+Fixes since v0.9.3.0
+--------------------
+
+Issues resolved
+
+  * -
+
+Other fixes
+
+  * -
