@@ -34,10 +34,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
 
         private Operation _operation;
         private readonly bool _blink;
-        private readonly int _waitTime;
+        private readonly int _waitTimeSetting;
         private readonly Color _color;
         private bool _odd;
-        private readonly DispatcherTimer _countdown;
+        private DispatcherTimer _countdown;
         private readonly DispatcherTimer _clockTimer;
 
         #endregion Fields
@@ -58,28 +58,22 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             {
                 _color = Colors.Red;
             }
-            _waitTime = SettingsManager.Instance.GetSetting("ClockWidget", "WaitTime").GetInt32();
+            _waitTimeSetting = SettingsManager.Instance.GetSetting("ClockWidget", "WaitTime").GetInt32();
             _blink = SettingsManager.Instance.GetSetting("ClockWidget", "Blink").GetBoolean();
 
             InitializeComponent();
 
-            _clockTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.0) };
+            _clockTimer = new DispatcherTimer();
+            _clockTimer.Interval = TimeSpan.FromSeconds(1.0);
             _clockTimer.Start();
             _clockTimer.Tick += ClockTimer_Tick;
-
-            if (_blink)
-            {
-                _countdown = new DispatcherTimer { Interval = TimeSpan.FromMinutes(_waitTime) };
-                _countdown.Tick += Countdown_Tick;
-                _countdown.Start();
-            }
         }
 
         #endregion Constructors
 
         #region Event handlers
 
-        void Countdown_Tick(object sender, EventArgs e)
+        private void Countdown_Tick(object sender, EventArgs e)
         {
             _clockBlock.Foreground = new SolidColorBrush(_color);
             _alarmClock.Foreground = new SolidColorBrush(_color);
@@ -88,7 +82,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             _clockTimer.Tick += BlinkTimer_Tick;
         }
 
-        void ClockTimer_Tick(object sender, EventArgs e)
+        private void ClockTimer_Tick(object sender, EventArgs e)
         {
             _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
             if (_operation != null)
@@ -97,9 +91,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
                 _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
             }
         }
-        void BlinkTimer_Tick(object sender, EventArgs e)
-        {
 
+        private void BlinkTimer_Tick(object sender, EventArgs e)
+        {
             if (_odd)
             {
                 _clockBlock.Text = "";
@@ -116,7 +110,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
                 }
                 _odd = true;
             }
-
         }
 
         #endregion
@@ -130,6 +123,25 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
 
         void IUIWidget.OnOperationChange(Operation operation)
         {
+            if (_blink)
+            {
+                if (_countdown != null && _countdown.IsEnabled)
+                {
+                    _countdown.Stop();
+                }
+                TimeSpan timeDiff = DateTime.Now - operation.Timestamp;
+                _countdown = new DispatcherTimer();
+                if (timeDiff.Minutes > _waitTimeSetting)
+                {
+                    _countdown.Interval = new TimeSpan(0);
+                }
+                else
+                {
+                    _countdown.Interval = TimeSpan.FromMinutes(_waitTimeSetting) - timeDiff;
+                }
+                _countdown.Tick += Countdown_Tick;
+                _countdown.Start();
+            }
             _operation = operation;
         }
 
