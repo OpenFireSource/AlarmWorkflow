@@ -259,6 +259,8 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
             parameters.ReferencedAssemblies.Add("System.Xml.dll");
             parameters.ReferencedAssemblies.Add("System.Xml.Linq.dll");
 
+            // Reference the AlarmWorkflow.Shared.dll as well.
+            parameters.ReferencedAssemblies.Add(typeof(ExtendedObjectExpressionFormatter<>).Assembly.Location);
             // Also reference the assembly which contains the object to be formatted.
             parameters.ReferencedAssemblies.Add(typeof(TInput).Assembly.Location);
 

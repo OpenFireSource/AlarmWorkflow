@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<OrderedTest name="OperationExpressionTests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\shared\objectexpressionstests\operationexpressiontests.orderedtest" id="0c0da1c1-0bdc-41a8-b27a-e65a77fc3d00" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<OrderedTest name="operationexpressiontests" storage="d:\projects\alarmworkflow\shared\alarmworkflow.shared.tests\shared\objectexpressionstests\operationexpressiontests.orderedtest" id="0c0da1c1-0bdc-41a8-b27a-e65a77fc3d00" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Execution id="a303c620-79da-4b2a-b64f-1319afc4d8c1" />
   <TestLinks>
     <TestLink id="40323acd-66bd-aa51-720f-9463bdfc4afd" name="FormatOperationCustomData" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
@@ -9,5 +9,6 @@
     <TestLink id="cc95ac15-b933-b5e1-b127-2a371e507a4b" name="BasicExtendedScriptTest" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <TestLink id="38c51925-e791-c1f0-5608-b8d22440fdfd" name="CheckErrorsTest" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <TestLink id="7a3f2240-8c22-4a67-5a93-555f79cb0ca0" name="SecondPassScriptTest" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="281f39c4-bdfc-9653-d050-93e911cb2446" name="OperationScriptTest" storage="..\..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   </TestLinks>
 </OrderedTest>

@@ -89,6 +89,9 @@
     <Content Include="Shared\ObjectExpressionsTests\Scripts\SecondPassScriptTest.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\OperationScriptTest.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Shared\SpecializedTests\ReplaceDictionaryTests.cs" />
     <Compile Include="TestClassBase.cs" />
   </ItemGroup>

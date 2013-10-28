@@ -94,5 +94,25 @@ namespace AlarmWorkflow.Shared.Tests.Shared.ObjectExpressionsTests
             Assert.AreEqual("The holy numeric value is: 42!", value);
             Assert.IsFalse(formatter.HasError);
         }
+
+        /// <summary>
+        /// Runs a script on an <see cref="Operation"/>, which is a large use-case.
+        /// Also tests the case that two same referenced assemblies are added.
+        /// </summary>
+        [TestMethod()]
+        public void OperationScriptTest()
+        {
+            Operation operation = new Operation();
+            operation.Id = 42;
+
+            string wd = Utilities.GetWorkingDirectory();
+            string path = Path.Combine(wd, "Shared\\ObjectExpressionsTests\\Scripts\\OperationScriptTest.cs");
+
+            ExtendedObjectExpressionFormatter<Operation> formatter = new ExtendedObjectExpressionFormatter<Operation>();
+            string value = formatter.ToString(operation, "{$cs=" + path + "}");
+
+            Assert.AreEqual(operation.Id.ToString(), value);
+            Assert.IsFalse(formatter.HasError);
+        }
     }
 }
