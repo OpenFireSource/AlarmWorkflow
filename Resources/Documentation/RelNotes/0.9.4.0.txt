@@ -6,7 +6,7 @@ Updates since v0.9.3.0
 
 General
 
-  * -
+  * [Expression formatter] Added flexible custom scripting to formatter.
 
 Parsers
 

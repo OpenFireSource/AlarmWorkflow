@@ -8,6 +8,12 @@
  * Please play around. The best way to edit this script is to drag it onto Visual Studio,
  * so you get as much of IntelliSense as possible.
  *
+ * ---------- ATTENTION ----------
+ *
+ * PLEASE KEEP IN MIND that the formatter caches generated script assemblies for efficiency.
+ * THEREFORE you MUST restart the service in order for changes to take effect.
+ * When developing these scripts, we recommend using the ServiceConsole for easier editing.
+ *
  */
 
 using System;
