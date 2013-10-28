@@ -63,8 +63,34 @@
     <Compile Include="Shared\CoreTests\OperationLoopCollectionTests.cs" />
     <Compile Include="Shared\CoreTests\UtilitiesTests.cs" />
     <Compile Include="Shared\DiagnosticsTests\ReportsTests\ErrorReportTests.cs" />
+    <Compile Include="Shared\ObjectExpressionsTests\ExtendedObjectExpressionFormatterTests.cs" />
     <Compile Include="Shared\ObjectExpressionsTests\OperationExpressionTests.cs" />
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\BasicExtendedScriptTest.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_CompilationFailed.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_NotExOneType.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_InvokeFailed.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig1.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_FuncNotFound.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig2.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Shared\ObjectExpressionsTests\Scripts\SecondPassScriptTest.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="Shared\SpecializedTests\ReplaceDictionaryTests.cs" />
+    <Compile Include="TestClassBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shared.Addressing\AddressingTests.orderedtest">
@@ -74,6 +100,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Shared\DiagnosticsTests\ReportsTests\ReportsTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Shared\ObjectExpressionsTests\OperationExpressionTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Shared\SpecializedTests\SpecializedTests.orderedtest">

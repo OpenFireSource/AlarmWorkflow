@@ -60,8 +60,10 @@
     <Compile Include="Core\OptionStringHelper.cs" />
     <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
     <Compile Include="Extensibility\IParser.cs" />
+    <Compile Include="ObjectExpressions\CustomScriptExecutionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
+    <Compile Include="ObjectExpressions\ExtendedObjectExpressionFormatter.cs" />
     <Compile Include="ObjectExpressions\ObjectExpressionTools.cs" />
     <Compile Include="ObjectExpressions\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />

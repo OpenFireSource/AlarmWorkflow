@@ -307,4 +307,28 @@
   <data name="SettingsManagerUserSettingsFileSkip" xml:space="preserve">
     <value>User settings file does not exist; skipping.</value>
   </data>
+  <data name="CustomScriptExecutionExceptionMessage" xml:space="preserve">
+    <value>An error occurred while invoking the custom script.</value>
+  </data>
+  <data name="CustomScriptInvocationFailed" xml:space="preserve">
+    <value>(Script file could not be executed because it contained errors. Please check the log file for details.)</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound" xml:space="preserve">
+    <value>Either zero or more than one exported (public) type was found in the script. Valid scripts shall contain exactly one public, non-static type.</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionCompilationFailed" xml:space="preserve">
+    <value>The compilation of the script has failed. Please see the log for information.</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionScriptFunctionMethodHasWrongSignature" xml:space="preserve">
+    <value>The script function has an invalid signature. The script function shall have the following signature: 'public static string Function(object graph)'.</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionScriptFunctionNotFound" xml:space="preserve">
+    <value>There was no script function found! The script function shall have the following signature: 'public static string Function(object graph)'.</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionUndefined" xml:space="preserve">
+    <value>(Undefined reason. This indicates an internal error. Please report.)</value>
+  </data>
+  <data name="CustomScriptExecutionExceptionScriptInvocationException" xml:space="preserve">
+    <value>An exception was thrown by the script; it did not finish sucessfully.</value>
+  </data>
 </root>

@@ -31,7 +31,7 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
     /// There is a possibility to define a custom resolving method, which gets called in case of one expression leading to no
     /// resolvable property.</remarks>
     /// <typeparam name="TInput">The type of the object to format.</typeparam>
-    public sealed class ObjectExpressionFormatter<TInput>
+    public class ObjectExpressionFormatter<TInput>
     {
         #region Constants
 
@@ -87,16 +87,10 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         /// <param name="graph">The object graph to use. Must not be null.</param>
         /// <param name="format">The format string, using the property values in curly braces (expressions), like {Property}. Must not be empty.</param>
         /// <returns>The formatted string.</returns>
-        public string ToString(TInput graph, string format)
+        public virtual string ToString(TInput graph, string format)
         {
             Assertions.AssertNotNull(graph, "graph");
             Assertions.AssertNotEmpty(format, "format");
-
-            string nullValueString = "";
-            if (Options.HasFlag(ObjectFormatterOptions.InsertQuestionMarksForNullValues))
-            {
-                nullValueString = NullValueString;
-            }
 
             StringBuilder sb = new StringBuilder(format);
 
@@ -110,30 +104,48 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
             {
                 string expression = macro.Substring(1, macro.Length - 2);
 
-                string propertyValue = nullValueString;
-                object rawValue = null;
-
-                bool propertyFound = ObjectExpressionTools.TryGetValueFromExpression(graph, expression, out rawValue);
-                if (propertyFound)
-                {
-                    if (rawValue != null)
-                    {
-                        propertyValue = rawValue.ToString();
-                    }
-                }
-                else
-                {
-                    ResolveExpressionResult result = TryCallResolver(graph, expression);
-                    if (result.Success && result.ResolvedValueHasValue)
-                    {
-                        propertyValue = result.ResolvedValue.ToString();
-                    }
-                }
-
-                sb.Replace(macro, propertyValue);
+                string value = ProcessMacro(graph, macro, expression);
+                sb.Replace(macro, value);
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Processes a single macro and additionally tries to resolve its value using a custom callback function, if the property was not found.
+        /// </summary>
+        /// <param name="graph">The object graph to use.</param>
+        /// <param name="macro">The macro, including the leading and trailing designators.</param>
+        /// <param name="expression">The expression itself, without the leading and trailing designators.</param>
+        /// <returns>The value to be inserted in place of the macro.</returns>
+        protected virtual string ProcessMacro(TInput graph, string macro, string expression)
+        {
+            string nullValueString = "";
+            if (Options.HasFlag(ObjectFormatterOptions.InsertQuestionMarksForNullValues))
+            {
+                nullValueString = NullValueString;
+            }
+
+            string propertyValue = nullValueString;
+            object rawValue = null;
+
+            bool propertyFound = ObjectExpressionTools.TryGetValueFromExpression(graph, expression, out rawValue);
+            if (propertyFound)
+            {
+                if (rawValue != null)
+                {
+                    propertyValue = rawValue.ToString();
+                }
+            }
+            else
+            {
+                ResolveExpressionResult result = TryCallResolver(graph, expression);
+                if (result.Success && result.ResolvedValueHasValue)
+                {
+                    propertyValue = result.ResolvedValue.ToString();
+                }
+            }
+            return propertyValue;
         }
 
         private static string[] GetMacros(string input)
@@ -204,7 +216,7 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         /// <returns>The formatted string.</returns>
         public static string ToString<T>(T graph, string format, ObjectFormatterOptions options)
         {
-            ObjectExpressionFormatter<T> formatter = new ObjectExpressionFormatter<T>();
+            ExtendedObjectExpressionFormatter<T> formatter = new ExtendedObjectExpressionFormatter<T>();
             formatter.Options = options;
             return formatter.ToString(graph, format);
         }
