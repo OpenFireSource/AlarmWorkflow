@@ -331,4 +331,10 @@
   <data name="CustomScriptExecutionExceptionScriptInvocationException" xml:space="preserve">
     <value>An exception was thrown by the script; it did not finish sucessfully.</value>
   </data>
+  <data name="CustomScriptCompilationFinished" xml:space="preserve">
+    <value>Compilation process took {0} milliseconds.</value>
+  </data>
+  <data name="CustomScriptCompilationWithErrorsWarnings" xml:space="preserve">
+    <value>There were {0} errors/warnings during compilation of script '{1}'.</value>
+  </data>
 </root>

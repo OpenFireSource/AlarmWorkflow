@@ -267,7 +267,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>A string representation of value of the current <see cref="Operation"/> object as specified by format and provider.</returns>
         public string ToString(string format, ObjectFormatterOptions options, IFormatProvider formatProvider)
         {
-            ObjectExpressionFormatter<Operation> formatter = new ObjectExpressionFormatter<Operation>(ResolveProperty);
+            ExtendedObjectExpressionFormatter<Operation> formatter = new ExtendedObjectExpressionFormatter<Operation>(ResolveProperty);
             formatter.Options = options;
             return formatter.ToString(this, format);
         }

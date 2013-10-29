@@ -46,7 +46,17 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         /// </summary>
         /// <param name="reason">The reason why execution has failed.</param>
         public CustomScriptExecutionException(Reason reason)
-            : base(GetTranslatedErrorMessage(reason))
+            : this(null, reason)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomScriptExecutionException"/> class.
+        /// </summary>
+        /// <param name="innerException">The inner exception, if any.</param>
+        /// <param name="reason">The reason why execution has failed.</param>
+        public CustomScriptExecutionException(Exception innerException, Reason reason)
+            : base(GetTranslatedErrorMessage(reason), innerException)
         {
             FailureReason = reason;
         }
@@ -56,24 +66,24 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         #region Methods
 
         private static string GetTranslatedErrorMessage(Reason reason)
+        {
+            switch (reason)
             {
-                switch (reason)
-                {
-                    case Reason.NotExactlyOneExportedTypeFound: 
-                        return Resources.CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound;
-                    case Reason.CompilationFailed:
-                        return Resources.CustomScriptExecutionExceptionCompilationFailed;
-                    case Reason.ScriptFunctionNotFound:
-                        return Resources.CustomScriptExecutionExceptionScriptFunctionNotFound;
-                    case Reason.ScriptFunctionMethodHasWrongSignature:
-                        return Resources.CustomScriptExecutionExceptionScriptFunctionMethodHasWrongSignature;
-                    case Reason.ScriptInvocationException:
-                        return Resources.CustomScriptExecutionExceptionScriptInvocationException;
-                    case Reason.Undefined:
-                    default:
-                        return Resources.CustomScriptExecutionExceptionUndefined;
-                }
+                case Reason.NotExactlyOneExportedTypeFound:
+                    return Resources.CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound;
+                case Reason.CompilationFailed:
+                    return Resources.CustomScriptExecutionExceptionCompilationFailed;
+                case Reason.ScriptFunctionNotFound:
+                    return Resources.CustomScriptExecutionExceptionScriptFunctionNotFound;
+                case Reason.ScriptFunctionMethodHasWrongSignature:
+                    return Resources.CustomScriptExecutionExceptionScriptFunctionMethodHasWrongSignature;
+                case Reason.ScriptInvocationException:
+                    return Resources.CustomScriptExecutionExceptionScriptInvocationException;
+                case Reason.Undefined:
+                default:
+                    return Resources.CustomScriptExecutionExceptionUndefined;
             }
+        }
 
         #endregion
 

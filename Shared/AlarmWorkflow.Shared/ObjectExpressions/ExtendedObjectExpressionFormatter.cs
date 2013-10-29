@@ -34,10 +34,10 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
     /// <para>The disadvantage of this however is a slight performance impact and writing complexer code is required.</para>
     /// <para>See below for a simplified example showing the needed types and methods. Naming and visibility as shown in the example code is mandatory.</para>
     /// <example><code>
-    /// // Class name has to be 'Script'.
+    /// // Class name may be anything. Important is that there is exactly one public, non-static type defined.
     /// public class Script
     /// {
-    ///     // Method name has to be 'Function'. Other than that, you may define any additional types or methods.
+    ///     // Method name has to be 'Function'. Other than that, you may define any additional (non-public) types or methods.
     ///     public static string Function(object graph)
     ///     {
     ///         // Cast 'graph' to the type given to the formatter and perform some work.
@@ -112,8 +112,19 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         /// Initializes a new instance of the <see cref="ExtendedObjectExpressionFormatter&lt;TInput&gt;"/> class.
         /// </summary>
         public ExtendedObjectExpressionFormatter()
-            : base()
+            : this(null)
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtendedObjectExpressionFormatter&lt;TInput&gt;"/> class
+        /// and optionally uses a custom callback to resolve expressions that could not be resolved automatically.
+        /// </summary>
+        /// <param name="resolver">The resolver that shall be used when an expression could not be resolved.</param>
+        public ExtendedObjectExpressionFormatter(ExpressionResolver<TInput> resolver)
+            : base(resolver)
+        {
+
         }
 
         #endregion
@@ -203,7 +214,7 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
                 catch (TargetInvocationException ex)
                 {
                     Logger.Instance.LogException(this, ex.InnerException);
-                    throw new CustomScriptExecutionException(CustomScriptExecutionException.Reason.ScriptInvocationException);
+                    throw new CustomScriptExecutionException(ex, CustomScriptExecutionException.Reason.ScriptInvocationException);
                 }
             }
             catch (CustomScriptExecutionException ex)
@@ -267,11 +278,11 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
             Stopwatch sw = Stopwatch.StartNew();
             CompilerResults results = provider.CompileAssemblyFromFile(parameters, path);
             sw.Stop();
-            Trace.WriteLine(string.Format("Compilation process took {0} milliseconds.", sw.ElapsedMilliseconds));
+            Logger.Instance.LogFormat(LogType.Info, null, Properties.Resources.CustomScriptCompilationFinished, sw.ElapsedMilliseconds);
 
             if (results.Errors.Count > 0)
             {
-                Logger.Instance.LogFormat(LogType.Warning, null, "There were {0} errors/warnings during compilation of script '{1}'.", results.Errors.Count, path);
+                Logger.Instance.LogFormat(LogType.Warning, null, Properties.Resources.CustomScriptCompilationWithErrorsWarnings, results.Errors.Count, path);
                 foreach (CompilerError item in results.Errors)
                 {
                     Logger.Instance.LogFormat(LogType.Warning, null, "{0}", item);

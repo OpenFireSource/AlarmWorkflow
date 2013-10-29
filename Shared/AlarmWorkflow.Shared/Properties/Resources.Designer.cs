@@ -142,6 +142,24 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Compilation process took {0} milliseconds..
+        /// </summary>
+        internal static string CustomScriptCompilationFinished {
+            get {
+                return ResourceManager.GetString("CustomScriptCompilationFinished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There were {0} errors/warnings during compilation of script &apos;{1}&apos;..
+        /// </summary>
+        internal static string CustomScriptCompilationWithErrorsWarnings {
+            get {
+                return ResourceManager.GetString("CustomScriptCompilationWithErrorsWarnings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The compilation of the script has failed. Please see the log for information..
         /// </summary>
         internal static string CustomScriptExecutionExceptionCompilationFailed {
