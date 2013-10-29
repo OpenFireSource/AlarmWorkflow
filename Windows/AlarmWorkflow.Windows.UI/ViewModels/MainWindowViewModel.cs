@@ -35,6 +35,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
     /// </summary>
     class MainWindowViewModel : ViewModelBase
     {
+        #region Constants
+
+        private const double MinScaleFactor = 0.5d;
+        private const double MaxScaleFactor = 4.0d;
+
+        #endregion
+
         #region Fields
 
         private IOperationViewer _operationViewer;
@@ -125,11 +132,15 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// </summary>
         public double UiScaleFactor
         {
-            get { return App.GetApp().Configuration.ScaleFactor; }
+            get { return Settings.Default.ScaleFactor; }
             set
             {
-                App.GetApp().Configuration.ScaleFactor = value;
-                OnPropertyChanged("UiScaleFactor");
+                double newValue = Helper.Limit(MinScaleFactor, MaxScaleFactor, value);
+                if (newValue != Settings.Default.ScaleFactor)
+                {
+                    Settings.Default.ScaleFactor = newValue;
+                    OnPropertyChanged("UiScaleFactor");
+                }
             }
         }
 

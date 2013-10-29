@@ -7,6 +7,7 @@ Updates since v0.9.3.0
 General
 
   * [Expression formatter] Added flexible custom scripting to formatter.
+  * [Windows UI] Scaling factor is now per-user-machine-dependent
 
 Parsers
 
@@ -21,7 +22,7 @@ Fixes since v0.9.3.0
 
 Issues resolved
 
-  * -
+  * See http://openfiresource.de/bugs/changelog_page.php?version_id=11
 
 Other fixes
 

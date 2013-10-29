@@ -26,26 +26,12 @@ namespace AlarmWorkflow.Windows.UI.Models
     /// </summary>
     internal sealed class UIConfiguration
     {
-        #region Fields
-
-        private double _scaleFactor;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
         /// Gets/sets the alias of the operation viewer to use. Empty means that the default viewer shall be used.
         /// </summary>
         public string OperationViewer { get; set; }
-        /// <summary>
-        /// Gets/sets the scale factor of the UI.
-        /// </summary>
-        public double ScaleFactor
-        {
-            get { return _scaleFactor; }
-            set { _scaleFactor = Helper.Limit(0.5f, 4.0f, value); }
-        }
         /// <summary>
         /// Gets/sets the automatic operation acknowledgement settings.
         /// </summary>
@@ -82,7 +68,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
 
-            ScaleFactor = 2.0d;
             AcknowledgeOperationKey = System.Windows.Input.Key.B;
         }
 
@@ -98,7 +83,6 @@ namespace AlarmWorkflow.Windows.UI.Models
         {
             UIConfiguration configuration = new UIConfiguration();
             configuration.OperationViewer = SettingsManager.Instance.GetSetting("UIConfiguration", "OperationViewer").GetString();
-            configuration.ScaleFactor = SettingsManager.Instance.GetSetting("UIConfiguration", "ScaleFactor").GetValue<Double>();
 
             string acknowledgeOperationKeyS = SettingsManager.Instance.GetSetting("UIConfiguration", "AcknowledgeOperationKey").GetString();
             Key acknowledgeOperationKey = Key.B;
@@ -116,16 +100,6 @@ namespace AlarmWorkflow.Windows.UI.Models
             configuration.SwitchAlarms = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchAlarms").GetBoolean();
             configuration.SwitchTime = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchTime").GetInt32();
             return configuration;
-        }
-
-        /// <summary>
-        /// Sets and saves only the changeable settings (like the zoom factor).
-        /// </summary>
-        public void SaveChangeables()
-        {
-            SettingsManager.Instance.GetSetting("UIConfiguration", "ScaleFactor").SetValue(_scaleFactor);
-
-            SettingsManager.Instance.SaveSettings();
         }
 
         #endregion
