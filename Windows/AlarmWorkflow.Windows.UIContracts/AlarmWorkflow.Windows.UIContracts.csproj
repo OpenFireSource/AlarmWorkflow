@@ -60,6 +60,7 @@
     <Compile Include="Extensibility\IOperationViewer.cs" />
     <Compile Include="Extensibility\IRoutePlanProvider.cs" />
     <Compile Include="Extensibility\IUIJob.cs" />
+    <Compile Include="Extensibility\IIdleUIJob.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

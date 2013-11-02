@@ -49,6 +49,10 @@ namespace AlarmWorkflow.Windows.UI
         /// Gets the extension manager instance.
         /// </summary>
         internal ExtensionManager ExtensionManager { get; private set; }
+        /// <summary>
+        /// Gets whether the application is first started or if it is already running longer.
+        /// </summary>
+        internal bool StartRoutine { get; set; }
 
         #endregion
 
@@ -64,6 +68,7 @@ namespace AlarmWorkflow.Windows.UI
 
             AlarmWorkflow.Shared.Settings.SettingsManager.Instance.Initialize();
             LoadConfiguration();
+            StartRoutine = true;
         }
 
         #endregion

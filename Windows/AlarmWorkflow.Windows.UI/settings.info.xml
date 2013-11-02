@@ -17,7 +17,9 @@
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor"
              EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />
-
+    <Setting Name="IdleJobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor"
+             EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IIdleUIJob, AlarmWorkflow.Windows.UIContracts"
+             Description="Konfiguriert die Aufgaben, die ausgeführt werden sobald kein Einsatz mehr vorliegt." />
     <Setting Name="AOA.IsEnabled" DisplayText="Aktiviert" Category="Automatische Kenntnisnahme"
              Description="Schaltet die automatische Bestätigung/Kenntnisnahme von Alarmen ein." />
     <Setting Name="AOA.MaxAge" DisplayText="Max. Alter" Category="Automatische Kenntnisnahme"

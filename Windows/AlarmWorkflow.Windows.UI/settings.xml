@@ -8,6 +8,9 @@
   <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
+  <Setting Name="IdleJobsConfiguration" Type="System.String" IsNull="False">
+    <![CDATA[<ExportConfiguration />]]>
+  </Setting>
 
   <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">False</Setting>
   <Setting Name="AOA.MaxAge" Type="System.Int32" IsNull="False">480</Setting>

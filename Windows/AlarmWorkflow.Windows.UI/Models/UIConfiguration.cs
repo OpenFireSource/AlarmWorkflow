@@ -45,6 +45,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public ReadOnlyCollection<string> EnabledJobs { get; private set; }
         /// <summary>
+        /// Gets the names of the idle-jobs that are enabled.
+        /// </summary>
+        public ReadOnlyCollection<string> EnabledIdleJobs { get; private set; }
+        /// <summary>
         /// Gets the key to press to acknowledge operations.
         /// </summary>
         public Key AcknowledgeOperationKey { get; private set; }
@@ -96,7 +100,7 @@ namespace AlarmWorkflow.Windows.UI.Models
 
             // Jobs configuration
             configuration.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
-
+            configuration.EnabledIdleJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "IdleJobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
             configuration.SwitchAlarms = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchAlarms").GetBoolean();
             configuration.SwitchTime = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchTime").GetInt32();
             return configuration;

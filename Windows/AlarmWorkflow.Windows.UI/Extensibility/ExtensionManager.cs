@@ -29,6 +29,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
         #region Fields
 
         private List<IUIJob> _uiJobs;
+        private List<IIdleUIJob> _idleUiJobs;
 
         #endregion
 
@@ -40,6 +41,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
         public ExtensionManager()
         {
             _uiJobs = new List<IUIJob>();
+            _idleUiJobs = new List<IIdleUIJob>();
             InitializeJobs();
         }
 
@@ -73,8 +75,82 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                     Logger.Instance.LogException(this, ex);
                 }
             }
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IIdleUIJob)).Where(j => App.GetApp().Configuration.EnabledIdleJobs.Contains(j.Attribute.Alias)))
+            {
+                IIdleUIJob job = export.CreateInstance<IIdleUIJob>();
+
+                string jobName = job.GetType().Name;
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeBegin, jobName);
+
+                try
+                {
+                    if (!job.Initialize())
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobInitializeError, jobName);
+                        continue;
+                    }
+                    _idleUiJobs.Add(job);
+
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeSuccess, jobName);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.JobGenericError, jobName, ex.Message);
+                    Logger.Instance.LogException(this, ex);
+                }
+            }
         }
 
+        /// <summary>
+        /// Calls each <see cref="IIdleUIJob"/>.
+        /// </summary>
+        public void RunIdleUIJobs()
+        {
+            foreach (IIdleUIJob job in _idleUiJobs)
+            {
+                if (job.IsAsync)
+                {
+                    RunIdleUIJobAsync(job);
+                }
+                else
+                {
+                    RunIdleUIJobSync(job);
+                }
+            }
+        }
+
+        private void RunIdleUIJobAsync(IIdleUIJob job)
+        {
+            ThreadPool.QueueUserWorkItem(o =>
+            {
+                // Run the job. If the job fails, ignore that exception as well but log it too!
+                try
+                {
+                    job.Run();
+                }
+                catch (Exception ex)
+                {
+                    // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                    Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing the asynchronous UI-job '{0}'!", job.GetType().Name));
+                    Logger.Instance.LogException(this, ex);
+                }
+            });
+        }
+
+        private void RunIdleUIJobSync(IIdleUIJob job)
+        {
+            // Run the job. If the job fails, ignore that exception as well but log it too!
+            try
+            {
+                job.Run();
+            }
+            catch (Exception ex)
+            {
+                // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
+                Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing UI-job '{0}'!", job.GetType().Name));
+                Logger.Instance.LogException(this, ex);
+            }
+        }
         /// <summary>
         /// Calls each <see cref="IUIJob"/> using the given <see cref="IOperationViewer"/> and <see cref="Operation"/> instances.
         /// </summary>
@@ -127,7 +203,6 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                 Logger.Instance.LogException(this, ex);
             }
         }
-
         #endregion
     }
 }

@@ -37,6 +37,15 @@ namespace AlarmWorkflow.Windows.UI.Views
         public ContentNoAlarmsControl()
         {
             InitializeComponent();
+
+            if (!App.GetApp().StartRoutine)
+            {
+                App.GetApp().ExtensionManager.RunIdleUIJobs();
+            }
+            else
+            {
+                App.GetApp().StartRoutine = false;
+            }
         }
     }
 }
