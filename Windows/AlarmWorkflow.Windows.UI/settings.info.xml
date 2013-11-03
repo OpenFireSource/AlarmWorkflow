@@ -13,7 +13,8 @@
     <Setting Name="MaxAlarmsInUI" DisplayText="Max. Anzahl von Alarmen in der Oberfläche" Category="Generell"
              Description="Die maximale Anzahl von gleichzeitigen Alarmen in der Oberfläche (0 für keine Beschränkung)."
              EditorParameter="0;1000" />
-
+    <Setting Name="FullscreenOnAlarm" DisplayText="Automatischer Vollbildmodus"
+             Description="Bietet die Möglichkeit, dass die UI automatisch bei Alarmeingang maximiert und in Vollbildmodus gesetzt wird." Category="Generell" />
     <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Aufgaben" Editor="ExportConfigurationTypeEditor"
              EditorParameter="AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob, AlarmWorkflow.Windows.UIContracts"
              Description="Konfiguriert die Aufgaben, die bei einem neuen Alarm ausgeführt werden." />

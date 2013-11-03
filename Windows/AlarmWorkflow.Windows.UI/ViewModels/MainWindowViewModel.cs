@@ -18,12 +18,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Timers;
+using Timer = System.Timers.Timer;
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.Properties;
+using AlarmWorkflow.Windows.UI.Views;
 using AlarmWorkflow.Windows.UI.Windows;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -44,6 +46,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         #region Fields
 
+        private readonly MainWindow _mainWindow;
         private IOperationViewer _operationViewer;
         private Lazy<FrameworkElement> _busyTemplate;
 
@@ -151,12 +154,14 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindowViewModel"/> class.
         /// </summary>
-        public MainWindowViewModel()
+        /// <param name="mainWindow"></param>
+        public MainWindowViewModel(MainWindow mainWindow)
         {
             AvailableEvents = new List<OperationViewModel>();
 
             InitializeOperationViewer();
 
+            _mainWindow = mainWindow;
             _servicePollingTimer = new Timer(Constants.OfpInterval);
             _servicePollingTimer.Elapsed += ServicePollingTimer_Elapsed;
             _servicePollingTimer.Start();
@@ -209,6 +214,12 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             if (isNewToList)
             {
+                //Maximize UI if new alarm came in and setting is activated.
+                if (App.GetApp().Configuration.FullscreenOnAlarm)
+                {
+                    _mainWindow.FullscreenUI(true);
+                }
+
                 UpdateProperties();
                 if (isOperationNew)
                 {

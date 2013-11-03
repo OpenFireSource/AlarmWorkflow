@@ -57,6 +57,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// </summary>
         public bool SwitchAlarms { get; private set; }
         /// <summary>
+        /// Gets whether or not the UI should be set to fullscreen on alarm.
+        /// </summary>
+        public bool FullscreenOnAlarm { get; private set; }
+        /// <summary>
         /// Gets the time which should elapse between a change.
         /// </summary>
         public int SwitchTime { get; private set; }
@@ -87,7 +91,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         {
             UIConfiguration configuration = new UIConfiguration();
             configuration.OperationViewer = SettingsManager.Instance.GetSetting("UIConfiguration", "OperationViewer").GetString();
-
+            configuration.FullscreenOnAlarm = SettingsManager.Instance.GetSetting("UIConfiguration", "FullscreenOnAlarm").GetBoolean();
             string acknowledgeOperationKeyS = SettingsManager.Instance.GetSetting("UIConfiguration", "AcknowledgeOperationKey").GetString();
             Key acknowledgeOperationKey = Key.B;
             Enum.TryParse<Key>(acknowledgeOperationKeyS, out acknowledgeOperationKey);

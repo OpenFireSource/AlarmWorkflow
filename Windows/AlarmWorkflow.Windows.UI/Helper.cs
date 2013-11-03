@@ -23,6 +23,47 @@ namespace AlarmWorkflow.Windows.UI
 {
     static class Helper
     {
+        private const int SWP_HIDEWINDOW = 0x0080;
+        private const int SWP_SHOWWINDOW = 0x0040;
+        private const int SW_HIDE = 0;
+        private const int SW_SHOW = 1;
+
+        /// <summary>
+        /// Show the TaskBar.
+        /// </summary>
+        internal static void ShowTaskBar()
+        {
+            int hWnd = FindWindow("Shell_TrayWnd", "");
+            SetWindowPos(hWnd, 0, 0, 0, 0, 0, SWP_SHOWWINDOW);
+        }
+
+        /// <summary>
+        /// Hide the TaskBar.
+        /// </summary>
+        internal static void HideTaskBar()
+        {
+            int hWnd = FindWindow("Shell_TrayWnd", "");
+            SetWindowPos(hWnd, 0, 0, 0, 0, 0, SWP_HIDEWINDOW);
+        }
+
+        /// <summary>
+        /// Hide the Start-Orb
+        /// </summary>
+        internal static void HideStartOrb()
+        {
+            IntPtr hwndOrb = FindWindowEx(IntPtr.Zero, IntPtr.Zero, (IntPtr)0xC017, null);
+            ShowWindow(hwndOrb, SW_HIDE);
+        }
+
+        /// <summary>
+        /// Show the Start-Orb
+        /// </summary>
+        internal static void ShowStartOrb()
+        {
+            IntPtr hwndOrb = FindWindowEx(IntPtr.Zero, IntPtr.Zero, (IntPtr)0xC017, null);
+            ShowWindow(hwndOrb, SW_SHOW);
+        }
+
         /// <summary>
         /// Convenience wrapper for the "Dispatcher.Invoke()" method which does not support lambdas.
         /// </summary>
@@ -54,7 +95,14 @@ namespace AlarmWorkflow.Windows.UI
 
             return new System.Drawing.Rectangle(rect.Left, rect.Top, (rect.Right - rect.Left), (rect.Bottom - rect.Top));
         }
-
+        [DllImport("User32.dll", EntryPoint = "FindWindow")]
+        private static extern int FindWindow(string lpClassName, string lpWindowName);
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindowEx(IntPtr parentHwnd, IntPtr childAfterHwnd, IntPtr className, string windowText);
+        [DllImport("user32.dll")]
+        private static extern int ShowWindow(IntPtr hwnd, int command);
+        [DllImport("User32.dll")]
+        private static extern int SetWindowPos(int hWnd, int hWndInsertAfter, int x, int y, int cx, int cy, int wFlags);
         [DllImport("user32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         static extern bool GetWindowRect(IntPtr hWnd, ref RECT lpRect);

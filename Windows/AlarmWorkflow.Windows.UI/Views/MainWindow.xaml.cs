@@ -13,9 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Drawing;
 using System.Windows;
+using System.Windows.Forms;
+using System.Windows.Input;
 using AlarmWorkflow.Windows.UI.ViewModels;
 using AlarmWorkflow.Windows.UIContracts;
+using Application = System.Windows.Application;
 
 namespace AlarmWorkflow.Windows.UI.Views
 {
@@ -27,6 +32,7 @@ namespace AlarmWorkflow.Windows.UI.Views
         #region Fields
 
         private MainWindowViewModel _viewModel;
+        private bool _fullscreen;
 
         #endregion
 
@@ -39,7 +45,7 @@ namespace AlarmWorkflow.Windows.UI.Views
         {
             InitializeComponent();
 
-            _viewModel = new MainWindowViewModel();
+            _viewModel = new MainWindowViewModel(this);
             _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_viewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
@@ -55,6 +61,8 @@ namespace AlarmWorkflow.Windows.UI.Views
 
         private void SetWindowPosition()
         {
+            WindowState = WindowState.Normal;
+            WindowStartupLocation = WindowStartupLocation.Manual;
             var pos = Properties.Settings.Default.WindowPosition;
             this.Top = (double)pos.Top;
             this.Left = (double)pos.Left;
@@ -68,6 +76,8 @@ namespace AlarmWorkflow.Windows.UI.Views
         /// <param name="e">A <see cref="T:System.ComponentModel.CancelEventArgs"/> that contains the event data.</param>
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            FullscreenUI(false);
+
             if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning))
             {
                 e.Cancel = true;
@@ -98,6 +108,73 @@ namespace AlarmWorkflow.Windows.UI.Views
             }
         }
 
+        /// <summary>
+        /// Sets the UI to fullscreen or to 'normal'-mode
+        /// </summary>
+        /// <param name="fullscreen">Fullscreen/Normal</param>
+        internal void FullscreenUI(bool fullscreen)
+        {
+            if (fullscreen == _fullscreen)
+            {
+                return;
+            }
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Screen screen = Screen.FromRectangle(new Rectangle((int)Left, (int)Top, (int)Width, (int)Height));
+                Rectangle rectangle = new Rectangle();
+                if (fullscreen)
+                {
+                    _fullscreen = true;
+                    WindowStyle = WindowStyle.None;
+                    WindowState = WindowState.Normal;
+                    rectangle = screen.Bounds;
+                    ResizeMode = ResizeMode.NoResize;
+                    //Hiding of Taskbar and Start-Orb only needed on primnary screen
+                    if (screen.Primary)
+                    {
+                        try
+                        {
+                            Helper.HideTaskBar();
+                            Helper.HideStartOrb();
+                        }
+                        catch (Exception)
+                        {
+                            //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
+                        }
+                       
+                    }
+                }
+                else
+                {
+                    _fullscreen = false;
+                    WindowStyle = WindowStyle.SingleBorderWindow;
+                    WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+                    rectangle = screen.WorkingArea;
+                    ResizeMode = ResizeMode.CanResize;
+                    //Showing of Taskbar and Start-Orb only needed on primnary screen. The UI shouldn't have moved since hiding them ... otherwise the Start-Orb and Taskbar will be gone.
+                    if (screen.Primary)
+                    {
+                        try
+                        {
+                            Helper.ShowStartOrb();
+                            Helper.ShowTaskBar();
+                        }
+                        catch (Exception)
+                        {
+                            //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
+                        }
+                       
+                    }
+                }
+                Top = rectangle.Top;
+                Left = rectangle.Left;
+                Height = rectangle.Height;
+                Width = rectangle.Width;
+                Focus();
+                Activate();
+            });
+        }
+
         #endregion
 
         #region Event handlers
@@ -119,6 +196,11 @@ namespace AlarmWorkflow.Windows.UI.Views
             {
                 _viewModel.AcknowledgeCurrentOperation(true);
 
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F11)
+            {
+                FullscreenUI(!_fullscreen);
                 e.Handled = true;
             }
         }
