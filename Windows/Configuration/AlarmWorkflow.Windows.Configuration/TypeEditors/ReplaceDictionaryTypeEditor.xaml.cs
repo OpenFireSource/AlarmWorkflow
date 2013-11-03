@@ -16,9 +16,12 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Input;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Specialized;
 using AlarmWorkflow.Windows.ConfigurationContracts;
+using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 {
@@ -35,6 +38,28 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// </summary>
         public ReplaceDictionaryEditWrapper ReplaceDictionary { get; private set; }
 
+        /// <summary>
+        /// Gets/sets the currently selected item.
+        /// </summary>
+        public FakeKeyValuePair Selected { get; set; }
+
+        #endregion
+
+        #region Command "InsertRow"
+
+        /// <summary>
+        /// The InsertRow command.
+        /// </summary>
+        public ICommand InsertRow { get; private set; }
+
+        private void InsertRow_Execute(object parameter)
+        {
+            int indexOf = ReplaceDictionary.IndexOf(Selected);
+            ReplaceDictionary.Insert(indexOf, new FakeKeyValuePair());
+            OnPropertyChanged("ReplaceDictionary");
+            CollectionViewSource.GetDefaultView(ReplaceDictionary).Refresh();
+        }
+
         #endregion
 
         #region Constructors
@@ -45,7 +70,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public ReplaceDictionaryTypeEditor()
         {
             InitializeComponent();
-
+            InsertRow = new RelayCommand(InsertRow_Execute);
             this.DataContext = this;
         }
 
