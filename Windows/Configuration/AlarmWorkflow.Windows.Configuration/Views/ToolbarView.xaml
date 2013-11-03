@@ -4,7 +4,7 @@
 
     <ToolBar>
 
-        <Button Command="{Binding SaveChangesCommand}" ToolTip="Speichert alle Änderungen." >
+        <Button Command="{Binding SaveChangesCommand}" ToolTip="Speichert alle Änderungen. (Strg+S)" >
             <StackPanel Orientation="Horizontal">
                 <Image Source="../Images/SaveAll_16.png" Width="16" Height="16" />
                 <TextBlock Margin="0,0,2,0" Text="Änderungen speichern" FontWeight="Bold" />

@@ -4,6 +4,9 @@
         xmlns:views="clr-namespace:AlarmWorkflow.Windows.Configuration.Views"
         Title="Konfigurationseditor" Width="800" Height="600"
         Icon="/AlarmWorkflow.Windows.Configuration;component/Configuration.ico">
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveChangesCommand}"></KeyBinding>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
