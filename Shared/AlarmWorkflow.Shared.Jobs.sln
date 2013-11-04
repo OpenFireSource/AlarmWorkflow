@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Operation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.OperationFileExporter", "Jobs\AlarmWorkflow.Job.OperationFileExporter\AlarmWorkflow.Job.OperationFileExporter.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.Job.Geocoding", "Jobs\AlarmWorkflow.Job.Geocoding\AlarmWorkflow.Job.Geocoding.csproj", "{EB1691B7-C2CD-4C20-9105-95965BBF3E07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

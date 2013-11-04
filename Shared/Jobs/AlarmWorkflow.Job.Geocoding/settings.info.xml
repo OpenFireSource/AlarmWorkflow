@@ -1,0 +1,6 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="Geocoding" DisplayText="Geocoding" Parent="Aufgaben">
+    <Setting Name="Provider" DisplayText="Geocoding-Anbieter" Description="Der Anbieter, über den die Koordinaten bestimmt werden sollen." Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Job.Geocoding.IGeoCoder, AlarmWorkflow.Job.Geocoding" />
+    <Setting Name="ApiKey" DisplayText="Api-Key" Description="Der API-Key wird von manchen Anbietern benötigt. Genaueres hierzu entnehmen Sie bitte dem Handbuch bzw. dem Wiki."/>
+  </Identifier>
+</SettingsDisplayConfiguration>

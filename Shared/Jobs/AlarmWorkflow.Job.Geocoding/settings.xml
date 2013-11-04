@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="Geocoding">
+  <Setting Name="Provider" Type="System.String">Google</Setting>
+  <Setting Name="ApiKey" Type="System.String"></Setting>
+</SettingsConfiguration>
