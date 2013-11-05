@@ -52,6 +52,11 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// </summary>
         public ICommand InsertRow { get; private set; }
 
+        private bool InsertRow_CanExecute(object parameter)
+        {
+            return Selected != null;
+        }
+
         private void InsertRow_Execute(object parameter)
         {
             int indexOf = ReplaceDictionary.IndexOf(Selected);
@@ -70,7 +75,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public ReplaceDictionaryTypeEditor()
         {
             InitializeComponent();
-            InsertRow = new RelayCommand(InsertRow_Execute);
+            InsertRow = new RelayCommand(InsertRow_Execute, InsertRow_CanExecute);
             this.DataContext = this;
         }
 
