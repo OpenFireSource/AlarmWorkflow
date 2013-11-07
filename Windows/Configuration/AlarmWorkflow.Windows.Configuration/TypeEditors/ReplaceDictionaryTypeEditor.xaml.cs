@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -48,25 +49,29 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         #endregion
 
-        #region Command "InsertRow"
+        #region Commands
+
+        #region Command "InsertRowCommand"
 
         /// <summary>
-        /// The InsertRow command.
+        /// The InsertRowCommand command.
         /// </summary>
-        public ICommand InsertRow { get; private set; }
+        public ICommand InsertRowCommand { get; private set; }
 
-        private bool InsertRow_CanExecute(object parameter)
+        private bool InsertRowCommand_CanExecute(object parameter)
         {
             return Selected != null;
         }
 
-        private void InsertRow_Execute(object parameter)
+        private void InsertRowCommand_Execute(object parameter)
         {
             int indexOf = ReplaceDictionary.IndexOf(Selected);
             ReplaceDictionary.Insert(indexOf, new FakeKeyValuePair());
             OnPropertyChanged("ReplaceDictionary");
             CollectionViewSource.GetDefaultView(ReplaceDictionary).Refresh();
         }
+
+        #endregion
 
         #endregion
 
@@ -78,8 +83,9 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         public ReplaceDictionaryTypeEditor()
         {
             InitializeComponent();
-            InsertRow = new RelayCommand(InsertRow_Execute, InsertRow_CanExecute);
             this.DataContext = this;
+
+            CommandHelper.WireupRelayCommands(this);
         }
 
         #endregion
@@ -125,7 +131,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// <summary>
         /// Gets the visual element that is editing the value.
         /// </summary>
-        public System.Windows.UIElement Visual
+        public UIElement Visual
         {
             get { return this; }
         }
