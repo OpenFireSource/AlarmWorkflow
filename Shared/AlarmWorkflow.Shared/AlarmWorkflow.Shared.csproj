@@ -52,7 +52,9 @@
     <Compile Include="Core\AlarmWorkflowConfiguration.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\AssertionFailedException.cs" />
     <Compile Include="Core\Assertions.cs" />
+    <Compile Include="Core\AssertionType.cs" />
     <Compile Include="Core\CsvHelper.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="ObjectExpressions\ExpressionException.cs" />
     <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
     <Compile Include="ObjectExpressions\ExtendedObjectExpressionFormatter.cs" />
+    <Compile Include="ObjectExpressions\IObjectExpressionFormatter.cs" />
     <Compile Include="ObjectExpressions\ObjectExpressionTools.cs" />
     <Compile Include="ObjectExpressions\ObjectFormatter.cs" />
     <Compile Include="Core\InformationAttribute.cs" />

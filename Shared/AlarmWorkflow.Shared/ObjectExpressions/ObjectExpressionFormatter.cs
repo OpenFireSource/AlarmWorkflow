@@ -31,7 +31,7 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
     /// There is a possibility to define a custom resolving method, which gets called in case of one expression leading to no
     /// resolvable property.</remarks>
     /// <typeparam name="TInput">The type of the object to format.</typeparam>
-    public class ObjectExpressionFormatter<TInput>
+    public class ObjectExpressionFormatter<TInput> : IObjectExpressionFormatter
     {
         #region Constants
 
@@ -219,6 +219,15 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
             ExtendedObjectExpressionFormatter<T> formatter = new ExtendedObjectExpressionFormatter<T>();
             formatter.Options = options;
             return formatter.ToString(graph, format);
+        }
+
+        #endregion
+
+        #region IObjectExpressionFormatter Members
+
+        string IObjectExpressionFormatter.ToString(object graph, string format)
+        {
+            return ToString(graph, format);
         }
 
         #endregion

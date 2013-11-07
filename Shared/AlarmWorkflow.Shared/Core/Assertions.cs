@@ -13,9 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -45,7 +42,7 @@ namespace AlarmWorkflow.Shared.Core
         {
             if (value == null)
             {
-                throw new AssertionFailedException(message, "NotNull", new string[] { name });
+                throw new AssertionFailedException(message, AssertionType.AssertNotNull, new string[] { name });
             }
         }
         /// <summary>
@@ -70,48 +67,7 @@ namespace AlarmWorkflow.Shared.Core
             AssertNotNull(name, "name");
             if (string.IsNullOrEmpty(value))
             {
-                throw new AssertionFailedException(message, "NotEmpty", new string[] { name });
-            }
-        }
-
-        /// <summary>
-        /// Represents the exception that occurs if an assertion has failed.
-        /// </summary>
-        [Serializable()]
-        public sealed class AssertionFailedException : Exception
-        {
-            /// <summary>
-            /// Gets the name of the assertion.
-            /// </summary>
-            /// <value>The name of the assertion.</value>
-            public string AssertionName { get; private set; }
-            /// <summary>
-            /// Gets the affected parameter names.
-            /// </summary>
-            public string[] AffectedParameterNames { get; private set; }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="AssertionFailedException"/> class.
-            /// </summary>
-            /// <param name="assertionName">Name of the assertion.</param>
-            /// <param name="affectedParameterNames">The affected parameter names.</param>
-            public AssertionFailedException(string assertionName, string[] affectedParameterNames)
-                : this("An assertion has failed", assertionName, affectedParameterNames)
-            {
-
-            }
-
-            /// <summary>
-            /// Initializes a new instance of the <see cref="AssertionFailedException"/> class.
-            /// </summary>
-            /// <param name="message">The message to display if the assertion has failed.</param>
-            /// <param name="assertionName">Name of the assertion.</param>
-            /// <param name="affectedParameterNames">The affected parameter names.</param>
-            public AssertionFailedException(string message, string assertionName, string[] affectedParameterNames)
-                : base(message)
-            {
-                this.AssertionName = assertionName;
-                this.AffectedParameterNames = affectedParameterNames;
+                throw new AssertionFailedException(message, AssertionType.AssertNotEmpty, new string[] { name });
             }
         }
     }
