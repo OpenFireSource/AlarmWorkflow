@@ -8,6 +8,7 @@ General
 
   * [Expression formatter] Added flexible custom scripting to formatter.
   * [Windows UI] Scaling factor is now per-user-machine-dependent
+  * [Config UI] Added expression tester to try out formats before using them.
 
 Parsers
 
