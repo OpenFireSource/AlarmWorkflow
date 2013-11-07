@@ -1,0 +1,43 @@
+﻿<Window x:Class="AlarmWorkflow.Windows.Configuration.Views.ObjectExpressionTesterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Ausdrucksformat-Tester" Width="600" Height="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Content="Instanz:" FontWeight="Bold" />
+        <ComboBox Grid.Row="0" Grid.Column="1" Margin="2" ItemsSource="{Binding Entries}" SelectedItem="{Binding SelectedEntry}" IsEditable="False">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <Run Text="{Binding Name}" FontWeight="Bold" />
+                        <Run Text="(" />
+                        <Run Text="{Binding EntryType.FullName, Mode=OneWay}" FontStyle="Italic" />
+                        <Run Text=")" />
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Content="Format (Ausdruck):" FontWeight="Bold" />
+        <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Text="{Binding InputText}" AcceptsReturn="True" AcceptsTab="True" TextWrapping="NoWrap"
+                 HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" />
+
+        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Content="Ausgabe:" FontWeight="Bold" />
+        <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="2" Text="{Binding ResultText, Mode=OneWay}" IsReadOnly="True" TextWrapping="NoWrap"
+                 HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" />
+
+        <Button Grid.Row="5" Command="{Binding TestUserInputCommand}" Content="Ausführen" />
+    </Grid>
+</Window>

@@ -134,6 +134,7 @@
     <Compile Include="ViewModels\ErrorReportsViewModel.cs" />
     <Compile Include="ViewModels\GroupedSectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ObjectExpressionTesterViewModel.cs" />
     <Compile Include="ViewModels\SectionViewModel.cs" />
     <Compile Include="ViewModels\SettingItemViewModel.cs" />
     <Compile Include="Views\AboutWindow.xaml.cs">
@@ -141,6 +142,9 @@
     </Compile>
     <Compile Include="Views\ErrorReportsView.xaml.cs">
       <DependentUpon>ErrorReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObjectExpressionTesterWindow.xaml.cs">
+      <DependentUpon>ObjectExpressionTesterWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -248,6 +252,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ObjectExpressionTesterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -276,6 +284,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\ObjectTestDatabase.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\Settings.settings">
@@ -318,7 +329,14 @@
   <ItemGroup>
     <Resource Include="Images\GPLv3.png" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Data\ObjectTestDatabase.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Data\*" "$(TargetDir)\*" /IYS</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

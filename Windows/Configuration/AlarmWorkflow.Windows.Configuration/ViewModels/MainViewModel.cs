@@ -352,6 +352,21 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #endregion
 
+        #region Command "OpenObjectExpressionTesterCommand"
+
+        /// <summary>
+        /// The OpenObjectExpressionTesterCommand command.
+        /// </summary>
+        public ICommand OpenObjectExpressionTesterCommand { get; private set; }
+        
+        private void OpenObjectExpressionTesterCommand_Execute(object parameter)
+        {
+            ObjectExpressionTesterWindow window = new ObjectExpressionTesterWindow();
+            window.Show();
+        }
+
+        #endregion
+
         #endregion
 
         #region Constructors

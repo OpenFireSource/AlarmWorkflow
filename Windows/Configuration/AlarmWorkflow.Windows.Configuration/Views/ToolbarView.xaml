@@ -17,6 +17,14 @@
 
         <Separator />
 
+        <Menu Margin="0, 1.5, 0, 0" Style="{x:Null}">
+            <MenuItem Header="_Tools">
+                <MenuItem Header="_Ausdrucksformat-Tester öffnen..." Command="{Binding OpenObjectExpressionTesterCommand}" />
+            </MenuItem>
+        </Menu>
+
+        <Separator />
+
         <Label Margin="2,0,0,0" Content="Service Status: " FontWeight="Bold" />
         <Label MinWidth="100" VerticalContentAlignment="Center" ToolTip="Rechtsklick, um auf die Serviceoptionen zuzugreifen">
             <Label.Style>

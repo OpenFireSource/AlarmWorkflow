@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Container>
+  <Seed Name="Default" Type="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" UseIFormattable="true">
+    <Set Expression="Id">42</Set>
+    <Set Expression="Comment">Gebäude brennt!!!</Set>
+    <Set Expression="Einsatzort.ZipCode">12345</Set>
+    <Set Expression="Einsatzort.City">Musterstadt</Set>
+    <Set Expression="Einsatzort.Street">Musterstraße</Set>
+    <Set Expression="Einsatzort.StreetNumber">1</Set>
+    <Set Expression="Einsatzort.Intersection">Kreuzung #2</Set>
+    <Set Expression="Einsatzort.GeoLatitude">1.2345</Set>
+    <Set Expression="Einsatzort.GeoLongitude">6.7890</Set>
+    <Set Expression="Einsatzort.Location">Links von der Straße</Set>
+    <Set Expression="Einsatzort.Property">Gebäude H. Mustermann &amp; Co. KG</Set>
+    <Set Expression="Messenger">Max Mustermann</Set>
+    <Set Expression="Keywords.Keyword">Wort</Set>
+    <Set Expression="Keywords.EmergencyKeyword">WORT!</Set>
+    <Set Expression="Keywords.B">B: 1</Set>
+    <Set Expression="Keywords.R">R: 1</Set>
+    <Set Expression="Keywords.S">S: 1</Set>
+    <Set Expression="Keywords.T">T: 1</Set>
+    <Set Expression="OperationNumber">A bcdef 123456</Set>
+    <Set Expression="OperationPlan">Brand löschen!</Set>
+    <Set Expression="Picture">Gebäude nahezu im Vollbrand!</Set>
+    <Set Expression="Priority">1</Set>
+    <Set Expression="Timestamp">07.11.2013 16:46:59</Set>
+  </Seed>
+</Container>

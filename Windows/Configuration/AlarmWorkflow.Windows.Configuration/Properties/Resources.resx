@@ -135,6 +135,10 @@
   <data name="NumberTypeEditorValueNotValidMessage" xml:space="preserve">
     <value>Der Wert lag außerhalb des gültigen Wertebereichs.</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ObjectTestDatabaseSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\objecttestdatabase.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
   <data name="PrintingQueuesConfigurationWindowConfirmDeleteEntry" xml:space="preserve">
     <value>Möchten Sie den gewählten Eintrag wirklich löschen?</value>
   </data>
@@ -157,6 +161,24 @@ Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit 
   </data>
   <data name="SavingSettingsWithErrors" xml:space="preserve">
     <value>Die Einstellungen wurden (mit Fehlern) gespeichert!</value>
+  </data>
+  <data name="SeedEntryParseError" xml:space="preserve">
+    <value>Could not validate the object test database file! Loading aborted.</value>
+  </data>
+  <data name="SeedEntryPropertyNotFound" xml:space="preserve">
+    <value>Property '{0}' not found on type '{1}'. Skipping.</value>
+  </data>
+  <data name="SeedEntrySetPropertyFailed" xml:space="preserve">
+    <value>Could not set property '{0}' on type '{1}'. It will have its default value.</value>
+  </data>
+  <data name="SeedEntryTestFailed" xml:space="preserve">
+    <value>Could not format your input because of an internal error. Please see the log for further information!</value>
+  </data>
+  <data name="SeedEntryTestTypeIsNotIFormattable" xml:space="preserve">
+    <value>Attempted to cast the type '{0}' to IFormattable as instructed in the database file, but type is not IFormattable!</value>
+  </data>
+  <data name="SeedEntryTypeHasNoDefaultConstructor" xml:space="preserve">
+    <value>Cannot create an instance of the type '{0}' because it has no public default constructor defined!</value>
   </data>
   <data name="ServiceInstallConfirmationMessage" xml:space="preserve">
     <value>Sie sind dabei, den Service zu installieren. Bitte bestätigen Sie, um fortzufahren. Sie können dann anschließend den Service starten.</value>

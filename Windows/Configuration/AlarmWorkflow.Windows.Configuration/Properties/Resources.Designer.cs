@@ -115,6 +115,26 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+        ///  &lt;xs:element name=&quot;Container&quot;&gt;
+        ///    &lt;xs:complexType&gt;
+        ///      &lt;xs:sequence&gt;
+        ///        &lt;xs:element name=&quot;Seed&quot;&gt;
+        ///          &lt;xs:complexType&gt;
+        ///            &lt;xs:sequence&gt;
+        ///              &lt;xs:element maxOccurs=&quot;unbounded&quot; name=&quot;Set&quot;&gt;
+        ///                &lt;xs:complexType&gt;
+        ///                  &lt;xs:simpleContent&gt;
+        ///                    &lt;xs:extension base=&quot;xs:string&quot;&gt; [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ObjectTestDatabaseSchema {
+            get {
+                return ResourceManager.GetString("ObjectTestDatabaseSchema", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Möchten Sie den gewählten Eintrag wirklich löschen?.
         /// </summary>
         internal static string PrintingQueuesConfigurationWindowConfirmDeleteEntry {
@@ -176,6 +196,60 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         internal static string SavingSettingsWithErrors {
             get {
                 return ResourceManager.GetString("SavingSettingsWithErrors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not validate the object test database file! Loading aborted..
+        /// </summary>
+        internal static string SeedEntryParseError {
+            get {
+                return ResourceManager.GetString("SeedEntryParseError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Property &apos;{0}&apos; not found on type &apos;{1}&apos;. Skipping..
+        /// </summary>
+        internal static string SeedEntryPropertyNotFound {
+            get {
+                return ResourceManager.GetString("SeedEntryPropertyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not set property &apos;{0}&apos; on type &apos;{1}&apos;. It will have its default value..
+        /// </summary>
+        internal static string SeedEntrySetPropertyFailed {
+            get {
+                return ResourceManager.GetString("SeedEntrySetPropertyFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not format your input because of an internal error. Please see the log for further information!.
+        /// </summary>
+        internal static string SeedEntryTestFailed {
+            get {
+                return ResourceManager.GetString("SeedEntryTestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempted to cast the type &apos;{0}&apos; to IFormattable as instructed in the database file, but type is not IFormattable!.
+        /// </summary>
+        internal static string SeedEntryTestTypeIsNotIFormattable {
+            get {
+                return ResourceManager.GetString("SeedEntryTestTypeIsNotIFormattable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create an instance of the type &apos;{0}&apos; because it has no public default constructor defined!.
+        /// </summary>
+        internal static string SeedEntryTypeHasNoDefaultConstructor {
+            get {
+                return ResourceManager.GetString("SeedEntryTypeHasNoDefaultConstructor", resourceCulture);
             }
         }
         
