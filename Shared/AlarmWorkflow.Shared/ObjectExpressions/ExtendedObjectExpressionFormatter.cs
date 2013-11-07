@@ -258,6 +258,11 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
 
         private static Assembly CompileAssemblyFromFile(string path)
         {
+            if (!File.Exists(path))
+            {
+                throw new CustomScriptExecutionException(CustomScriptExecutionException.Reason.ScriptFileNotFound);
+            }
+
             CodeDomProvider provider = new CSharpCodeProvider();
 
             CompilerParameters parameters = new CompilerParameters();

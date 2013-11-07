@@ -69,6 +69,8 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
         {
             switch (reason)
             {
+                case Reason.ScriptFileNotFound:
+                    return Resources.CustomScriptExecutionExceptionScriptFileNotFound;
                 case Reason.NotExactlyOneExportedTypeFound:
                     return Resources.CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound;
                 case Reason.CompilationFailed:
@@ -98,6 +100,10 @@ namespace AlarmWorkflow.Shared.ObjectExpressions
             /// An undefined error has occurred.
             /// </summary>
             Undefined = 0,
+            /// <summary>
+            /// The script file wasn't found on disk.
+            /// </summary>
+            ScriptFileNotFound,
             /// <summary>
             /// Either zero or more than one exported (public) type was found in the script.
             /// </summary>

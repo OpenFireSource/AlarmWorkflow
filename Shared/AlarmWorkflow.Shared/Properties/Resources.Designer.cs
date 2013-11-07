@@ -142,6 +142,33 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value &apos;{0}&apos; shall not be empty!.
+        /// </summary>
+        internal static string AssertionFailedExceptionNotEmpty {
+            get {
+                return ResourceManager.GetString("AssertionFailedExceptionNotEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The value &apos;{0}&apos; shall not be null!.
+        /// </summary>
+        internal static string AssertionFailedExceptionNotNull {
+            get {
+                return ResourceManager.GetString("AssertionFailedExceptionNotNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An assertion has failed.
+        /// </summary>
+        internal static string AssertionFailedGenericMessage {
+            get {
+                return ResourceManager.GetString("AssertionFailedGenericMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Compilation process took {0} milliseconds..
         /// </summary>
         internal static string CustomScriptCompilationFinished {
@@ -183,6 +210,15 @@ namespace AlarmWorkflow.Shared.Properties {
         internal static string CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound {
             get {
                 return ResourceManager.GetString("CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The script file was not found! Please check it exists..
+        /// </summary>
+        internal static string CustomScriptExecutionExceptionScriptFileNotFound {
+            get {
+                return ResourceManager.GetString("CustomScriptExecutionExceptionScriptFileNotFound", resourceCulture);
             }
         }
         

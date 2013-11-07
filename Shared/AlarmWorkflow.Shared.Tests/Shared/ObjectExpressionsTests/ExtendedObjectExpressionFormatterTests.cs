@@ -57,6 +57,7 @@ namespace AlarmWorkflow.Shared.Tests.Shared.ObjectExpressionsTests
         public void CheckErrorsTest()
         {
             ToStringAndAssertException("Err_CompilationFailed.cs", CustomScriptExecutionException.Reason.CompilationFailed);
+            ToStringAndAssertException("I DO NOT EXIST.cs", CustomScriptExecutionException.Reason.ScriptFileNotFound);
             ToStringAndAssertException("Err_NotExOneType.cs", CustomScriptExecutionException.Reason.NotExactlyOneExportedTypeFound);
             ToStringAndAssertException("Err_FuncWrongSig1.cs", CustomScriptExecutionException.Reason.ScriptFunctionMethodHasWrongSignature);
             ToStringAndAssertException("Err_FuncWrongSig2.cs", CustomScriptExecutionException.Reason.ScriptFunctionMethodHasWrongSignature);

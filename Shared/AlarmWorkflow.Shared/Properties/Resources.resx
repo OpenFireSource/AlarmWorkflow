@@ -337,4 +337,16 @@
   <data name="CustomScriptCompilationWithErrorsWarnings" xml:space="preserve">
     <value>There were {0} errors/warnings during compilation of script '{1}'.</value>
   </data>
+  <data name="CustomScriptExecutionExceptionScriptFileNotFound" xml:space="preserve">
+    <value>The script file was not found! Please check it exists.</value>
+  </data>
+  <data name="AssertionFailedGenericMessage" xml:space="preserve">
+    <value>An assertion has failed</value>
+  </data>
+  <data name="AssertionFailedExceptionNotEmpty" xml:space="preserve">
+    <value>The value '{0}' shall not be empty!</value>
+  </data>
+  <data name="AssertionFailedExceptionNotNull" xml:space="preserve">
+    <value>The value '{0}' shall not be null!</value>
+  </data>
 </root>
