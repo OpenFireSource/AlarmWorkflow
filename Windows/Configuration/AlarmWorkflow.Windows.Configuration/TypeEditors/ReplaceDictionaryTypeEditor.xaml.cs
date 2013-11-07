@@ -13,8 +13,11 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -81,6 +84,29 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
 
         #endregion
 
+        #region Methods
+
+        private object GetValue()
+        {
+            // Look for custom sorting and apply it to the dictionary.
+            ICollectionView view = CollectionViewSource.GetDefaultView(this.ReplaceDictionary);
+            if (view.SortDescriptions.Count == 1)
+            {
+                SortDescription sort = view.SortDescriptions[0];
+
+                switch (sort.PropertyName)
+                {
+                    case "Key": ReplaceDictionary.Sort(f => f.Key, sort.Direction); break;
+                    case "Value": ReplaceDictionary.Sort(f => f.Value, sort.Direction); break;
+                }
+            }
+
+            ReplaceDictionary dict = ReplaceDictionary.GetReplaceDictionary();
+            return dict;
+        }
+
+        #endregion
+
         #region ITypeEditor Members
 
         /// <summary>
@@ -88,7 +114,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// </summary>
         public object Value
         {
-            get { return ReplaceDictionary.GetReplaceDictionary(); }
+            get { return GetValue(); }
             set
             {
                 this.ReplaceDictionary = new ReplaceDictionaryEditWrapper(new ReplaceDictionary((string)value));
@@ -115,7 +141,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
         /// <summary>
         /// (Edit wrapper for ReplaceDictionary since DataGrid cannot edit Dictionaries)
         /// </summary>
-        public class ReplaceDictionaryEditWrapper : List<FakeKeyValuePair>
+        public class ReplaceDictionaryEditWrapper : Collection<FakeKeyValuePair>
         {
             #region Properties
 
@@ -167,6 +193,29 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
                 }
 
                 return dict;
+            }
+
+            /// <summary>
+            /// Performs a manual sort using the given sorting function and the sorting direction.
+            /// </summary>
+            /// <param name="keySelector">User-defined sorting function.</param>
+            /// <param name="direction">The sorting direction.</param>
+            internal void Sort(Func<FakeKeyValuePair, string> keySelector, ListSortDirection direction)
+            {
+                IOrderedEnumerable<FakeKeyValuePair> ordered = null;
+                if (direction == ListSortDirection.Ascending)
+                {
+                    ordered = this.Items.OrderBy(keySelector);
+                }
+                else
+                {
+                    ordered = this.Items.OrderByDescending(keySelector);
+                }
+
+                List<FakeKeyValuePair> temp = ordered.ToList();
+
+                this.Items.Clear();
+                this.Items.AddRange(temp);
             }
 
             #endregion
