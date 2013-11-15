@@ -55,9 +55,6 @@ public class eAlarmPush extends Activity {
 		} else {
 			GCMRegistrar.register(this, Constants.SENDER_ID);
 		}
-		Date olderThan = new Date();
-		olderThan.setTime(olderThan.getTime() - 86400 * 1000);
-		NotificationMessage.FACTORY.deleteOlderThan(this, olderThan);
 	}
 
 

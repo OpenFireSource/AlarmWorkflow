@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alarmworkflow.eAlarm"
     android:versionCode="5"
-    android:versionName="2.0.4" >
+    android:versionName="2.0.5" >
 
     <!-- Needs internet access -->
     <!-- Needs to be able to read the phone state so it doesn't talk during phone calls. -->
