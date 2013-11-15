@@ -374,6 +374,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
                     IsMissingServiceConnectionHintVisible = false;
 
+                    App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
+
                     if (operations.Count == 0)
                     {
                         return;
@@ -409,6 +411,23 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 IsMissingServiceConnectionHintVisible = false;
                 Logger.Instance.LogException(this, ex);
             }
+        }
+
+        private void DeleteOldOperations(IList<int> operations)
+        {
+            for (int i = 0; i < AvailableEvents.Count; i++)
+            {
+                Operation operation = AvailableEvents[i].Operation;
+                if (!operations.Contains(operation.Id))
+                {
+                    RemoveEvent(AvailableEvents[i]);
+                }
+            }
+            SelectedEvent = AvailableEvents.FirstOrDefault();
+            OnPropertyChanged("SelectedEvent");
+            OnPropertyChanged("SelectedEvent.Operation");
+            OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
+            UpdateProperties();
         }
 
         private bool ShouldAutomaticallyAcknowledgeOperation(Operation operation)
