@@ -8,7 +8,9 @@ General
 
   * [Expression formatter] Added flexible custom scripting to formatter.
   * [Windows UI] Scaling factor is now per-user-machine-dependent
+  * [Windows UI] Remove acknowledged alarms from interface.
   * [Config UI] Added expression tester to try out formats before using them.
+  * [Database] Made keyword-columns wider by 150 chars. Please execute script from Appendix #1.
 
 Parsers
 
@@ -16,7 +18,7 @@ Parsers
 
 Apps
 
-  * -
+  * [eAlarm] Removed automatic deletion of messages.
 
 Fixes since v0.9.3.0
 --------------------
@@ -28,3 +30,18 @@ Issues resolved
 Other fixes
 
   * -
+
+Appendix
+--------
+
+#1
+--------
+
+  ALTER TABLE `alarmworkflow`.`operation` 
+  CHANGE COLUMN `keyword` `keyword` VARCHAR(200) NULL DEFAULT NULL  ,
+  CHANGE COLUMN `keywordmisc` `keywordmisc` VARCHAR(200) NULL DEFAULT NULL  ,
+  CHANGE COLUMN `keywordb` `keywordb` VARCHAR(200) NULL DEFAULT NULL  ,
+  CHANGE COLUMN `keywordr` `keywordr` VARCHAR(200) NULL DEFAULT NULL  ,
+  CHANGE COLUMN `keywords` `keywords` VARCHAR(200) NULL DEFAULT NULL  ,
+  CHANGE COLUMN `keywordt` `keywordt` VARCHAR(200) NULL DEFAULT NULL
+  ;
