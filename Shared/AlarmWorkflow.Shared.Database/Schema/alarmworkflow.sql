@@ -40,12 +40,12 @@ CREATE TABLE IF NOT EXISTS `operation` (
   `zielortproperty` varchar(200) NULL,
   `zielortlatlng` varchar(200) NULL,
   
-  `keyword` varchar(50) NULL,
-  `keywordmisc` varchar(50) NULL,
-  `keywordb` varchar(50) NULL,
-  `keywordr` varchar(50) NULL,
-  `keywords` varchar(50) NULL,
-  `keywordt` varchar(50) NULL,
+  `keyword` varchar(200) NULL,
+  `keywordmisc` varchar(200) NULL,
+  `keywordb` varchar(200) NULL,
+  `keywordr` varchar(200) NULL,
+  `keywords` varchar(200) NULL,
+  `keywordt` varchar(200) NULL,
 
   `loopscsv` varchar(300) NULL,
   `customdatajson` longtext NULL,

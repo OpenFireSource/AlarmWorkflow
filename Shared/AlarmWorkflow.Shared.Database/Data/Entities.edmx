@@ -44,12 +44,12 @@
           <Property Name="zielortlocation" Type="varchar" MaxLength="200" />
           <Property Name="zielortproperty" Type="varchar" MaxLength="200" />
           <Property Name="zielortlatlng" Type="varchar" MaxLength="200" />
-          <Property Name="keyword" Type="varchar" MaxLength="50" />
-          <Property Name="keywordmisc" Type="varchar" MaxLength="50" />
-          <Property Name="keywordb" Type="varchar" MaxLength="50" />
-          <Property Name="keywordr" Type="varchar" MaxLength="50" />
-          <Property Name="keywords" Type="varchar" MaxLength="50" />
-          <Property Name="keywordt" Type="varchar" MaxLength="50" />
+          <Property Name="keyword" Type="varchar" MaxLength="200" />
+          <Property Name="keywordmisc" Type="varchar" MaxLength="200" />
+          <Property Name="keywordb" Type="varchar" MaxLength="200" />
+          <Property Name="keywordr" Type="varchar" MaxLength="200" />
+          <Property Name="keywords" Type="varchar" MaxLength="200" />
+          <Property Name="keywordt" Type="varchar" MaxLength="200" />
           <Property Name="loopscsv" Type="varchar" MaxLength="300" />
           <Property Name="customdatajson" Type="longtext" />
         </EntityType>
@@ -121,12 +121,12 @@
           <Property Type="String" Name="EinsatzortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="ZielortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OperationResources" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="OperationData" ToRole="operationresource" />
-          <Property Type="String" Name="Keyword" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordB" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordR" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordS" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordT" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordMisc" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Keyword" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordB" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordR" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordS" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordT" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordMisc" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OperationResourceData">
           <Key>
