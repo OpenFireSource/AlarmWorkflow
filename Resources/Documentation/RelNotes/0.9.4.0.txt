@@ -7,10 +7,14 @@ Updates since v0.9.3.0
 General
 
   * [Expression formatter] Added flexible custom scripting to formatter.
-  * [Windows UI] Scaling factor is now per-user-machine-dependent
-  * [Windows UI] Remove acknowledged alarms from interface.
   * [Config UI] Added expression tester to try out formats before using them.
   * [Database] Made keyword-columns wider by 150 chars. Please execute script from Appendix #1.
+
+UI
+
+  * [Windows UI] Scaling factor is now per-user-machine-dependent.
+  * [Windows UI] Remove acknowledged alarms from interface.
+  * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
 
 Parsers
 
