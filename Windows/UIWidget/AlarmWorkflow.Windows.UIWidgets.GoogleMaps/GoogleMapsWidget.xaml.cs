@@ -14,16 +14,11 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Net;
 using System.Text;
-using System.Web;
 using System.Windows;
-using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
@@ -156,7 +151,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 return;
             }
             _operation = operation;
-            String html = BuildHTML();
+            String html = BuildHtml();
             File.WriteAllText(_googleFile, html);
             _webBrowser.Navigate(_googleFile);
         }
@@ -165,25 +160,21 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         #region Methods
 
-        private string BuildHTML()
+        private string BuildHtml()
         {
             string html;
             if (_operation != null)
             {
                 StringBuilder builder = new StringBuilder();
-                Dictionary<string, string> result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
-                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
-                if (result == null || result.Count != 2)
+                if (!_operation.Einsatzort.HasGeoCoordinates)
                 {
-                    return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";
+                    return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
 
-                String longitute = result["long"];
-                String latitude = result["lat"];
                 String variables =
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
                     "var zoomOnAddress = false;" +
-                    "var dest = new google.maps.LatLng(" + latitude + "," + longitute + ");" +
+                    "var dest = new google.maps.LatLng(" + _operation.Einsatzort.GeoLatitude + "," + _operation.Einsatzort.GeoLongitude + ");" +
                     "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                     _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
                     "var Home = '" + _configuration.Home + "';" +
@@ -200,25 +191,25 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                     "map = new google.maps.Map(document.getElementById(\"map_canvas\")," +
                     "mapOptions);";
 
-                builder.Append(BeginnHead);
-                builder.Append(variables);
-                builder.Append(_configuration.Route ? Showroute : CenterCoord);
+                builder.AppendLine(BeginnHead);
+                builder.AppendLine(variables);
+                builder.AppendLine(_configuration.Route ? Showroute : CenterCoord);
                 if (_configuration.Tilt)
                 {
-                    builder.Append(Tilt);
+                    builder.AppendLine(Tilt);
                 }
                 if (_configuration.Traffic)
                 {
-                    builder.Append(Traffic);
+                    builder.AppendLine(Traffic);
                 }
 
-                builder.Append("}");
+                builder.AppendLine("}");
                 if (_configuration.Route)
                 {
-                    builder.Append(RouteFunc);
+                    builder.AppendLine(RouteFunc);
                 }
-                builder.Append(EndHead);
-                builder.Append(Body);
+                builder.AppendLine(EndHead);
+                builder.AppendLine(Body);
                 html = builder.ToString();
             }
 
@@ -228,79 +219,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             }
             return html;
         }
-
-        /// <summary>
-        ///     Returns the longitude and the latitude for a given address
-        /// </summary>
-        /// <param name="address">Address to search for</param>
-        /// <returns>null or dictonary</returns>
-        internal static Dictionary<string, string> GetGeocodes(string address)
-        {
-            Dictionary<string, string> geocodes = new Dictionary<string, string>();
-            string urladdress = HttpUtility.UrlEncode(address);
-            string url = "http://maps.googleapis.com/maps/api/geocode/xml?address=" + urladdress + "&sensor=false";
-
-            WebResponse response = null;
-            try
-            {
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-                request.Method = "GET";
-                response = request.GetResponse();
-                using (Stream stream = response.GetResponseStream())
-                {
-                    if (stream != null)
-                    {
-                        XPathDocument document = new XPathDocument(stream);
-                        XPathNavigator navigator = document.CreateNavigator();
-
-                        // get response status
-                        XPathNodeIterator statusIterator = navigator.Select("/GeocodeResponse/status");
-                        while (statusIterator.MoveNext())
-                        {
-                            if (statusIterator.Current.Value != "OK")
-                            {
-                                return null;
-                            }
-                        }
-
-                        // gets first restult
-                        XPathNodeIterator resultIterator = navigator.Select("/GeocodeResponse/result");
-                        resultIterator.MoveNext();
-                        XPathNodeIterator geometryIterator = resultIterator.Current.Select("geometry");
-                        geometryIterator.MoveNext();
-                        XPathNodeIterator locationIterator = geometryIterator.Current.Select("location");
-                        while (locationIterator.MoveNext())
-                        {
-                            XPathNodeIterator latIterator = locationIterator.Current.Select("lat");
-                            while (latIterator.MoveNext())
-                            {
-                                geocodes.Add("lat", latIterator.Current.Value);
-                            }
-                            XPathNodeIterator lngIterator = locationIterator.Current.Select("lng");
-                            while (lngIterator.MoveNext())
-                            {
-                                geocodes.Add("long", lngIterator.Current.Value);
-                            }
-                        }
-                    }
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogFormat(LogType.Error, typeof(GoogleMapsWidget), "Could not retrieve geocode for address '{0}'.", address);
-                Logger.Instance.LogException(typeof(GoogleMapsWidget), ex);
-            }
-            finally
-            {
-                if (response != null)
-                {
-                    response.Close();
-                }
-            }
-
-            return geocodes;
-        }
+       
         #endregion Methods
     }
 }

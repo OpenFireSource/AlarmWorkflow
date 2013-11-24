@@ -46,7 +46,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
         {
             InitializeComponent();
             _osmFile = Path.Combine(Path.GetTempPath(), "osm.html");
-            BuildHTML();
+            BuildHtml();
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                 return;
             }
             _operation = operation;
-            String html = BuildHTML();
+            String html = BuildHtml();
             File.WriteAllText(_osmFile, html);
             _webBrowser.Navigate(_osmFile);
         }
@@ -162,16 +162,14 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             return geocodes;
         }
 
-        private string BuildHTML()
+        private string BuildHtml()
         {
             string html;
             if (_operation != null)
             {
-                Dictionary<string, string> result = GetGeocodes(_operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
-                                                _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City);
-                if (result == null || result.Count != 2)
+                 if (!_operation.Einsatzort.HasGeoCoordinates)
                 {
-                    return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen</h2>";
+                    return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
                 html = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">" +
                               "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"de\" lang=\"de-de\">" +
@@ -241,8 +239,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                               "}" +
                               "function drawmap() {    " +
                               "    OpenLayers.Lang.setCode('de');    " +
-                              "    var lon = " + result["long"] + " ;" +
-                              "    var lat = " + result["lat"] + " ;" +
+                              "    var lon = " + _operation.Einsatzort.GeoLongitude + " ;" +
+                              "    var lat = " + _operation.Einsatzort.GeoLatitude + " ;" +
                               "    var zoom = 18;" +
                               "    map = new OpenLayers.Map('map', {" +
                               "        projection: new OpenLayers.Projection(\"EPSG:900913\")," +
