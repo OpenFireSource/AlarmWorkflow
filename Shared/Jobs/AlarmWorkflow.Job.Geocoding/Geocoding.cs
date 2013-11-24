@@ -70,8 +70,9 @@ namespace AlarmWorkflow.Job.Geocoding
                 GeocoderLocation geocoderLocation = _provider.GeoCode(operation.Einsatzort);
                 if (geocoderLocation != null)
                 {
-                    operation.Einsatzort.GeoLongitude = geocoderLocation.Longitude.ToString();
-                    operation.Einsatzort.GeoLatitude = geocoderLocation.Latitude.ToString();
+                    //The most of the widgets and so need the "english-format" (point instead of comma)!
+                    operation.Einsatzort.GeoLongitude = geocoderLocation.Longitude.ToString().Replace(',','.');;
+                    operation.Einsatzort.GeoLatitude = geocoderLocation.Latitude.ToString().Replace(',', '.'); ;
                 }
                 else
                 {
