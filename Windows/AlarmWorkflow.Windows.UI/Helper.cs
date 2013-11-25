@@ -111,6 +111,32 @@ namespace AlarmWorkflow.Windows.UI
         [DllImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool GetCursorPos(out POINT lpPoint);
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern EXECUTION_STATE SetThreadExecutionState(EXECUTION_STATE esFlags);
+
+        internal static void SetDisplayModeRequired(bool value)
+       {
+            EXECUTION_STATE stateToSet = value ? EXECUTION_STATE.ES_CONTINUOUS | EXECUTION_STATE.ES_DISPLAY_REQUIRED : EXECUTION_STATE.ES_CONTINUOUS;
+
+            EXECUTION_STATE actuallySet = 0;
+            // Make sure that it was actually set...
+            for (int i = 0; i < 3; i++)
+            {
+                if (actuallySet != stateToSet)
+                {
+                    actuallySet = SetThreadExecutionState(stateToSet);
+                }
+            }
+        }
+
+        [FlagsAttribute]
+        private enum EXECUTION_STATE : uint
+        {
+            ES_AWAYMODE_REQUIRED = 0x00000040,
+            ES_CONTINUOUS = 0x80000000,
+            ES_DISPLAY_REQUIRED = 0x00000002,
+            ES_SYSTEM_REQUIRED = 0x00000001
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT

@@ -63,6 +63,7 @@ namespace AlarmWorkflow.Windows.UI.Views
             if (App.GetApp().Configuration.AvoidScreensaver)
             {
                 _mouseMoveTimer.Start();
+                Helper.SetDisplayModeRequired(true);
             }
         }
 
