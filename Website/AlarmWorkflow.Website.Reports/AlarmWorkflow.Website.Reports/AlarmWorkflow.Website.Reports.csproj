@@ -177,6 +177,7 @@
     <Compile Include="Areas\Display\Controllers\AlarmController.cs" />
     <Compile Include="Areas\Display\DisplayAreaRegistration.cs" />
     <Compile Include="Areas\Display\Models\GetLastOperationData.cs" />
+    <Compile Include="Areas\Display\Models\ResetOperationData.cs" />
     <Compile Include="Areas\Display\Models\WebsiteConfiguration.cs" />
     <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
     <Compile Include="Areas\Reporting\Controllers\AlarmsController.cs" />

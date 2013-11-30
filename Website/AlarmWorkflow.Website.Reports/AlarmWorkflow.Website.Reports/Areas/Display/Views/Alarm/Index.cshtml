@@ -22,13 +22,14 @@
     var useTraffic = @(config.Traffic.ToString().ToLower());
     var zoomLevel = 0.8;//In Prozent
     var home = "@(config.Home)";
+
     function calcRoute(start, end) {
         var request = {
             origin: start,
             destination: end,
             travelMode: google.maps.TravelMode.DRIVING
         };
-        directionsService.route(request, function (result, status) {
+        directionsService.route(request, function(result, status) {
             if (status == google.maps.DirectionsStatus.OK) {
                 directionsDisplay.setDirections(result);
                 var l = result.routes[0].overview_path.length;
@@ -36,11 +37,23 @@
             }
         });
     }
+
+    function reset() {
+        $.get("/Display/Alarm/ResetLatestOperation", function(result) {
+            
+            if (result.success) {
+                loadOperationData();
+            } else {
+                console.log(result.message);
+            }
+        
+        });
+    }
+
     function loadOperationData() {
         console.log("Loading Operation");
-        $.get('/Display/Alarm/GetLatestOperation', function (result) {
+        $.get('/Display/Alarm/GetLatestOperation', function(result) {
 
-            console.log("Got Operation");
             $("#paneLoading").hide();
 
             if (result.success == true) {
@@ -50,11 +63,11 @@
                     $("#paneIdle").show();
                     $("#paneOperation").hide();
                 } else {
-
                     $("#paneIdle").hide();
                     if (currentOpId != result.op.Id) {
                         currentOpId = result.op.Id;
 
+                        console.log("Got new Operation");
                         $("#opicture").text(result.op.Picture);
                         $("#ocomment").text(result.op.Comment);
 
@@ -76,12 +89,24 @@
 
                         // Prepare Keywords for display.
                         var okeywords = "Stichwörter: ";
-                        if (result.op.Keywords.Keyword != null) { okeywords += result.op.Keywords.Keyword + " "; }
-                        if (result.op.Keywords.EmergencyKeyword != null) { okeywords += result.op.Keywords.EmergencyKeyword + " "; }
-                        if (result.op.Keywords.B != null) { okeywords += result.op.Keywords.B + " "; }
-                        if (result.op.Keywords.R != null) { okeywords += result.op.Keywords.R + " "; }
-                        if (result.op.Keywords.S != null) { okeywords += result.op.Keywords.S + " "; }
-                        if (result.op.Keywords.T != null) { okeywords += result.op.Keywords.T; }
+                        if (result.op.Keywords.Keyword != null) {
+                            okeywords += result.op.Keywords.Keyword + " ";
+                        }
+                        if (result.op.Keywords.EmergencyKeyword != null) {
+                            okeywords += result.op.Keywords.EmergencyKeyword + " ";
+                        }
+                        if (result.op.Keywords.B != null) {
+                            okeywords += result.op.Keywords.B + " ";
+                        }
+                        if (result.op.Keywords.R != null) {
+                            okeywords += result.op.Keywords.R + " ";
+                        }
+                        if (result.op.Keywords.S != null) {
+                            okeywords += result.op.Keywords.S + " ";
+                        }
+                        if (result.op.Keywords.T != null) {
+                            okeywords += result.op.Keywords.T;
+                        }
 
                         okeywords = okeywords.replace("  ", " ");
                         $("#okeywords").text(okeywords);
@@ -228,4 +253,7 @@
         <tr><td class="alarm" colspan="2" style="height: 40%; width: 100%;" id="ogoogle"></td></tr>
         <tr><td class="alarm" colspan="2" id="orsc"></td></tr>
     </table>
+    <div style="width: 100%">
+        <a href="#" style="display:table; margin: 0 auto;" onClick="reset(); return false;">Einsatz erledigt!</a>
+    </div>
 </div>

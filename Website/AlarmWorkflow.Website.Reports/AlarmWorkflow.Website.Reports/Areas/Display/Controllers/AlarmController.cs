@@ -56,5 +56,68 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
             result.Data = data;
             return result;
         }
+
+        /// <summary>
+        /// GET: /Display/Alarm/ResetOperation/Id
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ResetOperation(int id)
+        {
+            ResetOperationData returnValue = new ResetOperationData();
+            try
+            {
+                using (var service = InternalServiceProxy.GetServiceInstance())
+                {
+                    OperationItem item = service.Instance.GetOperationById(id);
+                    if (item == null)
+                    {
+                        returnValue.success = false;
+                        returnValue.message = "Operation not found!";
+                    }
+                    else if (item.IsAcknowledged)
+                    {
+                        returnValue.success = false;
+                        returnValue.message = "Operation is allready acknowledged!";
+                    }
+                    else
+                    {
+                        service.Instance.AcknowledgeOperation(id);
+                        returnValue.success = true;
+                        returnValue.message = "Operation successfully acknowledged!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // It's ok when an exception is thrown here. We catch it, log it, and the View considers it as an error (success is false).
+                Logger.Instance.LogException(this, ex);
+            }
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = returnValue;
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
+        }
+
+        /// <summary>
+        /// GET: /Display/Alarm/ResetLatestOperation
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ResetLatestOperation()
+        {
+            JsonResult result = GetLatestOperation() as JsonResult;
+            if (result != null)
+            {
+                GetLastOperationData data = result.Data as GetLastOperationData;
+                if (data != null && (data.success && data.op != null))
+                {
+                    return ResetOperation(data.op.Id);
+                }
+
+            }
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = new ResetOperationData { message = "An undefined error occured.", success = false };
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
+        }
     }
 }
