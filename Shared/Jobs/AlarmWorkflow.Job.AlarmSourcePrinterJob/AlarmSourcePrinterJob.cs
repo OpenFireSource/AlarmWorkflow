@@ -74,7 +74,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         void IJob.Execute(IJobContext context, Operation operation)
         {
             // TODO: Job phase could be "surfaced" as well?
-            if (context.Phase != JobPhase.AfterOperationStored)
+            if (context.Phase != JobPhase.OnOperationSurfaced)
             {
                 return;
             }
