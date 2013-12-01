@@ -39,6 +39,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
     {
         private readonly string _layoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");
         private readonly WidgetManager _widgetManager;
+        private Operation _operation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomOperationView"/> class.
@@ -73,22 +74,16 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         void IOperationViewer.OnNewOperation(Operation operation)
         {
-            foreach (IUIWidget uiWidget in _widgetManager.Widgets)
-            {
-                try
-                {
-                    uiWidget.OnOperationChange(operation);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, uiWidget, Properties.Resources.OperationChangeFailed, uiWidget.Title);
-                    Logger.Instance.LogException(this, ex);
-                }
-            }
         }
 
         void IOperationViewer.OnOperationChanged(Operation operation)
         {
+            if (Equals(_operation, operation))
+            {
+                return;
+            }
+
+            _operation = operation;
             foreach (IUIWidget uiWidget in _widgetManager.Widgets)
             {
                 try
