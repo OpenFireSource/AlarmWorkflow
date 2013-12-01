@@ -11,6 +11,7 @@ General
   * [Windows UI] Remove acknowledged alarms from interface.
   * [Config UI] Added expression tester to try out formats before using them.
   * [Database] Made keyword-columns wider by 150 chars. Please execute script from Appendix #1.
+  * [Geocoding] Use international format (dot instead of comma).
 
 Parsers
 
