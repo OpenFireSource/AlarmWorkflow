@@ -73,9 +73,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
             LineTwo.Inlines.Clear();
             LineThree.Inlines.Clear();
 
-            LineOne.Inlines.Add(Helper.Traverse(lineOne));
-            LineTwo.Inlines.Add(Helper.Traverse(lineTwo));
-            LineThree.Inlines.Add(Helper.Traverse(lineThree));
+            LineOne.Inlines.Add(Helper.Execute(lineOne));
+            LineTwo.Inlines.Add(Helper.Execute(lineTwo));
+            LineThree.Inlines.Add(Helper.Execute(lineThree));
         }
 
 
