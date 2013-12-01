@@ -2,5 +2,6 @@
 echo -------------------------------------------------
 echo Build Website(s)...
 msbuild Website\AlarmWorkflow.Website.Asp\AlarmWorkflow.Website.Asp.sln /p:Configuration=Debug /verbosity:minimal
+msbuild Website\AlarmWorkflow.Website.Reports\AlarmWorkflow.Website.Reports.sln /p:Configuration=Debug /verbosity:minimal
 
 pause
