@@ -15,15 +15,21 @@
 
 using System;
 using System.Collections.ObjectModel;
-using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared;
+using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
-    /// <summary>
-    /// Represents the current configuration. Wraps the SettingsManager-calls.
-    /// </summary>
-    internal sealed class FaxConfiguration
+    internal sealed class FaxConfiguration : DisposableObject
     {
+        #region Fields
+
+        private ISettingsServiceInternal _settings;
+
+        #endregion
+
         #region Properties
 
         internal string FaxPath { get; private set; }
@@ -34,6 +40,10 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
         internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
+        internal ReplaceDictionary ReplaceDictionary
+        {
+            get { return _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>(); }
+        }
 
         #endregion
 
@@ -42,20 +52,36 @@ namespace AlarmWorkflow.AlarmSource.Fax
         /// <summary>
         /// Initializes a new instance of the <see cref="FaxConfiguration"/> class.
         /// </summary>
-        public FaxConfiguration()
+        /// <param name="serviceProvider"></param>
+        public FaxConfiguration(IServiceProvider serviceProvider)
         {
-            this.FaxPath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "FaxPath").GetString();
-            this.ArchivePath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "ArchivePath").GetString();
-            this.AnalysisPath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "AnalysisPath").GetString();
-            this.AlarmFaxParserAlias = SettingsManager.Instance.GetSetting("FaxAlarmSource", "AlarmfaxParser").GetString();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
 
-            this.OCRSoftware = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Software").GetString();
-            this.OCRSoftwarePath = SettingsManager.Instance.GetSetting("FaxAlarmSource", "OCR.Path").GetString();
+            this.FaxPath = _settings.GetSetting("FaxAlarmSource", "FaxPath").GetValue<string>();
+            this.ArchivePath = _settings.GetSetting("FaxAlarmSource", "ArchivePath").GetValue<string>();
+            this.AnalysisPath = _settings.GetSetting("FaxAlarmSource", "AnalysisPath").GetValue<string>();
+            this.AlarmFaxParserAlias = _settings.GetSetting("FaxAlarmSource", "AlarmfaxParser").GetValue<string>();
 
-            this.RoutineInterval = SettingsManager.Instance.GetSetting("FaxAlarmSource", "Routine.Interval").GetInt32();
-            this.TestFaxKeywords = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetString().Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries));
+            this.OCRSoftware = _settings.GetSetting("FaxAlarmSource", "OCR.Software").GetValue<string>();
+            this.OCRSoftwarePath = _settings.GetSetting("FaxAlarmSource", "OCR.Path").GetValue<string>();
+
+            this.RoutineInterval = _settings.GetSetting("FaxAlarmSource", "Routine.Interval").GetValue<int>();
+            this.TestFaxKeywords = new ReadOnlyCollection<string>(_settings.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetValue<string>().Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries));
         }
 
         #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        protected override void DisposeCore()
+        {
+            _settings = null;
+        }
+
+        #endregion
+
     }
 }

@@ -11,11 +11,6 @@
     <Setting Name="ReplaceDictionary" DisplayText="Korrekturwörterbuch" Category="Auswertung" Editor="ReplaceDictionaryTypeEditor"
              Description="Ersetzt falsch erkannte Buchstabenkombinationen durch richtige." />
 
-    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IJob, AlarmWorkflow.Shared"
-             Description="Welche Aufgaben nach eingehenden Alarmen ausgeführt werden sollen." />
-    <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IAlarmSource, AlarmWorkflow.Shared"
-             Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
-
     <Setting Name="PrintingQueuesConfiguration" DisplayText="Druckerwege-Konfiguration" Category="Globale Druckkonfiguration" Editor="PrintingQueuesConfigurationTypeEditor"
              Description="Konfiguriert die verschiedenen Druckerwege, an welche Druckaufträge gesendet werden können." />
     

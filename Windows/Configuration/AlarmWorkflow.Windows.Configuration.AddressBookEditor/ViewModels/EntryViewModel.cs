@@ -15,7 +15,7 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using AlarmWorkflow.Shared.Addressing;
+using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 

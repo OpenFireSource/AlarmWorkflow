@@ -13,26 +13,30 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using AlarmWorkflow.Shared.Settings;
-
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using SharedSettingKeys = AlarmWorkflow.Shared.SettingKeys;
 
 namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 {
-    internal class MapConfiguration
+    class MapConfiguration
     {
         internal MapConfiguration()
         {
-            Traffic = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Traffic").GetBoolean();
-            Tilt = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Tilt").GetBoolean();
-            Route = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "Route").GetBoolean();
-            ZoomControl = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "ZoomControl").GetBoolean();
-            ZoomLevel = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "ZoomLevel").GetInt32();
-            Home = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
-            Maptype = getMapType();
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                Traffic = service.Instance.GetSetting(SettingKeys.Traffic).GetValue<bool>();
+                Tilt = service.Instance.GetSetting(SettingKeys.Tilt).GetValue<bool>();
+                Route = service.Instance.GetSetting(SettingKeys.Route).GetValue<bool>();
+                ZoomControl = service.Instance.GetSetting(SettingKeys.ZoomControl).GetValue<bool>();
+                ZoomLevel = service.Instance.GetSetting(SettingKeys.ZoomLevel).GetValue<int>();
+                Home = service.Instance.GetSetting(SharedSettingKeys.FDStreet).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SharedSettingKeys.FDStreetNumber).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SharedSettingKeys.FDZipCode).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SharedSettingKeys.FDCity).GetValue<string>();
+
+                Maptype = GetMapType(service.Instance.GetSetting(SettingKeys.MapType).GetValue<string>());
+            }
         }
 
         internal bool Traffic { get; private set; }
@@ -45,16 +49,15 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         internal bool RouteDescription { get; private set; }
 
-        internal String Maptype { get; private set; }
+        internal string Maptype { get; private set; }
 
-        internal String Home { get; private set; }
+        internal string Home { get; private set; }
 
         internal int ZoomLevel { get; private set; }
 
-        private String getMapType()
+        private string GetMapType(string settingValue)
         {
-            String type = SettingsManager.Instance.GetSetting("GoogleMapsWidget", "MapType").GetString();
-            switch (type)
+            switch (settingValue)
             {
                 case "Straße":
                     return "ROADMAP";

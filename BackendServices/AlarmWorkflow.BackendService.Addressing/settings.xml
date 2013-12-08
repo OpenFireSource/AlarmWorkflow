@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="Addressing">
+  <Setting Name="AddressBook" Type="AlarmWorkflow.BackendService.AddressingContracts.AddressBook, AlarmWorkflow.BackendService.AddressingContracts">
+    <![CDATA[<AddressBook />]]>
+  </Setting>
+  <Setting Name="FiltersConfiguration" Type="AlarmWorkflow.Shared.Core.ExportConfiguration, AlarmWorkflow.Shared">
+    <![CDATA[<ExportConfiguration />]]>
+  </Setting>
+</SettingsConfiguration>

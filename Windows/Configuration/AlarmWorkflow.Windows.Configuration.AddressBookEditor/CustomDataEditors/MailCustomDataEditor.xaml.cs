@@ -16,7 +16,7 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.Extensibility;
 using AlarmWorkflow.Windows.ConfigurationContracts;

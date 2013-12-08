@@ -22,13 +22,12 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web.Script.Serialization;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.eAlarm
 { //
@@ -39,6 +38,13 @@ namespace AlarmWorkflow.Job.eAlarm
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     public class eAlarm : IJob
     {
+        #region Fields
+
+        private ISettingsServiceInternal _settings;
+        private IAddressingServiceInternal _addressing;
+
+        #endregion
+
         #region Constructor
 
         /// <summary>
@@ -52,8 +58,10 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #region IJob Members
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+            _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
             return true;
         }
 
@@ -64,11 +72,11 @@ namespace AlarmWorkflow.Job.eAlarm
                 return;
             }
 
-            string body = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "text").GetString());
-            string header = operation.ToString(SettingsManager.Instance.GetSetting("eAlarm", "header").GetString());
+            string body = operation.ToString(_settings.GetSetting("eAlarm", "text").GetValue<string>());
+            string header = operation.ToString(_settings.GetSetting("eAlarm", "header").GetValue<string>());
             string location = operation.Einsatzort.ToString();
-            bool encryption = SettingsManager.Instance.GetSetting("eAlarm", "Encryption").GetBoolean();
-            string encryptionKey = SettingsManager.Instance.GetSetting("eAlarm", "EncryptionKey").GetString();
+            bool encryption = _settings.GetSetting("eAlarm", "Encryption").GetValue<bool>();
+            string encryptionKey = _settings.GetSetting("eAlarm", "EncryptionKey").GetValue<string>();
             if (encryption)
             {
                 body = Helper.Encrypt(body, encryptionKey);
@@ -103,7 +111,7 @@ namespace AlarmWorkflow.Job.eAlarm
 
         private IList<PushEntryObject> GetRecipients(Operation operation)
         {
-            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
+            var recipients = _addressing.GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
             return recipients.Select(ri => ri.Item2).ToList();
         }
 

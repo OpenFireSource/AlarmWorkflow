@@ -255,9 +255,7 @@ namespace AlarmWorkflow.Shared.Core
 
             try
             {
-                XmlSchemaSet xss = new XmlSchemaSet();
-                xss.Add(string.Empty, XmlReader.Create(new StringReader(schema)));
-                doc.Validate(xss, null, false);
+                ValidateXml(doc, schema);
             }
             catch (XmlSchemaException)
             {
@@ -268,6 +266,21 @@ namespace AlarmWorkflow.Shared.Core
                 return false;
             }
             return true;
+        }
+
+        /// <summary>
+        /// Performs a check against a <see cref="XDocument"/> to see if the schema is valid.
+        /// </summary>
+        /// <param name="doc">The <see cref="XDocument"/> to check its schema.</param>
+        /// <param name="schema">The schema to use for validation.</param>
+        public static void ValidateXml(this XDocument doc, string schema)
+        {
+            Assertions.AssertNotNull(doc, "doc");
+            Assertions.AssertNotEmpty(schema, "schema");
+
+            XmlSchemaSet xss = new XmlSchemaSet();
+            xss.Add(string.Empty, XmlReader.Create(new StringReader(schema)));
+            doc.Validate(xss, null, false);
         }
 
         #endregion
@@ -341,7 +354,7 @@ namespace AlarmWorkflow.Shared.Core
             }
             return nl.ToArray();
         }
-        
+
         /// <summary>
         /// Gets the service object of the specified type.
         /// </summary>

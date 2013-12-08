@@ -44,12 +44,22 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Windows.UIContracts.dll">
       <HintPath>..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -81,6 +91,9 @@
     </Compile>
     <Compile Include="TypeEditors\DurationTypeEditor.xaml.cs">
       <DependentUpon>DurationTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\FDResourceConfigurationTypeEditor.xaml.cs">
+      <DependentUpon>FDResourceConfigurationTypeEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeEditors\FileTypeEditor.xaml.cs">
       <DependentUpon>FileTypeEditor.xaml</DependentUpon>
@@ -183,6 +196,10 @@
     <Page Include="TypeEditors\DurationTypeEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\FDResourceConfigurationTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\FileTypeEditor.xaml">
       <Generator>MSBuild:Compile</Generator>

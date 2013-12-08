@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<SettingsConfiguration Version="1" Identifier="Database">
-  <Setting Name="DBServer" Type="System.String">localhost</Setting>
-  <Setting Name="DBServerPort" Type="System.Int32">3306</Setting>
-  <Setting Name="DBName" Type="System.String">alarmworkflow</Setting>
-  <Setting Name="UserID" Type="System.String">root</Setting>
-  <Setting Name="UserPWD" Type="System.String" IsNull="True"></Setting>
-</SettingsConfiguration>

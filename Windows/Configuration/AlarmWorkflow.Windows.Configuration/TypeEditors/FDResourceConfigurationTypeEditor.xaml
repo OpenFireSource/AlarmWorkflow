@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.FDResourceConfigurationTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Margin="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Margin="0,0,2,0" FontWeight="Bold" VerticalAlignment="Center" Text="FW-Abkürzung:" />
+            <TextBox Grid.Column="1" Text="{Binding Configuration.FDIdentification}" ToolTip="Kennzeichnung der Feuerwehr, z. B. 'FF IhrOrtHier', wie Ihre Feuerwehr im Fax/SMS etc. abgekürzt wird." />
+        </Grid>
+        
+        <DataGrid Grid.Row="1" Margin="1" AutoGenerateColumns="False" ItemsSource="{Binding Configuration}" CanUserAddRows="True" CanUserDeleteRows="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Identifier}" Header="Einsatzmittelname" Width="*" />
+                <DataGridTextColumn Binding="{Binding DisplayName}" Header="Anzeigenname" Width="*" />
+                <DataGridTextColumn Binding="{Binding ImagePath}" Header="Bilddatei" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

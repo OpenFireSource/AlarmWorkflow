@@ -19,3 +19,4 @@ TestResults
 /Build/Config
 /Installer/Build
 /InstallerTemp
+*.bak

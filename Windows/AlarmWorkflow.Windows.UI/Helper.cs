@@ -74,6 +74,16 @@ namespace AlarmWorkflow.Windows.UI
             dispatcher.Invoke(action);
         }
 
+        /// <summary>
+        /// Convenience wrapper for the "Dispatcher.BeginInvoke()" method which does not support lambdas.
+        /// </summary>
+        /// <param name="dispatcher"></param>
+        /// <param name="action"></param>
+        internal static void BeginInvoke(this Dispatcher dispatcher, Action action)
+        {
+            dispatcher.BeginInvoke(action);
+        }
+
         internal static double Limit(double min, double max, double value)
         {
             if (value < min)

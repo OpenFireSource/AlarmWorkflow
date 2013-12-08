@@ -17,9 +17,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 using AvalonDock.Layout;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
@@ -43,7 +44,8 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 
         internal List<ILayoutPanelElement> InitializeViews()
         {
-            ReadOnlyCollection<string> enabledWidgets = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("CustomOperationViewer", "WidgetConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
+            ReadOnlyCollection<string> enabledWidgets = GetEnabledWidgets();
+
             foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)).Where(j => enabledWidgets.Contains(j.Attribute.Alias)))
             {
                 var iuiWidget = export.CreateInstance<IUIWidget>();
@@ -78,6 +80,15 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
                 }
             }
             return _panelElements;
+        }
+
+        private static ReadOnlyCollection<string> GetEnabledWidgets()
+        {
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                ExportConfiguration exports = service.Instance.GetSetting(SettingKeys.WidgetConfigurationKey).GetValue<ExportConfiguration>();
+                return new ReadOnlyCollection<string>(exports.GetEnabledExports());
+            }
         }
     }
 }

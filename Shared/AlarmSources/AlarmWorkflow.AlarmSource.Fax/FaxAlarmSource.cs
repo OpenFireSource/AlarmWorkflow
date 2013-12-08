@@ -20,9 +20,11 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
+using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
@@ -59,25 +61,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
         /// </summary>
         public FaxAlarmSource()
         {
-            _configuration = new FaxConfiguration();
         }
 
         #endregion
 
         #region Methods
-
-        private void InitializeSettings()
-        {
-            _faxPath = new DirectoryInfo(_configuration.FaxPath);
-            _archivePath = new DirectoryInfo(_configuration.ArchivePath);
-            _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
-
-            InitializeOcrSoftware();
-
-            // Import parser with the given name/alias
-            _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
-            Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
-        }
 
         private void InitializeOcrSoftware()
         {
@@ -173,27 +161,23 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareParseEndFail);
                 Logger.Instance.LogException(this, ex);
                 // Abort parsing
-                // TODO: Introduce own exception for this!
                 return;
             }
 
-            // After the file has been parsed, read it back in ...
-            // ... fetch all lines ...
+            ReplaceDictionary replDict = _configuration.ReplaceDictionary;
             foreach (string preParsedLine in parsedLines)
             {
-                // ... and add it to the list (
-                analyzedLines.Add(AlarmWorkflowConfiguration.Instance.ReplaceDictionary.ReplaceInString(preParsedLine));
+                analyzedLines.Add(replDict.ReplaceInString(preParsedLine));
             }
 
             Operation operation = null;
             Stopwatch sw = Stopwatch.StartNew();
             try
             {
-                // Try to parse the operation. If parsing failed, ignore this but write to the log file!
                 Logger.Instance.LogFormat(LogType.Trace, this, "Begin parsing incoming operation...");
 
                 string[] lines = analyzedLines.ToArray();
-                // Find out if the fax is a test-fax
+
                 if (IsTestFax(lines))
                 {
                     sw.Stop();
@@ -287,9 +271,19 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
         }
 
-        void IAlarmSource.Initialize()
+        void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
-            InitializeSettings();
+            _configuration = new FaxConfiguration(serviceProvider);
+
+            _faxPath = new DirectoryInfo(_configuration.FaxPath);
+            _archivePath = new DirectoryInfo(_configuration.ArchivePath);
+            _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
+
+            InitializeOcrSoftware();
+
+            // Import parser with the given name/alias
+            _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
+            Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
         }
 
         void IAlarmSource.RunThread()
@@ -324,7 +318,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         void IDisposable.Dispose()
         {
-
+            _configuration.Dispose();
+            _configuration = null;
         }
 
         #endregion

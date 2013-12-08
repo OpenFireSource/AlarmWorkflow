@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="SettingsConfiguration">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Setting">
+          <xs:complexType>
+            <xs:simpleContent>
+              <xs:extension base="xs:string">
+                <xs:attribute name="Name" type="xs:string" use="required">
+                  <xs:annotation>
+                    <xs:documentation>Unique name of the setting.</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="Type" use="required">
+                  <xs:annotation>
+                    <xs:documentation>Underlying type of the setting. This must be the assembly qualified name (like (without quotes): 'MyNamespace.MyClass, MyAssembly')</xs:documentation>
+                  </xs:annotation>
+                </xs:attribute>
+                <xs:attribute name="IsNull" use="optional">
+                  <xs:annotation>
+                    <xs:documentation>Determines whether or not the setting can have 'null' as a possible value.</xs:documentation>
+                  </xs:annotation>
+                  <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                      <xs:enumeration value="True" />
+                      <xs:enumeration value="False" />
+                    </xs:restriction>
+                  </xs:simpleType>
+                </xs:attribute>
+              </xs:extension>
+            </xs:simpleContent>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="Identifier" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>Unique name of this group ("section").</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="Version" type="xs:integer" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

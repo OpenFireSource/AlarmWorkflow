@@ -46,8 +46,14 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Windows.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.ServiceContracts.dll</HintPath>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -71,10 +77,13 @@
     </ApplicationDefinition>
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Extensibility\ExtensionManager.cs" />
-    <Compile Include="Models\InternalServiceProxy.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Models\UISettingKeys.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
+    <Compile Include="Views\DummyOperationViewer.xaml.cs">
+      <DependentUpon>DummyOperationViewer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AcknowledgeOperationWindow.xaml.cs">
       <DependentUpon>AcknowledgeOperationWindow.xaml</DependentUpon>
     </Compile>
@@ -83,9 +92,6 @@
     </Compile>
     <Compile Include="Views\ContentNoAlarmsControl.xaml.cs">
       <DependentUpon>ContentNoAlarmsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DefaultOperationView.xaml.cs">
-      <DependentUpon>DefaultOperationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -122,6 +128,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\DummyOperationViewer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\AcknowledgeOperationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,10 +141,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ContentNoAlarmsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DefaultOperationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

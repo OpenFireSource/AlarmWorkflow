@@ -1,0 +1,8 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="Addressing" DisplayText="Adressbuch" Order="-1000" Parent="Shared">
+    <Setting Name="AddressBook" DisplayText="Adressbuch" Category="Adressbuch" Editor="AddressBookEditor"
+             Description="Das Adressbuch, dass die Kontaktdaten von Kameraden, Personen etc. enthält." />
+    <Setting Name="FiltersConfiguration" DisplayText="Eintragsfilter" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.BackendService.AddressingContracts.Extensibility.IAddressFilter, AlarmWorkflow.BackendService.AddressingContracts"
+             Description="Welche Filter zur Eintragsfilterung benutzt werden sollen." />
+  </Identifier>
+</SettingsDisplayConfiguration>

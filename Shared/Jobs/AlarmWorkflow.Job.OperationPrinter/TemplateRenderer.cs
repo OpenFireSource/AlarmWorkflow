@@ -32,15 +32,16 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// <summary>
         /// Renders the given operation using the provided template file and restricts the output to the given size.
         /// </summary>
+        /// <param name="source">The source location to start. This is usually the fire department site.</param>
         /// <param name="operation">The operation to render.</param>
         /// <param name="templateFile">The HTML template file to use for layouting.</param>
         /// <param name="size">The maximum size of the created image.</param>
         /// <returns></returns>
-        internal static Image RenderOperation(Operation operation, string templateFile, Size size)
+        internal static Image RenderOperation(PropertyLocation source, Operation operation, string templateFile, Size size)
         {
             TemplateObject to = new TemplateObject();
             to.Operation = operation;
-            to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(operation.Einsatzort);
+            to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(source, operation.Einsatzort);
 
             // Create HTML to render
             StringBuilder sb = new StringBuilder();

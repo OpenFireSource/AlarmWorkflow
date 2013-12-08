@@ -66,7 +66,6 @@ namespace AlarmWorkflow.Windows.UI
             Logger.Instance.Initialize(ComponentName);
             ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
 
-            AlarmWorkflow.Shared.Settings.SettingsManager.Instance.Initialize();
             LoadConfiguration();
             StartRoutine = true;
         }
@@ -84,7 +83,8 @@ namespace AlarmWorkflow.Windows.UI
         {
             try
             {
-                Configuration = UIConfiguration.Load();
+                Configuration = new UIConfiguration();
+
                 Logger.Instance.LogFormat(LogType.Info, this, AlarmWorkflow.Windows.UI.Properties.Resources.UIConfigurationLoaded);
             }
             catch (Exception ex)

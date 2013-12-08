@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EFHelper_ConnectionStringsMalformed" xml:space="preserve">
+    <value>Malformed connection string encountered!</value>
+  </data>
+  <data name="EFHelper_NoConnectionStrings" xml:space="preserve">
+    <value>No connection strings found in the contained resource file!</value>
+  </data>
+  <data name="EFHelper_ResourceNotFound" xml:space="preserve">
+    <value>The resource with name '{0}' was not found in assembly '{1}'! Please make sure that this file exists and its Build Action is set to 'Embedded Resource'!</value>
+  </data>
+  <data name="GetEndpointAddressInvalidBinding" xml:space="preserve">
+    <value>Could not assemble the address because the specified binding is not supported!</value>
+  </data>
+  <data name="InvalidSupportedBindingValue" xml:space="preserve">
+    <value>'{0}' is no supported binding!</value>
+  </data>
+  <data name="NoAttributeForServiceContractTypeFound" xml:space="preserve">
+    <value>There was no attribute found for service contract type '{0}'. Cannot retrieve binding.</value>
+  </data>
+  <data name="RegisterAlarmWorkflowServiceAttributeContractTypeAllowsOnlyInterfaces" xml:space="preserve">
+    <value>Only interface types are allowed for this parameter!</value>
+  </data>
+  <data name="RegisterAlarmWorkflowServiceAttributeServiceTypeAllowsOnlyClasses" xml:space="preserve">
+    <value>Only concrete classes (also no abstract classes) are allowed for this parameter!</value>
+  </data>
+  <data name="ServiceFactoryInstanceIsNotAServiceObject" xml:space="preserve">
+    <value>The provided instance is not a service object. Please only dispose services created by GetServiceInstance&lt;T&gt;()!</value>
+  </data>
+  <data name="ServiceFactoryInterfaceNameMalformed" xml:space="preserve">
+    <value>Service interface name is malformed! It shall be named like: 'INameOfService'!</value>
+  </data>
+  <data name="ServiceFactoryInvalidType" xml:space="preserve">
+    <value>Cannot work with concrete types. Please specify an interface!</value>
+  </data>
+  <data name="WrappedService_GetInstanceException" xml:space="preserve">
+    <value>This service cannot be used. Maybe it is faulted!</value>
+  </data>
+  <data name="BackendConfigFileNotPresent" xml:space="preserve">
+    <value>The backend configuration file is not present. Please check for existence or repair your installation.</value>
+  </data>
+  <data name="BackendConfigurationSuccessfullyLoaded" xml:space="preserve">
+    <value>Backend configuration successfully loaded.</value>
+  </data>
+  <data name="ExposedServiceConstructorCalledTrace" xml:space="preserve">
+    <value>Instantiated a new exposed service '{0}' ({1}).</value>
+  </data>
+  <data name="InternalServiceConstructorCalledTrace" xml:space="preserve">
+    <value>Instantiated a new internal service '{0}' ({1}).</value>
+  </data>
+  <data name="ExposedServiceDisposeCalledTrace" xml:space="preserve">
+    <value>Disposed exposed service '{0}' ({1}).</value>
+  </data>
+  <data name="InternalServiceDisposeCalledTrace" xml:space="preserve">
+    <value>Disposed internal service '{0}' ({1}).</value>
+  </data>
+  <data name="ServiceLocationFileNotPresent" xml:space="preserve">
+    <value>Could not find service location file! Cannot start service!</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BackendServiceLocationSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\backendservicelocationschema.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+</root>

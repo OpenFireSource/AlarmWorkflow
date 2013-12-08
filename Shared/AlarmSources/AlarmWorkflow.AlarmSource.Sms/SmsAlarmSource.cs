@@ -16,10 +16,13 @@
 using System;
 using System.IO;
 using System.Xml;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.AlarmSource.Sms
 {
@@ -28,6 +31,8 @@ namespace AlarmWorkflow.AlarmSource.Sms
     class SmsAlarmSource : IAlarmSource
     {
         #region Fields
+
+        private ISettingsServiceInternal _settings;
 
         private AlarmServer _server;
         private IParser _parser;
@@ -51,13 +56,13 @@ namespace AlarmWorkflow.AlarmSource.Sms
                 message = reader.ReadElementContentAsString();
             }
 
-            alarmText = AlarmWorkflowConfiguration.Instance.ReplaceDictionary.ReplaceInString(alarmText);
+            alarmText = _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>().ReplaceInString(alarmText);
 
             Operation operation = null;
             // Let the parser do the job...
             try
             {
-                operation = _parser.Parse(new[]{alarmText});
+                operation = _parser.Parse(new[] { alarmText });
             }
             catch (Exception ex)
             {
@@ -77,9 +82,11 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         #region IAlarmSource Members
 
-        void IAlarmSource.Initialize()
+        void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
-            string smsParserAlias = SettingsManager.Instance.GetSetting("SmsAlarmSource", "SMSParser").GetString();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+            
+            string smsParserAlias = _settings.GetSetting("SmsAlarmSource", "SMSParser").GetValue<string>();
 
             _parser = ExportedTypeLibrary.Import<IParser>(smsParserAlias);
             if (_parser == null)
@@ -117,6 +124,7 @@ namespace AlarmWorkflow.AlarmSource.Sms
         void IDisposable.Dispose()
         {
             _server.Stop();
+            _settings = null;
         }
 
         #endregion

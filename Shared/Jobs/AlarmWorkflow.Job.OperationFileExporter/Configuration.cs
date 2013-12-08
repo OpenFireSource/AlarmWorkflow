@@ -13,18 +13,41 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Shared.Settings;
+using System;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.OperationFileExporter
 {
-    class Configuration
+    class Configuration : DisposableObject
     {
+        #region Fields
+
+        private ISettingsServiceInternal _settings;
+
+        #endregion
+
         #region Properties
 
-        internal bool AMExportEnabled { get; private set; }
-        internal string AMDestinationFileName { get; private set; }
-        internal bool EvaExportEnabled { get; private set; }
-        internal string EvaDestinationFileName { get; private set; }
+        internal bool AMExportEnabled
+        {
+            get { return _settings.GetSetting(SettingKeys.AMExportEnabled).GetValue<bool>(); }
+        }
+
+        internal string AMDestinationFileName
+        {
+            get { return _settings.GetSetting(SettingKeys.AMDestinationFileName).GetValue<string>(); }
+        }
+
+        internal bool EvaExportEnabled
+        {
+            get { return _settings.GetSetting(SettingKeys.EVAExportEnabled).GetValue<bool>(); }
+        }
+
+        internal string EvaDestinationFileName
+        {
+            get { return _settings.GetSetting(SettingKeys.EVADestinationFileName).GetValue<string>(); }
+        }
 
         #endregion
 
@@ -33,12 +56,25 @@ namespace AlarmWorkflow.Job.OperationFileExporter
         /// <summary>
         /// Initializes a new instance of the <see cref="Configuration"/> class.
         /// </summary>
-        public Configuration()
+        /// <param name="serviceProvider">The service provider to use.</param>
+        public Configuration(IServiceProvider serviceProvider)
         {
-            AMExportEnabled = SettingsManager.Instance.GetSetting("OperationFileExporter", "AMExportEnabled").GetBoolean();
-            AMDestinationFileName = SettingsManager.Instance.GetSetting("OperationFileExporter", "AMDestinationFileName").GetString();
-            EvaExportEnabled = SettingsManager.Instance.GetSetting("OperationFileExporter", "EVAExportEnabled").GetBoolean();
-            EvaDestinationFileName = SettingsManager.Instance.GetSetting("OperationFileExporter", "EVADestinationFileName").GetString();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        protected override void DisposeCore()
+        {
+            if (_settings != null)
+            {
+                _settings = null;
+            }
         }
 
         #endregion

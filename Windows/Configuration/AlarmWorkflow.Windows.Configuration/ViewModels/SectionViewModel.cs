@@ -15,7 +15,8 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
@@ -77,6 +78,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         public SectionViewModel(IdentifierInfo identifier)
             : this()
         {
+            Assertions.AssertNotNull(identifier, "identifier");
+
+            Identifier = identifier.Name;
             _identifier = identifier;
         }
 
@@ -84,9 +88,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Methods
 
-        internal void Add(SettingDescriptor descriptor, SettingInfo setting)
+        internal void Add(SettingInfo info, SettingItem setting)
         {
-            string categoryText = GetCategoryText(setting.Category);
+            string categoryText = GetCategoryText(info.Category);
 
             CategoryViewModel cvm = CategoryItems.Find(c => c.Category == categoryText);
             if (cvm == null)
@@ -96,7 +100,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 CategoryItems.Add(cvm);
             }
 
-            cvm.SettingItems.Add(new SettingItemViewModel(descriptor, setting));
+            cvm.SettingItems.Add(new SettingItemViewModel(info, setting));
         }
 
         private string GetCategoryText(string categoryText)

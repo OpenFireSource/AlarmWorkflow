@@ -24,7 +24,6 @@ namespace AlarmWorkflow.Shared.Core
     /// <summary>
     /// Configures which exports for a given type shall be enabled.
     /// </summary>
-    [DebuggerDisplay("Type = {ExportType} (Count = {Exports.Count})")]
     public sealed class ExportConfiguration : IStringSettingConvertible
     {
         #region Properties
@@ -62,19 +61,6 @@ namespace AlarmWorkflow.Shared.Core
                 exports.Add(export.Name);
             }
             return exports;
-        }
-
-        /// <summary>
-        /// Parses an XML-content and returns the <see cref="ExportConfiguration"/> from it.
-        /// </summary>
-        /// <param name="value">The XML-contents to parse.</param>
-        /// <returns></returns>
-        public static ExportConfiguration Parse(string value)
-        {
-            ExportConfiguration configuration = new ExportConfiguration();
-            ((IStringSettingConvertible)configuration).Convert(value);
-
-            return configuration;
         }
 
         /// <summary>
@@ -127,6 +113,8 @@ namespace AlarmWorkflow.Shared.Core
 
         #endregion
 
+        #region Nested types
+
         /// <summary>
         /// Configures one export.
         /// </summary>
@@ -142,5 +130,7 @@ namespace AlarmWorkflow.Shared.Core
             /// </summary>
             public bool IsEnabled { get; set; }
         }
+
+        #endregion
     }
 }

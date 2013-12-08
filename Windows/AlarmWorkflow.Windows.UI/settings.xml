@@ -6,10 +6,10 @@
   <Setting Name="MaxAlarmsInUI" Type="System.Int32">0</Setting>
   <Setting Name="FullscreenOnAlarm" Type="System.Boolean" IsNull="False">False</Setting>
 
-  <Setting Name="JobsConfiguration" Type="System.String" IsNull="False">
+  <Setting Name="JobsConfiguration" Type="AlarmWorkflow.Shared.Core.ExportConfiguration, AlarmWorkflow.Shared" IsNull="False">
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
-  <Setting Name="IdleJobsConfiguration" Type="System.String" IsNull="False">
+  <Setting Name="IdleJobsConfiguration" Type="AlarmWorkflow.Shared.Core.ExportConfiguration, AlarmWorkflow.Shared" IsNull="False">
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
 

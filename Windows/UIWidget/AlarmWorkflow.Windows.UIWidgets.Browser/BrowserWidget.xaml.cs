@@ -15,9 +15,10 @@
 
 using System;
 using System.Windows;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.ObjectExpressions;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Browser
@@ -51,13 +52,16 @@ namespace AlarmWorkflow.Windows.UIWidgets.Browser
 
         bool IUIWidget.Initialize()
         {
-            _expressionUrl = SettingsManager.Instance.GetSetting("Browser", "URL").GetString();
-            return !String.IsNullOrWhiteSpace(_expressionUrl);
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                _expressionUrl = service.Instance.GetSetting(SettingKeys.Url).GetValue<string>();
+            }
+            return !string.IsNullOrWhiteSpace(_expressionUrl);
         }
 
         void IUIWidget.OnOperationChange(Operation operation)
         {
-            String url = ObjectFormatter.ToString(operation, _expressionUrl, ObjectFormatterOptions.RemoveNewlines);
+            string url = ObjectFormatter.ToString(operation, _expressionUrl, ObjectFormatterOptions.RemoveNewlines);
             _webbrowser.Navigate(url);
         }
 

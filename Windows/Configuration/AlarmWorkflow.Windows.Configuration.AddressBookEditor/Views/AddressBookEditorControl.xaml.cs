@@ -14,11 +14,9 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows.Controls;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels;
-using AlarmWorkflow.Windows.ConfigurationContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Views
 {
@@ -42,7 +40,7 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.Views
         {
             get
             {
-                object value = null;
+                string value = null;
                 StringSettingConvertibleTools.ConvertBack(_viewModel.AddressBookEditWrapper, out value);
                 return value;
             }

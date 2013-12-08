@@ -16,10 +16,10 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using AlarmWorkflow.BackendService.AddressingContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
 {

@@ -18,11 +18,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.DisplayWakeUpJob
 {
@@ -40,6 +39,8 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
         #endregion
 
         #region Fields
+
+        private ISettingsServiceInternal _settings;
 
         private List<DisplayConfiguration> _configurations;
 
@@ -101,9 +102,11 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
 
         #region IJob Members
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            string settingString = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "DisplayConfiguration").GetString();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+
+            string settingString = _settings.GetSetting("DisplayWakeUpJob", "DisplayConfiguration").GetValue<string>();
             _configurations.AddRange(DisplayConfiguration.ParseSettingString(settingString));
 
             if (_configurations.Count == 0)
@@ -112,7 +115,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                 return false;
             }
 
-            _autoSleepAfterMinutes = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "TurnOffTimeout").GetInt32();
+            _autoSleepAfterMinutes = _settings.GetSetting("DisplayWakeUpJob", "TurnOffTimeout").GetValue<int>();
             if (_autoSleepAfterMinutes > 0)
             {
                 _autoSleepTimerThread = new Thread(AutoSleepTimerThread);
@@ -120,7 +123,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
                 _autoSleepTimerThread.Start();
             }
 
-            _ignoreErrorInResponse = SettingsManager.Instance.GetSetting("DisplayWakeUpJob", "IgnoreErrorInResponse").GetBoolean();
+            _ignoreErrorInResponse = _settings.GetSetting("DisplayWakeUpJob", "IgnoreErrorInResponse").GetValue<bool>();
 
             return true;
         }

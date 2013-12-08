@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AlarmSourceDisposeException" xml:space="preserve">
+    <value>An exception occurred while disposing alarm source '{0}'. Please check the log.</value>
+  </data>
+  <data name="AlarmSourceEnabled" xml:space="preserve">
+    <value>Alarm source '{0}' enabled.</value>
+  </data>
+  <data name="AlarmSourceEnabling" xml:space="preserve">
+    <value>Enabling alarm source '{0}'...</value>
+  </data>
+  <data name="AlarmSourceInitializing" xml:space="preserve">
+    <value>Initializing Alarmsource '{0}'...</value>
+  </data>
+  <data name="AlarmSourceNoOperation" xml:space="preserve">
+    <value>Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!</value>
+  </data>
+  <data name="AlarmSourceReceivedOperation" xml:space="preserve">
+    <value>Received operation '{0}' by Alarm Source '{1}'.</value>
+  </data>
+  <data name="AlarmSourceStartException" xml:space="preserve">
+    <value>Error initializing alarm source '{0}'. It will not run.</value>
+  </data>
+  <data name="AlarmSourceStarting" xml:space="preserve">
+    <value>Starting Alarmsource '{0}'.</value>
+  </data>
+  <data name="AlarmSourceThreadException" xml:space="preserve">
+    <value>An unhandled exception occurred while running the thread for alarm source '{0}'. The thread is being terminated. Please check the log.</value>
+  </data>
+  <data name="EngineStarted" xml:space="preserve">
+    <value>Engine started successfully.</value>
+  </data>
+  <data name="EngineStartFailedNoAlarmSourceException" xml:space="preserve">
+    <value>Service failed to start because there are no running alarm sources! Please check the log.</value>
+  </data>
+  <data name="EngineStarting" xml:space="preserve">
+    <value>Starting Engine...</value>
+  </data>
+  <data name="EngineStopped" xml:space="preserve">
+    <value>Engine is now stopped.</value>
+  </data>
+  <data name="EngineStopping" xml:space="preserve">
+    <value>Stopping Engine...</value>
+  </data>
+  <data name="InitializedOperationStore" xml:space="preserve">
+    <value>Using operation store '{0}' .</value>
+  </data>
+  <data name="JobExecuteAsyncFailed" xml:space="preserve">
+    <value>An error occurred while processing the asynchronous job '{0}'!</value>
+  </data>
+  <data name="JobExecuteAsyncStart" xml:space="preserve">
+    <value>Beginning execution of async job '{0}' in phase '{1}'...</value>
+  </data>
+  <data name="JobExecuteFinished" xml:space="preserve">
+    <value>Finished execution of job '{0}'.</value>
+  </data>
+  <data name="JobExecuteSyncFailed" xml:space="preserve">
+    <value>An error occurred while processing the synchronous job '{0}'!</value>
+  </data>
+  <data name="JobExecuteSyncStart" xml:space="preserve">
+    <value>Beginning execution of sync job '{0}' in phase '{1}'...</value>
+  </data>
+  <data name="JobGenericError" xml:space="preserve">
+    <value>An error occurred while initializing job type '{0}'. The error message was: {1}</value>
+  </data>
+  <data name="JobInitializeBegin" xml:space="preserve">
+    <value>Initializing job type '{0}'...</value>
+  </data>
+  <data name="JobInitializeError" xml:space="preserve">
+    <value>Job type '{0}' initialization failed. The job will not be executed.</value>
+  </data>
+  <data name="JobInitializeSuccess" xml:space="preserve">
+    <value>Job type '{0}' initialization successful.</value>
+  </data>
+  <data name="JobManagerDisposeJobFailed" xml:space="preserve">
+    <value>The job '{0}' failed at dispose. This may have unpredictable consequences.</value>
+  </data>
+  <data name="NewAlarmHandlingException" xml:space="preserve">
+    <value>An exception occurred while processing the operation! Please check the log!</value>
+  </data>
+  <data name="NewAlarmHandlingFinished" xml:space="preserve">
+    <value>Finished handling operation with ID '{0}'.</value>
+  </data>
+  <data name="NewAlarmInvalidTimestamp" xml:space="preserve">
+    <value>Could not parse timestamp from the fax. Using the current time as the timestamp.</value>
+  </data>
+  <data name="NewAlarmStored" xml:space="preserve">
+    <value>Stored operation with ID '{0}'.</value>
+  </data>
+  <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
+    <value>Storing the operation to the operation store failed! See log for information.</value>
+  </data>
+</root>
