@@ -1,15 +1,33 @@
-﻿using System;
+﻿// This file is part of AlarmWorkflow.
+// 
+// AlarmWorkflow is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AlarmWorkflow is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
+
+using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.ManagementContracts;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Website.Reports.Areas.Display.Models;
-using AlarmWorkflow.Website.Reports.Models;
-using AlarmWorkflow.Windows.ServiceContracts;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
 {
     public class AlarmController : Controller
     {
+        private Guid _guid = Guid.NewGuid();
+
         /// <summary>
         /// GET: /Display/Alarm/Index
         /// GET: /Display/Alarm/
@@ -29,12 +47,12 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
             GetLastOperationData data = new GetLastOperationData();
             try
             {
-                using (var service = InternalServiceProxy.GetServiceInstance())
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))
                 {
                     IList<int> ids = service.Instance.GetOperationIds(WebsiteConfiguration.Instance.MaxAge, WebsiteConfiguration.Instance.NonAcknowledgedOnly, 1);
                     if (ids.Count == 1)
                     {
-                        OperationItem item = service.Instance.GetOperationById(ids[0]);
+                        Operation item = service.Instance.GetOperationById(ids[0]);
                         data.success = true;
                         data.op = item;
                     }
@@ -66,9 +84,9 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
             ResetOperationData returnValue = new ResetOperationData();
             try
             {
-                using (var service = InternalServiceProxy.GetServiceInstance())
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))
                 {
-                    OperationItem item = service.Instance.GetOperationById(id);
+                    Operation item = service.Instance.GetOperationById(id);
                     if (item == null)
                     {
                         returnValue.success = false;
@@ -77,7 +95,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
                     else if (item.IsAcknowledged)
                     {
                         returnValue.success = false;
-                        returnValue.message = "Operation is allready acknowledged!";
+                        returnValue.message = "Operation is already acknowledged!";
                     }
                     else
                     {

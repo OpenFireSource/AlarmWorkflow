@@ -1,20 +1,33 @@
-﻿using System;
+﻿// This file is part of AlarmWorkflow.
+// 
+// AlarmWorkflow is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// AlarmWorkflow is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
+
 using System.Web.Configuration;
-using AlarmWorkflow.Shared.Settings;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Models
 {
-    /// <summary>
-    /// Represents the configuration for the website.
-    /// </summary>
-    public class WebsiteConfiguration
+    class WebsiteConfiguration
     {
         #region Singleton
 
         private static WebsiteConfiguration _instance;
 
         /// <summary>
-        /// Gets the singleton Instance of this type.
+        /// Gets the singleton instance of this type.
         /// </summary>
         public static WebsiteConfiguration Instance
         {
@@ -83,10 +96,13 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Models
 
         private WebsiteConfiguration()
         {
-            Home = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                Home = service.Instance.GetSetting(SettingKeys.FDStreet).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SettingKeys.FDStreetNumber).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SettingKeys.FDZipCode).GetValue<string>() + " " +
+                       service.Instance.GetSetting(SettingKeys.FDCity).GetValue<string>();
+            }
 
             Traffic = WebConfigurationManager.AppSettings["Traffic"].ToLower().Equals("true");
             Tilt = WebConfigurationManager.AppSettings["Tilt"].ToLower().Equals("true");
