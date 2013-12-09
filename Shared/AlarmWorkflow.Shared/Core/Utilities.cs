@@ -386,6 +386,17 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         /// <summary>
+        /// Truncates the given string. Ensures a string has a maximum <paramref name="length"/> and cuts away following chars, adding ellipsis to the end.
+        /// </summary>
+        /// <param name="value">The string to truncate.</param>
+        /// <param name="length">The truncated length (including ellispis, if chosen).</param>
+        /// <returns>The truncated string.</returns>
+        public static string Truncate(this string value, int length)
+        {
+            return Truncate(value, length, true, true);
+        }
+
+        /// <summary>
         /// Truncates the given string. Ensures a string has a maximum <paramref name="length"/> and cuts away following chars,
         /// optionally adding ellipsis to the end.
         /// </summary>
@@ -396,8 +407,12 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>The truncated string.</returns>
         public static string Truncate(this string value, int length, bool leftAlign, bool addEllipsis)
         {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                return value;
+            }
+
             string ret = value;
-            // add ellipsis?
             if (addEllipsis) { length -= 3; }
 
             if (value.Length > length)
@@ -405,7 +420,6 @@ namespace AlarmWorkflow.Shared.Core
                 if (leftAlign)
                 {
                     ret = ret.Substring(0, length);
-                    // add ellipsis?
                     if (addEllipsis) { ret += "..."; }
                 }
                 else

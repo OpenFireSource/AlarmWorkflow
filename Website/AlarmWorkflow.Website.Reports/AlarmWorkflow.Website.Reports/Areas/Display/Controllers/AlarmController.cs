@@ -1,0 +1,123 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Mvc;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Website.Reports.Areas.Display.Models;
+using AlarmWorkflow.Website.Reports.Models;
+using AlarmWorkflow.Windows.ServiceContracts;
+
+namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
+{
+    public class AlarmController : Controller
+    {
+        /// <summary>
+        /// GET: /Display/Alarm/Index
+        /// GET: /Display/Alarm/
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// GET: /Display/Alarm/GetLatestOperation
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetLatestOperation()
+        {
+            GetLastOperationData data = new GetLastOperationData();
+            try
+            {
+                using (var service = InternalServiceProxy.GetServiceInstance())
+                {
+                    IList<int> ids = service.Instance.GetOperationIds(WebsiteConfiguration.Instance.MaxAge, WebsiteConfiguration.Instance.NonAcknowledgedOnly, 1);
+                    if (ids.Count == 1)
+                    {
+                        OperationItem item = service.Instance.GetOperationById(ids[0]);
+                        data.success = true;
+                        data.op = item;
+                    }
+                    else if (ids.Count == 0)
+                    {
+                        data.success = true;
+                        data.op = null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // It's ok when an exception is thrown here. We catch it, log it, and the View considers it as an error (success is false).
+                Logger.Instance.LogException(this, ex);
+            }
+
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            result.Data = data;
+            return result;
+        }
+
+        /// <summary>
+        /// GET: /Display/Alarm/ResetOperation/Id
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ResetOperation(int id)
+        {
+            ResetOperationData returnValue = new ResetOperationData();
+            try
+            {
+                using (var service = InternalServiceProxy.GetServiceInstance())
+                {
+                    OperationItem item = service.Instance.GetOperationById(id);
+                    if (item == null)
+                    {
+                        returnValue.success = false;
+                        returnValue.message = "Operation not found!";
+                    }
+                    else if (item.IsAcknowledged)
+                    {
+                        returnValue.success = false;
+                        returnValue.message = "Operation is allready acknowledged!";
+                    }
+                    else
+                    {
+                        service.Instance.AcknowledgeOperation(id);
+                        returnValue.success = true;
+                        returnValue.message = "Operation successfully acknowledged!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // It's ok when an exception is thrown here. We catch it, log it, and the View considers it as an error (success is false).
+                Logger.Instance.LogException(this, ex);
+            }
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = returnValue;
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
+        }
+
+        /// <summary>
+        /// GET: /Display/Alarm/ResetLatestOperation
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult ResetLatestOperation()
+        {
+            JsonResult result = GetLatestOperation() as JsonResult;
+            if (result != null)
+            {
+                GetLastOperationData data = result.Data as GetLastOperationData;
+                if (data != null && (data.success && data.op != null))
+                {
+                    return ResetOperation(data.op.Id);
+                }
+
+            }
+            JsonResult jsonResult = new JsonResult();
+            jsonResult.Data = new ResetOperationData { message = "An undefined error occured.", success = false };
+            jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            return jsonResult;
+        }
+    }
+}
