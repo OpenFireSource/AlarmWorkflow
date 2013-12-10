@@ -25,8 +25,8 @@ namespace AlarmWorkflow.Windows.Configuration
 {
     static class ServiceHelper
     {
-        internal static readonly string ServiceName = "AlarmworkflowService";
-        internal static readonly string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
+        internal static readonly string ServiceName = "AlarmWorkflowService";
+        internal static readonly string ServiceExecutableName = "AlarmWorkflow.Backend.Service.exe";
 
         internal static bool IsServiceInstalled()
         {

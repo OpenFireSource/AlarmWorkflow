@@ -31,7 +31,7 @@
             // 
             // AlarmWorkflowService
             // 
-            this.ServiceName = "AlarmworkflowService";
+            this.ServiceName = "AlarmWorkflowService";
 
         }
 
