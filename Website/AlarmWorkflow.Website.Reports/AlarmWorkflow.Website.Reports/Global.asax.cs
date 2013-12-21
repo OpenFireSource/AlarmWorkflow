@@ -13,10 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.IO;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.Backend.ServiceContracts.Communication.EndPointResolvers;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Website.Reports
@@ -29,6 +32,7 @@ namespace AlarmWorkflow.Website.Reports
         protected void Application_Start()
         {
             Logger.Instance.Initialize("AlarmWorkflow.Website.Mvc");
+            SetupWebsiteConfiguration();
 
             AreaRegistration.RegisterAllAreas();
 
@@ -36,6 +40,48 @@ namespace AlarmWorkflow.Website.Reports
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+
+        private void SetupWebsiteConfiguration()
+        {
+            ServiceFactory.BackendConfigurator = new WebsiteBackendConfigurator(Server.MapPath("~/"));
+            ServiceFactory.EndPointResolver = new LocalhostEndPointResolver();
+        }
+
+        class WebsiteBackendConfigurator : IBackendConfigurator
+        {
+            #region Fields
+
+            private readonly string _targetDirectory;
+            private readonly IBackendConfigurator _original;
+
+            #endregion
+
+            #region Constructors
+
+            internal WebsiteBackendConfigurator(string rootDirectory)
+            {
+                _targetDirectory = rootDirectory;
+
+                string file = Path.Combine(_targetDirectory, "Backend.config");
+
+                _original = new BackendConfigurator(file);
+            }
+
+            #endregion
+
+            #region IBackendConfigurator Members
+
+            string IBackendConfigurator.Get(string key)
+            {
+                switch (key)
+                {
+                    case "Wcf.ServiceLocations": return Path.Combine(_targetDirectory, "Backend.Services.config");
+                    default: return _original.Get(key);
+                }
+            }
+
+            #endregion
         }
     }
 }

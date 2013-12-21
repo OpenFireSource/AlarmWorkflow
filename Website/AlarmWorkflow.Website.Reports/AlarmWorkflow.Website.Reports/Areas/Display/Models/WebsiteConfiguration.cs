@@ -20,7 +20,10 @@ using AlarmWorkflow.Shared;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Models
 {
-    class WebsiteConfiguration
+    /// <summary>
+    /// Provides the website configuration.
+    /// </summary>
+    public class WebsiteConfiguration
     {
         #region Singleton
 
