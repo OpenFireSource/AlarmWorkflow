@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
 
 namespace AlarmWorkflow.Backend.ServiceContracts.Data
 {
@@ -74,11 +75,11 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Data
         public static ContextCreationOptions CreateFromSettings()
         {
             ContextCreationOptions options = new ContextCreationOptions();
-            options.HostName = BackendConfiguration.Values["Server.DB.HostName"];
-            options.Port = int.Parse(BackendConfiguration.Values["Server.DB.Port"]);
-            options.UserId = BackendConfiguration.Values["Server.DB.UserId"];
-            options.Password = BackendConfiguration.Values["Server.DB.Password"];
-            options.DatabaseName = BackendConfiguration.Values["Server.DB.DatabaseName"];
+            options.HostName = ServiceFactory.BackendConfigurator.Get("Server.DB.HostName");
+            options.Port = int.Parse(ServiceFactory.BackendConfigurator.Get("Server.DB.Port"));
+            options.UserId = ServiceFactory.BackendConfigurator.Get("Server.DB.UserId");
+            options.Password = ServiceFactory.BackendConfigurator.Get("Server.DB.Password");
+            options.DatabaseName = ServiceFactory.BackendConfigurator.Get("Server.DB.DatabaseName");
             return options;
         }
 

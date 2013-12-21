@@ -13,7 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Net;
+using AlarmWorkflow.Backend.ServiceContracts.ServiceDefinition;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Backend.ServiceContracts.Communication.EndPointResolvers
 {
@@ -30,12 +31,21 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication.EndPointResolvers
 
         #region Constructors
 
+        private RedirectableEndPointResolver()
+        {
+
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="RedirectableEndPointResolver"/> class.
         /// </summary>
-        public RedirectableEndPointResolver()
+        /// <param name="backendConfigurator">The backend configurator to use to retrieve the information from.</param>
+        public RedirectableEndPointResolver(IBackendConfigurator backendConfigurator)
+            : this()
         {
-            _endPoint = BackendConfiguration.Values["ServerHostAddress"];
+            Assertions.AssertNotNull(backendConfigurator, "backendConfigurator");
+
+            _endPoint = backendConfigurator.Get("ServerHostAddress");
         }
 
         #endregion

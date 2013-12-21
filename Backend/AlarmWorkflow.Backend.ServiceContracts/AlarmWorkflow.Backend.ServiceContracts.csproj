@@ -58,7 +58,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackendConfiguration.cs" />
+    <Compile Include="Communication\BackendConfigurator.cs" />
     <Compile Include="Communication\EndPointResolvers\RedirectableEndPointResolver.cs" />
     <Compile Include="Communication\EndPointResolvers\LocalhostEndPointResolver.cs" />
     <Compile Include="Communication\IEndPointResolver.cs" />
@@ -81,6 +81,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="ServiceDefinition\BackendServiceLocation.cs" />
+    <Compile Include="Communication\IBackendConfigurator.cs" />
     <Compile Include="ServiceDefinition\IBackendServiceLocation.cs" />
     <Compile Include="ServiceDefinition\SupportedBinding.cs" />
   </ItemGroup>
@@ -94,6 +95,7 @@
   <ItemGroup>
     <None Include="Backend.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Resources\BackendServiceLocationSchema.xsd">
       <SubType>Designer</SubType>

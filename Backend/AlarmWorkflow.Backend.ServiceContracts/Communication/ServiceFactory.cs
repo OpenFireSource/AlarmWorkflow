@@ -30,21 +30,71 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         #region Constants
 
         private const string ServicesPath = "alarmworkflow/services";
-        /// <summary>
-        /// Defines the default port that is used to host the services.
-        /// </summary>
-        public static readonly int DefaultPort = 60000;
+
+        #endregion
+
+        #region Fields
+
+        private static readonly object _lock = new object();
+        private static bool _isInitialized;
+
+        private static IBackendConfigurator _backendConfigurator;
+        private static IEndPointResolver _endPointResolver;
 
         #endregion
 
         #region Properties
 
         /// <summary>
+        /// Gets/sets the type that provides access to the backend configuration.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">The service factory has already been initialized and cannot be changed anymore.</exception>
+        public static IBackendConfigurator BackendConfigurator
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    SetInitialized();
+                    return _backendConfigurator;
+                }
+            }
+            set
+            {
+                Assertions.AssertNotNull(value, "value");
+                lock (_lock)
+                {
+                    AssertNotInitialized();
+                    _backendConfigurator = value;
+                }
+            }
+        }
+        /// <summary>
         /// Gets/sets the type that is used to resolve the IP and port of the server to connect to.
         /// See documentation for further information.
         /// </summary>
         /// <remarks>By default, the <see cref="RedirectableEndPointResolver"/> is used.</remarks>
-        public static IEndPointResolver EndPointResolver { get; set; }
+        /// <exception cref="System.InvalidOperationException">The service factory has already been initialized and cannot be changed anymore.</exception>
+        public static IEndPointResolver EndPointResolver
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    SetInitialized();
+                    return _endPointResolver;
+                }
+            }
+            set
+            {
+                Assertions.AssertNotNull(value, "value");
+                lock (_lock)
+                {
+                    AssertNotInitialized();
+                    _endPointResolver = value;
+                }
+            }
+        }
 
         #endregion
 
@@ -52,12 +102,46 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
 
         static ServiceFactory()
         {
-            EndPointResolver = new RedirectableEndPointResolver();
+
         }
 
         #endregion
 
         #region Factory methods
+
+        /// <summary>
+        /// Throws an exception if this instance is already initialized.
+        /// </summary>
+        /// <exception cref="System.InvalidOperationException">The service factory has already been initialized and cannot be changed anymore.</exception>
+        private static void AssertNotInitialized()
+        {
+            if (_isInitialized)
+            {
+                throw new InvalidOperationException("The service factory has already been initialized and cannot be changed!");
+            }
+        }
+
+        private static void SetInitialized()
+        {
+            lock (_lock)
+            {
+                if (_isInitialized)
+                {
+                    return;
+                }
+
+                if (_backendConfigurator == null)
+                {
+                    _backendConfigurator = new BackendConfigurator();
+                }
+                if (_endPointResolver == null)
+                {
+                    _endPointResolver = new RedirectableEndPointResolver(_backendConfigurator);
+                }
+
+                _isInitialized = true;
+            }
+        }
 
         /// <summary>
         /// Creates the <see cref="EndpointAddress"/> appropriate for the given contract type.
@@ -86,7 +170,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         {
             switch (binding.Scheme)
             {
-                case "net.tcp": return BackendConfiguration.ServerNetTcpPort;
+                case "net.tcp": return int.Parse(BackendConfigurator.Get("Server.NetTcpPort"));
                 default:
                     throw new NotSupportedException(string.Format(Properties.Resources.InvalidSupportedBindingValue, binding.Name));
             }
@@ -194,7 +278,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         {
             return new WrappedService<T>(GetCallbackServiceInstance<T>(callbackObject));
         }
-
 
         #endregion
     }

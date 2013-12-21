@@ -59,7 +59,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
 
         private static IEnumerable<IBackendServiceLocation> BuildServiceLocationCache()
         {
-            string fileName = BackendConfiguration.Values[ConfigKeyServiceLocation];
+            string fileName = ServiceFactory.BackendConfigurator.Get(ConfigKeyServiceLocation);
             fileName = Path.Combine(Utilities.GetWorkingDirectory(), fileName);
 
             if (!File.Exists(fileName))
