@@ -10,6 +10,7 @@ General
   * [Windows UI] Scaling factor is now per-user-machine-dependent
   * [Windows UI] Remove acknowledged alarms from interface.
   * [Config UI] Added expression tester to try out formats before using them.
+  * [Config UI] Saving of settings is now asynchronous.
   * [Database] Made keyword-columns wider by 150 chars. Please execute script from Appendix #1.
   * [Geocoding] Use international format (dot instead of comma).
   * [Service] Big architecture overhaul! Allowing for a lot more flexibility and extensibility. See Appendix #2.

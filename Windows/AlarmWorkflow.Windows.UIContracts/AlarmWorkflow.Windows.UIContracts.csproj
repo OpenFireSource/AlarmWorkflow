@@ -67,6 +67,8 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="UIUtilities.cs" />
+    <Compile Include="ViewModels\BackgroundTaskCommand.cs" />
+    <Compile Include="ViewModels\BackgroundTaskState.cs" />
     <Compile Include="ViewModels\CheckedItem.cs" />
     <Compile Include="ViewModels\CommandHelper.cs" />
     <Compile Include="ViewModels\RelayCommand.cs" />

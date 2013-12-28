@@ -28,7 +28,6 @@ using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Configuration.Views;
-using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -48,14 +47,16 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         private SettingsDisplayConfiguration _displayConfiguration;
         private List<GroupedSectionViewModel> _sections;
 
-        private bool _isFaulted = true;
-
         private Timer _serviceStatePollingTimer;
 
         #endregion
 
         #region Properties
 
+        /// <summary>
+        /// Gets whether or not the connection to the service is established.
+        /// </summary>
+        public bool IsConnected { get; private set; }
         /// <summary>
         /// Gets a list of all sections that can be edited.
         /// </summary>
@@ -78,71 +79,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// The SaveChangesCommand command.
         /// </summary>
         public ICommand SaveChangesCommand { get; private set; }
-
-        private bool SaveChangesCommand_CanExecute(object parameter)
-        {
-            return !_isFaulted;
-        }
-
-        private void SaveChangesCommand_Execute(object parameter)
-        {
-            int iFailedSettings = 0;
-
-            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
-            {
-                foreach (GroupedSectionViewModel gsvm in GetAllSections())
-                {
-                    SectionViewModel svm = gsvm.Section;
-                    if (svm == null)
-                    {
-                        continue;
-                    }
-
-                    foreach (CategoryViewModel cvm in svm.CategoryItems)
-                    {
-                        foreach (SettingItemViewModel sivm in cvm.SettingItems)
-                        {
-                            object value = null;
-                            try
-                            {
-                                value = sivm.TypeEditor.Value;
-
-                                sivm.Setting.Value = value;
-                                service.Instance.SetSetting(sivm.Info.CreateSettingKey(), sivm.Setting);
-                            }
-                            catch (Exception ex)
-                            {
-                                string exMessage = ex.Message;
-                                string exHint = Properties.Resources.SettingSaveError_DefaultHints;
-
-                                ValueException vex = ex as ValueException;
-                                if (vex != null)
-                                {
-                                    exHint = vex.Hint;
-                                }
-
-                                string message = string.Format(Properties.Resources.SettingSaveError, sivm.DisplayText, svm.DisplayText, exMessage, exHint);
-                                MessageBox.Show(message, Properties.Resources.SettingSaveError_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                                iFailedSettings++;
-                            }
-                        }
-                    }
-                }
-            }
-
-            string boxMessage = null;
-            MessageBoxImage boxImage = MessageBoxImage.Information;
-            if (iFailedSettings == 0)
-            {
-                boxMessage = Properties.Resources.SavingSettingsSuccess;
-            }
-            else
-            {
-                boxMessage = Properties.Resources.SavingSettingsWithErrors;
-                boxImage = MessageBoxImage.Warning;
-            }
-            MessageBox.Show(boxMessage, Properties.Resources.SettingSaveFinished_Title, MessageBoxButton.OK, boxImage);
-        }
 
         #endregion
 
@@ -362,7 +298,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// The OpenObjectExpressionTesterCommand command.
         /// </summary>
         public ICommand OpenObjectExpressionTesterCommand { get; private set; }
-        
+
         private void OpenObjectExpressionTesterCommand_Execute(object parameter)
         {
             ObjectExpressionTesterWindow window = new ObjectExpressionTesterWindow();
@@ -385,6 +321,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             _serviceStatePollingTimer = new Timer(2000d);
             _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
             _serviceStatePollingTimer.Start();
+
+            SaveChangesCommand = new SaveSettingsTaskCommand(this);
         }
 
         #endregion
@@ -400,7 +338,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                     _displayConfiguration = service.Instance.GetDisplayConfiguration();
                     BuildSectionsTree(service.Instance);
 
-                    _isFaulted = false;
+                    IsConnected = true;
                 }
             }
             catch (EndpointNotFoundException ex)
@@ -485,7 +423,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             view.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
         }
 
-        private IList<GroupedSectionViewModel> GetAllSections()
+        internal IEnumerable<GroupedSectionViewModel> GetAllSections()
         {
             List<GroupedSectionViewModel> all = new List<GroupedSectionViewModel>();
             all.AddRange(_sections);

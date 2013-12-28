@@ -191,6 +191,15 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Einstellung {0} von {1} gespeichert..
+        /// </summary>
+        internal static string SaveSettingStatusText {
+            get {
+                return ResourceManager.GetString("SaveSettingStatusText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Die Einstellungen wurden erfolgreich gespeichert!.
         /// </summary>
         internal static string SavingSettingsSuccess {

@@ -159,6 +159,9 @@ Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit 
   <data name="RestartServiceMessage" xml:space="preserve">
     <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
   </data>
+  <data name="SaveSettingStatusText" xml:space="preserve">
+    <value>Einstellung {0} von {1} gespeichert.</value>
+  </data>
   <data name="SavingSettingsSuccess" xml:space="preserve">
     <value>Die Einstellungen wurden erfolgreich gespeichert!</value>
   </data>
