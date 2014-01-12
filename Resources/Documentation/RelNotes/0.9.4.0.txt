@@ -30,7 +30,8 @@ Issues resolved
 
 Other fixes
 
-  * -
+  * [Windows UI] Some performance optimizations
+  * [Config UI] Minor usability improvements
 
 Appendix
 --------
