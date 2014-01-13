@@ -78,15 +78,6 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
 
                 Entries.Add(evm);
             }
-
-            if (Entries.Count > 0)
-            {
-                SelectedEntry = Entries[0];
-            }
-            else
-            {
-                // TODO: Add blank entry
-            }
         }
 
         private AddressBook CompileAddressBookFromViewModel()
