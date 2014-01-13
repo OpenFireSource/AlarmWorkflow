@@ -83,6 +83,15 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
         public bool IsEnabled { get; set; }
 
         /// <summary>
+        /// Gets/sets whether the "alternative" method of printing multiple copies should be used.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>Enabling this option instructs the responsible printer to not use the driver's intended method,
+        /// but instead repeating the printing one copy at a time. This is to work around a possible bug in the OS or the drivers
+        /// that report a higher copy count than they can actually handle.</remarks>
+        public bool UseAlternativeCopyingMethod { get; set; }
+
+        /// <summary>
         /// Returns true if the configuration represents the localhost print server.
         /// This is the case if there is no print server specified.
         /// </summary>

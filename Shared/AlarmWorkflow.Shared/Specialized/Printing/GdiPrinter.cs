@@ -55,15 +55,19 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
             int maxSupportedCopyCount = doc.PrinterSettings.MaximumCopies;
             int requiredPrintIterations = 1;
 
-            if (desiredCopyCount <= maxSupportedCopyCount)
+            if (desiredCopyCount <= maxSupportedCopyCount && !queue.UseAlternativeCopyingMethod)
             {
                 doc.PrinterSettings.Copies = (short)desiredCopyCount;
             }
             else
             {
-                // It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
-                // In this case we simply repeat printing until we have reached our copy count.
-                Logger.Instance.LogFormat(LogType.Warning, typeof(GdiPrinter), Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
+                //Check of the user has requested using this way of printing copies!
+                if (!queue.UseAlternativeCopyingMethod)
+                {
+                    // It appears that some printers don't support the CopyCount-feature (notably Microsoft XPS Writer or perhaps PDF-Writers in general?).
+                    // In this case we simply repeat printing until we have reached our copy count.
+                    Logger.Instance.LogFormat(LogType.Warning, typeof(GdiPrinter), Resources.UsedPrinterDoesNotSupportThatMuchCopies, maxSupportedCopyCount, desiredCopyCount);
+                }
 
                 requiredPrintIterations = desiredCopyCount;
             }

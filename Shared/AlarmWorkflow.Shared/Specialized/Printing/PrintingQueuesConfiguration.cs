@@ -86,6 +86,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
                 pq.PrintServer = pqe.TryGetAttributeValue("PrintServer", null);
                 pq.PrinterName = pqe.TryGetAttributeValue("PrinterName", null);
                 pq.IsEnabled = pqe.TryGetAttributeValue("IsEnabled", true);
+                pq.UseAlternativeCopyingMethod = pqe.TryGetAttributeValue("UseAlternativeCopyingMethod", false);
 
                 // Sanity-check copy count to avoid exception.
                 int pqCopyCount = pqe.TryGetAttributeValue("CopyCount", 1);
@@ -113,6 +114,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
                 pqe.Add(new XAttribute("PrinterName", pq.PrinterName ?? string.Empty));
                 pqe.Add(new XAttribute("CopyCount", pq.CopyCount));
                 pqe.Add(new XAttribute("IsEnabled", pq.IsEnabled));
+                pqe.Add(new XAttribute("UseAlternativeCopyingMethod", pq.UseAlternativeCopyingMethod));
 
                 doc.Root.Add(pqe);
             }

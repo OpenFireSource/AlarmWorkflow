@@ -66,6 +66,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
@@ -88,6 +89,12 @@
                             <!-- CopyCount -->
                             <TextBlock Grid.Column="0" Grid.Row="4" Margin="2" Text="Kopien:" FontWeight="Bold" VerticalAlignment="Center" />
                             <TextBox Grid.Column="1" Grid.Row="4" Margin="2" Text="{Binding CopyCount, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" />
+
+                            <!-- UseAlternativeCopyingMethod -->
+                            <TextBlock Grid.Column="0" Grid.Row="5" Margin="2" Text="Sequentiell drucken:" FontWeight="Bold" VerticalAlignment="Center" />
+                            <CheckBox Grid.Column="1" Grid.Row="5" Margin="2" IsChecked="{Binding UseAlternativeCopyingMethod}" HorizontalAlignment="Left" Style="{StaticResource checkBoxStyle}"
+                                      ToolTip="Verwendet eine alternative Methode, um Kopien zu drucken. Sollte der Kopiendruck auf diesem Drucker nicht funktionieren, wählen Sie diese Option."/>
+
                         </Grid>
                     </Grid>
                 </DataTemplate>
