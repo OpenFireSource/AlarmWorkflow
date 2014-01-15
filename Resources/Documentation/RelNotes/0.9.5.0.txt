@@ -8,6 +8,10 @@ General
 
   * [Printing] Added workaround for certain printers reporting CopyCounts they can't handle.
 
+Parsers
+
+  * [FEZMuenchenLand] Updated logic, now retrieves more information.
+
 UI
 
   * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
