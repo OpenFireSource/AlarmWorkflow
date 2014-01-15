@@ -64,6 +64,10 @@ namespace AlarmWorkflow.Windows.UI.Models
         /// Gets the time which should elapse between a change.
         /// </summary>
         public int SwitchTime { get; private set; }
+        /// <summary>
+        /// Gets whether or not to avoid screensaver or standby when an alarm is active.
+        /// </summary>
+        public bool AvoidScreensaver { get; private set; }
 
         #endregion
 
@@ -99,7 +103,7 @@ namespace AlarmWorkflow.Windows.UI.Models
 
             configuration.AutomaticOperationAcknowledgement.IsEnabled = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.IsEnabled").GetBoolean();
             configuration.AutomaticOperationAcknowledgement.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.MaxAge").GetInt32();
-
+            configuration.AvoidScreensaver = SettingsManager.Instance.GetSetting("UIConfiguration", "AvoidScreensaver").GetBoolean();
             configuration.MaxAlarmsInUI = SettingsManager.Instance.GetSetting("UIConfiguration", "MaxAlarmsInUI").GetInt32();
 
             // Jobs configuration

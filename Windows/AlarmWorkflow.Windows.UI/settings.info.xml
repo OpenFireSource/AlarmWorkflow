@@ -27,6 +27,8 @@
              Description="Ab welchem Alter Alarme automatisch bestätigt werden."
              Editor="DurationTypeEditor"
              EditorParameter="Min=1;Max=6000;Scale=Minutes" />
+    <Setting Name="AvoidScreensaver" DisplayText="Screensaver/Standby bei aktivem Alarm verhindern"
+             Description="Verhindert, dass der Monitor bei aktivem Alarm in den Standby oder Screensaver geht." />
 
     <Setting Name="SwitchTime" DisplayText="Wartezeit" Category="Automatischer Wechsel"
              Description="Die Zeit, die zwischen verschiendenen Alarmen gewartet werden soll, bevor der nächste automatisch in den Vordergrund gerät."

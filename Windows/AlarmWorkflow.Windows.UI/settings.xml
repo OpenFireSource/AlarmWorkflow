@@ -15,6 +15,7 @@
 
   <Setting Name="AOA.IsEnabled" Type="System.Boolean" IsNull="False">False</Setting>
   <Setting Name="AOA.MaxAge" Type="System.Int32" IsNull="False">480</Setting>
+  <Setting Name="AvoidScreensaver" Type="System.Boolean">False</Setting>
   
   <Setting Name="SwitchAlarms" Type="System.Boolean">False</Setting>
   <Setting Name="SwitchTime" Type="System.Int32">30</Setting>
