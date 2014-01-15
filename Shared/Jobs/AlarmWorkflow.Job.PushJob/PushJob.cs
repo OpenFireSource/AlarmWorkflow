@@ -16,9 +16,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using AlarmWorkflow.Job.PushJob.Properties;
 using AlarmWorkflow.Shared.Addressing;
 using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Engine;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Settings;
@@ -64,14 +67,13 @@ namespace AlarmWorkflow.Job.PushJob
             {
                 return;
             }
-
-            NotifyProwl(operation);
-            NotifyMyAndroid(operation);
+            Task.Factory.StartNew(() => NotifyProwl(operation));
+            Task.Factory.StartNew(() => NotifyMyAndroid(operation));
         }
 
         bool IJob.IsAsync
         {
-            get { return true; }
+            get { return false; }
         }
 
         #endregion
@@ -90,7 +92,15 @@ namespace AlarmWorkflow.Job.PushJob
             List<String> nmaRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
             if (nmaRecipients.Count != 0)
             {
-                NMA.Notify(nmaRecipients, ApplicationName, HeaderText, content, NMANotificationPriority.Emergency);
+                try
+                {
+                    NMA.Notify(nmaRecipients, ApplicationName, HeaderText, content, NMANotificationPriority.Emergency);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.ErrorNMA, ex.Message);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 
@@ -100,7 +110,15 @@ namespace AlarmWorkflow.Job.PushJob
             List<String> prowlRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
             if (prowlRecipients.Count != 0)
             {
-                Prowl.Notify(prowlRecipients, ApplicationName, HeaderText, content, ProwlNotificationPriority.Emergency);
+                try
+                {
+                    Prowl.Notify(prowlRecipients, ApplicationName, HeaderText, content, ProwlNotificationPriority.Emergency);
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.ErrorProwl, ex.Message);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
         }
 

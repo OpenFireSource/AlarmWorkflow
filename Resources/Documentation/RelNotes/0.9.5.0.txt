@@ -7,6 +7,7 @@ Updates since v0.9.4.0
 General
 
   * [Printing] Added workaround for certain printers reporting CopyCounts they can't handle.
+  * [Push Job] Made Push Job more robust and now run concurrently.
 
 Parsers
 

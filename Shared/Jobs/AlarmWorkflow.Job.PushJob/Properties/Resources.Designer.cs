@@ -61,7 +61,25 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Versendet Push-Nachrichten mittels verschiedener Anbieter..
+        ///   Sucht eine lokalisierte Zeichenfolge, die While executing the notifications for &apos;Notify my Android&apos; an unexpected error occured: {0}. ähnelt.
+        /// </summary>
+        internal static string ErrorNMA {
+            get {
+                return ResourceManager.GetString("ErrorNMA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die While executing the notifications for Prowl an unexpected error occured: {0}. ähnelt.
+        /// </summary>
+        internal static string ErrorProwl {
+            get {
+                return ResourceManager.GetString("ErrorProwl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Versendet Push-Nachrichten mittels verschiedener Anbieter. ähnelt.
         /// </summary>
         internal static string ExportJobDescription {
             get {
