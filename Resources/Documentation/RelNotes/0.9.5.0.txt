@@ -11,6 +11,7 @@ General
 Parsers
 
   * [FEZMuenchenLand] Updated logic, now retrieves more information.
+  * [IlsErding] Added parser for ILS Erding.
 
 UI
 
