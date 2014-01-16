@@ -13,19 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace AlarmWorkflow.Windows.UI.Views
 {
@@ -34,9 +22,16 @@ namespace AlarmWorkflow.Windows.UI.Views
     /// </summary>
     public partial class ContentNoAlarmsControl : UserControl
     {
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContentNoAlarmsControl"/> class.
+        /// </summary>
         public ContentNoAlarmsControl()
         {
             InitializeComponent();
+
+            Helper.SetDisplayModeRequired(false);
 
             if (!App.GetApp().StartRoutine)
             {
@@ -47,5 +42,7 @@ namespace AlarmWorkflow.Windows.UI.Views
                 App.GetApp().StartRoutine = false;
             }
         }
+
+        #endregion
     }
 }

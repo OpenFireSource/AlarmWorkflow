@@ -100,10 +100,20 @@ namespace AlarmWorkflow.Windows.UI.Views
         {
             if (alarmsAvailable)
             {
+                if (this.content.Content is ContentAlarmsAvailableControl)
+                {
+                    return;
+                }
+
                 this.content.Content = new ContentAlarmsAvailableControl();
             }
             else
             {
+                if (this.content.Content is ContentNoAlarmsControl)
+                {
+                    return;
+                }
+
                 this.content.Content = new ContentNoAlarmsControl();
             }
         }

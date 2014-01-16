@@ -408,13 +408,24 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private void DeleteOldOperations(IList<int> operations)
         {
+            bool removed = false;
             for (int i = 0; i < AvailableEvents.Count; i++)
             {
                 Operation operation = AvailableEvents[i].Operation;
                 if (!operations.Contains(operation.Id))
                 {
                     RemoveEvent(AvailableEvents[i]);
+                    removed = true;
                 }
+            }
+
+            if (removed)
+            {
+                SelectedEvent = AvailableEvents.FirstOrDefault();
+                OnPropertyChanged("SelectedEvent");
+                OnPropertyChanged("SelectedEvent.Operation");
+                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
+                UpdateProperties();
             }
         }
 

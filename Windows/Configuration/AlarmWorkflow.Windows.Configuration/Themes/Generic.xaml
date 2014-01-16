@@ -18,4 +18,29 @@
         </Style.Triggers>
     </Style>
 
+    <Style TargetType="CheckBox" x:Key="checkBoxStyle">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Border x:Name="border" Width="50" BorderBrush="Black" BorderThickness="1" CornerRadius="2">
+                            <TextBlock x:Name="text" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Border.Background" Value="LightGreen" />
+                                <Setter TargetName="text" Property="TextBlock.Text" Value="Aktiv" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="border" Property="Border.Background" Value="Gray" />
+                                <Setter TargetName="text" Property="TextBlock.Text" Value="Inaktiv" />
+                                <Setter TargetName="text" Property="TextBlock.Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
 </ResourceDictionary>

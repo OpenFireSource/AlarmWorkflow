@@ -24,6 +24,7 @@ namespace AlarmWorkflow.Windows.UI.Models
         internal static readonly SettingKey AcknowledgeOperationKeyKey = SettingKey.Create("UIConfiguration", "AcknowledgeOperationKey");
         internal static readonly SettingKey AOAIsEnabledKey = SettingKey.Create("UIConfiguration", "AOA.IsEnabled");
         internal static readonly SettingKey AOAMaxAgeKey = SettingKey.Create("UIConfiguration", "AOA.MaxAge");
+        internal static readonly SettingKey AvoidScreensaverKey = SettingKey.Create("UIConfiguration", "AvoidScreensaver");
         internal static readonly SettingKey MaxAlarmsInUIKey = SettingKey.Create("UIConfiguration", "MaxAlarmsInUI");
         internal static readonly SettingKey JobsConfigurationKey = SettingKey.Create("UIConfiguration", "JobsConfiguration");
         internal static readonly SettingKey IdleJobsConfigurationKey = SettingKey.Create("UIConfiguration", "IdleJobsConfiguration");

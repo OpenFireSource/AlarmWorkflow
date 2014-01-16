@@ -1,0 +1,30 @@
+AlarmWorkflow v0.9.5.0 Release Notes
+====================================
+
+Updates since v0.9.4.0
+----------------------
+
+General
+
+  * [Printing] Added workaround for certain printers reporting CopyCounts they can't handle.
+  * [Push Job] Made Push Job more robust and now run concurrently.
+
+Parsers
+
+  * [FEZMuenchenLand] Updated logic, now retrieves more information.
+  * [IlsErding] Added parser for ILS Erding.
+
+UI
+
+  * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
+
+Fixes since v0.9.4.0
+--------------------
+
+Issues resolved
+
+  * -
+
+Other fixes
+
+  * -
