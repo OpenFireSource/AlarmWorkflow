@@ -55,6 +55,7 @@
     <Compile Include="Core\AssertionFailedException.cs" />
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\AssertionType.cs" />
+    <Compile Include="Core\ProcessWrapper.cs" />
     <Compile Include="Core\CsvHelper.cs" />
     <Compile Include="Core\DisposableObject.cs" />
     <Compile Include="Core\ExportConfiguration.cs" />

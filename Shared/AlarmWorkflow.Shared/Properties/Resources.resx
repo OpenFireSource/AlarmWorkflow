@@ -349,4 +349,16 @@
   <data name="AssertionFailedExceptionNotNull" xml:space="preserve">
     <value>The value '{0}' shall not be null!</value>
   </data>
+  <data name="ProcessDataEvent" xml:space="preserve">
+    <value>Process data event: {0}</value>
+  </data>
+  <data name="ProcessErrorEvent" xml:space="preserve">
+    <value>Process error event: {0}</value>
+  </data>
+  <data name="ProgramFinished" xml:space="preserve">
+    <value>Program '{0}' has finished with exit code {1}.</value>
+  </data>
+  <data name="ProgramStart" xml:space="preserve">
+    <value>Starting program '{0}' with arguments '{1}'...</value>
+  </data>
 </root>
