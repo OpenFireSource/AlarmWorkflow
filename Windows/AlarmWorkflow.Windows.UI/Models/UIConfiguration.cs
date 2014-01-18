@@ -143,7 +143,7 @@ namespace AlarmWorkflow.Windows.UI.Models
 
         #region ISettingsServiceCallback Members
 
-        void ISettingsServiceCallback.OnSettingChanged(SettingKey key)
+        void ISettingsServiceCallback.OnSettingChanged(SettingKey[] keys)
         {
             // TODO: Update setting values
         }
