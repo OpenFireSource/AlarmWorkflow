@@ -24,6 +24,12 @@ namespace AlarmWorkflow.Shared.Settings
     [Serializable()]
     public sealed class SettingKey : IEquatable<SettingKey>
     {
+        #region Constants
+
+        private const string FullNameFormat = "{0}.{1}";
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -63,6 +69,15 @@ namespace AlarmWorkflow.Shared.Settings
             Assertions.AssertNotEmpty(name, "name");
 
             return new SettingKey() { Identifier = identifier, Name = name };
+        }
+
+        /// <summary>
+        /// Returns a string that represents this instance of <see cref="SettingKey"/>.
+        /// </summary>
+        /// <returns>A string that is similar to "Identifier.Name".</returns>
+        public override string ToString()
+        {
+            return string.Format(FullNameFormat, Identifier, Name);
         }
 
         #endregion
