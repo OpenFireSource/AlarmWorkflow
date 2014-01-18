@@ -63,23 +63,16 @@ namespace AlarmWorkflow.BackendService.Settings
 
         SettingItem ISettingsService.GetSetting(SettingKey key)
         {
-            Assertions.AssertNotNull(key, "key");
-
             return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetSetting(key);
         }
 
         void ISettingsService.SetSetting(SettingKey key, SettingItem value)
         {
-            Assertions.AssertNotNull(key, "key");
-            Assertions.AssertNotNull(value, "value");
-
             this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSetting(key.Identifier, key.Name, value);
         }
 
         void ISettingsService.SetSettings(ICollection<KeyValuePair<SettingKey, SettingItem>> values)
         {
-            Assertions.AssertNotNull(values, "values");
-
             this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSettings(values);
         }
 
