@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.ServiceModel;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.Shared.Settings;
@@ -49,5 +50,12 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         [OperationContract()]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         void SetSetting(SettingKey key, SettingItem value);
+        /// <summary>
+        /// Sets the values of multiple settings in one batch.
+        /// </summary>
+        /// <param name="values">The values of the settings to set.</param>
+        [OperationContract()]
+        [FaultContract(typeof(AlarmWorkflowFaultDetails))]
+        void SetSettings(ICollection<KeyValuePair<SettingKey, SettingItem>> values);
     }
 }

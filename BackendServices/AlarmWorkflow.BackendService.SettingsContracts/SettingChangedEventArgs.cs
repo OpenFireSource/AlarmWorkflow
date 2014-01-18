@@ -14,22 +14,24 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.SettingsContracts
 {
     /// <summary>
-    /// Represents the event that a setting has changed its value.
+    /// Represents the event that one or more settings have changed their value.
     /// </summary>
     public class SettingChangedEventArgs : EventArgs
     {
         #region Properties
 
         /// <summary>
-        /// Gets the <see cref="SettingKey"/>-instance describing the identifier and name of the setting that has changed.
+        /// Gets the <see cref="SettingKey"/>-instances describing the identifiers and names of the settings that have changed.
         /// </summary>
-        public SettingKey Key { get; private set; }
+        public SettingKey[] Keys { get; private set; }
 
         #endregion
 
@@ -44,13 +46,13 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingChangedEventArgs"/> class.
         /// </summary>
-        /// <param name="key">The <see cref="SettingKey"/>, representing the setting that has changed.</param>
-        public SettingChangedEventArgs(SettingKey key)
+        /// <param name="keys">The <see cref="SettingKey"/>, representing the settings that have changed.</param>
+        public SettingChangedEventArgs(IEnumerable<SettingKey> keys)
             : this()
         {
-            Assertions.AssertNotNull(key, "key");
+            Assertions.AssertNotNull(keys, "keys");
 
-            Key = key;
+            Keys = keys.ToArray();
         }
 
         #endregion

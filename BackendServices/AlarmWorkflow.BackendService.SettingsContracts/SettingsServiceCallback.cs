@@ -29,22 +29,22 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         #region Events
 
         /// <summary>
-        /// Occurs when the value of a setting has changed.
+        /// Occurs when the value of a one or more settings have changed.
         /// </summary>
-        public event Action<SettingKey> SettingChanged;
+        public event Action<SettingKey[]> SettingsChanged;
 
         #endregion
 
         #region ISettingsServiceCallback Members
 
-        void ISettingsServiceCallback.OnSettingChanged(SettingKey key)
+        void ISettingsServiceCallback.OnSettingChanged(SettingKey[] keys)
         {
             try
             {
-                var copy = SettingChanged;
+                var copy = SettingsChanged;
                 if (copy != null)
                 {
-                    copy(key);
+                    copy(keys);
                 }
             }
             catch (Exception ex)

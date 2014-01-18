@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="SettingAddOrUpdateConstraintError" xml:space="preserve">
+    <value>The data value for setting '{0}' exceeds database limits! If this value is important for you, please report this error to the developers! Please see log for further information.</value>
+  </data>
+  <data name="SettingAddOrUpdateError" xml:space="preserve">
+    <value>Could not add or update setting '{0}'. Please see log for further information.</value>
+  </data>
   <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
     <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
   </data>

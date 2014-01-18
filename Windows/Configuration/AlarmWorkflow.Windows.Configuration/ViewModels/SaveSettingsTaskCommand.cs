@@ -16,13 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
-using AlarmWorkflow.Backend.ServiceContracts.Communication;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -69,7 +69,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <param name="parameter">An optional parameter for the command.</param>
         protected override void Execute(object parameter)
         {
-            Dictionary<SettingKey, SettingItem> settings = new Dictionary<SettingKey, SettingItem>();
+            List<Dictionary<SettingKey, SettingItem>> settings = new List<Dictionary<SettingKey, SettingItem>>();
             int iFailedSettings = 0;
 
             App.Current.Dispatcher.Invoke((Action)(() =>
@@ -82,6 +82,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                         continue;
                     }
 
+                    Dictionary<SettingKey, SettingItem> sectionSettings = new Dictionary<SettingKey, SettingItem>();
+                    settings.Add(sectionSettings);
+
                     foreach (CategoryViewModel cvm in svm.CategoryItems)
                     {
                         foreach (SettingItemViewModel sivm in cvm.SettingItems)
@@ -92,7 +95,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                                 value = sivm.TypeEditor.Value;
 
                                 sivm.Setting.Value = value;
-                                settings.Add(sivm.Info.CreateSettingKey(), sivm.Setting);
+                                sectionSettings.Add(sivm.Info.CreateSettingKey(), sivm.Setting);
                             }
                             catch (Exception ex)
                             {
@@ -132,18 +135,18 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             MessageBox.Show(boxMessage, Properties.Resources.SettingSaveFinished_Title, MessageBoxButton.OK, boxImage);
         }
 
-        private int SaveSettingItems(IDictionary<SettingKey, SettingItem> settings)
+        private int SaveSettingItems(List<Dictionary<SettingKey, SettingItem>> settings)
         {
             int failedSaves = 0;
 
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
                 int i = 0;
-                foreach (var pair in settings)
+                foreach (var section in settings)
                 {
                     try
                     {
-                        service.Instance.SetSetting(pair.Key, pair.Value);
+                        service.Instance.SetSettings(section);
                     }
                     catch (Exception ex)
                     {

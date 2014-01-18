@@ -61,6 +61,24 @@ namespace AlarmWorkflow.BackendService.Settings.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The data value for setting &apos;{0}&apos; exceeds database limits! If this value is important for you, please report this error to the developers! Please see log for further information..
+        /// </summary>
+        internal static string SettingAddOrUpdateConstraintError {
+            get {
+                return ResourceManager.GetString("SettingAddOrUpdateConstraintError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not add or update setting &apos;{0}&apos;. Please see log for further information..
+        /// </summary>
+        internal static string SettingAddOrUpdateError {
+            get {
+                return ResourceManager.GetString("SettingAddOrUpdateError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Encountered not supported node type of &apos;{0}&apos; in setting &apos;{1}&apos;. Only plain values and CDATA-nodes are currently supported!.
         /// </summary>
         internal static string SettingsConfigurationEmbResInvalidValueContent {

@@ -191,7 +191,7 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Einstellung {0} von {1} gespeichert..
+        ///   Looks up a localized string similar to Einstellungsgruppe {0} von {1} gespeichert..
         /// </summary>
         internal static string SaveSettingStatusText {
             get {

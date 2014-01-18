@@ -24,10 +24,10 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     public interface ISettingsServiceCallback
     {
         /// <summary>
-        /// Called when the value of a setting has changed.
+        /// Called when the values of one or more settings have changed.
         /// </summary>
-        /// <param name="key">The <see cref="SettingKey"/>-instance describing the identifier and name of the changed setting.</param>
+        /// <param name="keys">The <see cref="SettingKey"/>-instance describing the identifiers and names of the changed settings.</param>
         [OperationContract(IsOneWay = true)]
-        void OnSettingChanged(SettingKey key);
+        void OnSettingChanged(SettingKey[] keys);
     }
 }

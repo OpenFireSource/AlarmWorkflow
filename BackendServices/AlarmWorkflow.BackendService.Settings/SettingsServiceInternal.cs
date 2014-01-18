@@ -14,11 +14,15 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.Backend.ServiceContracts.Data;
 using AlarmWorkflow.BackendService.Settings.Data;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.Settings
@@ -155,32 +159,107 @@ namespace AlarmWorkflow.BackendService.Settings
                 Assertions.AssertNotEmpty(identifier, "identifier");
                 Assertions.AssertNotEmpty(name, "name");
 
+                IEnumerable<SettingKey> savedSettings = null;
+
                 lock (SyncRoot)
                 {
-                    using (SettingsEntities entities = EntityFrameworkHelper.CreateContext<SettingsEntities>(EdmxPath))
+                    SettingKey key = SettingKey.Create(identifier, name);
+
+                    List<KeyValuePair<SettingKey, SettingItem>> settings = new List<KeyValuePair<SettingKey, SettingItem>>();
+                    settings.Add(new KeyValuePair<SettingKey, SettingItem>(key, value));
+
+                    savedSettings = SaveSettings(settings);
+                }
+
+                if (savedSettings != null && savedSettings.Any())
+                {
+                    OnSettingChanged(new SettingChangedEventArgs(savedSettings));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
+        }
+
+        private IList<SettingKey> SaveSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
+        {
+            List<SettingKey> keys = new List<SettingKey>();
+
+            using (SettingsEntities entities = EntityFrameworkHelper.CreateContext<SettingsEntities>(EdmxPath))
+            {
+                foreach (var pair in values)
+                {
+                    SettingKey key = pair.Key;
+                    IProxyType<string> value = pair.Value;
+
+                    try
                     {
-                        UserSettingData userSetting = entities.GetUserSettingData(identifier, name);
-                        if (userSetting == null)
+                        if (AddOrUpdateSetting(entities, key, value))
                         {
-                            userSetting = new UserSettingData();
-                            userSetting.Identifier = identifier;
-                            userSetting.Name = name;
-                            entities.UserSettings.AddObject(userSetting);
+                            keys.Add(key);
                         }
-
-                        string valueToPersist = ((IProxyType<string>)value).ProxiedValue;
-                        if (string.Equals(userSetting.Value, valueToPersist, StringComparison.Ordinal))
-                        {
-                            return;
-                        }
-
-                        userSetting.Value = valueToPersist;
-                        entities.SaveChanges();
+                    }
+                    catch (ConstraintException ex)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SettingAddOrUpdateConstraintError, key);
+                        Logger.Instance.LogException(this, ex);
+                    }
+                    catch (DataException ex)
+                    {
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SettingAddOrUpdateError, key);
+                        Logger.Instance.LogException(this, ex);
                     }
                 }
 
-                SettingKey key = SettingKey.Create(identifier, name);
-                OnSettingChanged(new SettingChangedEventArgs(key));
+                if (keys.Count > 0)
+                {
+                    entities.SaveChanges();
+                }
+            }
+
+            return keys;
+        }
+
+        private static bool AddOrUpdateSetting(SettingsEntities entities, SettingKey key, IProxyType<string> value)
+        {
+            UserSettingData userSetting = entities.GetUserSettingData(key.Identifier, key.Name);
+            if (userSetting == null)
+            {
+                userSetting = new UserSettingData();
+                userSetting.Identifier = key.Identifier;
+                userSetting.Name = key.Name;
+                entities.UserSettings.AddObject(userSetting);
+            }
+
+            string valueToPersist = value.ProxiedValue;
+            if (!string.Equals(userSetting.Value, valueToPersist, StringComparison.Ordinal))
+            {
+                userSetting.Value = valueToPersist;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        void ISettingsServiceInternal.SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
+        {
+            try
+            {
+                Assertions.AssertNotNull(values, "values");
+
+                IEnumerable<SettingKey> savedSettings = null;
+
+                lock (SyncRoot)
+                {
+                    savedSettings = SaveSettings(values);
+                }
+
+                if (savedSettings != null && savedSettings.Any())
+                {
+                    OnSettingChanged(new SettingChangedEventArgs(savedSettings));
+                }
             }
             catch (Exception ex)
             {

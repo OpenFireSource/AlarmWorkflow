@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -56,5 +57,10 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <param name="name">The name of the setting within the configuration defined by <paramref name="identifier"/>.</param>
         /// <param name="value">The new value of the setting.</param>
         void SetSetting(string identifier, string name, SettingItem value);
+        /// <summary>
+        /// Sets the values of multiple settings in one batch.
+        /// </summary>
+        /// <param name="values">The values of the settings to set.</param>
+        void SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values);
     }
 }
