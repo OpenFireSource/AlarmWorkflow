@@ -20,8 +20,8 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
+using AlarmWorkflow.Backend.Service.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
-using AlarmWorkflow.Backend.ServiceContracts.Communication.EndPointResolvers;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.Backend.ServiceContracts.ServiceDefinition;
 using AlarmWorkflow.Shared.Core;
@@ -66,7 +66,7 @@ namespace AlarmWorkflow.Backend.Service
 
             try
             {
-                ServiceFactory.EndPointResolver = new LocalhostEndPointResolver();
+                ServiceFactory.EndPointResolver = new AnyInterfaceEndPointResolver();
 
                 HostAllServices();
 
