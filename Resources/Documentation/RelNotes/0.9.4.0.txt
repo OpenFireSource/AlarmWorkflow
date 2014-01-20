@@ -13,7 +13,6 @@ General
   * [Config UI] Saving of settings is now asynchronous.
   * [Database] Made keyword-columns wider by 150 chars. Please execute script from Appendix #1.
   * [Geocoding] Use international format (dot instead of comma).
-  * [Service] Big architecture overhaul! Allowing for a lot more flexibility and extensibility. See Appendix #2.
 
 Parsers
 
@@ -41,7 +40,7 @@ Appendix
 #1
 --------
 
-  ALTER TABLE `alarmworkflow`.`operation` 
+  ALTER TABLE `alarmworkflow`.`operation`
   CHANGE COLUMN `keyword` `keyword` VARCHAR(200) NULL DEFAULT NULL  ,
   CHANGE COLUMN `keywordmisc` `keywordmisc` VARCHAR(200) NULL DEFAULT NULL  ,
   CHANGE COLUMN `keywordb` `keywordb` VARCHAR(200) NULL DEFAULT NULL  ,
@@ -49,10 +48,3 @@ Appendix
   CHANGE COLUMN `keywords` `keywords` VARCHAR(200) NULL DEFAULT NULL  ,
   CHANGE COLUMN `keywordt` `keywordt` VARCHAR(200) NULL DEFAULT NULL
   ;
-
-#2
---------
-
-Before applying the update, make sure that you first uninstall your existing Alarmworkflow Service
-using the Configuration editor. Then, apply the update, and afterwards install the service using
-the editor as usual.
