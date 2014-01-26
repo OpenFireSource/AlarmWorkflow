@@ -61,7 +61,7 @@ namespace AlarmWorkflow.Shared.Database.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Could not connect to the database using the provided settings! Please check if the database server is running and check your credentials..
+        ///   Looks up a localized string similar to Could not connect to the database using the provided settings! Please check if the database server is running and check your credentials. Retrying in {0} milliseconds....
         /// </summary>
         internal static string DatabaseNotReachableErrorMessage {
             get {

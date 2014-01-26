@@ -118,6 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DatabaseNotReachableErrorMessage" xml:space="preserve">
-    <value>Could not connect to the database using the provided settings! Please check if the database server is running and check your credentials.</value>
+    <value>Could not connect to the database using the provided settings! Please check if the database server is running and check your credentials. Retrying in {0} milliseconds...</value>
   </data>
 </root>

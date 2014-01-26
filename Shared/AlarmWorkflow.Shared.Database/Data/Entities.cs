@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
 
@@ -23,12 +23,23 @@ namespace AlarmWorkflow.Shared.Database.Data
 {
     partial class AlarmWorkflowEntities
     {
+        #region Constants
+
         private static readonly string ConnectionString;
+        private const int CheckConnectionRetryTimeoutMs = 1000;
+
+        #endregion
+
+        #region Constructors
 
         static AlarmWorkflowEntities()
         {
             ConnectionString = BuildConnectionString();
         }
+
+        #endregion
+
+        #region Methods
 
         private static string BuildConnectionString()
         {
@@ -58,14 +69,16 @@ namespace AlarmWorkflow.Shared.Database.Data
         }
 
         /// <summary>
-        /// Checks if the we can reach the database server, otherwise throw an exception.
+        /// Ensures that we have database access to the configured server.
+        /// If database access is not possible, consecutive attempts are made after waiting a little.
         /// </summary>
-        internal static void AssertDatabaseReachable()
+        internal static void EnsureDatabaseReachable()
         {
-            if (!CheckDatabaseReachable())
+            while (!CheckDatabaseReachable())
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof(AlarmWorkflowEntities), Properties.Resources.DatabaseNotReachableErrorMessage);
-                throw new InvalidOperationException(Properties.Resources.DatabaseNotReachableErrorMessage);
+                Logger.Instance.LogFormat(LogType.Warning, typeof(AlarmWorkflowEntities), Properties.Resources.DatabaseNotReachableErrorMessage, CheckConnectionRetryTimeoutMs);
+
+                Thread.Sleep(CheckConnectionRetryTimeoutMs);
             }
         }
 
@@ -85,5 +98,8 @@ namespace AlarmWorkflow.Shared.Database.Data
                 return false;
             }
         }
+
+        #endregion
+
     }
 }
