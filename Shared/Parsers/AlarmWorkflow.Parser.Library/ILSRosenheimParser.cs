@@ -101,7 +101,7 @@ namespace AlarmWorkflow.Parser.Library
                             }
                             break;
                         case CurrentSection.BMitteiler:
-                            operation.Messenger = line.Remove(0, keyword.Length).Trim();
+                            operation.Messenger = msg;
                             break;
                         case CurrentSection.CEinsatzort:
                             {
@@ -160,15 +160,13 @@ namespace AlarmWorkflow.Parser.Library
                             {
                                 if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "NAME");
                                     last.FullName = msg;
                                 }
                                 else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
                                 {
-                                    msg = GetMessageText(line, "ALARMIERT");
-
+                                    msg = GetTextBetween(msg, null, "AUS");
                                     // In case that parsing the time failed, we just assume that the resource got requested right away.
-                                    DateTime dt;
+                                    DateTime dt = DateTime.Now;
                                     // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
                                     if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
                                     {
@@ -217,6 +215,41 @@ namespace AlarmWorkflow.Parser.Library
 
         #region Methods
 
+        private string GetTextBetween(string line, string start, string stop)
+        {
+            int startIndex = 0;
+            int stopIndex = 0;
+
+            if (!string.IsNullOrWhiteSpace(start))
+            {
+                if (line.ToUpper().Contains(start.ToUpper()))
+                {
+                    startIndex = line.ToUpper().IndexOf(start.ToUpper()) + start.Length;
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(stop))
+            {
+                if (line.ToUpper().Contains(stop.ToUpper()))
+                {
+                    stopIndex = line.ToUpper().IndexOf(stop.ToUpper());
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(stop))
+            {
+                if (stopIndex < startIndex)
+                {
+                    return line.Substring(startIndex).Trim();
+                }
+                else
+                {
+                    int length = stopIndex - startIndex;
+                    return line.Substring(startIndex, length).Trim();
+                }
+            }
+            return line.Substring(startIndex).Trim();
+        }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
@@ -249,7 +282,7 @@ namespace AlarmWorkflow.Parser.Library
                 keywordsOnly = false;
                 return true;
             }
-            if (line.Contains("ENDE ALARMFAX — V2.0"))
+            if (line.Contains("ENDE ALARMFAX"))
             {
                 section = CurrentSection.GFooter;
                 keywordsOnly = false;

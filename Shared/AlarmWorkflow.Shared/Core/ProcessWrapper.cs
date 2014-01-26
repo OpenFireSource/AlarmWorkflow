@@ -1,4 +1,4 @@
-﻿// This file is part of AlarmWorkflow.
+// This file is part of AlarmWorkflow.
 // 
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -16,14 +16,14 @@
 using System;
 using System.Diagnostics;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Properties;
 
-namespace AlarmWorkflow.AlarmSource.Fax
+namespace AlarmWorkflow.Shared.Core
 {
     /// <summary>
     /// Represents a wrapper around a <see cref="Process"/> that allows for convenient running a process and listening to its StdOut/StdErr to log them.
-    /// Only use within using-pattern.
     /// </summary>
-    sealed class ProcessWrapper : IDisposable
+    public class ProcessWrapper : IDisposable
     {
         #region Fields
 
@@ -33,19 +33,28 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #region Properties
 
-        internal string WorkingDirectory
+        /// <summary>
+        /// Gets or sets the working directory for the process to be started. 
+        /// </summary>
+        public string WorkingDirectory
         {
             get { return _process.StartInfo.WorkingDirectory; }
             set { _process.StartInfo.WorkingDirectory = value; }
         }
 
-        internal string FileName
+        /// <summary>
+        /// Gets/Sets the name or path of the application to start.
+        /// </summary>
+        public string FileName
         {
             get { return _process.StartInfo.FileName; }
             set { _process.StartInfo.FileName = value; }
         }
 
-        internal string Arguments
+        /// <summary>
+        /// Gets/Sets the arguments that have to be used when starting the given application.
+        /// </summary>
+        public string Arguments
         {
             get { return _process.StartInfo.Arguments; }
             set { _process.StartInfo.Arguments = value; }
@@ -58,7 +67,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessWrapper"/> class.
         /// </summary>
-        internal ProcessWrapper()
+        public ProcessWrapper()
         {
             _process = new Process();
 
@@ -77,16 +86,30 @@ namespace AlarmWorkflow.AlarmSource.Fax
         #region Methods
 
         /// <summary>
+        /// Starts the process, while reading the output and error events from the process.
+        /// </summary>
+        public void Start()
+        {
+            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
+
+            _process.Exited += _process_Exited;
+            _process.Start();
+            _process.BeginErrorReadLine();
+            _process.BeginOutputReadLine();
+        }
+
+        /// <summary>
         /// Starts the process and waits for completion, while reading the output and error events from the process.
         /// </summary>
-        internal void StartAndWait()
+        public void StartAndWait()
         {
+            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
+
             _process.Start();
             _process.BeginErrorReadLine();
             _process.BeginOutputReadLine();
             _process.WaitForExit();
         }
-
         private void _process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data == null)
@@ -94,7 +117,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 return;
             }
 
-            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessDataEvent, e.Data);
+            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProcessDataEvent, e.Data);
         }
 
         private void _process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
@@ -104,7 +127,15 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 return;
             }
 
-            Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ProcessErrorEvent, e.Data);
+            Logger.Instance.LogFormat(LogType.Error, this, Resources.ProcessErrorEvent, e.Data);
+        }
+
+        private void _process_Exited(object sender, EventArgs e)
+        {
+            _process.Exited -= _process_Exited;
+
+            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramFinished, FileName, _process.ExitCode);
+            _process.Dispose();
         }
 
         #endregion
