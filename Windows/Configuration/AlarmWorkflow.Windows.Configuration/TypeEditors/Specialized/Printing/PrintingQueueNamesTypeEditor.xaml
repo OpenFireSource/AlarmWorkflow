@@ -12,7 +12,7 @@
         <ItemsControl Grid.Row="1" Margin="2" ItemsSource="{Binding PrintingQueues}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Value, Mode=OneTime}" Style="{StaticResource checkBoxStyle}" />
+                    <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Value, Mode=OneTime}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
