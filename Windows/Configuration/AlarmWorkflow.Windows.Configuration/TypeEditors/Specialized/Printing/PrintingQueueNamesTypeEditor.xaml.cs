@@ -56,9 +56,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
             InitializeComponent();
 
             PrintingQueues = PrintingQueueManager.GetInstance().Entries
-                .Select(pq => pq.Name)
-                .OrderBy(p => p)
-                .Select(n => new CheckedStringItem(n))
+                .Select(n => new CheckedStringItem(n.Name) { Tag = n })
+                .OrderBy(p => p.Value)
                 .ToList();
 
             this.DataContext = this;

@@ -6,13 +6,31 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <Label Grid.Row="0" Content="Wählen Sie die Drucker aus, auf denen gedruckt werden soll:" />
-        
+
         <ItemsControl Grid.Row="1" Margin="2" ItemsSource="{Binding PrintingQueues}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Value, Mode=OneTime}" />
+                    <CheckBox Margin="2" IsChecked="{Binding IsChecked, Mode=TwoWay}" Content="{Binding Value, Mode=OneTime}">
+                        <CheckBox.ToolTip>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Value}" FontWeight="Bold" />
+                                <TextBlock>
+                                    <Run Text="Druckername:" />
+                                    <Run Text="{Binding Tag.PrinterName}" FontStyle="Italic" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Druckerserver:" />
+                                    <Run Text="{Binding Tag.PrintServer}" FontStyle="Italic" />
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Kopien:" />
+                                    <Run Text="{Binding Tag.CopyCount}" FontStyle="Italic" />
+                                </TextBlock>
+                            </StackPanel>
+                        </CheckBox.ToolTip>
+                    </CheckBox>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

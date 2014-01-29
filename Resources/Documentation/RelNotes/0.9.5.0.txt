@@ -14,11 +14,12 @@ Parsers
 
   * [FEZMuenchenLand] Updated logic, now retrieves more information.
   * [IlsErding] Added parser for ILS Erding.
-  * [ILSRosenheim] Fixed reading timestamp of resources and messenger 
+  * [ILSRosenheim] Fixed reading timestamp of resources and messenger
 
 UI
 
   * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
+  * [Config UI] Show more details for printing queues (via ToolTip).
 
 Misc
 

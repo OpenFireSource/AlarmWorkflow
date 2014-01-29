@@ -47,6 +47,7 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
 
         private bool _isChecked;
         private T _value;
+        private object _tag;
 
         #endregion
 
@@ -75,6 +76,19 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
             {
                 _value = value;
                 OnPropertyChanged("Value");
+            }
+        }
+
+        /// <summary>
+        /// Gets/sets an optional tag for information that can be applied to this instance.
+        /// </summary>
+        public object Tag
+        {
+            get { return _tag; }
+            set
+            {
+                _tag = value;
+                OnPropertyChanged("Tag");
             }
         }
 
