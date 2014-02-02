@@ -27,6 +27,7 @@ UI
 Misc
 
   * [Shared] Moved ProcessWrapper into Shared namespace so it is accessible for all components.
+  * [Website] Website uses geocodes provided by geocoding job.
 
 Fixes since v0.9.4.0
 --------------------

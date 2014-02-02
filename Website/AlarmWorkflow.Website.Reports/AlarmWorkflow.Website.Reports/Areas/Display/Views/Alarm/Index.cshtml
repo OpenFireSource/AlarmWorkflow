@@ -14,7 +14,6 @@
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
     var maxZoomService = new google.maps.MaxZoomService();
-    var geocoder = new google.maps.Geocoder();
     var addressCoor = null;
     var showRoute = @(config.Route.ToString().ToLower());
     var zoomOnAddress = true;
@@ -124,34 +123,10 @@
                         directionsDisplay = new google.maps.DirectionsRenderer();
                         var firstTime = true;
                         var address = oaddress;
-                        var dest = null;
+                        var dest = new google.maps.LatLng(result.op.Einsatzort.GeoLatitude,result.op.Einsatzort.GeoLongitude);
+                        
+                        map = new google.maps.Map(document.getElementById("ogoogle"), mapOptions);
 
-                        geocoder.geocode({ 'address': address }, function (results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                dest = results[0].geometry.location;
-                            }
-                        });
-                        if (!showRoute) {
-
-                            geocoder.geocode({ 'address': address }, function (results, status) {
-                                if (status == google.maps.GeocoderStatus.OK) {
-                                    dest = results[0].geometry.location;
-                                    new google.maps.Marker({
-                                        position: dest,
-                                        map: map,
-                                    });
-                                    map.setCenter(dest);
-                                    map.setZoom(18);
-                                    maxZoomService.getMaxZoomAtLatLng(dest, function (response) {
-                                        if (response.status == google.maps.MaxZoomStatus.OK) {
-                                            var zoom = Math.round(response.zoom * zoomLevel);
-                                            map.setZoom(zoom);
-                                        }
-                                    });
-
-                                }
-                            });
-                        }
                         var mapOptions = {
                             zoom: 10,
                             overviewMapControl: false,
@@ -160,8 +135,7 @@
                             streetViewControl: false,
                             zoomControl: @(config.ZoomControl.ToString().ToLower()),
                             mapTypeId: @(config.MapTypeGoogle)
-                        };
-                        map = new google.maps.Map(document.getElementById("ogoogle"), mapOptions);
+                            };
                         //45°
                         if (useTilt) {
                             map.setTilt(45);
@@ -171,36 +145,32 @@
                             var trafficLayer = new google.maps.TrafficLayer();
                             trafficLayer.setMap(map);
                         }
-                        if (showRoute) {
+                        if (!showRoute) {
+                            new google.maps.Marker({
+                                position: dest,
+                                map: map,
+                            });
+                            map.setCenter(dest);
+                            map.setZoom(18);
+                            maxZoomService.getMaxZoomAtLatLng(dest, function (response) {
+                                if (response.status == google.maps.MaxZoomStatus.OK) {
+                                    var zoom = Math.round(response.zoom * zoomLevel);
+                                    map.setZoom(zoom);
+                                }
+                            });
+                        } else {
                             //ROUTE
                             directionsDisplay.setMap(map);
                             calcRoute(home, address);
-
                             google.maps.event.addListener(map, 'tilesloaded', function () {
                                 if (zoomOnAddress && firstTime) {
                                     firstTime = false;
-                                    geocoder.geocode({ 'address': address }, function (results, status) {
-                                        if (status == google.maps.GeocoderStatus.OK) {
-                                            var coor = results[0].geometry.location;
-                                            if (addressCoor != null) {
-                                                map.setCenter(addressCoor);
-                                                map.setZoom(18);
-                                                maxZoomService.getMaxZoomAtLatLng(addressCoor, function (response) {
-                                                    if (response.status == google.maps.MaxZoomStatus.OK) {
-                                                        var zoom = Math.round(response.zoom * zoomLevel);
-                                                        map.setZoom(zoom);
-                                                    }
-                                                });
-                                            } else {
-                                                map.setCenter(coor);
-                                                map.setZoom(18);
-                                                maxZoomService.getMaxZoomAtLatLng(coor, function (response) {
-                                                    if (response.status == google.maps.MaxZoomStatus.OK) {
-                                                        var zoom = Math.round(response.zoom * zoomLevel);
-                                                        map.setZoom(zoom);
-                                                    }
-                                                });
-                                            }
+                                    map.setCenter(dest);
+                                    map.setZoom(18);
+                                    maxZoomService.getMaxZoomAtLatLng(dest, function (response) {
+                                        if (response.status == google.maps.MaxZoomStatus.OK) {
+                                            var zoom = Math.round(response.zoom * zoomLevel);
+                                            map.setZoom(zoom);
                                         }
                                     });
                                 }
