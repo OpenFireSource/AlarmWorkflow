@@ -38,6 +38,11 @@
                       <xs:documentation>The parameters, which will be handed over to the editor for editing.</xs:documentation>
                     </xs:annotation>
                   </xs:attribute>
+                  <xs:attribute name="IsDynamic" type="xs:boolean" use="optional">
+                    <xs:annotation>
+                      <xs:documentation>Specifies whether or not changes made to this setting will be dynamically fetched and applied again by the consumer.</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
                 </xs:complexType>
               </xs:element>
             </xs:sequence>

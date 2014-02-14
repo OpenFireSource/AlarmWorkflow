@@ -213,6 +213,7 @@ namespace AlarmWorkflow.BackendService.Settings
                     setting.Order = settingE.TryGetAttributeValue("Order", 0);
                     setting.Editor = settingE.TryGetAttributeValue("Editor", null);
                     setting.EditorParameter = settingE.TryGetAttributeValue("EditorParameter", null);
+                    setting.IsDynamic = settingE.TryGetAttributeValue("IsDynamic", false);
 
                     identifier.Settings.Add(setting);
                 }

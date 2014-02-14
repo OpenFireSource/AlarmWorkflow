@@ -68,6 +68,16 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// </summary>
         [DataMember()]
         public string EditorParameter { get; set; }
+        /// <summary>
+        /// Gets/sets whether or not changes made to this setting will be dynamically fetched and applied again by the consumer.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>This property describes if changes made to the underlying setting will be picked up by the settings consumer.
+        /// The consumer in this context is the component that has specified the setting in the first place.
+        /// If this property is set to true, then any change made will be applied immediately, or at least at the next-best occassion.
+        /// If this property is set to false, then any change requires the entire service to be restarted.</remarks>
+        [DataMember()]
+        public bool IsDynamic { get; set; }
 
         #endregion
 

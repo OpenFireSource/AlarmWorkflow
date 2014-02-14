@@ -1,6 +1,7 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="Engine" DisplayText="Engine" Order="-2147483648" Parent="Backend">
-    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.BackendService.EngineContracts.IJob, AlarmWorkflow.BackendService.EngineContracts"
+    <Setting Name="JobsConfiguration" DisplayText="Aufgaben" Category="Erweitert" IsDynamic="true"
+             Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.BackendService.EngineContracts.IJob, AlarmWorkflow.BackendService.EngineContracts"
              Description="Welche Aufgaben nach eingehenden Alarmen ausgeführt werden sollen." />
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.BackendService.EngineContracts.IAlarmSource, AlarmWorkflow.BackendService.EngineContracts"
              Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
