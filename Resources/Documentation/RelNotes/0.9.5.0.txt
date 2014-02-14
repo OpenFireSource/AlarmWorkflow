@@ -10,6 +10,8 @@ General
   * [Push Job] Made Push Job more robust and now run concurrently.
   * [Database] Weakened check for database access. Now retries after failing to make it less error-prone.
   * [Service] Big architecture overhaul! Allowing for a lot more flexibility and extensibility. See Appendix #1.
+  * [Service] Jobs get dynamical (de)activated.
+  * [Service] Addressbook gets reloaded after change.
 
 Parsers
 

@@ -19,8 +19,10 @@ using System.Linq;
 using System.Threading;
 using AlarmWorkflow.BackendService.Engine.Properties;
 using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.Engine
 {
@@ -31,8 +33,11 @@ namespace AlarmWorkflow.BackendService.Engine
     {
         #region Fields
 
+        private IEnumerable<string> _enabledJobs;
+
         private List<IJob> _jobs;
         private IServiceProvider _serviceProvider;
+        private ISettingsServiceInternal _settingsService;
 
         #endregion
 
@@ -50,52 +55,68 @@ namespace AlarmWorkflow.BackendService.Engine
         public JobManager(IServiceProvider serviceProvider)
             : this()
         {
+            Assertions.AssertNotNull(serviceProvider, "serviceProvider");
+
             _serviceProvider = serviceProvider;
+
+            _settingsService = _serviceProvider.GetService<ISettingsServiceInternal>();
+            _settingsService.SettingChanged += SettingsService_OnSettingChanged;
         }
 
         #endregion
 
         #region Methods
 
+        private IEnumerable<string> RetrieveEnabledJobs()
+        {
+            return _settingsService.GetSetting(SettingKeys.JobsConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports();
+        }
+
         /// <summary>
-        /// Initializes this instance for usage.
+        /// Initializes this instance for usage and sets up all configured jobs.
         /// </summary>
-        /// <param name="jobsToInitialize">The jobs to initialize.</param>
-        public void Initialize(IEnumerable<string> jobsToInitialize)
+        public void Initialize()
+        {
+            _enabledJobs = RetrieveEnabledJobs();
+
+            InitializeAndAddJobs(_enabledJobs);
+        }
+
+        private void InitializeAndAddJobs(IEnumerable<string> jobsToInitialize)
         {
             AssertNotDisposed();
 
-            InitializeJobs(jobsToInitialize);
-        }
-
-        private void InitializeJobs(IEnumerable<string> jobsToInitialize)
-        {
-            foreach (var export in ExportedTypeLibrary
-                .GetExports(typeof(IJob))
-                .Where(j => jobsToInitialize.Contains(j.Attribute.Alias)))
+            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IJob)).Where(j => jobsToInitialize.Contains(j.Attribute.Alias)))
             {
                 IJob job = export.CreateInstance<IJob>();
-
-                string jobName = job.GetType().Name;
-                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeBegin, jobName);
-
-                try
+                if (InitializeJob(job))
                 {
-                    if (!job.Initialize(_serviceProvider))
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobInitializeError, jobName);
-                        continue;
-                    }
-
                     _jobs.Add(job);
+                }
+            }
+        }
 
-                    Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeSuccess, jobName);
-                }
-                catch (Exception ex)
+        private bool InitializeJob(IJob job)
+        {
+            string jobName = job.GetType().Name;
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeBegin, jobName);
+
+            try
+            {
+                if (!job.Initialize(_serviceProvider))
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, Resources.JobGenericError, jobName, ex.Message);
-                    Logger.Instance.LogException(this, ex);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobInitializeError, jobName);
+                    return false;
                 }
+
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.JobInitializeSuccess, jobName);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.JobGenericError, jobName, ex.Message);
+                Logger.Instance.LogException(this, ex);
+                return false;
             }
         }
 
@@ -119,10 +140,7 @@ namespace AlarmWorkflow.BackendService.Engine
             if (job.IsAsync)
             {
                 Logger.Instance.LogFormat(LogType.Info, this, Resources.JobExecuteAsyncStart, job.GetType().Name, context.Phase);
-                ThreadPool.QueueUserWorkItem(o =>
-                {
-                    RunJobCore(context, operation, job);
-                });
+                ThreadPool.QueueUserWorkItem(o => RunJobCore(context, operation, job));
             }
             else
             {
@@ -153,20 +171,53 @@ namespace AlarmWorkflow.BackendService.Engine
         /// </summary>
         protected override void DisposeCore()
         {
-            foreach (IJob job in _jobs)
+            _settingsService.SettingChanged -= SettingsService_OnSettingChanged;
+
+            DisposeJobs(_enabledJobs, false);
+        }
+
+        private void DisposeJobs(IEnumerable<string> jobsToDispose, bool isDueToSettingsChange)
+        {
+            AssertNotDisposed();
+
+            foreach (IJob job in _jobs.Where(item => jobsToDispose.Contains(ExportedTypeLibrary.GetExportAlias(item.GetType()))).ToList())
             {
+                if (isDueToSettingsChange)
+                {
+                    Logger.Instance.LogFormat(LogType.Trace, this, Resources.SettingsJobDisabled, job.GetType().Name);
+                }
+
                 try
                 {
                     job.Dispose();
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.JobManagerDisposeJobFailed, job.GetType().Name);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Resources.JobManagerDisposeJobFailed, job.GetType().Name);
                     Logger.Instance.LogException(this, ex);
                 }
+                finally
+                {
+                    _jobs.Remove(job);
+                }
             }
+        }
 
-            _jobs.Clear();
+        private void SettingsService_OnSettingChanged(object sender, SettingChangedEventArgs settingChangedEventArgs)
+        {
+            IList<SettingKey> settingKeys = settingChangedEventArgs.Keys.ToList();
+
+            if (settingKeys.Contains(SettingKeys.JobsConfigurationKey))
+            {
+                IEnumerable<string> oldConfig = _enabledJobs;
+                _enabledJobs = RetrieveEnabledJobs();
+
+                IEnumerable<string> disabledJobs = oldConfig.Except(_enabledJobs);
+                DisposeJobs(disabledJobs, true);
+
+                IEnumerable<string> enabledJobs = _enabledJobs.Except(oldConfig);
+                InitializeAndAddJobs(enabledJobs);
+            }
         }
 
         #endregion

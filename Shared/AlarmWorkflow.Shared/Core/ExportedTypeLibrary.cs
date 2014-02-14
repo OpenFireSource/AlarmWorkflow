@@ -179,6 +179,23 @@ namespace AlarmWorkflow.Shared.Core
             return exports;
         }
 
+        /// <summary>
+        /// Makes an inverse search to find out the alias for a specific type.
+        /// </summary>
+        /// <param name="type">The type to get the alias for. Must not be null.</param>
+        /// <returns>A string representing the alias for the given type.</returns>
+        public static string GetExportAlias(Type type)
+        {
+            Assertions.AssertNotNull(type, "type");
+
+            ExportAttribute[] attributes = (ExportAttribute[])type.GetCustomAttributes(typeof(ExportAttribute), false);
+            if (attributes.Length == 1)
+            {
+                return attributes[0].Alias;
+            }
+            return null;
+        }
+
         #endregion
     }
 }

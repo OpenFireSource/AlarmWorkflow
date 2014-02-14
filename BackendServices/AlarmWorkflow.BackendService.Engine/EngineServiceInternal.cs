@@ -53,12 +53,18 @@ namespace AlarmWorkflow.BackendService.Engine
             base.OnStart();
 
             ISettingsServiceInternal settings = this.ServiceProvider.GetService<ISettingsServiceInternal>();
-            Configuration configuration = new Configuration();
-            configuration.EnabledAlarmSources = new ReadOnlyCollection<string>(settings.GetSetting("Engine", "AlarmSourcesConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
-            configuration.EnabledJobs = new ReadOnlyCollection<string>(settings.GetSetting("Engine", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
 
-            _engine = new AlarmWorkflowEngine(configuration, this.ServiceProvider);
+            Configuration configuration = LoadConfiguration(settings);
+
+            _engine = new AlarmWorkflowEngine(configuration, this.ServiceProvider, settings);
             _engine.Start();
+        }
+
+        private static Configuration LoadConfiguration(ISettingsServiceInternal settings)
+        {
+            Configuration configuration = new Configuration();
+            configuration.EnabledAlarmSources = new ReadOnlyCollection<string>(settings.GetSetting(SettingKeys.AlarmSourcesConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports());
+            return configuration;
         }
 
         /// <summary>

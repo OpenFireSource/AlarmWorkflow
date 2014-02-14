@@ -18,10 +18,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using AlarmWorkflow.BackendService.Engine.Properties;
+using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.ManagementContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.BackendService.EngineContracts;
 
 namespace AlarmWorkflow.BackendService.Engine
 {
@@ -43,6 +44,7 @@ namespace AlarmWorkflow.BackendService.Engine
 
         private JobManager _jobManager;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ISettingsServiceInternal _settingsService;
 
         #endregion
 
@@ -59,14 +61,17 @@ namespace AlarmWorkflow.BackendService.Engine
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <param name="serviceProvider"></param>
-        public AlarmWorkflowEngine(Configuration configuration, IServiceProvider serviceProvider)
+        /// <param name="settings"></param>
+        public AlarmWorkflowEngine(Configuration configuration, IServiceProvider serviceProvider, ISettingsServiceInternal settings)
             : this()
         {
             Assertions.AssertNotNull(configuration, "configuration");
             Assertions.AssertNotNull(serviceProvider, "serviceProvider");
+            Assertions.AssertNotNull(settings, "settings");
 
             _configuration = configuration;
             _serviceProvider = serviceProvider;
+            _settingsService = settings;
         }
 
         #endregion
@@ -102,7 +107,7 @@ namespace AlarmWorkflow.BackendService.Engine
             InitializeAlarmSources();
 
             _jobManager = new JobManager(_serviceProvider);
-            _jobManager.Initialize(_configuration.EnabledJobs);
+            _jobManager.Initialize();
 
             int iInitializedSources = 0;
             foreach (IAlarmSource alarmSource in _alarmSources)
@@ -113,13 +118,10 @@ namespace AlarmWorkflow.BackendService.Engine
                     alarmSource.Initialize(_serviceProvider);
                     alarmSource.NewAlarm += AlarmSource_NewAlarm;
 
-                    // Create new thread
                     Thread ast = new Thread(AlarmSourceThreadWrapper);
-                    // Use lower priority since we have many threads
                     ast.Priority = ThreadPriority.BelowNormal;
                     ast.Name = string.Format(AlarmSourceThreadNameFormat, alarmSource.GetType().Name);
 
-                    // Start the thread
                     _alarmSourcesThreads.Add(alarmSource, ast);
                     Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceStarting, alarmSource.GetType().Name);
                     ast.Start(alarmSource);
@@ -157,7 +159,6 @@ namespace AlarmWorkflow.BackendService.Engine
             }
             catch (Exception ex)
             {
-                // Log any exception (the thread will end afterwards).
                 Logger.Instance.LogFormat(LogType.Error, this, Resources.AlarmSourceThreadException, source.GetType().FullName);
                 Logger.Instance.LogException(this, ex);
             }
@@ -175,20 +176,16 @@ namespace AlarmWorkflow.BackendService.Engine
 
             Logger.Instance.LogFormat(LogType.Info, this, Resources.EngineStopping);
 
-            // Dispose and kill all threads
             foreach (IAlarmSource alarmSource in _alarmSources)
             {
                 try
                 {
-                    // Unregister from event and dispose source
                     alarmSource.NewAlarm -= AlarmSource_NewAlarm;
                     alarmSource.Dispose();
 
-                    // Stop and remove the thread, if existing
                     if (_alarmSourcesThreads.ContainsKey(alarmSource))
                     {
                         Thread ast = _alarmSourcesThreads[alarmSource];
-                        // Abort and ignore exception
                         ast.Abort();
 
                         _alarmSourcesThreads.Remove(alarmSource);
@@ -208,10 +205,6 @@ namespace AlarmWorkflow.BackendService.Engine
 
             _isStarted = false;
         }
-
-        #endregion
-
-        #region Event handlers
 
         private void AlarmSource_NewAlarm(object sender, AlarmSourceEventArgs e)
         {

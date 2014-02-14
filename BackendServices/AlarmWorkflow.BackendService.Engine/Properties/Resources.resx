@@ -207,4 +207,7 @@
   <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
     <value>Storing the operation to the operation store failed! See log for information.</value>
   </data>
+  <data name="SettingsJobDisabled" xml:space="preserve">
+    <value>Disabling Job '{0}' because of a settings change.</value>
+  </data>
 </root>

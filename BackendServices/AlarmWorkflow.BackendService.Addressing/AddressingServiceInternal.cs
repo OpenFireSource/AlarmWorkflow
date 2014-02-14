@@ -21,6 +21,7 @@ using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.BackendService.AddressingContracts.Extensibility;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.Addressing
 {
@@ -63,18 +64,41 @@ namespace AlarmWorkflow.BackendService.Addressing
         {
             base.OnStart();
 
-            _addressBook = SettingsService.GetSetting("Addressing", "AddressBook").GetValue<AddressBook>();
+            SettingsService.SettingChanged += SettingsService_OnSettingChanged;
 
-            _addressFilter = new List<IAddressFilter>();
-            AddSpecifiedAddressFilters();
+            RefreshAddressBookSync();
+            RefreshSpecifiedAddressFiltersSync();
         }
 
-        private void AddSpecifiedAddressFilters()
+        /// <summary>
+        /// Overridden to perform logic on stop.
+        /// </summary>
+        public override void OnStop()
         {
-            IList<string> exports = SettingsService.GetSetting("Addressing", "FiltersConfiguration").GetValue<ExportConfiguration>().GetEnabledExports();
-            foreach (var export in ExportedTypeLibrary.GetExports(typeof(IAddressFilter)).Where(j => exports.Contains(j.Attribute.Alias)))
+            SettingsService.SettingChanged -= SettingsService_OnSettingChanged;
+
+            base.OnStop();
+        }
+
+        private void RefreshAddressBookSync()
+        {
+            lock (SyncRoot)
             {
-                _addressFilter.Add(export.CreateInstance<IAddressFilter>());
+                _addressBook = SettingsService.GetSetting(SettingKeys.AddressBookKey).GetValue<AddressBook>();
+            }
+        }
+
+        private void RefreshSpecifiedAddressFiltersSync()
+        {
+            lock (SyncRoot)
+            {
+                _addressFilter = new List<IAddressFilter>();
+
+                IList<string> exports = SettingsService.GetSetting(SettingKeys.FiltersConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports();
+                foreach (var export in ExportedTypeLibrary.GetExports(typeof(IAddressFilter)).Where(j => exports.Contains(j.Attribute.Alias)))
+                {
+                    _addressFilter.Add(export.CreateInstance<IAddressFilter>());
+                }
             }
         }
 
@@ -94,23 +118,47 @@ namespace AlarmWorkflow.BackendService.Addressing
             }
         }
 
+        private void SettingsService_OnSettingChanged(object sender, SettingChangedEventArgs settingChangedEventArgs)
+        {
+            SettingKey[] settingKeys = settingChangedEventArgs.Keys;
+
+            if (settingKeys.Contains(SettingKeys.AddressBookKey))
+            {
+                RefreshAddressBookSync();
+            }
+
+            if (settingKeys.Contains(SettingKeys.FiltersConfigurationKey))
+            {
+                RefreshSpecifiedAddressFiltersSync();
+            }
+        }
+
         #endregion
 
         #region IAddressingServiceInternal Members
 
         IList<AddressBookEntry> IAddressingServiceInternal.GetAllEntries()
         {
-            return _addressBook.Entries;
+            lock (SyncRoot)
+            {
+                return _addressBook.Entries;
+            }
         }
 
         IEnumerable<Tuple<AddressBookEntry, TCustomData>> IAddressingServiceInternal.GetCustomObjects<TCustomData>(string type)
         {
-            return GetCustomObjectsFiltered<TCustomData>(type, null);
+            lock (SyncRoot)
+            {
+                return GetCustomObjectsFiltered<TCustomData>(type, null);
+            }
         }
 
         IEnumerable<Tuple<AddressBookEntry, TCustomData>> IAddressingServiceInternal.GetCustomObjectsFiltered<TCustomData>(string type, Operation operation)
         {
-            return GetCustomObjectsFiltered<TCustomData>(type, operation);
+            lock (SyncRoot)
+            {
+                return GetCustomObjectsFiltered<TCustomData>(type, operation);
+            }
         }
 
         #endregion

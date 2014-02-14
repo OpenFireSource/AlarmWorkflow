@@ -1,4 +1,4 @@
-﻿// This file is part of AlarmWorkflow.
+// This file is part of AlarmWorkflow.
 // 
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -13,12 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.ObjectModel;
+using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.BackendService.Engine
+namespace AlarmWorkflow.BackendService.Addressing
 {
-    class Configuration
+    internal static class SettingKeys
     {
-        internal ReadOnlyCollection<string> EnabledAlarmSources { get; set; }
+        internal static SettingKey AddressBookKey = SettingKey.Create("Addressing", "AddressBook");
+        internal static SettingKey FiltersConfigurationKey = SettingKey.Create("Addressing", "FiltersConfiguration");
     }
 }
