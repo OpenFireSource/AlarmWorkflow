@@ -340,9 +340,14 @@
   <ItemGroup>
     <Resource Include="Images\GPLv3.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\staticsetting_16.png" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Data\ObjectTestDatabase.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dynamicsetting_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -67,8 +67,22 @@
                                             <GroupBox.Header>
                                                 <StackPanel Grid.Row="0" Margin="2" Orientation="Horizontal">
                                                     <TextBlock Text="{Binding DisplayText}" FontWeight="Bold" VerticalAlignment="Center" />
-                                                    <Image Margin="2,0,0,0" Source="../Images/Info_16.png" Width="16" Height="16" VerticalAlignment="Center" ToolTip="{Binding Description}" />
-                                                    <Button Margin="2,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding ResetSettingCommand}" VerticalAlignment="Center" ToolTip="Ursprungswert wiederherstellen" Focusable="False">
+                                                    <Image Margin="8,0,0,0" Source="../Images/Info_16.png" Width="16" Height="16" VerticalAlignment="Center" ToolTip="{Binding Description}" />
+                                                    <Image Margin="8,0,0,0" Width="16" Height="16" VerticalAlignment="Center">
+                                                        <Image.Style>
+                                                            <Style TargetType="Image">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Info.IsDynamic}" Value="True">
+                                                                        <Setter Property="Source" Value="../Images/dynamicsetting_16.png" />
+                                                                        <Setter Property="ToolTip" Value="Diese Einstellung wird automatisch übernommen." />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                                <Setter Property="Source" Value="../Images/staticsetting_16.png" />
+                                                                <Setter Property="ToolTip" Value="Dies ist eine statische Einstellung. Sie müssen nach einer Änderung den Service neustarten, damit sie aktiv wird!" />
+                                                            </Style>
+                                                        </Image.Style>
+                                                    </Image>
+                                                    <Button Margin="8,0,0,0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" Command="{Binding ResetSettingCommand}" VerticalAlignment="Center" ToolTip="Ursprungswert wiederherstellen" Focusable="False">
                                                         <Image Source="../Images/ResetSetting_16.png" Width="16" Height="16" />
                                                     </Button>
                                                 </StackPanel>
