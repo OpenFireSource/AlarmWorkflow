@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
+using AlarmWorkflow.Backend.ServiceContracts.Data;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Tools.MigrateUserSettingsFile.Data;
@@ -86,7 +87,7 @@ namespace AlarmWorkflow.Tools.MigrateUserSettingsFile
 
         private static void ImportUserSettings(XDocument doc)
         {
-            using (AlarmWorkflowEntities entities = new AlarmWorkflowEntities())
+            using (AlarmWorkflowEntities entities = EntityFrameworkHelper.CreateContext<AlarmWorkflowEntities>("Data.Entities"))
             {
                 foreach (XElement section in doc.Root.Elements("Section"))
                 {
