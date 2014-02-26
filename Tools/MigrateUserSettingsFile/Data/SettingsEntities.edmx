@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
@@ -21,9 +21,9 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="AlarmWorkflowEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="UserSettings" EntityType="AlarmWorkflowModel.UserSettingData" />
+      <Schema Namespace="MigrationSettingsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="MigrationSettingsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSettings" EntityType="MigrationSettingsModel.UserSettingData" />
         </EntityContainer>
         <EntityType Name="UserSettingData">
           <Key>
@@ -39,9 +39,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AlarmWorkflowModelStoreContainer" CdmEntityContainer="AlarmWorkflowEntities">
+        <EntityContainerMapping StorageEntityContainer="AlarmWorkflowModelStoreContainer" CdmEntityContainer="MigrationSettingsEntities">
           <EntitySetMapping Name="UserSettings">
-            <EntityTypeMapping TypeName="AlarmWorkflowModel.UserSettingData">
+            <EntityTypeMapping TypeName="MigrationSettingsModel.UserSettingData">
               <MappingFragment StoreEntitySet="usersetting">
                 <ScalarProperty Name="Id" ColumnName="id" />
                 <ScalarProperty Name="Identifier" ColumnName="identifier" />
@@ -71,7 +71,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Entities">
-        <EntityTypeShape EntityType="AlarmWorkflowModel.UserSettingData" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
+        <EntityTypeShape EntityType="MigrationSettingsModel.UserSettingData" Width="1.5" PointX="0.75" PointY="0.75" Height="1.787985026041667" IsExpanded="true" />
       </Diagram>
     </Diagrams>
   </Designer>

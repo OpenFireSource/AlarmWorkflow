@@ -73,10 +73,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\Entities.Designer.cs">
+    <Compile Include="Data\SettingsEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Entities.edmx</DependentUpon>
+      <DependentUpon>SettingsEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,10 +87,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="app.config" />
-    <EntityDeploy Include="Data\Entities.edmx">
+    <None Include="app.config" />
+    <EntityDeploy Include="Data\SettingsEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
+      <LastGenOutput>SettingsEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Resources\user.settings.xsd">
       <SubType>Designer</SubType>

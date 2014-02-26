@@ -87,7 +87,7 @@ namespace AlarmWorkflow.Tools.MigrateUserSettingsFile
 
         private static void ImportUserSettings(XDocument doc)
         {
-            using (AlarmWorkflowEntities entities = EntityFrameworkHelper.CreateContext<AlarmWorkflowEntities>("Data.Entities"))
+            using (MigrationSettingsEntities entities = EntityFrameworkHelper.CreateContext<MigrationSettingsEntities>("Data.SettingsEntities"))
             {
                 foreach (XElement section in doc.Root.Elements("Section"))
                 {
