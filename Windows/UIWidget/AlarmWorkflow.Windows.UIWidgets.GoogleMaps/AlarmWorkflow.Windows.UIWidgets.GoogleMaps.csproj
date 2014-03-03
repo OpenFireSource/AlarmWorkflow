@@ -38,9 +38,14 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared, Version=0.7.1.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.Windows.CustomViewer">
       <HintPath>..\..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
@@ -56,6 +61,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SettingKeys.cs" />
     <Page Include="GoogleMapsWidget.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

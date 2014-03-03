@@ -123,7 +123,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
             get { return GetValue(); }
             set
             {
-                this.ReplaceDictionary = new ReplaceDictionaryEditWrapper(new ReplaceDictionary((string)value));
+                this.ReplaceDictionary = new ReplaceDictionaryEditWrapper((ReplaceDictionary)value);
                 OnPropertyChanged("ReplaceDictionary");
             }
         }

@@ -1,31 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Identifier="Shared">
-
-  <!-- Fire department information -->
   <Setting Name="FD.Name" Type="System.String">Name Ihrer Feuerwehr</Setting>
   <Setting Name="FD.City" Type="System.String" IsNull="True" />
   <Setting Name="FD.ZipCode" Type="System.String" IsNull="True" />
   <Setting Name="FD.Street" Type="System.String" IsNull="True" />
   <Setting Name="FD.StreetNumber" Type="System.String" IsNull="True" />
-  
-  <Setting Name="ReplaceDictionary" Type="System.String" IsNull="False">
-    <![CDATA[<Dictionary>
+  <Setting Name="ReplaceDictionary" Type="AlarmWorkflow.Shared.Specialized.ReplaceDictionary, AlarmWorkflow.Shared" IsNull="False">
+    <![CDATA[<ReplaceDictionary InterpretAsRegex="false">
   <Entry Old="—" New="-" />
-</Dictionary>]]>
+</ReplaceDictionary>]]>
   </Setting>
-  
-  <!-- Jobs configuration -->
-  <Setting Name="JobsConfiguration" Type="System.String">
-    <![CDATA[<ExportConfiguration />]]></Setting>
-  
-  <!-- Alarm sources configuration -->
-  <Setting Name="AlarmSourcesConfiguration" Type="System.String">
-    <![CDATA[<ExportConfiguration />]]>
-  </Setting>
-
-  <!-- Printing Queue Configuration (TODO: will be own category) -->
-  <Setting Name="PrintingQueuesConfiguration" Type="System.String">
+  <Setting Name="PrintingQueuesConfiguration" Type="AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration, AlarmWorkflow.Shared">
     <![CDATA[<PrintingQueuesConfiguration />]]>
   </Setting>
-
 </SettingsConfiguration>

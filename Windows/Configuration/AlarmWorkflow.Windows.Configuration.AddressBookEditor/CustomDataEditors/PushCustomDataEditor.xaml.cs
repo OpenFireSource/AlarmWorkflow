@@ -14,7 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows.Controls;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.Configuration.AddressBookEditor.Extensibility;
 

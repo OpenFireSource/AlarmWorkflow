@@ -18,12 +18,12 @@ using System.Drawing;
 using System.Drawing.Printing;
 using System.IO;
 using System.Threading;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Job.OperationPrinter.Properties;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Shared.Specialized.Printing;
 
 namespace AlarmWorkflow.Job.OperationPrinter
@@ -34,8 +34,41 @@ namespace AlarmWorkflow.Job.OperationPrinter
     {
         #region Fields
 
-        private string _templateFile;
+        private ISettingsServiceInternal _settings;
+
         private Operation _operation;
+
+        #endregion
+
+        #region Methods
+
+        private string GetTemplateFile()
+        {
+            string templateFile = _settings.GetSetting(SettingKeysJob.TemplateFile).GetValue<string>();
+            if (!Path.IsPathRooted(templateFile))
+            {
+                templateFile = Path.Combine(Utilities.GetWorkingDirectory(), templateFile);
+            }
+
+            if (!File.Exists(templateFile))
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.OperationPrintTemplateNotFoundError, templateFile);
+                return null;
+            }
+
+            return templateFile;
+        }
+
+        private PropertyLocation GetSourceLocation()
+        {
+            return new PropertyLocation()
+            {
+                Street = _settings.GetSetting(SettingKeys.FDStreet).GetValue<string>(),
+                StreetNumber = _settings.GetSetting(SettingKeys.FDStreetNumber).GetValue<string>(),
+                City = _settings.GetSetting(SettingKeys.FDCity).GetValue<string>(),
+                ZipCode = _settings.GetSetting(SettingKeys.FDZipCode).GetValue<string>(),
+            };
+        }
 
         #endregion
 
@@ -51,9 +84,10 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private void PrintOperation(Operation operation)
         {
-            foreach (string queueName in SettingsManager.Instance.GetSetting("OperationPrinterJob", "PrintingQueueNames").GetStringArray())
+            foreach (string queueName in _settings.GetSetting("OperationPrinterJob", "PrintingQueueNames").GetStringArray())
             {
-                PrintingQueue pq = PrintingQueueManager.GetInstance().GetPrintingQueue(queueName);
+                var queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
+                PrintingQueue pq = queues.GetPrintingQueue(queueName);
                 if (pq == null || !pq.IsEnabled)
                 {
                     continue;
@@ -84,7 +118,13 @@ namespace AlarmWorkflow.Job.OperationPrinter
                 // Store the whole rendered image and share it across multiple pages.
                 Size renderBounds = new Size(pageBounds.Width, 0);
 
-                renderedImage = TemplateRenderer.RenderOperation(_operation, _templateFile, renderBounds);
+                string templateFile = GetTemplateFile();
+                if (templateFile == null)
+                {
+                    return false;
+                }
+
+                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), _operation, templateFile, renderBounds);
                 state = renderedImage;
             }
 
@@ -98,20 +138,9 @@ namespace AlarmWorkflow.Job.OperationPrinter
             return pageIndex < pagesNeeded;
         }
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            _templateFile = SettingsManager.Instance.GetSetting("OperationPrinterJob", "TemplateFile").GetString();
-            if (!Path.IsPathRooted(_templateFile))
-            {
-                _templateFile = Path.Combine(Utilities.GetWorkingDirectory(), _templateFile);
-            }
-
-            if (!File.Exists(_templateFile))
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, Resources.OperationPrintTemplateNotFoundError, _templateFile);
-                return false;
-            }
-
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
 
             return true;
         }
@@ -127,6 +156,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         void IDisposable.Dispose()
         {
+            _settings = null;
         }
 
         #endregion

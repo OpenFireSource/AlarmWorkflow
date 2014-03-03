@@ -123,6 +123,9 @@
   <data name="DurationTypeEditorOutsideBoundaries" xml:space="preserve">
     <value>Der endgültige Wert liegt außerhalb der erlaubten Grenzen von '{0}' - '{1}' (beide einschließlich) in der Einheit {2}.</value>
   </data>
+  <data name="EndpointNotFoundOnStart" xml:space="preserve">
+    <value>Konnte keine Verbindung zum Service herstellen! Stellen Sie sicher, dass die Verbindungsdaten korrekt sind und der Service auf dem Zielcomputer gestartet ist.</value>
+  </data>
   <data name="ExportEditorsTypeRequired" xml:space="preserve">
     <value>The type '{0}' could not be found!</value>
   </data>
@@ -155,6 +158,9 @@ Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit 
   </data>
   <data name="RestartServiceMessage" xml:space="preserve">
     <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
+  </data>
+  <data name="SaveSettingStatusText" xml:space="preserve">
+    <value>Einstellungsgruppe {0} von {1} gespeichert.</value>
   </data>
   <data name="SavingSettingsSuccess" xml:space="preserve">
     <value>Die Einstellungen wurden erfolgreich gespeichert!</value>

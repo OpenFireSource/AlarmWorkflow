@@ -17,14 +17,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AlarmWorkflow.BackendService.AddressingContracts;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Job.PushJob.Properties;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.PushJob
 {
@@ -41,6 +40,9 @@ namespace AlarmWorkflow.Job.PushJob
 
         #region Fields
 
+        private ISettingsServiceInternal _settings;
+        private IAddressingServiceInternal _addressing;
+
         private string _expression;
 
         #endregion
@@ -55,9 +57,12 @@ namespace AlarmWorkflow.Job.PushJob
 
         #region IJobs Members
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            _expression = SettingsManager.Instance.GetSetting("PushJob", "MessageContent").GetString();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+            _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
+
+            _expression = _settings.GetSetting("PushJob", "MessageContent").GetValue<string>();
             return true;
         }
 
@@ -82,7 +87,7 @@ namespace AlarmWorkflow.Job.PushJob
 
         private IList<PushEntryObject> GetRecipients(Operation operation)
         {
-            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
+            var recipients = _addressing.GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
             return recipients.Select(ri => ri.Item2).ToList();
         }
 

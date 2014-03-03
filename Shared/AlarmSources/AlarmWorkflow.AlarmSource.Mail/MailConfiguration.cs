@@ -13,16 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
+using System;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
-    /// <summary>
-    ///     Represents the current configuration. Wraps the SettingsManager-calls.
-    /// </summary>
-    internal sealed class MailConfiguration
+    internal sealed class MailConfiguration : DisposableObject
     {
+        #region Fields
+
+        private ISettingsServiceInternal _settings;
+
+        #endregion
+
         #region Properties
 
         internal string ServerName { get; private set; }
@@ -34,7 +38,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         internal string MailSubject { get; private set; }
         internal string MailSender { get; private set; }
-        
+
         internal bool AnalyseAttachment { get; private set; }
         internal string AttachmentName { get; private set; }
         internal string ParserAlias { get; private set; }
@@ -43,23 +47,38 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MailConfiguration" /> class.
+        /// Initializes a new instance of the <see cref="MailConfiguration"/> class.
         /// </summary>
-        public MailConfiguration()
+        /// <param name="serviceProvider">The service provider.</param>
+        public MailConfiguration(IServiceProvider serviceProvider)
         {
-            ServerName = SettingsManager.Instance.GetSetting("MailAlarmSource", "ServerName").GetString();
-            Port = (ushort) SettingsManager.Instance.GetSetting("MailAlarmSource", "Port").GetInt32();
-            UserName = SettingsManager.Instance.GetSetting("MailAlarmSource", "UserName").GetString();
-            Password = SettingsManager.Instance.GetSetting("MailAlarmSource", "Password").GetString();
-            PollInterval = SettingsManager.Instance.GetSetting("MailAlarmSource", "PollInterval").GetInt32();
-            SSL = SettingsManager.Instance.GetSetting("MailAlarmSource", "SSL").GetBoolean();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
 
-            MailSubject = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSubject").GetString();
-            MailSender = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailSender").GetString();
+            ServerName = _settings.GetSetting("MailAlarmSource", "ServerName").GetValue<string>();
+            Port = (ushort)_settings.GetSetting("MailAlarmSource", "Port").GetValue<int>();
+            UserName = _settings.GetSetting("MailAlarmSource", "UserName").GetValue<string>();
+            Password = _settings.GetSetting("MailAlarmSource", "Password").GetValue<string>();
+            PollInterval = _settings.GetSetting("MailAlarmSource", "PollInterval").GetValue<int>();
+            SSL = _settings.GetSetting("MailAlarmSource", "SSL").GetValue<bool>();
 
-            AnalyseAttachment = SettingsManager.Instance.GetSetting("MailAlarmSource", "AnalyseAttachment").GetBoolean();
-            AttachmentName = SettingsManager.Instance.GetSetting("MailAlarmSource", "AttachmentName").GetString();
-            ParserAlias = SettingsManager.Instance.GetSetting("MailAlarmSource", "MailParser").GetString();
+            MailSubject = _settings.GetSetting("MailAlarmSource", "MailSubject").GetValue<string>();
+            MailSender = _settings.GetSetting("MailAlarmSource", "MailSender").GetValue<string>();
+
+            AnalyseAttachment = _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>();
+            AttachmentName = _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>();
+            ParserAlias = _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>();
+        }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        protected override void DisposeCore()
+        {
+            _settings = null;
         }
 
         #endregion

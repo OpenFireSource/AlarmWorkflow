@@ -14,12 +14,16 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Windows;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Export("OperationWidget", typeof(IUIWidget))]
     [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
     public partial class OperationWidget : IUIWidget
@@ -46,9 +50,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         bool IUIWidget.Initialize()
         {
-            _expressionLineOne = SettingsManager.Instance.GetSetting("OperationWidget", "LineOne").GetString();
-            _expressionLineTwo = SettingsManager.Instance.GetSetting("OperationWidget", "LineTwo").GetString();
-            _expressionLineThree = SettingsManager.Instance.GetSetting("OperationWidget", "LineThree").GetString();
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                _expressionLineOne = service.Instance.GetSetting(SettingKeys.LineOne).GetValue<string>();
+                _expressionLineTwo = service.Instance.GetSetting(SettingKeys.LineTwo).GetValue<string>();
+                _expressionLineThree = service.Instance.GetSetting(SettingKeys.LineThree).GetValue<string>();
+            }
             return true;
         }
 

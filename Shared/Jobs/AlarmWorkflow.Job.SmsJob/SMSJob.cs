@@ -13,15 +13,15 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.SmsJob
 {
@@ -33,6 +33,9 @@ namespace AlarmWorkflow.Job.SmsJob
     sealed class SmsJob : IJob
     {
         #region Fields
+
+        private ISettingsServiceInternal _settings;
+        private IAddressingServiceInternal _addressing;
 
         private string _userName;
         private string _password;
@@ -67,7 +70,7 @@ namespace AlarmWorkflow.Job.SmsJob
                 return;
             }
 
-            string format = SettingsManager.Instance.GetSetting("SMSJob", "MessageFormat").GetString();
+            string format = _settings.GetSetting("SMSJob", "MessageFormat").GetValue<string>();
             string text = operation.ToString(format);
             text = text.Replace("Ö", "Oe").Replace("Ä", "Ae").Replace("Ü", "Ue").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace("ß", "ss");
             // Truncate the string if it is too long
@@ -79,15 +82,18 @@ namespace AlarmWorkflow.Job.SmsJob
 
         private IList<MobilePhoneEntryObject> GetRecipients(Operation operation)
         {
-            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<MobilePhoneEntryObject>(MobilePhoneEntryObject.TypeId, operation);
+            var recipients = _addressing.GetCustomObjectsFiltered<MobilePhoneEntryObject>(MobilePhoneEntryObject.TypeId, operation);
             return recipients.Select(ri => ri.Item2).ToList();
         }
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            _userName = SettingsManager.Instance.GetSetting("SMSJob", "UserName").GetString();
-            _password = SettingsManager.Instance.GetSetting("SMSJob", "Password").GetString();
-            _provider = ExportedTypeLibrary.Import<ISmsProvider>(SettingsManager.Instance.GetSetting("SMSJob", "Provider").GetString());
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+            _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
+
+            _userName = _settings.GetSetting("SMSJob", "UserName").GetValue<string>();
+            _password = _settings.GetSetting("SMSJob", "Password").GetValue<string>();
+            _provider = ExportedTypeLibrary.Import<ISmsProvider>(_settings.GetSetting("SMSJob", "Provider").GetValue<string>());
 
             return true;
         }

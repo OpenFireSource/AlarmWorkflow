@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         {
             get
             {
-                object value = null;
+                string value = null;
                 StringSettingConvertibleTools.ConvertBack(_viewModel.EditWrapper, out value);
                 return value;
             }

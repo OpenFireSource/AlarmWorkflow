@@ -28,11 +28,11 @@ namespace AlarmWorkflow.Job.OperationPrinter
 {
     static class RoutePlanHelper
     {
-        internal static string GetRouteAsStoredFile(PropertyLocation destination)
+        internal static string GetRouteAsStoredFile(PropertyLocation source, PropertyLocation destination)
         {
             try
             {
-                return GetRouteAsStoredFileCore(destination);
+                return GetRouteAsStoredFileCore(source, destination);
             }
             catch (Exception ex)
             {
@@ -42,9 +42,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
             return null;
         }
 
-        private static string GetRouteAsStoredFileCore(PropertyLocation destination)
+        private static string GetRouteAsStoredFileCore(PropertyLocation source, PropertyLocation destination)
         {
-            PropertyLocation source = AlarmWorkflowConfiguration.Instance.FDInformation.Location;
             int width = 800;
             int height = 800;
 

@@ -28,29 +28,42 @@ namespace AlarmWorkflow.Shared.Settings
         /// Takes an <see cref="Object"/> which represents the setting value and tries to return its really value
         /// using a conversion to <see cref="IStringSettingConvertible"/>. If that failed then the value is returned as-is.
         /// </summary>
+        /// <param name="type">The expected true type of the setting</param>
+        /// <param name="value">The setting value.</param>
+        /// <returns></returns>
+        public static object ConvertFromSetting(Type type, object value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            // If the value is a string
+            if (value is string && type.GetInterface(typeof(IStringSettingConvertible).Name) != null)
+            {
+                // Look for an empty constructor, even if it is private (only then we can instantiate this type)
+                if (type.GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Any(ci => ci.GetParameters().Length == 0))
+                {
+                    IStringSettingConvertible convertible = (IStringSettingConvertible)Activator.CreateInstance(type, true);
+                    convertible.Convert((string)value);
+                    return convertible;
+                }
+            }
+
+            // Try the basic method at last.
+            return Convert.ChangeType(value, type);
+        }
+
+        /// <summary>
+        /// Takes an <see cref="Object"/> which represents the setting value and tries to return its really value
+        /// using a conversion to <see cref="IStringSettingConvertible"/>. If that failed then the value is returned as-is.
+        /// </summary>
         /// <typeparam name="T">The expected true type of the setting.</typeparam>
         /// <param name="value">The setting value.</param>
         /// <returns></returns>
         public static T ConvertFromSetting<T>(object value)
         {
-            if (value == null)
-            {
-                return default(T);
-            }
-
-            // If the value is a string
-            if (value is string && typeof(T).GetInterface(typeof(IStringSettingConvertible).Name) != null)
-            {
-                // Look for an empty constructor, even if it is private (only then we can instantiate this type)
-                if (typeof(T).GetConstructors(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Any(ci => ci.GetParameters().Length == 0))
-                {
-                    IStringSettingConvertible convertible = (IStringSettingConvertible)Activator.CreateInstance(typeof(T), true);
-                    convertible.Convert((string)value);
-                    return (T)convertible;
-                }
-            }
-
-            return (T)value;
+            return (T)ConvertFromSetting(typeof(T), value);
         }
 
         /// <summary>
@@ -60,7 +73,7 @@ namespace AlarmWorkflow.Shared.Settings
         /// <param name="value">The value to convert. May be of type <see cref="IStringSettingConvertible"/>.</param>
         /// <param name="converted">If conversion succeeded, this parameter contains the converted value. Otherwise contains null.</param>
         /// <returns>A boolean value indicating whether or not conversion was successful.</returns>
-        public static bool ConvertBack(object value, out object converted)
+        public static bool ConvertBack(object value, out string converted)
         {
             IStringSettingConvertible convertible = value as IStringSettingConvertible;
             if (convertible != null)

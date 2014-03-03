@@ -36,6 +36,12 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Windows.UIContracts">
       <HintPath>..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
     </Reference>
@@ -48,6 +54,7 @@
   <ItemGroup>
     <Compile Include="ExternalToolIdleUIJob.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml">

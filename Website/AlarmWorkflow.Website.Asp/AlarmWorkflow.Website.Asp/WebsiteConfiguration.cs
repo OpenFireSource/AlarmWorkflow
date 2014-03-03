@@ -47,10 +47,10 @@ namespace AlarmWorkflow.Website.Asp
             {
                 //Allready initalized
             }
-            Home = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetString() + " " +
-                   SettingsManager.Instance.GetSetting("Shared", "FD.City").GetString();
+            Home = SettingsManager.Instance.GetSetting("Shared", "FD.Street").GetValue<string>() + " " +
+                   SettingsManager.Instance.GetSetting("Shared", "FD.StreetNumber").GetValue<string>() + " " +
+                   SettingsManager.Instance.GetSetting("Shared", "FD.ZipCode").GetValue<string>() + " " +
+                   SettingsManager.Instance.GetSetting("Shared", "FD.City").GetValue<string>();
             //GoogleMaps
             Traffic = WebConfigurationManager.AppSettings["Traffic"].ToLower().Equals("true");
             Tilt = WebConfigurationManager.AppSettings["Tilt"].ToLower().Equals("true");

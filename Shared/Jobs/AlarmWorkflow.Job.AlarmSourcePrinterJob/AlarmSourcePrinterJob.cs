@@ -19,12 +19,12 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
 using System.Threading;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Job.AlarmSourcePrinterJob.Properties;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Shared.Specialized.Printing;
 
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
@@ -33,6 +33,12 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class AlarmSourcePrinterJob : IJob
     {
+        #region Fields
+
+        private ISettingsServiceInternal _settings;
+
+        #endregion
+
         #region Methods
 
         private void PrintFaxes(IJobContext context, Operation operation)
@@ -53,9 +59,10 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             // Grab all created files to print
             string imagePath = (string)context.Parameters["ImagePath"];
 
-            foreach (string queueName in SettingsManager.Instance.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
+            foreach (string queueName in _settings.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
             {
-                PrintingQueue pq = PrintingQueueManager.GetInstance().GetPrintingQueue(queueName);
+                var queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
+                PrintingQueue pq = queues.GetPrintingQueue(queueName);
                 if (pq == null || !pq.IsEnabled)
                 {
                     continue;
@@ -89,8 +96,9 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             }
         }
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
             return true;
         }
 

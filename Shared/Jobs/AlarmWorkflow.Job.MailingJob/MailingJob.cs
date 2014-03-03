@@ -21,14 +21,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.ObjectExpressions;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.MailingJob
 {
@@ -40,6 +39,9 @@ namespace AlarmWorkflow.Job.MailingJob
     sealed class MailingJob : IJob
     {
         #region Fields
+
+        private ISettingsServiceInternal _settings;
+        private IAddressingServiceInternal _addressing;
 
         private SmtpClient _smptClient;
         private MailAddress _senderEmail;
@@ -64,16 +66,19 @@ namespace AlarmWorkflow.Job.MailingJob
 
         #region IJob Members
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            string smtpHostName = SettingsManager.Instance.GetSetting("MailingJob", "HostName").GetString();
-            string userName = SettingsManager.Instance.GetSetting("MailingJob", "UserName").GetString();
-            string userPassword = SettingsManager.Instance.GetSetting("MailingJob", "Password").GetString();
-            int smtpPort = SettingsManager.Instance.GetSetting("MailingJob", "Port").GetInt32();
-            bool smtpAuthenticate = SettingsManager.Instance.GetSetting("MailingJob", "Authenticate").GetBoolean();
-            bool useSsl = SettingsManager.Instance.GetSetting("MailingJob", "UseSsl").GetBoolean();
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+            _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
 
-            _senderEmail = Helpers.ParseAddress(SettingsManager.Instance.GetSetting("MailingJob", "SenderAddress").GetString());
+            string smtpHostName = _settings.GetSetting("MailingJob", "HostName").GetValue<string>();
+            string userName = _settings.GetSetting("MailingJob", "UserName").GetValue<string>();
+            string userPassword = _settings.GetSetting("MailingJob", "Password").GetValue<string>();
+            int smtpPort = _settings.GetSetting("MailingJob", "Port").GetValue<int>();
+            bool smtpAuthenticate = _settings.GetSetting("MailingJob", "Authenticate").GetValue<bool>();
+            bool useSsl = _settings.GetSetting("MailingJob", "UseSsl").GetValue<bool>();
+
+            _senderEmail = Helpers.ParseAddress(_settings.GetSetting("MailingJob", "SenderAddress").GetValue<string>());
             if (_senderEmail == null)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoSenderAddressMessage);
@@ -87,14 +92,14 @@ namespace AlarmWorkflow.Job.MailingJob
                 _smptClient.Credentials = new NetworkCredential(userName, userPassword);
             }
 
-            _mailBodyFormat = SettingsManager.Instance.GetSetting("MailingJob", "EMailBody").GetString();
-            _mailSubject = SettingsManager.Instance.GetSetting("MailingJob", "EMailSubject").GetString();
+            _mailBodyFormat = _settings.GetSetting("MailingJob", "EMailBody").GetValue<string>();
+            _mailSubject = _settings.GetSetting("MailingJob", "EMailSubject").GetValue<string>();
             if (string.IsNullOrWhiteSpace(_mailSubject))
             {
-                _mailSubject = AlarmWorkflowConfiguration.Instance.FDInformation.Name + " - Neuer Alarm";
+                _mailSubject = _settings.GetSetting("Shared", "FD.Name").GetValue<string>() + " - Neuer Alarm";
             }
 
-            _attachImage = SettingsManager.Instance.GetSetting("MailingJob", "AttachImage").GetBoolean();
+            _attachImage = _settings.GetSetting("MailingJob", "AttachImage").GetValue<bool>();
 
             return true;
         }
@@ -187,7 +192,7 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private IList<MailAddressEntryObject> GetMailRecipients(Operation operation)
         {
-            var recipients = AddressBookManager.GetInstance().GetCustomObjectsFiltered<MailAddressEntryObject>(MailAddressEntryObject.TypeId, operation);
+            var recipients = _addressing.GetCustomObjectsFiltered<MailAddressEntryObject>(MailAddressEntryObject.TypeId, operation);
             return recipients.Select(ri => ri.Item2).ToList();
         }
 

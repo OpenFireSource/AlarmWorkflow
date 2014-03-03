@@ -19,6 +19,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using AlarmWorkflow.AlarmSource.Mail.Properties;
+using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
@@ -28,27 +29,27 @@ namespace AlarmWorkflow.AlarmSource.Mail
 {
     [Export("MailAlarmSource", typeof(IAlarmSource))]
     [Information(DisplayName = "ExportAlarmSourceDisplayName", Description = "ExportAlarmSourceDescription")]
-    internal class MailAlarmSource : IAlarmSource
+    class MailAlarmSource : IAlarmSource
     {
         #region Fields
 
-        private readonly MailConfiguration _configuration;
+        private MailConfiguration _configuration;
+
         private ImapClient _imapClient;
         private IParser _mailParser;
 
-        #endregion Fields
+        #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="MailAlarmSource" /> class.
+        /// Initializes a new instance of the <see cref="MailAlarmSource" /> class.
         /// </summary>
         public MailAlarmSource()
         {
-            _configuration = new MailConfiguration();
         }
 
-        #endregion Constructors
+        #endregion
 
         #region IAlarmSource Members
 
@@ -58,8 +59,10 @@ namespace AlarmWorkflow.AlarmSource.Mail
         /// </summary>
         public event EventHandler<AlarmSourceEventArgs> NewAlarm;
 
-        void IAlarmSource.Initialize()
+        void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
+            _configuration = new MailConfiguration(serviceProvider);
+
             _mailParser = ExportedTypeLibrary.Import<IParser>(_configuration.ParserAlias);
         }
 
@@ -70,8 +73,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 CheckImapMail();
                 Thread.Sleep(_configuration.PollInterval);
             }
-
-
         }
 
         private void OnNewAlarm(Operation operation)
@@ -83,15 +84,17 @@ namespace AlarmWorkflow.AlarmSource.Mail
             }
         }
 
-        #endregion IAlarmSource Members
+        #endregion
 
         #region IDisposable Members
 
         void IDisposable.Dispose()
         {
+            _configuration.Dispose();
+            _configuration = null;
         }
 
-        #endregion IDisposable Members
+        #endregion
 
         #region Methods
 
@@ -153,6 +156,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
             }
         }
 
-        #endregion Methods
+        #endregion
     }
 }

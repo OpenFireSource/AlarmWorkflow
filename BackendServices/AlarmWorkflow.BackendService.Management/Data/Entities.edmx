@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AlarmWorkflowModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="AlarmWorkflowModelStoreContainer">
+          <EntitySet Name="operation" EntityType="AlarmWorkflowModel.Store.operation" store:Type="Tables" Schema="alarmworkflow" />
+          <EntitySet Name="operationresource" EntityType="AlarmWorkflowModel.Store.operationresource" store:Type="Tables" Schema="alarmworkflow" />
+          <AssociationSet Name="fk_{99BC450F-214E-4A06-8714-CA527129047D}" Association="AlarmWorkflowModel.Store.fk_{99BC450F-214E-4A06-8714-CA527129047D}">
+            <End Role="operation" EntitySet="operation" />
+            <End Role="operationresource" EntitySet="operationresource" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="operation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="acknowledged" Type="bit" Nullable="false" />
+          <Property Name="operationguid" Type="guid" Nullable="false" />
+          <Property Name="operationnumber" Type="varchar" MaxLength="100" />
+          <Property Name="timestampincome" Type="datetime" Nullable="false" />
+          <Property Name="timestampalarm" Type="datetime" Nullable="false" />
+          <Property Name="messenger" Type="varchar" MaxLength="200" />
+          <Property Name="comment" Type="varchar" />
+          <Property Name="plan" Type="varchar" />
+          <Property Name="picture" Type="varchar" />
+          <Property Name="priority" Type="varchar" MaxLength="100" />
+          <Property Name="einsatzortstreet" Type="varchar" MaxLength="100" />
+          <Property Name="einsatzortstreetnumber" Type="varchar" MaxLength="100" />
+          <Property Name="einsatzortzipcode" Type="varchar" MaxLength="100" />
+          <Property Name="einsatzortcity" Type="varchar" MaxLength="100" />
+          <Property Name="einsatzortintersection" Type="varchar" MaxLength="200" />
+          <Property Name="einsatzortlocation" Type="varchar" MaxLength="200" />
+          <Property Name="einsatzortproperty" Type="varchar" MaxLength="200" />
+          <Property Name="einsatzortlatlng" Type="varchar" MaxLength="200" />
+          <Property Name="zielortstreet" Type="varchar" MaxLength="100" />
+          <Property Name="zielortstreetnumber" Type="varchar" MaxLength="100" />
+          <Property Name="zielortzipcode" Type="varchar" MaxLength="100" />
+          <Property Name="zielortcity" Type="varchar" MaxLength="100" />
+          <Property Name="zielortintersection" Type="varchar" MaxLength="200" />
+          <Property Name="zielortlocation" Type="varchar" MaxLength="200" />
+          <Property Name="zielortproperty" Type="varchar" MaxLength="200" />
+          <Property Name="zielortlatlng" Type="varchar" MaxLength="200" />
+          <Property Name="keyword" Type="varchar" MaxLength="100" />
+          <Property Name="keywordmisc" Type="varchar" MaxLength="100" />
+          <Property Name="keywordb" Type="varchar" MaxLength="100" />
+          <Property Name="keywordr" Type="varchar" MaxLength="100" />
+          <Property Name="keywords" Type="varchar" MaxLength="100" />
+          <Property Name="keywordt" Type="varchar" MaxLength="100" />
+          <Property Name="loopscsv" Type="varchar" MaxLength="300" />
+          <Property Name="customdatajson" Type="longtext" />
+        </EntityType>
+        <EntityType Name="operationresource">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="operation_id" Type="int" Nullable="false" />
+          <Property Name="timestamp" Type="varchar" MaxLength="50" />
+          <Property Name="fullname" Type="varchar" MaxLength="200" />
+          <Property Name="equipmentcsv" Type="text" />
+        </EntityType>
+        <Association Name="fk_{99BC450F-214E-4A06-8714-CA527129047D}">
+          <End Role="operation" Type="AlarmWorkflowModel.Store.operation" Multiplicity="1" />
+          <End Role="operationresource" Type="AlarmWorkflowModel.Store.operationresource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="operation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="operationresource">
+              <PropertyRef Name="operation_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="OperationManagementEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Operations" EntityType="AlarmWorkflowModel.OperationData" />
+          <EntitySet Name="OperationResources" EntityType="AlarmWorkflowModel.OperationResourceData" />
+          <AssociationSet Name="operationresource_ibfk_1" Association="AlarmWorkflowModel.operationresource_ibfk_1">
+            <End Role="OperationData" EntitySet="Operations" />
+            <End Role="operationresource" EntitySet="OperationResources" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="OperationData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
+          <Property Type="DateTime" Name="TimestampIncome" Nullable="false" />
+          <Property Type="DateTime" Name="TimestampAlarm" Nullable="false" />
+          <Property Type="String" Name="Messenger" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Comment" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Plan" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Picture" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Priority" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortStreet" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortStreetNumber" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortZipCode" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortCity" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortLocation" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortProperty" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortLatLng" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortStreet" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortStreetNumber" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortZipCode" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortCity" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortLocation" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortProperty" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortLatLng" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LoopsCsv" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomDataJson" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OperationNumber" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Guid" Name="OperationGuid" Nullable="false" />
+          <Property Type="String" Name="EinsatzortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OperationResources" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="OperationData" ToRole="operationresource" />
+          <Property Type="String" Name="Keyword" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordB" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordR" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordS" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordT" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordMisc" MaxLength="100" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="OperationResourceData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Operation_Id" Nullable="false" />
+          <Property Type="String" Name="Timestamp" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FullName" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EquipmentCsv" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Operation" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="operationresource" ToRole="OperationData" />
+        </EntityType>
+        <Association Name="operationresource_ibfk_1">
+          <End Type="AlarmWorkflowModel.OperationData" Role="OperationData" Multiplicity="1" />
+          <End Type="AlarmWorkflowModel.OperationResourceData" Role="operationresource" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OperationData">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="operationresource">
+              <PropertyRef Name="Operation_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AlarmWorkflowModelStoreContainer" CdmEntityContainer="OperationManagementEntities">
+          <EntitySetMapping Name="Operations">
+            <EntityTypeMapping TypeName="AlarmWorkflowModel.OperationData">
+              <MappingFragment StoreEntitySet="operation">
+                <ScalarProperty Name="KeywordMisc" ColumnName="keywordmisc" />
+                <ScalarProperty Name="KeywordT" ColumnName="keywordt" />
+                <ScalarProperty Name="KeywordS" ColumnName="keywords" />
+                <ScalarProperty Name="KeywordR" ColumnName="keywordr" />
+                <ScalarProperty Name="KeywordB" ColumnName="keywordb" />
+                <ScalarProperty Name="Keyword" ColumnName="keyword" />
+                <ScalarProperty Name="LoopsCsv" ColumnName="loopscsv" />
+                <ScalarProperty Name="IsAcknowledged" ColumnName="acknowledged" />
+                <ScalarProperty Name="ZielortIntersection" ColumnName="zielortintersection" />
+                <ScalarProperty Name="EinsatzortIntersection" ColumnName="einsatzortintersection" />
+                <ScalarProperty Name="OperationGuid" ColumnName="operationguid" />
+                <ScalarProperty Name="OperationNumber" ColumnName="operationnumber" />
+                <ScalarProperty Name="CustomDataJson" ColumnName="customdatajson" />
+                <ScalarProperty Name="ZielortLatLng" ColumnName="zielortlatlng" />
+                <ScalarProperty Name="ZielortProperty" ColumnName="zielortproperty" />
+                <ScalarProperty Name="ZielortLocation" ColumnName="zielortlocation" />
+                <ScalarProperty Name="ZielortCity" ColumnName="zielortcity" />
+                <ScalarProperty Name="ZielortZipCode" ColumnName="zielortzipcode" />
+                <ScalarProperty Name="ZielortStreetNumber" ColumnName="zielortstreetnumber" />
+                <ScalarProperty Name="ZielortStreet" ColumnName="zielortstreet" />
+                <ScalarProperty Name="EinsatzortLatLng" ColumnName="einsatzortlatlng" />
+                <ScalarProperty Name="EinsatzortProperty" ColumnName="einsatzortproperty" />
+                <ScalarProperty Name="EinsatzortLocation" ColumnName="einsatzortlocation" />
+                <ScalarProperty Name="EinsatzortCity" ColumnName="einsatzortcity" />
+                <ScalarProperty Name="EinsatzortZipCode" ColumnName="einsatzortzipcode" />
+                <ScalarProperty Name="EinsatzortStreetNumber" ColumnName="einsatzortstreetnumber" />
+                <ScalarProperty Name="EinsatzortStreet" ColumnName="einsatzortstreet" />
+                <ScalarProperty Name="Priority" ColumnName="priority" />
+                <ScalarProperty Name="Picture" ColumnName="picture" />
+                <ScalarProperty Name="Plan" ColumnName="plan" />
+                <ScalarProperty Name="Comment" ColumnName="comment" />
+                <ScalarProperty Name="Messenger" ColumnName="messenger" />
+                <ScalarProperty Name="TimestampAlarm" ColumnName="timestampalarm" />
+                <ScalarProperty Name="TimestampIncome" ColumnName="timestampincome" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OperationResources">
+            <EntityTypeMapping TypeName="AlarmWorkflowModel.OperationResourceData">
+              <MappingFragment StoreEntitySet="operationresource">
+                <ScalarProperty Name="EquipmentCsv" ColumnName="equipmentcsv" />
+                <ScalarProperty Name="FullName" ColumnName="fullname" />
+                <ScalarProperty Name="Timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="Operation_Id" ColumnName="operation_id" />
+                <ScalarProperty Name="Id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Entities" ZoomLevel="90">
+        <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="0.5" PointY="0.5" Height="5.8653369140625" />
+        <EntityTypeShape EntityType="AlarmWorkflowModel.OperationResourceData" Width="1.5" PointX="2.625" PointY="0.5" Height="1.9210009765625" />
+        <AssociationConnector Association="AlarmWorkflowModel.operationresource_ibfk_1" >
+          <ConnectorPoint PointX="2" PointY="1.4605004882812502" />
+          <ConnectorPoint PointX="2.625" PointY="1.4605004882812502" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

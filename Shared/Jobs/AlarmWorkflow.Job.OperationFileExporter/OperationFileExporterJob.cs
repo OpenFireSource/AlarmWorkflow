@@ -17,10 +17,9 @@ using System;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
 
 namespace AlarmWorkflow.Job.OperationFileExporter
 {
@@ -121,9 +120,9 @@ namespace AlarmWorkflow.Job.OperationFileExporter
             }
         }
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            _configuration = new Configuration();
+            _configuration = new Configuration(serviceProvider);
             return true;
         }
 
@@ -138,7 +137,11 @@ namespace AlarmWorkflow.Job.OperationFileExporter
 
         void IDisposable.Dispose()
         {
-
+            if (_configuration != null)
+            {
+                _configuration.Dispose();
+                _configuration = null;
+            }
         }
 
         #endregion

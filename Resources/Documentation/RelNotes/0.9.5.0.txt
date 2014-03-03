@@ -9,6 +9,7 @@ General
   * [Printing] Added workaround for certain printers reporting CopyCounts they can't handle.
   * [Push Job] Made Push Job more robust and now run concurrently.
   * [Database] Weakened check for database access. Now retries after failing to make it less error-prone.
+  * [Service] Big architecture overhaul! Allowing for a lot more flexibility and extensibility. See Appendix #1.
 
 Parsers
 
@@ -35,3 +36,13 @@ Issues resolved
 Other fixes
 
   * -
+
+Appendix
+--------
+
+#1
+--------
+
+Before applying the update, make sure that you first uninstall your existing Alarmworkflow Service
+using the Configuration editor. Then, apply the update, and afterwards install the service using
+the editor as usual.

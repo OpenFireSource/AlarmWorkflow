@@ -17,6 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Specialized.Printing;
 using AlarmWorkflow.Windows.ConfigurationContracts;
@@ -55,12 +58,25 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         {
             InitializeComponent();
 
-            PrintingQueues = PrintingQueueManager.GetInstance().Entries
-                .Select(n => new CheckedStringItem(n.Name) { Tag = n })
-                .OrderBy(p => p.Value)
+            PrintingQueues = GetPrintingQueues().Entries
+                .Select(pq => pq.Name)
+                .OrderBy(p => p)
+                .Select(n => new CheckedStringItem(n))
                 .ToList();
 
             this.DataContext = this;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private PrintingQueuesConfiguration GetPrintingQueues()
+        {
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+            {
+                return service.Instance.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
+            }
         }
 
         #endregion

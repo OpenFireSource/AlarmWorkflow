@@ -14,11 +14,10 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using AlarmWorkflow.BackendService.EngineContracts;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Engine;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.Job.Geocoding
 {
@@ -31,6 +30,7 @@ namespace AlarmWorkflow.Job.Geocoding
     {
         #region Fields
 
+        private ISettingsServiceInternal _settings;
         private IGeoCoder _provider;
 
         #endregion
@@ -46,12 +46,14 @@ namespace AlarmWorkflow.Job.Geocoding
 
         #region IJob Members
 
-        bool IJob.Initialize()
+        bool IJob.Initialize(IServiceProvider serviceProvider)
         {
-            _provider = ExportedTypeLibrary.Import<IGeoCoder>(SettingsManager.Instance.GetSetting("Geocoding", "Provider").GetString());
+            _settings = serviceProvider.GetService<ISettingsServiceInternal>();
+
+            _provider = ExportedTypeLibrary.Import<IGeoCoder>(_settings.GetSetting("Geocoding", "Provider").GetValue<string>());
             if (_provider.ApiKeyRequired)
             {
-                string apikey = SettingsManager.Instance.GetSetting("Geocoding", "ApiKey").GetString();
+                string apikey = _settings.GetSetting("Geocoding", "ApiKey").GetValue<string>();
                 _provider.ApiKey = apikey;
             }
             return true;
@@ -71,12 +73,12 @@ namespace AlarmWorkflow.Job.Geocoding
                 if (geocoderLocation != null)
                 {
                     //The most of the widgets and so need the "english-format" (point instead of comma)!
-                    operation.Einsatzort.GeoLongitude = geocoderLocation.Longitude.ToString().Replace(',','.');;
-                    operation.Einsatzort.GeoLatitude = geocoderLocation.Latitude.ToString().Replace(',', '.'); ;
+                    operation.Einsatzort.GeoLongitude = geocoderLocation.Longitude.ToString().Replace(',', '.');
+                    operation.Einsatzort.GeoLatitude = geocoderLocation.Latitude.ToString().Replace(',', '.');
                 }
                 else
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this,"No coordinats found by geocoding service.");
+                    Logger.Instance.LogFormat(LogType.Error, this, "No coordinats found by geocoding service.");
                 }
             }
         }

@@ -15,8 +15,9 @@
 
 using System;
 using System.Diagnostics;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.ExternalToolIdleUIJob
@@ -38,10 +39,15 @@ namespace AlarmWorkflow.Windows.ExternalToolIdleUIJob
 
         void IIdleUIJob.Run()
         {
-            string[] programms = SettingsManager.Instance.GetSetting("ExternalToolIdleUIJob", "ExternalTool").GetStringArray();
-            foreach (var programm in programms)
+            string[] programs = new string[0];
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
-                Process.Start(programm);
+                programs = service.Instance.GetSetting(SettingKeys.ExternalTool).GetStringArray();
+            }
+
+            foreach (string program in programs)
+            {
+                Process.Start(program);
             }
 
         }

@@ -123,22 +123,4 @@
   <data name="CopyToClipboardFailedMessage" xml:space="preserve">
     <value>Konnte nicht auf die Zwischenablage zugreifen. Möglicherweise greift aktuell ein anderes Programm darauf zu. Bitte versuchen Sie es in ein paar Sekunden erneut.</value>
   </data>
-  <data name="DestinationLocationIsUnknown" xml:space="preserve">
-    <value>Destination location is unknown! Cannot download route plan!</value>
-  </data>
-  <data name="DownloadRoutePlanBegin" xml:space="preserve">
-    <value>Downloading route plan to destination '{0}'...</value>
-  </data>
-  <data name="DownloadRoutePlanError" xml:space="preserve">
-    <value>An error occurred while trying to download the route plan! The image will not be available.</value>
-  </data>
-  <data name="DownloadRoutePlanFailed" xml:space="preserve">
-    <value>The download of the route plan did not succeed. Please check the log for information!</value>
-  </data>
-  <data name="DownloadRoutePlanSuccess" xml:space="preserve">
-    <value>Downloaded route plan in '{0}' milliseconds.</value>
-  </data>
-  <data name="RoutePlanningSourceLocationNotMeaningful" xml:space="preserve">
-    <value>Cannot download route plan because the location information for this fire department is not meaningful enough: '{0}'. Please fill in the correct address!</value>
-  </data>
 </root>

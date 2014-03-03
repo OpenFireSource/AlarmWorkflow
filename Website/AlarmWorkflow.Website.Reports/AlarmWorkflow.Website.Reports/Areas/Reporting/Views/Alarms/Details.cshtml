@@ -1,0 +1,187 @@
+﻿@model AlarmWorkflow.Shared.Core.Operation
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Allgemeine Daten</h2>
+
+<table>
+  <tr>
+    <td><b>Zeitpunkt:</b></td>
+    <td>
+      <table>
+        <tr>
+          <td><b>Eingang:</b></td>
+          <td>@Model.TimestampIncome <img src="~/Images/helpicon.png" title="Zeitpunkt des Eingangs des Alarms." alt="" /> </td>
+        </tr>
+        <tr>
+          <td><b>Empfang:</b></td>
+          <td>@Model.Timestamp <img src="~/Images/helpicon.png" title="Zeitstempel der Alarmquelle (Fax, SMS etc.)." alt="" /></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td><b>Einsatzort:</b></td>
+    <td><a href="@string.Format("https://www.google.de/maps?q={0}", Model.Einsatzort.ToString())">@Model.Einsatzort.ToString()</a></td>
+  </tr>
+  @if (Model.Zielort.IsMeaningful)
+  {
+  <tr>
+    <td><b>Zielort:</b></td>
+    <td><a href="@string.Format("https://www.google.de/maps?q={0}", Model.Zielort.ToString())">@Model.Zielort.ToString()</a></td>
+  </tr>
+  }
+  <tr>
+    <td><b>Bemerkung:</b></td>
+    <td>@Model.Comment</td>
+  </tr>
+  <tr>
+    <td><b>Mitteiler:</b></td>
+    <td>@Model.Messenger</td>
+  </tr>
+  @if (!Model.OperationPlan.IsEmpty())
+  {
+  <tr>
+    <td><b>Einsatzplan:</b></td>
+    <td>@Model.OperationPlan</td>
+  </tr>
+  }
+  @if (!Model.Picture.IsEmpty())
+  {
+  <tr>
+    <td><b>Meldebild:</b></td>
+    <td>@Model.Picture</td>
+  </tr>
+  }
+</table>
+
+<h2>Stichwörter</h2>
+
+<table>
+  @if (!Model.Keywords.Keyword.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort (generisch):</b></td>
+    <td>@Model.Keywords.Keyword</td>
+  </tr>
+  }
+  @if (!Model.Keywords.EmergencyKeyword.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort:</b></td>
+    <td>@Model.Keywords.EmergencyKeyword</td>
+  </tr>
+  }
+  @if (!Model.Keywords.B.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort B:</b></td>
+    <td>@Model.Keywords.B</td>
+  </tr>
+  }
+  @if (!Model.Keywords.R.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort R:</b></td>
+    <td>@Model.Keywords.R</td>
+  </tr>
+  }
+  @if (!Model.Keywords.S.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort S:</b></td>
+    <td>@Model.Keywords.S</td>
+  </tr>
+  }
+  @if (!Model.Keywords.T.IsEmpty())
+  {
+  <tr>
+    <td><b>Stichwort T:</b></td>
+    <td>@Model.Keywords.T</td>
+  </tr>
+  }
+</table>
+
+<h2>Schleifen</h2>
+
+<!-- Render loops, if any are present. -->
+@if (Model.Loops.Any())
+{
+<table>
+  <tr>
+    <th><b>Schleifencode</b></th>
+  </tr>
+
+  @foreach (var item in Model.Loops)
+  {
+  <tr>
+    <td>@item</td>
+  </tr>
+  }
+</table>
+}
+else
+{
+<p>Zu diesem Alarm sind keine Schleifencodes verfügbar.</p>
+}
+
+<h2>Einsatzmittel</h2>
+
+<!-- Render resources, if any are present. -->
+@if (Model.Resources.Any())
+{
+<table>
+  <tr>
+    <th><b>Name</b></th>
+    <th><b>Geforderte Ausstattung</b></th>
+    <th><b>Zeitpunkt</b></th>
+  </tr>
+
+  @foreach (var item in Model.Resources)
+  {
+  <tr>
+    <td>@item.FullName</td>
+    <td>@string.Join(", ", item.RequestedEquipment)</td>
+    <td>
+        @if (item.Timestamp == DateTime.MinValue.ToString())
+        { <span>Unbekannt</span> }
+        else
+        { @item.Timestamp }
+    </td>
+  </tr>
+  }
+</table>
+}
+else
+{
+<p>Zu diesem Alarm sind keine Einsatzmittelinformationen verfügbar.</p>
+}
+
+<h2>Spezifische Daten</h2>
+
+<!-- Render custom data, if any are present. -->
+@if (Model.CustomData.Any())
+{
+<table>
+  @foreach (var item in Model.CustomData)
+  {
+  <tr>
+     <td><b>@item.Key:</b></td>
+     <td>@item.Value</td>
+  </tr>
+  }
+</table>
+}
+else
+{
+<p>Zu diesem Alarm sind keine spezifischen Daten verfügbar.</p>
+}
+
+<p>
+    @Html.ActionLink("Zurück", "Index")
+</p>
+<p>
+    @Html.ActionLink("Export (XML)...", "Export", new { Model.Id })
+</p>

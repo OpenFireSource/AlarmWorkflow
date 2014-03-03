@@ -14,8 +14,7 @@ TestResults
 *.suo
 *.user
 *.db
+*.bak
 
 # Folders
 /Build/Config
-/Installer/Build
-/InstallerTemp

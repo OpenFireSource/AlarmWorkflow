@@ -119,18 +119,14 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors
                 }
                 set
                 {
-                    ExportConfiguration configuration = ExportConfiguration.Parse((string)value);
+                    ExportConfiguration configuration = (ExportConfiguration)value;
 
                     List<ExportedType> validExports = ExportedTypeLibrary.GetExports(ExportedType);
 
-                    // Find out which exports are new to show in the list ...
                     var newExports = validExports.Select(e => e.Attribute.Alias).Except(configuration.Exports.Select(e => e.Name));
-                    // ... and which exports are no longer needed.
                     var obsoleteExports = configuration.Exports.Select(e => e.Name).Except(validExports.Select(e => e.Attribute.Alias));
 
-                    // Remove the ones we no longer need ...
                     configuration.Exports.RemoveAll(e => obsoleteExports.Contains(e.Name));
-                    // ... and add those we do need.
                     configuration.Exports.AddRange(newExports.Select(e => new ExportConfiguration.ExportEntry() { Name = e }));
 
                     this.Exports = configuration.Exports

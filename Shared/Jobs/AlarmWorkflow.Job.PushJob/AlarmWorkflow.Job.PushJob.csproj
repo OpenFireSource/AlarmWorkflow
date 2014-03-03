@@ -36,8 +36,17 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Shared.Addressing">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Shared.Addressing.dll</HintPath>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.AddressingContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.AddressingContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll"</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll"</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

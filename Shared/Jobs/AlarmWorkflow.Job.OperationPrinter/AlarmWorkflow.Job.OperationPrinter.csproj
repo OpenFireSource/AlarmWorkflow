@@ -37,9 +37,20 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>../../../Build/AlarmWorkflow.Shared.dll</HintPath>
+      <HintPath>..\..\..\Build/AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="System.Data" />
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.AddressingContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.AddressingContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll"</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll"</HintPath>
+    </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -54,6 +65,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="RoutePlanHelper.cs" />
+    <Compile Include="SettingKeys.cs" />
     <Compile Include="TemplateObject.cs" />
     <Compile Include="TemplateRenderer.cs" />
   </ItemGroup>

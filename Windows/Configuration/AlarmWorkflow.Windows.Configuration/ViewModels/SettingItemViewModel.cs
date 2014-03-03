@@ -13,31 +13,31 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Input;
+using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
-using System.Windows.Input;
-using System.Windows;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
     [DebuggerDisplay("Setting = {SettingDescriptor.Identifier}/{SettingDescriptor.SettingItem.Name}")]
     class SettingItemViewModel : ViewModelBase
     {
-        #region Fields
-
-        private SettingInfo _setting;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
         /// Gets the setting descriptor for this item.
         /// </summary>
-        public SettingDescriptor SettingDescriptor { get; private set; }
+        public SettingInfo Info { get; private set; }
+        /// <summary>
+        /// Gets the actual setting item containing the value.
+        /// </summary>
+        public SettingItem Setting { get; private set; }
         /// <summary>
         /// Gets the type editor for this setting item.
         /// </summary>
@@ -49,11 +49,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get
             {
-                if (_setting == null || string.IsNullOrWhiteSpace(_setting.DisplayText))
+                if (Info == null || string.IsNullOrWhiteSpace(Info.DisplayText))
                 {
-                    return SettingDescriptor.SettingItem.Name;
+                    return Info.Name;
                 }
-                return _setting.DisplayText;
+                return Info.DisplayText;
             }
         }
         /// <summary>
@@ -63,11 +63,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get
             {
-                if (_setting == null || string.IsNullOrWhiteSpace(_setting.Description))
+                if (Info == null || string.IsNullOrWhiteSpace(Info.Description))
                 {
                     return "(Keine Beschreibung vorhanden)";
                 }
-                return _setting.Description;
+                return Info.Description;
             }
         }
 
@@ -75,11 +75,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get
             {
-                if (_setting == null || string.IsNullOrWhiteSpace(_setting.Editor))
+                if (Info == null || string.IsNullOrWhiteSpace(Info.Editor))
                 {
                     return null;
                 }
-                return _setting.Editor;
+                return Info.Editor;
             }
         }
 
@@ -87,11 +87,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get
             {
-                if (_setting == null || string.IsNullOrWhiteSpace(_setting.EditorParameter))
+                if (Info == null || string.IsNullOrWhiteSpace(Info.EditorParameter))
                 {
                     return null;
                 }
-                return _setting.EditorParameter;
+                return Info.EditorParameter;
             }
         }
 
@@ -111,8 +111,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 return;
             }
 
-            this.TypeEditor.Value = this.SettingDescriptor.SettingItem.DefaultValue;
-            this.SettingDescriptor.SettingItem.ResetValue();
+            this.Setting.ResetValue();
+            this.TypeEditor.Value = this.Setting.Value;
 
             OnPropertyChanged("TypeEditor");
             OnPropertyChanged("TypeEditor.Value");
@@ -125,31 +125,36 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <summary>
         /// Initializes a new instance of the <see cref="SettingItemViewModel"/> class.
         /// </summary>
-        /// <param name="settingDescriptor">The setting descriptor.</param>
+        /// <param name="info"></param>
         /// <param name="setting"></param>
-        public SettingItemViewModel(SettingDescriptor settingDescriptor, SettingInfo setting)
+        public SettingItemViewModel(SettingInfo info, SettingItem setting)
         {
-            _setting = setting;
+            Assertions.AssertNotNull(info, "info");
+            Assertions.AssertNotNull(setting, "setting");
 
-            this.SettingDescriptor = settingDescriptor;
+            Info = info;
+            Setting = setting;
 
             // Find out editor
             string editorName = Editor;
             if (string.IsNullOrWhiteSpace(editorName))
             {
-                editorName = settingDescriptor.SettingItem.SettingType.FullName;
+                editorName = Setting.SettingType.FullName;
             }
 
             this.TypeEditor = TypeEditors.TypeEditorCache.CreateTypeEditor(editorName);
             this.TypeEditor.Initialize(this.EditorParameter);
             try
             {
-                this.TypeEditor.Value = settingDescriptor.SettingItem.Value;
+                this.TypeEditor.Value = Setting.Value;
             }
-            catch (System.Exception)
+            catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingItemViewModelSetSettingError, settingDescriptor.SettingItem.Name, settingDescriptor.Identifier);
-                this.TypeEditor.Value = settingDescriptor.SettingItem.DefaultValue;
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingItemViewModelSetSettingError, Info.Name, Info.Identifier);
+                Logger.Instance.LogException(this, ex);
+
+                Setting.ResetValue();
+                this.TypeEditor.Value = Setting.Value;
             }
         }
 

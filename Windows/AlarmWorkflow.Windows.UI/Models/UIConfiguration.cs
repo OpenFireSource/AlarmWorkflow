@@ -16,6 +16,8 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Settings;
 
@@ -24,8 +26,14 @@ namespace AlarmWorkflow.Windows.UI.Models
     /// <summary>
     /// Represents the configuration for the Windows UI.
     /// </summary>
-    internal sealed class UIConfiguration
+    internal sealed class UIConfiguration : ISettingsServiceCallback
     {
+        #region Fields
+
+        private WrappedService<ISettingsService> _settings;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -74,44 +82,42 @@ namespace AlarmWorkflow.Windows.UI.Models
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UIConfiguration"/> class.
+        /// Initializes a new instance of the <see cref="UIConfiguration"/> class
+        /// loads all settings and registers a callback to be notified whenever a
+        /// setting changes its value.
         /// </summary>
-        public UIConfiguration()
+        internal UIConfiguration()
         {
             AutomaticOperationAcknowledgement = new AutomaticOperationAcknowledgementSettings();
 
-            AcknowledgeOperationKey = System.Windows.Input.Key.B;
+            Load();
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Loads the UIConfiguration from its default path.
-        /// </summary>
-        /// <returns></returns>
-        public static UIConfiguration Load()
+        private void Load()
         {
-            UIConfiguration configuration = new UIConfiguration();
-            configuration.OperationViewer = SettingsManager.Instance.GetSetting("UIConfiguration", "OperationViewer").GetString();
-            configuration.FullscreenOnAlarm = SettingsManager.Instance.GetSetting("UIConfiguration", "FullscreenOnAlarm").GetBoolean();
-            string acknowledgeOperationKeyS = SettingsManager.Instance.GetSetting("UIConfiguration", "AcknowledgeOperationKey").GetString();
+            _settings = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(this);
+
+            OperationViewer = _settings.Instance.GetSetting(UISettingKeys.OperationViewerKey).GetValue<string>();
+            FullscreenOnAlarm = _settings.Instance.GetSetting(UISettingKeys.FullscreenOnAlarmKey).GetValue<bool>();
+
+            string acknowledgeOperationKeyS = _settings.Instance.GetSetting(UISettingKeys.AcknowledgeOperationKeyKey).GetValue<string>();
             Key acknowledgeOperationKey = Key.B;
             Enum.TryParse<Key>(acknowledgeOperationKeyS, out acknowledgeOperationKey);
-            configuration.AcknowledgeOperationKey = acknowledgeOperationKey;
+            AcknowledgeOperationKey = acknowledgeOperationKey;
 
-            configuration.AutomaticOperationAcknowledgement.IsEnabled = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.IsEnabled").GetBoolean();
-            configuration.AutomaticOperationAcknowledgement.MaxAge = SettingsManager.Instance.GetSetting("UIConfiguration", "AOA.MaxAge").GetInt32();
-            configuration.AvoidScreensaver = SettingsManager.Instance.GetSetting("UIConfiguration", "AvoidScreensaver").GetBoolean();
-            configuration.MaxAlarmsInUI = SettingsManager.Instance.GetSetting("UIConfiguration", "MaxAlarmsInUI").GetInt32();
+            AutomaticOperationAcknowledgement.IsEnabled = _settings.Instance.GetSetting(UISettingKeys.AOAIsEnabledKey).GetValue<bool>();
+            AutomaticOperationAcknowledgement.MaxAge = _settings.Instance.GetSetting(UISettingKeys.AOAMaxAgeKey).GetValue<int>();
+            AvoidScreensaver = _settings.Instance.GetSetting(UISettingKeys.AvoidScreensaverKey).GetValue<bool>();
+            MaxAlarmsInUI = _settings.Instance.GetSetting(UISettingKeys.MaxAlarmsInUIKey).GetValue<int>();
 
-            // Jobs configuration
-            configuration.EnabledJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "JobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
-            configuration.EnabledIdleJobs = new ReadOnlyCollection<string>(SettingsManager.Instance.GetSetting("UIConfiguration", "IdleJobsConfiguration").GetValue<ExportConfiguration>().GetEnabledExports());
-            configuration.SwitchAlarms = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchAlarms").GetBoolean();
-            configuration.SwitchTime = SettingsManager.Instance.GetSetting("UIConfiguration", "SwitchTime").GetInt32();
-            return configuration;
+            EnabledJobs = new ReadOnlyCollection<string>(_settings.Instance.GetSetting(UISettingKeys.JobsConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports());
+            EnabledIdleJobs = new ReadOnlyCollection<string>(_settings.Instance.GetSetting(UISettingKeys.IdleJobsConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports());
+            SwitchAlarms = _settings.Instance.GetSetting(UISettingKeys.SwitchAlarmsKey).GetValue<bool>();
+            SwitchTime = _settings.Instance.GetSetting(UISettingKeys.SwitchTimeKey).GetValue<int>();
         }
 
         #endregion
@@ -131,6 +137,15 @@ namespace AlarmWorkflow.Windows.UI.Models
             /// Gets/sets the maximum age in minutes until an operation is automatically acknowleded.
             /// </summary>
             public int MaxAge { get; set; }
+        }
+
+        #endregion
+
+        #region ISettingsServiceCallback Members
+
+        void ISettingsServiceCallback.OnSettingChanged(SettingKey[] keys)
+        {
+            // TODO: Update setting values
         }
 
         #endregion

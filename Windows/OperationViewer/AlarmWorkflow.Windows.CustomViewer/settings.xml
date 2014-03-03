@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="CustomOperationViewer">
 
-  <Setting Name="WidgetConfiguration" Type="System.String">
+  <Setting Name="WidgetConfiguration" Type="AlarmWorkflow.Shared.Core.ExportConfiguration, AlarmWorkflow.Shared">
     <![CDATA[<ExportConfiguration>
     <Export Name="OperationViewWidget" IsEnabled="True" />
   </ExportConfiguration>]]>

@@ -117,131 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AlarmSourceDisposeException" xml:space="preserve">
-    <value>An exception occurred while disposing alarm source '{0}'. Please check the log.</value>
-  </data>
-  <data name="AlarmSourceEnabled" xml:space="preserve">
-    <value>Alarm source '{0}' enabled.</value>
-  </data>
-  <data name="AlarmSourceEnabling" xml:space="preserve">
-    <value>Enabling alarm source '{0}'...</value>
-  </data>
-  <data name="AlarmSourceInitializing" xml:space="preserve">
-    <value>Initializing Alarmsource '{0}'...</value>
-  </data>
-  <data name="AlarmSourceNoOperation" xml:space="preserve">
-    <value>Alarm Source '{0}' did not return an operation! This may indicate that parsing an operation has failed. Please check the log!</value>
-  </data>
-  <data name="AlarmSourceReceivedOperation" xml:space="preserve">
-    <value>Received operation '{0}' by Alarm Source '{1}'.</value>
-  </data>
-  <data name="AlarmSourceStartException" xml:space="preserve">
-    <value>Error initializing alarm source '{0}'. It will not run.</value>
-  </data>
-  <data name="AlarmSourceStarting" xml:space="preserve">
-    <value>Starting Alarmsource '{0}'.</value>
-  </data>
-  <data name="AlarmSourceThreadException" xml:space="preserve">
-    <value>An unhandled exception occurred while running the thread for alarm source '{0}'. The thread is being terminated. Please check the log.</value>
-  </data>
-  <data name="EngineStarted" xml:space="preserve">
-    <value>Engine started successfully.</value>
-  </data>
-  <data name="EngineStartFailedNoAlarmSourceException" xml:space="preserve">
-    <value>Service failed to start because there are no running alarm sources! Please check the log.</value>
-  </data>
-  <data name="EngineStarting" xml:space="preserve">
-    <value>Starting Engine...</value>
-  </data>
-  <data name="EngineStopped" xml:space="preserve">
-    <value>Engine is now stopped.</value>
-  </data>
-  <data name="EngineStopping" xml:space="preserve">
-    <value>Stopping Engine...</value>
-  </data>
   <data name="FDResourceConfigurationParseError" xml:space="preserve">
     <value>Could not parse setting value. Maybe it is ill-formed. The instance will have no items. See log for further information.</value>
   </data>
   <data name="FileNameMustBeAbsolute" xml:space="preserve">
     <value>The file path must be in absolute format!</value>
   </data>
-  <data name="InitializedOperationStore" xml:space="preserve">
-    <value>Using operation store '{0}' .</value>
-  </data>
-  <data name="JobExecuteAsyncFailed" xml:space="preserve">
-    <value>An error occurred while processing the asynchronous job '{0}'!</value>
-  </data>
-  <data name="JobExecuteAsyncStart" xml:space="preserve">
-    <value>Beginning execution of async job '{0}' in phase '{1}'...</value>
-  </data>
-  <data name="JobExecuteFinished" xml:space="preserve">
-    <value>Finished execution of job '{0}'.</value>
-  </data>
-  <data name="JobExecuteSyncFailed" xml:space="preserve">
-    <value>An error occurred while processing the synchronous job '{0}'!</value>
-  </data>
-  <data name="JobExecuteSyncStart" xml:space="preserve">
-    <value>Beginning execution of sync job '{0}' in phase '{1}'...</value>
-  </data>
-  <data name="JobManagerDisposeJobFailed" xml:space="preserve">
-    <value>The job '{0}' failed at dispose. This may have unpredictable consequences.</value>
-  </data>
-  <data name="NewAlarmHandlingException" xml:space="preserve">
-    <value>An exception occurred while processing the operation! Please check the log!</value>
-  </data>
-  <data name="NewAlarmHandlingFinished" xml:space="preserve">
-    <value>Finished handling operation with ID '{0}'.</value>
-  </data>
-  <data name="NewAlarmInvalidTimestamp" xml:space="preserve">
-    <value>Could not parse timestamp from the fax. Using the current time as the timestamp.</value>
-  </data>
-  <data name="NewAlarmStored" xml:space="preserve">
-    <value>Stored operation with ID '{0}'.</value>
-  </data>
-  <data name="NewAlarmStoreOperationFailedMessage" xml:space="preserve">
-    <value>Storing the operation to the operation store failed! See log for information.</value>
-  </data>
-  <data name="SettingIdentifierNotFoundExceptionMessage" xml:space="preserve">
-    <value>No setting identifier with the name '{0}' has been found!</value>
-  </data>
-  <data name="SettingNotFoundExceptionMessage" xml:space="preserve">
-    <value>No setting with the name '{0}' has been found!</value>
-  </data>
-  <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
-    <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
-  </data>
-  <data name="SettingsConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings configuration from assembly '{0}'.</value>
-  </data>
-  <data name="SettingsConfigurationEmbResParseFailed" xml:space="preserve">
-    <value>Parsing of settings configuration file from assembly '{0}' failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version.</value>
-  </data>
-  <data name="SettingsConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
-  </data>
-  <data name="SettingsDisplayConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings display configuration from assembly '{0}'.</value>
-  </data>
-  <data name="SettingsDisplayConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings display configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
-  </data>
-  <data name="SettingsDisplayConfigurationNotFoundException" xml:space="preserve">
-    <value>There was no SettingsDisplayConfiguration found in this instance. Perhaps this instance was not initialized with "IncludeDisplayConfiguration" or it was and the configuration is not available at this point.</value>
-  </data>
   <data name="ExpressionNotSupportedExceptionMessage" xml:space="preserve">
     <value>The expression '{0}' led to an unsupported member, thus it cannot be retrieved. Please revise this expression or remove it if not needed.</value>
-  </data>
-  <data name="JobGenericError" xml:space="preserve">
-    <value>An error occurred while initializing job type '{0}'. The error message was: {1}</value>
-  </data>
-  <data name="JobInitializeBegin" xml:space="preserve">
-    <value>Initializing job type '{0}'...</value>
-  </data>
-  <data name="JobInitializeError" xml:space="preserve">
-    <value>Job type '{0}' initialization failed. The job will not be executed.</value>
-  </data>
-  <data name="JobInitializeSuccess" xml:space="preserve">
-    <value>Job type '{0}' initialization successful.</value>
   </data>
   <data name="ServiceProviderRegisteredService" xml:space="preserve">
     <value>Registered service type '{0}' (instance type: {1}).</value>
@@ -282,21 +165,11 @@
   <data name="ErrorWhileInvokingUserExpressionResolver" xml:space="preserve">
     <value>An error occurred while invoking user-provided expression resolver. A default value will be used for this expression. Please see log for further information.</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="SettingsInfoXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\settings.info.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
-  <data name="SettingsXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\settings.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
-  </data>
   <data name="SettingsManagerScanSettingsDisplayConfigurationFinished" xml:space="preserve">
     <value>Finished scan of setting display configurations in {0} milliseconds.</value>
   </data>
   <data name="SettingsManagerScanSettingsFinished" xml:space="preserve">
     <value>Finished scan of setting definitions in {0} milliseconds.</value>
-  </data>
-  <data name="UserSettingsXsd" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\resources\user.settings.xsd;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
   <data name="SettingsManagerUserSettingsFileInvalid" xml:space="preserve">
     <value>The user.settings is malformed! Personalized user settings cannot be loaded. Please review your file. If you are sure that you haven't done any custom modifications to this file, please contact the team.</value>

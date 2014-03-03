@@ -17,8 +17,9 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Clock
@@ -49,17 +50,20 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
         /// </summary>
         public ClockWidget()
         {
-            object convertFromString = ColorConverter.ConvertFromString(SettingsManager.Instance.GetSetting("ClockWidget", "Color").GetString());
-            if (convertFromString != null)
+            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
-                _color = (Color)convertFromString;
+                object convertFromString = ColorConverter.ConvertFromString(service.Instance.GetSetting(SettingKeys.Color).GetValue<string>());
+                if (convertFromString != null)
+                {
+                    _color = (Color)convertFromString;
+                }
+                else
+                {
+                    _color = Colors.Red;
+                }
+                _waitTimeSetting = service.Instance.GetSetting(SettingKeys.WaitTime).GetValue<int>();
+                _blink = service.Instance.GetSetting(SettingKeys.Blink).GetValue<bool>();
             }
-            else
-            {
-                _color = Colors.Red;
-            }
-            _waitTimeSetting = SettingsManager.Instance.GetSetting("ClockWidget", "WaitTime").GetInt32();
-            _blink = SettingsManager.Instance.GetSetting("ClockWidget", "Blink").GetBoolean();
 
             InitializeComponent();
 

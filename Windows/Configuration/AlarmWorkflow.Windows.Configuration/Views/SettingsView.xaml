@@ -1,14 +1,35 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="btv" />
+    </UserControl.Resources>
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.3*" />
             <ColumnDefinition Width="0.7*" />
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="lstSections" Grid.Column="0" Margin="2,2,3,2" ItemsSource="{Binding Sections}">
+        <Border Grid.Row="0" Grid.ColumnSpan="2" BorderBrush="Black" BorderThickness="1" Background="LightYellow" Visibility="{Binding SaveChangesCommand.IsRunning, Converter={StaticResource btv}, Mode=OneWay}">
+            <Grid Margin="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="0.7*" />
+                    <ColumnDefinition Width="0.3*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Margin="2" Grid.Column="0" Text="Speichere..." FontWeight="Bold" />
+                <ProgressBar Margin="2" Grid.Column="1" Value="{Binding SaveChangesCommand.Progress, Mode=OneWay}" />
+                <TextBlock Margin="2" Grid.Column="2" Text="{Binding SaveChangesCommand.ProgressText, Mode=OneWay}" />
+            </Grid>
+        </Border>
+
+        <TreeView x:Name="lstSections" Grid.Row="1" Grid.Column="0" Margin="2,2,3,2" ItemsSource="{Binding Sections}">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Header}" />
@@ -25,10 +46,10 @@
                 </Style>
             </TreeView.ItemContainerStyle>
         </TreeView>
-        <GridSplitter Grid.Column="0" Width="3" />
+        <GridSplitter Grid.Row="1" Grid.Column="0" Width="3" />
 
         <!-- Settings view -->
-        <ScrollViewer Grid.Column="1" Margin="2">
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Margin="2">
             <ItemsControl ItemsSource="{Binding SelectedItem.Section.CategoryItems, ElementName=lstSections}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

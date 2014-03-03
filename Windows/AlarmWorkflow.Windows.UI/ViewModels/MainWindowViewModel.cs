@@ -18,24 +18,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Timers;
-using Timer = System.Timers.Timer;
 using System.Windows;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Windows.ServiceContracts;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.Properties;
 using AlarmWorkflow.Windows.UI.Views;
 using AlarmWorkflow.Windows.UI.Windows;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using Timer = System.Timers.Timer;
 
 namespace AlarmWorkflow.Windows.UI.ViewModels
 {
     /// <summary>
     /// Represents the main window's VM.
     /// </summary>
-    class MainWindowViewModel : ViewModelBase
+    class MainWindowViewModel : ViewModelBase, IOperationServiceCallback
     {
         #region Constants
 
@@ -53,6 +54,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private OperationViewModel _selectedEvent;
 
         private Timer _servicePollingTimer;
+        private IOperationService _service;
         private bool _isMissingServiceConnectionHintVisible;
         private Timer _switchTimer;
 
@@ -187,7 +189,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             if (_operationViewer == null)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Resources.DesiredOperationViewerNotFound, operationViewerAlias);
-                _operationViewer = new Views.DefaultOperationView();
+                _operationViewer = new Views.DummyOperationViewer();
             }
 
             _busyTemplate = new Lazy<FrameworkElement>(() =>
@@ -271,6 +273,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             AvailableEvents.Remove(operation);
             AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.TimestampIncome));
 
+            SelectedEvent = AvailableEvents.FirstOrDefault();
+
+            OnPropertyChanged("SelectedEvent");
+            OnPropertyChanged("SelectedEvent.Operation");
+            OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
             UpdateProperties();
         }
 
@@ -298,23 +305,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             {
                 if (!operation.Operation.IsAcknowledged)
                 {
-                    using (var service = InternalServiceProxy.GetServiceInstance())
-                    {
-                        service.Instance.AcknowledgeOperation(operation.Operation.Id);
-                    }
-
-                    operation.Operation.IsAcknowledged = true;
-                    Logger.Instance.LogFormat(LogType.Info, this, Resources.AcknowledgedOperation, operation.Operation.Id);
+                    _service.AcknowledgeOperation(operation.Operation.Id);
                 }
-
-                RemoveEvent(operation);
-
-                // Always select the first operation if possible
-                SelectedEvent = AvailableEvents.FirstOrDefault();
-
-                OnPropertyChanged("SelectedEvent");
-                OnPropertyChanged("SelectedEvent.Operation");
-                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
             }
             catch (Exception ex)
             {
@@ -359,46 +351,47 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             lock (TimerLock)
             {
-                PollServiceAndRetrieveOperations();
+                TryConnectToService();
                 CheckAutomaticAcknowledging();
             }
         }
 
-        private void PollServiceAndRetrieveOperations()
+        private void TryConnectToService()
         {
             try
             {
-                using (var service = InternalServiceProxy.GetServiceInstance())
+                if (_service == null)
                 {
-                    IList<int> operations = service.Instance.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, Constants.OfpLimitAmount);
+                    _service = ServiceFactory.GetCallbackServiceInstance<IOperationService>(this);
+                }
 
-                    IsMissingServiceConnectionHintVisible = false;
+                IList<int> operations = _service.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, Constants.OfpLimitAmount);
 
-                    App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
+                IsMissingServiceConnectionHintVisible = false;
 
-                    if (operations.Count == 0)
+                App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
+
+                if (operations.Count == 0)
+                {
+                    return;
+                }
+
+                foreach (int operationId in operations)
+                {
+                    if (ContainsEvent(operationId))
                     {
-                        return;
+                        continue;
                     }
 
-                    foreach (int operationId in operations)
+                    Operation operation = _service.GetOperationById(operationId);
+
+                    if (ShouldAutomaticallyAcknowledgeOperation(operation))
                     {
-                        if (ContainsEvent(operationId))
-                        {
-                            continue;
-                        }
-
-                        OperationItem operationItem = service.Instance.GetOperationById(operationId);
-                        Operation operation = operationItem.ToOperation();
-
-                        if (ShouldAutomaticallyAcknowledgeOperation(operation))
-                        {
-                            service.Instance.AcknowledgeOperation(operation.Id);
-                        }
-                        else
-                        {
-                            App.Current.Dispatcher.Invoke(() => PushEvent(operation));
-                        }
+                        _service.AcknowledgeOperation(operation.Id);
+                    }
+                    else
+                    {
+                        App.Current.Dispatcher.Invoke(() => PushEvent(operation));
                     }
                 }
             }
@@ -459,6 +452,23 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
                 App.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
             }
+        }
+
+        #endregion
+
+        #region IOperationServiceCallback Members
+
+        void IOperationServiceCallback.OnOperationAcknowledged(int id)
+        {
+            App.Current.Dispatcher.BeginInvoke(() =>
+            {
+                OperationViewModel operation = AvailableEvents.Find(item => item.Operation.Id == id);
+                if (operation != null)
+                {
+                    RemoveEvent(operation);
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.AcknowledgedOperation, operation.Operation.Id);
+                }
+            });
         }
 
         #endregion

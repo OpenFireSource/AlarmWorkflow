@@ -32,12 +32,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared, Version=0.9.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Windows.CustomViewer, Version=0.9.0.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Windows.CustomViewer">
       <HintPath>..\..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -58,6 +62,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SettingKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="BrowserWidget.xaml">

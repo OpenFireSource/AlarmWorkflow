@@ -18,15 +18,16 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.ServiceModel;
 using System.Timers;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 using AlarmWorkflow.Windows.Configuration.Views;
-using AlarmWorkflow.Windows.ConfigurationContracts;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
@@ -43,7 +44,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Fields
 
-        private SettingsManager _manager;
         private SettingsDisplayConfiguration _displayConfiguration;
         private List<GroupedSectionViewModel> _sections;
 
@@ -53,6 +53,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Properties
 
+        /// <summary>
+        /// Gets whether or not the connection to the service is established.
+        /// </summary>
+        public bool IsConnected { get; private set; }
         /// <summary>
         /// Gets a list of all sections that can be edited.
         /// </summary>
@@ -75,70 +79,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// The SaveChangesCommand command.
         /// </summary>
         public ICommand SaveChangesCommand { get; private set; }
-
-        private bool SaveChangesCommand_CanExecute(object parameter)
-        {
-            return _manager != null;
-        }
-
-        private void SaveChangesCommand_Execute(object parameter)
-        {
-            int iFailedSettings = 0;
-
-            foreach (GroupedSectionViewModel gsvm in GetAllSections())
-            {
-                SectionViewModel svm = gsvm.Section;
-                if (svm == null)
-                {
-                    continue;
-                }
-
-                foreach (CategoryViewModel cvm in svm.CategoryItems)
-                {
-                    foreach (SettingItemViewModel sivm in cvm.SettingItems)
-                    {
-                        SettingItem item = _manager.GetSetting(sivm.SettingDescriptor.Identifier, sivm.SettingDescriptor.SettingItem.Name);
-
-                        object value = null;
-                        try
-                        {
-                            value = sivm.TypeEditor.Value;
-                            item.SetValue(value);
-                        }
-                        catch (Exception ex)
-                        {
-                            string exMessage = ex.Message;
-                            string exHint = Properties.Resources.SettingSaveError_DefaultHints;
-
-                            ValueException vex = ex as ValueException;
-                            if (vex != null)
-                            {
-                                exHint = vex.Hint;
-                            }
-
-                            string message = string.Format(Properties.Resources.SettingSaveError, sivm.DisplayText, svm.DisplayText, exMessage, exHint);
-                            MessageBox.Show(message, Properties.Resources.SettingSaveError_Title, MessageBoxButton.OK, MessageBoxImage.Error);
-                            iFailedSettings++;
-                        }
-                    }
-                }
-            }
-
-            _manager.SaveSettings();
-
-            string boxMessage = null;
-            MessageBoxImage boxImage = MessageBoxImage.Information;
-            if (iFailedSettings == 0)
-            {
-                boxMessage = Properties.Resources.SavingSettingsSuccess;
-            }
-            else
-            {
-                boxMessage = Properties.Resources.SavingSettingsWithErrors;
-                boxImage = MessageBoxImage.Warning;
-            }
-            MessageBox.Show(boxMessage, Properties.Resources.SettingSaveFinished_Title, MessageBoxButton.OK, boxImage);
-        }
 
         #endregion
 
@@ -358,7 +298,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// The OpenObjectExpressionTesterCommand command.
         /// </summary>
         public ICommand OpenObjectExpressionTesterCommand { get; private set; }
-        
+
         private void OpenObjectExpressionTesterCommand_Execute(object parameter)
         {
             ObjectExpressionTesterWindow window = new ObjectExpressionTesterWindow();
@@ -381,6 +321,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             _serviceStatePollingTimer = new Timer(2000d);
             _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
             _serviceStatePollingTimer.Start();
+
+            SaveChangesCommand = new SaveSettingsTaskCommand(this);
         }
 
         #endregion
@@ -391,14 +333,21 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             try
             {
-                SettingsManager manager = SettingsManager.Instance;
-                manager.Initialize(SettingsManager.SettingsInitialization.IncludeDisplayConfiguration);
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+                {
+                    _displayConfiguration = service.Instance.GetDisplayConfiguration();
+                    BuildSectionsTree(service.Instance);
 
-                _manager = manager;
+                    IsConnected = true;
+                }
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.EndpointNotFoundOnStart);
+                Logger.Instance.LogException(this, ex);
 
-                _displayConfiguration = _manager.GetSettingsDisplayConfiguration();
+                UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
 
-                BuildSectionsTree();
             }
             catch (Exception ex)
             {
@@ -409,31 +358,27 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             }
         }
 
-        private void BuildSectionsTree()
+        private void BuildSectionsTree(ISettingsService settings)
         {
             Dictionary<string, SectionViewModel> sectionsTemp = new Dictionary<string, SectionViewModel>();
             Dictionary<string, string> sectionParents = new Dictionary<string, string>();
 
-            foreach (SettingDescriptor descriptor in _manager)
+            foreach (IdentifierInfo identifier in _displayConfiguration.Identifiers)
             {
                 SectionViewModel svm = null;
-                if (!sectionsTemp.TryGetValue(descriptor.Identifier, out svm))
+                if (!sectionsTemp.TryGetValue(identifier.Name, out svm))
                 {
-                    IdentifierInfo identifier = _displayConfiguration.GetIdentifier(descriptor.Identifier);
                     sectionParents[identifier.Name] = identifier.Parent;
 
                     svm = new SectionViewModel(identifier);
-                    svm.Identifier = descriptor.Identifier;
                     sectionsTemp.Add(svm.Identifier, svm);
                 }
 
-                SettingInfo setting = _displayConfiguration.GetSetting(descriptor.Identifier, descriptor.SettingItem.Name);
-                if (setting == null)
+                foreach (SettingInfo info in identifier.Settings)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingNotFoundInDisplayConfiguration, descriptor.SettingItem.Name, descriptor.Identifier);
-                    continue;
+                    SettingItem setting = settings.GetSetting(info.CreateSettingKey());
+                    svm.Add(info, setting);
                 }
-                svm.Add(descriptor, setting);
             }
 
             _sections = new List<GroupedSectionViewModel>();
@@ -478,7 +423,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             view.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
         }
 
-        private IList<GroupedSectionViewModel> GetAllSections()
+        internal IEnumerable<GroupedSectionViewModel> GetAllSections()
         {
             List<GroupedSectionViewModel> all = new List<GroupedSectionViewModel>();
             all.AddRange(_sections);
