@@ -17,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Timers;
@@ -68,6 +69,19 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// Gets the state of the service.
         /// </summary>
         public string ServiceState { get; private set; }
+        /// <summary>
+        /// Gets whether or not the configuration editor running from the current location is configured
+        /// as a server; that is, the backend configuration has an address specified like "localhost" or any starting with "127".
+        /// </summary>
+        public bool IsConfiguredAsServer { get; private set; }
+        /// <summary>
+        /// Gets whether or not the configuration editor running from the current location is configured
+        /// as a client. This is the negated value from <see cref="IsConfiguredAsServer"/> and exists for convenience.
+        /// </summary>
+        public bool IsConfiguredAsClient
+        {
+            get { return !IsConfiguredAsServer; }
+        }
 
         #endregion
 
@@ -103,6 +117,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public ICommand RestartServiceCommand { get; private set; }
 
+        private bool RestartServiceCommand_CanExecute(object parameter)
+        {
+            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled();
+        }
+
         private void RestartServiceCommand_Execute(object parameter)
         {
             if (!Helper.IsCurrentUserAdministrator())
@@ -136,7 +155,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private bool InstallServiceCommand_CanExecute(object parameter)
         {
-            return !ServiceHelper.IsServiceInstalled();
+            return IsConfiguredAsServer && !ServiceHelper.IsServiceInstalled();
         }
 
         private void InstallServiceCommand_Execute(object parameter)
@@ -175,7 +194,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private bool UninstallServiceCommand_CanExecute(object parameter)
         {
-            return ServiceHelper.IsServiceInstalled();
+            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled();
         }
 
         private void UninstallServiceCommand_Execute(object parameter)
@@ -220,7 +239,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private bool StartServiceCommand_CanExecute(object parameter)
         {
-            return ServiceHelper.IsServiceInstalled() && !ServiceHelper.IsServiceRunning();
+            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled() && !ServiceHelper.IsServiceRunning();
         }
 
         private void StartServiceCommand_Execute(object parameter)
@@ -253,7 +272,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private bool StopServiceCommand_CanExecute(object parameter)
         {
-            return ServiceHelper.IsServiceInstalled() && ServiceHelper.IsServiceRunning();
+            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled() && ServiceHelper.IsServiceRunning();
         }
 
         private void StopServiceCommand_Execute(object parameter)
@@ -316,6 +335,8 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public MainViewModel()
         {
+            IsConfiguredAsServer = CheckIsConfiguredAsServer();
+
             InitializeSettings();
 
             _serviceStatePollingTimer = new Timer(2000d);
@@ -328,6 +349,27 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #endregion
 
         #region Methods
+
+        private bool CheckIsConfiguredAsServer()
+        {
+            try
+            {
+                string address = ServiceFactory.BackendConfigurator.Get("ServerHostAddress");
+                if (!string.IsNullOrWhiteSpace(address))
+                {
+                    address = address.Trim().ToLowerInvariant();
+                    return (address == "localhost") || address.StartsWith("127");
+                }
+                return false;
+            }
+            catch (FileNotFoundException ex)
+            {
+                Logger.Instance.LogException(this, ex);
+                UIUtilities.ShowWarning(ex.Message);
+
+                return false;
+            }
+        }
 
         private void InitializeSettings()
         {
@@ -346,7 +388,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.EndpointNotFoundOnStart);
                 Logger.Instance.LogException(this, ex);
 
-                UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
+                if (IsConfiguredAsClient)
+                {
+                    UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
+                }
 
             }
             catch (Exception ex)

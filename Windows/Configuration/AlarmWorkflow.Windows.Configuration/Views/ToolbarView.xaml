@@ -26,19 +26,30 @@
         <Separator />
 
         <Label Margin="2,0,0,0" Content="Service Status: " FontWeight="Bold" />
-        <Label MinWidth="100" VerticalContentAlignment="Center" ToolTip="Rechtsklick, um auf die Serviceoptionen zuzugreifen">
+        <Label MinWidth="100" VerticalContentAlignment="Center">
             <Label.Style>
                 <Style TargetType="Label">
                     <Style.Triggers>
                         <!-- Not installed -->
-                        <DataTrigger Binding="{Binding ServiceState}" Value="NotInstalled">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ServiceState}" Value="NotInstalled" />
+                                <Condition Binding="{Binding IsConfiguredAsClient}" Value="False" />
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Content">
                                 <Setter.Value>
                                     <Hyperlink Command="{Binding InstallServiceCommand}">Nicht installiert (klicken)</Hyperlink>
                                 </Setter.Value>
                             </Setter>
                             <Setter Property="FontWeight" Value="Bold" />
-                        </DataTrigger>
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ServiceState}" Value="NotInstalled" />
+                                <Condition Binding="{Binding IsConfiguredAsClient}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Content" Value="Nicht erreichbar!" />
+                        </MultiDataTrigger>
                         <!-- Stopping -->
                         <DataTrigger Binding="{Binding ServiceState}" Value="StopPending">
                             <Setter Property="Content" Value="Wird gestoppt..." />
@@ -68,32 +79,41 @@
                     <Setter Property="Content" Value="Frage Servicestatus ab..." />
                 </Style>
             </Label.Style>
-            <Label.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Service installieren" Command="{Binding InstallServiceCommand}" />
-                    <MenuItem Header="Service deinstallieren" Command="{Binding UninstallServiceCommand}" />
-                    <Separator />
-                    <MenuItem Header="Service starten" Command="{Binding StartServiceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="../Images/servicerunning.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Service stoppen" Command="{Binding StopServiceCommand}">
-                        <MenuItem.Icon>
-                            <Image Source="../Images/servicestopped.png" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Service neustarten" Command="{Binding RestartServiceCommand}" />
-                </ContextMenu>
-            </Label.ContextMenu>
         </Label>
+        <Menu Margin="0, 1.5, 0, 0">
+            <Menu.Style>
+                <Style TargetType="Menu">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsConfiguredAsClient}" Value="True">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Style>
+            <MenuItem Header="▼" ToolTip="Service-Kontrolle">
+                <MenuItem Header="Service installieren" Command="{Binding InstallServiceCommand}" />
+                <MenuItem Header="Service deinstallieren" Command="{Binding UninstallServiceCommand}" />
+                <Separator />
+                <MenuItem Header="Service starten" Command="{Binding StartServiceCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/servicerunning.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Service stoppen" Command="{Binding StopServiceCommand}">
+                    <MenuItem.Icon>
+                        <Image Source="../Images/servicestopped.png" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Service neustarten" Command="{Binding RestartServiceCommand}" />
+            </MenuItem>
+        </Menu>
 
         <Separator />
-        
+
         <Button Command="{Binding ShowAboutWindowCommand}" ToolTip="Über...">
             <Image Source="../Images/Help_16.png" Width="16" Height="16" />
         </Button>
-        
+
     </ToolBar>
 </UserControl>
