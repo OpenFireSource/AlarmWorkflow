@@ -121,6 +121,7 @@ namespace AlarmWorkflow.BackendService.Engine
                     Thread ast = new Thread(AlarmSourceThreadWrapper);
                     ast.Priority = ThreadPriority.BelowNormal;
                     ast.Name = string.Format(AlarmSourceThreadNameFormat, alarmSource.GetType().Name);
+                    ast.IsBackground = true;
 
                     _alarmSourcesThreads.Add(alarmSource, ast);
                     Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceStarting, alarmSource.GetType().Name);

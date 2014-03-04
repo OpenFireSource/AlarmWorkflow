@@ -100,6 +100,9 @@ namespace AlarmWorkflow.AlarmSource.Sms
             _parent = parent;
 
             Thread ctThread = new Thread(ReceiveThread);
+            ctThread.Name = "SMS AlarmSource alarm server thread";
+            ctThread.Priority = ThreadPriority.BelowNormal;
+            ctThread.IsBackground = true;
             ctThread.Start();
         }
 

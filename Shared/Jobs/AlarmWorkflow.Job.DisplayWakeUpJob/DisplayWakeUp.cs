@@ -119,7 +119,9 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             if (_autoSleepAfterMinutes > 0)
             {
                 _autoSleepTimerThread = new Thread(AutoSleepTimerThread);
+                _autoSleepTimerThread.Name = "Auto-sleep timer thread";
                 _autoSleepTimerThread.Priority = ThreadPriority.BelowNormal;
+                _autoSleepTimerThread.IsBackground = true;
                 _autoSleepTimerThread.Start();
             }
 
