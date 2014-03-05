@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="AddressingTests" storage="d:\projects\alarmworkflow\backendservices\addressingtests\testlists\addressingtests.orderedtest" id="e5805333-d1af-4588-a1f9-3011cac4f0e4" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="994734ff-7f2a-b6dd-265e-9b1ea2813295" name="SimpleConversionTest" storage="..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="9b12f36b-8c41-6589-cfc2-c8ce06f3aa86" name="IgnoreDisabledDataItems" storage="..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <TestLink id="27f2ff06-fc75-ac1a-30d8-518e06679293" name="ByLoopAddressFilterTest" storage="..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

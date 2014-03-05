@@ -15,8 +15,8 @@
 
 using System.Linq;
 using System.Net.Mail;
-using AlarmWorkflow.Shared.Addressing;
-using AlarmWorkflow.Shared.Addressing.EntryObjects;
+using AlarmWorkflow.BackendService.AddressingContracts;
+using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
 using AlarmWorkflow.Shared.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -59,20 +59,6 @@ namespace AlarmWorkflow.Shared.Tests.Shared.Addressing
                 Assert.AreEqual(true, addressBook.Entries[0].Data[0].IsEnabled);
                 Assert.AreEqual(typeof(MailAddressEntryObject), addressBook.Entries[0].Data[0].Data.GetType());
             }
-        }
-
-        /// <summary>
-        /// Tests that a data item that has "IsEnabled" set to "false" is not included in the result set.
-        /// </summary>
-        [TestMethod()]
-        public void DontReturnDataItemIfIsEnabledIsFalse()
-        {
-            AddressBook addressBook = CreateAddressBookWithOneEntryAndOneDataItem(false);
-            Assert.AreEqual(1, addressBook.Entries.Count);
-            Assert.AreEqual(1, addressBook.Entries[0].Data.Count);
-
-            var results = addressBook.GetCustomObjects<MailAddressEntryObject>(MailEntryObjectTypeIdentifier);
-            Assert.AreEqual(0, results.Count());
         }
 
         private AddressBook CreateAddressBookWithOneEntryAndOneDataItem(bool dataItemIsEnabled)

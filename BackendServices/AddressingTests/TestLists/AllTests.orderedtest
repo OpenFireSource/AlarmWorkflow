@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="AllTests" storage="d:\projects\alarmworkflow\backendservices\addressingtests\testlists\alltests.orderedtest" id="f4bdcabd-4910-4b84-8e3a-471cafee0eb6" continueAfterFailure="true" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="e5805333-d1af-4588-a1f9-3011cac4f0e4" name="AddressingTests" storage="addressingtests.orderedtest" type="Microsoft.VisualStudio.TestTools.TestTypes.Ordered.AutoSuite, Microsoft.VisualStudio.QualityTools.Tips.OrderedTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

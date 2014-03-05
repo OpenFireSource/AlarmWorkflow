@@ -14,7 +14,6 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AlarmWorkflow.Shared.Tests
@@ -26,7 +25,6 @@ namespace AlarmWorkflow.Shared.Tests
         public static void AssemblyInit(TestContext context)
         {
             Logger.Instance.Initialize("AlarmWorkflow.Shared.Tests");
-            SettingsManager.Instance.Initialize();
         }
     }
 }

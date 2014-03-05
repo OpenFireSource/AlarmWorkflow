@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{52A3EB2B-70EC-47B4-BFB7-4FB8A34377BE}</ProjectGuid>
+    <ProjectGuid>{CCEEC994-4B82-46FD-8D3B-F355B379B18B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Shared.Tests</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Shared.Tests</AssemblyName>
+    <RootNamespace>AddressingTests</RootNamespace>
+    <AssemblyName>AddressingTests</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -23,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,7 +31,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">
@@ -50,51 +48,30 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyInitialize.cs" />
-    <Compile Include="TestCases\CoreTests\OperationTests.cs" />
-    <Compile Include="TestCases\CoreTests\OptionStringHelperTests.cs" />
-    <Compile Include="TestCases\CoreTests\CsvHelperTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCases\CoreTests\OperationLoopCollectionTests.cs" />
-    <Compile Include="TestCases\CoreTests\UtilitiesTests.cs" />
-    <Compile Include="TestCases\DiagnosticsTests\ErrorReportTests.cs" />
-    <Compile Include="TestCases\ObjectExpressionsTests\ExtendedObjectExpressionFormatterTests.cs" />
-    <Compile Include="TestCases\ObjectExpressionsTests\OperationExpressionTests.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\BasicExtendedScriptTest.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_CompilationFailed.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_NotExOneType.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_InvokeFailed.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig1.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncNotFound.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig2.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\SecondPassScriptTest.cs" />
-    <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\OperationScriptTest.cs" />
-    <Compile Include="TestCases\SettingsTests\SsctTests.cs" />
-    <Compile Include="TestCases\SpecializedTests\ReplaceDictionaryTests.cs" />
-    <Compile Include="TestClassBase.cs" />
+    <Compile Include="TestCases\AddressBookTests.cs" />
+    <Compile Include="TestCases\FilteringTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestLists\CoreTests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestLists\ReportsTests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestLists\OperationExpressionTests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestLists\SettingsTests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestLists\SpecializedTests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestLists\Alltests.orderedtest">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Shadow Include="Test References\AlarmWorkflow.Shared.accessor" />
+    <ProjectReference Include="..\AlarmWorkflow.BackendService.AddressingContracts\AlarmWorkflow.BackendService.AddressingContracts.csproj">
+      <Project>{E831EFFA-1B9B-4250-9BB6-4841DCD95E85}</Project>
+      <Name>AlarmWorkflow.BackendService.AddressingContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AlarmWorkflow.BackendService.Addressing\AlarmWorkflow.BackendService.Addressing.csproj">
+      <Project>{4C08F812-B3F2-46B3-92C2-D589BD8FB488}</Project>
+      <Name>AlarmWorkflow.BackendService.Addressing</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Shadow Include="Test References\AlarmWorkflow.BackendService.Addressing.accessor" />
+    <Shadow Include="Test References\AlarmWorkflow.BackendService.AddressingContracts.accessor" />
+    <None Include="TestLists\AddressingTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TestLists\AllTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

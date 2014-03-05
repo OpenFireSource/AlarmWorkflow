@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.IO;
+using AlarmWorkflow.Shared.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AlarmWorkflow.Shared.Tests
@@ -29,6 +31,21 @@ namespace AlarmWorkflow.Shared.Tests
         /// Gets/sets the test context to use for the tests.
         /// </summary>
         public TestContext TestContext { get; set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the full path to a file that lies within the deployed "TestData" directory.
+        /// </summary>
+        /// <param name="relativePath">The relative file path of the file within the deployed "TestData" directory. Must not be null or empty.</param>
+        /// <returns>The full path to a file that lies within the deployed "TestData" directory.</returns>
+        protected string GetTestDataFilePath(string relativePath)
+        {
+            Assertions.AssertNotEmpty(relativePath, "relativePath");
+            return Path.Combine(TestContext.DeploymentDirectory, relativePath);
+        }
 
         #endregion
     }

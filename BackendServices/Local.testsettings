@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<TestSettings name="Local" id="c40b69c2-5ab2-4a20-8059-70d728db0507" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<TestSettings name="Local" id="ef52b9e7-23b0-460c-a48a-9c17b60eb6b8" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Description>These are default test settings for a local test run.</Description>
-  <Deployment>
-    <DeploymentItem filename="AlarmWorkflow.Shared.Tests\TestData\" />
-  </Deployment>
   <Execution>
     <TestTypeSpecific>
       <UnitTestRunConfig testTypeId="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b">
@@ -18,7 +15,8 @@
           <Configuration>
             <CodeCoverage xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Shared.dll" pdbFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Shared.instr.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.BackendService.AddressingContracts.dll" pdbFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.BackendService.AddressingContracts.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.BackendService.Addressing.dll" pdbFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.BackendService.Addressing.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

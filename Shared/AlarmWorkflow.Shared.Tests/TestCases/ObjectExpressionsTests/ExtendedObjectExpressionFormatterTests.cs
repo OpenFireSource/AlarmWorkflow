@@ -40,8 +40,7 @@ namespace AlarmWorkflow.Shared.Tests.Shared.ObjectExpressionsTests
         public void BasicExtendedScriptTest()
         {
             Mock mock = new Mock();
-            string wd = Utilities.GetWorkingDirectory();
-            string path = Path.Combine(wd, "Shared\\ObjectExpressionsTests\\Scripts\\BasicExtendedScriptTest.cs");
+            string path = GetTestDataFilePath("Shared\\ObjectExpressionsTests\\Scripts\\BasicExtendedScriptTest.cs");
 
             ExtendedObjectExpressionFormatter<Mock> formatter = new ExtendedObjectExpressionFormatter<Mock>();
             string value = formatter.ToString(mock, "{$cs=" + path + "}");
@@ -67,9 +66,7 @@ namespace AlarmWorkflow.Shared.Tests.Shared.ObjectExpressionsTests
 
         private void ToStringAndAssertException(string fileName, CustomScriptExecutionException.Reason reason)
         {
-            string wd = Utilities.GetWorkingDirectory();
-
-            string path = Path.Combine(wd, string.Format("Shared\\ObjectExpressionsTests\\Scripts\\{0}", fileName));
+            string path = GetTestDataFilePath(string.Format("Shared\\ObjectExpressionsTests\\Scripts\\{0}", fileName));
 
             Mock mock = new Mock();
             ExtendedObjectExpressionFormatter<Mock> formatter = new ExtendedObjectExpressionFormatter<Mock>();
