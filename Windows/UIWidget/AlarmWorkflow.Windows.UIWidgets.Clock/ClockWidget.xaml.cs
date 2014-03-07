@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -29,19 +30,51 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
     /// </summary>
     [Export("ClockWidget", typeof(IUIWidget))]
     [Information(DisplayName = "ExportUIWidgetDisplayName", Description = "ExportUIWidgetDescription")]
-    public partial class ClockWidget : IUIWidget
+    public partial class ClockWidget : IUIWidget, INotifyPropertyChanged
     {
         #region Fields
 
-        private Operation _operation;
         private readonly bool _blink;
         private readonly int _waitTimeSetting;
-        private readonly Color _color;
-        private bool _odd;
-        private DispatcherTimer _countdown;
         private readonly DispatcherTimer _clockTimer;
+        private readonly SolidColorBrush _black;
+        private readonly SolidColorBrush _transparent;
+        private readonly SolidColorBrush _color;
+        private SolidColorBrush _foreColor;
+        private Operation _operation;
+        private bool _odd;
 
         #endregion Fields
+
+        #region Properties
+
+        /// <summary>
+        /// Gets/sets the foregroundcolor of the texts.
+        /// </summary>
+        public SolidColorBrush ForeColor
+        {
+            get { return _foreColor; }
+            set
+            {
+                if (!Equals(value, _foreColor))
+                {
+                    _foreColor = value;
+                    OnPropertyChanged("ForeColor");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets/sets the current time.
+        /// </summary>
+        public DateTime Time { get; set; }
+
+        /// <summary>
+        /// Gets/sets the timespan between the alarm time and the current time.
+        /// </summary>
+        public TimeSpan AlarmTime { get; set; }
+
+        #endregion
 
         #region Constructors
 
@@ -50,26 +83,35 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
         /// </summary>
         public ClockWidget()
         {
+            DataContext = this;
+
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
-                object convertFromString = ColorConverter.ConvertFromString(service.Instance.GetSetting(SettingKeys.Color).GetValue<string>());
-                if (convertFromString != null)
+                object colorString = ColorConverter.ConvertFromString(service.Instance.GetSetting(SettingKeys.Color).GetValue<string>());
+                if (colorString != null)
                 {
-                    _color = (Color)convertFromString;
+                    _color = new SolidColorBrush((Color)colorString);
                 }
                 else
                 {
-                    _color = Colors.Red;
+                    _color = new SolidColorBrush(Colors.Red);
                 }
+
                 _waitTimeSetting = service.Instance.GetSetting(SettingKeys.WaitTime).GetValue<int>();
                 _blink = service.Instance.GetSetting(SettingKeys.Blink).GetValue<bool>();
             }
 
+            _black = new SolidColorBrush(Colors.Black);
+            _transparent = new SolidColorBrush(Colors.Transparent);
+            _black.Freeze();
+            _color.Freeze();
+            _transparent.Freeze();
+
             InitializeComponent();
 
+            ForeColor = _black;
             _clockTimer = new DispatcherTimer();
-            _clockTimer.Interval = TimeSpan.FromSeconds(1.0);
-            _clockTimer.Start();
+            _clockTimer.Interval = TimeSpan.FromSeconds(0.5);
             _clockTimer.Tick += ClockTimer_Tick;
         }
 
@@ -77,43 +119,38 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
 
         #region Event handlers
 
-        private void Countdown_Tick(object sender, EventArgs e)
-        {
-            _clockBlock.Foreground = new SolidColorBrush(_color);
-            _alarmClock.Foreground = new SolidColorBrush(_color);
-            _countdown.Stop();
-            _clockTimer.Tick -= ClockTimer_Tick;
-            _clockTimer.Tick += BlinkTimer_Tick;
-        }
-
         private void ClockTimer_Tick(object sender, EventArgs e)
         {
-            _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
+            Time = DateTime.Now;
             if (_operation != null)
             {
-                TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
-                _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
+                TimeSpan timeSpan = Time - _operation.Timestamp;
+                AlarmTime = timeSpan;
+                if (_blink && timeSpan.TotalMinutes > _waitTimeSetting)
+                {
+                    if (_odd)
+                    {
+                        ForeColor = _transparent;
+                        _odd = false;
+                    }
+                    else
+                    {
+                        ForeColor = _color;
+                        _odd = true;
+                    }
+                }
+                else
+                {
+                    ForeColor = _black;
+                }
             }
+            UpdateProperties();
         }
 
-        private void BlinkTimer_Tick(object sender, EventArgs e)
+        private void UpdateProperties()
         {
-            if (_odd)
-            {
-                _clockBlock.Text = "";
-                _alarmClock.Text = "";
-                _odd = false;
-            }
-            else
-            {
-                _clockBlock.Text = DateTime.Now.ToString("HH:mm:ss");
-                if (_operation != null)
-                {
-                    TimeSpan timeSpan = DateTime.Now - _operation.Timestamp;
-                    _alarmClock.Text = new DateTime(timeSpan.Ticks).ToString("HH:mm:ss");
-                }
-                _odd = true;
-            }
+            OnPropertyChanged("Time");
+            OnPropertyChanged("AlarmTime");
         }
 
         #endregion
@@ -127,26 +164,20 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
 
         void IUIWidget.OnOperationChange(Operation operation)
         {
-            if (_blink)
+            if (operation == null)
             {
-                if (_countdown != null && _countdown.IsEnabled)
+                if (_clockTimer.IsEnabled)
                 {
-                    _countdown.Stop();
+                    _clockTimer.Stop();
                 }
-                TimeSpan timeDiff = DateTime.Now - operation.Timestamp;
-                _countdown = new DispatcherTimer();
-                if (timeDiff.Minutes > _waitTimeSetting)
-                {
-                    _countdown.Interval = new TimeSpan(0);
-                }
-                else
-                {
-                    _countdown.Interval = TimeSpan.FromMinutes(_waitTimeSetting) - timeDiff;
-                }
-                _countdown.Tick += Countdown_Tick;
-                _countdown.Start();
+                return;
             }
             _operation = operation;
+
+            if (!_clockTimer.IsEnabled)
+            {
+                _clockTimer.Start();
+            }
         }
 
         UIElement IUIWidget.UIElement
@@ -165,5 +196,27 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
         }
 
         #endregion IUIWidget Member
+
+        #region INotifyPropertyChanged Members
+
+        /// <summary>
+        /// Raised when the value of a property has changed.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Manually raises the PropertyChanged event for the given property.
+        /// </summary>
+        /// <param name="propertyName">The name of the property to raise this event for.</param>
+        protected void OnPropertyChanged(string name)
+        {
+            var copy = PropertyChanged;
+            if (copy != null)
+            {
+                copy(this, new PropertyChangedEventArgs(name));
+            }
+        }
+
+        #endregion
     }
 }

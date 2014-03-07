@@ -45,7 +45,7 @@ Issues resolved
 
 Other fixes
 
-  * -
+  * [Windows UI] ClockWidget does not cause high memory usage anymore.
 
 Appendix
 --------
