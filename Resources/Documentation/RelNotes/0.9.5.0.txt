@@ -18,6 +18,7 @@ Parsers
   * [FEZMuenchenLand] Updated logic, now retrieves more information.
   * [IlsErding] Added parser for ILS Erding.
   * [ILSRosenheim] Fixed reading timestamp of resources and messenger
+  * [ParserUtility] Spiting street house number and further data now works better through new function.
 
 UI
 
@@ -30,6 +31,7 @@ UI
 Misc
 
   * [Shared] Moved ProcessWrapper into Shared namespace so it is accessible for all components.
+  * [Tests] Added a test for the new ParserUtility function.
   * [Website] Website uses geocodes provided by geocoding job.
 
 Apps
@@ -46,6 +48,7 @@ Issues resolved
 Other fixes
 
   * [Windows UI] ClockWidget does not cause high memory usage anymore.
+  * [Parsers] Multiple issues about the house number problem.
 
 Appendix
 --------

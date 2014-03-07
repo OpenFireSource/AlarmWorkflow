@@ -254,16 +254,11 @@ namespace AlarmWorkflow.Parser.Library
                                     case "STRAﬂE":
                                         {
                                             innerSection = InnerSection.AStraﬂe;
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            int streetNumberColonIndex = msg.LastIndexOf(':');
-                                            if (streetNumberColonIndex != -1)
-                                            {
-                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                                                string streetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                                                operation.Einsatzort.StreetNumber = streetNumber;
-                                            }
-
-                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-", StringComparison.Ordinal)).Trim();
+                                            string street, streetNumber, appendix;
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Einsatzort Zusatz"] = appendix;
+                                            operation.Einsatzort.Street = street;
+                                            operation.Einsatzort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ABSCHNITT":

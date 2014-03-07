@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<OrderedTest name="parserstests" storage="d:\users\florian\entwicklung\alarmworkflow\shared\alarmworkflow.shared.tests\parsers\parserstests.orderedtest" id="f87d087b-e6a6-4e33-a5ab-d180dd9c837b" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestLinks>
+    <TestLink id="cc531cd6-27e1-2e3e-0e65-a7c8b19026d1" name="StreetLineTest" storage="..\bin\debug\alarmworkflow.shared.tests.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </TestLinks>
+</OrderedTest>

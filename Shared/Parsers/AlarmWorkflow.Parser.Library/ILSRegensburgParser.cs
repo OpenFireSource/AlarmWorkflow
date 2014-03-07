@@ -110,13 +110,11 @@ namespace AlarmWorkflow.Parser.Library
                                 {
                                     case "STRAßE":
                                         {
-                                            operation.Einsatzort.Street = msg;
-                                            int empty = msg.LastIndexOf("Haus-Nr.:", StringComparison.Ordinal);
-                                            if (empty != -1 && empty != msg.Length)
-                                            {
-                                                operation.Einsatzort.Street = msg.Substring(0, empty).Trim();
-                                                operation.Einsatzort.StreetNumber = GetMessageText(msg.Substring(empty).Trim());
-                                            }
+                                            string street, streetNumber, appendix;
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Einsatzort Zusatz"] = appendix;
+                                            operation.Einsatzort.Street = street;
+                                            operation.Einsatzort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ORT":

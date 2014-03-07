@@ -318,9 +318,11 @@ namespace AlarmWorkflow.Parser.Library
                                     case "STRAﬂE":
                                         {
                                             innerSection = InnerSection.AStraﬂe;
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            operation.Einsatzort.Street = GetTextBetween(msg, null, "Haus-Nr.:");
-                                            operation.Einsatzort.StreetNumber = GetTextBetween(msg, "Haus-Nr.:", null);
+                                            string street, streetNumber, appendix;
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Einsatzort Zusatz"] = appendix;
+                                            operation.Einsatzort.Street = street;
+                                            operation.Einsatzort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ABSCHNITT":
@@ -377,9 +379,12 @@ namespace AlarmWorkflow.Parser.Library
                                     case "STRAﬂE":
                                         {
                                             innerSection = InnerSection.AStraﬂe;
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            operation.Zielort.Street = GetTextBetween(msg, null, "Haus-Nr.:");
-                                            operation.Zielort.StreetNumber = GetTextBetween(msg, "Haus-Nr.:", "Zusatz");
+
+                                            string street, streetNumber, appendix;
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Zielort Zusatz"] = appendix;
+                                            operation.Zielort.Street = street;
+                                            operation.Zielort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ORT":

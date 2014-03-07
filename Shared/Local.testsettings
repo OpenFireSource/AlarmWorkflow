@@ -19,6 +19,7 @@
             <CodeCoverage xmlns="">
               <Regular>
                 <CodeCoverageItem binaryFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Shared.dll" pdbFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Shared.instr.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Parser.Library.dll" pdbFile="D:\Projects\AlarmWorkflow\Build\AlarmWorkflow.Parser.Library.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

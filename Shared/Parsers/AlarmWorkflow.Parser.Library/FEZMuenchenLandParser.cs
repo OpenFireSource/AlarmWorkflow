@@ -92,7 +92,12 @@ namespace AlarmWorkflow.Parser.Library
                         operation.Einsatzort.Location = GetMessageText(line, keyword);
                         break;
                     case CurrentSection.EStraße:
-                        operation.Einsatzort.Street = GetMessageText(line, keyword);
+                        string msg = GetMessageText(line, keyword);
+                        string street, streetNumber, appendix;
+                        ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                        operation.CustomData["Einsatzort Zusatz"] = appendix;
+                        operation.Einsatzort.Street = street;
+                        operation.Einsatzort.StreetNumber = streetNumber;
                         break;
                     case CurrentSection.FAbschnitt:
                         operation.CustomData["Einsatzort Abschnitt"] = GetMessageText(line, keyword);

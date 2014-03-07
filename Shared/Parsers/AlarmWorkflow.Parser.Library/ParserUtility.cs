@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace AlarmWorkflow.Parser.Library
@@ -23,13 +24,15 @@ namespace AlarmWorkflow.Parser.Library
     /// <summary>
     /// Provides some utility methods for the usage within the parser library.
     /// </summary>
-    static class ParserUtility
+    public static class ParserUtility
     {
         #region Constants
 
+        private const string StreetNumberRegex = @"\d+[ ]*[a-z]*";
         private const string DateRegex = @"(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d";
         private const string TimeRegex = @"([01]?[0-9]|2[0-3]):[0-5][0-9]";
         private static readonly string[] DateTimeParsingTokens = new string[] { "dd.MM.yyyy HH1mm", "dd.MM.yyyy HH:mm" };
+        private static readonly string[] StreetTokens = new string[] { @"A\d+", @"B\d+", @"St\d+" };
 
         #endregion
 
@@ -169,6 +172,84 @@ namespace AlarmWorkflow.Parser.Library
             }
 
             return value;
+        }
+
+        /// <summary>
+        /// Splits the provided 'streetline' into the parts street, streetnumber and appendix. 
+        /// It also checks whether we're maybe ordered on a highway or not. In that case the kilometer is stored in the field streetnumber.
+        /// </summary>
+        /// <param name="line">The line from the alarmfax which should be splited.</param>
+        /// <param name="street">The street found in the line.</param>
+        /// <param name="streetNumber">Either a house number or the kilometer on the highway.</param>
+        /// <param name="appendix">The 'rest' behind the house number e.g. the floor or further information about the location.</param>
+        public static void AnalyzeStreetLine(string line, out string street, out string streetNumber, out string appendix)
+        {
+            // Default house number is 1. Google-Maps and geocoding only works fine if there is a house number given.
+            streetNumber = "1";
+            appendix = string.Empty;
+
+            if (IsHighway(line))
+            {
+                if (line.Contains("Haus-Nr.:"))
+                {
+                    int indexStreetNumber = line.IndexOf("Haus-Nr.:");
+                    streetNumber = line.Substring(indexStreetNumber + "Haus-Nr.:".Length).Trim();
+                    line = line.Substring(0, indexStreetNumber).Trim();
+                }
+                else
+                {
+                    MatchCollection matchCollection = Regex.Matches(line, @" \d+");
+                    if (matchCollection.Count > 0)
+                    {
+                        Match match = matchCollection[matchCollection.Count - 1];
+                        streetNumber = match.Value.Trim();
+                        line = line.Remove(match.Index, match.Value.Length);
+                    }
+                    else
+                    {
+                        streetNumber = string.Empty;
+                    }
+                }
+
+                street = line.Trim();
+                return;
+            }
+
+            if (line.Contains("Haus-Nr.:"))
+            {
+                int indexStreetNumber = line.IndexOf("Haus-Nr.:");
+                street = line.Substring(0, indexStreetNumber).Trim();
+                line = line.Substring(indexStreetNumber).Trim();
+                Match match = Regex.Match(line, StreetNumberRegex);
+                if (match.Success)
+                {
+                    streetNumber = match.Value.Trim();
+
+                    int startAppendix = match.Value.Length + match.Index;
+                    appendix = line.Substring(startAppendix).Trim();
+                }
+            }
+            else
+            {
+                Match match = Regex.Match(line, StreetNumberRegex);
+                if (match.Success)
+                {
+                    streetNumber = match.Value.Trim();
+                    street = line.Substring(0, match.Index).Trim();
+
+                    int startAppendix = match.Value.Length + match.Index;
+                    appendix = line.Substring(startAppendix).Trim();
+                }
+                else
+                {
+                    street = line;
+                }
+            }
+        }
+
+        private static bool IsHighway(string line)
+        {
+            return StreetTokens.Any(x => Regex.IsMatch(line, x));
         }
 
         #endregion

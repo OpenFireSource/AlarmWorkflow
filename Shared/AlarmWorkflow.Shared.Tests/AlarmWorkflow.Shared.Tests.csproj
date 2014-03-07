@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{52A3EB2B-70EC-47B4-BFB7-4FB8A34377BE}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -38,6 +36,9 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Parser.Library">
+      <HintPath>..\..\Build\AlarmWorkflow.Parser.Library.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInitialize.cs" />
+    <Compile Include="TestCases\ParserTests\ParserUtilityTest.cs" />
     <Compile Include="TestCases\CoreTests\OperationTests.cs" />
     <Compile Include="TestCases\CoreTests\OptionStringHelperTests.cs" />
     <Compile Include="TestCases\CoreTests\CsvHelperTests.cs" />
@@ -89,14 +91,16 @@
     <None Include="TestLists\SpecializedTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="TestLists\ParsersTests.orderedtest">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="TestLists\Alltests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Shadow Include="Test References\AlarmWorkflow.Shared.accessor" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
