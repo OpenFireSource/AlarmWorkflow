@@ -32,6 +32,10 @@ Misc
   * [Shared] Moved ProcessWrapper into Shared namespace so it is accessible for all components.
   * [Website] Website uses geocodes provided by geocoding job.
 
+Apps
+
+  * [AlarmWorkflowApp] Removed basic operation-viewing Android app. Replaced by the new website.
+
 Fixes since v0.9.4.0
 --------------------
 

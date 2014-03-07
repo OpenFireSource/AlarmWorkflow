@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="DefaultTopMargin">2dp</dimen>
-    <dimen name="LargeSeparatingTopMargin">10dp</dimen>
-</resources>
