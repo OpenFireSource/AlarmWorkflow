@@ -6,7 +6,7 @@
 
 Eine Entwicklungsumgebung ist notwendig, damit Sie den Quellcode von AlarmWorkflow kompilieren können. Im Projekt wird **Microsoft Visual Studio 2010** verwendet.
 Hiervon gibt es eine sog. **Express**-Version, welche nicht alle Features der Vollversion bietet, aber kostenlos ist und im Regelfall mehr als ausreicht.
-Sie können dieses unter [http://go.microsoft.com/?linkid=9782374] in der Version **2010** herunterladen.
+Sie können dieses unter http://www.visualstudio.com/downloads/download-visual-studio-vs#DownloadFamilies_4 in der Version **Visual C-Sharp 2010 Express** herunterladen.
 
 Das von AlarmWorkflow benötigte **Microsoft .Net Framework 4.0** wird automatisch mitinstalliert, falls es noch nicht installiert ist.
 
@@ -21,7 +21,7 @@ Die Programmierrichtlinien befinden sich in der Datei *CodingGuidelines.de.md*.
 ## Mitentwickeln/Beitragen
 
 Es ist erwünscht, dass Programmierkundige zu AlarmWorkflow beitragen! Hierfür geht ihr bitte den unter Git üblichen Weg der **Pull requests**.
-Informationen dazu gibt es unter: [https://help.github.com/articles/using-pull-requests https://help.github.com/articles/using-pull-requests]
+Informationen dazu gibt es unter: https://help.github.com/articles/using-pull-requests
 
 # Anforderungen an Patches und Pull Requests
 
@@ -45,7 +45,9 @@ Keine Vermischung von zwei oder mehr Themengebieten, die unabhängig voneinander
 Ein Commit ist grundsätzlich analog zu folgendem Beispiel aufzubauen:
 
 > Kurze, aber präzise Beschreibung
+>
 > (Absatz)
+>
 > Längere Ausführung, was der Commit macht. Eine Beschreibung ist besonders bei größeren Commits zu verfassen!
 
 ## Patches vs. Pull Requests
@@ -54,11 +56,11 @@ Bei kleineren Änderungen sind Patches zu bevorzugen, wohingegen größere Arbei
 ## PR-Commits
 Es ist Usus, einen PR erst dann zu pushen, wenn alle enthaltenen Commits auch wirklich sinnvoll sind. Dies ist z.B. bei folgendem PR nicht der Fall:
 
-> #5: Habe dies hinzugefügt
-> #4: Habe einen Buchstaben geändert
-> #3: Rollback von #2
-> #2: Einen String hinzugefügt
-> #1: [Shared] Neue Methode
+> 5: Habe dies hinzugefügt
+> 4: Habe einen Buchstaben geändert
+> 3: Rollback von #2
+> 2: Einen String hinzugefügt
+> 1: [Shared] Neue Methode
 
 PRs dieser Art führen nur zum unnötigen aufblasen des Repositories und haben keinerlei Informationsgehalt; zumal manche Commits/Messages gegen oben genannte Regeln verstoßen.
 

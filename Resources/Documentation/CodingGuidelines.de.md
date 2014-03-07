@@ -64,7 +64,7 @@ Der Layout-Header ist in sämtlichen Codedateien einzubauen, unabhängig der gew
 
 Simple Textdateien, HTML-Seiten oder JavaScript können, müssen aber nicht zwingend.
 
-## C#
+## C-Sharp
 
 Diese Richtlinien betreffen **C#**.
 
