@@ -53,26 +53,16 @@ namespace AlarmWorkflow.Parser.Library
                         continue;
                     }
 
-                    // Try to parse the header and extract date and time if possible
                     operation.Timestamp = ParserUtility.ReadFaxTimestamp(line, operation.Timestamp);
 
-                    // Switch sections. The parsing may differ in each section.
-                    switch (line.Trim())
+                    if (GetSection(line.Trim(), ref section, ref keywordsOnly))
                     {
-                        case "MITTEILER": { section = CurrentSection.BMitteiler; continue; }
-                        case "EINSATZORT": { section = CurrentSection.CEinsatzort; continue; }
-                        case "ZIELORT": { section = CurrentSection.DZielort; continue; }
-                        case "EINSATZGRUND": { section = CurrentSection.EEinsatzgrund; continue; }
-                        case "EINSATZMITTEL": { section = CurrentSection.FEinsatzmittel; continue; }
-                        case "BEMERKUNG": { section = CurrentSection.GBemerkung; keywordsOnly = false; continue; }
-                        case "ENDE FAX": { section = CurrentSection.HFooter; keywordsOnly = false; continue; }
-                        default: break;
+                        continue;
                     }
 
                     string msg = line;
                     string prefix = "";
 
-                    // Make the keyword check - or not (depends on the section we are in; see above)
                     string keyword = null;
                     if (keywordsOnly)
                     {
@@ -84,7 +74,6 @@ namespace AlarmWorkflow.Parser.Library
                         int x = line.IndexOf(':');
                         if (x == -1)
                         {
-                            // If there is no colon found (may happen occasionally) then simply remove the length of the keyword from the beginning
                             prefix = keyword;
                             msg = line.Remove(0, prefix.Length).Trim();
                         }
@@ -97,7 +86,6 @@ namespace AlarmWorkflow.Parser.Library
                         prefix = prefix.Trim().ToUpperInvariant();
                     }
 
-                    // Parse each section
                     switch (section)
                     {
                         case CurrentSection.AHeader:
@@ -137,16 +125,12 @@ namespace AlarmWorkflow.Parser.Library
                                 {
                                     case "STRAßE":
                                         {
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            int streetNumberColonIndex = msg.LastIndexOf(':');
-                                            if (streetNumberColonIndex != -1)
-                                            {
-                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                                                string streetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                                                operation.Einsatzort.StreetNumber = streetNumber;
-                                            }
+                                            string street, streetNumber, appendix;
 
-                                            operation.Einsatzort.Street = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Einsatzort Zusatz"] = appendix;
+                                            operation.Einsatzort.Street = street;
+                                            operation.Einsatzort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ORT":
@@ -189,15 +173,12 @@ namespace AlarmWorkflow.Parser.Library
                                 {
                                     case "STRAßE":
                                         {
-                                            // The street here is mangled together with the street number. Dissect them...
-                                            int streetNumberColonIndex = msg.LastIndexOf(':');
-                                            if (streetNumberColonIndex != -1)
-                                            {
-                                                // We need to check for occurrence of the colon, because it may have been omitted by the OCR-software
-                                                operation.Zielort.StreetNumber = msg.Remove(0, streetNumberColonIndex + 1).Trim();
-                                            }
+                                            string street, streetNumber, appendix;
 
-                                            operation.Zielort.StreetNumber = msg.Substring(0, msg.IndexOf("Haus-")).Trim();
+                                            ParserUtility.AnalyzeStreetLine(msg, out street, out streetNumber, out appendix);
+                                            operation.CustomData["Zielort Zusatz"] = appendix;
+                                            operation.Zielort.Street = street;
+                                            operation.Zielort.StreetNumber = streetNumber;
                                         }
                                         break;
                                     case "ORT":
@@ -294,6 +275,55 @@ namespace AlarmWorkflow.Parser.Library
             operation.Comment = ParserUtility.RemoveTrailingNewline(operation.Comment);
 
             return operation;
+        }
+
+        private static bool GetSection(string line, ref CurrentSection section, ref bool keywordsOnly)
+        {
+            if (line.Contains("MITTEILER"))
+            {
+                section = CurrentSection.BMitteiler;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZORT"))
+            {
+                section = CurrentSection.CEinsatzort;
+                // Is not true but only works that way.
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("ZIELORT"))
+            {
+                section = CurrentSection.DZielort;
+                // Is not true but only works that way.
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZGRUND"))
+            {
+                section = CurrentSection.EEinsatzgrund;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("EINSATZMITTEL"))
+            {
+                section = CurrentSection.FEinsatzmittel;
+                keywordsOnly = true;
+                return true;
+            }
+            if (line.Contains("BEMERKUNG"))
+            {
+                section = CurrentSection.GBemerkung;
+                keywordsOnly = false;
+                return true;
+            }
+            if (line.Contains("ENDE FAX"))
+            {
+                section = CurrentSection.HFooter;
+                keywordsOnly = false;
+                return true;
+            }
+            return false;
         }
 
         #endregion
