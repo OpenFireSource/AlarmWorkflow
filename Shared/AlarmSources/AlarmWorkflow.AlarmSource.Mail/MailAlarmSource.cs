@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -105,7 +106,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
                 try
                 {
-                    uint[] uids = _imapClient.Search(SearchCondition.Unseen());
+                    IEnumerable<uint> uids = _imapClient.Search(SearchCondition.Unseen());
                     foreach (MailMessage msg in uids.Select(uid => _imapClient.GetMessage(uid)))
                     {
                         Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);

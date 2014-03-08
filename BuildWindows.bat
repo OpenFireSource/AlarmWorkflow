@@ -1,5 +1,9 @@
 @echo off
 echo -------------------------------------------------
+echo Build submodules...
+msbuild externals\S22.Imap\S22.Imap.sln /p:Configuration=Release /verbosity:minimal
+
+echo -------------------------------------------------
 echo Build Shared...
 msbuild Shared\AlarmWorkflow.Shared.sln /p:Configuration=Debug /verbosity:minimal
 

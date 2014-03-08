@@ -37,17 +37,16 @@
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll"</HintPath>
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll"</HintPath>
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll"</HintPath>
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
-    <Reference Include="S22.Imap, Version=2.7.4722.40994, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>.\S22.Imap.dll</HintPath>
+    <Reference Include="S22.Imap">
+      <HintPath>..\..\..\externals\S22.Imap\bin\Release v4.0\S22.Imap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
