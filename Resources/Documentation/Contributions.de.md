@@ -37,6 +37,11 @@ Es werden gewisse Standards vorgegeben, an die sich Beiträge zu halten haben, d
 ## Codequalität
 Zwingende Voraussetzung ist die Einhaltung der Coding guidelines (s.o.). Beiträge, welche diese nicht erfüllen, werden abgelehnt und müssen nachgebessert werden.
 
+## Source branch
+Als source branch, also der Zweig, auf dem eure Commits basieren, soll der Zweig "next" dienen.
+Dies dient dazu, den Hauptzweig von Änderungen jeglicher Natur freizuhalten, damit auf dem Hauptzweig stets ein stabiler und funktionierender Stand gegeben ist.
+Dies soll allerdings **nicht** bedeuten, dass **next** als "Spielwiese" zu betrachten ist! ;-)
+
 ## Commit-Umfang
 Es ist immer vorzuziehen, einen Commit als "atomare Einheit" zu handhaben. Das bedeutet:
 Keine Vermischung von zwei oder mehr Themengebieten, die unabhängig voneinander sind (dies ist im Regelfall möglich, kann aber auch seltene Ausnahmen geben)
