@@ -24,6 +24,7 @@ Parsers
 UI
 
   * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
+  * [Windows UI] UI does not start if service is not running or is not available.
   * [Config UI] Displays which settings require a service restart to take effect and which ones are applied immediately.
   * [Config UI] Show more details for printing queues (via ToolTip).
   * [Config UI] Moved service control into drop down menu.

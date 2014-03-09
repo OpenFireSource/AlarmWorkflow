@@ -31,7 +31,7 @@ namespace AlarmWorkflow.Windows.UIContracts
         /// Defines the format that should be used for german formatting of <see cref="System.DateTime"/> instances.
         /// </summary>
         public static readonly string DateTimeFormatGermany = "dd.MM.yyyy HH:mm:ss";
-        
+
         #endregion
 
         /// <summary>
@@ -65,6 +65,16 @@ namespace AlarmWorkflow.Windows.UIContracts
         public static void ShowInfo(string format, params object[] args)
         {
             MessageBox.Show(string.Format(format, args), "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        /// <summary>
+        /// Brings up a message box with "error" content.
+        /// </summary>
+        /// <param name="format">The text to display.</param>
+        /// <param name="args">The arguments.</param>
+        public static void ShowError(string format, params object[] args)
+        {
+            MessageBox.Show(string.Format(format, args), "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         /// <summary>

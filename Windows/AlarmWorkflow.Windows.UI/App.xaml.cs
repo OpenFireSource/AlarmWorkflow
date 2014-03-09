@@ -14,11 +14,13 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ServiceModel;
 using System.Windows;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
 using AlarmWorkflow.Windows.UI.Extensibility;
 using AlarmWorkflow.Windows.UI.Models;
+using AlarmWorkflow.Windows.UIContracts;
 
 namespace AlarmWorkflow.Windows.UI
 {
@@ -83,31 +85,25 @@ namespace AlarmWorkflow.Windows.UI
         {
             try
             {
+                AlarmWorkflow.Windows.UI.Properties.Settings.Default.Reload();
+
                 Configuration = new UIConfiguration();
+                ExtensionManager = new ExtensionManager();
 
                 Logger.Instance.LogFormat(LogType.Info, this, AlarmWorkflow.Windows.UI.Properties.Resources.UIConfigurationLoaded);
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                UIUtilities.ShowError(AlarmWorkflow.Windows.UI.Properties.Resources.UICannotStartWithoutConnectionError);
+
+                Logger.Instance.LogException(this, ex);
+                Environment.Exit(1);
             }
             catch (Exception ex)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, AlarmWorkflow.Windows.UI.Properties.Resources.UIConfigurationLoadError);
                 Logger.Instance.LogException(this, ex);
-
-                // Use default configuration
-                Configuration = new UIConfiguration();
             }
-        }
-
-        /// <summary>
-        /// Raises the <see cref="E:System.Windows.Application.Startup"/> event.
-        /// </summary>
-        /// <param name="e">A <see cref="T:System.Windows.StartupEventArgs"/> that contains the event data.</param>
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-
-            ExtensionManager = new ExtensionManager();
-
-            AlarmWorkflow.Windows.UI.Properties.Settings.Default.Reload();
         }
 
         /// <summary>
