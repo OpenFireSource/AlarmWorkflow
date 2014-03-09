@@ -12,6 +12,7 @@ General
   * [Service] Big architecture overhaul! Allowing for a lot more flexibility and extensibility. See Appendix #1.
   * [Service] Jobs get dynamical (de)activated.
   * [Service] Addressbook gets reloaded after change.
+  * [OCR] Removed cuneiform. If you by now haven't switched to tesseract, please do so.
 
 Parsers
 
@@ -43,7 +44,7 @@ Fixes since v0.9.4.0
 
 Issues resolved
 
-  * -
+  * See http://openfiresource.de/bugs/changelog_page.php?version_id=12
 
 Other fixes
 

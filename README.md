@@ -44,6 +44,3 @@ Furthermore, AlarmWorkflow uses the following applications:
 
     Tesseract OCR by Google
     http://code.google.com/p/tesseract-ocr/
-
-    Cuneiform OCR
-    http://en.openocr.org/

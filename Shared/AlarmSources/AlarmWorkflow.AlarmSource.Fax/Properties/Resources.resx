@@ -127,10 +127,10 @@
     <value>Fax</value>
   </data>
   <data name="ExportCuneiformOcrDescription" xml:space="preserve">
-    <value>Benutzt Cuneiform für Texterkennung.</value>
+    <value>[OBSOLET] Benutzt Cuneiform für Texterkennung.</value>
   </data>
   <data name="ExportCuneiformOcrDisplayName" xml:space="preserve">
-    <value>Cuneiform</value>
+    <value>[OBSOLET] Cuneiform</value>
   </data>
   <data name="ExportTesseractOcrDescription" xml:space="preserve">
     <value>Benutzt Tesseract für Texterkennung.</value>

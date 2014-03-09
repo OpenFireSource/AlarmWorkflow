@@ -88,7 +88,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Benutzt Cuneiform für Texterkennung..
+        ///   Looks up a localized string similar to [OBSOLET] Benutzt Cuneiform für Texterkennung..
         /// </summary>
         internal static string ExportCuneiformOcrDescription {
             get {
@@ -97,7 +97,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cuneiform.
+        ///   Looks up a localized string similar to [OBSOLET] Cuneiform.
         /// </summary>
         internal static string ExportCuneiformOcrDisplayName {
             get {
