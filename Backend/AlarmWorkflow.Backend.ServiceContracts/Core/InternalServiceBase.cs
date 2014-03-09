@@ -15,7 +15,6 @@
 
 using System;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Backend.ServiceContracts.Core
 {
@@ -24,12 +23,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
     /// </summary>
     public abstract class InternalServiceBase : DisposableObject, IInternalService
     {
-        #region Fields
-
-        private readonly Guid _instanceGuid;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -55,9 +48,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         protected InternalServiceBase()
         {
             SyncRoot = new object();
-
-            _instanceGuid = Guid.NewGuid();
-            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.InternalServiceConstructorCalledTrace, this.GetType().Name, _instanceGuid);
         }
 
         #endregion
@@ -78,7 +68,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         /// </summary>
         protected override void DisposeCore()
         {
-            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.InternalServiceDisposeCalledTrace, this.GetType().Name, _instanceGuid);
         }
 
         #endregion

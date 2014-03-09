@@ -16,7 +16,6 @@
 using System;
 using System.ServiceModel;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Backend.ServiceContracts.Core
 {
@@ -30,12 +29,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
 #endif
     public abstract class ExposedServiceBase : DisposableObject, IExposedService
     {
-        #region Fields
-
-        private readonly Guid _instanceGuid;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -55,8 +48,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         /// </summary>
         protected ExposedServiceBase()
         {
-            _instanceGuid = Guid.NewGuid();
-            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.ExposedServiceConstructorCalledTrace, this.GetType().Name, _instanceGuid);
         }
 
         #endregion
@@ -68,7 +59,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         /// </summary>
         protected override void DisposeCore()
         {
-            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.ExposedServiceDisposeCalledTrace, this.GetType().Name, _instanceGuid);
         }
 
         #endregion

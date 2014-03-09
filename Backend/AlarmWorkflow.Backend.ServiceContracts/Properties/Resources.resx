@@ -159,18 +159,6 @@
   <data name="BackendConfigurationSuccessfullyLoaded" xml:space="preserve">
     <value>Backend configuration successfully loaded.</value>
   </data>
-  <data name="ExposedServiceConstructorCalledTrace" xml:space="preserve">
-    <value>Instantiated a new exposed service '{0}' ({1}).</value>
-  </data>
-  <data name="InternalServiceConstructorCalledTrace" xml:space="preserve">
-    <value>Instantiated a new internal service '{0}' ({1}).</value>
-  </data>
-  <data name="ExposedServiceDisposeCalledTrace" xml:space="preserve">
-    <value>Disposed exposed service '{0}' ({1}).</value>
-  </data>
-  <data name="InternalServiceDisposeCalledTrace" xml:space="preserve">
-    <value>Disposed internal service '{0}' ({1}).</value>
-  </data>
   <data name="ServiceLocationFileNotPresent" xml:space="preserve">
     <value>Could not find service location file! Cannot start service!</value>
   </data>

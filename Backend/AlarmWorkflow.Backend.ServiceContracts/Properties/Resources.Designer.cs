@@ -124,47 +124,11 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Instantiated a new exposed service &apos;{0}&apos; ({1})..
-        /// </summary>
-        internal static string ExposedServiceConstructorCalledTrace {
-            get {
-                return ResourceManager.GetString("ExposedServiceConstructorCalledTrace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disposed exposed service &apos;{0}&apos; ({1})..
-        /// </summary>
-        internal static string ExposedServiceDisposeCalledTrace {
-            get {
-                return ResourceManager.GetString("ExposedServiceDisposeCalledTrace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Could not assemble the address because the specified binding is not supported!.
         /// </summary>
         internal static string GetEndpointAddressInvalidBinding {
             get {
                 return ResourceManager.GetString("GetEndpointAddressInvalidBinding", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Instantiated a new internal service &apos;{0}&apos; ({1})..
-        /// </summary>
-        internal static string InternalServiceConstructorCalledTrace {
-            get {
-                return ResourceManager.GetString("InternalServiceConstructorCalledTrace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Disposed internal service &apos;{0}&apos; ({1})..
-        /// </summary>
-        internal static string InternalServiceDisposeCalledTrace {
-            get {
-                return ResourceManager.GetString("InternalServiceDisposeCalledTrace", resourceCulture);
             }
         }
         
