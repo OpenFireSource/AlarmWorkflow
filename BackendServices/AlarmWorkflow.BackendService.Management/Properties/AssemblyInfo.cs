@@ -23,9 +23,9 @@ using AlarmWorkflow.Shared.Core;
 [assembly: AssemblyTitle("AlarmWorkflow.BackendService.Management")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.BackendService.Management")]
-[assembly: AssemblyCopyright("The AlarmWorkflow-Team")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

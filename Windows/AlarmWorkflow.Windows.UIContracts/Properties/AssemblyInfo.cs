@@ -23,7 +23,7 @@ using AlarmWorkflow.Shared.Core;
 [assembly: AssemblyTitle("AlarmWorkflow.Windows.UIContracts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.Windows.UIContracts")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]

@@ -9,9 +9,9 @@ using AlarmWorkflow.Shared.Core;
 [assembly: AssemblyTitle("AlarmWorkflow.BackendService.SettingsContracts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
 [assembly: AssemblyProduct("AlarmWorkflow.BackendService.SettingsContracts")]
-[assembly: AssemblyCopyright("The AlarmWorkflow-Team")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -40,10 +40,10 @@
       <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll"</HintPath>
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll"</HintPath>
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
