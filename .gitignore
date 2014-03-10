@@ -15,6 +15,7 @@ TestResults
 *.user
 *.db
 *.bak
+*.InstallState
 
 # Folders
 /Build/Config
