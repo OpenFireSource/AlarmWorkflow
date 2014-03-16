@@ -14,6 +14,8 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
+using System.Text;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 
@@ -42,6 +44,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
         internal bool AnalyseAttachment { get; private set; }
         internal string AttachmentName { get; private set; }
         internal string ParserAlias { get; private set; }
+        internal Encoding Encoding { get; private set; }
+
         #endregion
 
         #region Constructors
@@ -67,6 +71,19 @@ namespace AlarmWorkflow.AlarmSource.Mail
             AnalyseAttachment = _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>();
             AttachmentName = _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>();
             ParserAlias = _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>();
+            int codepage = _settings.GetSetting("MailAlarmSource", "CodePage").GetValue<int>();
+            
+            try
+            {
+                if (codepage != 0)
+                {
+                    Encoding = Encoding.GetEncoding(codepage);
+                }
+            }
+            catch (Exception)
+            {
+                Encoding = null;
+            }
         }
 
         #endregion
