@@ -88,24 +88,6 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [OBSOLET] Benutzt Cuneiform für Texterkennung..
-        /// </summary>
-        internal static string ExportCuneiformOcrDescription {
-            get {
-                return ResourceManager.GetString("ExportCuneiformOcrDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [OBSOLET] Cuneiform.
-        /// </summary>
-        internal static string ExportCuneiformOcrDisplayName {
-            get {
-                return ResourceManager.GetString("ExportCuneiformOcrDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Benutzt Tesseract für Texterkennung..
         /// </summary>
         internal static string ExportTesseractOcrDescription {

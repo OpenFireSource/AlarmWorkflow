@@ -126,12 +126,6 @@
   <data name="ExportAlarmSourceDisplayName" xml:space="preserve">
     <value>Fax</value>
   </data>
-  <data name="ExportCuneiformOcrDescription" xml:space="preserve">
-    <value>[OBSOLET] Benutzt Cuneiform für Texterkennung.</value>
-  </data>
-  <data name="ExportCuneiformOcrDisplayName" xml:space="preserve">
-    <value>[OBSOLET] Cuneiform</value>
-  </data>
   <data name="ExportTesseractOcrDescription" xml:space="preserve">
     <value>Benutzt Tesseract für Texterkennung.</value>
   </data>
