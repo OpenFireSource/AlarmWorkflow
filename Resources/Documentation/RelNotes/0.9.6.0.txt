@@ -1,0 +1,20 @@
+﻿AlarmWorkflow v0.9.6.0 Release Notes
+====================================
+
+Änderungen seit v0.9.5.0
+------------------------
+
+General
+
+  * -
+
+Gelöste Probleme seit v0.9.5.0
+------------------------------
+
+Probleme gelöst
+
+  * -
+
+Andere Fixes
+
+  * -
