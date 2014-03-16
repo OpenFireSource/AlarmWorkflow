@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.Addressing", "AlarmWorkflow.BackendService.Addressing\AlarmWorkflow.BackendService.Addressing.csproj", "{4C08F812-B3F2-46B3-92C2-D589BD8FB488}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.SystemContracts", "AlarmWorkflow.BackendService.SystemContracts\AlarmWorkflow.BackendService.SystemContracts.csproj", "{722742A1-E6FD-44A0-895D-DE046B31D1DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.System", "AlarmWorkflow.BackendService.System\AlarmWorkflow.BackendService.System.csproj", "{51872E19-62AE-457A-A58A-4CCB39492DD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +59,14 @@ Global
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722742A1-E6FD-44A0-895D-DE046B31D1DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722742A1-E6FD-44A0-895D-DE046B31D1DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722742A1-E6FD-44A0-895D-DE046B31D1DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722742A1-E6FD-44A0-895D-DE046B31D1DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

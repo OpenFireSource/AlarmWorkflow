@@ -2,13 +2,15 @@
 echo -------------------------------------------------
 echo Build Shared...
 msbuild Shared\AlarmWorkflow.Shared.sln /p:Configuration=Release /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.AlarmSources.sln /p:Configuration=Release /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.Parser.sln /p:Configuration=Release /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Release /verbosity:minimal
 
 echo -------------------------------------------------
 echo Build Windows-specific stuff...
-msbuild Service\AlarmWorkflow.Service.sln /p:Configuration=Release /verbosity:minimal
+msbuild Backend\AlarmWorkflow.Backend.sln /p:Configuration=Release /verbosity:minimal
+msbuild BackendServices\AlarmWorkflow.BackendServices.sln /p:Configuration=Release /verbosity:minimal
+
+msbuild Shared\AlarmWorkflow.Shared.AlarmSources.sln /p:Configuration=Release /verbosity:minimal
+msbuild Shared\AlarmWorkflow.Shared.Parser.sln /p:Configuration=Release /verbosity:minimal
+msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Release /verbosity:minimal
 
 msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Release /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Release /verbosity:minimal

@@ -24,6 +24,7 @@ Parsers
 UI
 
   * [Windows UI] Added alternative way to avoid screensaver or standby from happening when an alarm is active.
+  * [Windows UI] UI does not start if service is not running or is not available.
   * [Config UI] Displays which settings require a service restart to take effect and which ones are applied immediately.
   * [Config UI] Show more details for printing queues (via ToolTip).
   * [Config UI] Moved service control into drop down menu.
@@ -33,6 +34,7 @@ Misc
 
   * [Shared] Moved ProcessWrapper into Shared namespace so it is accessible for all components.
   * [Tests] Added a test for the new ParserUtility function.
+  * [Website] Replaced old WebForms site with MVC. See Appendix #2.
   * [Website] Website uses geocodes provided by geocoding job.
 
 Apps
@@ -51,12 +53,41 @@ Other fixes
   * [Windows UI] ClockWidget does not cause high memory usage anymore.
   * [Parsers] Multiple issues about the house number problem.
 
-Appendix
+Appendix/Anhang
+---------------
+
+#0
 --------
+
+In künftigen Releases werden die Release Notes auf die DEUTSCHE SPRACHE umgestellt.
 
 #1
 --------
 
-Before applying the update, make sure that you first uninstall your existing Alarmworkflow Service
-using the Configuration editor. Then, apply the update, and afterwards install the service using
-the editor as usual.
+Bevor Sie das Update einspielen, müssen Sie zuerst den existierenden Service stoppen und deinstallieren!
+Falls Sie frisch auf AlarmWorkflow setzen, müssen Sie das nicht tun und können diesen Abschnitt ignorieren.
+
+Wenn Sie den existierenden Service deinstalliert haben, können Sie ihn wie gewohnt erneut installieren.
+
+Da sich die interne Architektur des Programms geändert hat, ist es nun vonnöten, dass Sie ihre Einstellungen
+erneut vornehmen. Hierzu stellen wir Ihnen ein kleines Programm zur Seite, welche dies automatisiert
+für die meisten Einstellungen übernimmt. Dieses Programm finden Sie im selben Ordner wie AlarmWorkflow
+und es trägt folgenden Namen;
+
+  AlarmWorkflow.Tools.MigrateUserSettingsFile.exe
+
+Sie können entweder den Pfad zur Datei selbst eingeben, oder aber Sie drücken ENTER und das Programm nimmt
+den Standardpfad. Das Programm wird Sie über den Fortschritt unterrichten.
+
+Hinweis: Bitte überprüfen Sie im Nachgang die Einstellungen von Hand, da u. U. nicht alle Einstellungen korrekt übernommen werden könnten.
+
+#2
+--------
+
+Öffnen Sie den IIS und deinstallieren Sie die bisherige genutzte AlarmWorkflow-Webseite, falls benutzt.
+
+Sie können die neue Webseite unter http://openfiresource.de/packages/ASP_Website.exe finden.
+
+Hinweis: Sie müssen den IIS immer dann neustarten, wenn Sie den AlarmWorkflow-Service neustarten! Wir arbeiten an einer Lösung, um das komfortabler zu gestalten.
+
+Sehen Sie ggf. im Wiki nach.

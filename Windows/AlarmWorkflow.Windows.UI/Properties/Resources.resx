@@ -153,4 +153,7 @@
   <data name="ExportDowDisplayName" xml:space="preserve">
     <value>Standard</value>
   </data>
+  <data name="UICannotStartWithoutConnectionError" xml:space="preserve">
+    <value>Kann nicht zum Server verbinden. Stellen Sie sicher, dass die Serveradresse richtig eingestellt ist und dass der Service erreichbar ist und versuchen Sie es erneut.</value>
+  </data>
 </root>

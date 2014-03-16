@@ -395,6 +395,10 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     }
                 }
             }
+            catch (CommunicationObjectFaultedException)
+            {
+                IsMissingServiceConnectionHintVisible = true;
+            }
             catch (EndpointNotFoundException)
             {
                 IsMissingServiceConnectionHintVisible = true;

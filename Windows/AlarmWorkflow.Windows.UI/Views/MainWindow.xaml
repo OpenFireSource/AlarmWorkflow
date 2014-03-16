@@ -21,7 +21,7 @@
 
                 <!-- Information bars -->
                 <Border DockPanel.Dock="Top" Visibility="{Binding IsMissingServiceConnectionHintVisible, Converter={StaticResource btv}}" Background="LightYellow" BorderBrush="Black" BorderThickness="2">
-                    <Label Content="Die Verbindung zum Service konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass der Service auf diesem PC läuft." />
+                    <Label Content="Die Verbindung zum Service konnte nicht hergestellt werden. Bitte stellen Sie sicher, dass der Service auf dem angegebenen PC läuft." />
                 </Border>
 
                 <!-- Docked as Fill -->
