@@ -360,7 +360,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             try
             {
-                if (_service == null)
+                if (_service == null || IsMissingServiceConnectionHintVisible)
                 {
                     _service = ServiceFactory.GetCallbackServiceInstance<IOperationService>(this);
                 }
