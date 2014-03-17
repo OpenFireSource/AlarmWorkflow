@@ -35,7 +35,6 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region Fields
 
         private MailConfiguration _configuration;
-
         private ImapClient _imapClient;
         private IParser _mailParser;
 
@@ -101,42 +100,59 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         private void CheckImapMail()
         {
-            using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL))
+            try
             {
-                _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
-                try
+                using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL, null, _configuration.Encoding))
                 {
-                    IEnumerable<uint> uids = _imapClient.Search(SearchCondition.Unseen());
-                    foreach (MailMessage msg in uids.Select(uid => _imapClient.GetMessage(uid)))
+                    try
                     {
-                        Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);
-                        MailOperation(msg);
+                        _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
+                        IEnumerable<uint> uids = _imapClient.Search(SearchCondition.Unseen());
+                        foreach (MailMessage msg in uids.Select(uid => _imapClient.GetMessage(uid)))
+                        {
+                            Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);
+                            MailOperation(msg);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.LogException(this, ex);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, ex.ToString());
-                }
             }
-
+            catch (Exception ex)
+            {
+                //Sometimes an error occues e.g. if the internet connection was disconected or an timeout occured. 
+                //Instead of "stopping" the complete alarmsource we log it and continue as normal.
+                Logger.Instance.LogException(this, ex);
+            }
         }
 
         private void MailOperation(MailMessage message)
         {
             if (message.Subject.ToLower().Contains(_configuration.MailSubject.ToLower()) &&
-                message.From.Address.ToLower() == _configuration.MailSender.ToLower())
+                message.From.Address.ToLower().Contains(_configuration.MailSender.ToLower()))
             {
+                Logger.Instance.LogFormat(LogType.Debug, this, "Found matching mail.");
                 Operation operation = null;
                 if (_configuration.AnalyseAttachment)
                 {
                     if (message.Attachments.Count > 0)
                     {
-                        if (message.Attachments[0].Name.ToLowerInvariant() == _configuration.AttachmentName.ToLowerInvariant())
+                        if (string.Equals(message.Attachments[0].Name, _configuration.AttachmentName, StringComparison.InvariantCultureIgnoreCase))
                         {
                             Attachment attachment = message.Attachments[0];
                             byte[] buffer = new byte[attachment.ContentStream.Length];
                             attachment.ContentStream.Read(buffer, 0, buffer.Length);
-                            string content = Encoding.UTF8.GetString(buffer);
+                            string content;
+                            if (_configuration.Encoding != null)
+                            {
+                                content = _configuration.Encoding.GetString(buffer);
+                            }
+                            else
+                            {
+                                content = Encoding.ASCII.GetString(buffer);
+                            }
                             string[] lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
                             operation = _mailParser.Parse(lines);
                         }
