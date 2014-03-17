@@ -123,8 +123,8 @@
   <data name="ExportJobDisplayName" xml:space="preserve">
     <value>Einsatzdateiexporter</value>
   </data>
-  <data name="ExportToAMFailed" xml:space="preserve">
-    <value>Failed exporting to AlarmMonitor-format!</value>
+  <data name="ExportToCustomFailed" xml:space="preserve">
+    <value>Failed exporting to custom format!</value>
   </data>
   <data name="ExportToEVAFailed" xml:space="preserve">
     <value>Failed exporting to EVA-format!</value>

@@ -79,11 +79,11 @@ namespace AlarmWorkflow.Job.OperationFileExporter.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed exporting to AlarmMonitor-format!.
+        ///   Looks up a localized string similar to Failed exporting to custom format!.
         /// </summary>
-        internal static string ExportToAMFailed {
+        internal static string ExportToCustomFailed {
             get {
-                return ResourceManager.GetString("ExportToAMFailed", resourceCulture);
+                return ResourceManager.GetString("ExportToCustomFailed", resourceCulture);
             }
         }
         

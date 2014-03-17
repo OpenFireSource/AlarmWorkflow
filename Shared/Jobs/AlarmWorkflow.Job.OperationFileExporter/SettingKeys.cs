@@ -19,8 +19,9 @@ namespace AlarmWorkflow.Job.OperationFileExporter
 {
     static class SettingKeys
     {
-        internal static readonly SettingKey AMExportEnabled = SettingKey.Create("OperationFileExporter", "AMExportEnabled");
-        internal static readonly SettingKey AMDestinationFileName = SettingKey.Create("OperationFileExporter", "AMDestinationFileName");
+        internal static readonly SettingKey CustomTextExportEnabled = SettingKey.Create("OperationFileExporter", "CustomTextExportEnabled");
+        internal static readonly SettingKey CustomTextDestinationFileName = SettingKey.Create("OperationFileExporter", "CustomTextDestinationFileName");
+        internal static readonly SettingKey CustomTextFormat = SettingKey.Create("OperationFileExporter", "CustomTextFormat");
         internal static readonly SettingKey EVAExportEnabled = SettingKey.Create("OperationFileExporter", "EVAExportEnabled");
         internal static readonly SettingKey EVADestinationFileName = SettingKey.Create("OperationFileExporter", "EVADestinationFileName");
     }

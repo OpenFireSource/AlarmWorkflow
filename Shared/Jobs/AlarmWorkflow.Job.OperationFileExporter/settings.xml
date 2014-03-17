@@ -1,7 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="OperationFileExporter">
-  <Setting Name="AMExportEnabled" Type="System.Boolean">False</Setting>
-  <Setting Name="AMDestinationFileName" Type="System.String">C:\Alarmtext.txt</Setting>
+  <Setting Name="CustomTextExportEnabled" Type="System.Boolean">False</Setting>
+  <Setting Name="CustomTextDestinationFileName" Type="System.String">C:\Alarmtext.txt</Setting>
+  <Setting Name="CustomTextFormat" Type="System.String">
+<![CDATA[{OperationNumber}
+{Einsatzort.City}
+{Einsatzort.Street}
+{Keywords.EmergencyKeyword}
+{Keywords.Keyword}
+{Picture}
+{Comment}
+{OperationPlan}
+{Einsatzort.Location}
+{Einsatzort.Intersection}
+{Messenger}
+{Einsatzort.Property}
+{Resources}]]></Setting>
   <Setting Name="EVAExportEnabled" Type="System.Boolean">False</Setting>
   <Setting Name="EVADestinationFileName" Type="System.String">C:\Alarm.eva.xml</Setting>
 </SettingsConfiguration>

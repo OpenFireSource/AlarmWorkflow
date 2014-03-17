@@ -29,14 +29,19 @@ namespace AlarmWorkflow.Job.OperationFileExporter
 
         #region Properties
 
-        internal bool AMExportEnabled
+        internal bool CustomTextExportEnabled
         {
-            get { return _settings.GetSetting(SettingKeys.AMExportEnabled).GetValue<bool>(); }
+            get { return _settings.GetSetting(SettingKeys.CustomTextExportEnabled).GetValue<bool>(); }
         }
 
-        internal string AMDestinationFileName
+        internal string CustomTextDestinationFileName
         {
-            get { return _settings.GetSetting(SettingKeys.AMDestinationFileName).GetValue<string>(); }
+            get { return _settings.GetSetting(SettingKeys.CustomTextDestinationFileName).GetValue<string>(); }
+        }
+
+        internal string CustomTextFormat
+        {
+            get { return _settings.GetSetting(SettingKeys.CustomTextFormat).GetValue<string>(); }
         }
 
         internal bool EvaExportEnabled

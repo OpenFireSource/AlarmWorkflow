@@ -35,24 +35,11 @@ namespace AlarmWorkflow.Job.OperationFileExporter
 
         #region Methods
 
-        private void ExportAlarmMonitorFile(Operation operation)
+        private void ExportCustomTextFile(Operation operation)
         {
-            UTF8Encoding encoding = new UTF8Encoding(false);
-            using (StreamWriter sw = new StreamWriter(_configuration.AMDestinationFileName, false, encoding))
+            using (StreamWriter sw = new StreamWriter(_configuration.CustomTextDestinationFileName, false, Encoding.UTF8))
             {
-                sw.WriteLine(operation.OperationNumber);
-                sw.WriteLine(operation.Einsatzort.City);
-                sw.WriteLine(operation.Einsatzort.Street);
-                sw.WriteLine(operation.Keywords.EmergencyKeyword);
-                sw.WriteLine(operation.Keywords.Keyword);
-                sw.WriteLine(operation.Picture);
-                sw.WriteLine(operation.Comment);
-                sw.WriteLine(operation.OperationPlan);
-                sw.WriteLine(operation.Einsatzort.Location);
-                sw.WriteLine(operation.Einsatzort.Intersection);
-                sw.WriteLine(operation.Messenger);
-                sw.WriteLine(operation.Einsatzort.Property);
-                sw.WriteLine(operation.Resources.ToString("{FullName} | {RequestedEquipment}", null));
+                sw.Write(operation.ToString(_configuration.CustomTextFormat));
             }
         }
 
@@ -93,15 +80,15 @@ namespace AlarmWorkflow.Job.OperationFileExporter
                 return;
             }
 
-            if (_configuration.AMExportEnabled)
+            if (_configuration.CustomTextExportEnabled)
             {
                 try
                 {
-                    ExportAlarmMonitorFile(operation);
+                    ExportCustomTextFile(operation);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ExportToAMFailed);
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ExportToCustomFailed);
                     Logger.Instance.LogException(this, ex);
                 }
             }
