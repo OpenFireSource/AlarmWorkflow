@@ -1,0 +1,5 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="Management" DisplayText="Verwaltung" Order="-2147483648" Parent="Backend">
+    <Setting Name="Emk" DisplayText="Einsatzmittelkonfiguration" Category="EMK" IsDynamic="true" Editor="EmkTypeEditor" />
+  </Identifier>
+</SettingsDisplayConfiguration>

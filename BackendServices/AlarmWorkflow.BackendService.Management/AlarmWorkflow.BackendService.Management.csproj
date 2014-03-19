@@ -36,6 +36,9 @@
     <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
       <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
@@ -50,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmkService.cs" />
     <Compile Include="OperationService.cs" />
     <Compile Include="OperationServiceInternal.cs" />
     <Compile Include="Data\Entities.Designer.cs">
@@ -66,6 +70,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="EmkServiceInternal.cs" />
+    <Compile Include="SettingKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Data\Entities.edmx">
@@ -88,6 +94,15 @@
       <Name>AlarmWorkflow.BackendService.ManagementContracts</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.info.xml" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

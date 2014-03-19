@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendServic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Referenced projects", "Referenced projects", "{C4E37C80-31C8-42B0-891F-594B488F7117}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ManagementTests", "ManagementTests\ManagementTests.csproj", "{1D050D95-910E-4213-8065-6FF4BEC4D121}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = AlarmWorkflow.BackendServicesTests.vsmdi
@@ -36,6 +38,10 @@ Global
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C08F812-B3F2-46B3-92C2-D589BD8FB488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D050D95-910E-4213-8065-6FF4BEC4D121}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D050D95-910E-4213-8065-6FF4BEC4D121}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D050D95-910E-4213-8065-6FF4BEC4D121}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D050D95-910E-4213-8065-6FF4BEC4D121}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

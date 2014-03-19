@@ -119,6 +119,9 @@
     <Compile Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml.cs">
       <DependentUpon>ReplaceDictionaryTypeEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TypeEditors\Specialized\Emk\EmkTypeEditor.xaml.cs">
+      <DependentUpon>EmkTypeEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml.cs">
       <DependentUpon>PrintingQueueNamesTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -230,6 +233,10 @@
     <Page Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Emk\EmkTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml">
       <SubType>Designer</SubType>

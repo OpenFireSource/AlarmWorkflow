@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Identifier="Management">
+  <Setting Name="Emk" Type="AlarmWorkflow.BackendService.ManagementContracts.Emk.EmkResourceCollection, AlarmWorkflow.BackendService.ManagementContracts">
+    <![CDATA[<Emk />]]>
+  </Setting>
+</SettingsConfiguration>

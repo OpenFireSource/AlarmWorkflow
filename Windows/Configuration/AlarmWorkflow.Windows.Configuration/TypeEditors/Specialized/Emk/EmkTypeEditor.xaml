@@ -1,0 +1,19 @@
+<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Emk.EmkTypeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="500">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Resources}" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserAddRows="True" CanUserDeleteRows="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="FFW-Abk." Binding="{Binding SiteAlias, Mode=TwoWay}" Width="70" />
+                <DataGridTextColumn Header="Fax-Name" Binding="{Binding ResourceAlias, Mode=TwoWay}" Width="70" />
+                <DataGridTextColumn Header="Anzeigename" Binding="{Binding DisplayName, Mode=TwoWay}" Width="100" />
+                <DataGridTextColumn Header="Bildpfad (Server)" Binding="{Binding IconFileName, Mode=TwoWay}" Width="100" />
+                <DataGridCheckBoxColumn Header="Aktiv" Binding="{Binding IsActive, Mode=TwoWay}" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
