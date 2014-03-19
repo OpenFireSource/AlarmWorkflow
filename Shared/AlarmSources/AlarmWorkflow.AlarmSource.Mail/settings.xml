@@ -7,6 +7,7 @@
   <Setting Name="UserName" Type="System.String" IsNull="True" />
   <Setting Name="Password" Type="System.String" IsNull="True" />
   <Setting Name="SSL" Type="System.Boolean">false</Setting>
+  <Setting Name="CodePage" Type="System.Int32" IsNull="True" />
   
   <Setting Name="MailSubject" Type="System.String">AlarmMail</Setting>
   <Setting Name="MailSender" Type="System.String">aa@bb.cc</Setting>
