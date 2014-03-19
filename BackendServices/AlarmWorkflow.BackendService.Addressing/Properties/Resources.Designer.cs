@@ -61,6 +61,24 @@ namespace AlarmWorkflow.BackendService.Addressing.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filtert die Einträge gemäß den Schleifeninformationen von FMS-Programmen..
+        /// </summary>
+        internal static string ByLoopAddressFilterDescription {
+            get {
+                return ResourceManager.GetString("ByLoopAddressFilterDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schleifenfilter.
+        /// </summary>
+        internal static string ByLoopAddressFilterDisplayName {
+            get {
+                return ResourceManager.GetString("ByLoopAddressFilterDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not connect to the database using the provided settings! Please check if the database server is running and check your credentials. Retrying in {0} milliseconds....
         /// </summary>
         internal static string DatabaseNotReachableErrorMessage {
