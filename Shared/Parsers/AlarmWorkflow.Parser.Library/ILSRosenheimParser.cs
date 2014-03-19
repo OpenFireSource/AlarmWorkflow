@@ -162,7 +162,7 @@ namespace AlarmWorkflow.Parser.Library
                                 }
                                 else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
                                 {
-                                    msg = GetTextBetween(msg, null, "AUS");
+                                    msg = ParserUtility.GetTextBetween(msg, null, "AUS");
                                     // In case that parsing the time failed, we just assume that the resource got requested right away.
                                     DateTime dt = DateTime.Now;
                                     // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
@@ -213,41 +213,6 @@ namespace AlarmWorkflow.Parser.Library
 
         #region Methods
 
-        private string GetTextBetween(string line, string start, string stop)
-        {
-            int startIndex = 0;
-            int stopIndex = 0;
-
-            if (!string.IsNullOrWhiteSpace(start))
-            {
-                if (line.ToUpper().Contains(start.ToUpper()))
-                {
-                    startIndex = line.ToUpper().IndexOf(start.ToUpper()) + start.Length;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                if (line.ToUpper().Contains(stop.ToUpper()))
-                {
-                    stopIndex = line.ToUpper().IndexOf(stop.ToUpper());
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                if (stopIndex < startIndex)
-                {
-                    return line.Substring(startIndex).Trim();
-                }
-                else
-                {
-                    int length = stopIndex - startIndex;
-                    return line.Substring(startIndex, length).Trim();
-                }
-            }
-            return line.Substring(startIndex).Trim();
-        }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))

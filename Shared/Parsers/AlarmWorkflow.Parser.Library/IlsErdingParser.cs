@@ -36,42 +36,6 @@ namespace AlarmWorkflow.Parser.Library
 
         #region Methods
 
-        private string GetTextBetween(string line, string start, string stop)
-        {
-            int startIndex = 0;
-            int stopIndex = 0;
-
-            if (!string.IsNullOrWhiteSpace(start))
-            {
-                if (line.ToUpper().Contains(start.ToUpper()))
-                {
-                    startIndex = line.ToUpper().IndexOf(start.ToUpper()) + start.Length;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                if (line.ToUpper().Contains(stop.ToUpper()))
-                {
-                    stopIndex = line.ToUpper().IndexOf(stop.ToUpper());
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                if (stopIndex < startIndex)
-                {
-                    return line.Substring(startIndex).Trim();
-                }
-                else
-                {
-                    int length = stopIndex - startIndex;
-                    return line.Substring(startIndex, length).Trim();
-                }
-            }
-            return line.Substring(startIndex).Trim();
-        }
-
         private DateTime ReadFaxTimestamp(string line, DateTime fallback)
         {
             DateTime date = fallback;
@@ -104,40 +68,6 @@ namespace AlarmWorkflow.Parser.Library
             }
             keyword = null;
             return false;
-        }
-
-        /// <summary>
-        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="prefix">The prefix that is to be removed (optional).</param>
-        /// <returns></returns>
-        private string GetMessageText(string line, string prefix)
-        {
-            if (prefix == null)
-            {
-                prefix = "";
-            }
-
-            if (prefix.Length > 0)
-            {
-                line = line.Remove(0, prefix.Length).Trim();
-            }
-            else
-            {
-                int colonIndex = line.IndexOf(':');
-                if (colonIndex != -1)
-                {
-                    line = line.Remove(0, colonIndex + 1);
-                }
-            }
-
-            if (line.StartsWith(":"))
-            {
-                line = line.Remove(0, 1).Trim();
-            }
-
-            return line;
         }
 
         /// <summary>

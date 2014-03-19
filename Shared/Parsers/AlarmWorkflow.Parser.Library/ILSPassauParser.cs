@@ -90,34 +90,6 @@ namespace AlarmWorkflow.Parser.Library
             return zipCode;
         }
 
-        private string GetTextBetween(string line, string start, string stop)
-        {
-            int startIndex = 0;
-            int stopIndex = 0;
-
-            if (!string.IsNullOrWhiteSpace(start))
-            {
-                if (line.ToUpper().Contains(start.ToUpper()))
-                {
-                    startIndex = line.ToUpper().IndexOf(start.ToUpper()) + start.Length;
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                if (line.ToUpper().Contains(stop.ToUpper()))
-                {
-                    stopIndex = line.ToUpper().IndexOf(stop.ToUpper());
-                }
-            }
-
-            if (!string.IsNullOrWhiteSpace(stop))
-            {
-                int length = stopIndex - startIndex;
-                return line.Substring(startIndex, length).Trim();
-            }
-            return line.Substring(startIndex).Trim();
-        }
         private bool GetSection(String line, ref CurrentSection section, ref bool keywordsOnly)
         {
             if (line.Contains("MITTEILER"))
@@ -229,8 +201,8 @@ namespace AlarmWorkflow.Parser.Library
                                 switch (prefix)
                                 {
                                     case "EINSATZNUMMER":
-                                        operation.OperationNumber = GetTextBetween(msg, null, "ALARMZEIT");
-                                        operation.Timestamp = ReadFaxTimestamp(GetTextBetween(msg, "ALARMZEIT", null), DateTime.Now);
+                                        operation.OperationNumber = ParserUtility.GetTextBetween(msg, null, "ALARMZEIT");
+                                        operation.Timestamp = ReadFaxTimestamp(ParserUtility.GetTextBetween(msg, "ALARMZEIT", null), DateTime.Now);
                                         break;
                                 }
                             }
@@ -322,13 +294,13 @@ namespace AlarmWorkflow.Parser.Library
                                         operation.Keywords.Keyword = msg;
                                         break;
                                     case "STICHWORT B":
-                                        operation.Keywords.B = GetTextBetween(msg, null, "STICHWORT RD:");
-                                        operation.Keywords.R = GetTextBetween(msg, "STICHWORT RD:", null);
+                                        operation.Keywords.B = ParserUtility.GetTextBetween(msg, null, "STICHWORT RD:");
+                                        operation.Keywords.R = ParserUtility.GetTextBetween(msg, "STICHWORT RD:", null);
                                         break;
                                     case "STICHWORT SO":
-                                        operation.Keywords.S = GetTextBetween(msg, null, "STICHWORT TH:");
-                                        operation.Keywords.T = GetTextBetween(msg, "STICHWORT TH:", "STICHWORT IN:");
-                                        operation.CustomData.Add("Stichwort IN:", GetTextBetween(msg, "STICHWORT IN:", null));
+                                        operation.Keywords.S = ParserUtility.GetTextBetween(msg, null, "STICHWORT TH:");
+                                        operation.Keywords.T = ParserUtility.GetTextBetween(msg, "STICHWORT TH:", "STICHWORT IN:");
+                                        operation.CustomData.Add("Stichwort IN:", ParserUtility.GetTextBetween(msg, "STICHWORT IN:", null));
                                         break;
                                     case "PRIO.":
                                         operation.Priority = msg;
