@@ -9,6 +9,10 @@ General
   * [OCR] Cuneiform entfernt.
   * [OperationFileExporter] Exportieren in benutzerdefiniertes Format möglich.
 
+Parser
+
+  * Neuer Parser für LST Mansfeld/Südharz
+
 Gelöste Probleme seit v0.9.5.0
 ------------------------------
 

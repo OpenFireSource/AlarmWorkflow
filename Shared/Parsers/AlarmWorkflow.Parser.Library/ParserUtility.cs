@@ -184,65 +184,62 @@ namespace AlarmWorkflow.Parser.Library
         /// <param name="appendix">The 'rest' behind the house number e.g. the floor or further information about the location.</param>
         public static void AnalyzeStreetLine(string line, out string street, out string streetNumber, out string appendix)
         {
-            // Default house number is 1. Google-Maps and geocoding only works fine if there is a house number given.
+            int index;
+            Match item;
+            int length;
             streetNumber = "1";
             appendix = string.Empty;
-
+            Match match = Regex.Match(line, "Haus-?Nr.:");
             if (IsHighway(line))
             {
-                if (line.Contains("Haus-Nr.:"))
+                if (!match.Success)
                 {
-                    int indexStreetNumber = line.IndexOf("Haus-Nr.:");
-                    streetNumber = line.Substring(indexStreetNumber + "Haus-Nr.:".Length).Trim();
-                    line = line.Substring(0, indexStreetNumber).Trim();
-                }
-                else
-                {
-                    MatchCollection matchCollection = Regex.Matches(line, @" \d+");
-                    if (matchCollection.Count > 0)
-                    {
-                        Match match = matchCollection[matchCollection.Count - 1];
-                        streetNumber = match.Value.Trim();
-                        line = line.Remove(match.Index, match.Value.Length);
-                    }
-                    else
+                    MatchCollection matchCollections = Regex.Matches(line, " \\d+");
+                    if (matchCollections.Count <= 0)
                     {
                         streetNumber = string.Empty;
                     }
+                    else
+                    {
+                        item = matchCollections[matchCollections.Count - 1];
+                        streetNumber = item.Value.Trim();
+                        line = line.Remove(item.Index, item.Value.Length);
+                    }
                 }
-
-                street = line.Trim();
-                return;
-            }
-
-            if (line.Contains("Haus-Nr.:"))
-            {
-                int indexStreetNumber = line.IndexOf("Haus-Nr.:");
-                street = line.Substring(0, indexStreetNumber).Trim();
-                line = line.Substring(indexStreetNumber).Trim();
-                Match match = Regex.Match(line, StreetNumberRegex);
-                if (match.Success)
+                else
                 {
-                    streetNumber = match.Value.Trim();
-
-                    int startAppendix = match.Value.Length + match.Index;
-                    appendix = line.Substring(startAppendix).Trim();
+                    index = match.Index;
+                    streetNumber = line.Substring(index + match.Value.Length).Trim();
+                    line = line.Substring(0, index).Trim();
+                }
+                street = line.Trim();
+            }
+            else if (!match.Success)
+            {
+                item = Regex.Match(line, StreetNumberRegex);
+                if (!item.Success)
+                {
+                    street = line;
+                }
+                else
+                {
+                    streetNumber = item.Value.Trim();
+                    street = line.Substring(0, item.Index).Trim();
+                    length = item.Value.Length + item.Index;
+                    appendix = line.Substring(length).Trim();
                 }
             }
             else
             {
-                Match match = Regex.Match(line, StreetNumberRegex);
-                if (match.Success)
+                index = match.Index;
+                street = line.Substring(0, index).Trim();
+                line = line.Substring(index).Trim();
+                item = Regex.Match(line, StreetNumberRegex);
+                if (item.Success)
                 {
-                    streetNumber = match.Value.Trim();
-                    street = line.Substring(0, match.Index).Trim();
-
-                    int startAppendix = match.Value.Length + match.Index;
-                    appendix = line.Substring(startAppendix).Trim();
-                }
-                else
-                {
-                    street = line;
+                    streetNumber = item.Value.Trim();
+                    length = item.Value.Length + item.Index;
+                    appendix = line.Substring(length).Trim();
                 }
             }
         }
@@ -250,6 +247,31 @@ namespace AlarmWorkflow.Parser.Library
         private static bool IsHighway(string line)
         {
             return StreetTokens.Any(x => Regex.IsMatch(line, x));
+        }
+
+        /// <summary>
+        /// Gets the text between two strings. Provides the possibilty to use StringComparison.
+        /// </summary>
+        /// <param name="line">The text which should be used for searching</param>
+        /// <param name="from">The start string</param>
+        /// <param name="until">The end string</param>
+        /// <param name="comparison">The type of comparing/finding the needles.</param>
+        /// <returns>The inner string.</returns>
+        public static string GetTextBetween(string line, string from = null, string until = null, StringComparison comparison = StringComparison.InvariantCultureIgnoreCase)
+        {
+            int length = (from ?? string.Empty).Length;
+            int num = (!string.IsNullOrEmpty(from) ? line.IndexOf(from, comparison) + length : 0);
+            if (num < length)
+            {
+                throw new ArgumentException("From: Failed to find an instance of the first anchor");
+            }
+            int num1 = (!string.IsNullOrEmpty(until) ? line.IndexOf(until, num, comparison) : line.Length);
+            if (num1 < 0)
+            {
+                throw new ArgumentException("Until: Failed to find an instance of the last anchor");
+            }
+            string str = line.Substring(num, num1 - num);
+            return str.Trim();
         }
 
         #endregion
