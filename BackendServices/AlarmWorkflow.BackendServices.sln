@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.System", "AlarmWorkflow.BackendService.System\AlarmWorkflow.BackendService.System.csproj", "{51872E19-62AE-457A-A58A-4CCB39492DD1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.FileTransferContracts", "AlarmWorkflow.BackendService.FileTransferContracts\AlarmWorkflow.BackendService.FileTransferContracts.csproj", "{8CA87188-97D0-415D-885B-E2430A709CA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlarmWorkflow.BackendService.FileTransfer", "AlarmWorkflow.BackendService.FileTransfer\AlarmWorkflow.BackendService.FileTransfer.csproj", "{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,14 @@ Global
 		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51872E19-62AE-457A-A58A-4CCB39492DD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CA87188-97D0-415D-885B-E2430A709CA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CA87188-97D0-415D-885B-E2430A709CA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CA87188-97D0-415D-885B-E2430A709CA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CA87188-97D0-415D-885B-E2430A709CA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
