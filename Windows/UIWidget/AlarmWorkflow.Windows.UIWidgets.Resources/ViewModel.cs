@@ -13,7 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Resources
@@ -25,7 +31,16 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
         /// <summary>
         /// Gets the OperationResourceCollection which should be displayed.
         /// </summary>
-        public OperationResourceCollection Resources { get; private set; }
+        public ObservableCollection<ResourceViewModel> Resources { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        internal ViewModel()
+        {
+            Resources = new ObservableCollection<ResourceViewModel>();
+        }
 
         #endregion
 
@@ -33,8 +48,34 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
 
         internal void OperationChanged(Operation operation)
         {
-            Resources = operation.Resources;
-            OnPropertyChanged("Resources");
+            try
+            {
+                ApplyFilteredResources(operation);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+
+                ApplyAllResourcesFallback(operation);
+            }
+        }
+
+        private void ApplyFilteredResources(Operation operation)
+        {
+            Resources.Clear();
+            using (var service = ServiceFactory.GetServiceWrapper<IEmkService>())
+            {
+                foreach (OperationResource item in service.Instance.GetFilteredResources(operation.Resources))
+                {
+                    Resources.Add(new ResourceViewModel(item));
+                }
+            }
+        }
+
+        private void ApplyAllResourcesFallback(Operation operation)
+        {
+            Resources.Clear();
+            Resources.AddRange(operation.Resources.Select(item => new ResourceViewModel(item)));
         }
 
         #endregion

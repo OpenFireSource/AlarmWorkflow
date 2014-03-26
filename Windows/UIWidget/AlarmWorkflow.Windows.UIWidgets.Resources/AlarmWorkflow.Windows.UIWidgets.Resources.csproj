@@ -34,6 +34,12 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
@@ -54,6 +60,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResourceViewModel.cs" />
     <Compile Include="ViewModel.cs" />
     <Page Include="ResourcesWidget.xaml">
       <Generator>MSBuild:Compile</Generator>

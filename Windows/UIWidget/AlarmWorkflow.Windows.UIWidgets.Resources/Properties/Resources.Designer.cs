@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while applying the filtered resources. Using fallback method and applying all resources..
+        /// </summary>
+        internal static string ErrorWhileApplyingFilteredResourcesUsingFallbackNow {
+            get {
+                return ResourceManager.GetString("ErrorWhileApplyingFilteredResourcesUsingFallbackNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zeigt die alarmierten Fahrzeuge an..
         /// </summary>
         internal static string ExportUIWidgetDescription {
