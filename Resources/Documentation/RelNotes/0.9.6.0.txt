@@ -12,6 +12,8 @@ General
 Parser
 
   * Neuer Parser für LST Mansfeld/Südharz
+  * Parser für LSTKleve um das Feld Besonderheit erweitert und Schlüsselwörter an neues Layout angepasst.
+  * Auslesen der Einsatzmittel in dem Parser für die ILS Coburg berichtigt.
 
 Gelöste Probleme seit v0.9.5.0
 ------------------------------

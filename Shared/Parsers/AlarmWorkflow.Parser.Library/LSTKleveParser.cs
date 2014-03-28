@@ -30,8 +30,8 @@ namespace AlarmWorkflow.Parser.Library
         private readonly string[] _keywords = new[]
             {
                 "Einsatznr", "EArt", "Stichwort",
-                "Diagnose", "Meldender", "Priorität", "Ort ",
-                "Ortsteil", "Straße", "Kreuzung", "NRN", "ADAC", "Info", "Objektname", "Routenausgabe", "beteiligte Einsatzmittel:", "Ausdruck", "BMA-Nummer"
+                "Diagnose", "Meldender", "Prioritaet", "Ort ",
+                "Ortsteil", "Strasse", "Kreuzung", "NRN", "ADAC", "Info", "Objektname", "Routenausgabe", "beteiligte Einsatzmittel:","Besonderh" , "Ausdruck", "BMA-Nummer"
             };
 
         #endregion
@@ -55,10 +55,10 @@ namespace AlarmWorkflow.Parser.Library
                         case "Stichwort": { section = CurrentSection.DStichwort; break; }
                         case "Diagnose": { section = CurrentSection.EDiagnose; break; }
                         case "Meldender": { section = CurrentSection.FMeldender; break; }
-                        case "Priorität": { section = CurrentSection.GPriorität; break; }
+                        case "Prioritaet": { section = CurrentSection.GPriorität; break; }
                         case "Ort ": { section = CurrentSection.HOrt; break; }
                         case "Ortsteil": { section = CurrentSection.IOrtsteil; break; }
-                        case "Straße": { section = CurrentSection.JStraße; break; }
+                        case "Strasse": { section = CurrentSection.JStraße; break; }
                         case "Kreuzung": { section = CurrentSection.KKreuzung; break; }
                         case "ADAC": { section = CurrentSection.MADAC; break; }
                         case "Info": { section = CurrentSection.NInfo; break; }
@@ -68,6 +68,7 @@ namespace AlarmWorkflow.Parser.Library
                         case "Routenausgabe": { section = CurrentSection.PRoutenausgabe; break; }
                         case "beteiligte Einsatzmittel:": { section = CurrentSection.QEinsatzmittel; break; }
                         case "Ausdruck": { section = CurrentSection.REnde; break; }
+                        case "Besonderh": { section = CurrentSection.TBesonder; break; }
                     }
                 }
 
@@ -121,17 +122,11 @@ namespace AlarmWorkflow.Parser.Library
                         }
                     case CurrentSection.JStraße:
                         {
-                            string text = GetMessageText(line);
-                            Match hausnummer = Regex.Match(text, @"[0-9]+");
-                            if (hausnummer.Success)
-                            {
-                                operation.Einsatzort.StreetNumber = hausnummer.Value;
-                                operation.Einsatzort.Street = text.Replace(hausnummer.Value, "");
-                            }
-                            else
-                            {
-                                operation.Einsatzort.Street = text;
-                            }
+                            string street, streetNumber, appendix;
+                            ParserUtility.AnalyzeStreetLine(GetMessageText(line), out street, out streetNumber, out appendix);
+                            operation.Einsatzort.Street = street;
+                            operation.Einsatzort.StreetNumber = streetNumber;
+                            operation.CustomData["Einsatzort Zusatz"] = appendix;
                             break;
                         }
                     case CurrentSection.KKreuzung:
@@ -156,7 +151,7 @@ namespace AlarmWorkflow.Parser.Library
                         }
                     case CurrentSection.OObjektname:
                         {
-                            operation.Einsatzort.Property = GetMessageText(line);
+                            operation.Einsatzort.Property += GetMessageText(line);
                             operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
                             break;
                         }
@@ -192,6 +187,14 @@ namespace AlarmWorkflow.Parser.Library
                                 operation.Timestamp = DateTime.TryParse(datetime.Value, ci, DateTimeStyles.None, out timeStamp) ? timeStamp : DateTime.Now;
 
                             }
+                            break;
+                        }
+                    case CurrentSection.TBesonder:
+                        {
+                            operation.Einsatzort.Property += " Besonderheiten: " + GetMessageText(line);
+                            operation.Einsatzort.Property = operation.Einsatzort.Property.Trim();
+
+                            section = CurrentSection.AAnfang;
                             break;
                         }
                 }
@@ -274,7 +277,8 @@ namespace AlarmWorkflow.Parser.Library
             PRoutenausgabe,
             QEinsatzmittel,
             REnde,
-            SBMA
+            SBMA,
+            TBesonder
         }
 
         #endregion
