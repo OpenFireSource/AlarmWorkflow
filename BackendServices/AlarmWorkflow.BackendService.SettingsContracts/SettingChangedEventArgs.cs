@@ -31,7 +31,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Gets the <see cref="SettingKey"/>-instances describing the identifiers and names of the settings that have changed.
         /// </summary>
-        public SettingKey[] Keys { get; private set; }
+        public IEnumerable<SettingKey> Keys { get; private set; }
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         {
             Assertions.AssertNotNull(keys, "keys");
 
-            Keys = keys.ToArray();
+            Keys = keys;
         }
 
         #endregion

@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
 using System.ServiceModel;
 using AlarmWorkflow.Shared.Settings;
 
@@ -28,6 +29,6 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// </summary>
         /// <param name="keys">The <see cref="SettingKey"/>-instance describing the identifiers and names of the changed settings.</param>
         [OperationContract(IsOneWay = true)]
-        void OnSettingChanged(SettingKey[] keys);
+        void OnSettingChanged(IList<SettingKey> keys);
     }
 }

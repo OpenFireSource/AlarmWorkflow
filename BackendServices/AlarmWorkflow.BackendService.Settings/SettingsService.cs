@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
@@ -49,7 +50,7 @@ namespace AlarmWorkflow.BackendService.Settings
 
         private void SettingsService_SettingChanged(object sender, SettingChangedEventArgs e)
         {
-            this.Callback.OnSettingChanged(e.Keys);
+            this.Callback.OnSettingChanged(e.Keys.ToList());
         }
 
         #endregion

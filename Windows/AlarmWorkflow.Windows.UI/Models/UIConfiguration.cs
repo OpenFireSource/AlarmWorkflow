@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
@@ -143,9 +144,9 @@ namespace AlarmWorkflow.Windows.UI.Models
 
         #region ISettingsServiceCallback Members
 
-        void ISettingsServiceCallback.OnSettingChanged(SettingKey[] keys)
+        void ISettingsServiceCallback.OnSettingChanged(IList<SettingKey> keys)
         {
-            // TODO: Update setting values
+
         }
 
         #endregion
