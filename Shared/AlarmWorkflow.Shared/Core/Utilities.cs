@@ -21,6 +21,8 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Schema;
@@ -317,6 +319,52 @@ namespace AlarmWorkflow.Shared.Core
         }
 
         #endregion
+
+        /// <summary>
+        /// Computes the MD5-checksum of a given stream.
+        /// </summary>
+        /// <param name="stream">The stream to compute its checksum from. Must not be null.</param>
+        /// <returns>The MD5-checksum of the given stream as a string.</returns>
+        public static string ComputeMD5(Stream stream)
+        {
+            Assertions.AssertNotNull(stream, "stream");
+
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] result = md5.ComputeHash(stream);
+
+                StringBuilder strBuilder = new StringBuilder();
+                for (int i = 0; i < result.Length; i++)
+                {
+                    strBuilder.Append(result[i].ToString("x2"));
+                }
+
+                return strBuilder.ToString();
+            }
+        }
+
+        /// <summary>
+        /// Computes the SHA1-checksum of a given buffer.
+        /// </summary>
+        /// <param name="buffer">The buffer to compute its checksum from. Must not be null.</param>
+        /// <returns>The SHA1-checksum of the given buffer as a string.</returns>
+        public static string ComputeSHA1(byte[] buffer)
+        {
+            Assertions.AssertNotNull(buffer, "buffer");
+
+            using (SHA1 md5 = SHA1.Create())
+            {
+                byte[] result = md5.ComputeHash(buffer);
+
+                StringBuilder strBuilder = new StringBuilder();
+                for (int i = 0; i < result.Length; i++)
+                {
+                    strBuilder.Append(result[i].ToString("x2"));
+                }
+
+                return strBuilder.ToString();
+            }
+        }
 
         /// <summary>
         /// Returns the working directory of this assembly.

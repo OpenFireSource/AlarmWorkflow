@@ -14,8 +14,6 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.FileTransferContracts;
 using AlarmWorkflow.Shared.Core;
@@ -58,7 +56,7 @@ namespace AlarmWorkflow.BackendService.FileTransfer
             string localPath = GetLocalPathForRelative(path);
             if (!File.Exists(localPath))
             {
-                throw new FileNotFoundException(Properties.Resources.FilePathNotFoundError, path);
+                throw new FileNotFoundException(string.Format(Properties.Resources.FilePathNotFoundError, path));
             }
         }
 
@@ -75,20 +73,9 @@ namespace AlarmWorkflow.BackendService.FileTransfer
         {
             AssertPathIsNotRootedAndExists(path);
 
-            using (MD5 md5 = MD5.Create())
+            using (FileStream stream = new FileStream(GetLocalPathForRelative(path), FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                using (FileStream stream = new FileStream(GetLocalPathForRelative(path), FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    byte[] result = md5.ComputeHash(stream);
-
-                    StringBuilder strBuilder = new StringBuilder();
-                    for (int i = 0; i < result.Length; i++)
-                    {
-                        strBuilder.Append(result[i].ToString("x2"));
-                    }
-
-                    return strBuilder.ToString();
-                }
+                return Utilities.ComputeMD5(stream);
             }
         }
 
@@ -96,10 +83,7 @@ namespace AlarmWorkflow.BackendService.FileTransfer
         {
             AssertPathIsNotRootedAndExists(path);
 
-            using (FileStream stream = new FileStream(GetLocalPathForRelative(path), FileMode.Open, FileAccess.Read, FileShare.Read))
-            {
-                return stream;
-            }
+            return new FileStream(GetLocalPathForRelative(path), FileMode.Open, FileAccess.Read, FileShare.Read);
         }
 
         #endregion
