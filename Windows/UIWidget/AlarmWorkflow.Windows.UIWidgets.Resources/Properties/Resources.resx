@@ -126,4 +126,7 @@
   <data name="ExportUIWidgetDisplayName" xml:space="preserve">
     <value>Fahrzeuge</value>
   </data>
+  <data name="LoadIconAsyncGenericErrorOccurred" xml:space="preserve">
+    <value>An unexpected error has occurred while trying to download the resource image file. Please see log for further information.</value>
+  </data>
 </root>

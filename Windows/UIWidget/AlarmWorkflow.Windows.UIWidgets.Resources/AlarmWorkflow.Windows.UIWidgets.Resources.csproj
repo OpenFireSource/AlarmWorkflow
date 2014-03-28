@@ -37,6 +37,9 @@
     <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
       <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.FileTransferContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.FileTransferContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
       <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
     </Reference>

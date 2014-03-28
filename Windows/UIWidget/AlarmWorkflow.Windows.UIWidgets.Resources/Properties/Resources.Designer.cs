@@ -86,5 +86,14 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
                 return ResourceManager.GetString("ExportUIWidgetDisplayName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An unexpected error has occurred while trying to download the resource image file. Please see log for further information..
+        /// </summary>
+        internal static string LoadIconAsyncGenericErrorOccurred {
+            get {
+                return ResourceManager.GetString("LoadIconAsyncGenericErrorOccurred", resourceCulture);
+            }
+        }
     }
 }

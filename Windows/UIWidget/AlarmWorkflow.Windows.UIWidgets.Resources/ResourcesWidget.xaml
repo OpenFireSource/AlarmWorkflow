@@ -5,6 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="borderBrush" Color="#FF8B4C0D" />
+        <LinearGradientBrush x:Key="borderBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FFDC8200" Offset="1"/>
+            <GradientStop Color="#FFFC9500" Offset="0"/>
+        </LinearGradientBrush>
+    </UserControl.Resources>
 
     <ItemsControl ItemsSource="{Binding Resources}">
         <ItemsControl.ItemsPanel>
@@ -14,14 +21,16 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border BorderBrush="#FF8B4C0D" BorderThickness="1" CornerRadius="5" Margin="2" Padding="5">
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                            <GradientStop Color="#FFDC8200" Offset="1"/>
-                            <GradientStop Color="#FFFC9500" Offset="0"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <Label Content="{Binding Resource.FullName}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50" FontWeight="Bold" />
+                <Border BorderBrush="{StaticResource borderBrush}" Background="{StaticResource borderBackground}" BorderThickness="1" CornerRadius="5" Margin="2" Padding="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Column="0" Source="{Binding Icon}" MaxWidth="64" MaxHeight="64" />
+                        <Label Grid.Column="1" Content="{Binding DisplayName}" VerticalAlignment="Center" FontSize="50" FontWeight="Bold" />
+                    </Grid>
                 </Border>
             </DataTemplate>
         </ItemsControl.ItemTemplate>

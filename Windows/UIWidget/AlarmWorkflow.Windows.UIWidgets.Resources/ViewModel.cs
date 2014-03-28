@@ -14,10 +14,12 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.ManagementContracts;
+using AlarmWorkflow.BackendService.ManagementContracts.Emk;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -65,9 +67,13 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
             Resources.Clear();
             using (var service = ServiceFactory.GetServiceWrapper<IEmkService>())
             {
-                foreach (OperationResource item in service.Instance.GetFilteredResources(operation.Resources))
+                IList<EmkResource> emkResources = service.Instance.GetAllResources();
+
+                foreach (OperationResource resource in service.Instance.GetFilteredResources(operation.Resources))
                 {
-                    Resources.Add(new ResourceViewModel(item));
+                    EmkResource emk = emkResources.FirstOrDefault(item => item.IsActive && item.IsMatch(resource));
+
+                    Resources.Add(new ResourceViewModel(resource, emk));
                 }
             }
         }
