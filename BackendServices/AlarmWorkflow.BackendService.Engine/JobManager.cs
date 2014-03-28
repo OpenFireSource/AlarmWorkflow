@@ -22,7 +22,6 @@ using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.Engine
 {
@@ -205,9 +204,7 @@ namespace AlarmWorkflow.BackendService.Engine
 
         private void SettingsService_OnSettingChanged(object sender, SettingChangedEventArgs settingChangedEventArgs)
         {
-            IList<SettingKey> settingKeys = settingChangedEventArgs.Keys.ToList();
-
-            if (settingKeys.Contains(SettingKeys.JobsConfigurationKey))
+            if (settingChangedEventArgs.Keys.Contains(SettingKeys.JobsConfigurationKey))
             {
                 IEnumerable<string> oldConfig = _enabledJobs;
                 _enabledJobs = RetrieveEnabledJobs();

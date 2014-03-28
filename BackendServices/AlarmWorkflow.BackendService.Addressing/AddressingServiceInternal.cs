@@ -21,7 +21,6 @@ using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.BackendService.AddressingContracts.Extensibility;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.BackendService.Addressing
 {
@@ -120,14 +119,12 @@ namespace AlarmWorkflow.BackendService.Addressing
 
         private void SettingsService_OnSettingChanged(object sender, SettingChangedEventArgs settingChangedEventArgs)
         {
-            SettingKey[] settingKeys = settingChangedEventArgs.Keys;
-
-            if (settingKeys.Contains(SettingKeys.AddressBookKey))
+            if (settingChangedEventArgs.Keys.Contains(SettingKeys.AddressBookKey))
             {
                 RefreshAddressBookSync();
             }
 
-            if (settingKeys.Contains(SettingKeys.FiltersConfigurationKey))
+            if (settingChangedEventArgs.Keys.Contains(SettingKeys.FiltersConfigurationKey))
             {
                 RefreshSpecifiedAddressFiltersSync();
             }

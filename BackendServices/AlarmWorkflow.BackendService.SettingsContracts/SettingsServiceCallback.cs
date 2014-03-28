@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Settings;
@@ -31,13 +32,13 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Occurs when the value of a one or more settings have changed.
         /// </summary>
-        public event Action<SettingKey[]> SettingsChanged;
+        public event Action<IList<SettingKey>> SettingsChanged;
 
         #endregion
 
         #region ISettingsServiceCallback Members
 
-        void ISettingsServiceCallback.OnSettingChanged(SettingKey[] keys)
+        void ISettingsServiceCallback.OnSettingChanged(IList<SettingKey> keys)
         {
             try
             {
