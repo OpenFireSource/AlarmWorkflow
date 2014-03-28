@@ -366,6 +366,9 @@ namespace AlarmWorkflow.Parser.Library
                                 if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
                                 {
                                     msg = GetMessageText(line, "NAME");
+                                    string name = ParserUtility.GetTextBetween(msg, null, "Gerät:");
+                                    string equipment = ParserUtility.GetTextBetween(msg, "Gerät:");
+                                    last.RequestedEquipment.Add(equipment);
                                     last.FullName = msg.Trim();
                                 }
                                 else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
@@ -385,14 +388,6 @@ namespace AlarmWorkflow.Parser.Library
                                 }
                                 else if (line.StartsWith("AUS", StringComparison.CurrentCultureIgnoreCase))
                                 {
-                                    msg = GetMessageText(line, "AUS");
-
-                                    // Only add to requested equipment if there is some text,
-                                    // otherwise the whole vehicle is the requested equipment
-                                    if (!string.IsNullOrWhiteSpace(msg))
-                                    {
-                                        last.RequestedEquipment.Add(msg);
-                                    }
                                     // This line will end the construction of this resource. Add it to the list and go to the next.
                                     operation.Resources.Add(last);
 

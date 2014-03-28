@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Windows;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
@@ -61,21 +62,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-            string lineOne = null;
-            if (!string.IsNullOrWhiteSpace(_expressionLineOne))
-            {
-                lineOne = operation != null ? operation.ToString(_expressionLineOne) : "(n/A)";
-            }
-            string lineTwo = null;
-            if (!string.IsNullOrWhiteSpace(_expressionLineTwo))
-            {
-                lineTwo = operation != null ? operation.ToString(_expressionLineTwo) : "(n/A)";
-            }
-            string lineThree = null;
-            if (!string.IsNullOrWhiteSpace(_expressionLineThree))
-            {
-                lineThree = operation != null ? operation.ToString(_expressionLineThree) : "(n/A)";
-            }
+            string lineOne = FormatLine(_expressionLineOne, operation);
+            string lineTwo = FormatLine(_expressionLineTwo, operation);
+            string lineThree = FormatLine(_expressionLineThree, operation);
             LineOne.Inlines.Clear();
             LineTwo.Inlines.Clear();
             LineThree.Inlines.Clear();
@@ -102,5 +91,28 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
         }
 
         #endregion
+
+        #region Methods
+
+        private string FormatLine(string expression, Shared.Core.Operation operation)
+        {
+            if (!string.IsNullOrWhiteSpace(expression))
+            {
+                try
+                {
+                    return operation != null ? operation.ToString(expression) : "(n/A)";
+                }
+                catch (AssertionFailedException)
+                {
+                    // This exception may occure if the format of the value is broken or other problems with the format exist...
+                    return string.Empty;
+                }
+            }
+
+            return string.Empty;
+        }
+
+        #endregion
+
     }
 }
