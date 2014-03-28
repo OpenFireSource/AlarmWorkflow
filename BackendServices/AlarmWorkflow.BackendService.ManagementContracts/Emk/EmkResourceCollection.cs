@@ -47,14 +47,16 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         /// <summary>
         /// Examines every resource that is contained in this collection and returns a boolean value if at least
         /// one resource matches the given <see cref="OperationResource"/>.
+        /// See documentation for further information.
         /// </summary>
+        /// <remarks>Any given <see cref="EmkResource"/> is only considered if it has its IsActive-flag set to true.</remarks>
         /// <param name="resource">The <see cref="OperationResource"/> to check. Must not be null.</param>
         /// <returns>A boolean value indicating whether or not at least one resource matches the given <see cref="OperationResource"/>.</returns>
         public bool ContainsMatch(OperationResource resource)
         {
             Assertions.AssertNotNull(resource, "resource");
 
-            return Items.Any(item => item.IsMatch(resource));
+            return Items.Any(item => item.IsActive && item.IsMatch(resource));
         }
 
         #endregion

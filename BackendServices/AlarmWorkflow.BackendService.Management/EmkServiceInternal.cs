@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
@@ -85,6 +86,11 @@ namespace AlarmWorkflow.BackendService.Management
             }
         }
 
+        private bool HasAnyActiveResourcesConfigured()
+        {
+            return _emkResources.Any(item => item.IsActive);
+        }
+
         #endregion
 
         #region IEmkServiceInternal Members
@@ -104,7 +110,18 @@ namespace AlarmWorkflow.BackendService.Management
         {
             lock (SyncRoot)
             {
-                foreach (OperationResource candidate in resources.Where(item => _emkResources.ContainsMatch(item)))
+                // We only want to filter the active resources. Yet if the user hasn't configured any active items, deliver everything.
+                Func<OperationResource, bool> filter = null;
+                if (HasAnyActiveResourcesConfigured())
+                {
+                    filter = item => _emkResources.ContainsMatch(item);
+                }
+                else
+                {
+                    filter = item => true;
+                }
+
+                foreach (OperationResource candidate in resources.Where(filter))
                 {
                     yield return candidate;
                 }
