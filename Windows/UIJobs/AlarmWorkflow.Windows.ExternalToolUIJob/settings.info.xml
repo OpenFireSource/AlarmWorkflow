@@ -1,6 +1,6 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="ExternalToolUIJob" DisplayText="Externe Tools starten" Parent="Aufgaben (UI)">
-    <Setting Name="ExternalTool" DisplayText="Externe Tools bei Alarmeingang ausführen (pro Zeile 1)" Category="Allgemein"  Description="Gibt die Anwendungen an, welche ausgeführt werden sobald die Windows UI in die Alarmperspektive wechselt. Die Anwendungen werden für jeden Alarm erneut ausgeführt." Editor="StringArrayTypeEditor"/>
-    <Setting Name="ExternalToolIdle" DisplayText="Externe Tools bei Ruheperspektive ausführen (pro Zeile 1)" Description="Gibt die Anwendungen an, welche ausgeführt werden sobald die Windows UI in die Ruheperspektive wechselt." Category="Allgemein" Editor="StringArrayTypeEditor"/>
+    <Setting Name="ExternalTool" DisplayText="Externe Tools bei Alarmeingang ausführen (pro Zeile 1)" Category="Allgemein"  Description="Gibt die Anwendungen an, welche ausgeführt werden sobald die Windows UI in die Alarmperspektive wechselt. Die Anwendungen werden für jeden Alarm erneut ausgeführt." Editor="StringArrayTypeEditor" IsDynamic="true" />
+    <Setting Name="ExternalToolIdle" DisplayText="Externe Tools bei Ruheperspektive ausführen (pro Zeile 1)" Description="Gibt die Anwendungen an, welche ausgeführt werden sobald die Windows UI in die Ruheperspektive wechselt." Category="Allgemein" Editor="StringArrayTypeEditor" IsDynamic="true" />
   </Identifier>
 </SettingsDisplayConfiguration>
