@@ -15,7 +15,6 @@ msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Release /verbosity
 msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Release /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Release /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.UIJobs.sln /p:Configuration=Release /verbosity:minimal
-msbuild Windows\AlarmWorkflow.Windows.IdleUIJobs.sln /p:Configuration=Release /verbosity:minimal
 msbuild Windows\AlarmWorkflow.Windows.OperationViewer.sln /p:Configuration=Release /verbosity:minimal
 
 msbuild Windows\AlarmWorkflow.Windows.UIWidget.sln /p:Configuration=Release /verbosity:minimal

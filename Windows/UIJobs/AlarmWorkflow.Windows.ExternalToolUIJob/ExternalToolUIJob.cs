@@ -15,9 +15,12 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.ExternalToolUIJob.Properties;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.ExternalToolUIJob
@@ -47,7 +50,15 @@ namespace AlarmWorkflow.Windows.ExternalToolUIJob
 
             foreach (string program in programs)
             {
-                Process.Start(program);
+                try
+                {
+                    Task.Factory.StartNew(() => Starter.StartProgramTask(program, this));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.CreatingProgramFailed, program);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
 
         }
