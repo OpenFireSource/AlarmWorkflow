@@ -8,6 +8,7 @@ General
 
   * [OCR] Cuneiform entfernt.
   * [OperationFileExporter] Exportieren in benutzerdefiniertes Format möglich.
+  * [ExternalToolJob] ExternalToolUIJob und ExternalToolIdleUIJob zusammengefasst. Bitte Einstellungen erneut vornehmen!
 
 Parser
 
