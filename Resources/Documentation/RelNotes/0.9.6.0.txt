@@ -4,10 +4,11 @@
 Änderungen seit v0.9.5.0
 ------------------------
 
-General
+Generelles
 
   * [OCR] Cuneiform entfernt.
   * [OperationFileExporter] Exportieren in benutzerdefiniertes Format möglich.
+  * [ExternalToolJob] ExternalToolUIJob und ExternalToolIdleUIJob zusammengefasst. Bitte Einstellungen erneut vornehmen!
 
 Parser
 

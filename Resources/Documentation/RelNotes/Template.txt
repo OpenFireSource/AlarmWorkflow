@@ -4,22 +4,17 @@ AlarmWorkflow vW.X.Y.Z Release Notes
 Änderungen seit vW.X.Y.Z
 ------------------------
 
-General
+Generelles
 
-  * a
-  * b
-  * c
+  * -
 
 Gelöste Probleme seit vW.X.Y.Z
 ------------------------------
 
 Probleme gelöst
 
-  * #123
-  * #456
-  * #1337
+  * -
 
 Andere Fixes
 
-  * This
-  * That
+  * -

@@ -1,5 +1,0 @@
-﻿<SettingsDisplayConfiguration>
-  <Identifier Name="ExternalToolIdleUIJob" DisplayText="Externe Tools starten" Parent="Idle-Aufgaben (UI)">
-    <Setting Name="ExternalTool" DisplayText="Externe Tools (pro Zeile 1)" Category="Allgemein" Editor="StringArrayTypeEditor"/>
-  </Identifier>
-</SettingsDisplayConfiguration>

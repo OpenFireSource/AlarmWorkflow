@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="ExternalToolUIJob">
   <Setting Name="ExternalTool" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="ExternalToolIdle" Type="System.String" IsNull="True"></Setting>
 </SettingsConfiguration>

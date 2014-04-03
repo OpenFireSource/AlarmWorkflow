@@ -15,17 +15,20 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
+using AlarmWorkflow.Windows.ExternalToolUIJob.Properties;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
-namespace AlarmWorkflow.Windows.ExternalToolIdleUIJob
+namespace AlarmWorkflow.Windows.ExternalToolUIJob
 {
-    [Export("ExternalToolIdleUIJob", typeof(IIdleUIJob))]
-    class ExternalToolIdleUIJob : IIdleUIJob
+    [Export("ExternalToolUIIdleJob", typeof(IIdleUIJob))]
+    class ExternalToolUIIdleJob : IIdleUIJob
     {
-        #region IIdleUIJob Members
+        #region IUIJob Members
 
         bool IIdleUIJob.Initialize()
         {
@@ -39,15 +42,23 @@ namespace AlarmWorkflow.Windows.ExternalToolIdleUIJob
 
         void IIdleUIJob.Run()
         {
-            string[] programs = new string[0];
+            string[] programs;
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
-                programs = service.Instance.GetSetting(SettingKeys.ExternalTool).GetStringArray();
+                programs = service.Instance.GetSetting(SettingKeys.ExternalToolIdle).GetStringArray();
             }
 
             foreach (string program in programs)
             {
-                Process.Start(program);
+                try
+                {
+                    Task.Factory.StartNew(() => Starter.StartProgramTask(program, this));
+                }
+                catch (Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Resources.CreatingProgramFailed, program);
+                    Logger.Instance.LogException(this, ex);
+                }
             }
 
         }

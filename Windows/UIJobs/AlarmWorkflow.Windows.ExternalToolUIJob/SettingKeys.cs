@@ -20,5 +20,6 @@ namespace AlarmWorkflow.Windows.ExternalToolUIJob
     static class SettingKeys
     {
         internal static readonly SettingKey ExternalTool = SettingKey.Create("ExternalToolUIJob", "ExternalTool");
+        internal static readonly SettingKey ExternalToolIdle = SettingKey.Create("ExternalToolUIJob", "ExternalToolIdle");
     }
 }
