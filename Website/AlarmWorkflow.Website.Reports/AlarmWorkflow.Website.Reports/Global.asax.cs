@@ -13,7 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System.Diagnostics;
 using System.IO;
+using System.Web.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -44,7 +46,21 @@ namespace AlarmWorkflow.Website.Reports
 
         private void SetupWebsiteConfiguration()
         {
-            ServiceFactory.BackendConfigurator = new WebsiteBackendConfigurator(Server.MapPath("~/"));
+            string awDir = Server.MapPath("~/");
+
+#if DEBUG
+            // This code is only used when compiled in DEBUG, and running in Debug mode, to ease development.
+            if (Debugger.IsAttached)
+            {
+                string cfgValue = WebConfigurationManager.AppSettings["Debug.AlarmWorkflowDirectory"];
+                if (Directory.Exists(cfgValue))
+                {
+                    awDir = cfgValue;
+                }
+            }
+#endif
+
+            ServiceFactory.BackendConfigurator = new WebsiteBackendConfigurator(awDir);
             ServiceFactory.EndPointResolver = new LocalhostEndPointResolver();
         }
 
