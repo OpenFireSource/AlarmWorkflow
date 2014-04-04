@@ -23,6 +23,25 @@ Die Programmierrichtlinien befinden sich in der Datei *CodingGuidelines.de.md*.
 Es ist erwünscht, dass Programmierkundige zu AlarmWorkflow beitragen! Hierfür geht ihr bitte den unter Git üblichen Weg der **Pull requests**.
 Informationen dazu gibt es unter: https://help.github.com/articles/using-pull-requests
 
+### Submodules
+
+In Git gibt es die Möglichkeit, externe Repositories einzubeziehen, ohne sie voll integrieren zu müssen. Dies nennt sich "submodule".
+
+Wenn Sie das Repository bereits geklont haben, müssen Sie sich das externe Repository klonen:
+- Navigieren Sie in Ihr "AlarmWorkflow" Repository
+- Klicken Sie rechts in den Ordner und öffnen das Kontextmenü
+- Klicken Sie auf "TortoiseGit --> Submodule update..."
+- Wählen Sie "OK"
+- Die submodules werden nun geklont und befinden sich danach in Ihrem Repository.
+
+Wenn Sie sich das Repository neu klonen, müssen Sie folgendes beachten:
+- Im "Clone"-Dialog von TortoiseGit: Wählen Sie **recursive** aus
+- Per Shell: Hängen Sie den Parameter **--recursive** an
+
+Je nach verwendeter Sprache von TortoiseGit heißt der Punkt u. U. anders als hier angegeben.
+
+Wenn die submodules sich ändern, müssen Sie Ihr lokales Repository ebenfalls aktualisieren. Dies funktioniert analog zum ersteren Fall oben.
+
 # Anforderungen an Patches und Pull Requests
 
 ## Coding guidelines
