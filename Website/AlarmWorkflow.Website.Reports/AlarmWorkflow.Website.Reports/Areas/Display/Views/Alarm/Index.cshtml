@@ -109,13 +109,25 @@
 
                         okeywords = okeywords.replace("  ", " ");
                         $("#okeywords").text(okeywords);
-
-                        // Resources
                         var orsc = "";
-                        for (var i = 0; i < result.op.Resources.length; i++) {
-                            orsc += $.trim(result.op.Resources[i].FullName) + ", ";
-                        }
-                        $("#orsc").text(orsc);
+                        // Resources
+                        $.get("/Display/Alarm/GetFilteredResources/" + currentOpId, function(data) {
+                            data.Resources.forEach(function(resource) {
+                                var value;
+                                if (resource.Emk == null || resource.Emk.DisplayName.length === 0) {
+                                    value = "<div class=\"oresource\">" + resource.Resource.FullName + "</div>";
+                                } else {
+                                    if (resource.Emk.IconFileName != null && resource.Emk.IconFileName.length !== 0) {
+                                        value = "<img class=\"oresource\" src=\"/Display/Alarm/GetResourceImage?id=" + encodeURIComponent(resource.Emk.Id) + "\" height=\"200\" alt=\"Fahrzeugbild\">";
+                                    } else {
+                                        value = "<div class=\"oresource\">" + resource.Emk.DisplayName + "</div>";
+                                    }
+                                }
+                                orsc += value;
+                            });
+                            $("#orsc").html(orsc);
+                        });
+
 
                         $("#paneOperation").show();
                         //GoogleMaps Stuff

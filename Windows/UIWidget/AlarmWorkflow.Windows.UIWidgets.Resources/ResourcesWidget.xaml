@@ -22,15 +22,24 @@
         <ItemsControl.ItemTemplate>
             <DataTemplate>
                 <Border BorderBrush="{StaticResource borderBrush}" Background="{StaticResource borderBackground}" BorderThickness="1" CornerRadius="5" Margin="2" Padding="5">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-
-                        <Image Grid.Column="0" Source="{Binding Icon}" MaxWidth="64" MaxHeight="64" />
-                        <Label Grid.Column="1" Content="{Binding DisplayName}" VerticalAlignment="Center" FontSize="50" FontWeight="Bold" />
-                    </Grid>
+                    <Label VerticalAlignment="Center" FontSize="50" FontWeight="Bold" >
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Setters>
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <Image Grid.Column="0" Source="{Binding Icon}" MaxWidth="128" MaxHeight="128" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style.Setters>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Icon}" Value="{x:Null}">
+                                        <Setter Property="Content" Value="{Binding DisplayName}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
                 </Border>
             </DataTemplate>
         </ItemsControl.ItemTemplate>
