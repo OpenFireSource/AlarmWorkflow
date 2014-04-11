@@ -15,12 +15,18 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI;
+using AlarmWorkflow.BackendService.FileTransferContracts.Client;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.ManagementContracts;
+using AlarmWorkflow.BackendService.ManagementContracts.Emk;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Website.Reports.Areas.Display.Models;
+using Microsoft.Win32;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
 {
@@ -137,5 +143,102 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
             jsonResult.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             return jsonResult;
         }
+
+        /// <summary>
+        /// Gets the list of filtered resources for a given operation
+        /// GET: /Display/Alarm/GetFilteredResources/Id
+        /// </summary>
+        /// <param name="id">The id of the operation</param>
+        /// <returns>A <see cref="JsonResult"/> containing a <see cref="ResourcesData"/> object or null if an error occured.</returns>
+        public ActionResult GetFilteredResources(int id)
+        {
+            using (var emkService = ServiceFactory.GetServiceWrapper<IEmkService>())
+            {
+                ResourcesData data = new ResourcesData();
+                IList<EmkResource> emkResources = emkService.Instance.GetAllResources();
+                Operation operation;
+                try
+                {
+                    using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))
+                    {
+                        operation = service.Instance.GetOperationById(id);
+                    }
+                }
+                catch (Exception)
+                {
+                    return null;
+                }
+                if (operation == null)
+                {
+                    return null;
+                }
+                List<ResourceObject> filteredResources = new List<ResourceObject>();
+                var filtered = emkService.Instance.GetFilteredResources(operation.Resources);
+                foreach (OperationResource resource in filtered)
+                {
+                    EmkResource emk = emkResources.FirstOrDefault(item => item.IsActive && item.IsMatch(resource));
+                    filteredResources.Add(new ResourceObject(emk, resource));
+                }
+                data.Resources = filteredResources;
+                JsonResult result = new JsonResult();
+                result.Data = data;
+                result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Gets the image assigned to a filtered resource.
+        /// The image gets cached on the client (and the server) for 2 minutes.
+        /// GET: /Display/Alarm/GetResourceImage/Id
+        /// </summary>
+        /// <param name="id">The id of the resource.</param>
+        /// <returns>The image (<see cref="File"/>) or null if the image was not found.  </returns>
+        [OutputCache(Duration = 120, VaryByParam = "id", Location = OutputCacheLocation.ServerAndClient)]
+        public ActionResult GetResourceImage(string id)
+        {
+            using (var emkService = ServiceFactory.GetServiceWrapper<IEmkService>())
+            {
+                IList<EmkResource> emkResources = emkService.Instance.GetAllResources();
+                EmkResource resource = emkResources.FirstOrDefault(x => x.Id == id);
+                if (resource == null)
+                {
+                    return null;
+                }
+                using (FileTransferServiceClient client = new FileTransferServiceClient())
+                {
+                    try
+                    {
+                        Stream content = client.GetFileFromPath(resource.IconFileName);
+
+                        if (content != null)
+                        {
+                            return File(content, GetMimeType(resource.IconFileName));
+                        }
+                    }
+                    catch (IOException ex)
+                    {
+                        // This exception is totally OK. No image will be displayed.
+                    }
+                }
+            }
+            return null;
+        }
+
+        static string GetMimeType(string path)
+        {
+            const string unkownMimeType = "application/unknown";
+            RegistryKey regKey = Registry.ClassesRoot.OpenSubKey(Path.GetExtension(path).ToLower());
+
+            if (regKey == null)
+            {
+                return unkownMimeType;
+            }
+
+            object contentType = regKey.GetValue("Content Type");
+
+            return (contentType == null) ? unkownMimeType : contentType.ToString();
+        }
+
     }
 }
