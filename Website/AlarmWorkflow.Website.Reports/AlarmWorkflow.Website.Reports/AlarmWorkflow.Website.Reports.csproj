@@ -18,6 +18,10 @@
     <UseIISExpress>false</UseIISExpress>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,6 +46,9 @@
     <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.BackendService.FileTransferContracts">
+      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.FileTransferContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
@@ -185,6 +192,8 @@
     <Compile Include="Areas\Display\DisplayAreaRegistration.cs" />
     <Compile Include="Areas\Display\Models\GetLastOperationData.cs" />
     <Compile Include="Areas\Display\Models\ResetOperationData.cs" />
+    <Compile Include="Areas\Display\Models\ResourceObject.cs" />
+    <Compile Include="Areas\Display\Models\ResourcesData.cs" />
     <Compile Include="Areas\Display\Models\WebsiteConfiguration.cs" />
     <Compile Include="Areas\Reporting\ReportingAreaRegistration.cs" />
     <Compile Include="Areas\Reporting\Controllers\AlarmsController.cs" />
