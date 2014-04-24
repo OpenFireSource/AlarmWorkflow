@@ -1,17 +1,12 @@
-﻿rem Schreibt Schleifeninfos der FMS-Programme in eine Datei,
-rem wo sie dann von AlarmWorkflow abgegriffen und zu den Alarmen
-rem hinzugefügt werden.
+﻿rem Schreibt Schleifeninfos der FMS-Programme in eine Datei, wo sie dann von AlarmWorkflow abgegriffen und
+rem zu den Alarmen hinzugefügt werden.
 rem
-
-rem ----- TODO! -----
+rem ----- HINWEIS -----
 rem
-rem Bevor diese Batch verwendet werden kann, müssen Sie einen gültigen Dateipfad 
-rem unter "{FILE_PATH}" eingeben. Der SYSTEM-Account muss Schreibrechte in diesem Pfad haben!
+rem Bevor diese Batch verwendet werden kann, müssen Sie einen gültigen Dateipfad
+rem unter "{FILE_PATH}" eingeben.
 rem
-rem Für weitere Informationen sehen Sie bitte im Wiki nach unter:
-rem TODOTODOTODOTODOTODOTODOTODOTODO
-rem
-rem ----- TODO! -----
+rem ----- HINWEIS -----
 
 @echo off
 echo %1;%date% %time% >> {FILE_PATH}

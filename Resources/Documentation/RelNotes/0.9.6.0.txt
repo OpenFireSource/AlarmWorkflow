@@ -11,6 +11,7 @@ Generelles
   * [ExternalToolJob] ExternalToolUIJob und ExternalToolIdleUIJob zusammengefasst. Bitte Einstellungen erneut vornehmen!
   * [SMSJob] Smstrade als Anbieter für den SMS Job hinzugefügt. API-Key muss unter Passwort eingetragen werden.
   * [SMSJob] Nachrichtenformat wird nun dynamisch übernommen.
+  * [OperationLoopFetcher] Einstellungen werden nun dynamisch übernommen.
 
 Parser
 

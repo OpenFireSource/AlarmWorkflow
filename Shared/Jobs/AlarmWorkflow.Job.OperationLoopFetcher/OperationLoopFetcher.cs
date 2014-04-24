@@ -35,10 +35,6 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
 
         private ISettingsServiceInternal _settings;
 
-        private string _loopsFilePath;
-        private TimeSpan _maxEntryAge;
-        private string _entryDateTimeFormat;
-
         #endregion
 
         #region Constructors
@@ -57,7 +53,6 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            // This is a Pre-Job. Thus it only has to run right after the operation has surfaced and before being stored.
             if (context.Phase == JobPhase.OnOperationSurfaced)
             {
                 AnalyzeLoopsInfoFile(operation);
@@ -71,9 +66,15 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
 
         private IEnumerable<string> GetLoopsSinceNow()
         {
-            if (File.Exists(_loopsFilePath))
+            string loopsFilePath = _settings.GetSetting(SettingKeys.LoopsFilePath).GetValue<string>();
+
+            if (File.Exists(loopsFilePath))
             {
-                string[] lines = File.ReadAllLines(_loopsFilePath);
+                TimeSpan maxEntryAge = TimeSpan.FromSeconds(_settings.GetSetting(SettingKeys.MaxEntryAge).GetValue<int>());
+                string entryDateTimeFormat = _settings.GetSetting(SettingKeys.EntryDateTimeFormat).GetValue<string>();
+
+                string[] lines = File.ReadAllLines(loopsFilePath);
+
                 // Read lines in reverse to save some time (most recent entries are appended).
                 for (int i = lines.Length - 1; i >= 0; i--)
                 {
@@ -94,13 +95,12 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
                     }
 
                     DateTime timestamp = DateTime.Now;
-                    if (!DateTime.TryParseExact(timestampRaw, _entryDateTimeFormat, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal | DateTimeStyles.AllowWhiteSpaces, out timestamp))
+                    if (!DateTime.TryParseExact(timestampRaw, entryDateTimeFormat, CultureInfo.CurrentCulture, DateTimeStyles.AssumeLocal | DateTimeStyles.AllowWhiteSpaces, out timestamp))
                     {
-                        // Parsing was not successful. Skip line.
                         continue;
                     }
 
-                    if ((DateTime.Now - timestamp) > _maxEntryAge)
+                    if ((DateTime.Now - timestamp) > maxEntryAge)
                     {
                         // Speed optimization: As soon as we encounter an old entry, exit the whole process immediately.
                         // We assume that the newest entries are last in the file, so we can easily break.
@@ -115,10 +115,6 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
         bool IJob.Initialize(IServiceProvider serviceProvider)
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
-            
-            _loopsFilePath = _settings.GetSetting("OperationLoopFetcherJob", "LoopsFilePath").GetValue<string>();
-            _maxEntryAge = TimeSpan.FromSeconds(_settings.GetSetting("OperationLoopFetcherJob", "MaxEntryAge").GetValue<int>());
-            _entryDateTimeFormat = _settings.GetSetting("OperationLoopFetcherJob", "EntryDateTimeFormat").GetValue<string>();
 
             return true;
         }
