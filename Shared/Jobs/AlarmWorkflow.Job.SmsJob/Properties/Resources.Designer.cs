@@ -169,6 +169,15 @@ namespace AlarmWorkflow.Job.SmsJob.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An error occurred while sending SMS messages with the selected provider. See log for further information..
+        /// </summary>
+        internal static string SendSmsErrorMessage {
+            get {
+                return ResourceManager.GetString("SendSmsErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while sending an SMS to &apos;{0}&apos;..
         /// </summary>
         internal static string SendToRecipientGenericErrorMessage {

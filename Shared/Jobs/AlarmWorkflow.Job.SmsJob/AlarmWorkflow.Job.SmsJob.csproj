@@ -67,6 +67,7 @@
     <Compile Include="Providers\RettAlarmProvider.cs" />
     <Compile Include="Providers\Sms77Provider.cs" />
     <Compile Include="Providers\SmstradeProvider.cs" />
+    <Compile Include="SettingKeys.cs" />
     <Compile Include="SMSJob.cs" />
   </ItemGroup>
   <ItemGroup>

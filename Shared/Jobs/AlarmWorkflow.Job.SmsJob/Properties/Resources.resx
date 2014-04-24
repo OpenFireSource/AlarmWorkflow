@@ -153,6 +153,9 @@
   <data name="PhoneNumberContainsInvalidCharsMessage" xml:space="preserve">
     <value>The phone number '{0}' contains invalid chars! Make sure it does only contain digits (0-9)!</value>
   </data>
+  <data name="SendSmsErrorMessage" xml:space="preserve">
+    <value>An error occurred while sending SMS messages with the selected provider. See log for further information.</value>
+  </data>
   <data name="SendToRecipientGenericErrorMessage" xml:space="preserve">
     <value>An error occurred while sending an SMS to '{0}'.</value>
   </data>
