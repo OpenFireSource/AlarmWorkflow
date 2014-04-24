@@ -193,10 +193,16 @@ namespace AlarmWorkflow.Parser.Library
                         case CurrentSection.FBemerkung:
                             {
                                 // Append with newline at the end in case that the message spans more than one line
-                                operation.Comment = operation.Comment += msg + Environment.NewLine;
+                                operation.Picture += msg + Environment.NewLine;
                             }
                             break;
-                        case CurrentSection.GFooter:
+                        case CurrentSection.GHinweis:
+                            {
+                                // Append with newline at the end in case that the message spans more than one line
+                                operation.Comment += msg + Environment.NewLine;
+                            }
+                            break;
+                        case CurrentSection.HFooter:
                             // The footer can be ignored completely.
                             break;
                     }
@@ -245,9 +251,15 @@ namespace AlarmWorkflow.Parser.Library
                 keywordsOnly = false;
                 return true;
             }
+            if (line.Contains("EINSATZHINWEIS"))
+            {
+                section = CurrentSection.GHinweis;
+                keywordsOnly = false;
+                return true;
+            }
             if (line.Contains("ENDE ALARMFAX"))
             {
-                section = CurrentSection.GFooter;
+                section = CurrentSection.HFooter;
                 keywordsOnly = false;
                 return true;
             }
@@ -312,7 +324,8 @@ namespace AlarmWorkflow.Parser.Library
             DEinsatzgrund,
             EEinsatzmittel,
             FBemerkung,
-            GFooter
+            GHinweis,
+            HFooter
         }
 
         #endregion
