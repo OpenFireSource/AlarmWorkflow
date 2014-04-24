@@ -14,6 +14,8 @@ Parser
 
   * Neuer Parser für LST Mansfeld/Südharz
   * Parser für LSTKleve um das Feld Besonderheit erweitert und Schlüsselwörter an neues Layout angepasst.
+  * Parser für ILS Rosenheim um Feld Einsatzhinweis erweitert.
+  * Parser für ILS Schweinfurt an neues Layout angepasst. 
   * Auslesen der Einsatzmittel in dem Parser für die ILS Coburg berichtigt.
 
 Gelöste Probleme seit v0.9.5.0
