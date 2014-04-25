@@ -141,6 +141,12 @@
   <data name="ExportSms77DisplayName" xml:space="preserve">
     <value>SMS 77</value>
   </data>
+  <data name="ExportSmstradeDescription" xml:space="preserve">
+    <value>Benutzt Smstrade zum Nachrichtenversand.</value>
+  </data>
+  <data name="ExportSmstradeDisplayName" xml:space="preserve">
+    <value>Smstrade</value>
+  </data>
   <data name="NoRecipientsErrorMessage" xml:space="preserve">
     <value>There are no recipients configured!</value>
   </data>
@@ -152,5 +158,8 @@
   </data>
   <data name="SendToRecipientSMSProviderErrorMessage" xml:space="preserve">
     <value>The result from the SMS provider represented an error! Status code = {0}.</value>
+  </data>
+  <data name="SendToRecipientSuccessMessage" xml:space="preserve">
+    <value>SMS was sucessfully delivered to SMS provider. The SMS provider returned: {0}</value>
   </data>
 </root>
