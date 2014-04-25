@@ -13,6 +13,10 @@ Generelles
   * [SMSJob] Nachrichtenformat wird nun dynamisch übernommen.
   * [OperationLoopFetcher] Einstellungen werden nun dynamisch übernommen.
 
+Engine
+
+  * Alarme, deren Einsatznummern bereits existieren, führen nicht mehr dazu, dass alle Routinen erneut ausgeführt werden. Dies ist optional und muss in den Einstellungen explizit aktiviert werden.
+
 Parser
 
   * Neuer Parser für LST Mansfeld/Südharz

@@ -304,6 +304,15 @@ namespace AlarmWorkflow.BackendService.Engine.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The operation with number &apos;{0}&apos; was ignored because it is already present and the setting specified to skip operations that already exist..
+        /// </summary>
+        internal static string NewAlarmIgnoringAlreadyPresentOperation {
+            get {
+                return ResourceManager.GetString("NewAlarmIgnoringAlreadyPresentOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not parse timestamp from the fax. Using the current time as the timestamp..
         /// </summary>
         internal static string NewAlarmInvalidTimestamp {

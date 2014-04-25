@@ -21,5 +21,6 @@ namespace AlarmWorkflow.BackendService.Engine
     {
         internal static SettingKey AlarmSourcesConfigurationKey = SettingKey.Create("Engine", "AlarmSourcesConfiguration");
         internal static SettingKey JobsConfigurationKey = SettingKey.Create("Engine", "JobsConfiguration");
+        internal static SettingKey IgnoreOperationsWithSameOperationNumber = SettingKey.Create("Engine", "IgnoreOperationsWithSameOperationNumber");
     }
 }

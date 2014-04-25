@@ -6,4 +6,5 @@
   <Setting Name="AlarmSourcesConfiguration" Type="AlarmWorkflow.Shared.Core.ExportConfiguration, AlarmWorkflow.Shared">
     <![CDATA[<ExportConfiguration />]]>
   </Setting>
+  <Setting Name="IgnoreOperationsWithSameOperationNumber" Type="System.Boolean">False</Setting>
 </SettingsConfiguration>

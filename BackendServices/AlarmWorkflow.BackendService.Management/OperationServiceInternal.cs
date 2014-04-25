@@ -59,7 +59,20 @@ namespace AlarmWorkflow.BackendService.Management
         /// Raised when an operation was acknowledged.
         /// </summary>
         public event Action<int> OperationAcknowledged;
-        
+
+        bool IOperationServiceInternal.ExistsOperation(string operationNumber)
+        {
+            if (string.IsNullOrWhiteSpace(operationNumber))
+            {
+                return false;
+            }
+
+            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            {
+                return entities.Operations.Any(item => item.OperationNumber == operationNumber);
+            }
+        }
+
         IList<int> IOperationServiceInternal.GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount)
         {
             List<int> operations = new List<int>();
