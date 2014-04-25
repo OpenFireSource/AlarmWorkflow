@@ -43,16 +43,6 @@ namespace AlarmWorkflow.BackendService.Management
 
         #endregion
 
-        public override void OnStart()
-        {
-            base.OnStart();
-
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
-            {
-
-            }
-        }
-
         #region IOperationServiceInternal Members
 
         /// <summary>
