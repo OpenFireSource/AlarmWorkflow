@@ -9,12 +9,17 @@ Generelles
   * [OCR] Cuneiform entfernt.
   * [OperationFileExporter] Exportieren in benutzerdefiniertes Format möglich.
   * [ExternalToolJob] ExternalToolUIJob und ExternalToolIdleUIJob zusammengefasst. Bitte Einstellungen erneut vornehmen!
+  * [EMK] Einsatzmittelkonfiguration integriert. Aktuell nur in Verwendung von der UI.
 
 Parser
 
   * Neuer Parser für LST Mansfeld/Südharz
   * Parser für LSTKleve um das Feld Besonderheit erweitert und Schlüsselwörter an neues Layout angepasst.
   * Auslesen der Einsatzmittel in dem Parser für die ILS Coburg berichtigt.
+
+UI
+
+  * Website und Windows UI verwenden die Einsatzmittelkonfiguration.
 
 Gelöste Probleme seit v0.9.5.0
 ------------------------------
