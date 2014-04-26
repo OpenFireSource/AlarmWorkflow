@@ -126,20 +126,14 @@
   <data name="SettingsConfigurationEmbResInvalidValueContent" xml:space="preserve">
     <value>Encountered not supported node type of '{0}' in setting '{1}'. Only plain values and CDATA-nodes are currently supported!</value>
   </data>
-  <data name="SettingsConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings configuration from assembly '{0}'.</value>
-  </data>
   <data name="SettingsConfigurationEmbResParseFailed" xml:space="preserve">
     <value>Parsing of settings configuration file from assembly '{0}' failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version.</value>
   </data>
   <data name="SettingsConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
-  </data>
-  <data name="SettingsDisplayConfigurationEmbResLoaded" xml:space="preserve">
-    <value>Loaded settings display configuration from assembly '{0}'.</value>
+    <value>The settings configuration file found in assembly '{0}' contains invalid XML data!</value>
   </data>
   <data name="SettingsDisplayConfigurationEmbResXmlException" xml:space="preserve">
-    <value>The settings display configuration file found in assembly '{0}' contains invalid XML data! The error message was: {1}</value>
+    <value>The settings display configuration file found in assembly '{0}' contains invalid XML data!</value>
   </data>
   <data name="SettingsDisplayConfigurationNotFoundException" xml:space="preserve">
     <value>There was no SettingsDisplayConfiguration found in this instance. Perhaps this instance was not initialized with "IncludeDisplayConfiguration" or it was and the configuration is not available at this point.</value>

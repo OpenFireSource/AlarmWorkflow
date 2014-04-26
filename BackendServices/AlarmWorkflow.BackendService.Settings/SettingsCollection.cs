@@ -99,41 +99,31 @@ namespace AlarmWorkflow.BackendService.Settings
                     Assembly assembly = Assembly.LoadFile(assemblyFile);
                     assemblyLocation = assembly.Location;
 
-                    // Try to locate and load the embedded resource file
                     string embResText = assembly.GetEmbeddedResourceText(SettingsConfigurationEmbeddedResourceFileName);
-                    // If the assembly has no such settings configuration, skip further processing.
                     if (string.IsNullOrWhiteSpace(embResText))
                     {
                         continue;
                     }
 
-                    // Try to parse the settings configuration file
                     XDocument settingsConfigurationXml = XDocument.Parse(embResText);
 
                     SettingsConfigurationFile scf = SettingsConfigurationFileParser.Parse(settingsConfigurationXml);
-                    // Make a check if the configuration file has failed to parse
                     if (scf == null)
                     {
                         Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsConfigurationEmbResParseFailed, assemblyLocation);
                         continue;
                     }
 
-                    // Success. Add the file to the dictionary.
                     _settings[scf.Identifier] = scf;
-
-                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.SettingsConfigurationEmbResLoaded, assemblyLocation);
                 }
                 catch (XmlException ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsConfigurationEmbResXmlException, assemblyLocation, ex.Message);
+                    Logger.Instance.LogException(this, ex);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsConfigurationEmbResXmlException, assemblyLocation);
                 }
                 catch (BadImageFormatException)
                 {
                     // We can ignore this exception because it may occur with unmanaged dlls.
-                }
-                catch (Exception)
-                {
-                    throw;
                 }
             }
         }
@@ -151,9 +141,7 @@ namespace AlarmWorkflow.BackendService.Settings
                     Assembly assembly = Assembly.LoadFile(assemblyFile);
                     assemblyLocation = assembly.Location;
 
-                    // Try to locate and load the embedded resource file
                     string embResText = assembly.GetEmbeddedResourceText(EmbeddedResourceFileName);
-                    // If the assembly has no such settings configuration, skip further processing.
                     if (string.IsNullOrWhiteSpace(embResText))
                     {
                         continue;
@@ -162,12 +150,11 @@ namespace AlarmWorkflow.BackendService.Settings
 
                     XDocument doc = XDocument.Parse(embResText);
                     ParseDisplayConfigAndAdd(doc, config);
-
-                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.SettingsDisplayConfigurationEmbResLoaded, assemblyLocation);
                 }
                 catch (XmlException ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsDisplayConfigurationEmbResLoaded, assemblyLocation, ex.Message);
+                    Logger.Instance.LogException(this, ex);
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SettingsDisplayConfigurationEmbResXmlException, assemblyLocation);
                 }
                 catch (BadImageFormatException)
                 {
@@ -180,7 +167,6 @@ namespace AlarmWorkflow.BackendService.Settings
                 }
             }
 
-            // Done loading!
             _displayConfiguration = config;
         }
 

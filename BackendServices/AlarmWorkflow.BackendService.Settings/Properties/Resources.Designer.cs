@@ -88,15 +88,6 @@ namespace AlarmWorkflow.BackendService.Settings.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loaded settings configuration from assembly &apos;{0}&apos;..
-        /// </summary>
-        internal static string SettingsConfigurationEmbResLoaded {
-            get {
-                return ResourceManager.GetString("SettingsConfigurationEmbResLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Parsing of settings configuration file from assembly &apos;{0}&apos; failed. The file may contain invalid or missing information that is expected to be present in the specified configuration version..
         /// </summary>
         internal static string SettingsConfigurationEmbResParseFailed {
@@ -106,7 +97,7 @@ namespace AlarmWorkflow.BackendService.Settings.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The settings configuration file found in assembly &apos;{0}&apos; contains invalid XML data! The error message was: {1}.
+        ///   Looks up a localized string similar to The settings configuration file found in assembly &apos;{0}&apos; contains invalid XML data!.
         /// </summary>
         internal static string SettingsConfigurationEmbResXmlException {
             get {
@@ -115,16 +106,7 @@ namespace AlarmWorkflow.BackendService.Settings.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loaded settings display configuration from assembly &apos;{0}&apos;..
-        /// </summary>
-        internal static string SettingsDisplayConfigurationEmbResLoaded {
-            get {
-                return ResourceManager.GetString("SettingsDisplayConfigurationEmbResLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The settings display configuration file found in assembly &apos;{0}&apos; contains invalid XML data! The error message was: {1}.
+        ///   Looks up a localized string similar to The settings display configuration file found in assembly &apos;{0}&apos; contains invalid XML data!.
         /// </summary>
         internal static string SettingsDisplayConfigurationEmbResXmlException {
             get {
