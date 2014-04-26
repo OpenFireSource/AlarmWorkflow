@@ -5,5 +5,7 @@
              Description="Welche Aufgaben nach eingehenden Alarmen ausgeführt werden sollen." />
     <Setting Name="AlarmSourcesConfiguration" DisplayText="Alarmquellen" Category="Erweitert" Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.BackendService.EngineContracts.IAlarmSource, AlarmWorkflow.BackendService.EngineContracts"
              Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
+    <Setting Name="IgnoreOperationsWithSameOperationNumber" DisplayText="Mehrfache Alarme mit gleicher Einsatznr. unterbinden" Category="Erweitert" IsDynamic="true"
+             Description="Verhindert, dass ein Alarm, dessen Einsatznr. (z.B. durch Tests) bereits existiert, alle Routinen erneut ausführt." />
   </Identifier>
 </SettingsDisplayConfiguration>

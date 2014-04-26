@@ -1,0 +1,3 @@
+[submodule "externals/S22.Imap"]
+	path = externals/S22.Imap
+	url = https://github.com/OpenFireSource/S22.Imap

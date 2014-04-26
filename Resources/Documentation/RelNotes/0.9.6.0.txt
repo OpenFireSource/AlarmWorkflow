@@ -10,11 +10,20 @@ Generelles
   * [OperationFileExporter] Exportieren in benutzerdefiniertes Format möglich.
   * [ExternalToolJob] ExternalToolUIJob und ExternalToolIdleUIJob zusammengefasst. Bitte Einstellungen erneut vornehmen!
   * [EMK] Einsatzmittelkonfiguration integriert. Aktuell nur in Verwendung von der UI.
+  * [SMSJob] Smstrade als Anbieter für den SMS Job hinzugefügt. API-Key muss unter Passwort eingetragen werden.
+  * [SMSJob] Nachrichtenformat wird nun dynamisch übernommen.
+  * [OperationLoopFetcher] Einstellungen werden nun dynamisch übernommen.
+
+Engine
+
+  * Alarme, deren Einsatznummern bereits existieren, führen nicht mehr dazu, dass alle Routinen erneut ausgeführt werden. Dies ist optional und muss in den Einstellungen explizit aktiviert werden.
 
 Parser
 
   * Neuer Parser für LST Mansfeld/Südharz
   * Parser für LSTKleve um das Feld Besonderheit erweitert und Schlüsselwörter an neues Layout angepasst.
+  * Parser für ILS Rosenheim um Feld Einsatzhinweis erweitert.
+  * Parser für ILS Schweinfurt an neues Layout angepasst. 
   * Auslesen der Einsatzmittel in dem Parser für die ILS Coburg berichtigt.
 
 UI

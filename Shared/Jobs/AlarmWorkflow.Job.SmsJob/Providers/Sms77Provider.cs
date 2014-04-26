@@ -49,13 +49,15 @@ namespace AlarmWorkflow.Job.SmsJob.Providers
                 try
                 {
                     WebRequest msg = WebRequest.Create(new Uri(uriBuilder.ToString()));
-                    WebResponse resp = msg.GetResponse();
-                    using (StreamReader streamreader = new StreamReader(resp.GetResponseStream(), Encoding.UTF8))
+                    using (WebResponse resp = msg.GetResponse())
                     {
-                        string response = streamreader.ReadToEnd();
-                        if (response != "100")
+                        using (StreamReader streamreader = new StreamReader(resp.GetResponseStream(), Encoding.UTF8))
                         {
-                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMSProviderErrorMessage, response);
+                            string response = streamreader.ReadToEnd();
+                            if (response != "100")
+                            {
+                                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMSProviderErrorMessage, response);
+                            }
                         }
                     }
                 }

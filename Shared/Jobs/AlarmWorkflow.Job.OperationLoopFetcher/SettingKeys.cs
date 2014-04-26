@@ -1,4 +1,4 @@
-// This file is part of AlarmWorkflow.
+﻿// This file is part of AlarmWorkflow.
 // 
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,12 +15,12 @@
 
 using AlarmWorkflow.Shared.Settings;
 
-namespace AlarmWorkflow.BackendService.Engine
+namespace AlarmWorkflow.Job.OperationLoopFetcher
 {
-    internal static class SettingKeys
+    static class SettingKeys
     {
-        internal static SettingKey AlarmSourcesConfigurationKey = SettingKey.Create("Engine", "AlarmSourcesConfiguration");
-        internal static SettingKey JobsConfigurationKey = SettingKey.Create("Engine", "JobsConfiguration");
-        internal static SettingKey IgnoreOperationsWithSameOperationNumber = SettingKey.Create("Engine", "IgnoreOperationsWithSameOperationNumber");
+        internal static readonly SettingKey LoopsFilePath = SettingKey.Create("OperationLoopFetcherJob", "LoopsFilePath");
+        internal static readonly SettingKey MaxEntryAge = SettingKey.Create("OperationLoopFetcherJob", "MaxEntryAge");
+        internal static readonly SettingKey EntryDateTimeFormat = SettingKey.Create("OperationLoopFetcherJob", "EntryDateTimeFormat");
     }
 }

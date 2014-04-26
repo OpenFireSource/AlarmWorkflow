@@ -45,6 +45,7 @@ namespace AlarmWorkflow.BackendService.Engine
         private JobManager _jobManager;
         private readonly IServiceProvider _serviceProvider;
         private readonly ISettingsServiceInternal _settingsService;
+        private readonly IOperationServiceInternal _operationService;
 
         #endregion
 
@@ -71,7 +72,9 @@ namespace AlarmWorkflow.BackendService.Engine
 
             _configuration = configuration;
             _serviceProvider = serviceProvider;
+
             _settingsService = settings;
+            _operationService = serviceProvider.GetService<IOperationServiceInternal>();
         }
 
         #endregion
@@ -222,6 +225,11 @@ namespace AlarmWorkflow.BackendService.Engine
             Logger.Instance.LogFormat(LogType.Info, this, Resources.AlarmSourceReceivedOperation, operation.ToString(), sender.GetType().Name);
             try
             {
+                if (!ShouldStoreOperation(operation))
+                {
+                    Logger.Instance.LogFormat(LogType.Info, this, Resources.NewAlarmIgnoringAlreadyPresentOperation, operation.OperationNumber);
+                    return;
+                }
 
                 // If there is no timestamp, use the current time.
                 if (operation.Timestamp.Year == 1)
@@ -254,12 +262,22 @@ namespace AlarmWorkflow.BackendService.Engine
             }
         }
 
+        private bool ShouldStoreOperation(Operation operation)
+        {
+            bool settingEnabled = _settingsService.GetSetting(SettingKeys.IgnoreOperationsWithSameOperationNumber).GetValue<bool>();
+            if (settingEnabled)
+            {
+                return !_operationService.ExistsOperation(operation.OperationNumber);
+            }
+
+            return true;
+        }
+
         private Operation StoreOperation(Operation operation)
         {
             try
             {
-                IOperationServiceInternal operationService = _serviceProvider.GetService<IOperationServiceInternal>();
-                return operationService.StoreOperation(operation);
+                return _operationService.StoreOperation(operation);
             }
             catch (Exception ex)
             {

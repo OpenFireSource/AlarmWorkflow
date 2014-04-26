@@ -8,7 +8,7 @@
     <Setting Name="PollInterval" DisplayText="Abfrageintervall" Category="Server" 
              Editor="DurationTypeEditor"
              EditorParameter="Min=500;Max=600000;Scale=Milliseconds" />
-
+    <Setting Name="CodePage" DisplayText="Zeichensatztabelle‎" Description="Gibt die zu verwendende Zeichensatztabelle(Codepage) an. Nähere Informationen entnehmen Sie bitte dem Handbuch." Category="Konto" />
     <Setting Name="UserName" DisplayText="Benutzername" Category="Konto" />
     <Setting Name="Password" DisplayText="Passwort" Category="Konto" />
 

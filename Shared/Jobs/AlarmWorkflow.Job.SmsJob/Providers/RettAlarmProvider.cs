@@ -13,13 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
-using AlarmWorkflow.Shared.Core;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.SmsJob.Providers
@@ -49,13 +49,15 @@ namespace AlarmWorkflow.Job.SmsJob.Providers
                 try
                 {
                     WebRequest msg = WebRequest.Create(new Uri(uriBuilder.ToString()));
-                    WebResponse resp = msg.GetResponse();
-                    using (StreamReader streamreader = new StreamReader(resp.GetResponseStream(), Encoding.UTF8))
+                    using (WebResponse resp = msg.GetResponse())
                     {
-                        string response = streamreader.ReadToEnd();
-                        if (response != "OK")
+                        using (StreamReader streamreader = new StreamReader(resp.GetResponseStream(), Encoding.UTF8))
                         {
-                            Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMSProviderErrorMessage, response);
+                            string response = streamreader.ReadToEnd();
+                            if (response != "OK")
+                            {
+                                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.SendToRecipientSMSProviderErrorMessage, response);
+                            }
                         }
                     }
                 }

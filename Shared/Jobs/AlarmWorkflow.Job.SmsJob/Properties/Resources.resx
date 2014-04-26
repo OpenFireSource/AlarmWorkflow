@@ -141,16 +141,28 @@
   <data name="ExportSms77DisplayName" xml:space="preserve">
     <value>SMS 77</value>
   </data>
+  <data name="ExportSmstradeDescription" xml:space="preserve">
+    <value>Benutzt Smstrade zum Nachrichtenversand.</value>
+  </data>
+  <data name="ExportSmstradeDisplayName" xml:space="preserve">
+    <value>Smstrade</value>
+  </data>
   <data name="NoRecipientsErrorMessage" xml:space="preserve">
     <value>There are no recipients configured!</value>
   </data>
   <data name="PhoneNumberContainsInvalidCharsMessage" xml:space="preserve">
     <value>The phone number '{0}' contains invalid chars! Make sure it does only contain digits (0-9)!</value>
   </data>
+  <data name="SendSmsErrorMessage" xml:space="preserve">
+    <value>An error occurred while sending SMS messages with the selected provider. See log for further information.</value>
+  </data>
   <data name="SendToRecipientGenericErrorMessage" xml:space="preserve">
     <value>An error occurred while sending an SMS to '{0}'.</value>
   </data>
   <data name="SendToRecipientSMSProviderErrorMessage" xml:space="preserve">
     <value>The result from the SMS provider represented an error! Status code = {0}.</value>
+  </data>
+  <data name="SendToRecipientSuccessMessage" xml:space="preserve">
+    <value>SMS was sucessfully delivered to SMS provider. The SMS provider returned: {0}</value>
   </data>
 </root>

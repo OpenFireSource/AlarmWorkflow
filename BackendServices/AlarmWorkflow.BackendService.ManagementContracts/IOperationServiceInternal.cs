@@ -31,6 +31,15 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         event Action<int> OperationAcknowledged;
 
         /// <summary>
+        /// Determines whether or not an <see cref="Operation"/> with the specified operation number does already exist.
+        /// See documentation for further information.
+        /// </summary>
+        /// <remarks>This is the case if the operation was already processed some time ago. For example, if you are running tests
+        /// and place the same native fax in the incoming folder multiple times.</remarks>
+        /// <param name="operationNumber">The operation number to use for checking existence.</param>
+        /// <returns>A boolean value indicating whether or not an <see cref="Operation"/> with the specified operation number does already exist.</returns>
+        bool ExistsOperation(string operationNumber);
+        /// <summary>
         /// Stores the given operation in the database.
         /// </summary>
         /// <param name="operation">The operation to store.</param>

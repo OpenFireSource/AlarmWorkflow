@@ -57,6 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SettingKeys.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OperationLoopFileWriter.bat" />

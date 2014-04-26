@@ -174,21 +174,6 @@ namespace AlarmWorkflow.Shared.Diagnostics
         }
 
         /// <summary>
-        /// Logs formatted text.
-        /// </summary>
-        /// <param name="type">The message type.</param>
-        /// <param name="source">The component from which this type comes. The type name of the instance is used.</param>
-        /// <param name="format">The text to use as the format string.</param>
-        /// <param name="exception">The exception to log. If this is not null, it will create a separate entry just as "LogException" does.</param>
-        /// <param name="arguments">The arguments to use for the format string.</param>
-        public void LogFormat(LogType type, object source, string format, Exception exception, params object[] arguments)
-        {
-            LogEntry entry = new LogEntry(type, GetLogSourceName(source), String.Format(CultureInfo.InvariantCulture, format, arguments));
-            entry.Exception = exception;
-            LogCore(entry);
-        }
-
-        /// <summary>
         /// Initializes the logger.
         /// </summary>
         /// <param name="logName">The name of the log. This will be used as the folder name of this log.</param>

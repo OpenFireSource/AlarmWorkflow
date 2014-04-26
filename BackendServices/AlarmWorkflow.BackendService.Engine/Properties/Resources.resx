@@ -210,4 +210,7 @@
   <data name="SettingsJobDisabled" xml:space="preserve">
     <value>Disabling Job '{0}' because of a settings change.</value>
   </data>
+  <data name="NewAlarmIgnoringAlreadyPresentOperation" xml:space="preserve">
+    <value>The operation with number '{0}' was ignored because it is already present and the setting specified to skip operations that already exist.</value>
+  </data>
 </root>

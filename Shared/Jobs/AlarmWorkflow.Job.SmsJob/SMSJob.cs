@@ -32,6 +32,12 @@ namespace AlarmWorkflow.Job.SmsJob
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     sealed class SmsJob : IJob
     {
+        #region Constants
+
+        private const int SmsMessageMaxLength = 160;
+
+        #endregion
+
         #region Fields
 
         private ISettingsServiceInternal _settings;
@@ -58,11 +64,14 @@ namespace AlarmWorkflow.Job.SmsJob
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            if (context.Phase != JobPhase.AfterOperationStored)
+            if (context.Phase == JobPhase.AfterOperationStored)
             {
-                return;
+                Execute(operation);
             }
+        }
 
+        private void Execute(Operation operation)
+        {
             IList<MobilePhoneEntryObject> recipients = GetRecipients(operation);
             if (recipients.Count == 0)
             {
@@ -70,14 +79,33 @@ namespace AlarmWorkflow.Job.SmsJob
                 return;
             }
 
-            string format = _settings.GetSetting("SMSJob", "MessageFormat").GetValue<string>();
+            string format = _settings.GetSetting(SettingKeys.MessageFormat).GetValue<string>();
             string text = operation.ToString(format);
-            text = text.Replace("Ö", "Oe").Replace("Ä", "Ae").Replace("Ü", "Ue").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace("ß", "ss");
-            // Truncate the string if it is too long
-            text = text.Truncate(160, true, true);
+            text = ReplaceUmlauts(text);
 
-            // Invoke the provider-send asynchronous because it is a web request and may take a while
-            _provider.Send(_userName, _password, recipients.Select(r => r.PhoneNumber), text);
+            text = text.Truncate(SmsMessageMaxLength, true, true);
+
+            try
+            {
+                _provider.Send(_userName, _password, recipients.Select(r => r.PhoneNumber), text);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendSmsErrorMessage);
+            }
+        }
+
+        private static string ReplaceUmlauts(string text)
+        {
+            return text
+                .Replace("Ö", "Oe")
+                .Replace("Ä", "Ae")
+                .Replace("Ü", "Ue")
+                .Replace("ö", "oe")
+                .Replace("ä", "ae")
+                .Replace("ü", "ue")
+                .Replace("ß", "ss");
         }
 
         private IList<MobilePhoneEntryObject> GetRecipients(Operation operation)
@@ -91,9 +119,9 @@ namespace AlarmWorkflow.Job.SmsJob
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
             _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
 
-            _userName = _settings.GetSetting("SMSJob", "UserName").GetValue<string>();
-            _password = _settings.GetSetting("SMSJob", "Password").GetValue<string>();
-            _provider = ExportedTypeLibrary.Import<ISmsProvider>(_settings.GetSetting("SMSJob", "Provider").GetValue<string>());
+            _userName = _settings.GetSetting(SettingKeys.UserName).GetValue<string>();
+            _password = _settings.GetSetting(SettingKeys.Password).GetValue<string>();
+            _provider = ExportedTypeLibrary.Import<ISmsProvider>(_settings.GetSetting(SettingKeys.Provider).GetValue<string>());
 
             return true;
         }
@@ -107,7 +135,7 @@ namespace AlarmWorkflow.Job.SmsJob
 
         #region IDisposable Members
 
-        void System.IDisposable.Dispose()
+        void IDisposable.Dispose()
         {
 
         }
