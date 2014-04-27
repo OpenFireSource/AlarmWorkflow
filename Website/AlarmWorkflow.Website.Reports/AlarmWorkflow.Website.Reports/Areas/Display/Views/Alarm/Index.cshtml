@@ -1,10 +1,12 @@
-﻿@{
+@{
     Layout = "IndexLayout.cshtml";
     ViewBag.Title = "Alarmanzeige";
 
     var config = AlarmWorkflow.Website.Reports.Areas.Display.Models.WebsiteConfiguration.Instance;
 }
 
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"> </script>
 <script type="text/javascript">
     // Stores the current operation, so we don't get the expensive data all over each time.
@@ -13,6 +15,7 @@
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
     var map;
+    var osm;
     var maxZoomService = new google.maps.MaxZoomService();
     var addressCoor = null;
     var showRoute = @(config.Route.ToString().ToLower());
@@ -188,6 +191,8 @@
                                 }
                             });
                         }
+                        osm.setView([result.op.Einsatzort.GeoLatitude,result.op.Einsatzort.GeoLongitude], 16);
+                        L.marker([result.op.Einsatzort.GeoLatitude, result.op.Einsatzort.GeoLongitude]).addTo(osm);
                     }
                 }
             } else {
@@ -208,6 +213,13 @@
     // Poll the service and read operation data, then apply to DOM.
     window.setInterval(loadOperationData, @(config.UpdateIntervalMs));
     $(loadOperationData);
+    $(document).ready(function() {
+        osm = L.map('oosm');
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(osm);
+        L.tileLayer('http://www.openfiremap.org/hytiles/{z}/{x}/{y}.png').addTo(osm);
+    });
 
 </script>
 
@@ -239,8 +251,11 @@
             <td class="alarm" id="ocomment"></td>
         </tr>
         <tr>
-            <td class="alarm" colspan="2" style="height: 40%; width: 100%; padding: 0; margin: 0;">
-                <div style="width: 100%; height: 100%;" id="ogoogle"></div>
+            <td class="alarm" style="padding: 0; margin: 0; height: 40%; width: 50%;">
+                <div id="ogoogle" style="width:100%; height:100%"></div>
+            </td>
+            <td class="alarm" style="padding: 0; margin: 0; height: 40%; width: 50%;">
+                <div id="oosm" style="width:100%; height:100%"></div>
             </td>
         </tr>
         <tr>
