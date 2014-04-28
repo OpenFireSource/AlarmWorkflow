@@ -20,6 +20,7 @@ using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Website.Reports.Areas.Reporting.Models;
+using AlarmWorkflow.Website.Reports.Filters;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
 {
@@ -29,6 +30,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
         /// GET: /Reporting/Alarms/
         /// </summary>
         /// <returns></returns>
+        [CustomHandleError()]
         public ActionResult Index()
         {
             return View(GetAlarms());
@@ -51,6 +53,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
         /// </summary>
         /// <param name="id">Id of the operation.</param>
         /// <returns></returns>
+        [CustomHandleError()]
         public ActionResult Details(int id)
         {
             using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))

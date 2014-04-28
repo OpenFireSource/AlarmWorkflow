@@ -19,13 +19,14 @@ using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI;
-using AlarmWorkflow.BackendService.FileTransferContracts.Client;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.FileTransferContracts.Client;
 using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.BackendService.ManagementContracts.Emk;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Website.Reports.Areas.Display.Models;
+using AlarmWorkflow.Website.Reports.Filters;
 using Microsoft.Win32;
 
 namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
@@ -39,6 +40,7 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
         /// GET: /Display/Alarm/
         /// </summary>
         /// <returns></returns>
+        [CustomHandleError()]
         public ActionResult Index()
         {
             return View();

@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Web.Mvc;
+using AlarmWorkflow.Website.Reports.Filters;
 
 namespace AlarmWorkflow.Website.Reports
 {
@@ -22,6 +23,7 @@ namespace AlarmWorkflow.Website.Reports
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new CustomHandleErrorAttribute());
         }
     }
 }
