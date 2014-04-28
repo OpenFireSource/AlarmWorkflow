@@ -13,12 +13,17 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
+using System.Net.Mime;
+using System.ServiceModel;
 using System.Web.Mvc;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Website.Reports.Areas.Reporting.Models;
 using AlarmWorkflow.Website.Reports.Filters;
 
@@ -69,15 +74,28 @@ namespace AlarmWorkflow.Website.Reports.Areas.Reporting.Controllers
         /// <returns></returns>
         public ActionResult Export(int id)
         {
-            using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))
+            try
             {
-                Operation operation = service.Instance.GetOperationById(id);
-                Stream stream = ExportUtilities.ExportOperation(operation);
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<IOperationService>(new OperationServiceCallback()))
+                {
+                    Operation operation = service.Instance.GetOperationById(id);
+                    Stream stream = ExportUtilities.ExportOperation(operation);
 
-                FileStreamResult result = new FileStreamResult(stream, "text/xml");
-                result.FileDownloadName = string.Format("{0}.xml", id);
-                return result;
+                    FileStreamResult result = new FileStreamResult(stream, MediaTypeNames.Text.Xml);
+                    result.FileDownloadName = string.Format("{0}.xml", id);
+                    return result;
+                }
             }
+            catch (EndpointNotFoundException)
+            {
+                // Silently ignore this exception.
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(this, ex);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
         }
     }
 }
