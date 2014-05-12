@@ -7,7 +7,10 @@
   <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
   <Setting Name="Routine.Interval" Type="System.Int32" IsNull="False">1500</Setting>
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">NoParser</Setting>
-  <Setting Name="TestFaxKeywords" Type="System.String" IsNull="False">
+  <Setting Name="FaxWhitelist" Type="System.String">
+    <![CDATA[]]>
+  </Setting>
+  <Setting Name="FaxBlacklist" Type="System.String" IsNull="False">
     <![CDATA[Testfax
 Test]]>
   </Setting>

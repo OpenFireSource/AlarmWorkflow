@@ -39,7 +39,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
-        internal ReadOnlyCollection<string> TestFaxKeywords { get; private set; }
+        internal ReadOnlyCollection<string> FaxBlacklist { get; private set; }
+        internal ReadOnlyCollection<string> FaxWhitelist { get; private set; }
         internal ReplaceDictionary ReplaceDictionary
         {
             get { return _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>(); }
@@ -66,12 +67,23 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.OCRSoftwarePath = _settings.GetSetting("FaxAlarmSource", "OCR.Path").GetValue<string>();
 
             this.RoutineInterval = _settings.GetSetting("FaxAlarmSource", "Routine.Interval").GetValue<int>();
-            this.TestFaxKeywords = new ReadOnlyCollection<string>(_settings.GetSetting("FaxAlarmSource", "TestFaxKeywords").GetValue<string>().Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries));
+            this.FaxWhitelist = new ReadOnlyCollection<string>(GetSplit(_settings.GetSetting(FaxSettingKeys.FaxWhitelist).GetValue<string>()));
+            this.FaxBlacklist = new ReadOnlyCollection<string>(GetSplit(_settings.GetSetting(FaxSettingKeys.FaxBlacklist).GetValue<string>()));
         }
 
         #endregion
 
         #region Methods
+
+        private static string[] GetSplit(string input)
+        {
+            if (input == null)
+            {
+                return new string[0];
+            }
+
+            return input.Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

@@ -171,46 +171,49 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
 
             Operation operation = null;
-            Stopwatch sw = Stopwatch.StartNew();
             try
             {
                 Logger.Instance.LogFormat(LogType.Trace, this, "Begin parsing incoming operation...");
 
                 string[] lines = analyzedLines.ToArray();
 
-                if (IsTestFax(lines))
+                if (!IsOnWhitelist(lines))
                 {
-                    sw.Stop();
+                    Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.FaxIsNotOnWhitelist);
+                    return;
+                }
+
+                if (IsOnBlacklist(lines))
+                {
                     Logger.Instance.LogFormat(LogType.Trace, this, "Operation is a test-fax. Parsing is skipped.");
+                    return;
                 }
-                else
+
+                Stopwatch sw = Stopwatch.StartNew();
+
+                operation = _parser.Parse(lines);
+
+                sw.Stop();
+                Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+
+                // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
+                if (operation.Timestamp == DateTime.MinValue)
                 {
-                    operation = _parser.Parse(lines);
-
-                    sw.Stop();
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
-
-                    // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
-                    if (operation.Timestamp == DateTime.MinValue)
-                    {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
-                        operation.Timestamp = DateTime.Now;
-                    }
-
-                    Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
-                    ctxParameters["ArchivedFilePath"] = archivedFilePath;
-                    ctxParameters["ImagePath"] = file.FullName;
-
-                    AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
-                    args.Parameters = ctxParameters;
-
-                    // Raise event...
-                    OnNewAlarm(args);
+                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                    operation.Timestamp = DateTime.Now;
                 }
+
+                Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
+                ctxParameters["ArchivedFilePath"] = archivedFilePath;
+                ctxParameters["ImagePath"] = file.FullName;
+
+                AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
+                args.Parameters = ctxParameters;
+
+                OnNewAlarm(args);
             }
             catch (Exception ex)
             {
-                sw.Stop();
                 Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
                 Logger.Instance.LogException(this, ex);
             }
@@ -246,10 +249,19 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
         }
 
-        // Checks the raw line contents for any occurrences of test-fax keywords.
-        private bool IsTestFax(string[] lines)
+        private bool IsOnBlacklist(string[] lines)
         {
-            return lines.Any(l => _configuration.TestFaxKeywords.Any(kw => l.Contains(kw)));
+            return lines.Any(l => _configuration.FaxBlacklist.Any(kw => l.Contains(kw)));
+        }
+
+        private bool IsOnWhitelist(string[] lines)
+        {
+            if (_configuration.FaxWhitelist.Count == 0)
+            {
+                return true;
+            }
+
+            return lines.Any(l => _configuration.FaxWhitelist.Any(kw => l.Contains(kw)));
         }
 
         #endregion
