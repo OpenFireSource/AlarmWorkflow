@@ -462,10 +462,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             // Always select the "Shared" section
             _sections.First(s => s.Identifier == SectionNameShared).IsSelected = true;
 
-            // Apply sorting
-            ICollectionView view = CollectionViewSource.GetDefaultView(this.Sections);
-            view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+            ICollectionView view = CollectionViewSource.GetDefaultView(_sections);
             view.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
 
         internal IEnumerable<GroupedSectionViewModel> GetAllSections()

@@ -13,7 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
@@ -22,7 +24,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
     {
         #region Properties
 
-        public List<GroupedSectionViewModel> Children { get; private set; }
+        public ObservableCollection<GroupedSectionViewModel> Children { get; private set; }
         public SectionViewModel Section { get; private set; }
 
         public bool IsSelected { get; set; }
@@ -36,7 +38,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         internal GroupedSectionViewModel(SectionViewModel section)
         {
-            Children = new List<GroupedSectionViewModel>();
+            Children = new ObservableCollection<GroupedSectionViewModel>();
+
+            ICollectionView view = CollectionViewSource.GetDefaultView(Children);
+            view.SortDescriptions.Add(new SortDescription("Header", ListSortDirection.Ascending));
+            view.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
 
             if (section != null)
             {
