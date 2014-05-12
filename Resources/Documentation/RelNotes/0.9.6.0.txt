@@ -15,6 +15,7 @@ Generelles
   * [OperationLoopFetcher] Einstellungen werden nun dynamisch übernommen.
   * [FaxAlarmSource] "Test-Fax-Schlüsselwörter" umbenannt in "Blacklist". Einstellungen müssen erneut vorgenommen werden.
   * [FaxAlarmSource] Whitelist eingeführt. Diese wird vor der Blacklist ausgeführt als eine Art "Vorfilter".
+  * Mehr Einstellungen sind nun dynamisch änderbar.
 
 Engine
 

@@ -256,12 +256,13 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         private bool IsOnWhitelist(string[] lines)
         {
-            if (_configuration.FaxWhitelist.Count == 0)
+            IEnumerable<string> whitelist = _configuration.FaxWhitelist;
+            if (!whitelist.Any())
             {
                 return true;
             }
 
-            return lines.Any(l => _configuration.FaxWhitelist.Any(kw => l.Contains(kw)));
+            return lines.Any(l => whitelist.Any(kw => l.Contains(kw)));
         }
 
         #endregion

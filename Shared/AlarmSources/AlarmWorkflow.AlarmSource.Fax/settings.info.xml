@@ -22,9 +22,9 @@
              Editor="DurationTypeEditor"
              EditorParameter="Min=500;Max=60000;Scale=Milliseconds" />
 
-    <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor"
+    <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
              Description="Nur Faxe mit min. einem dieser Worte werden ausgewertet. Wird vor der Blacklist ausgewertet." />
-    <Setting Name="FaxBlacklist" DisplayText="Blacklist" Category="Black/Whitelist" Editor="StringArrayTypeEditor"
+    <Setting Name="FaxBlacklist" DisplayText="Blacklist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
              Description="Faxe mit einem oder mehreren dieser Worte werden nicht ausgewertet." />
 
   </Identifier>

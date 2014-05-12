@@ -14,7 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
@@ -39,8 +39,17 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
         internal int RoutineInterval { get; private set; }
-        internal ReadOnlyCollection<string> FaxBlacklist { get; private set; }
-        internal ReadOnlyCollection<string> FaxWhitelist { get; private set; }
+
+        internal IEnumerable<string> FaxBlacklist
+        {
+            get { return GetSplit(_settings.GetSetting(FaxSettingKeys.FaxBlacklist).GetValue<string>()); }
+        }
+
+        internal IEnumerable<string> FaxWhitelist
+        {
+            get { return GetSplit(_settings.GetSetting(FaxSettingKeys.FaxWhitelist).GetValue<string>()); }
+        }
+
         internal ReplaceDictionary ReplaceDictionary
         {
             get { return _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>(); }
@@ -67,8 +76,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.OCRSoftwarePath = _settings.GetSetting("FaxAlarmSource", "OCR.Path").GetValue<string>();
 
             this.RoutineInterval = _settings.GetSetting("FaxAlarmSource", "Routine.Interval").GetValue<int>();
-            this.FaxWhitelist = new ReadOnlyCollection<string>(GetSplit(_settings.GetSetting(FaxSettingKeys.FaxWhitelist).GetValue<string>()));
-            this.FaxBlacklist = new ReadOnlyCollection<string>(GetSplit(_settings.GetSetting(FaxSettingKeys.FaxBlacklist).GetValue<string>()));
         }
 
         #endregion
