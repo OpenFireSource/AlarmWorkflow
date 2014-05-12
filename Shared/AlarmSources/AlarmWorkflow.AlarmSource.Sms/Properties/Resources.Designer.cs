@@ -79,6 +79,15 @@ namespace AlarmWorkflow.AlarmSource.Sms.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SMS AlarmSource client handler thread.
+        /// </summary>
+        internal static string SmsAlarmClientThreadName {
+            get {
+                return ResourceManager.GetString("SmsAlarmClientThreadName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An error occurred while parsing the SMS contents!.
         /// </summary>
         internal static string SmsParserError {

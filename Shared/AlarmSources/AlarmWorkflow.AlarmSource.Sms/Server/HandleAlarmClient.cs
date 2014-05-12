@@ -14,93 +14,56 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using AlarmWorkflow.Shared.Diagnostics;
 
-namespace AlarmWorkflow.AlarmSource.Sms
+namespace AlarmWorkflow.AlarmSource.Sms.Server
 {
-    class AlarmServer
-    {
-        #region Fields
-
-        private readonly SmsAlarmSource _parent;
-
-        #endregion
-
-        #region Properties
-
-        internal TcpListener ServerSocket { get; set; }
-        internal TcpClient ClientSocket { get; set; }
-
-        #endregion
-
-        #region Constructors
-
-        internal AlarmServer(SmsAlarmSource parent)
-        {
-            //Sets the parent
-            this._parent = parent;
-            //Starts a Server listening on the Port 5555 and any IP Address
-            ServerSocket = new TcpListener(IPAddress.Any, 5555);
-            ClientSocket = default(TcpClient);
-        }
-
-        #endregion
-
-        #region Methods
-
-        internal void Start()
-        {
-            ServerSocket.Start();
-            while (true)
-            {
-                ClientSocket = ServerSocket.AcceptTcpClient();
-                HandleAlarmClient client = new HandleAlarmClient();
-                client.StartClient(ClientSocket, _parent);
-            }
-        }
-
-        internal void Stop()
-        {
-            if (ClientSocket != null)
-            {
-                ClientSocket.Close();
-            }
-            ServerSocket.Stop();
-        }
-
-        #endregion
-
-    }
-
-
     class HandleAlarmClient
     {
+        #region Constants
+
+        private const int BufferSize = 10025;
+
+        #endregion
+
         #region Fields
 
-        private readonly UTF8Encoding _encoding = new UTF8Encoding();
+        private readonly UTF8Encoding _encoding;
         private TcpClient _clientSocket;
         private SmsAlarmSource _parent;
 
         #endregion
 
+        #region Constructors
+
+        internal HandleAlarmClient()
+        {
+            _encoding = new UTF8Encoding();
+        }
+
+        #endregion
+
         #region Methods
 
-        internal void StartClient(TcpClient inClientSocket, SmsAlarmSource parent)
+        internal void StartClient(TcpClient clientSocket, SmsAlarmSource parent)
         {
+            if (clientSocket == null)
+            {
+                throw new ArgumentNullException("clientSocket");
+            }
             if (parent == null)
             {
                 throw new ArgumentNullException("parent");
             }
 
-            _clientSocket = inClientSocket;
+            _clientSocket = clientSocket;
             _parent = parent;
 
             Thread ctThread = new Thread(ReceiveThread);
-            ctThread.Name = "SMS AlarmSource alarm server thread";
+            ctThread.Name = Properties.Resources.SmsAlarmClientThreadName;
             ctThread.Priority = ThreadPriority.BelowNormal;
             ctThread.IsBackground = true;
             ctThread.Start();
@@ -108,18 +71,19 @@ namespace AlarmWorkflow.AlarmSource.Sms
 
         private void ReceiveThread()
         {
-            byte[] bytesFrom = new byte[10025];
+            byte[] buffer = new byte[BufferSize];
             try
             {
                 using (NetworkStream networkStream = _clientSocket.GetStream())
                 {
-                    int received = networkStream.Read(bytesFrom, 0, _clientSocket.ReceiveBufferSize);
+                    int received = networkStream.Read(buffer, 0, _clientSocket.ReceiveBufferSize);
                     if (received == 0)
                     {
                         return;
                     }
 
-                    string alarmText = _encoding.GetString(bytesFrom, 0, received);
+                    string alarmText = _encoding.GetString(buffer, 0, received);
+
                     _parent.PushIncomingAlarm(alarmText);
                 }
             }
@@ -131,6 +95,5 @@ namespace AlarmWorkflow.AlarmSource.Sms
         }
 
         #endregion
-
     }
 }

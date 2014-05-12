@@ -16,6 +16,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using AlarmWorkflow.AlarmSource.Sms.Server;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared;
@@ -59,7 +60,7 @@ namespace AlarmWorkflow.AlarmSource.Sms
             alarmText = _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>().ReplaceInString(alarmText);
 
             Operation operation = null;
-            // Let the parser do the job...
+
             try
             {
                 operation = _parser.Parse(new[] { alarmText });
@@ -85,8 +86,8 @@ namespace AlarmWorkflow.AlarmSource.Sms
         void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
-            
-            string smsParserAlias = _settings.GetSetting("SmsAlarmSource", "SMSParser").GetValue<string>();
+
+            string smsParserAlias = _settings.GetSetting(SmsSettingKeys.SmsParser).GetValue<string>();
 
             _parser = ExportedTypeLibrary.Import<IParser>(smsParserAlias);
             if (_parser == null)
@@ -128,6 +129,5 @@ namespace AlarmWorkflow.AlarmSource.Sms
         }
 
         #endregion
-
     }
 }

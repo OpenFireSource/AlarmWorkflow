@@ -13,28 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Settings;
 
 namespace AlarmWorkflow.AlarmSource.Sms
 {
-    [Export("DefaultSMSParser", typeof(IParser))]
-    class DefaultSMSParser : IParser
+    static class SmsSettingKeys
     {
-        #region ISmsParser Members
-
-        Operation IParser.Parse(string[] lines)
-        {
-            string text = string.Join("", lines);
-
-            Operation operation = new Operation();
-            operation.Timestamp = DateTime.Now;
-            operation.Comment = text;
-
-            return operation;
-        }
-
-        #endregion
+        internal static readonly SettingKey SmsParser = SettingKey.Create("SmsAlarmSource", "SMSParser");
     }
 }

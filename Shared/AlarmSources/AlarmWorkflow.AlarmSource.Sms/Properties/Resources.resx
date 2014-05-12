@@ -123,6 +123,9 @@
   <data name="ExportAlarmSourceDisplayName" xml:space="preserve">
     <value>SMS</value>
   </data>
+  <data name="SmsAlarmClientThreadName" xml:space="preserve">
+    <value>SMS AlarmSource client handler thread</value>
+  </data>
   <data name="SmsParserError" xml:space="preserve">
     <value>An error occurred while parsing the SMS contents!</value>
   </data>

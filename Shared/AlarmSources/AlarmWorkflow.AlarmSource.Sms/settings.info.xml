@@ -1,9 +1,5 @@
 ﻿<SettingsDisplayConfiguration>
-
-  <Identifier Name="SmsAlarmSource" DisplayText="SMS" Order="-5000" Parent="Alarmquelle">
-
+  <Identifier Name="SmsAlarmSource" DisplayText="SMS" Parent="Alarmquelle">
     <Setting Name="SMSParser" DisplayText="Parser" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared" />
-
   </Identifier>
-
 </SettingsDisplayConfiguration>
