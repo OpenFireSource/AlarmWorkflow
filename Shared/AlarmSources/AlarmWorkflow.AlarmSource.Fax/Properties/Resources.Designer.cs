@@ -61,11 +61,47 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Begin parsing incoming operation....
+        /// </summary>
+        internal static string BeginParsingIncomingOperation {
+            get {
+                return ResourceManager.GetString("BeginParsingIncomingOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing &apos;{0}&apos; new faxes....
+        /// </summary>
+        internal static string BeginProcessingFaxes {
+            get {
+                return ResourceManager.GetString("BeginProcessingFaxes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created required directory &apos;{0}&apos;..
+        /// </summary>
+        internal static string CreatedRequiredDirectory {
+            get {
+                return ResourceManager.GetString("CreatedRequiredDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not delete temporary file &apos;{0}&apos;! You may want to delete them manually. See log for further information..
         /// </summary>
         internal static string CuneiformDeleteTempFileError {
             get {
                 return ResourceManager.GetString("CuneiformDeleteTempFileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance..
+        /// </summary>
+        internal static string ErrorCreatingRequiredDirectory {
+            get {
+                return ResourceManager.GetString("ErrorCreatingRequiredDirectory", resourceCulture);
             }
         }
         
@@ -115,11 +151,47 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The fax is blacklisted. Parsing is skipped..
+        /// </summary>
+        internal static string FaxIsOnBlacklist {
+            get {
+                return ResourceManager.GetString("FaxIsOnBlacklist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Using OCR software &apos;{0}&apos;..
         /// </summary>
         internal static string InitializeUsingOcrSoftware {
             get {
                 return ResourceManager.GetString("InitializeUsingOcrSoftware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t move file. Try {0} of {1}!.
+        /// </summary>
+        internal static string MoveFileAttemptError {
+            get {
+                return ResourceManager.GetString("MoveFileAttemptError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Couldn&apos;t move file! See log for more details..
+        /// </summary>
+        internal static string MoveFileFailure {
+            get {
+                return ResourceManager.GetString("MoveFileFailure", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The OCR software &apos;{0}&apos; was suggested to be found in path &apos;{1}&apos;, which doesn&apos;t exist!.
+        /// </summary>
+        internal static string OcrSoftwareNotFoundError {
+            get {
+                return ResourceManager.GetString("OcrSoftwareNotFoundError", resourceCulture);
             }
         }
         
@@ -151,6 +223,24 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation parsed in &apos;{0}&apos; milliseconds..
+        /// </summary>
+        internal static string ParsingOperationCompleted {
+            get {
+                return ResourceManager.GetString("ParsingOperationCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not parse timestamp from the fax. Using the current time as the timestamp..
+        /// </summary>
+        internal static string ParsingTimestampFailedUsingCurrentTime {
+            get {
+                return ResourceManager.GetString("ParsingTimestampFailedUsingCurrentTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Process data event: {0}.
         /// </summary>
         internal static string ProcessDataEvent {
@@ -165,6 +255,60 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         internal static string ProcessErrorEvent {
             get {
                 return ResourceManager.GetString("ProcessErrorEvent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Processing finished..
+        /// </summary>
+        internal static string ProcessingFaxesComplete {
+            get {
+                return ResourceManager.GetString("ProcessingFaxesComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An exception occurred while processing the alarmfax!.
+        /// </summary>
+        internal static string ProcessNewImageError {
+            get {
+                return ResourceManager.GetString("ProcessNewImageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using directory &apos;{0}&apos; for analyzed faxes..
+        /// </summary>
+        internal static string UsingAnalyzedFaxDirectory {
+            get {
+                return ResourceManager.GetString("UsingAnalyzedFaxDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using directory &apos;{0}&apos; for archived faxes..
+        /// </summary>
+        internal static string UsingArchivedFaxDirectory {
+            get {
+                return ResourceManager.GetString("UsingArchivedFaxDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using directory &apos;{0}&apos; for incoming faxes..
+        /// </summary>
+        internal static string UsingIncomingFaxDirectory {
+            get {
+                return ResourceManager.GetString("UsingIncomingFaxDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using parser &apos;{0}&apos;..
+        /// </summary>
+        internal static string UsingParserTrace {
+            get {
+                return ResourceManager.GetString("UsingParserTrace", resourceCulture);
             }
         }
     }

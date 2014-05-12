@@ -38,6 +38,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
         #region Constants
 
         private const int ErrorRetryCount = 10;
+        private const string AnalyzedFileNameFormat = "yyyyMMddHHmmssffff";
+        private const string ArchivedFilePathExtension = ".tif";
+        private const int MoveFileAttemptDelayMs = 200;
 
         #endregion
 
@@ -87,7 +90,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 return;
             }
 
-            throw new DirectoryNotFoundException(string.Format("The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!", _configuration.OCRSoftware, _configuration.OCRSoftwarePath));
+            throw new DirectoryNotFoundException(string.Format(Properties.Resources.OcrSoftwareNotFoundError, _configuration.OCRSoftware, _configuration.OCRSoftwarePath));
         }
 
         /// <summary>
@@ -104,22 +107,22 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 if (!_faxPath.Exists)
                 {
                     _faxPath.Create();
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _faxPath.FullName);
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.CreatedRequiredDirectory, _faxPath.FullName);
                 }
                 if (!_archivePath.Exists)
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _archivePath.FullName);
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.CreatedRequiredDirectory, _archivePath.FullName);
                     _archivePath.Create();
                 }
                 if (!_analysisPath.Exists)
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Created required directory '{0}'.", _analysisPath.FullName);
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.CreatedRequiredDirectory, _analysisPath.FullName);
                     _analysisPath.Create();
                 }
             }
             catch (IOException)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.");
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ErrorCreatingRequiredDirectory);
             }
         }
 
@@ -127,14 +130,10 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             EnsureDirectoriesExist();
 
-            string analyseFileName = DateTime.Now.ToString("yyyyMMddHHmmssffff");
-            string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ".tif");
+            string analyseFileName = DateTime.Now.ToString(AnalyzedFileNameFormat);
+            string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ArchivedFilePathExtension);
 
-            // Moves the file to a different location, and throws if it failed.
             MoveFileTo(file, archivedFilePath);
-
-            List<string> analyzedLines = new List<string>();
-            Stopwatch swParse = new Stopwatch();
 
             string[] parsedLines = null;
             try
@@ -146,7 +145,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                 Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, file.FullName);
 
-                swParse.Start();
+                Stopwatch swParse = Stopwatch.StartNew();
 
                 parsedLines = _ocrSoftware.ProcessImage(options);
 
@@ -156,15 +155,14 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
             catch (Exception ex)
             {
-                swParse.Stop();
-
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareParseEndFail);
                 Logger.Instance.LogException(this, ex);
-                // Abort parsing
                 return;
             }
 
+            IList<string> analyzedLines = new List<string>();
             ReplaceDictionary replDict = _configuration.ReplaceDictionary;
+
             foreach (string preParsedLine in parsedLines)
             {
                 analyzedLines.Add(replDict.ReplaceInString(preParsedLine));
@@ -173,7 +171,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             Operation operation = null;
             try
             {
-                Logger.Instance.LogFormat(LogType.Trace, this, "Begin parsing incoming operation...");
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginParsingIncomingOperation);
 
                 string[] lines = analyzedLines.ToArray();
 
@@ -185,7 +183,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                 if (IsOnBlacklist(lines))
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Operation is a test-fax. Parsing is skipped.");
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.FaxIsOnBlacklist);
                     return;
                 }
 
@@ -194,18 +192,18 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 operation = _parser.Parse(lines);
 
                 sw.Stop();
-                Logger.Instance.LogFormat(LogType.Trace, this, "Parsed operation in '{0}' milliseconds.", sw.ElapsedMilliseconds);
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ParsingOperationCompleted, sw.ElapsedMilliseconds);
 
                 // If there is no timestamp, use the current time. Not too good but better than MinValue :-/
                 if (operation.Timestamp == DateTime.MinValue)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, "Could not parse timestamp from the fax. Using the current time as the timestamp.");
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ParsingTimestampFailedUsingCurrentTime);
                     operation.Timestamp = DateTime.Now;
                 }
 
-                Dictionary<string, object> ctxParameters = new Dictionary<string, object>();
-                ctxParameters["ArchivedFilePath"] = archivedFilePath;
-                ctxParameters["ImagePath"] = file.FullName;
+                IDictionary<string, object> ctxParameters = new Dictionary<string, object>();
+                ctxParameters[ContextParameterKeys.ArchivedFilePath] = archivedFilePath;
+                ctxParameters[ContextParameterKeys.ImagePath] = file.FullName;
 
                 AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
                 args.Parameters = ctxParameters;
@@ -214,7 +212,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Warning, this, "An exception occurred while processing the alarmfax!");
+                Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ProcessNewImageError);
                 Logger.Instance.LogException(this, ex);
             }
         }
@@ -222,10 +220,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private void MoveFileTo(FileInfo file, string archivedFilePath)
         {
             bool fileIsMoved = false;
-            int tried = 0;
+            int attemptNr = 0;
+
             while (!fileIsMoved)
             {
-                tried++;
+                attemptNr++;
                 try
                 {
                     file.MoveTo(archivedFilePath);
@@ -233,16 +232,15 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
                 catch (IOException ex)
                 {
-                    if (tried < ErrorRetryCount)
+                    if (attemptNr < ErrorRetryCount)
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, "Coudn't move file. Try {0} of {1}!", tried, ErrorRetryCount);
-                        Thread.Sleep(200);
-                        fileIsMoved = false;
+                        Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.MoveFileAttemptError, attemptNr, ErrorRetryCount);
+
+                        Thread.Sleep(MoveFileAttemptDelayMs);
                     }
                     else
                     {
-                        // Don't throw exception here, it will effectively stop the service. Issue warning and go ahead.
-                        Logger.Instance.LogFormat(LogType.Error, this, "Coundn't move file. See log for more details.");
+                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.MoveFileFailure);
                         Logger.Instance.LogException(this, ex);
                     }
                 }
@@ -293,17 +291,20 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
 
             InitializeOcrSoftware();
+            InitializeParser();
+        }
 
-            // Import parser with the given name/alias
+        private void InitializeParser()
+        {
             _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
-            Logger.Instance.LogFormat(LogType.Info, this, "Using parser '{0}'.", _parser.GetType().FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingParserTrace, _parser.GetType().FullName);
         }
 
         void IAlarmSource.RunThread()
         {
-            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for incoming faxes.", _faxPath.FullName);
-            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for analyzed faxes.", _analysisPath.FullName);
-            Logger.Instance.LogFormat(LogType.Trace, this, "Using directory '{0}' for archived faxes.", _archivePath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingArchivedFaxDirectory, _archivePath.FullName);
 
             EnsureDirectoriesExist();
 
@@ -312,15 +313,16 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 FileInfo[] files = _faxPath.GetFiles("*.tif", SearchOption.TopDirectoryOnly);
                 if (files.Length > 0)
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Processing '{0}' new faxes...", files.Length);
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
 
                     foreach (FileInfo file in files)
                     {
                         ProcessNewImage(file);
                     }
 
-                    Logger.Instance.LogFormat(LogType.Trace, this, "Processing finished.");
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
                 }
+
                 Thread.Sleep(_configuration.RoutineInterval);
             }
         }

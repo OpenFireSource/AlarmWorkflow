@@ -117,8 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BeginParsingIncomingOperation" xml:space="preserve">
+    <value>Begin parsing incoming operation...</value>
+  </data>
+  <data name="BeginProcessingFaxes" xml:space="preserve">
+    <value>Processing '{0}' new faxes...</value>
+  </data>
+  <data name="CreatedRequiredDirectory" xml:space="preserve">
+    <value>Created required directory '{0}'.</value>
+  </data>
   <data name="CuneiformDeleteTempFileError" xml:space="preserve">
     <value>Could not delete temporary file '{0}'! You may want to delete them manually. See log for further information.</value>
+  </data>
+  <data name="ErrorCreatingRequiredDirectory" xml:space="preserve">
+    <value>Could not create any of the default directories. Try running the process as Administrator, or create the directories in advance.</value>
   </data>
   <data name="ExportAlarmSourceDescription" xml:space="preserve">
     <value>Wertet eingehende Faxe aus, die in ein Verzeichnis auf dem lokalen PC geschrieben werden.</value>
@@ -135,8 +147,20 @@
   <data name="FaxIsNotOnWhitelist" xml:space="preserve">
     <value>The fax is not whitelisted and won't be processed any further.</value>
   </data>
+  <data name="FaxIsOnBlacklist" xml:space="preserve">
+    <value>The fax is blacklisted. Parsing is skipped.</value>
+  </data>
   <data name="InitializeUsingOcrSoftware" xml:space="preserve">
     <value>Using OCR software '{0}'.</value>
+  </data>
+  <data name="MoveFileAttemptError" xml:space="preserve">
+    <value>Couldn't move file. Try {0} of {1}!</value>
+  </data>
+  <data name="MoveFileFailure" xml:space="preserve">
+    <value>Couldn't move file! See log for more details.</value>
+  </data>
+  <data name="OcrSoftwareNotFoundError" xml:space="preserve">
+    <value>The OCR software '{0}' was suggested to be found in path '{1}', which doesn't exist!</value>
   </data>
   <data name="OcrSoftwareParseBegin" xml:space="preserve">
     <value>Begin parsing of fax '{0}'...</value>
@@ -147,10 +171,34 @@
   <data name="OcrSoftwareParseEndSuccess" xml:space="preserve">
     <value>Finished parsing in '{0}' milliseconds.</value>
   </data>
+  <data name="ParsingOperationCompleted" xml:space="preserve">
+    <value>Operation parsed in '{0}' milliseconds.</value>
+  </data>
+  <data name="ParsingTimestampFailedUsingCurrentTime" xml:space="preserve">
+    <value>Could not parse timestamp from the fax. Using the current time as the timestamp.</value>
+  </data>
   <data name="ProcessDataEvent" xml:space="preserve">
     <value>Process data event: {0}</value>
   </data>
   <data name="ProcessErrorEvent" xml:space="preserve">
     <value>Process error event: {0}</value>
+  </data>
+  <data name="ProcessingFaxesComplete" xml:space="preserve">
+    <value>Processing finished.</value>
+  </data>
+  <data name="ProcessNewImageError" xml:space="preserve">
+    <value>An exception occurred while processing the alarmfax!</value>
+  </data>
+  <data name="UsingAnalyzedFaxDirectory" xml:space="preserve">
+    <value>Using directory '{0}' for analyzed faxes.</value>
+  </data>
+  <data name="UsingArchivedFaxDirectory" xml:space="preserve">
+    <value>Using directory '{0}' for archived faxes.</value>
+  </data>
+  <data name="UsingIncomingFaxDirectory" xml:space="preserve">
+    <value>Using directory '{0}' for incoming faxes.</value>
+  </data>
+  <data name="UsingParserTrace" xml:space="preserve">
+    <value>Using parser '{0}'.</value>
   </data>
 </root>
