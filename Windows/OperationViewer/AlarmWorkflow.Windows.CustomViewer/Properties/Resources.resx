@@ -117,23 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BeginInitialization" xml:space="preserve">
+    <value>Initializing widget '{0}'...</value>
+  </data>
   <data name="ExportCowDescription" xml:space="preserve">
     <value>Eine Ansicht, deren Layout sich dynamisch anpassen lässt.</value>
   </data>
   <data name="ExportCowDisplayName" xml:space="preserve">
     <value>Benutzerdefinierte Ansicht</value>
   </data>
-  <data name="Init" xml:space="preserve">
-    <value>Initializing Widget '{0}'...</value>
+  <data name="InitializationError" xml:space="preserve">
+    <value>An error occurred while initializing widget '{0}'.</value>
   </data>
-  <data name="InitError" xml:space="preserve">
-    <value>An error occurred while initializing Widget '{0}'. The error message was: {1}</value>
+  <data name="InitializationFailure" xml:space="preserve">
+    <value>Initialization of widget '{0}' failed. The widget will not be shown.</value>
   </data>
-  <data name="InitFailed" xml:space="preserve">
-    <value>Widget '{0}' initialization failed. The Widget will not be shown.</value>
-  </data>
-  <data name="InitSuccessful" xml:space="preserve">
-    <value>Widget '{0}' initialization successful.</value>
+  <data name="InitializationSuccess" xml:space="preserve">
+    <value>Initialization of widget '{0}' succeeded.</value>
   </data>
   <data name="OperationChangeFailed" xml:space="preserve">
     <value>Failed to change operation in UIWidget: {0}</value>

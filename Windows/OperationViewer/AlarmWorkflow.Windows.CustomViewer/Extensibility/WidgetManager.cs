@@ -15,7 +15,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
@@ -25,70 +24,94 @@ using AvalonDock.Layout;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
-    internal class WidgetManager
+    class WidgetManager
     {
-        private List<ILayoutPanelElement> _panelElements = new List<ILayoutPanelElement>();
-        private List<IUIWidget> _widgets = new List<IUIWidget>();
+        #region Fields
 
-        public List<IUIWidget> Widgets
+        private IList<ILayoutPanelElement> _panelElements;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets a list of all widgets.
+        /// </summary>
+        public IList<IUIWidget> Widgets { get; private set; }
+
+        #endregion
+
+        #region Constructors
+
+        internal WidgetManager()
         {
-            get { return _widgets; }
-            set { _widgets = value; }
+            _panelElements = new List<ILayoutPanelElement>();
+
+            Widgets = new List<IUIWidget>();
         }
 
-        public List<ILayoutPanelElement> PanelElements
-        {
-            get { return _panelElements; }
-            set { _panelElements = value; }
-        }
+        #endregion
 
-        internal List<ILayoutPanelElement> InitializeViews()
+        #region Methods
+
+        internal IEnumerable<ILayoutPanelElement> GetInitializedViews()
         {
-            ReadOnlyCollection<string> enabledWidgets = GetEnabledWidgets();
+            IEnumerable<string> enabledWidgets = GetEnabledWidgets();
 
             foreach (ExportedType export in ExportedTypeLibrary.GetExports(typeof(IUIWidget)).Where(j => enabledWidgets.Contains(j.Attribute.Alias)))
             {
-                var iuiWidget = export.CreateInstance<IUIWidget>();
+                IUIWidget widget = export.CreateInstance<IUIWidget>();
 
-                string iuiWidgetName = iuiWidget.GetType().Name;
-                Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.Init, iuiWidgetName);
+                string widgetName = widget.GetType().Name;
+                Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginInitialization, widgetName);
 
                 try
                 {
-                    if (!iuiWidget.Initialize())
+                    if (!widget.Initialize())
                     {
-                        Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.InitFailed, iuiWidgetName);
+                        Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.InitializationFailure, widgetName);
                         continue;
                     }
-                    var pane =
-                        new LayoutAnchorablePane(new LayoutAnchorable
-                                                     {
-                                                         Content = iuiWidget.UIElement,
-                                                         ContentId = iuiWidget.ContentGuid,
-                                                         Title = iuiWidget.Title,
-                                                         CanClose = false,
-                                                         CanHide = false
-                                                     });
 
+                    LayoutAnchorablePane pane = CreatePaneFromWidget(widget);
                     _panelElements.Add(pane);
-                    _widgets.Add(iuiWidget);
-                    Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitSuccessful, iuiWidgetName);
+
+                    Widgets.Add(widget);
+
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.InitializationSuccess, widgetName);
                 }
                 catch (Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.InitError, iuiWidgetName, ex.Message);
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.InitializationError, widgetName);
+                    Logger.Instance.LogException(this, ex);
                 }
             }
+
             return _panelElements;
         }
 
-        private static ReadOnlyCollection<string> GetEnabledWidgets()
+        private static LayoutAnchorablePane CreatePaneFromWidget(IUIWidget widget)
+        {
+            LayoutAnchorable anchorable = new LayoutAnchorable();
+            anchorable.Content = widget.UIElement;
+            anchorable.ContentId = widget.ContentGuid;
+            anchorable.Title = widget.Title;
+            anchorable.CanClose = false;
+            anchorable.CanHide = false;
+
+            LayoutAnchorablePane pane = new LayoutAnchorablePane(anchorable);
+            return pane;
+        }
+
+        private static IEnumerable<string> GetEnabledWidgets()
         {
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
                 ExportConfiguration exports = service.Instance.GetSetting(SettingKeys.WidgetConfigurationKey).GetValue<ExportConfiguration>();
-                return new ReadOnlyCollection<string>(exports.GetEnabledExports());
+                return exports.GetEnabledExports();
             }
         }
+
+        #endregion
     }
 }

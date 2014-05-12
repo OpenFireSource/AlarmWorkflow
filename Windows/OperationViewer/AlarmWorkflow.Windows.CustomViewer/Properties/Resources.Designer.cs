@@ -61,6 +61,15 @@ namespace AlarmWorkflow.Windows.CustomViewer.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Initializing widget &apos;{0}&apos;....
+        /// </summary>
+        internal static string BeginInitialization {
+            get {
+                return ResourceManager.GetString("BeginInitialization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Eine Ansicht, deren Layout sich dynamisch anpassen lässt..
         /// </summary>
         internal static string ExportCowDescription {
@@ -79,38 +88,29 @@ namespace AlarmWorkflow.Windows.CustomViewer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Initializing Widget &apos;{0}&apos;....
+        ///   Looks up a localized string similar to An error occurred while initializing widget &apos;{0}&apos;..
         /// </summary>
-        internal static string Init {
+        internal static string InitializationError {
             get {
-                return ResourceManager.GetString("Init", resourceCulture);
+                return ResourceManager.GetString("InitializationError", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An error occurred while initializing Widget &apos;{0}&apos;. The error message was: {1}.
+        ///   Looks up a localized string similar to Initialization of widget &apos;{0}&apos; failed. The widget will not be shown..
         /// </summary>
-        internal static string InitError {
+        internal static string InitializationFailure {
             get {
-                return ResourceManager.GetString("InitError", resourceCulture);
+                return ResourceManager.GetString("InitializationFailure", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Widget &apos;{0}&apos; initialization failed. The Widget will not be shown..
+        ///   Looks up a localized string similar to Initialization of widget &apos;{0}&apos; succeeded..
         /// </summary>
-        internal static string InitFailed {
+        internal static string InitializationSuccess {
             get {
-                return ResourceManager.GetString("InitFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Widget &apos;{0}&apos; initialization successful..
-        /// </summary>
-        internal static string InitSuccessful {
-            get {
-                return ResourceManager.GetString("InitSuccessful", resourceCulture);
+                return ResourceManager.GetString("InitializationSuccess", resourceCulture);
             }
         }
         

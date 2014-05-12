@@ -15,42 +15,36 @@
 
 using System.Windows;
 using AlarmWorkflow.Shared.Core;
-using AvalonDock.Layout.Serialization;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
     /// <summary>
-    ///     Defines a new IUIWidget.
+    /// Defines a new IUIWidget.
     /// </summary>
     public interface IUIWidget
     {
         /// <summary>
-        ///     Gets the <see cref="UIElement" /> which is used to represent the Widget.
+        /// Gets the <see cref="UIElement" /> which is used to represent the widget.
         /// </summary>
         UIElement UIElement { get; }
-
         /// <summary>
-        ///     Gets the ContentGUID of the widget, which is required for the <see cref="XmlLayoutSerializer" /> (should be uinque)
+        /// Gets the unique identifier of the widget, which is required for serialization and should be uinque.
         /// </summary>
         string ContentGuid { get; }
-
         /// <summary>
-        ///     Gets the Title of the widget
+        /// Gets the title of the widget.
         /// </summary>
         string Title { get; }
 
         /// <summary>
-        ///     Initializes this Widget
+        /// Initializes this widget.
         /// </summary>
-        /// <returns>The result of the initialization. Widget that return false won't be called.</returns>
+        /// <returns>The result of the initialization. Widgets that return false won't be called.</returns>
         bool Initialize();
-
         /// <summary>
-        ///     Called when the selected operation has changed and we need to display the given one.
+        /// Called when the selected operation has changed and we need to display the given one.
         /// </summary>
-        /// <param name="operation">
-        ///     The <see cref="Operation" /> that was selected and is now being displayed.
-        /// </param>
+        /// <param name="operation">The <see cref="Operation" /> that was selected and is now being displayed.</param>
         void OnOperationChange(Operation operation);
     }
 }

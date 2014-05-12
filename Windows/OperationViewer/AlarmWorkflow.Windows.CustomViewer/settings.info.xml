@@ -1,9 +1,5 @@
 ﻿<SettingsDisplayConfiguration>
-
   <Identifier Name="CustomOperationViewer" DisplayText="Custom-OperationView (OperationViewer)">
-
     <Setting Name="WidgetConfiguration" DisplayText="Widget-Anzeige"  Editor="ExportConfigurationTypeEditor" EditorParameter="AlarmWorkflow.Windows.CustomViewer.Extensibility.IUIWidget, AlarmWorkflow.Windows.CustomViewer" />
-
   </Identifier>
-
 </SettingsDisplayConfiguration>

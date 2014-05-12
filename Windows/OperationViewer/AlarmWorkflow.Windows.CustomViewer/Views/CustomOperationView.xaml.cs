@@ -31,15 +31,27 @@ using AvalonDock.Layout.Serialization;
 namespace AlarmWorkflow.Windows.CustomViewer.Views
 {
     /// <summary>
-    ///     Interaction logic for CustomOperationViewer.xaml
+    /// Interaction logic for CustomOperationViewer.xaml
     /// </summary>
     [Export("CustomOperationViewer", typeof(IOperationViewer))]
     [Information(DisplayName = "ExportCowDisplayName", Description = "ExportCowDescription")]
     public partial class CustomOperationView : IOperationViewer
     {
-        private readonly string _layoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), "CustomOperationViewer.layout");
+        #region Constants
+
+        private const string LayoutFileName = "CustomOperationViewer.layout";
+        private readonly string _layoutFile = Path.Combine(Utilities.GetLocalAppDataFolderPath(), LayoutFileName);
+
+        #endregion
+
+        #region Fields
+
         private readonly WidgetManager _widgetManager;
         private Operation _operation;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomOperationView"/> class.
@@ -47,30 +59,66 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
         public CustomOperationView()
         {
             InitializeComponent();
+
             _widgetManager = new WidgetManager();
-            List<ILayoutPanelElement> elements = _widgetManager.InitializeViews();
-            foreach (ILayoutPanelElement layoutPanelElement in elements)
+            InitializeWidgetManager();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void InitializeWidgetManager()
+        {
+            foreach (ILayoutPanelElement layoutPanelElement in _widgetManager.GetInitializedViews())
             {
                 rootLayout.RootPanel.Children.Add(layoutPanelElement);
             }
-            List<String> fileIDs = new List<String>();
-            var tempSerializer = new XmlLayoutSerializer(new DockingManager());
-            tempSerializer.LayoutSerializationCallback += (sender, args) => fileIDs.Add(args.Model.ContentId);
+
             if (File.Exists(_layoutFile))
             {
-                tempSerializer.Deserialize(_layoutFile);
-            }
-            bool everthingFound = _widgetManager.Widgets.Select(uiWidget => fileIDs.Any(fileID => fileID.ToLower().Equals(uiWidget.ContentGuid.ToLower()))).All(found => found);
-            if (everthingFound)
-            {
-                var serializer = new XmlLayoutSerializer(dockingManager);
-                if (File.Exists(_layoutFile))
+                IEnumerable<string> ids = GetIdentifiersInFile();
+
+                bool everthingFound = _widgetManager.Widgets
+                    .Select(widget => ids.Any(id => string.Equals(id, widget.ContentGuid, StringComparison.OrdinalIgnoreCase)))
+                    .All(found => found);
+
+                if (everthingFound)
                 {
+                    XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
                     serializer.Deserialize(_layoutFile);
                 }
-
             }
         }
+
+        private IEnumerable<string> GetIdentifiersInFile()
+        {
+            IList<string> ids = new List<string>();
+
+            XmlLayoutSerializer tempSerializer = new XmlLayoutSerializer(new DockingManager());
+            tempSerializer.LayoutSerializationCallback += (sender, args) =>
+            {
+                ids.Add(args.Model.ContentId);
+            };
+
+            tempSerializer.Deserialize(_layoutFile);
+
+            return ids;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
+
+            using (XmlTextWriter writer = new XmlTextWriter(_layoutFile, Encoding.UTF8))
+            {
+                serializer.Serialize(writer);
+            }
+        }
+
+        #endregion
+
+        #region IOperationViewer Members
 
         void IOperationViewer.OnNewOperation(Operation operation)
         {
@@ -103,14 +151,6 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
             get { return this; }
         }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            var serializer = new XmlLayoutSerializer(dockingManager);
-            XmlTextWriter writer = new XmlTextWriter(_layoutFile, Encoding.UTF8);
-            serializer.Serialize(writer);
-            writer.Flush();
-            writer.Close();
-
-        }
+        #endregion
     }
 }
