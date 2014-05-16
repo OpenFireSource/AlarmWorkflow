@@ -123,4 +123,39 @@
   <data name="ExportUIWidgetDisplayName" xml:space="preserve">
     <value>OpenStreetMap</value>
   </data>
+  <data name="HTMLTemplate" xml:space="preserve">
+    <value>&lt;!doctype html&gt;
+&lt;html lang="de" style="height:100%; width: 100%;"&gt;
+	&lt;head&gt;
+		&lt;meta charset="utf-8" /&gt;
+		&lt;script src="http://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;
+		&lt;script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"&gt;&lt;/script&gt;
+		&lt;link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" /&gt;
+		&lt;script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"&gt;&lt;/script&gt;
+		&lt;script&gt;
+		$(document).ready(function() {
+			var osm = L.map('oosm');
+			L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+				attribution: '&amp;copy; &lt;a href="http://osm.org/copyright"&gt;OpenStreetMap&lt;/a&gt; contributors'
+			}).addTo(osm);
+			L.tileLayer('http://www.openfiremap.org/hytiles/{z}/{x}/{y}.png').addTo(osm);
+			osm.setView([{0},{1}], 16);
+			L.marker([{0},{1}]).addTo(osm);
+		});
+		&lt;/script&gt;
+		&lt;style type="text/css"&gt;
+			* {
+				border: 0px;
+				margin: 0px;
+				padding: 0px;
+			}
+		&lt;/style&gt;
+	&lt;/head&gt;
+	&lt;body style="height:100%; width: 100%;"&gt;
+		&lt;div id="oosm" style="height:100%; width: 100%;"&gt;
+			
+		 &lt;/div&gt;
+	&lt;/body&gt;
+&lt;/html&gt;</value>
+  </data>
 </root>
