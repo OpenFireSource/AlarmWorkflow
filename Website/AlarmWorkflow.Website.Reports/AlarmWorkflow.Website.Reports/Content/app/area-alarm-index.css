@@ -1,0 +1,82 @@
+﻿#paneError {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+    /* Doing it like this is strictly speaking not too clean, but it allows to easily exchange the div contents. */
+    #paneError > span {
+        color: red;
+        font-size: 6em;
+        text-align: center;
+        font-weight: bold;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+#paneIdle {
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+
+    #paneIdle > span {
+        color: green;
+        font-size: 6em;
+        text-align: center;
+        font-weight: bold;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+#paneOperation {
+    background-color: #83C6FA;
+    height: 100%;
+    width: 100%;
+}
+
+    #paneOperation > table {
+        height: 100%;
+        width: 100%;
+        font-size: 1.8em;
+        text-align: center;
+    }
+
+    #paneOperation > div {
+        width: 100%;
+    }
+
+        #paneOperation > div > a {
+            display: table;
+            margin: 0 auto;
+        }
+
+td.alarm {
+    border: 1px solid #000000;
+}
+
+.opcolumn {
+    padding: 0;
+    margin: 0;
+    height: 40%;
+    width: 50%;
+}
+
+div.opcell {
+    width: 100%;
+    height: 100%;
+}
+
+.oresource {
+    font-weight: bold;
+    float: left;
+    margin-left: 10px;
+    border: 1px solid #000000;
+    -ms-border-radius: 5px;
+    border-radius: 5px;
+    background: orange;
+}
+
+div.oresource {
+    padding: 15px;
+}

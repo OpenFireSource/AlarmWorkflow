@@ -581,27 +581,10 @@ td {
     padding: 0.25em 0.25em 0.25em 0em;
     border: 0 none;
 }
-td.alarm {
-    border: 1px solid #000000;
-}
-
 tr.pager td {
     padding: 0 0.25em 0 0;
 }
 
-.oresource {
-    font-weight: bold;
-    float: left;
-    margin-left: 10px;
-    border: 1px solid #000000;
-    -ms-border-radius: 5px;
-    border-radius: 5px;
-    background: orange;
-}
-
-div.oresource {
-    padding: 15px;
-}
 /********************
 *   Mobile Styles   *
 ********************/
