@@ -32,6 +32,11 @@ Parser
 UI
 
   * Website und Windows UI verwenden die Einsatzmittelkonfiguration.
+  * OSM Widget hat nun ein OFM Layer integriert
+  
+Website
+
+  * Website zeigt nun auch eine OSM Karte mit integriertem OFM Layer an.
 
 Gelöste Probleme seit v0.9.5.0
 ------------------------------
