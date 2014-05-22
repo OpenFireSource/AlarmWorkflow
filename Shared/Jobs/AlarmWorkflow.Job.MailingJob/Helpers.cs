@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -33,15 +32,15 @@ namespace AlarmWorkflow.Job.MailingJob
             return new MailAddress(address);
         }
 
-        internal static Stream ToStream(this Image image, ImageFormat formaw)
+        internal static Stream ToStream(this Image image, ImageFormat format)
         {
             MemoryStream stream = new MemoryStream();
-            image.Save(stream, formaw);
+            image.Save(stream, format);
             stream.Position = 0;
             return stream;
         }
 
-        internal static string[] ConvertTiffToJpeg(string fileName)
+        internal static string[] ConvertTiffToJpegAndSplit(string fileName)
         {
             using (Image imageFile = Image.FromFile(fileName))
             {
@@ -55,11 +54,13 @@ namespace AlarmWorkflow.Job.MailingJob
                     using (Bitmap bmp = new Bitmap(imageFile))
                     {
                         string tempFileName = Path.GetTempFileName();
+
                         FileInfo fileInfo = new FileInfo(tempFileName);
                         fileInfo.Attributes = FileAttributes.Temporary;
+
                         jpegPaths[frame] = tempFileName;
+
                         bmp.Save(jpegPaths[frame], ImageFormat.Jpeg);
-                        bmp.Dispose();
                     }
                 }
 
@@ -82,11 +83,15 @@ namespace AlarmWorkflow.Job.MailingJob
                 width = bitmap.Width > width ? bitmap.Width : width;
                 images.Add(bitmap);
             }
+
             finalImage = new Bitmap(width, height);
+
             using (Graphics g = Graphics.FromImage(finalImage))
             {
                 g.Clear(Color.Black);
+
                 int offset = 0;
+
                 foreach (Bitmap image in images)
                 {
                     g.DrawImage(image, new Rectangle(0, offset, image.Width, image.Height));

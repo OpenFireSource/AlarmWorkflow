@@ -38,6 +38,12 @@ namespace AlarmWorkflow.Job.MailingJob
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     sealed class MailingJob : IJob
     {
+        #region Constants
+
+        private const string ImageAttachmentFileName = "fax.jpg";
+
+        #endregion
+
         #region Fields
 
         private ISettingsServiceInternal _settings;
@@ -148,27 +154,14 @@ namespace AlarmWorkflow.Job.MailingJob
 
                     if (_attachImage)
                     {
-                        Attachment attachment = null;
-                        if (context.Parameters.Keys.Contains("ImagePath"))
+                        try
                         {
-                            string imagePath = (string)context.Parameters["ImagePath"];
-                            if (!string.IsNullOrWhiteSpace(imagePath))
-                            {
-                                if (File.Exists(imagePath))
-                                {
-                                    string[] convertTiffToJpeg = Helpers.ConvertTiffToJpeg(imagePath);
-                                    Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg);
-                                    attachment = new Attachment(stream, "fax.jpg");
-                                    foreach (string s in convertTiffToJpeg)
-                                    {
-                                        File.Delete(s);
-                                    }
-                                }
-                            }
+                            AttachImage(context, message);
                         }
-                        if (attachment != null)
+                        catch (Exception ex)
                         {
-                            message.Attachments.Add(attachment);
+                            Logger.Instance.LogException(this, ex);
+                            Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.AttachImageFailed);
                         }
                     }
 
@@ -186,6 +179,29 @@ namespace AlarmWorkflow.Job.MailingJob
                         Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SendExceptionMessage);
                     }
                     Logger.Instance.LogException(this, ex);
+                }
+            }
+        }
+
+        private void AttachImage(IJobContext context, MailMessage message)
+        {
+            if (context.Parameters.Keys.Contains("ImagePath"))
+            {
+                string imagePath = (string)context.Parameters["ImagePath"];
+                if (!string.IsNullOrWhiteSpace(imagePath))
+                {
+                    if (File.Exists(imagePath))
+                    {
+                        string[] convertTiffToJpeg = Helpers.ConvertTiffToJpegAndSplit(imagePath);
+                        Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg);
+
+                        message.Attachments.Add(new Attachment(stream, ImageAttachmentFileName));
+
+                        foreach (string s in convertTiffToJpeg)
+                        {
+                            File.Delete(s);
+                        }
+                    }
                 }
             }
         }

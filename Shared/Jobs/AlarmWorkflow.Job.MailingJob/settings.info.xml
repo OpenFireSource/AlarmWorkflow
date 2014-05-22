@@ -9,12 +9,12 @@
              EditorParameter="1;65535" />
     <Setting Name="SenderAddress" DisplayText="Absenderadresse" Category="Mailserver" />
 
-    <Setting Name="EMailSubject" DisplayText="Betreff" Category="Mail" Description="Der Betreff der Mail. Wenn leergelassen, wird ein Standardbetreff genommen (Name Ihrer Feuerwehr)."
+    <Setting Name="EMailSubject" DisplayText="Betreff" Category="Mail" Description="Der Betreff der Mail. Wenn leergelassen, wird ein Standardbetreff genommen (Name Ihrer Feuerwehr)." IsDynamic="true"
              Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="EMailBody" DisplayText="Nachrichtentext" Category="Mail" Description="Der Inhalt der Mail."
+    <Setting Name="EMailBody" DisplayText="Nachrichtentext" Category="Mail" Description="Der Inhalt der Mail." IsDynamic="true"
              Editor="ObjectExpressionTypeEditor" 
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="AttachImage" DisplayText="Fax anhängen" Description="Aktiviert die Möglichkeit das Fax an die Mail im Jpeg Format anzuhängen."></Setting>
+    <Setting Name="AttachImage" DisplayText="Fax anhängen" Description="Aktiviert die Möglichkeit das Fax an die Mail im Jpeg Format anzuhängen." IsDynamic="true" />
   </Identifier>
 </SettingsDisplayConfiguration>
