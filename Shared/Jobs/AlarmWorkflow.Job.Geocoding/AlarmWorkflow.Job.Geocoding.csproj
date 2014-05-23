@@ -68,6 +68,7 @@
     <Compile Include="Provider\Google.cs" />
     <Compile Include="Provider\MapQuest.cs" />
     <Compile Include="Provider\OpenStreetMap.cs" />
+    <Compile Include="SettingKeysJob.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

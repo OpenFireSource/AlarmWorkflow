@@ -121,7 +121,7 @@
     <value>Verwendet den CloudMade Geocoding Dienst.</value>
   </data>
   <data name="ExportCloudMadeDisplayName" xml:space="preserve">
-    <value>CloudeMade Geocoding</value>
+    <value>CloudMade Geocoding</value>
   </data>
   <data name="ExportGoogleDescription" xml:space="preserve">
     <value>Verwendet den Google Geocoding Dienst.</value>
@@ -146,5 +146,8 @@
   </data>
   <data name="ExportOpenStreetMapDisplayName" xml:space="preserve">
     <value>OpenStreetMap Geocoding</value>
+  </data>
+  <data name="NoCoordinatesFoundByGeocodingService" xml:space="preserve">
+    <value>The geocoding service has not returned any coordinates!</value>
   </data>
 </root>

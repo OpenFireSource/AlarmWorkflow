@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -35,34 +34,33 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
             get { return "http://beta.geocoding.cloudmade.com/v3/{0}/api/geo.location.search.2?source=OSM&q={1}"; }
         }
 
-        bool IGeoCoder.ApiKeyRequired
+        bool IGeoCoder.IsApiKeyRequired
         {
             get { return true; }
         }
 
         string IGeoCoder.ApiKey { get; set; }
 
-        GeocoderLocation IGeoCoder.GeoCode(PropertyLocation address)
+        GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
             string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, ((IGeoCoder)this).ApiKey, HttpUtility.UrlEncode(address.ToString()));
 
             WebRequest request = WebRequest.Create(queryAdress);
-
             using (WebResponse response = request.GetResponse())
             {
                 using (Stream stream = response.GetResponseStream())
                 {
-                    XDocument document = XDocument.Load(new StreamReader(stream));
+                    XDocument document = XDocument.Load(stream);
 
                     XElement longitudeElement = document.Descendants("lon").FirstOrDefault();
                     XElement latitudeElement = document.Descendants("lat").FirstOrDefault();
 
                     if (longitudeElement != null && latitudeElement != null)
                     {
-                        return new GeocoderLocation
+                        return new GeocoderLocation()
                         {
-                            Longitude = Double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
-                            Latitude = Double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
+                            Longitude = double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
+                            Latitude = double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
                         };
                     }
                 }

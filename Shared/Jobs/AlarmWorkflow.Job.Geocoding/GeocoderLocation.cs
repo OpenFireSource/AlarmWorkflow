@@ -18,23 +18,34 @@ using System;
 namespace AlarmWorkflow.Job.Geocoding
 {
     /// <summary>
-    /// Standard format of geocoding-result
+    /// Represents the result of a geocoding request.
     /// </summary>
-    [Serializable]
     public class GeocoderLocation
     {
+        #region Properties
+
         /// <summary>
-        /// Longitude coordinate
+        /// Gets/sets the longitude component.
         /// </summary>
         public double Longitude { get; set; }
         /// <summary>
-        /// Latitude  coordinate
+        /// Gets/sets the latitude component.
         /// </summary>
         public double Latitude { get; set; }
 
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// Returns the coordinates of this instance as a string in a format similar to "Latitude, Longitude".
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
-            return String.Format("{0}, {1}", Latitude, Longitude);
+            return string.Format("{0}, {1}", Latitude, Longitude);
         }
+
+        #endregion
     }
 }

@@ -26,7 +26,7 @@ namespace AlarmWorkflow.Job.Geocoding
     /// </summary>
     [Export("Geocoding", typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
-    public class Geocoding : IJob
+    class Geocoding : IJob
     {
         #region Fields
 
@@ -50,26 +50,26 @@ namespace AlarmWorkflow.Job.Geocoding
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
 
-            _provider = ExportedTypeLibrary.Import<IGeoCoder>(_settings.GetSetting("Geocoding", "Provider").GetValue<string>());
-            if (_provider.ApiKeyRequired)
+            _provider = ExportedTypeLibrary.Import<IGeoCoder>(_settings.GetSetting(SettingKeysJob.Provider).GetValue<string>());
+
+            if (_provider.IsApiKeyRequired)
             {
-                string apikey = _settings.GetSetting("Geocoding", "ApiKey").GetValue<string>();
-                _provider.ApiKey = apikey;
+                _provider.ApiKey = _settings.GetSetting(SettingKeysJob.ApiKey).GetValue<string>();
             }
+
             return true;
         }
 
         void IJob.Execute(IJobContext context, Operation operation)
         {
-            // This is a Pre-Job. Thus it only has to run right after the operation has surfaced and before being stored.
             if (context.Phase == JobPhase.OnOperationSurfaced)
             {
-                //Don't overwrite exisiting coordinates
                 if (operation.Einsatzort.HasGeoCoordinates)
                 {
                     return;
                 }
-                GeocoderLocation geocoderLocation = _provider.GeoCode(operation.Einsatzort);
+
+                GeocoderLocation geocoderLocation = _provider.Geocode(operation.Einsatzort);
                 if (geocoderLocation != null)
                 {
                     //The most of the widgets and so need the "english-format" (point instead of comma)!
@@ -78,7 +78,7 @@ namespace AlarmWorkflow.Job.Geocoding
                 }
                 else
                 {
-                    Logger.Instance.LogFormat(LogType.Error, this, "No coordinats found by geocoding service.");
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.NoCoordinatesFoundByGeocodingService);
                 }
             }
         }

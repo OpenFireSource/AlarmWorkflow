@@ -18,27 +18,29 @@ using AlarmWorkflow.Shared.Core;
 namespace AlarmWorkflow.Job.Geocoding
 {
     /// <summary>
-    ///  Exposes the interface that can be used to extend the Geocoding-Job with custom providers.
+    /// Exposes the interface that can be used to extend the Geocoding-Job with custom providers.
     /// </summary>
     public interface IGeoCoder
     {
         /// <summary>
-        /// Pattern of the query-url. Needed for the Webrequests
+        /// Gets the pattern of the URI for querying the results.
         /// </summary>
         string UrlPattern { get; }
         /// <summary>
-        /// Returns whether a ApiKey is required by the geocoding service or not.
+        /// Gets whether an API key is required by the geocoding service.
         /// </summary>
-        bool ApiKeyRequired { get; }
+        bool IsApiKeyRequired { get; }
         /// <summary>
-        /// ApiKey which is required by some Geocoding Services
+        /// Gets/sets the API key which is required by some geocoding services.
         /// </summary>
         string ApiKey { get; set; }
+
         /// <summary>
-        /// Runs the geocoding. Can return null!
+        /// Performs a geocoding request.
         /// </summary>
-        /// <param name="address">The address of the operation.</param>
-        /// <returns>Coordinats for the given address or null if not found.</returns>
-        GeocoderLocation GeoCode(PropertyLocation address);
+        /// <param name="address">The address to geocode.</param>
+        /// <returns>The coordinates for the given address.
+        /// -or- null, if not found.</returns>
+        GeocoderLocation Geocode(PropertyLocation address);
     }
 }

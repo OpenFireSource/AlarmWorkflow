@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -30,7 +29,19 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        GeocoderLocation IGeoCoder.GeoCode(PropertyLocation address)
+        string IGeoCoder.UrlPattern
+        {
+            get { return "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}"; }
+        }
+
+        bool IGeoCoder.IsApiKeyRequired
+        {
+            get { return false; }
+        }
+
+        string IGeoCoder.ApiKey { get; set; }
+
+        GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
             string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.ToString()));
 
@@ -40,17 +51,17 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
             {
                 using (Stream stream = response.GetResponseStream())
                 {
-                    XDocument document = XDocument.Load(new StreamReader(stream));
+                    XDocument document = XDocument.Load(stream);
 
                     XElement longitudeElement = document.Descendants("lng").FirstOrDefault();
                     XElement latitudeElement = document.Descendants("lat").FirstOrDefault();
 
                     if (longitudeElement != null && latitudeElement != null)
                     {
-                        return new GeocoderLocation
+                        return new GeocoderLocation()
                         {
-                            Longitude = Double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
-                            Latitude = Double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
+                            Longitude = double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
+                            Latitude = double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
                         };
                     }
                 }
@@ -58,15 +69,6 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
 
             return null;
         }
-
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}"; }
-        }
-
-        bool IGeoCoder.ApiKeyRequired { get { return false; } }
-
-        string IGeoCoder.ApiKey { get; set; }
 
         #endregion
     }

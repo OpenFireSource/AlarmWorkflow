@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -30,16 +29,31 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        GeocoderLocation IGeoCoder.GeoCode(PropertyLocation address)
+        string IGeoCoder.UrlPattern
+        {
+            get { return "http://nominatim.openstreetmap.org/search?format=xml&street{0}&city={1}"; }
+        }
+
+        bool IGeoCoder.IsApiKeyRequired
+        {
+            get { return false; }
+        }
+
+        string IGeoCoder.ApiKey { get; set; }
+
+        GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
             string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.Street + " " + address.StreetNumber), HttpUtility.UrlEncode(address.City));
+
             WebRequest request = WebRequest.Create(queryAdress);
             using (WebResponse response = request.GetResponse())
             {
                 using (Stream stream = response.GetResponseStream())
                 {
-                    XDocument document = XDocument.Load(new StreamReader(stream));
+                    XDocument document = XDocument.Load(stream);
+
                     XElement placeElement = document.Descendants("place").FirstOrDefault();
+
                     if (placeElement != null)
                     {
                         XAttribute longitudeElement = placeElement.Attribute("lon");
@@ -47,10 +61,10 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
 
                         if (longitudeElement != null && latitudeElement != null)
                         {
-                            return new GeocoderLocation
+                            return new GeocoderLocation()
                             {
-                                Longitude = Double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
-                                Latitude = Double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
+                                Longitude = double.Parse(longitudeElement.Value, CultureInfo.InvariantCulture),
+                                Latitude = double.Parse(latitudeElement.Value, CultureInfo.InvariantCulture)
                             };
                         }
                     }
@@ -58,15 +72,6 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
             }
             return null;
         }
-
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://nominatim.openstreetmap.org/search?format=xml&street{0}&city={1}"; }
-        }
-
-        bool IGeoCoder.ApiKeyRequired { get { return false; } }
-
-        string IGeoCoder.ApiKey { get; set; }
 
         #endregion
     }
