@@ -61,20 +61,38 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LATITUDE.
+        ///   Looks up a localized string similar to Error while sending eAlarm notification! The error code was &apos;{0}&apos;..
         /// </summary>
-        internal static string LATITUDE {
+        internal static string ErrorSendingNotification {
             get {
-                return ResourceManager.GetString("LATITUDE", resourceCulture);
+                return ResourceManager.GetString("ErrorSendingNotification", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to LONGITUDE.
+        ///   Looks up a localized string similar to Kommuniziert mit der eAlarm-Android App..
         /// </summary>
-        internal static string LONGITUDE {
+        internal static string ExportJobDescription {
             get {
-                return ResourceManager.GetString("LONGITUDE", resourceCulture);
+                return ResourceManager.GetString("ExportJobDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to eAlarm.
+        /// </summary>
+        internal static string ExportJobDisplayName {
+            get {
+                return ResourceManager.GetString("ExportJobDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Received no result from GCM server!.
+        /// </summary>
+        internal static string SendGcmNotificationNoResult {
+            get {
+                return ResourceManager.GetString("SendGcmNotificationNoResult", resourceCulture);
             }
         }
     }

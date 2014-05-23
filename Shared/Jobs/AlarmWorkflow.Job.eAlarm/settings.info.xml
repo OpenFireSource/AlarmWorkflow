@@ -1,10 +1,10 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="eAlarm" DisplayText="eAlarm" Parent="Aufgaben">
-    <Setting Name="header" DisplayText="Header" Category="Generell" Editor="ObjectExpressionTypeEditor"
+    <Setting Name="header" DisplayText="Header" Category="Generell" IsDynamic="true" Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared"/>
-    <Setting Name="text" DisplayText="Text" Category="Generell" Editor="ObjectExpressionTypeEditor"
+    <Setting Name="text" DisplayText="Text" Category="Generell" IsDynamic="true" Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="Encryption" DisplayText="Verschlüsselung" Category="Verschlüsselung"/>
-    <Setting Name="EncryptionKey" DisplayText="Passwort" Category="Verschlüsselung"/>
+    <Setting Name="Encryption" DisplayText="Verschlüsselung" IsDynamic="true" Category="Verschlüsselung"/>
+    <Setting Name="EncryptionKey" DisplayText="Passwort" IsDynamic="true" Category="Verschlüsselung"/>
   </Identifier>
 </SettingsDisplayConfiguration>

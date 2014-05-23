@@ -32,12 +32,18 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.Job.eAlarm
 { //
     /// <summary>
-    /// Implements a Job that send notifications to the Android App eAlarm.     
+    /// Implements a Job that send notifications to the Android App eAlarm.
     /// </summary>
     [Export("eAlarm", typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
-    public class eAlarm : IJob
+    class eAlarm : IJob
     {
+        #region Constants
+
+        private const string ApiKey = "AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0";
+
+        #endregion
+
         #region Fields
 
         private ISettingsServiceInternal _settings;
@@ -48,13 +54,13 @@ namespace AlarmWorkflow.Job.eAlarm
         #region Constructor
 
         /// <summary>
-        ///     Initializes a new instance of the eAlarm class.
+        /// Initializes a new instance of the <see cref="eAlarm" /> class.
         /// </summary>
         public eAlarm()
         {
         }
 
-        #endregion Constructor
+        #endregion
 
         #region IJob Members
 
@@ -62,6 +68,7 @@ namespace AlarmWorkflow.Job.eAlarm
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
             _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
+
             return true;
         }
 
@@ -75,10 +82,12 @@ namespace AlarmWorkflow.Job.eAlarm
             string body = operation.ToString(_settings.GetSetting("eAlarm", "text").GetValue<string>());
             string header = operation.ToString(_settings.GetSetting("eAlarm", "header").GetValue<string>());
             string location = operation.Einsatzort.ToString();
+
             bool encryption = _settings.GetSetting("eAlarm", "Encryption").GetValue<bool>();
-            string encryptionKey = _settings.GetSetting("eAlarm", "EncryptionKey").GetValue<string>();
             if (encryption)
             {
+                string encryptionKey = _settings.GetSetting("eAlarm", "EncryptionKey").GetValue<string>();
+
                 body = Helper.Encrypt(body, encryptionKey);
                 header = Helper.Encrypt(header, encryptionKey);
                 location = Helper.Encrypt(location, encryptionKey);
@@ -90,22 +99,19 @@ namespace AlarmWorkflow.Job.eAlarm
             {
                 registration_ids = to,
                 data = new Content.Data()
-                    {
-                        awf_title = header,
-                        awf_message = body,
-                        awf_location = location
-                    }
+               {
+                   awf_title = header,
+                   awf_message = body,
+                   awf_location = location
+               }
             };
+
             string message = new JavaScriptSerializer().Serialize(content);
 
             HttpStatusCode result = 0;
-            if (SendGCMNotification("AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0", message, ref result))
+            if (!SendGcmNotification(ApiKey, message, ref result))
             {
-                Logger.Instance.LogFormat(LogType.Info, this, "Succesfully sent eAlarm notification");
-            }
-            else
-            {
-                Logger.Instance.LogFormat(LogType.Error, this, "Error while sending eAlarm notification Errorcode: '{0}'", (int)result);
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorSendingNotification, result);
             }
         }
 
@@ -124,24 +130,16 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #region Methods
 
-        /// <summary>
-        /// Send a Google Cloud Message. Uses the GCM service and your provided api key.
-        /// </summary>
-        /// <param name="apiKey">Server API Key</param>
-        /// <param name="postData">JSON-formated Data</param>
-        /// <param name="result">Errorresult</param>
-        /// <param name="postDataContentType">Possible change of dataformat </param>
-        /// <returns>The response string from the google servers</returns>
-        private bool SendGCMNotification(string apiKey, string postData, ref HttpStatusCode result, string postDataContentType = "application/json")
+        private bool SendGcmNotification(string apiKey, string postData, ref HttpStatusCode result)
         {
             ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
 
             byte[] byteArray = Encoding.UTF8.GetBytes(postData);
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://android.googleapis.com/gcm/send");
-            request.Method = "POST";
+            request.Method = WebRequestMethods.Http.Post;
             request.KeepAlive = false;
-            request.ContentType = postDataContentType;
+            request.ContentType = "application/json";
             request.Headers.Add(string.Format("Authorization: key={0}", apiKey));
             request.ContentLength = byteArray.Length;
 
@@ -152,34 +150,30 @@ namespace AlarmWorkflow.Job.eAlarm
 
             try
             {
-                WebResponse response = request.GetResponse();
-                HttpStatusCode responseCode = ((HttpWebResponse)response).StatusCode;
-                if (!responseCode.Equals(HttpStatusCode.OK))
+                using (WebResponse response = request.GetResponse())
                 {
-                    result = responseCode;
-                    return false;
+                    HttpStatusCode responseCode = ((HttpWebResponse)response).StatusCode;
+
+                    if (responseCode != HttpStatusCode.OK)
+                    {
+                        result = responseCode;
+                        return false;
+                    }
                 }
             }
             catch (Exception exception)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, "No Respone by Googleserver.");
                 Logger.Instance.LogException(this, exception);
             }
+
             return true;
         }
 
-        /// <summary>
-        /// Returns allways true for a server certrificate validation
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="certificate"></param>
-        /// <param name="chain"></param>
-        /// <param name="sslPolicyErrors"></param>
-        /// <returns></returns>
-        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        private static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }
+
         #endregion
 
         #region IDisposable Members
