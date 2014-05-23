@@ -3,5 +3,6 @@
     <Setting Name="MessageContent" DisplayText="Nachricht" Description="Der Inhalt der Nachricht." Category="Nachricht" IsDynamic="true"
              Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting Name="Header" DisplayText="Betreff" Category="Nachricht" IsDynamic="true" />
   </Identifier>
 </SettingsDisplayConfiguration>

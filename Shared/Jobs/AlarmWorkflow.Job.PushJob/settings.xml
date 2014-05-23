@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-
 <SettingsConfiguration Version="1" Identifier="PushJob">
   <Setting Name="MessageContent" Type="System.String">Ort: {Einsatzort}, {Picture}; {Comment}</Setting>
+  <Setting Name="Header" Type="System.String">Feuerwehralarm</Setting>
 </SettingsConfiguration>

@@ -21,7 +21,6 @@ using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.SettingsContracts;
-using AlarmWorkflow.Job.PushJob.Properties;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
@@ -34,7 +33,6 @@ namespace AlarmWorkflow.Job.PushJob
         #region Constants
 
         private const string ApplicationName = "Feuerwehr-Alarmierung";
-        private const string HeaderText = "Feuerwehralarm";
 
         #endregion
 
@@ -70,11 +68,13 @@ namespace AlarmWorkflow.Job.PushJob
                 return;
             }
 
-            string expression = _settings.GetSetting("PushJob", "MessageContent").GetValue<string>();
-            string content = operation.ToString(expression);
+            string header = _settings.GetSetting(SettingKeysJob.Header).GetValue<string>();
 
-            Task.Factory.StartNew(() => NotifyProwl(operation, content));
-            Task.Factory.StartNew(() => NotifyMyAndroid(operation, content));
+            string expression = _settings.GetSetting(SettingKeysJob.MessageContent).GetValue<string>();
+            string message = operation.ToString(expression);
+
+            Task.Factory.StartNew(() => SendToProwl(operation, message, header));
+            Task.Factory.StartNew(() => SendToNotifyMyAndroid(operation, message, header));
         }
 
         bool IJob.IsAsync
@@ -86,43 +86,49 @@ namespace AlarmWorkflow.Job.PushJob
 
         #region Methods
 
-        private IList<PushEntryObject> GetRecipients(Operation operation)
+        private IEnumerable<string> GetRecipientApiKeysFor(Operation operation, string consumer)
         {
             var recipients = _addressing.GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
-            return recipients.Select(ri => ri.Item2).ToList();
+
+            return recipients
+                .Select(ri => ri.Item2)
+                .Where(item => item.Consumer == consumer)
+                .Select(item => item.RecipientApiKey);
         }
 
-        private void NotifyMyAndroid(Operation operation, string content)
+        private void SendToNotifyMyAndroid(Operation operation, string message, string header)
         {
-            List<String> nmaRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
-            if (nmaRecipients.Count != 0)
+            try
             {
-                try
+                IEnumerable<string> recipients = GetRecipientApiKeysFor(operation, "NMA");
+
+                if (recipients.Any())
                 {
-                    NMA.Notify(nmaRecipients, ApplicationName, HeaderText, content, NMANotificationPriority.Emergency);
+                    NotifyMyAndroid.SendNotifications(recipients, ApplicationName, header, message);
                 }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Resources.ErrorNMA, ex.Message);
-                    Logger.Instance.LogException(this, ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorNMA, ex.Message);
+                Logger.Instance.LogException(this, ex);
             }
         }
 
-        private void NotifyProwl(Operation operation, string content)
+        private void SendToProwl(Operation operation, string message, string header)
         {
-            List<String> prowlRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
-            if (prowlRecipients.Count != 0)
+            try
             {
-                try
+                IEnumerable<string> recipients = GetRecipientApiKeysFor(operation, "Prowl");
+
+                if (recipients.Any())
                 {
-                    Prowl.Notify(prowlRecipients, ApplicationName, HeaderText, content, ProwlNotificationPriority.Emergency);
+                    Prowl.SendNotifications(recipients, ApplicationName, header, message);
                 }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Resources.ErrorProwl, ex.Message);
-                    Logger.Instance.LogException(this, ex);
-                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorProwl, ex.Message);
+                Logger.Instance.LogException(this, ex);
             }
         }
 

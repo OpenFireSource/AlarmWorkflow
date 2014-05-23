@@ -61,7 +61,7 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While executing the notifications for &apos;Notify my Android&apos; an unexpected error occured: {0}. ähnelt.
+        ///   Looks up a localized string similar to While executing the notifications for &apos;Notify my Android&apos; an unexpected error occured: {0}..
         /// </summary>
         internal static string ErrorNMA {
             get {
@@ -70,7 +70,7 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die While executing the notifications for Prowl an unexpected error occured: {0}. ähnelt.
+        ///   Looks up a localized string similar to While executing the notifications for Prowl an unexpected error occured: {0}..
         /// </summary>
         internal static string ErrorProwl {
             get {
@@ -79,7 +79,7 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Versendet Push-Nachrichten mittels verschiedener Anbieter. ähnelt.
+        ///   Looks up a localized string similar to Versendet Push-Nachrichten mittels verschiedener Anbieter..
         /// </summary>
         internal static string ExportJobDescription {
             get {
@@ -97,7 +97,7 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sent Notify my Android Notifications. Server response was: {0}.
+        ///   Looks up a localized string similar to Sent &apos;Notify my Android&apos; notifications. Server response was: {0}.
         /// </summary>
         internal static string NMA {
             get {
@@ -106,7 +106,7 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sent Prowl Notifications. Server response was: {0}.
+        ///   Looks up a localized string similar to Sent Prowl notifications. Server response was: {0}.
         /// </summary>
         internal static string Prowl {
             get {
