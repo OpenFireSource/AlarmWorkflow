@@ -197,6 +197,7 @@
                                 }
                             });
                         }
+
                         osm.setView([result.op.Einsatzort.GeoLatitude,result.op.Einsatzort.GeoLongitude], 16);
                         L.marker([result.op.Einsatzort.GeoLatitude, result.op.Einsatzort.GeoLongitude]).addTo(osm);
                     }
@@ -216,10 +217,13 @@
             $("#paneError").show();
         });
     }
+
     // Poll the service and read operation data, then apply to DOM.
     window.setInterval(loadOperationData, @(config.UpdateIntervalMs));
+
     $(loadOperationData);
-    $(document).ready(function() {
+
+    $(function() {
         osm = L.map('oosm');
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
