@@ -1,20 +1,21 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="MailingJob" DisplayText="E-Mail-Versand" Parent="Aufgaben">
-    <Setting Name="HostName" DisplayText="Hostname" Category="Mailserver" />
-    <Setting Name="UseSsl" DisplayText="SSL benutzen" Category="Mailserver" />
-    <Setting Name="UserName" DisplayText="Benutzername" Category="Mailserver" />
-    <Setting Name="Password" DisplayText="Passwort" Category="Mailserver" />
-    <Setting Name="Authenticate" DisplayText="Authentifizierung benutzen" Category="Mailserver" />
-    <Setting Name="Port" DisplayText="Port" Category="Mailserver"
+    <Setting Name="HostName" DisplayText="Hostname" Category="Server" />
+    <Setting Name="UseSsl" DisplayText="SSL benutzen" Category="Server" />
+    <Setting Name="UserName" DisplayText="Benutzername" Category="Server" />
+    <Setting Name="Password" DisplayText="Passwort" Category="Server" />
+    <Setting Name="Authenticate" DisplayText="Authentifizierung benutzen" Category="Server" />
+    <Setting Name="Port" DisplayText="Port" Category="Server"
              EditorParameter="1;65535" />
-    <Setting Name="SenderAddress" DisplayText="Absenderadresse" Category="Mailserver" />
+    <Setting Name="SenderAddress" DisplayText="Absenderadresse" Category="Server" />
 
     <Setting Name="EMailSubject" DisplayText="Betreff" Category="Mail" Description="Der Betreff der Mail. Wenn leergelassen, wird ein Standardbetreff genommen (Name Ihrer Feuerwehr)." IsDynamic="true"
              Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
     <Setting Name="EMailBody" DisplayText="Nachrichtentext" Category="Mail" Description="Der Inhalt der Mail." IsDynamic="true"
-             Editor="ObjectExpressionTypeEditor" 
+             Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="AttachImage" DisplayText="Fax anhängen" Description="Aktiviert die Möglichkeit das Fax an die Mail im Jpeg Format anzuhängen." IsDynamic="true" />
+    <Setting Name="AttachImage" DisplayText="Fax anhängen" Category="Mail" IsDynamic="true"
+             Description="Hängt das dem Alarm zugrunde liegende Fax der Mail im JPEG-Format an." />
   </Identifier>
 </SettingsDisplayConfiguration>

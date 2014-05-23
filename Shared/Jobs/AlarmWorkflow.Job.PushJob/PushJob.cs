@@ -43,8 +43,6 @@ namespace AlarmWorkflow.Job.PushJob
         private ISettingsServiceInternal _settings;
         private IAddressingServiceInternal _addressing;
 
-        private string _expression;
-
         #endregion
 
         #region IDisposable Members
@@ -62,7 +60,6 @@ namespace AlarmWorkflow.Job.PushJob
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
             _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
 
-            _expression = _settings.GetSetting("PushJob", "MessageContent").GetValue<string>();
             return true;
         }
 
@@ -72,8 +69,12 @@ namespace AlarmWorkflow.Job.PushJob
             {
                 return;
             }
-            Task.Factory.StartNew(() => NotifyProwl(operation));
-            Task.Factory.StartNew(() => NotifyMyAndroid(operation));
+
+            string expression = _settings.GetSetting("PushJob", "MessageContent").GetValue<string>();
+            string content = operation.ToString(expression);
+
+            Task.Factory.StartNew(() => NotifyProwl(operation, content));
+            Task.Factory.StartNew(() => NotifyMyAndroid(operation, content));
         }
 
         bool IJob.IsAsync
@@ -91,9 +92,8 @@ namespace AlarmWorkflow.Job.PushJob
             return recipients.Select(ri => ri.Item2).ToList();
         }
 
-        private void NotifyMyAndroid(Operation operation)
+        private void NotifyMyAndroid(Operation operation, string content)
         {
-            string content = operation.ToString(_expression);
             List<String> nmaRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "NMA" select pushEntryObject.RecipientApiKey).ToList();
             if (nmaRecipients.Count != 0)
             {
@@ -109,9 +109,8 @@ namespace AlarmWorkflow.Job.PushJob
             }
         }
 
-        private void NotifyProwl(Operation operation)
+        private void NotifyProwl(Operation operation, string content)
         {
-            string content = operation.ToString(_expression);
             List<String> prowlRecipients = (from pushEntryObject in GetRecipients(operation) where pushEntryObject.Consumer == "Prowl" select pushEntryObject.RecipientApiKey).ToList();
             if (prowlRecipients.Count != 0)
             {

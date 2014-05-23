@@ -84,7 +84,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private void PrintOperation(Operation operation)
         {
-            foreach (string queueName in _settings.GetSetting("OperationPrinterJob", "PrintingQueueNames").GetStringArray())
+            foreach (string queueName in _settings.GetSetting(SettingKeysJob.PrintingQueueNames).GetStringArray())
             {
                 var queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
                 PrintingQueue pq = queues.GetPrintingQueue(queueName);

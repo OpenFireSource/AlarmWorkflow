@@ -1,5 +1,5 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="AlarmSourcePrinterJob" DisplayText="Alarmquellendruck" Parent="Aufgaben">
-    <Setting Name="PrintingQueueNames" DisplayText="Druckerwege" Category="Druck" Editor="PrintingQueueNamesTypeEditor" />
+    <Setting Name="PrintingQueueNames" DisplayText="Druckerwege" Category="Druck" IsDynamic="true" Editor="PrintingQueueNamesTypeEditor" />
   </Identifier>
 </SettingsDisplayConfiguration>

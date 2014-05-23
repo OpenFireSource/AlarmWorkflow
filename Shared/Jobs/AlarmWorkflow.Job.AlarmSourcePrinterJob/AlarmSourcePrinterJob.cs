@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Printing;
+using System.IO;
 using System.Threading;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.SettingsContracts;
@@ -49,14 +50,13 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 return;
             }
 
-            System.IO.FileInfo sourceImageFile = new System.IO.FileInfo((string)context.Parameters["ImagePath"]);
+            FileInfo sourceImageFile = new FileInfo((string)context.Parameters["ImagePath"]);
             if (!sourceImageFile.Exists)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, sourceImageFile.FullName);
                 return;
             }
 
-            // Grab all created files to print
             string imagePath = (string)context.Parameters["ImagePath"];
 
             foreach (string queueName in _settings.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
@@ -86,7 +86,6 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 return;
             }
 
-            // TODO: May be made modular using a plug-in system and/or delegates in the future!
             switch (context.AlarmSourceName)
             {
                 case "FaxAlarmSource": PrintFaxes(context, operation); break;

@@ -1,8 +1,8 @@
 ﻿<SettingsDisplayConfiguration>
   <Identifier Name="OperationPrinterJob" DisplayText="Alarmdetails-Druck" Parent="Aufgaben">
     <Setting Name="TemplateFile" DisplayText="Druckvorlagendatei" Category="Vorlage" Editor="FileTypeEditor" EditorParameter="HTML-Dateien (*.htm; *.html)|*.htm;*.html"
-             Description="Die Vorlagendatei, die zum Drucken verwendet wird." />
+             Description="Die Vorlagendatei, die zum Drucken verwendet wird." IsDynamic="true" />
     <Setting Name="PrintingQueueNames" DisplayText="Druckerwege" Category="Druck" Editor="PrintingQueueNamesTypeEditor"
-             Description="Die Druckerwege, auf denen gedruckt werden soll." />
+             Description="Die Druckerwege, auf denen gedruckt werden soll." IsDynamic="true" />
   </Identifier>
 </SettingsDisplayConfiguration>

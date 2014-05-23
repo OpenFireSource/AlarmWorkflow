@@ -5,7 +5,7 @@
     <Setting Name="CustomTextFormat" DisplayText="Formattext" Category="Benutzerdefiniertes Format" IsDynamic="true"
              Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="EVAExportEnabled" DisplayText="EVA-Datei Export aktiviert" Category="EVA" />
-    <Setting Name="EVADestinationFileName" DisplayText="Zieldatei" Category="EVA" Editor="FileTypeEditor" EditorParameter="XML-Dateien (*.xml)|*.xml" />
+    <Setting Name="EVAExportEnabled" DisplayText="EVA-Datei Export aktiviert" Category="EVA" IsDynamic="true" />
+    <Setting Name="EVADestinationFileName" DisplayText="Zieldatei" Category="EVA" IsDynamic="true" Editor="FileTypeEditor" EditorParameter="XML-Dateien (*.xml)|*.xml" />
   </Identifier>
 </SettingsDisplayConfiguration>

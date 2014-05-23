@@ -192,12 +192,12 @@ namespace AlarmWorkflow.Job.MailingJob
                 {
                     if (File.Exists(imagePath))
                     {
-                        string[] convertTiffToJpeg = Helpers.ConvertTiffToJpegAndSplit(imagePath);
-                        Stream stream = Helpers.CombineBitmap(convertTiffToJpeg).ToStream(ImageFormat.Jpeg);
+                        string[] splitFiles = Helpers.ConvertTiffToJpegAndSplit(imagePath);
+                        Stream stream = Helpers.CombineBitmap(splitFiles).ToStream(ImageFormat.Jpeg);
 
                         message.Attachments.Add(new Attachment(stream, ImageAttachmentFileName));
 
-                        foreach (string s in convertTiffToJpeg)
+                        foreach (string s in splitFiles)
                         {
                             File.Delete(s);
                         }

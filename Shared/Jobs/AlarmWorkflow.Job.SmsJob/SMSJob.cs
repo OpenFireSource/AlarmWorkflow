@@ -43,8 +43,6 @@ namespace AlarmWorkflow.Job.SmsJob
         private ISettingsServiceInternal _settings;
         private IAddressingServiceInternal _addressing;
 
-        private string _userName;
-        private string _password;
         private ISmsProvider _provider;
 
         #endregion
@@ -85,9 +83,12 @@ namespace AlarmWorkflow.Job.SmsJob
 
             text = text.Truncate(SmsMessageMaxLength, true, true);
 
+            string userName = _settings.GetSetting(SettingKeys.UserName).GetValue<string>();
+            string password = _settings.GetSetting(SettingKeys.Password).GetValue<string>();
+
             try
             {
-                _provider.Send(_userName, _password, recipients.Select(r => r.PhoneNumber), text);
+                _provider.Send(userName, password, recipients.Select(r => r.PhoneNumber), text);
             }
             catch (Exception ex)
             {
@@ -119,8 +120,6 @@ namespace AlarmWorkflow.Job.SmsJob
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
             _addressing = serviceProvider.GetService<IAddressingServiceInternal>();
 
-            _userName = _settings.GetSetting(SettingKeys.UserName).GetValue<string>();
-            _password = _settings.GetSetting(SettingKeys.Password).GetValue<string>();
             _provider = ExportedTypeLibrary.Import<ISmsProvider>(_settings.GetSetting(SettingKeys.Provider).GetValue<string>());
 
             return true;
