@@ -36,6 +36,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private ISettingsServiceInternal _settings;
 
+        // FIXME: This should not be an instance-variable. In worst case, it could be overwritten with a new operation, if it is fast enough.
         private Operation _operation;
 
         #endregion
@@ -86,7 +87,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
         {
             foreach (string queueName in _settings.GetSetting(SettingKeysJob.PrintingQueueNames).GetStringArray())
             {
-                var queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
+                PrintingQueuesConfiguration queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
+
                 PrintingQueue pq = queues.GetPrintingQueue(queueName);
                 if (pq == null || !pq.IsEnabled)
                 {
@@ -94,7 +96,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
                 }
 
                 _operation = operation;
-                PrintWithQueue(pq, operation);
+                PrintWithQueue(pq, _operation);
             }
         }
 

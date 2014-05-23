@@ -22,6 +22,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
     /// </summary>
     sealed class TemplateObject
     {
+        #region Properties
+
         /// <summary>
         /// Gets/sets the operation that is printed.
         /// </summary>
@@ -30,5 +32,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// Gets/sets the full file path of the route image file.
         /// </summary>
         public string RouteImageFilePath { get; set; }
+
+        #endregion
     }
 }

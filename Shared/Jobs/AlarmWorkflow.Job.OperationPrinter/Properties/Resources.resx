@@ -123,6 +123,15 @@
   <data name="ExportJobDisplayName" xml:space="preserve">
     <value>Alarmdetails-Druck</value>
   </data>
+  <data name="MapsRequestFailed" xml:space="preserve">
+    <value>The maps-request has failed with status '{0}'.</value>
+  </data>
+  <data name="NoDestinationLocationAvailable" xml:space="preserve">
+    <value>Cannot create route image because the operation has no destination defined!</value>
+  </data>
+  <data name="NoSourceLocationDefined" xml:space="preserve">
+    <value>Cannot create route image because there is no source location defined!</value>
+  </data>
   <data name="OperationPrintTemplateNotFoundError" xml:space="preserve">
     <value>Could not find the template under '{0}'. Please check that the file exists.</value>
   </data>

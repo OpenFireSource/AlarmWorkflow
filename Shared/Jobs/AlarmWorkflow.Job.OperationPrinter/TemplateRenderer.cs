@@ -29,6 +29,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
     /// </summary>
     static class TemplateRenderer
     {
+        #region Methods
+
         /// <summary>
         /// Renders the given operation using the provided template file and restricts the output to the given size.
         /// </summary>
@@ -43,18 +45,35 @@ namespace AlarmWorkflow.Job.OperationPrinter
             to.Operation = operation;
             to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(source, operation.Einsatzort);
 
-            // Create HTML to render
+            Image image = null;
+            try
+            {
+                string html = CreateHtml(templateFile, to);
+
+                image = RenderOperationWithBrowser(to, html, size);
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(typeof(TemplateRenderer), ex);
+            }
+            finally
+            {
+                TryDeleteRouteImageFile(to);
+            }
+
+            return image;
+        }
+
+        private static string CreateHtml(string templateFile, TemplateObject to)
+        {
             StringBuilder sb = new StringBuilder();
+
             foreach (string line in File.ReadAllLines(templateFile))
             {
                 sb.AppendLine(ObjectFormatter.ToString(to, line));
             }
 
-            Image image = RenderOperationWithBrowser(to, sb.ToString(), size);
-
-            TryDeleteRouteImageFile(to);
-
-            return image;
+            return sb.ToString();
         }
 
         private static Image RenderOperationWithBrowser(TemplateObject to, string htmlToRender, Size size)
@@ -97,12 +116,17 @@ namespace AlarmWorkflow.Job.OperationPrinter
         {
             try
             {
-                File.Delete(to.RouteImageFilePath);
+                if (File.Exists(to.RouteImageFilePath))
+                {
+                    File.Delete(to.RouteImageFilePath);
+                }
             }
             catch (Exception ex)
             {
                 Logger.Instance.LogException(typeof(TemplateRenderer), ex);
             }
         }
+
+        #endregion
     }
 }

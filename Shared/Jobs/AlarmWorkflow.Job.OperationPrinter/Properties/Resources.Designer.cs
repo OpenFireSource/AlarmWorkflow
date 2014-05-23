@@ -79,6 +79,33 @@ namespace AlarmWorkflow.Job.OperationPrinter.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The maps-request has failed with status &apos;{0}&apos;..
+        /// </summary>
+        internal static string MapsRequestFailed {
+            get {
+                return ResourceManager.GetString("MapsRequestFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create route image because the operation has no destination defined!.
+        /// </summary>
+        internal static string NoDestinationLocationAvailable {
+            get {
+                return ResourceManager.GetString("NoDestinationLocationAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create route image because there is no source location defined!.
+        /// </summary>
+        internal static string NoSourceLocationDefined {
+            get {
+                return ResourceManager.GetString("NoSourceLocationDefined", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find the template under &apos;{0}&apos;. Please check that the file exists..
         /// </summary>
         internal static string OperationPrintTemplateNotFoundError {

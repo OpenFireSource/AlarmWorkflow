@@ -19,8 +19,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web;
 using System.Xml.Linq;
-using AlarmWorkflow.Job.OperationPrinter.Properties;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
@@ -30,15 +30,27 @@ namespace AlarmWorkflow.Job.OperationPrinter
     {
         internal static string GetRouteAsStoredFile(PropertyLocation source, PropertyLocation destination)
         {
+            if (!source.IsMeaningful)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, typeof(RoutePlanHelper), Properties.Resources.NoSourceLocationDefined);
+                return null;
+            }
+            if (!destination.IsMeaningful)
+            {
+                Logger.Instance.LogFormat(LogType.Warning, typeof(RoutePlanHelper), Properties.Resources.NoDestinationLocationAvailable);
+                return null;
+            }
+
             try
             {
                 return GetRouteAsStoredFileCore(source, destination);
             }
             catch (Exception ex)
             {
-                Logger.Instance.LogFormat(LogType.Error, typeof(RoutePlanHelper), Resources.RoutePlanHelperError);
+                Logger.Instance.LogFormat(LogType.Error, typeof(RoutePlanHelper), Properties.Resources.RoutePlanHelperError);
                 Logger.Instance.LogException(typeof(RoutePlanHelper), ex);
             }
+
             return null;
         }
 
@@ -52,53 +64,34 @@ namespace AlarmWorkflow.Job.OperationPrinter
             string originText = source.ToString();
             string destinationText = destination.ToString();
 
-            // Create initial request
             StringBuilder sbInitialRequest = new StringBuilder();
             sbInitialRequest.Append("http://maps.google.com/maps/api/directions/xml?");
-            sbInitialRequest.AppendFormat("origin={0}", originText);
-            sbInitialRequest.AppendFormat("&destination={0}", destinationText);
+            sbInitialRequest.AppendFormat("origin={0}", HttpUtility.UrlEncode(originText));
+            sbInitialRequest.AppendFormat("&destination={0}", HttpUtility.UrlEncode(destinationText));
             sbInitialRequest.Append("&sensor=false");
 
             WebRequest wreqInitial = WebRequest.Create(sbInitialRequest.ToString());
             XDocument docResponse = null;
             using (WebResponse wresInitial = wreqInitial.GetResponse())
             {
-                docResponse = XDocument.Load(wresInitial.GetResponseStream());
-
-                // Load the response XML
-                string status = docResponse.Root.Element("status").Value;
-                switch (status)
+                using (Stream stream = wresInitial.GetResponseStream())
                 {
-                    // TODO: Handle the errors!
-                    case "NOT_FOUND":
-                    case "ZERO_RESULTS":
-                        Logger.Instance.LogFormat(LogType.Warning, typeof(RoutePlanHelper), "The maps-request failed with status '{0}'. This is an indication that the location could not be retrieved. Sorry, but there's no workaround.", status);
-                        return null;
-                    case "OVER_QUERY_LIMIT":
-                        Logger.Instance.LogFormat(LogType.Error, typeof(RoutePlanHelper), "The maps-request failed with status 'OVER_QUERY_LIMIT'. This indicates too many queries within a short timeframe.");
-                        return null;
+                    docResponse = XDocument.Load(stream);
+                }
 
-                    case "MAX_WAYPOINTS_EXCEEDED":
-                    case "INVALID_REQUEST":
-                    case "REQUEST_DENIED":
-                    case "UNKNOWN_ERROR":
-                    default:
-                        Logger.Instance.LogFormat(LogType.Error, typeof(RoutePlanHelper), "The maps-request failed with status '{0}'. Please contact the developers!", status);
-                        return null;
-
-                    case "OK":
-                        // Everything ok.
-                        break;
+                string status = docResponse.Root.Element("status").Value;
+                if (status != "OK")
+                {
+                    Logger.Instance.LogFormat(LogType.Error, typeof(RoutePlanHelper), Properties.Resources.MapsRequestFailed, status);
+                    return null;
                 }
             }
 
-            // Get the path data
             XElement overviewE = docResponse.Root.Element("route").Element("overview_polyline").Element("points");
 
             StringBuilder sbContinuationRequest = new StringBuilder();
             sbContinuationRequest.Append("http://maps.google.com/maps/api/staticmap?");
             sbContinuationRequest.AppendFormat("size={0}x{1}", width, height);
-            // TODO: Maybe allow configuring the thickness and color, especially for b/w-printers?
             sbContinuationRequest.AppendFormat("&sensor=false&path=weight:3|color:red|enc:{0}", overviewE.Value);
 
             WebRequest wr1 = WebRequest.Create(sbContinuationRequest.ToString());
