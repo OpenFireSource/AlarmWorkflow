@@ -1,9 +1,9 @@
-﻿AlarmWorkflow vW.X.Y.Z Release Notes
+﻿AlarmWorkflow v0.9.7.0 Release Notes
 ====================================
 
-Änderungen seit vW.X.Y.Z
+Änderungen seit v0.9.6.0
 ------------------------
 
 Generelles
 
-  * -
+* ...
