@@ -67,7 +67,7 @@ namespace AlarmWorkflow.Parser.Library
                     string keyword = "";
                     if (keywordsOnly)
                     {
-                        if (!StartsWithKeyword(line, out keyword))
+                        if (!ParserUtility.StartsWithKeyword(line, _keywords, out keyword))
                         {
                             continue;
                         }
@@ -156,37 +156,26 @@ namespace AlarmWorkflow.Parser.Library
                             break;
                         case CurrentSection.EEinsatzmittel:
                             {
-                                if (line.StartsWith("NAME", StringComparison.CurrentCultureIgnoreCase))
+                                switch (prefix)
                                 {
-                                    last.FullName = msg;
-                                }
-                                else if (line.StartsWith("ALARMIERT", StringComparison.CurrentCultureIgnoreCase) && !string.IsNullOrEmpty(msg))
-                                {
-                                    msg = ParserUtility.GetTextBetween(msg, null, "AUS");
-                                    // In case that parsing the time failed, we just assume that the resource got requested right away.
-                                    DateTime dt = DateTime.Now;
-                                    // Most of the time the OCR-software reads the colon as a "1", so we check this case right here.
-                                    if (!DateTime.TryParseExact(msg, "dd.MM.yyyy HH1mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
-                                    {
-                                        // If this is NOT the case and it was parsed correctly, try it here
-                                        DateTime.TryParseExact(msg, "dd.MM.yyyy HH:mm", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt);
-                                    }
+                                    case "NAME":
+                                        last.FullName = msg;
+                                        break;
+                                    case "ALARMIERT":
+                                        msg = ParserUtility.GetTextBetween(msg, null, "AUS");
+                                        last.Timestamp = ParserUtility.TryGetTimestampFromMessage(msg, DateTime.Now).ToString();
+                                        break;
+                                    case "GEF. GERÄT":
+                                        // Only add to requested equipment if there is some text,
+                                        // otherwise the whole vehicle is the requested equipment
+                                        if (!string.IsNullOrWhiteSpace(msg))
+                                        {
+                                            last.RequestedEquipment.Add(msg);
+                                        }
 
-                                    last.Timestamp = dt.ToString(CultureInfo.InvariantCulture);
-                                }
-                                else if (line.StartsWith("GEF. GERÄT", StringComparison.CurrentCultureIgnoreCase))
-                                {
-                                    msg = GetMessageText(line, "GEF. GERÄT");
-
-                                    // Only add to requested equipment if there is some text,
-                                    // otherwise the whole vehicle is the requested equipment
-                                    if (!string.IsNullOrWhiteSpace(msg))
-                                    {
-                                        last.RequestedEquipment.Add(msg);
-                                    }
-
-                                    operation.Resources.Add(last);
-                                    last = new OperationResource();
+                                        operation.Resources.Add(last);
+                                        last = new OperationResource();
+                                        break;
                                 }
                             }
                             break;
@@ -264,52 +253,6 @@ namespace AlarmWorkflow.Parser.Library
                 return true;
             }
             return false;
-        }
-
-        private bool StartsWithKeyword(string line, out string keyword)
-        {
-            line = line.ToUpperInvariant();
-            foreach (string kwd in _keywords.Where(kwd => line.ToLowerInvariant().StartsWith(kwd.ToLowerInvariant())))
-            {
-                keyword = kwd;
-                return true;
-            }
-            keyword = null;
-            return false;
-        }
-
-        /// <summary>
-        /// Returns the message text, which is the line text but excluding the keyword/prefix and a possible colon.
-        /// </summary>
-        /// <param name="line"></param>
-        /// <param name="prefix">The prefix that is to be removed (optional).</param>
-        /// <returns></returns>
-        private string GetMessageText(string line, string prefix)
-        {
-            if (prefix == null)
-            {
-                prefix = "";
-            }
-
-            if (prefix.Length > 0)
-            {
-                line = line.Remove(0, prefix.Length);
-            }
-            else
-            {
-                int colonIndex = line.IndexOf(':');
-                if (colonIndex != -1)
-                {
-                    line = line.Remove(0, colonIndex + 1);
-                }
-            }
-
-            if (line.StartsWith(":"))
-            {
-                line = line.Remove(0, 1);
-            }
-            line = line.Trim();
-            return line;
         }
 
         #endregion

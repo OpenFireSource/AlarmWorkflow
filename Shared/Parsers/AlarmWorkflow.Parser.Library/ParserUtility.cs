@@ -75,7 +75,7 @@ namespace AlarmWorkflow.Parser.Library
             line = line.ToUpperInvariant();
             foreach (string kwd in keywords)
             {
-                if (line.StartsWith(kwd))
+                if (line.StartsWith(kwd, StringComparison.CurrentCultureIgnoreCase))
                 {
                     keyword = kwd;
                     return true;
