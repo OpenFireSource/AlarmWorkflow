@@ -22,6 +22,7 @@ using System.Windows.Media.Imaging;
 using AlarmWorkflow.BackendService.FileTransferContracts.Client;
 using AlarmWorkflow.BackendService.ManagementContracts.Emk;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Resources
@@ -87,6 +88,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
             }
         }
 
+        #endregion
+
+        #region
+
         private void LoadIconAsync()
         {
             ThreadPool.QueueUserWorkItem(w =>
@@ -107,9 +112,17 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
                             }));
                         }
                     }
+                    catch (AssertionFailedException)
+                    {
+                        // Occurs if the path is empty.
+                    }
                     catch (IOException)
                     {
                         // This exception is totally OK. No image will be displayed.
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Instance.LogException(this, ex);
                     }
                 }
             });
