@@ -7,3 +7,6 @@
 Generelles
 
 * ...
+
+Parser
+ * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
