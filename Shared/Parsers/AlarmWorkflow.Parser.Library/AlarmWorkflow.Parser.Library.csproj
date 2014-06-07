@@ -50,6 +50,7 @@
     <Compile Include="IlsErdingParser.cs" />
     <Compile Include="ILSFFBParser.cs" />
     <Compile Include="ILSKaiserslautern.cs" />
+    <Compile Include="IlsLandshutParser.cs" />
     <Compile Include="ILSMittelfrankenParser.cs" />
     <Compile Include="ILSNuernbergParser.cs" />
     <Compile Include="ILSOberlandParser.cs" />
