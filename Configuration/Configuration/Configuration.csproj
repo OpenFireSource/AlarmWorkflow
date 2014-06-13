@@ -1,0 +1,370 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6B1BE39A-E772-4FE3-A552-0149A58F58E3}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AlarmWorkflow.Windows.Configuration</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Windows.Configuration</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\Build\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\Build\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Configuration.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="AlarmWorkflow.Shared">
+      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="AlarmWorkflow.Windows.UIContracts.dll">
+      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Helper.cs" />
+    <Compile Include="ServiceHelper.cs" />
+    <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
+      <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\ColorTypeEditor.xaml.cs">
+      <DependentUpon>ColorTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DropDownTypeEditor.xaml.cs">
+      <DependentUpon>DropDownTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DurationTypeEditor.xaml.cs">
+      <DependentUpon>DurationTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\FileTypeEditor.xaml.cs">
+      <DependentUpon>FileTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DirectoryTypeEditor.xaml.cs">
+      <DependentUpon>DirectoryTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DefaultTypeEditor.xaml.cs">
+      <DependentUpon>DefaultTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\DoubleTypeEditor.xaml.cs">
+      <DependentUpon>DoubleTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\ExportTypeEditor.xaml.cs">
+      <DependentUpon>ExportTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Int32TypeEditor.xaml.cs">
+      <DependentUpon>Int32TypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\KeyInputTypeEditor.xaml.cs">
+      <DependentUpon>KeyInputTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\ObjectExpressionTypeEditor.xaml.cs">
+      <DependentUpon>ObjectExpressionTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml.cs">
+      <DependentUpon>ReplaceDictionaryTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Emk\EmkTypeEditor.xaml.cs">
+      <DependentUpon>EmkTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml.cs">
+      <DependentUpon>PrintingQueueNamesTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesConfigurationTypeEditor.xaml.cs">
+      <DependentUpon>PrintingQueuesConfigurationTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesEditor.xaml.cs">
+      <DependentUpon>PrintingQueuesEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesEditorViewModel.cs" />
+    <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
+      <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\StringTypeEditor.xaml.cs">
+      <DependentUpon>StringTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\ExportConfigurationTypeEditor.xaml.cs">
+      <DependentUpon>ExportConfigurationTypeEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\TypeEditorCache.cs" />
+    <Compile Include="ViewModels\AboutWindowViewModel.cs" />
+    <Compile Include="ViewModels\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\SaveSettingsTaskCommand.cs" />
+    <Compile Include="ViewModels\ErrorReportsViewModel.cs" />
+    <Compile Include="ViewModels\GroupedSectionViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\ObjectExpressionTesterViewModel.cs" />
+    <Compile Include="ViewModels\SectionViewModel.cs" />
+    <Compile Include="ViewModels\SettingItemViewModel.cs" />
+    <Compile Include="Views\AboutWindow.xaml.cs">
+      <DependentUpon>AboutWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorReportsView.xaml.cs">
+      <DependentUpon>ErrorReportsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObjectExpressionTesterWindow.xaml.cs">
+      <DependentUpon>ObjectExpressionTesterWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ToolbarView.xaml.cs">
+      <DependentUpon>ToolbarView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\BooleanTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ColorTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DropDownTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DurationTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\FileTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\DirectoryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\DefaultTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\DoubleTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\ExportTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Int32TypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\KeyInputTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ObjectExpressionTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ReplaceDictionaryTypeEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Emk\EmkTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueueNamesTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueuesConfigurationTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\PrintingQueuesEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\StringArrayTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\StringTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\ExportConfigurationTypeEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\AboutWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorReportsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObjectExpressionTesterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ToolbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Resources\ObjectTestDatabase.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Info_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigurationContracts\ConfigurationContracts.csproj">
+      <Project>{074FB127-C2E8-4B81-9579-EBB0D496659B}</Project>
+      <Name>AlarmWorkflow.Windows.ConfigurationContracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Configuration.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\servicerunning.png" />
+    <Resource Include="Images\servicestopped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ResetSetting_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\SaveAll_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Help_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\OFSlogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\TypeEditors\PrintHS.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\GPLv3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\staticsetting_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\ObjectTestDatabase.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\dynamicsetting_16.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)Data\*" "$(TargetDir)\*" /IYS</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -5,22 +5,21 @@ msbuild externals\S22.Imap\S22.Imap.sln /p:Configuration=Release /verbosity:mini
 
 echo -------------------------------------------------
 echo Build Shared...
-msbuild Shared\AlarmWorkflow.Shared.sln /p:Configuration=Release /verbosity:minimal
+msbuild Shared\Shared.sln /p:Configuration=Release /verbosity:minimal
 
 echo -------------------------------------------------
 echo Build Windows-specific stuff...
-msbuild Backend\AlarmWorkflow.Backend.sln /p:Configuration=Release /verbosity:minimal
-msbuild BackendServices\AlarmWorkflow.BackendServices.sln /p:Configuration=Release /verbosity:minimal
+msbuild Backend\Backend.sln /p:Configuration=Release /verbosity:minimal
+msbuild BackendServices\BackendServices.sln /p:Configuration=Release /verbosity:minimal
 
-msbuild Shared\AlarmWorkflow.Shared.AlarmSources.sln /p:Configuration=Release /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.Parser.sln /p:Configuration=Release /verbosity:minimal
-msbuild Shared\AlarmWorkflow.Shared.Jobs.sln /p:Configuration=Release /verbosity:minimal
+msbuild AlarmSources\AlarmSources.sln /p:Configuration=Release /verbosity:minimal
+msbuild Parsers\Parsers.sln /p:Configuration=Release /verbosity:minimal
 
-msbuild Windows\AlarmWorkflow.Windows.sln /p:Configuration=Release /verbosity:minimal
-msbuild Windows\AlarmWorkflow.Windows.Configuration.sln /p:Configuration=Release /verbosity:minimal
-msbuild Windows\AlarmWorkflow.Windows.UIJobs.sln /p:Configuration=Release /verbosity:minimal
-msbuild Windows\AlarmWorkflow.Windows.OperationViewer.sln /p:Configuration=Release /verbosity:minimal
+msbuild Windows\Windows.sln /p:Configuration=Release /verbosity:minimal
+msbuild WindowsUIWidgets\WindowsUIWidgets.sln /p:Configuration=Release /verbosity:minimal
+msbuild Configuration\Configuration.sln /p:Configuration=Release /verbosity:minimal
 
-msbuild Windows\AlarmWorkflow.Windows.UIWidget.sln /p:Configuration=Release /verbosity:minimal
+msbuild Jobs\Engine\EngineJobs.sln /p:Configuration=Release /verbosity:minimal
+msbuild Jobs\WindowsUI\WindowsUIJobs.sln /p:Configuration=Release /verbosity:minimal
 
 pause
