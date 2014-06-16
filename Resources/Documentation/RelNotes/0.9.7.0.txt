@@ -6,9 +6,21 @@
 
 Generelles
 
-* ...
+  * [FaxAlarmSource] Scan-Intervall entfernt. Nun fest eingestellt auf 2 Sekunden.
+  * [FaxAlarmSource] Ab sofort wird nur noch Tesseract unterstützt. Siehe auch Anhang #1.
 
 Parser
 
- * Neuer Parser für ILS Landshut
- * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
+  * Neuer Parser für ILS Landshut
+  * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
+
+Anhänge
+-------
+
+#1
+--
+
+Die API-Interfaces des Namespaces "AlarmWorkflow.AlarmSource.Fax.Extensibility" sind ab sofort nicht mehr öffentlich.
+Dies erfolgte deshalb, da das Team nur noch Tesseract unterstützt und bereits eigene Trainingsdateien erstellt hat,
+die eine nahezu perfekte Erkennung im Alltag sicherstellen.
+Sollten eigene Implementierungen von Typen des o.g. Namespaces in Verwendung sein, dies bitte an das Team melden.
