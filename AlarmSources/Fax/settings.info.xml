@@ -9,10 +9,8 @@
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis für analysierte Faxe." />
 
-    <Setting Name="OCR.Software" DisplayText="OCR-Software" Category="OCR-Software" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.AlarmSource.Fax.Extensibility.IOcrSoftware, AlarmWorkflow.AlarmSource.Fax"
-             Description="Welche Texterkennungssoftware zur Erkennung des Faxes benutzt wird." />
-    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="OCR-Software" Editor="DirectoryTypeEditor"
-             Description="Wenn leer gelassen, wird das Standardverzeichnis genommen."/>
+    <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
+             Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen."/>
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." />

@@ -75,8 +75,10 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             AssertCustomOcrPathExist();
 
-            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>(_configuration.OCRSoftware);
-            Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitializeUsingOcrSoftware, _configuration.OCRSoftware);
+            /* Hard-coded to internally used tesseract.
+             */
+            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>("Tesseract");
+            Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitializeUsingOcrSoftware, _ocrSoftware.GetType().Name);
         }
 
         private void AssertCustomOcrPathExist()
@@ -91,7 +93,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 return;
             }
 
-            throw new DirectoryNotFoundException(string.Format(Properties.Resources.OcrSoftwareNotFoundError, _configuration.OCRSoftware, _configuration.OCRSoftwarePath));
+            throw new DirectoryNotFoundException(string.Format(Properties.Resources.OcrSoftwareNotFoundError, _ocrSoftware.GetType().Name, _configuration.OCRSoftwarePath));
         }
 
         /// <summary>

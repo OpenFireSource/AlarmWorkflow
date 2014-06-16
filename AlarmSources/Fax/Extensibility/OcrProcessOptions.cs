@@ -20,7 +20,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.Extensibility
     /// <summary>
     /// Defines the options that shall be used by the OCR-software when processing a new image.
     /// </summary>
-    public sealed class OcrProcessOptions
+    sealed class OcrProcessOptions
     {
         /// <summary>
         /// Gets the manually specified path to the OCR-software to use. If this is null, then the default path shall be used.

@@ -20,7 +20,7 @@ namespace AlarmWorkflow.AlarmSource.Fax.Extensibility
     /// <summary>
     /// Defines mechanisms for a type that represents an OCR-software that is used for parsing incoming faxes.
     /// </summary>
-    public interface IOcrSoftware
+    interface IOcrSoftware
     {
         /// <summary>
         /// Processes the specified image using the OCR software.

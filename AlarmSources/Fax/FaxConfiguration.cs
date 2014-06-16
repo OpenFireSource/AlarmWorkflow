@@ -35,7 +35,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string FaxPath { get; private set; }
         internal string ArchivePath { get; private set; }
         internal string AnalysisPath { get; private set; }
-        internal string OCRSoftware { get; private set; }
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
 
@@ -71,7 +70,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             this.AnalysisPath = _settings.GetSetting("FaxAlarmSource", "AnalysisPath").GetValue<string>();
             this.AlarmFaxParserAlias = _settings.GetSetting("FaxAlarmSource", "AlarmfaxParser").GetValue<string>();
 
-            this.OCRSoftware = _settings.GetSetting("FaxAlarmSource", "OCR.Software").GetValue<string>();
             this.OCRSoftwarePath = _settings.GetSetting("FaxAlarmSource", "OCR.Path").GetValue<string>();
         }
 
