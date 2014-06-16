@@ -19,6 +19,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Windows.UIContracts.ViewModels
 {
@@ -27,6 +28,15 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
     /// </summary>
     public static class CommandHelper
     {
+        #region Constants
+
+        private const string MethodTemplateCanExecute = "{0}_CanExecute";
+        private const string MethodTemplateExecute = "{0}_Execute";
+
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// Automatically wires up relay commands.
         /// Performs this operation by searching for public properties of type "ICommand" and for methods which have "PROPERTYNAME_Execute" or "PROPERTYNAME_CanExecute".
@@ -34,9 +44,10 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
         /// <param name="instance">The instance to wire up.</param>
         public static void WireupRelayCommands(object instance)
         {
+            Assertions.AssertNotNull(instance, "instance");
+
             WireupRelayCommands(instance.GetType(), instance);
         }
-
 
         /// <summary>
         /// Automatically wires up relay commands.
@@ -46,37 +57,33 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
         /// <param name="instance">The instance to wire up.</param>
         public static void WireupRelayCommands(Type type, object instance)
         {
+            Assertions.AssertNotNull(type, "type");
+            Assertions.AssertNotNull(instance, "instance");
+
             foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.PropertyType == typeof(ICommand)))
             {
                 Action<object> execute = null;
                 Func<object, bool> canExecute = null;
 
-                // check execute method
                 {
-                    MethodInfo methodInfo = type.GetMethod(string.Format("{0}_Execute", property.Name), BindingFlags.Instance | BindingFlags.NonPublic);
+                    MethodInfo methodInfo = type.GetMethod(string.Format(MethodTemplateExecute, property.Name), BindingFlags.Instance | BindingFlags.NonPublic);
                     if (methodInfo == null || methodInfo.ReturnType != typeof(void) || methodInfo.GetParameters().Length != 1)
                     {
-                        // trace this to be helpful
-                        Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, "Could not wireup command property '{0}' because it had no correspoding 'void {0}_Execute(object parameter)' method.", property.Name));
-                        // and skip this command
+                        Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, Properties.Resources.WireupCommandPropertyFailed, property.Name));
                         continue;
                     }
 
-                    // create delegate
                     execute = (Action<object>)Delegate.CreateDelegate(typeof(Action<object>), instance, methodInfo.Name);
                 }
 
-                // check canexecute method
                 {
-                    MethodInfo methodInfo = type.GetMethod(string.Format("{0}_CanExecute", property.Name), BindingFlags.Instance | BindingFlags.NonPublic);
+                    MethodInfo methodInfo = type.GetMethod(string.Format(MethodTemplateCanExecute, property.Name), BindingFlags.Instance | BindingFlags.NonPublic);
                     if (methodInfo != null && methodInfo.ReturnType == typeof(bool) && methodInfo.GetParameters().Length == 1)
                     {
-                        // create delegate
                         canExecute = (Func<object, bool>)Delegate.CreateDelegate(typeof(Func<object, bool>), instance, methodInfo.Name);
                     }
                 }
 
-                // create command
                 property.SetValue(instance, new RelayCommand(execute, canExecute), null);
             }
         }
@@ -87,19 +94,20 @@ namespace AlarmWorkflow.Windows.UIContracts.ViewModels
         /// <param name="instance">The instance with wired-up commands.</param>
         public static void UnwireRelayCommands(object instance)
         {
+            Assertions.AssertNotNull(instance, "instance");
+
             foreach (PropertyInfo property in instance.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(p => p.PropertyType == typeof(ICommand)))
             {
-                // perform a check for the property being a relay command
                 RelayCommand value = property.GetValue(instance, null) as RelayCommand;
                 if (value == null)
                 {
-                    // this is no relay command; don't un-wire that one
                     continue;
                 }
 
-                // this command is a relay command, so let's unwire it by setting it to null
                 property.SetValue(instance, null, null);
             }
         }
+
+        #endregion
     }
 }

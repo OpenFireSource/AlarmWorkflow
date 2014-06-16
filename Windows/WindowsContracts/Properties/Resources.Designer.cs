@@ -77,5 +77,14 @@ namespace AlarmWorkflow.Windows.UIContracts.Properties {
                 return ResourceManager.GetString("CopyToClipboardFailedMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Could not wireup command property &apos;{0}&apos; because it had no correspoding &apos;void {0}_Execute(object parameter)&apos; method..
+        /// </summary>
+        internal static string WireupCommandPropertyFailed {
+            get {
+                return ResourceManager.GetString("WireupCommandPropertyFailed", resourceCulture);
+            }
+        }
     }
 }

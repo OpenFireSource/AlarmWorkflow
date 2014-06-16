@@ -44,19 +44,13 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Converters\OperationToDestinationStringConverter.cs" />
     <Compile Include="Extensibility\IOperationViewer.cs" />
-    <Compile Include="Extensibility\IRoutePlanProvider.cs" />
     <Compile Include="Extensibility\IUIJob.cs" />
     <Compile Include="Extensibility\IIdleUIJob.cs" />
     <Compile Include="Extensions.cs" />

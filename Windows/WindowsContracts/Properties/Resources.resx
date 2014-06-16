@@ -123,4 +123,7 @@
   <data name="CopyToClipboardFailedMessage" xml:space="preserve">
     <value>Konnte nicht auf die Zwischenablage zugreifen. Möglicherweise greift aktuell ein anderes Programm darauf zu. Bitte versuchen Sie es in ein paar Sekunden erneut.</value>
   </data>
+  <data name="WireupCommandPropertyFailed" xml:space="preserve">
+    <value>Could not wireup command property '{0}' because it had no correspoding 'void {0}_Execute(object parameter)' method.</value>
+  </data>
 </root>
