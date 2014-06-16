@@ -41,6 +41,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private const string AnalyzedFileNameFormat = "yyyyMMddHHmmssffff";
         private const string ArchivedFilePathExtension = ".tif";
         private const int MoveFileAttemptDelayMs = 200;
+        private const int RoutineIntervalMs = 2000;
 
         #endregion
 
@@ -323,7 +324,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
                 }
 
-                Thread.Sleep(_configuration.RoutineInterval);
+                Thread.Sleep(RoutineIntervalMs);
             }
         }
 

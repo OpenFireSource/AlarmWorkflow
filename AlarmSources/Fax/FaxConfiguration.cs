@@ -38,7 +38,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal string OCRSoftware { get; private set; }
         internal string OCRSoftwarePath { get; private set; }
         internal string AlarmFaxParserAlias { get; private set; }
-        internal int RoutineInterval { get; private set; }
 
         internal IEnumerable<string> FaxBlacklist
         {
@@ -74,8 +73,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
             this.OCRSoftware = _settings.GetSetting("FaxAlarmSource", "OCR.Software").GetValue<string>();
             this.OCRSoftwarePath = _settings.GetSetting("FaxAlarmSource", "OCR.Path").GetValue<string>();
-
-            this.RoutineInterval = _settings.GetSetting("FaxAlarmSource", "Routine.Interval").GetValue<int>();
         }
 
         #endregion

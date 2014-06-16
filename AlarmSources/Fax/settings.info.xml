@@ -17,11 +17,6 @@
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." />
 
-    <Setting Name="Routine.Interval" DisplayText="Scan-Interval" Category="Erweitert"
-             Description="Der Abstand zur Überprüfung auf neue Faxe im Faxeingangs-Verzeichnis."
-             Editor="DurationTypeEditor"
-             EditorParameter="Min=500;Max=60000;Scale=Milliseconds" />
-
     <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
              Description="Nur Faxe mit min. einem dieser Worte werden ausgewertet. Wird vor der Blacklist ausgewertet." />
     <Setting Name="FaxBlacklist" DisplayText="Blacklist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"

@@ -5,7 +5,6 @@
   <Setting Name="AnalysisPath" Type="System.String" IsNull="False">C:\Fax\Analysis\</Setting>
   <Setting Name="OCR.Software" Type="System.String" IsNull="False">Tesseract</Setting>
   <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
-  <Setting Name="Routine.Interval" Type="System.Int32" IsNull="False">1500</Setting>
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">NoParser</Setting>
   <Setting Name="FaxWhitelist" Type="System.String">
     <![CDATA[]]>
