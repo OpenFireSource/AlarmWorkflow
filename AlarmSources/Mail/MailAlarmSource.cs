@@ -32,11 +32,16 @@ namespace AlarmWorkflow.AlarmSource.Mail
     [Information(DisplayName = "ExportAlarmSourceDisplayName", Description = "ExportAlarmSourceDescription")]
     class MailAlarmSource : IAlarmSource
     {
+        #region Constants
+
+        private const int PollIntervalMs = 10000;
+
+        #endregion
+
         #region Fields
 
         private MailConfiguration _configuration;
 
-        private ImapClient _imapClient;
         private IParser _mailParser;
 
         #endregion
@@ -55,8 +60,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
         #region IAlarmSource Members
 
         /// <summary>
-        /// Raised when a new alarm has surfaced and processed for the Engine to handle.
-        /// See documentation for further information.
+        /// Raised when a new alarm has surfaced by successfully processing an incoming mail.
         /// </summary>
         public event EventHandler<AlarmSourceEventArgs> NewAlarm;
 
@@ -72,13 +76,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
             while (true)
             {
                 CheckImapMail();
-                Thread.Sleep(_configuration.PollInterval);
+
+                Thread.Sleep(PollIntervalMs);
             }
         }
 
         private void OnNewAlarm(Operation operation)
         {
-            EventHandler<AlarmSourceEventArgs> copy = NewAlarm;
+            var copy = NewAlarm;
             if (copy != null)
             {
                 copy(this, new AlarmSourceEventArgs(operation));
@@ -91,8 +96,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         void IDisposable.Dispose()
         {
-            _configuration.Dispose();
-            _configuration = null;
+            if (_configuration != null)
+            {
+                _configuration.Dispose();
+                _configuration = null;
+            }
         }
 
         #endregion
@@ -103,76 +111,83 @@ namespace AlarmWorkflow.AlarmSource.Mail
         {
             try
             {
-                using (_imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL, null, _configuration.Encoding))
+                using (ImapClient imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL, null, _configuration.Encoding))
                 {
-                    try
+                    imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
+
+                    IEnumerable<uint> uids = imapClient.Search(SearchCondition.Unseen());
+                    foreach (MailMessage msg in uids.Select(uid => imapClient.GetMessage(uid)))
                     {
-                        _imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
-                        IEnumerable<uint> uids = _imapClient.Search(SearchCondition.Unseen());
-                        foreach (MailMessage msg in uids.Select(uid => _imapClient.GetMessage(uid)))
+                        try
                         {
-                            Logger.Instance.LogFormat(LogType.Debug, this, "New mail " + msg.Subject);
-                            MailOperation(msg);
+                            ProcessMail(msg);
+                        }
+                        catch (Exception ex)
+                        {
+                            Logger.Instance.LogException(this, ex);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Logger.Instance.LogException(this, ex);
-                    }
                 }
-
             }
             catch (Exception ex)
             {
-                //Sometimes an error occues e.g. if the internet connection was disconected or an timeout occured. 
-                //Instead of "stopping" the complete alarmsource we log it and continue as normal.
+                // Sometimes an error occures, e.g. if the network was disconected or a timeout occured.
                 Logger.Instance.LogException(this, ex);
             }
         }
 
-        private void MailOperation(MailMessage message)
+        private void ProcessMail(MailMessage message)
         {
-            if (message.Subject.ToLower().Contains(_configuration.MailSubject.ToLower()) &&
-                message.From.Address.ToLower().Contains(_configuration.MailSender.ToLower()))
+            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ReceivedMailInfo, message.From, message.Subject);
+
+            bool isSubjectMatch = message.Subject.ToLower().Contains(_configuration.MailSubject.ToLower());
+            bool isMessageMatch = message.From.Address.ToLower().Contains(_configuration.MailSender.ToLower());
+
+            if (isSubjectMatch && isMessageMatch)
             {
-                Logger.Instance.LogFormat(LogType.Debug, this, "Found matching mail.");
-                Operation operation = null;
-                if (_configuration.AnalyseAttachment)
+                string[] lines = (_configuration.AnalyzeAttachment) ? AnalyzeAttachment(message) : AnalyzeBody(message);
+                if (lines != null)
                 {
-                    if (message.Attachments.Count > 0)
-                    {
-                        if (string.Equals(message.Attachments[0].Name, _configuration.AttachmentName, StringComparison.InvariantCultureIgnoreCase))
-                        {
-                            Attachment attachment = message.Attachments[0];
-                            byte[] buffer = new byte[attachment.ContentStream.Length];
-                            attachment.ContentStream.Read(buffer, 0, buffer.Length);
-                            string content;
-                            if (_configuration.Encoding != null)
-                            {
-                                content = _configuration.Encoding.GetString(buffer);
-                            }
-                            else
-                            {
-                                content = Encoding.ASCII.GetString(buffer);
-                            }
-                            string[] lines = content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
-                            operation = _mailParser.Parse(lines);
-                        }
-                    }
-                    else
-                    {
-                        Logger.Instance.LogFormat(LogType.Error, this, Resources.NoAttachmentFound);
-                    }
-                }
-                else
-                {
-                    operation = _mailParser.Parse(message.Body.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries));
-                }
-                if (operation != null)
-                {
+                    Operation operation = _mailParser.Parse(lines);
                     OnNewAlarm(operation);
                 }
             }
+            else
+            {
+                Logger.Instance.LogFormat(LogType.Info, this, Resources.MailDoesNotMatchCriteria);
+            }
+        }
+
+        private string[] AnalyzeAttachment(MailMessage message)
+        {
+            Attachment attachment = message.Attachments.FirstOrDefault(att => string.Equals(att.Name, _configuration.AttachmentName, StringComparison.InvariantCultureIgnoreCase));
+            if (attachment != null)
+            {
+                return GetLinesFromAttachment(attachment);
+            }
+
+            Logger.Instance.LogFormat(LogType.Info, this, Resources.NoAttachmentFound);
+            return null;
+        }
+
+        private string[] GetLinesFromAttachment(Attachment attachment)
+        {
+            byte[] buffer = new byte[attachment.ContentStream.Length];
+            attachment.ContentStream.Read(buffer, 0, buffer.Length);
+
+            string content = GetContentWithEncoding(buffer);
+            return content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private string GetContentWithEncoding(byte[] buffer)
+        {
+            Encoding encodingToUse = _configuration.Encoding ?? Encoding.ASCII;
+            return encodingToUse.GetString(buffer);
+        }
+
+        private string[] AnalyzeBody(MailMessage message)
+        {
+            return message.Body.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         #endregion

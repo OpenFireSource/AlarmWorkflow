@@ -21,7 +21,7 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
-    internal sealed class MailConfiguration : DisposableObject
+    sealed class MailConfiguration : DisposableObject
     {
         #region Fields
 
@@ -31,20 +31,52 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #region Properties
 
-        internal string ServerName { get; private set; }
-        internal ushort Port { get; private set; }
-        internal string UserName { get; private set; }
-        internal string Password { get; private set; }
-        internal int PollInterval { get; private set; }
-        internal bool SSL { get; private set; }
+        internal string ServerName
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "ServerName").GetValue<string>(); }
+        }
+        internal int Port
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "Port").GetValue<int>(); }
+        }
+        internal string UserName
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "UserName").GetValue<string>(); }
+        }
+        internal string Password
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "Password").GetValue<string>(); }
+        }
+        internal bool SSL
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "SSL").GetValue<bool>(); }
+        }
 
-        internal string MailSubject { get; private set; }
-        internal string MailSender { get; private set; }
+        internal string MailSubject
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "MailSubject").GetValue<string>(); }
+        }
+        internal string MailSender
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "MailSender").GetValue<string>(); }
+        }
 
-        internal bool AnalyseAttachment { get; private set; }
-        internal string AttachmentName { get; private set; }
-        internal string ParserAlias { get; private set; }
-        internal Encoding Encoding { get; private set; }
+        internal bool AnalyzeAttachment
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>(); }
+        }
+        internal string AttachmentName
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>(); }
+        }
+        internal string ParserAlias
+        {
+            get { return _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>(); }
+        }
+        internal Encoding Encoding
+        {
+            get { return GetEncodingFromSettings(); }
+        }
 
         #endregion
 
@@ -53,42 +85,32 @@ namespace AlarmWorkflow.AlarmSource.Mail
         /// <summary>
         /// Initializes a new instance of the <see cref="MailConfiguration"/> class.
         /// </summary>
-        /// <param name="serviceProvider">The service provider.</param>
+        /// <param name="serviceProvider">The service provider to get the services from.</param>
         public MailConfiguration(IServiceProvider serviceProvider)
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
-
-            ServerName = _settings.GetSetting("MailAlarmSource", "ServerName").GetValue<string>();
-            Port = (ushort)_settings.GetSetting("MailAlarmSource", "Port").GetValue<int>();
-            UserName = _settings.GetSetting("MailAlarmSource", "UserName").GetValue<string>();
-            Password = _settings.GetSetting("MailAlarmSource", "Password").GetValue<string>();
-            PollInterval = _settings.GetSetting("MailAlarmSource", "PollInterval").GetValue<int>();
-            SSL = _settings.GetSetting("MailAlarmSource", "SSL").GetValue<bool>();
-
-            MailSubject = _settings.GetSetting("MailAlarmSource", "MailSubject").GetValue<string>();
-            MailSender = _settings.GetSetting("MailAlarmSource", "MailSender").GetValue<string>();
-
-            AnalyseAttachment = _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>();
-            AttachmentName = _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>();
-            ParserAlias = _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>();
-            int codepage = _settings.GetSetting("MailAlarmSource", "CodePage").GetValue<int>();
-            
-            try
-            {
-                if (codepage != 0)
-                {
-                    Encoding = Encoding.GetEncoding(codepage);
-                }
-            }
-            catch (Exception)
-            {
-                Encoding = null;
-            }
         }
 
         #endregion
 
         #region Methods
+
+        private Encoding GetEncodingFromSettings()
+        {
+            try
+            {
+                int codepage = _settings.GetSetting("MailAlarmSource", "CodePage").GetValue<int>();
+                if (codepage != 0)
+                {
+                    return Encoding.GetEncoding(codepage);
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+            return null;
+        }
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

@@ -1,26 +1,22 @@
 ﻿<SettingsDisplayConfiguration>
-
   <Identifier Name="MailAlarmSource" DisplayText="E-Mail Konto" Order="-5000" Parent="Alarmquelle">
+    <Setting Name="ServerName" DisplayText="Servername" Category="Server" IsDynamic="true" />
+    <Setting Name="Port" DisplayText="Port" Category="Server" EditorParameter="1;65535" IsDynamic="true" />
+    <Setting Name="SSL" DisplayText="SSL" Category="Server" IsDynamic="true" />
+    <Setting Name="CodePage" DisplayText="Zeichensatztabelle‎" Category="Konto" IsDynamic="true"
+             Description="Gibt die zu verwendende Zeichensatztabelle(Codepage) an. Nähere Informationen entnehmen Sie bitte dem Handbuch." />
+    <Setting Name="UserName" DisplayText="Benutzername" Category="Konto" IsDynamic="true" />
+    <Setting Name="Password" DisplayText="Passwort" Category="Konto" IsDynamic="true" />
 
-    <Setting Name="ServerName" DisplayText="Servername" Description="POP3/IMAP" Category="Server" />
-    <Setting Name="Port" DisplayText="Port" Category="Server" EditorParameter="1;65535" />
-    <Setting Name="SSL" DisplayText="SSL" Category="Server" />
-    <Setting Name="PollInterval" DisplayText="Abfrageintervall" Category="Server" 
-             Editor="DurationTypeEditor"
-             EditorParameter="Min=500;Max=600000;Scale=Milliseconds" />
-    <Setting Name="CodePage" DisplayText="Zeichensatztabelle‎" Description="Gibt die zu verwendende Zeichensatztabelle(Codepage) an. Nähere Informationen entnehmen Sie bitte dem Handbuch." Category="Konto" />
-    <Setting Name="UserName" DisplayText="Benutzername" Category="Konto" />
-    <Setting Name="Password" DisplayText="Passwort" Category="Konto" />
+    <Setting Name="MailSubject" DisplayText="Betreff" Category="E-Mail" IsDynamic="true" />
+    <Setting Name="MailSender" DisplayText="Absender (Mailadresse)" Category="E-Mail" IsDynamic="true" />
 
-    <Setting Name="MailSubject" DisplayText="Betreff" Category="E-Mail" />
-    <Setting Name="MailSender" DisplayText="Absender (Mailadresse)" Category="E-Mail" />
-
-    
     <Setting Name="MailParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
-               Description="Welcher Parser die Informationen aus der Mail auswertet." />
+             Description="Welcher Parser die Informationen aus der Mail auswertet." />
 
-    <Setting Name="AnalyseAttachment" DisplayText="Anhänge auswerten" Category="Anhang" Description="Gibt an ob anstatt der Mailinhalts der Inhalt eines Anhangs ausgewertet werden soll."/>
-    <Setting Name="AttachmentName" DisplayText="Anhangname" Category="Anhang" Description="Der Name des Anhangs welcher ausgewertet werden soll." />
+    <Setting Name="AnalyseAttachment" DisplayText="Anhänge auswerten" Category="Anhang" IsDynamic="true"
+             Description="Gibt an ob anstatt der Mailinhalts der Inhalt eines Anhangs ausgewertet werden soll."/>
+    <Setting Name="AttachmentName" DisplayText="Anhangname" Category="Anhang" IsDynamic="true"
+             Description="Der Name des Anhangs welcher ausgewertet werden soll." />
   </Identifier>
-
 </SettingsDisplayConfiguration>

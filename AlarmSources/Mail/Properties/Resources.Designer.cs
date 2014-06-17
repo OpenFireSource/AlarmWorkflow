@@ -79,7 +79,16 @@ namespace AlarmWorkflow.AlarmSource.Mail.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No attachment found in the mail so we canot analyse one..
+        ///   Looks up a localized string similar to Skipping mail because it does not match the configured criteria..
+        /// </summary>
+        internal static string MailDoesNotMatchCriteria {
+            get {
+                return ResourceManager.GetString("MailDoesNotMatchCriteria", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skipping mail because it does not contain a matching attachment..
         /// </summary>
         internal static string NoAttachmentFound {
             get {
@@ -88,11 +97,11 @@ namespace AlarmWorkflow.AlarmSource.Mail.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to IMAP IDLE is not supported by the given mail server..
+        ///   Looks up a localized string similar to Received mail from &apos;{0}&apos; with subject &apos;{1}&apos;..
         /// </summary>
-        internal static string NoIDLESupport {
+        internal static string ReceivedMailInfo {
             get {
-                return ResourceManager.GetString("NoIDLESupport", resourceCulture);
+                return ResourceManager.GetString("ReceivedMailInfo", resourceCulture);
             }
         }
     }

@@ -11,7 +11,6 @@
   
   <Setting Name="MailSubject" Type="System.String">AlarmMail</Setting>
   <Setting Name="MailSender" Type="System.String">aa@bb.cc</Setting>
-  <Setting Name="PollInterval" Type="System.Int32">10000</Setting>
 
   <Setting Name="AnalyseAttachment" Type="System.Boolean">false</Setting>
   <Setting Name="AttachmentName" Type="System.String">alarm.txt</Setting>

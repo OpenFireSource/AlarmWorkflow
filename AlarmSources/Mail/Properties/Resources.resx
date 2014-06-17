@@ -123,10 +123,13 @@
   <data name="ExportAlarmSourceDisplayName" xml:space="preserve">
     <value>E-Mail</value>
   </data>
-  <data name="NoAttachmentFound" xml:space="preserve">
-    <value>No attachment found in the mail so we canot analyse one.</value>
+  <data name="MailDoesNotMatchCriteria" xml:space="preserve">
+    <value>Skipping mail because it does not match the configured criteria.</value>
   </data>
-  <data name="NoIDLESupport" xml:space="preserve">
-    <value>IMAP IDLE is not supported by the given mail server.</value>
+  <data name="NoAttachmentFound" xml:space="preserve">
+    <value>Skipping mail because it does not contain a matching attachment.</value>
+  </data>
+  <data name="ReceivedMailInfo" xml:space="preserve">
+    <value>Received mail from '{0}' with subject '{1}'.</value>
   </data>
 </root>
