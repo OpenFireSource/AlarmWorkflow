@@ -313,7 +313,7 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Process data event: {0} ähnelt.
+        ///   Looks up a localized string similar to Process data event: {0}.
         /// </summary>
         internal static string ProcessDataEvent {
             get {
@@ -322,7 +322,7 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Process error event: {0} ähnelt.
+        ///   Looks up a localized string similar to Process error event: {0}.
         /// </summary>
         internal static string ProcessErrorEvent {
             get {
@@ -331,7 +331,16 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Program &apos;{0}&apos; has finished with exit code {1}. ähnelt.
+        ///   Looks up a localized string similar to Could not start executable file &apos;{0}&apos; because of an exception. See log for further information..
+        /// </summary>
+        internal static string ProcessWrapperStartError {
+            get {
+                return ResourceManager.GetString("ProcessWrapperStartError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Program &apos;{0}&apos; has finished with exit code {1}..
         /// </summary>
         internal static string ProgramFinished {
             get {
@@ -340,7 +349,7 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Starting program &apos;{0}&apos; with arguments &apos;{1}&apos;... ähnelt.
+        ///   Looks up a localized string similar to Starting program &apos;{0}&apos; with arguments &apos;{1}&apos;....
         /// </summary>
         internal static string ProgramStart {
             get {
@@ -349,7 +358,7 @@ namespace AlarmWorkflow.Shared.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Registered service type &apos;{0}&apos; (instance type: {1}). ähnelt.
+        ///   Looks up a localized string similar to Registered service type &apos;{0}&apos; (instance type: {1})..
         /// </summary>
         internal static string ServiceProviderRegisteredService {
             get {

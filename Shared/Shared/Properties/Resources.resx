@@ -234,4 +234,7 @@
   <data name="ProgramStart" xml:space="preserve">
     <value>Starting program '{0}' with arguments '{1}'...</value>
   </data>
+  <data name="ProcessWrapperStartError" xml:space="preserve">
+    <value>Could not start executable file '{0}' because of an exception. See log for further information.</value>
+  </data>
 </root>

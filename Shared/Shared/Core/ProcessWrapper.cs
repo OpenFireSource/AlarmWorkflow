@@ -23,7 +23,7 @@ namespace AlarmWorkflow.Shared.Core
     /// <summary>
     /// Represents a wrapper around a <see cref="Process"/> that allows for convenient running a process and listening to its StdOut/StdErr to log them.
     /// </summary>
-    public class ProcessWrapper : IDisposable
+    public sealed class ProcessWrapper : DisposableObject
     {
         #region Fields
 
@@ -88,28 +88,55 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Starts the process, while reading the output and error events from the process.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">This instance has been disposed of and cannot be used anymore.</exception>
         public void Start()
         {
-            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
-
-            _process.Exited += _process_Exited;
-            _process.Start();
-            _process.BeginErrorReadLine();
-            _process.BeginOutputReadLine();
+            Start(false);
         }
 
         /// <summary>
         /// Starts the process and waits for completion, while reading the output and error events from the process.
         /// </summary>
+        /// <exception cref="ObjectDisposedException">This instance has been disposed of and cannot be used anymore.</exception>
         public void StartAndWait()
         {
-            Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
-
-            _process.Start();
-            _process.BeginErrorReadLine();
-            _process.BeginOutputReadLine();
-            _process.WaitForExit();
+            Start(true);
         }
+
+        private void Start(bool wait)
+        {
+            AssertNotDisposed();
+
+            if (!wait)
+            {
+                _process.Exited += _process_Exited;
+            }
+
+            try
+            {
+                _process.Start();
+                _process.BeginErrorReadLine();
+                _process.BeginOutputReadLine();
+
+                Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
+
+                if (wait)
+                {
+                    _process.WaitForExit();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.ProcessWrapperStartError, _process.StartInfo.FileName);
+                Logger.Instance.LogException(this, ex);
+
+                if (wait)
+                {
+                    this.Dispose();
+                }
+            }
+        }
+
         private void _process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             if (e.Data == null)
@@ -132,28 +159,26 @@ namespace AlarmWorkflow.Shared.Core
 
         private void _process_Exited(object sender, EventArgs e)
         {
-            _process.Exited -= _process_Exited;
-
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramFinished, FileName, _process.ExitCode);
-            _process.Dispose();
+
+            this.Dispose();
         }
 
-        #endregion
-
-        #region IDisposable Members
-
-        void IDisposable.Dispose()
+        /// <summary>
+        /// Overridden to cleanup the used process.
+        /// </summary>
+        protected override void DisposeCore()
         {
             if (_process != null)
             {
+                _process.Exited -= _process_Exited;
+
                 _process.OutputDataReceived -= _process_OutputDataReceived;
                 _process.ErrorDataReceived -= _process_ErrorDataReceived;
 
                 _process.Dispose();
                 _process = null;
             }
-
-            GC.SuppressFinalize(this);
         }
 
         #endregion
