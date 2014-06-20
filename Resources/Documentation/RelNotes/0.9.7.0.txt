@@ -6,7 +6,7 @@
 
 Generelles
 
-* ...
+* Existenz der externen Programme wird vor dem Ausführen geprüft.
 
 Parser
 
