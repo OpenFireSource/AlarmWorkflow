@@ -234,4 +234,7 @@
   <data name="ProgramStart" xml:space="preserve">
     <value>Starting program '{0}' with arguments '{1}'...</value>
   </data>
+  <data name="FileNotExists" xml:space="preserve">
+    <value>The desired file {0} doesn't exist. The program will not be executed! Please check your configuration.</value>
+  </data>
 </root>

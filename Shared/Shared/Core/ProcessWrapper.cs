@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Properties;
 
@@ -90,6 +91,10 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public void Start()
         {
+            if (!EnsureFileExists())
+            {
+                return;
+            }
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
 
             _process.Exited += _process_Exited;
@@ -103,6 +108,10 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public void StartAndWait()
         {
+            if (!EnsureFileExists())
+            {
+                return;
+            }
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramStart, FileName, Arguments);
 
             _process.Start();
@@ -136,6 +145,16 @@ namespace AlarmWorkflow.Shared.Core
 
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramFinished, FileName, _process.ExitCode);
             _process.Dispose();
+        }
+
+        private bool EnsureFileExists()
+        {
+            if (!File.Exists(FileName))
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.FileNotExists, FileName);
+                return false;
+            }
+            return true;
         }
 
         #endregion
