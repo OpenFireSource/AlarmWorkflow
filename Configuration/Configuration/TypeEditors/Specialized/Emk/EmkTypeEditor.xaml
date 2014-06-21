@@ -6,13 +6,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="500">
     <Grid>
-        <DataGrid ItemsSource="{Binding Resources}" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserAddRows="True" CanUserDeleteRows="True">
+        <DataGrid ItemsSource="{Binding Resources, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" CanUserResizeRows="False" CanUserAddRows="True" CanUserDeleteRows="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="FFW-Abk." Binding="{Binding SiteAlias, Mode=TwoWay}" Width="70" />
-                <DataGridTextColumn Header="Fax-Name" Binding="{Binding ResourceAlias, Mode=TwoWay}" Width="70" />
-                <DataGridTextColumn Header="Anzeigename" Binding="{Binding DisplayName, Mode=TwoWay}" Width="100" />
-                <DataGridTextColumn Header="Bildpfad (Server)" Binding="{Binding IconFileName, Mode=TwoWay}" Width="100" />
-                <DataGridCheckBoxColumn Header="Aktiv" Binding="{Binding IsActive, Mode=TwoWay}" />
+                <DataGridTextColumn Header="FFW-Abk." Binding="{Binding SiteAlias, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70" />
+                <DataGridTextColumn Header="Fax-Name" Binding="{Binding ResourceAlias, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="70" />
+                <DataGridTextColumn Header="Anzeigename" Binding="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+                <DataGridTextColumn Header="Bildpfad (Server)" Binding="{Binding IconFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" />
+                <DataGridCheckBoxColumn Header="Aktiv" Binding="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
