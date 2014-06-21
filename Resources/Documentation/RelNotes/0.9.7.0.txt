@@ -9,6 +9,7 @@ Generelles
   * [FaxAlarmSource] Scan-Intervall entfernt. Nun fest eingestellt auf 2 Sekunden.
   * [FaxAlarmSource] Ab sofort wird nur noch Tesseract unterstützt. Siehe auch Anhang #1.
   * [MailAlarmSource] Weitere Einstellungen reagieren nun dynamisch auf Änderungen.
+  * [Disposition] Neuen Dienst zur Disponierung von Fahrzeugen hinzugefügt. Siehe auch Anhang #2.
 
 Parser
 
@@ -25,3 +26,26 @@ Die API-Interfaces des Namespaces "AlarmWorkflow.AlarmSource.Fax.Extensibility" 
 Dies erfolgte deshalb, da das Team nur noch Tesseract unterstützt und bereits eigene Trainingsdateien erstellt hat,
 die eine nahezu perfekte Erkennung im Alltag sicherstellen.
 Sollten eigene Implementierungen von Typen des o.g. Namespaces in Verwendung sein, dies bitte an das Team melden.
+
+#2
+--
+
+Bitte dieses SQL-Skript auf der Datenbank ausführen, damit der Disponierungsdienst gestartet wird.
+
+  CREATE TABLE IF NOT EXISTS `alarmworkflow`.`dispresource` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `operation_id` INT(11) NOT NULL,
+    `timestamp` DATETIME NOT NULL,
+    `emkresourceid` VARCHAR(200) NOT NULL,
+    PRIMARY KEY (`id`),
+    INDEX `fk_dispresource_operation1_idx` (`operation_id` ASC),
+    CONSTRAINT `fk_dispresource_operation1`
+      FOREIGN KEY (`operation_id`)
+      REFERENCES `alarmworkflow`.`operation` (`id`)
+      ON DELETE NO ACTION
+      ON UPDATE NO ACTION)
+  ENGINE = InnoDB;
+
+Ggf. ist es notwendig, dass die Webseite die neue Version der 'Backend.Services.config' bekommt.
+Sollten bei der Benutzung Probleme auftreten, kopieren Sie diese Datei aus dem AlarmWorkflow-Verzeichnis in das Verzeichnis
+der Webanwendung.
