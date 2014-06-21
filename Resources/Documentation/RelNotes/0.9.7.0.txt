@@ -6,7 +6,7 @@
 
 Generelles
 
-* ...
+ * Einsatzmittelkonfiguration kann nun ohne Fokuswechsel gespeichert werden.
 
 Parser
 
