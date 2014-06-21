@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileTransferContracts", "Fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileTransfer", "FileTransfer\FileTransfer.csproj", "{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DispositioningContracts", "DispositioningContracts\DispositioningContracts.csproj", "{43281D76-D0C3-49EF-A411-57941759825A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dispositioning", "Dispositioning\Dispositioning.csproj", "{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +83,14 @@ Global
 		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B30426A1-37DA-4BA4-A30C-B84749BDBE0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43281D76-D0C3-49EF-A411-57941759825A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43281D76-D0C3-49EF-A411-57941759825A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43281D76-D0C3-49EF-A411-57941759825A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43281D76-D0C3-49EF-A411-57941759825A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
