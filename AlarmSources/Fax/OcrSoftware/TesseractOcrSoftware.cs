@@ -19,8 +19,6 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 {
-    [Export("Tesseract", typeof(IOcrSoftware))]
-    [Information(DisplayName = "ExportTesseractOcrDisplayName", Description = "ExportTesseractOcrDescription")]
     class TesseractOcrSoftware : IOcrSoftware
     {
         #region IOcrSoftware Members

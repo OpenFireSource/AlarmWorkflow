@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
+using AlarmWorkflow.AlarmSource.Fax.OcrSoftware;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -77,7 +78,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
             /* Hard-coded to internally used tesseract.
              */
-            _ocrSoftware = ExportedTypeLibrary.Import<IOcrSoftware>("Tesseract");
+            _ocrSoftware = new TesseractOcrSoftware();
             Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.InitializeUsingOcrSoftware, _ocrSoftware.GetType().Name);
         }
 
