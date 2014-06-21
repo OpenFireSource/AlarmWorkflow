@@ -15,6 +15,11 @@ Parser
   * Neuer Parser für ILS Landshut
   * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
 
+Gelöste Probleme
+----------------
+
+  * Einsatzmittelkonfiguration kann nun ohne Fokuswechsel gespeichert werden.
+
 Anhänge
 -------
 
