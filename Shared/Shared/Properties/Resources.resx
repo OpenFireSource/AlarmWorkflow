@@ -237,4 +237,7 @@
   <data name="ProcessWrapperStartError" xml:space="preserve">
     <value>Could not start executable file '{0}' because of an exception. See log for further information.</value>
   </data>
+  <data name="FileNotExists" xml:space="preserve">
+    <value>The desired file {0} doesn't exist. The program will not be executed! Please check your configuration.</value>
+  </data>
 </root>

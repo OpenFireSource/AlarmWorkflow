@@ -15,6 +15,7 @@
 
 using System;
 using System.Diagnostics;
+using System.IO;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Properties;
 
@@ -107,6 +108,11 @@ namespace AlarmWorkflow.Shared.Core
         {
             AssertNotDisposed();
 
+            if (!EnsureFileExists())
+            {
+                return;
+            }
+
             if (!wait)
             {
                 _process.Exited += _process_Exited;
@@ -162,6 +168,16 @@ namespace AlarmWorkflow.Shared.Core
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ProgramFinished, FileName, _process.ExitCode);
 
             this.Dispose();
+        }
+
+        private bool EnsureFileExists()
+        {
+            if (!File.Exists(FileName))
+            {
+                Logger.Instance.LogFormat(LogType.Warning, this, Resources.FileNotExists, FileName);
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
