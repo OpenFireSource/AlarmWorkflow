@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.AddressingContracts;
@@ -39,7 +40,14 @@ namespace AlarmWorkflow.BackendService.Addressing
 
         IList<AddressBookEntry> IAddressingService.GetAllEntries()
         {
-            return this.ServiceProvider.GetService<IAddressingServiceInternal>().GetAllEntries();
+            try
+            {
+                return this.ServiceProvider.GetService<IAddressingServiceInternal>().GetAllEntries();
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         #endregion

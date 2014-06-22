@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.ManagementContracts;
@@ -69,17 +70,38 @@ namespace AlarmWorkflow.BackendService.Management
 
         IList<int> IOperationService.GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount)
         {
-            return InternalService.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+            try
+            {
+                return InternalService.GetOperationIds(maxAge, onlyNonAcknowledged, limitAmount);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         Operation IOperationService.GetOperationById(int operationId)
         {
-            return InternalService.GetOperationById(operationId);
+            try
+            {
+                return InternalService.GetOperationById(operationId);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         void IOperationService.AcknowledgeOperation(int operationId)
         {
-            InternalService.AcknowledgeOperation(operationId);
+            try
+            {
+                InternalService.AcknowledgeOperation(operationId);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         #endregion

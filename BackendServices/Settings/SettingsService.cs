@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
@@ -59,22 +60,50 @@ namespace AlarmWorkflow.BackendService.Settings
 
         SettingsDisplayConfiguration ISettingsService.GetDisplayConfiguration()
         {
-            return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetDisplayConfiguration();
+            try
+            {
+                return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetDisplayConfiguration();
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         SettingItem ISettingsService.GetSetting(SettingKey key)
         {
-            return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetSetting(key);
+            try
+            {
+                return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetSetting(key);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         void ISettingsService.SetSetting(SettingKey key, SettingItem value)
         {
-            this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSetting(key.Identifier, key.Name, value);
+            try
+            {
+                this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSetting(key.Identifier, key.Name, value);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         void ISettingsService.SetSettings(ICollection<KeyValuePair<SettingKey, SettingItem>> values)
         {
-            this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSettings(values);
+            try
+            {
+                this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSettings(values);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         #endregion

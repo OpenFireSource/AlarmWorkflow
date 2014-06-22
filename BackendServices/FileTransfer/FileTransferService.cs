@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.IO;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.FileTransferContracts;
@@ -26,12 +27,26 @@ namespace AlarmWorkflow.BackendService.FileTransfer
 
         string IFileTransferService.GetFileChecksum(string path)
         {
-            return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileChecksum(path);
+            try
+            {
+                return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileChecksum(path);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         Stream IFileTransferService.GetFileStream(string path)
         {
-            return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileStream(path);
+            try
+            {
+                return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileStream(path);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         #endregion

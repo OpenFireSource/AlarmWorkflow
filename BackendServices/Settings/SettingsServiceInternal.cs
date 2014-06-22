@@ -86,36 +86,22 @@ namespace AlarmWorkflow.BackendService.Settings
 
         SettingsDisplayConfiguration ISettingsServiceInternal.GetDisplayConfiguration()
         {
-            try
-            {
-                return _settings.SettingsDisplayConfiguration;
-            }
-            catch (Exception ex)
-            {
-                throw AlarmWorkflowFaultDetails.CreateFault(ex);
-            }
+            return _settings.SettingsDisplayConfiguration;
         }
 
         SettingItem ISettingsServiceInternal.GetSetting(string identifier, string name)
         {
-            try
+            Assertions.AssertNotEmpty(identifier, "identifier");
+            Assertions.AssertNotEmpty(name, "name");
+
+            SettingItem item = _settings.GetSetting(identifier, name);
+
+            lock (SyncRoot)
             {
-                Assertions.AssertNotEmpty(identifier, "identifier");
-                Assertions.AssertNotEmpty(name, "name");
-
-                SettingItem item = _settings.GetSetting(identifier, name);
-
-                lock (SyncRoot)
-                {
-                    ApplySettingValue(identifier, name, item);
-                }
-
-                return item;
+                ApplySettingValue(identifier, name, item);
             }
-            catch (Exception ex)
-            {
-                throw AlarmWorkflowFaultDetails.CreateFault(ex);
-            }
+
+            return item;
         }
 
         private static void ApplySettingValue(string identifier, string name, SettingItem item)
@@ -133,52 +119,38 @@ namespace AlarmWorkflow.BackendService.Settings
 
         SettingItem ISettingsServiceInternal.GetSetting(SettingKey key)
         {
-            try
+            Assertions.AssertNotNull(key, "key");
+
+            SettingItem item = _settings.GetSetting(key.Identifier, key.Name);
+
+            lock (SyncRoot)
             {
-                Assertions.AssertNotNull(key, "key");
-
-                SettingItem item = _settings.GetSetting(key.Identifier, key.Name);
-
-                lock (SyncRoot)
-                {
-                    ApplySettingValue(key.Identifier, key.Name, item);
-                }
-
-                return item;
+                ApplySettingValue(key.Identifier, key.Name, item);
             }
-            catch (Exception ex)
-            {
-                throw AlarmWorkflowFaultDetails.CreateFault(ex);
-            }
+
+            return item;
         }
 
         void ISettingsServiceInternal.SetSetting(string identifier, string name, SettingItem value)
         {
-            try
+            Assertions.AssertNotEmpty(identifier, "identifier");
+            Assertions.AssertNotEmpty(name, "name");
+
+            IEnumerable<SettingKey> savedSettings = null;
+
+            lock (SyncRoot)
             {
-                Assertions.AssertNotEmpty(identifier, "identifier");
-                Assertions.AssertNotEmpty(name, "name");
+                SettingKey key = SettingKey.Create(identifier, name);
 
-                IEnumerable<SettingKey> savedSettings = null;
+                List<KeyValuePair<SettingKey, SettingItem>> settings = new List<KeyValuePair<SettingKey, SettingItem>>();
+                settings.Add(new KeyValuePair<SettingKey, SettingItem>(key, value));
 
-                lock (SyncRoot)
-                {
-                    SettingKey key = SettingKey.Create(identifier, name);
-
-                    List<KeyValuePair<SettingKey, SettingItem>> settings = new List<KeyValuePair<SettingKey, SettingItem>>();
-                    settings.Add(new KeyValuePair<SettingKey, SettingItem>(key, value));
-
-                    savedSettings = SaveSettings(settings);
-                }
-
-                if (savedSettings != null && savedSettings.Any())
-                {
-                    OnSettingChanged(new SettingChangedEventArgs(savedSettings));
-                }
+                savedSettings = SaveSettings(settings);
             }
-            catch (Exception ex)
+
+            if (savedSettings != null && savedSettings.Any())
             {
-                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+                OnSettingChanged(new SettingChangedEventArgs(savedSettings));
             }
         }
 
@@ -245,25 +217,18 @@ namespace AlarmWorkflow.BackendService.Settings
 
         void ISettingsServiceInternal.SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
         {
-            try
+            Assertions.AssertNotNull(values, "values");
+
+            IEnumerable<SettingKey> savedSettings = null;
+
+            lock (SyncRoot)
             {
-                Assertions.AssertNotNull(values, "values");
-
-                IEnumerable<SettingKey> savedSettings = null;
-
-                lock (SyncRoot)
-                {
-                    savedSettings = SaveSettings(values);
-                }
-
-                if (savedSettings != null && savedSettings.Any())
-                {
-                    OnSettingChanged(new SettingChangedEventArgs(savedSettings));
-                }
+                savedSettings = SaveSettings(values);
             }
-            catch (Exception ex)
+
+            if (savedSettings != null && savedSettings.Any())
             {
-                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+                OnSettingChanged(new SettingChangedEventArgs(savedSettings));
             }
         }
 
