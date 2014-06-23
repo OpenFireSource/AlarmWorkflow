@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.DispositioningContracts;
 using AlarmWorkflow.Shared.Core;
@@ -68,17 +69,38 @@ namespace AlarmWorkflow.BackendService.Dispositioning
 
         string[] IDispositioningService.GetDispatchedResources(int operationId)
         {
-            return this.InternalService.GetDispatchedResources(operationId);
+            try
+            {
+                return this.InternalService.GetDispatchedResources(operationId);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         void IDispositioningService.Dispatch(int operationId, string emkResourceId)
         {
-            this.InternalService.Dispatch(operationId, emkResourceId);
+            try
+            {
+                this.InternalService.Dispatch(operationId, emkResourceId);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         void IDispositioningService.Recall(int operationId, string emkResourceId)
         {
-            this.InternalService.Recall(operationId, emkResourceId);
+            try
+            {
+                this.InternalService.Recall(operationId, emkResourceId);
+            }
+            catch (Exception ex)
+            {
+                throw AlarmWorkflowFaultDetails.CreateFault(ex);
+            }
         }
 
         #endregion
