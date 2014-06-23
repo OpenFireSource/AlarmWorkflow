@@ -66,6 +66,11 @@ namespace AlarmWorkflow.BackendService.Dispositioning
 
         #region IDispositioningService Members
 
+        string[] IDispositioningService.GetDispatchedResources(int operationId)
+        {
+            return this.InternalService.GetDispatchedResources(operationId);
+        }
+
         void IDispositioningService.Dispatch(int operationId, string emkResourceId)
         {
             this.InternalService.Dispatch(operationId, emkResourceId);

@@ -25,6 +25,15 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
     public interface IDispositioningService : IExposedService
     {
         /// <summary>
+        /// Returns the resource IDs of all resources dispatched for the given operation.
+        /// </summary>
+        /// <param name="operationId">The ID of the operation to get all dispatched resource IDs.</param>
+        /// <returns>A string array containing resource IDs of all resources dispatched for the given operation.
+        /// -or- an empty array, if there were no dispatched resources.</returns>
+        [OperationContract()]
+        [FaultContract(typeof(AlarmWorkflowFaultDetails))]
+        string[] GetDispatchedResources(int operationId);
+        /// <summary>
         /// Enlists the given resource as dispositioned for the given operation.
         /// </summary>
         /// <param name="operationId">The ID of the operation affected.</param>

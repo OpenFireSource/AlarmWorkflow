@@ -46,6 +46,17 @@ namespace AlarmWorkflow.BackendService.Dispositioning
             }
         }
 
+        string[] IDispositioningServiceInternal.GetDispatchedResources(int operationId)
+        {
+            lock (SyncRoot)
+            {
+                using (var entities = EntityFrameworkHelper.CreateContext<DispositioningEntities>(EdmxPath))
+                {
+                    return entities.DispResources.Where(_ => _.Operation_Id == operationId).Select(_ => _.EmkResourceId).ToArray();
+                }
+            }
+        }
+
         void IDispositioningServiceInternal.Dispatch(int operationId, string emkResourceId)
         {
             lock (SyncRoot)
