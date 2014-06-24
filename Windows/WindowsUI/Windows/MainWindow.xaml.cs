@@ -14,25 +14,30 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using AlarmWorkflow.Windows.UI.ViewModels;
+using AlarmWorkflow.Windows.UI.Views;
 using AlarmWorkflow.Windows.UIContracts;
 using Application = System.Windows.Application;
 
-namespace AlarmWorkflow.Windows.UI.Views
+namespace AlarmWorkflow.Windows.UI.Windows
 {
-    /// <summary>
-    /// Interaction logic for EventWindow.xaml
-    /// </summary>
-    internal partial class MainWindow : Window
+    partial class MainWindow
     {
+        #region Constants
+
+        private const double UiScaleChangeFactor = 0.001d;
+
+        #endregion
+
         #region Fields
 
         private MainWindowViewModel _viewModel;
-        private bool _fullscreen;
+        private bool _isFullscreen;
 
         #endregion
 
@@ -46,7 +51,7 @@ namespace AlarmWorkflow.Windows.UI.Views
             InitializeComponent();
 
             _viewModel = new MainWindowViewModel(this);
-            _viewModel.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(_viewModel_PropertyChanged);
+            _viewModel.PropertyChanged += new PropertyChangedEventHandler(_viewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
             this.Loaded += Window_Loaded;
@@ -74,9 +79,9 @@ namespace AlarmWorkflow.Windows.UI.Views
         /// Raises the <see cref="E:System.Windows.Window.Closing"/> event.
         /// </summary>
         /// <param name="e">A <see cref="T:System.ComponentModel.CancelEventArgs"/> that contains the event data.</param>
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
-            FullscreenUI(false);
+            SetFullscreen(false);
 
             if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, AlarmWorkflow.Windows.UI.Properties.Resources.UIServiceExitWarning))
             {
@@ -91,7 +96,7 @@ namespace AlarmWorkflow.Windows.UI.Views
 
         private void SaveWindowPosition()
         {
-            var rectangle = Helper.GetWindowRect(this);
+            Rectangle rectangle = Helper.GetWindowRect(this);
             Properties.Settings.Default.WindowPosition = rectangle;
             Properties.Settings.Default.WindowMaximized = this.WindowState == System.Windows.WindowState.Maximized;
         }
@@ -118,76 +123,74 @@ namespace AlarmWorkflow.Windows.UI.Views
             }
         }
 
-        /// <summary>
-        /// Sets the UI to fullscreen or to 'normal'-mode
-        /// </summary>
-        /// <param name="fullscreen">Fullscreen/Normal</param>
-        internal void FullscreenUI(bool fullscreen)
+        internal void SetFullscreen(bool value)
         {
-            if (fullscreen == _fullscreen)
+            if (value != _isFullscreen)
             {
-                return;
+                Application.Current.Dispatcher.Invoke(() => SetFullscreenCore(value));
             }
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                Screen screen = Screen.FromRectangle(new Rectangle((int)Left, (int)Top, (int)Width, (int)Height));
-                Rectangle rectangle = new Rectangle();
-                if (fullscreen)
-                {
-                    _fullscreen = true;
-                    WindowStyle = WindowStyle.None;
-                    WindowState = WindowState.Normal;
-                    rectangle = screen.Bounds;
-                    ResizeMode = ResizeMode.NoResize;
-                    //Hiding of Taskbar and Start-Orb only needed on primnary screen
-                    if (screen.Primary)
-                    {
-                        try
-                        {
-                            Helper.HideTaskBar();
-                            Helper.HideStartOrb();
-                        }
-                        catch (Exception)
-                        {
-                            //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
-                        }
-                       
-                    }
-                }
-                else
-                {
-                    _fullscreen = false;
-                    WindowStyle = WindowStyle.SingleBorderWindow;
-                    WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
-                    rectangle = screen.WorkingArea;
-                    ResizeMode = ResizeMode.CanResize;
-                    //Showing of Taskbar and Start-Orb only needed on primnary screen. The UI shouldn't have moved since hiding them ... otherwise the Start-Orb and Taskbar will be gone.
-                    if (screen.Primary)
-                    {
-                        try
-                        {
-                            Helper.ShowStartOrb();
-                            Helper.ShowTaskBar();
-                        }
-                        catch (Exception)
-                        {
-                            //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
-                        }
-                       
-                    }
-                }
-                Top = rectangle.Top;
-                Left = rectangle.Left;
-                Height = rectangle.Height;
-                Width = rectangle.Width;
-                Focus();
-                Activate();
-            });
         }
 
-        #endregion
+        private void SetFullscreenCore(bool value)
+        {
+            Screen screen = Screen.FromRectangle(new Rectangle((int)Left, (int)Top, (int)Width, (int)Height));
 
-        #region Event handlers
+            Rectangle rectangle = new Rectangle();
+            if (value)
+            {
+                _isFullscreen = true;
+
+                WindowStyle = WindowStyle.None;
+                WindowState = WindowState.Normal;
+                rectangle = screen.Bounds;
+                ResizeMode = ResizeMode.NoResize;
+
+                //Hiding of Taskbar and Start-Orb only needed on primnary screen
+                if (screen.Primary)
+                {
+                    try
+                    {
+                        Helper.HideTaskBar();
+                        Helper.HideStartOrb();
+                    }
+                    catch (Exception)
+                    {
+                        //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
+                    }
+                }
+            }
+            else
+            {
+                _isFullscreen = false;
+
+                WindowStyle = WindowStyle.SingleBorderWindow;
+                WindowState = Properties.Settings.Default.WindowMaximized ? WindowState.Maximized : WindowState.Normal;
+                rectangle = screen.WorkingArea;
+                ResizeMode = ResizeMode.CanResize;
+
+                //Showing of Taskbar and Start-Orb only needed on primnary screen. The UI shouldn't have moved since hiding them ... otherwise the Start-Orb and Taskbar will be gone.
+                if (screen.Primary)
+                {
+                    try
+                    {
+                        Helper.ShowStartOrb();
+                        Helper.ShowTaskBar();
+                    }
+                    catch (Exception)
+                    {
+                        //Sometimes this can throw an error. Maybe because of some usermodifications e.g. "classic shell" on Windows 8.
+                    }
+                }
+            }
+
+            Top = rectangle.Top;
+            Left = rectangle.Left;
+            Height = rectangle.Height;
+            Width = rectangle.Width;
+
+            Focus();
+            Activate();
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -196,21 +199,19 @@ namespace AlarmWorkflow.Windows.UI.Views
 
         private void Window_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
-            _viewModel.UiScaleFactor += 0.001d * e.Delta;
+            _viewModel.UiScaleFactor += UiScaleChangeFactor * e.Delta;
         }
 
         private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            // If this is the "acknowledge operation" key
             if (e.Key == App.GetApp().Configuration.AcknowledgeOperationKey)
             {
-                _viewModel.AcknowledgeCurrentOperation(true);
-
+                _viewModel.AcknowledgeCurrentOperation();
                 e.Handled = true;
             }
             else if (e.Key == Key.F11)
             {
-                FullscreenUI(!_fullscreen);
+                SetFullscreen(!_isFullscreen);
                 e.Handled = true;
             }
         }

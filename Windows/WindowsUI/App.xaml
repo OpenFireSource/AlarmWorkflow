@@ -1,7 +1,7 @@
 ﻿<Application x:Class="AlarmWorkflow.Windows.UI.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="Windows/MainWindow.xaml">
     <Application.Resources>
         <BooleanToVisibilityConverter x:Key="btv" />
     </Application.Resources>

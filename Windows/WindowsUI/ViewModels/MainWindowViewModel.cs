@@ -25,7 +25,6 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UI.Models;
 using AlarmWorkflow.Windows.UI.Properties;
-using AlarmWorkflow.Windows.UI.Views;
 using AlarmWorkflow.Windows.UI.Windows;
 using AlarmWorkflow.Windows.UIContracts.Extensibility;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
@@ -82,7 +81,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 }
 
                 _selectedEvent = value;
-                OnPropertyChanged("SelectedEvent");
+
+                UpdateSelectedEventProperties();
 
                 Operation operationNew = _selectedEvent != null ? _selectedEvent.Operation : null;
                 _operationViewer.OnOperationChanged(operationNew);
@@ -185,17 +185,13 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             string operationViewerAlias = App.GetApp().Configuration.OperationViewer;
             _operationViewer = ExportedTypeLibrary.Import<IOperationViewer>(operationViewerAlias);
 
-            // If there is no operation viewer defined or it could not be found, use the default one and log it
             if (_operationViewer == null)
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Resources.DesiredOperationViewerNotFound, operationViewerAlias);
                 _operationViewer = new Views.DummyOperationViewer();
             }
 
-            _busyTemplate = new Lazy<FrameworkElement>(() =>
-            {
-                return _operationViewer.Visual;
-            });
+            _busyTemplate = new Lazy<FrameworkElement>(() => _operationViewer.Visual);
         }
 
         private void PushEvent(Operation operation)
@@ -216,16 +212,17 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             if (isNewToList)
             {
-                //Maximize UI if new alarm came in and setting is activated.
                 if (App.GetApp().Configuration.FullscreenOnAlarm)
                 {
-                    _mainWindow.FullscreenUI(true);
+                    _mainWindow.SetFullscreen(true);
                 }
 
-                UpdateProperties();
+                UpdateEventsProperties();
+
                 if (isOperationNew)
                 {
                     _operationViewer.OnNewOperation(operation);
+
                     App.GetApp().ExtensionManager.RunUIJobs(_operationViewer, operation);
                 }
             }
@@ -234,38 +231,46 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         }
 
         /// <summary>
-        /// Adds the operation to the list of available alarms and returns if the operation is a new one.
-        /// An operation is "new" if it was once added to the list.
+        /// Adds the operation to the list of available alarms.
         /// </summary>
         /// <param name="operation"></param>
-        /// <returns>Whether or not the added operation is "new".</returns>
+        /// <returns>Whether or not the added operation was added to the list.</returns>
         private bool AddOperation(Operation operation)
         {
             bool operationIsInList = ContainsEvent(operation.Id);
 
-            // Add the operation and perform a "sanity-sort" (don't trust the web service or whoever...)
             OperationViewModel ovm = new OperationViewModel(operation);
             AvailableEvents.Add(ovm);
             AvailableEvents = new List<OperationViewModel>(AvailableEvents.OrderByDescending(o => o.Operation.TimestampIncome));
 
-            // If we shall have a limit of alarms in the UI...
-            int maxAlarmsInUI = App.GetApp().Configuration.MaxAlarmsInUI;
-            if (maxAlarmsInUI > 0 && (AvailableEvents.Count > maxAlarmsInUI))
-            {
-                // ... remove older alarms until we have our amount.
-                int count = AvailableEvents.Count - maxAlarmsInUI;
-                AvailableEvents.RemoveRange(maxAlarmsInUI, count);
-            }
+            CheckAndRemoveOldOperations();
 
             bool operationWasAddedToList = ContainsEvent(operation.Id);
             return (!operationIsInList && operationWasAddedToList);
         }
 
-        private void UpdateProperties()
+        private void CheckAndRemoveOldOperations()
+        {
+            int maxAlarmsInUI = App.GetApp().Configuration.MaxAlarmsInUI;
+            if (maxAlarmsInUI > 0 && (AvailableEvents.Count > maxAlarmsInUI))
+            {
+                int count = AvailableEvents.Count - maxAlarmsInUI;
+                AvailableEvents.RemoveRange(maxAlarmsInUI, count);
+            }
+        }
+
+        private void UpdateEventsProperties()
         {
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
             OnPropertyChanged("HasDisplayableEvents");
+        }
+
+        private void UpdateSelectedEventProperties()
+        {
+            OnPropertyChanged("SelectedEvent");
+            OnPropertyChanged("SelectedEvent.Operation");
+            OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
         }
 
         private void RemoveEvent(OperationViewModel operation)
@@ -275,17 +280,14 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             SelectedEvent = AvailableEvents.FirstOrDefault();
 
-            OnPropertyChanged("SelectedEvent");
-            OnPropertyChanged("SelectedEvent.Operation");
-            OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
-            UpdateProperties();
+            UpdateEventsProperties();
+            UpdateSelectedEventProperties();
         }
 
         /// <summary>
-        /// Acknowledges the selected (current) operation.
+        /// Acknowledges the selected (current) operation and goes to the first operation.
         /// </summary>
-        /// <param name="gotoNextOperation">Whether or not to change to the next operation (recommended).</param>
-        public void AcknowledgeCurrentOperation(bool gotoNextOperation)
+        public void AcknowledgeCurrentOperation()
         {
             if (SelectedEvent == null || SelectedEvent.Operation.IsAcknowledged)
             {
@@ -320,7 +322,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             return AvailableEvents.Any(o => o.Operation.Id == operationId);
         }
 
-        private void NextAlarm()
+        private void GoToNextAlarm()
         {
             if (AvailableEvents.Count > 1)
             {
@@ -334,8 +336,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     SelectedEvent = AvailableEvents[current + 1];
                 }
 
-                OnPropertyChanged("SelectedEvent.Operation");
-                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
+                UpdateSelectedEventProperties();
             }
         }
 
@@ -343,7 +344,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             lock (TimerLock)
             {
-                App.Current.Dispatcher.Invoke(() => NextAlarm());
+                App.Current.Dispatcher.Invoke(() => GoToNextAlarm());
             }
         }
 
@@ -371,27 +372,25 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
                 App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
 
-                if (operations.Count == 0)
+                if (operations.Count > 0)
                 {
-                    return;
-                }
-
-                foreach (int operationId in operations)
-                {
-                    if (ContainsEvent(operationId))
+                    foreach (int operationId in operations)
                     {
-                        continue;
-                    }
+                        if (ContainsEvent(operationId))
+                        {
+                            continue;
+                        }
 
-                    Operation operation = _service.GetOperationById(operationId);
+                        Operation operation = _service.GetOperationById(operationId);
 
-                    if (ShouldAutomaticallyAcknowledgeOperation(operation))
-                    {
-                        _service.AcknowledgeOperation(operation.Id);
-                    }
-                    else
-                    {
-                        App.Current.Dispatcher.Invoke(() => PushEvent(operation));
+                        if (ShouldAutomaticallyAcknowledgeOperation(operation))
+                        {
+                            _service.AcknowledgeOperation(operation.Id);
+                        }
+                        else
+                        {
+                            App.Current.Dispatcher.Invoke(() => PushEvent(operation));
+                        }
                     }
                 }
             }
@@ -426,10 +425,9 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             if (removed)
             {
                 SelectedEvent = AvailableEvents.FirstOrDefault();
-                OnPropertyChanged("SelectedEvent");
-                OnPropertyChanged("SelectedEvent.Operation");
-                OnPropertyChanged("SelectedEvent.Operation.IsAcknowledged");
-                UpdateProperties();
+
+                UpdateEventsProperties();
+                UpdateSelectedEventProperties();
             }
         }
 
