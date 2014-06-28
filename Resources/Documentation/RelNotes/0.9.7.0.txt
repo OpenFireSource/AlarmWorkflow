@@ -19,7 +19,8 @@ Gelöste Probleme
 ----------------
 
   * Einsatzmittelkonfiguration kann nun ohne Fokuswechsel gespeichert werden.
-
+  * Existenz der externen Programme wird vor dem Ausführen geprüft.
+  
 Anhänge
 -------
 
