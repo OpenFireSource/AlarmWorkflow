@@ -388,10 +388,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.EndpointNotFoundOnStart);
                 Logger.Instance.LogException(this, ex);
 
-                if (IsConfiguredAsClient)
-                {
-                    UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
-                }
+                UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
 
             }
             catch (Exception ex)
