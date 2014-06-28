@@ -74,14 +74,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// as a server; that is, the backend configuration has an address specified like "localhost" or any starting with "127".
         /// </summary>
         public bool IsConfiguredAsServer { get; private set; }
-        /// <summary>
-        /// Gets whether or not the configuration editor running from the current location is configured
-        /// as a client. This is the negated value from <see cref="IsConfiguredAsServer"/> and exists for convenience.
-        /// </summary>
-        public bool IsConfiguredAsClient
-        {
-            get { return !IsConfiguredAsServer; }
-        }
 
         #endregion
 
@@ -388,11 +380,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.EndpointNotFoundOnStart);
                 Logger.Instance.LogException(this, ex);
 
-                if (IsConfiguredAsClient)
-                {
-                    UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
-                }
-
+                UIUtilities.ShowWarning(Properties.Resources.EndpointNotFoundOnStart);
             }
             catch (Exception ex)
             {

@@ -19,6 +19,7 @@ Gelöste Probleme
 ----------------
 
   * Einsatzmittelkonfiguration kann nun ohne Fokuswechsel gespeichert werden.
+  * Warnung bei nicht laufendem Service wird nun auch auf dem Server angezeigt um Verwirrungen zu vermeiden.
 
 Anhänge
 -------
