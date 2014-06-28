@@ -18,7 +18,7 @@ Parser
 Gelöste Probleme
 ----------------
 
-  * Einsatzmittelkonfiguration kann nun ohne Fokuswechsel gespeichert werden.
+  * Einsatzmittelkonfiguration & Korrekturwörterbuch können nun ohne Fokuswechsel gespeichert werden.
 
 Anhänge
 -------
