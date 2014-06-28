@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.ReplaceDictionaryTypeEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ReplaceDictionary}" SelectedItem="{Binding Selected}" CanUserAddRows="True" CanUserDeleteRows="True">
+    <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding ReplaceDictionary, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Selected}" CanUserAddRows="True" CanUserDeleteRows="True">
         <DataGrid.Columns>
-            <DataGridTextColumn Binding="{Binding Key}" Header="Ursprungstext" Width="*" />
-            <DataGridTextColumn Binding="{Binding Value}" Header="Neuer Text" Width="*" />
+            <DataGridTextColumn Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" Header="Ursprungstext" Width="*" />
+            <DataGridTextColumn Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Header="Neuer Text" Width="*" />
         </DataGrid.Columns>
         <DataGrid.ContextMenu>
             <ContextMenu>
