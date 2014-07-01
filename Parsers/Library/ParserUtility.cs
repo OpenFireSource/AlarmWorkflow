@@ -189,7 +189,7 @@ namespace AlarmWorkflow.Parser.Library
             int length;
             streetNumber = "1";
             appendix = string.Empty;
-            Match match = Regex.Match(line, "Haus-?Nr.:");
+            Match match = Regex.Match(line, @"Haus-?Nr.(\/Km)?:");
             if (IsHighway(line))
             {
                 if (!match.Success)
