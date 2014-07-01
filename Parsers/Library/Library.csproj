@@ -48,6 +48,7 @@
     <Compile Include="ILSDarmstadtDieburgParser.cs" />
     <Compile Include="ILSDonauIllerParser.cs" />
     <Compile Include="IlsErdingParser.cs" />
+    <Compile Include="IlsWuerzburgParser.cs" />
     <Compile Include="ILSFFBParser.cs" />
     <Compile Include="ILSKaiserslautern.cs" />
     <Compile Include="IlsLandshutParser.cs" />

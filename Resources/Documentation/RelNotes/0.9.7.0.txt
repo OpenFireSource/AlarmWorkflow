@@ -12,7 +12,7 @@ Generelles
 
 Parser
 
-  * Neuer Parser für ILS Landshut
+  * Neuer Parser für ILS Landshut und Würzburg
   * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
 
 Gelöste Probleme
