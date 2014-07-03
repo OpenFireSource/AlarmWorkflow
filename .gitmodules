@@ -1,3 +1,6 @@
 [submodule "externals/S22.Imap"]
 	path = externals/S22.Imap
 	url = https://github.com/OpenFireSource/S22.Imap
+[submodule "externals/aw-parsers"]
+	path = externals/aw-parsers
+	url = https://github.com/OpenFireSource/AlarmWorkflow-Parsers.git

@@ -13,7 +13,6 @@ msbuild Backend\Backend.sln /p:Configuration=Release /verbosity:minimal
 msbuild BackendServices\BackendServices.sln /p:Configuration=Release /verbosity:minimal
 
 msbuild AlarmSources\AlarmSources.sln /p:Configuration=Release /verbosity:minimal
-msbuild Parsers\Parsers.sln /p:Configuration=Release /verbosity:minimal
 
 msbuild Windows\Windows.sln /p:Configuration=Release /verbosity:minimal
 msbuild WindowsUIWidgets\WindowsUIWidgets.sln /p:Configuration=Release /verbosity:minimal

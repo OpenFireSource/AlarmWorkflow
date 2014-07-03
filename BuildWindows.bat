@@ -13,7 +13,6 @@ msbuild Backend\Backend.sln /p:Configuration=Debug /verbosity:minimal
 msbuild BackendServices\BackendServices.sln /p:Configuration=Debug /verbosity:minimal
 
 msbuild AlarmSources\AlarmSources.sln /p:Configuration=Debug /verbosity:minimal
-msbuild Parsers\Parsers.sln /p:Configuration=Debug /verbosity:minimal
 
 msbuild Windows\Windows.sln /p:Configuration=Debug /verbosity:minimal
 msbuild WindowsUIWidgets\WindowsUIWidgets.sln /p:Configuration=Debug /verbosity:minimal
