@@ -116,6 +116,17 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                     {
                         MaxReceivedMessageSize = int.MaxValue,
                         ReaderQuotas = XmlDictionaryReaderQuotas.Max,
+                        Security = new NetTcpSecurity()
+                        {
+                            Message = new MessageSecurityOverTcp()
+                            {
+                                ClientCredentialType = MessageCredentialType.Certificate
+                            },
+                            Transport = new TcpTransportSecurity()
+                            {
+                                ClientCredentialType = TcpClientCredentialType.Certificate
+                            }
+                        }
                     };
                     break;
                 default:
