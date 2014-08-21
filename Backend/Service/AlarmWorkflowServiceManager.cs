@@ -16,10 +16,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
+using System.ServiceModel.Security;
 using AlarmWorkflow.Backend.Service.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
@@ -145,8 +148,18 @@ namespace AlarmWorkflow.Backend.Service
 
         private void HostExposedService(IBackendServiceLocation serviceLocation)
         {
+            string path = ServiceFactory.BackendConfigurator.Get("Certificate");
+            string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
             // Configure the ServiceHost to be a Per-Session service.
             ServiceHost host = new ServiceHost(serviceLocation.ServiceType);
+            
+            if (File.Exists(path))
+            {
+                X509Certificate2 certificate = new X509Certificate2(path, password);
+                host.Credentials.ServiceCertificate.Certificate = certificate;
+                host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            }
 
             Binding binding = ServiceBindingCache.GetBindingForContractType(serviceLocation.ContractType);
             EndpointAddress address = ServiceFactory.GetEndpointAddress(serviceLocation.ContractType, binding);

@@ -51,6 +51,7 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -65,6 +66,7 @@
     <Compile Include="Communication\ServiceBindingCache.cs" />
     <Compile Include="Communication\ServiceFactory.cs" />
     <Compile Include="Communication\WrappedService.cs" />
+    <Compile Include="Core\CertificateValidator.cs" />
     <Compile Include="Core\ExposedCallbackServiceBase.cs" />
     <Compile Include="Core\InternalServiceBase.cs" />
     <Compile Include="Core\AlarmWorkflowFaultDetails.cs" />
