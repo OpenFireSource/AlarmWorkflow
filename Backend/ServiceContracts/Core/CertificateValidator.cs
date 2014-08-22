@@ -37,9 +37,10 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         #region Overrides of X509CertificateValidator
 
         /// <summary>
-        /// Überprüft das X.509-Zertifikat, wenn in einer abgeleiteten Klasse überschrieben. 
+        /// Checks if the given certificate is valid based on the given fingerprint to the constructor.
         /// </summary>
-        /// <param name="certificate">Das <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate2"/>, das das zu überprüfende X.509-Zertifikat darstellt.</param>
+        /// <param name="certificate">The certificate to get checked.</param>
+        /// <exception cref="SecurityTokenValidationException">Throws a <see cref="SecurityTokenValidationException"/> if the certificat is not valid.</exception>
         public override void Validate(X509Certificate2 certificate)
         {
             //The fingerprints could contain a whitespace and be lower case. Change this here.

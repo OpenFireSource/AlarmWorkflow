@@ -116,7 +116,9 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                     {
                         MaxReceivedMessageSize = int.MaxValue,
                         ReaderQuotas = XmlDictionaryReaderQuotas.Max,
-                        Security = new NetTcpSecurity()
+                    };
+                    if (File.Exists(ServiceFactory.BackendConfigurator.Get("Certificate")))
+                        (binding as NetTcpBinding).Security = new NetTcpSecurity()
                         {
                             Message = new MessageSecurityOverTcp()
                             {
@@ -126,8 +128,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                             {
                                 ClientCredentialType = TcpClientCredentialType.Certificate
                             }
-                        }
-                    };
+                        };
                     break;
                 default:
                     throw new InvalidOperationException(string.Format(Properties.Resources.InvalidSupportedBindingValue, serviceLocation.Binding));

@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.IO;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
@@ -197,12 +198,13 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
 
             string path = ServiceFactory.BackendConfigurator.Get("Certificate");
             string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
-            X509Certificate2 certificate = new X509Certificate2(path, password);
-            d.Credentials.ClientCertificate.Certificate = certificate;
-            d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode =
-                         X509CertificateValidationMode.Custom;
-            d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
-
+            if (File.Exists(path))
+            {
+                X509Certificate2 certificate = new X509Certificate2(path, password);
+                d.Credentials.ClientCertificate.Certificate = certificate;
+                d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            }
             T channel = d.CreateChannel();
             channel.Ping();
             return channel;
@@ -242,12 +244,13 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
 
             string path = ServiceFactory.BackendConfigurator.Get("Certificate");
             string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
-            X509Certificate2 certificate = new X509Certificate2(path, password);
-            d.Credentials.ClientCertificate.Certificate = certificate;
-            d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode =
-                         X509CertificateValidationMode.Custom;
-            d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
-
+            if (File.Exists(path))
+            {
+                X509Certificate2 certificate = new X509Certificate2(path, password);
+                d.Credentials.ClientCertificate.Certificate = certificate;
+                d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            }
             T channel = d.CreateChannel();
             channel.Ping();
             return channel;

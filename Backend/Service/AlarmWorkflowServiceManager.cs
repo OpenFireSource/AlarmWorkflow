@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
@@ -151,11 +152,13 @@ namespace AlarmWorkflow.Backend.Service
             string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
             // Configure the ServiceHost to be a Per-Session service.
             ServiceHost host = new ServiceHost(serviceLocation.ServiceType);
-            X509Certificate2 certificate = new X509Certificate2(path, password);
-            host.Credentials.ServiceCertificate.Certificate = certificate;
-            host.Credentials.ClientCertificate.Authentication.CertificateValidationMode =
-                          X509CertificateValidationMode.Custom;
-            host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            if (File.Exists(path))
+            {
+                X509Certificate2 certificate = new X509Certificate2(path, password);
+                host.Credentials.ServiceCertificate.Certificate = certificate;
+                host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            }
             Binding binding = ServiceBindingCache.GetBindingForContractType(serviceLocation.ContractType);
             EndpointAddress address = ServiceFactory.GetEndpointAddress(serviceLocation.ContractType, binding);
             ServiceEndpoint endpoint = host.AddServiceEndpoint(serviceLocation.ContractType, binding, address.Uri);
