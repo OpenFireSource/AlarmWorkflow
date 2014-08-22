@@ -205,6 +205,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                 d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
                 d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
             }
+
             T channel = d.CreateChannel();
             channel.Ping();
             return channel;
@@ -251,6 +252,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                 d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
                 d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
             }
+
             T channel = d.CreateChannel();
             channel.Ping();
             return channel;

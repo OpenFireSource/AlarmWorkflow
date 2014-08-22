@@ -24,7 +24,14 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
     /// </summary>
     public class CertificateValidator : X509CertificateValidator
     {
+        #region Field(s)
+
         private readonly string _thumpPrint;
+
+        #endregion
+
+        #region Constructor
+
         /// <summary>
         /// Creates a new CertificateValidator with a given fingerprint
         /// </summary>
@@ -33,6 +40,8 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         {
             _thumpPrint = thumpPrint;
         }
+
+        #endregion
 
         #region Overrides of X509CertificateValidator
 
