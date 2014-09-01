@@ -30,10 +30,11 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
     /// <summary>
     /// Provides helper methods to retrieve the correct binding for accessing a service.
     /// </summary>
-    internal static class ServiceBindingCache
+    static class ServiceBindingCache
     {
         #region Constants
 
+        private const string ConfigKeyCertificate = "Certificate";
         private const string ConfigKeyServiceLocation = "Wcf.ServiceLocations";
 
         #endregion
@@ -97,6 +98,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
             {
                 _bindingCache[contractType] = FindBindingForContractType(contractType);
             }
+
             return _bindingCache[contractType];
         }
 
@@ -117,7 +119,8 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
                         MaxReceivedMessageSize = int.MaxValue,
                         ReaderQuotas = XmlDictionaryReaderQuotas.Max,
                     };
-                    if (File.Exists(ServiceFactory.BackendConfigurator.Get("Certificate")))
+
+                    if (File.Exists(ServiceFactory.BackendConfigurator.Get(ConfigKeyCertificate)))
                     {
                         (binding as NetTcpBinding).Security = new NetTcpSecurity()
                         {

@@ -15,7 +15,6 @@
 
 using System;
 using System.IO;
-using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -32,6 +31,10 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
     public static class ServiceFactory
     {
         #region Constants
+
+        private const string ConfigKeyCertificate = "Certificate";
+        private const string ConfigKeyCertificatePassword = "Certificate.Password";
+        private const string ConfigKeyServerNetTcpPort = "Server.NetTcpPort";
 
         private const string ServicesPath = "alarmworkflow/services";
 
@@ -159,7 +162,6 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
             Assertions.AssertNotNull(binding, "binding");
             AssertContractTypeCorrect(contractType);
 
-            // Infer type name
             string serviceName = contractType.Name.Remove(0, 1);
 
             return new EndpointAddress(string.Format("{0}://{1}:{2}/{3}/{4}",
@@ -174,7 +176,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         {
             switch (binding.Scheme)
             {
-                case "net.tcp": return int.Parse(BackendConfigurator.Get("Server.NetTcpPort"));
+                case "net.tcp": return int.Parse(BackendConfigurator.Get(ConfigKeyServerNetTcpPort));
                 default:
                     throw new NotSupportedException(string.Format(Properties.Resources.InvalidSupportedBindingValue, binding.Name));
             }
@@ -194,19 +196,11 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
             AssertContractTypeCorrect(typeof(T));
 
             Binding binding = ServiceBindingCache.GetBindingForContractType(typeof(T));
-            ChannelFactory<T> d = new ChannelFactory<T>(binding, GetEndpointAddress(typeof(T), binding));
+            ChannelFactory<T> factory = new ChannelFactory<T>(binding, GetEndpointAddress(typeof(T), binding));
 
-            string path = ServiceFactory.BackendConfigurator.Get("Certificate");
-            string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
-            if (File.Exists(path))
-            {
-                X509Certificate2 certificate = new X509Certificate2(path, password);
-                d.Credentials.ClientCertificate.Certificate = certificate;
-                d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-                d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
-            }
+            ApplyX509IfConfigured(factory);
 
-            T channel = d.CreateChannel();
+            T channel = factory.CreateChannel();
             channel.Ping();
             return channel;
         }
@@ -241,21 +235,28 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
             Assertions.AssertNotNull(callbackObject, "callbackObject");
 
             Binding binding = ServiceBindingCache.GetBindingForContractType(typeof(T));
-            DuplexChannelFactory<T> d = new DuplexChannelFactory<T>(callbackObject, binding, GetEndpointAddress(typeof(T), binding));
+            DuplexChannelFactory<T> factory = new DuplexChannelFactory<T>(callbackObject, binding, GetEndpointAddress(typeof(T), binding));
 
-            string path = ServiceFactory.BackendConfigurator.Get("Certificate");
-            string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
-            if (File.Exists(path))
-            {
-                X509Certificate2 certificate = new X509Certificate2(path, password);
-                d.Credentials.ClientCertificate.Certificate = certificate;
-                d.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
-                d.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
-            }
+            ApplyX509IfConfigured(factory);
 
-            T channel = d.CreateChannel();
+            T channel = factory.CreateChannel();
             channel.Ping();
             return channel;
+        }
+
+        private static void ApplyX509IfConfigured(ChannelFactory factory)
+        {
+            string path = ServiceFactory.BackendConfigurator.Get(ConfigKeyCertificate);
+
+            if (File.Exists(path))
+            {
+                string password = ServiceFactory.BackendConfigurator.Get(ConfigKeyCertificatePassword);
+
+                X509Certificate2 certificate = new X509Certificate2(path, password);
+                factory.Credentials.ClientCertificate.Certificate = certificate;
+                factory.Credentials.ServiceCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
+                factory.Credentials.ServiceCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
+            }
         }
 
         /// <summary>
