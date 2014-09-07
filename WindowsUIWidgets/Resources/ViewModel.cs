@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
+using AlarmWorkflow.BackendService.DispositioningContracts;
 using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.BackendService.ManagementContracts.Emk;
 using AlarmWorkflow.Shared.Core;
@@ -26,8 +27,16 @@ using AlarmWorkflow.Windows.UIContracts.ViewModels;
 
 namespace AlarmWorkflow.Windows.UIWidgets.Resources
 {
-    class ViewModel : ViewModelBase
+    class ViewModel : ViewModelBase, IDispositioningServiceCallback
     {
+        #region Fields
+
+        private Operation _operation;
+        private readonly IDispositioningService _disposingService;
+        private IList<EmkResource> _emkResources;
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -41,6 +50,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
 
         internal ViewModel()
         {
+            _disposingService = ServiceFactory.GetCallbackServiceInstance<IDispositioningService>(this);
             Resources = new ObservableCollection<ResourceViewModel>();
         }
 
@@ -52,6 +62,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
         {
             try
             {
+                _operation = operation;
                 ApplyFilteredResources(operation);
             }
             catch (Exception ex)
@@ -67,21 +78,53 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
             Resources.Clear();
             using (var service = ServiceFactory.GetServiceWrapper<IEmkService>())
             {
-                IList<EmkResource> emkResources = service.Instance.GetAllResources();
+                _emkResources = service.Instance.GetAllResources();
 
                 foreach (OperationResource resource in service.Instance.GetFilteredResources(operation.Resources))
                 {
-                    EmkResource emk = emkResources.FirstOrDefault(item => item.IsActive && item.IsMatch(resource));
+                    EmkResource emk = _emkResources.FirstOrDefault(item => item.IsActive && item.IsMatch(resource));
 
                     Resources.Add(new ResourceViewModel(resource, emk));
                 }
             }
+            string[] dispatchedResources = _disposingService.GetDispatchedResources(operation.Id);
+
+            foreach (string resource in dispatchedResources)
+            {
+                EmkResource emk = _emkResources.FirstOrDefault(x => x.IsActive && x.Id == resource);
+                Resources.Add(new ResourceViewModel(null, emk));
+            }
+
         }
 
         private void ApplyAllResourcesFallback(Operation operation)
         {
             Resources.Clear();
             Resources.AddRange(operation.Resources.Select(item => new ResourceViewModel(item)));
+        }
+
+        #endregion
+
+        #region Implementation of IDispositioningServiceCallback
+
+        void IDispositioningServiceCallback.OnEvent(DispositionEventArgs args)
+        {
+            if (_operation.Id == args.OperationId)
+            {
+                switch (args.Action)
+                {
+                    case DispositionEventArgs.ActionType.Dispatch:
+                        EmkResource emk = _emkResources.FirstOrDefault(x => x.IsActive && x.Id == args.EmkResourceId);
+                        Resources.Add(new ResourceViewModel(null, emk));
+                        break;
+                    case DispositionEventArgs.ActionType.Recall:
+                        if (Resources.Any(x => x.EmkResourceItem.Id == args.EmkResourceId))
+                        {
+                            Resources.Remove(Resources.First(x => x.EmkResourceItem.Id == args.EmkResourceId));
+                        }
+                        break;
+                }
+            }
         }
 
         #endregion

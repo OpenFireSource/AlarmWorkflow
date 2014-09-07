@@ -32,12 +32,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
     /// </summary>
     public class ResourceViewModel : ViewModelBase
     {
-        #region Fields
-
-        private EmkResource _emkResource;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -49,6 +43,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
         /// </summary>
         public ImageSource Icon { get; private set; }
 
+        public bool Dispatched { get { return Resource == null && EmkResourceItem != null; } }
+
         /// <summary>
         /// Gets the display-friendly name of this resource, if configured.
         /// Otherwise returns the full name according to the <see cref="Resource"/>.
@@ -57,13 +53,18 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
         {
             get
             {
-                if (_emkResource == null || string.IsNullOrWhiteSpace(_emkResource.DisplayName))
+                if (EmkResourceItem == null || string.IsNullOrWhiteSpace(EmkResourceItem.DisplayName))
                 {
                     return Resource.FullName;
                 }
-                return _emkResource.DisplayName;
+                return EmkResourceItem.DisplayName;
             }
         }
+
+        /// <summary>
+        /// Gets the underlying <see cref="EmkResource"/>-instance
+        /// </summary>
+        public EmkResource EmkResourceItem { get; private set; }
 
         #endregion
 
@@ -77,12 +78,14 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
         internal ResourceViewModel(OperationResource resource, EmkResource emkResource)
             : base()
         {
-            Assertions.AssertNotNull(resource, "resource");
-
+            if (resource == null && emkResource == null)
+            {
+                throw new InvalidOperationException(Properties.Resources.NoResourceGiven);
+            }
             this.Resource = resource;
 
-            _emkResource = emkResource;
-            if (_emkResource != null)
+            EmkResourceItem = emkResource;
+            if (EmkResourceItem != null)
             {
                 LoadIconAsync();
             }
@@ -100,7 +103,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
                 {
                     try
                     {
-                        Stream content = client.GetFileFromPath(_emkResource.IconFileName);
+                        Stream content = client.GetFileFromPath(EmkResourceItem.IconFileName);
 
                         if (content != null)
                         {

@@ -1,52 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8826E07D-B0F2-4710-86E0-B88A24EA8551}</ProjectGuid>
-    <OutputType>library</OutputType>
+    <ProjectGuid>{FDDF8FE0-AA7B-45B9-B2BB-ED48A95B454B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AlarmWorkflow.Windows.UIWidgets.Resources</RootNamespace>
-    <AssemblyName>AlarmWorkflow.Windows.UIWidgets.Resources</AssemblyName>
+    <RootNamespace>AlarmWorkflow.Tools.Dispatching</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Tools.Dispatching</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\Build\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo_32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
       <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.Dispositioning, Version=0.9.6.0, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.Dispositioning.dll</HintPath>
-    </Reference>
     <Reference Include="AlarmWorkflow.BackendService.DispositioningContracts, Version=0.9.6.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Build\AlarmWorkflow.BackendService.DispositioningContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.FileTransferContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.FileTransferContracts.dll</HintPath>
     </Reference>
     <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
       <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
@@ -54,13 +51,11 @@
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
-    <Reference Include="AlarmWorkflow.Windows.CustomViewer">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
-    </Reference>
     <Reference Include="AlarmWorkflow.Windows.UIContracts">
       <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
@@ -71,14 +66,23 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResourceViewModel.cs" />
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Constants.cs" />
+    <Compile Include="ResourceItem.cs" />
     <Compile Include="ViewModel.cs" />
-    <Page Include="ResourcesWidget.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="ResourcesWidget.xaml.cs">
-      <DependentUpon>ResourcesWidget.xaml</DependentUpon>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -91,11 +95,29 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo_32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo_16.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

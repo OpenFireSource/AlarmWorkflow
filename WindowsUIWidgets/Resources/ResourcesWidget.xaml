@@ -7,9 +7,13 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <SolidColorBrush x:Key="borderBrush" Color="#FF8B4C0D" />
-        <LinearGradientBrush x:Key="borderBackground" StartPoint="0,0" EndPoint="0,1">
+        <LinearGradientBrush x:Key="dispatchedBrush" StartPoint="0,0" EndPoint="0,1">
             <GradientStop Color="#FFDC8200" Offset="1"/>
             <GradientStop Color="#FFFC9500" Offset="0"/>
+        </LinearGradientBrush>
+        <LinearGradientBrush x:Key="alarmedBackground" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#FFDC1400" Offset="1"/>
+            <GradientStop Color="#FFFF2300" Offset="0"/>
         </LinearGradientBrush>
     </UserControl.Resources>
 
@@ -21,7 +25,17 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Border BorderBrush="{StaticResource borderBrush}" Background="{StaticResource borderBackground}" BorderThickness="1" CornerRadius="5" Margin="2" Padding="5">
+                <Border BorderBrush="{StaticResource borderBrush}" BorderThickness="1" CornerRadius="5" Margin="2" Padding="5">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Dispatched}" Value="False">
+                                       <Setter Property="Background" Value="{StaticResource alarmedBackground}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Background" Value="{StaticResource dispatchedBrush}"></Setter>
+                        </Style>
+                    </Border.Style>
                     <Label VerticalAlignment="Center" FontSize="50" FontWeight="Bold" >
                         <Label.Style>
                             <Style TargetType="Label">
