@@ -141,7 +141,10 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             }
 
             ServiceHelper.StopService(false);
+            _sections = new List<GroupedSectionViewModel>();
             ServiceHelper.StartService(false);
+            InitializeSettings();
+            OnPropertyChanged("Sections");
         }
 
         #endregion
@@ -253,6 +256,11 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             try
             {
                 ServiceHelper.StartService(true);
+                if (!IsConnected)
+                {
+                    InitializeSettings();
+                    OnPropertyChanged("Sections");
+                }
             }
             catch (Exception ex)
             {
@@ -286,6 +294,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             try
             {
                 ServiceHelper.StopService(true);
+                _sections = new List<GroupedSectionViewModel>();
+                OnPropertyChanged("Sections");
+                IsConnected = false;
             }
             catch (Exception ex)
             {

@@ -9,6 +9,7 @@ Generelles
   * [FaxAlarmSource] Scan-Intervall entfernt. Nun fest eingestellt auf 2 Sekunden.
   * [FaxAlarmSource] Ab sofort wird nur noch Tesseract unterstützt. Siehe auch Anhang #1.
   * [MailAlarmSource] Weitere Einstellungen reagieren nun dynamisch auf Änderungen.
+  * [ConfigEditor] Einstellungen werden nach dem Starten Services im ConfigEditor geladen. (Bzw. versteckt beim Stoppen)
 
 Parser
 
