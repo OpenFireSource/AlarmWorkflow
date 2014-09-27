@@ -4,6 +4,10 @@
 Änderungen seit v0.9.6.0
 ------------------------
 
+Dokumentation
+
+  * Das Handbuch ist ab sofort unter https://github.com/OpenFireSource/AlarmWorkflow-Documentation/blob/master/Handbuch%20AlarmWorkflow.docx zu finden.
+
 Generelles
 
   * [FaxAlarmSource] Scan-Intervall entfernt. Nun fest eingestellt auf 2 Sekunden.
@@ -13,8 +17,7 @@ Generelles
 
 Parser
 
-  * Neuer Parser für ILS Landshut
-  * Parser für die ILS Allgäu, Regensburg, Rosenheim, Traunstein und Erding vereinfacht und optimiert.
+  * Parser ausgelagert in eigenes Projekt.
 
 Gelöste Probleme
 ----------------
