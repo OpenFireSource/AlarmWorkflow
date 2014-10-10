@@ -134,7 +134,17 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
             private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings, ref object state)
             {
-                graphics.DrawImage(_pages[pageIndex - 1], Point.Empty);
+                Image image = _pages[pageIndex - 1];
+
+                RectangleF printableArea = pageSettings.PrintableArea;
+                float ratioX = printableArea.Width / image.Width;
+                float ratioY = printableArea.Height / image.Height;
+                float ratio = Math.Min(ratioX, ratioY);
+
+                int newWidth = (int)(image.Width * ratio);
+                int newHeight = (int)(image.Height * ratio);
+
+                graphics.DrawImage(image, new Rectangle(Point.Empty, new Size(newWidth, newHeight)));
 
                 return pageIndex < _pages.Count;
             }
