@@ -71,7 +71,7 @@ namespace AlarmWorkflow.Backend.Service.UI
             UpdateUI();
         }
 
-        private static void TryExecuteWithNotification(Action action, string failTemplate)
+        private static void TryExecuteWithNotification(Action action, string failMessageTemplate)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace AlarmWorkflow.Backend.Service.UI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(string.Format(Properties.Resources.ServiceStartError, ex.Message), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(failMessageTemplate, ex.Message), "", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
