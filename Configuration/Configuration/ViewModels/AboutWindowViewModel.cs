@@ -110,15 +110,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             AdvancedInfoEntries.Add(new AdvancedInfoEntry("Is64BitOperatingSystem", Environment.Is64BitOperatingSystem));
             AdvancedInfoEntries.Add(new AdvancedInfoEntry("Is64BitProcess", Environment.Is64BitProcess));
 
-            AdvancedInfoEntries.Add(new AdvancedInfoEntry("IsCurrentUserAdministrator", Helper.IsCurrentUserAdministrator()));
-
-            AdvancedInfoEntries.Add(new AdvancedInfoEntry("IsServiceInstalled", ServiceHelper.IsServiceInstalled()));
-            AdvancedInfoEntries.Add(new AdvancedInfoEntry("IsServiceRunning", ServiceHelper.IsServiceRunning()));
-            if (ServiceHelper.IsServiceRunning())
-            {
-                AdvancedInfoEntries.Add(new AdvancedInfoEntry("ServiceState", ServiceHelper.GetServiceState()));
-            }
-
             DirectoryInfo dirInfo = new DirectoryInfo(Utilities.GetWorkingDirectory());
             AdvancedInfoEntries.Add(new AdvancedInfoEntry("WorkingDirectory", dirInfo.FullName));
 

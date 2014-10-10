@@ -78,8 +78,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Helper.cs" />
-    <Compile Include="ServiceHelper.cs" />
     <Compile Include="TypeEditors\BooleanTypeEditor.xaml.cs">
       <DependentUpon>BooleanTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -324,10 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Configuration.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\servicerunning.png" />
-    <Resource Include="Images\servicestopped.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\ResetSetting_16.png" />

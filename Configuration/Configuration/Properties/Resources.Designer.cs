@@ -61,15 +61,6 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sie müssen Administratorrechte besitzen, um diese Aktion auszuführen!.
-        /// </summary>
-        internal static string AdministratorRequiredMessage {
-            get {
-                return ResourceManager.GetString("AdministratorRequiredMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Der endgültige Wert liegt außerhalb der erlaubten Grenzen von &apos;{0}&apos; - &apos;{1}&apos; (beide einschließlich) in der Einheit {2}..
         /// </summary>
         internal static string DurationTypeEditorOutsideBoundaries {
@@ -182,15 +173,6 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten..
-        /// </summary>
-        internal static string RestartServiceMessage {
-            get {
-                return ResourceManager.GetString("RestartServiceMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Einstellungsgruppe {0} von {1} gespeichert..
         /// </summary>
         internal static string SaveSettingStatusText {
@@ -268,104 +250,6 @@ namespace AlarmWorkflow.Windows.Configuration.Properties {
         internal static string SeedEntryTypeHasNoDefaultConstructor {
             get {
                 return ResourceManager.GetString("SeedEntryTypeHasNoDefaultConstructor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sie sind dabei, den Service zu installieren. Bitte bestätigen Sie, um fortzufahren. Sie können dann anschließend den Service starten..
-        /// </summary>
-        internal static string ServiceInstallConfirmationMessage {
-            get {
-                return ResourceManager.GetString("ServiceInstallConfirmationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Installation des Services ist gescheitert. Die Fehlermeldung lautet: 
-        ///
-        ///&apos;{0}&apos;.
-        /// </summary>
-        internal static string ServiceInstallFailedMessage {
-            get {
-                return ResourceManager.GetString("ServiceInstallFailedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Installation des Services ist abgeschlossen! Sie können den Service nun starten..
-        /// </summary>
-        internal static string ServiceInstallSuccessMessage {
-            get {
-                return ResourceManager.GetString("ServiceInstallSuccessMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!.
-        /// </summary>
-        internal static string ServiceIsNotInstalledError {
-            get {
-                return ResourceManager.GetString("ServiceIsNotInstalledError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
-        ///
-        ///&apos;{0}&apos;.
-        /// </summary>
-        internal static string ServiceStartError {
-            get {
-                return ResourceManager.GetString("ServiceStartError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Der Service konnte nicht gestoppt werden. Die Fehlermeldung lautet: 
-        ///
-        ///&apos;{0}&apos;.
-        /// </summary>
-        internal static string ServiceStopError {
-            get {
-                return ResourceManager.GetString("ServiceStopError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sie sind dabei, den Service zu deinstallieren. Bitte bestätigen Sie, um fortzufahren..
-        /// </summary>
-        internal static string ServiceUninstallConfirmationMessage {
-            get {
-                return ResourceManager.GetString("ServiceUninstallConfirmationMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Der Service läuft noch. Bitte beenden Sie ihn zuerst, bevor sie ihn deinstallieren!.
-        /// </summary>
-        internal static string ServiceUninstallErrorServiceIsRunningMessage {
-            get {
-                return ResourceManager.GetString("ServiceUninstallErrorServiceIsRunningMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deinstallation des Services ist gescheitert. Die Fehlermeldung lautet: 
-        ///
-        ///&apos;{0}&apos;.
-        /// </summary>
-        internal static string ServiceUninstallFailedMessage {
-            get {
-                return ResourceManager.GetString("ServiceUninstallFailedMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deinstallation des Services ist abgeschlossen!.
-        /// </summary>
-        internal static string ServiceUninstallSuccessMessage {
-            get {
-                return ResourceManager.GetString("ServiceUninstallSuccessMessage", resourceCulture);
             }
         }
         

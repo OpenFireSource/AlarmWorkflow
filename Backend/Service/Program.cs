@@ -13,8 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Diagnostics;
 using System.ServiceProcess;
+using AlarmWorkflow.Backend.Service.UI;
 
 namespace AlarmWorkflow.Backend.Service
 {
@@ -36,7 +38,17 @@ namespace AlarmWorkflow.Backend.Service
             }
 #endif
 
-            ServiceBase.Run(new AlarmWorkflowService());
+            if (Environment.UserInteractive)
+            {
+                using (ManagementForm frm = new ManagementForm())
+                {
+                    frm.ShowDialog();
+                }
+            }
+            else
+            {
+                ServiceBase.Run(new AlarmWorkflowService());
+            }
         }
     }
 }

@@ -20,8 +20,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.ServiceModel;
-using System.Timers;
-using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
@@ -38,7 +36,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
     {
         #region Constants
 
-        private const string ServiceExecutableName = "AlarmWorkflow.Windows.Service.exe";
         private const string SectionNameShared = "Shared";
 
         #endregion
@@ -47,8 +44,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private SettingsDisplayConfiguration _displayConfiguration;
         private List<GroupedSectionViewModel> _sections;
-
-        private Timer _serviceStatePollingTimer;
 
         #endregion
 
@@ -65,10 +60,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get { return _sections; }
         }
-        /// <summary>
-        /// Gets the state of the service.
-        /// </summary>
-        public string ServiceState { get; private set; }
         /// <summary>
         /// Gets whether or not the configuration editor running from the current location is configured
         /// as a server; that is, the backend configuration has an address specified like "localhost" or any starting with "127".
@@ -106,192 +97,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         private void OpenAppDataDirectoryCommand_Execute(object parameter)
         {
             Process.Start(Utilities.GetLocalAppDataFolderPath());
-        }
-
-        #endregion
-
-        #region Command "RestartServiceCommand"
-
-        /// <summary>
-        /// The RestartServiceCommand command.
-        /// </summary>
-        public ICommand RestartServiceCommand { get; private set; }
-
-        private bool RestartServiceCommand_CanExecute(object parameter)
-        {
-            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled();
-        }
-
-        private void RestartServiceCommand_Execute(object parameter)
-        {
-            if (!Helper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (!ServiceHelper.IsServiceInstalled())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.ServiceIsNotInstalledError);
-                return;
-            }
-
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Warning, Properties.Resources.RestartServiceMessage))
-            {
-                return;
-            }
-
-            ServiceHelper.StopService(false);
-            ServiceHelper.StartService(false);
-        }
-
-        #endregion
-
-        #region Command "InstallServiceCommand"
-
-        /// <summary>
-        /// The InstallServiceCommand command.
-        /// </summary>
-        public ICommand InstallServiceCommand { get; private set; }
-
-        private bool InstallServiceCommand_CanExecute(object parameter)
-        {
-            return IsConfiguredAsServer && !ServiceHelper.IsServiceInstalled();
-        }
-
-        private void InstallServiceCommand_Execute(object parameter)
-        {
-            if (!Helper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Properties.Resources.ServiceInstallConfirmationMessage))
-            {
-                return;
-            }
-
-            try
-            {
-                ServiceHelper.InstallService();
-
-                MessageBox.Show(Properties.Resources.ServiceInstallSuccessMessage);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Properties.Resources.ServiceInstallFailedMessage, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "UninstallServiceCommand"
-
-        /// <summary>
-        /// The UninstallServiceCommand command.
-        /// </summary>
-        public ICommand UninstallServiceCommand { get; private set; }
-
-        private bool UninstallServiceCommand_CanExecute(object parameter)
-        {
-            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled();
-        }
-
-        private void UninstallServiceCommand_Execute(object parameter)
-        {
-            if (!Helper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
-                return;
-            }
-            if (ServiceHelper.IsServiceRunning())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.ServiceUninstallErrorServiceIsRunningMessage);
-                return;
-            }
-
-            if (!UIUtilities.ConfirmMessageBox(MessageBoxImage.Question, Properties.Resources.ServiceUninstallConfirmationMessage))
-            {
-                return;
-            }
-
-            try
-            {
-                ServiceHelper.UninstallService();
-
-                MessageBox.Show(Properties.Resources.ServiceUninstallSuccessMessage);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Properties.Resources.ServiceUninstallFailedMessage, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "StartServiceCommand"
-
-        /// <summary>
-        /// The StartServiceCommand command.
-        /// </summary>
-        public ICommand StartServiceCommand { get; private set; }
-
-        private bool StartServiceCommand_CanExecute(object parameter)
-        {
-            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled() && !ServiceHelper.IsServiceRunning();
-        }
-
-        private void StartServiceCommand_Execute(object parameter)
-        {
-            if (!Helper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
-                return;
-            }
-
-            try
-            {
-                ServiceHelper.StartService(true);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Properties.Resources.ServiceStartError, ex.Message);
-            }
-        }
-
-        #endregion
-
-        #region Command "StopServiceCommand"
-
-        /// <summary>
-        /// The StopServiceCommand command.
-        /// </summary>
-        public ICommand StopServiceCommand { get; private set; }
-
-        private bool StopServiceCommand_CanExecute(object parameter)
-        {
-            return IsConfiguredAsServer && ServiceHelper.IsServiceInstalled() && ServiceHelper.IsServiceRunning();
-        }
-
-        private void StopServiceCommand_Execute(object parameter)
-        {
-            if (!Helper.IsCurrentUserAdministrator())
-            {
-                UIUtilities.ShowWarning(Properties.Resources.AdministratorRequiredMessage);
-                return;
-            }
-
-            try
-            {
-                ServiceHelper.StopService(true);
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(Properties.Resources.ServiceStopError, ex.Message);
-            }
         }
 
         #endregion
@@ -338,10 +143,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             IsConfiguredAsServer = CheckIsConfiguredAsServer();
 
             InitializeSettings();
-
-            _serviceStatePollingTimer = new Timer(2000d);
-            _serviceStatePollingTimer.Elapsed += _serviceStatePollingTimer_Elapsed;
-            _serviceStatePollingTimer.Start();
 
             SaveChangesCommand = new SaveSettingsTaskCommand(this);
         }
@@ -470,22 +271,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             all.AddRange(_sections);
             all.AddRange(_sections.SelectMany(s => s.Children));
             return all;
-        }
-
-        private void _serviceStatePollingTimer_Elapsed(object sender, ElapsedEventArgs e)
-        {
-            ServiceState = "NotInstalled";
-            try
-            {
-                if (ServiceHelper.IsServiceInstalled())
-                {
-                    ServiceState = ServiceHelper.GetServiceState().ToString();
-                }
-            }
-            catch (Exception)
-            {
-            }
-            OnPropertyChanged("ServiceState");
         }
 
         #endregion

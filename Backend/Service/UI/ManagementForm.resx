@@ -117,70 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ServiceStartError_Message" xml:space="preserve">
-    <value>Error while starting the AlarmWorkflow service. The error message was: {0}</value>
-  </data>
-  <data name="SvcMgrServiceInstanceIllegalType" xml:space="preserve">
-    <value>Service does not derive from {0} as required by the service manager! Cannot host service.</value>
-  </data>
-  <data name="SvcMgrServiceHosting" xml:space="preserve">
-    <value>Hosting service {0}...</value>
-  </data>
-  <data name="SvcMgrStarted" xml:space="preserve">
-    <value>Service manager started. Hosted {0} internal and {1} exposed services.</value>
-  </data>
-  <data name="SvcMgrStopping" xml:space="preserve">
-    <value>Stopping service manager and all services...</value>
-  </data>
-  <data name="InstallServiceError_Message" xml:space="preserve">
-    <value>Cannot install service (most likely it does already exist). The error message was: {0}</value>
-  </data>
-  <data name="SvcMgrStopped" xml:space="preserve">
-    <value>Stopped service manager.</value>
-  </data>
-  <data name="SvcMgrServiceHosted" xml:space="preserve">
-    <value>Service hosted in {0} milliseconds.</value>
-  </data>
-  <data name="UnInstallServiceError_Message" xml:space="preserve">
-    <value>Cannot uninstall service (most likely it does not exist). The error message was: {0}</value>
-  </data>
-  <data name="SvcMgrStarting" xml:space="preserve">
-    <value>Starting service manager and hosting all services...</value>
-  </data>
-  <data name="SvcMgrServiceHostingError" xml:space="preserve">
-    <value>Service failed hosting! See log for further information.</value>
-  </data>
-  <data name="ServiceNotInstalledStatus" xml:space="preserve">
-    <value>(Service is not installed)</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="servicerunning" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\servicerunning.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="servicestopped" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\servicestopped.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ServiceInstallFailedMessage" xml:space="preserve">
-    <value>Installation des Services ist gescheitert. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
-  <data name="ServiceIsNotInstalledError" xml:space="preserve">
-    <value>Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!</value>
-  </data>
-  <data name="ServiceStartError" xml:space="preserve">
-    <value>Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
-
-'{0}'</value>
-  </data>
-  <data name="ServiceStopError" xml:space="preserve">
-    <value>Der Service konnte nicht gestoppt werden. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
-  <data name="ServiceUninstallFailedMessage" xml:space="preserve">
-    <value>Deinstallation des Services ist gescheitert. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
+  <metadata name="tmrUpdateUI.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

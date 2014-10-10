@@ -18,10 +18,11 @@ using System.Collections.Generic;
 using System.Configuration.Install;
 using System.IO;
 using System.Linq;
+using System.Security.Principal;
 using System.ServiceProcess;
 using AlarmWorkflow.Shared.Core;
 
-namespace AlarmWorkflow.Windows.Configuration
+namespace AlarmWorkflow.Backend.Service.UI
 {
     static class ServiceHelper
     {
@@ -81,44 +82,40 @@ namespace AlarmWorkflow.Windows.Configuration
             return false;
         }
 
-        internal static void StopService(bool throwOnError)
+        internal static void StopService()
         {
             ServiceController service = new ServiceController(ServiceName);
-            try
-            {
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMinutes(1d));
-            }
-            catch (Exception ex)
-            {
-                if (throwOnError)
-                {
-                    throw ex;
-                }
-            }
+            service.Stop();
+            service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMinutes(1d));
         }
 
-        internal static void StartService(bool throwOnError)
+        internal static void StartService()
         {
             ServiceController service = new ServiceController(ServiceName);
-            try
-            {
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1d));
-            }
-            catch (Exception ex)
-            {
-                if (throwOnError)
-                {
-                    throw ex;
-                }
-            }
+            service.Start();
+            service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMinutes(1d));
         }
 
         internal static ServiceControllerStatus GetServiceState()
         {
             ServiceController service = new ServiceController(ServiceName);
             return service.Status;
+        }
+
+        internal static bool IsCurrentUserAdministrator()
+        {
+            // Courtesy of http://stackoverflow.com/questions/1089046/in-net-c-test-if-user-is-an-administrative-user
+            try
+            {
+                WindowsIdentity user = WindowsIdentity.GetCurrent();
+                WindowsPrincipal principal = new WindowsPrincipal(user);
+
+                return principal.IsInRole(WindowsBuiltInRole.Administrator);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

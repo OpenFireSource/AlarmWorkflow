@@ -117,9 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdministratorRequiredMessage" xml:space="preserve">
-    <value>Sie müssen Administratorrechte besitzen, um diese Aktion auszuführen!</value>
-  </data>
   <data name="DurationTypeEditorOutsideBoundaries" xml:space="preserve">
     <value>Der endgültige Wert liegt außerhalb der erlaubten Grenzen von '{0}' - '{1}' (beide einschließlich) in der Einheit {2}.</value>
   </data>
@@ -156,9 +153,6 @@ Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit 
   <data name="PrintingQueuesConfigurationWindowTitle" xml:space="preserve">
     <value>Druckerwege-Konfiguration</value>
   </data>
-  <data name="RestartServiceMessage" xml:space="preserve">
-    <value>Sie sind im Begriff, den Service neuzustarten. Während dieser Zeit können keine Alarmquellen ausgewertet werden. Dieser Vorgang kann bis zu ein paar Minuten dauern. Bitte bestätigen Sie, dass Sie dies durchführen möchten.</value>
-  </data>
   <data name="SaveSettingStatusText" xml:space="preserve">
     <value>Einstellungsgruppe {0} von {1} gespeichert.</value>
   </data>
@@ -185,44 +179,6 @@ Beachten Sie, dass Sie die Änderungen im Hauptfenster speichern müssen, damit 
   </data>
   <data name="SeedEntryTypeHasNoDefaultConstructor" xml:space="preserve">
     <value>Cannot create an instance of the type '{0}' because it has no public default constructor defined!</value>
-  </data>
-  <data name="ServiceInstallConfirmationMessage" xml:space="preserve">
-    <value>Sie sind dabei, den Service zu installieren. Bitte bestätigen Sie, um fortzufahren. Sie können dann anschließend den Service starten.</value>
-  </data>
-  <data name="ServiceInstallFailedMessage" xml:space="preserve">
-    <value>Installation des Services ist gescheitert. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
-  <data name="ServiceInstallSuccessMessage" xml:space="preserve">
-    <value>Installation des Services ist abgeschlossen! Sie können den Service nun starten.</value>
-  </data>
-  <data name="ServiceIsNotInstalledError" xml:space="preserve">
-    <value>Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!</value>
-  </data>
-  <data name="ServiceStartError" xml:space="preserve">
-    <value>Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
-
-'{0}'</value>
-  </data>
-  <data name="ServiceStopError" xml:space="preserve">
-    <value>Der Service konnte nicht gestoppt werden. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
-  <data name="ServiceUninstallConfirmationMessage" xml:space="preserve">
-    <value>Sie sind dabei, den Service zu deinstallieren. Bitte bestätigen Sie, um fortzufahren.</value>
-  </data>
-  <data name="ServiceUninstallErrorServiceIsRunningMessage" xml:space="preserve">
-    <value>Der Service läuft noch. Bitte beenden Sie ihn zuerst, bevor sie ihn deinstallieren!</value>
-  </data>
-  <data name="ServiceUninstallFailedMessage" xml:space="preserve">
-    <value>Deinstallation des Services ist gescheitert. Die Fehlermeldung lautet: 
-
-'{0}'</value>
-  </data>
-  <data name="ServiceUninstallSuccessMessage" xml:space="preserve">
-    <value>Deinstallation des Services ist abgeschlossen!</value>
   </data>
   <data name="SettingItemViewModelSetSettingError" xml:space="preserve">
     <value>An error occurred while setting the user-value to settign '{0}'(Identifier '{1}'). Using the default value.</value>

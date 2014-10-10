@@ -70,11 +70,93 @@ namespace AlarmWorkflow.Backend.Service.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Installation des Services ist gescheitert. Die Fehlermeldung lautet: 
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceInstallFailedMessage {
+            get {
+                return ResourceManager.GetString("ServiceInstallFailedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der Service ist nicht installiert! Die Aktion kann nicht ausgeführt werden. Bitte installieren Sie zuerst den Service!.
+        /// </summary>
+        internal static string ServiceIsNotInstalledError {
+            get {
+                return ResourceManager.GetString("ServiceIsNotInstalledError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Service is not installed).
+        /// </summary>
+        internal static string ServiceNotInstalledStatus {
+            get {
+                return ResourceManager.GetString("ServiceNotInstalledStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap servicerunning {
+            get {
+                object obj = ResourceManager.GetObject("servicerunning", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der Service konnte nicht gestartet werden. Die Fehlermeldung lautet:
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceStartError {
+            get {
+                return ResourceManager.GetString("ServiceStartError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error while starting the AlarmWorkflow service. The error message was: {0}.
         /// </summary>
         internal static string ServiceStartError_Message {
             get {
                 return ResourceManager.GetString("ServiceStartError_Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Der Service konnte nicht gestoppt werden. Die Fehlermeldung lautet: 
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceStopError {
+            get {
+                return ResourceManager.GetString("ServiceStopError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap servicestopped {
+            get {
+                object obj = ResourceManager.GetObject("servicestopped", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deinstallation des Services ist gescheitert. Die Fehlermeldung lautet: 
+        ///
+        ///&apos;{0}&apos;.
+        /// </summary>
+        internal static string ServiceUninstallFailedMessage {
+            get {
+                return ResourceManager.GetString("ServiceUninstallFailedMessage", resourceCulture);
             }
         }
         

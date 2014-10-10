@@ -6,4 +6,7 @@
 
 Generelles
 
-  * -
+  * Der Service wird nun über die Anwendung "AlarmWorkflow.Backend.Service.exe" (de-) installiert, gestartet und gestoppt.
+    Weiterhin wird der Status dort direkt angezeigt. Die entsprechende Funktionalität wurde aus dem Konfigurationseditor entfernt.
+    Die Anwendung muss als Administrator gestartet werden, damit die Funktionalität verfügbar ist.
+    
