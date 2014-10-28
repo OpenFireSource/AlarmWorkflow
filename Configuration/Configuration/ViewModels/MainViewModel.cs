@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Windows.Data;
@@ -61,19 +60,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         public IEnumerable<GroupedSectionViewModel> Sections
         {
             get { return _sections; }
-        }
-        /// <summary>
-        /// Gets whether or not the configuration editor running from the current location is configured
-        /// as a server; that is, the backend configuration has an address specified like "localhost" or any starting with "127".
-        /// </summary>
-        public bool IsConfiguredAsServer { get; private set; }
-        /// <summary>
-        /// Gets whether or not the configuration editor running from the current location is configured
-        /// as a client. This is the negated value from <see cref="IsConfiguredAsServer"/> and exists for convenience.
-        /// </summary>
-        public bool IsConfiguredAsClient
-        {
-            get { return !IsConfiguredAsServer; }
         }
 
         #endregion
@@ -162,8 +148,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            IsConfiguredAsServer = CheckIsConfiguredAsServer();
-
             InitializeSettings();
 
             SaveChangesCommand = new SaveSettingsTaskCommand(this);
@@ -178,27 +162,6 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #endregion
 
         #region Methods
-
-        private bool CheckIsConfiguredAsServer()
-        {
-            try
-            {
-                string address = ServiceFactory.BackendConfigurator.Get("ServerHostAddress");
-                if (!string.IsNullOrWhiteSpace(address))
-                {
-                    address = address.Trim().ToLowerInvariant();
-                    return (address == "localhost") || address.StartsWith("127");
-                }
-                return false;
-            }
-            catch (FileNotFoundException ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(ex.Message);
-
-                return false;
-            }
-        }
 
         private void InitializeSettings()
         {
