@@ -29,6 +29,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Configuration.Views;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using System.Timers;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -44,6 +45,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private SettingsDisplayConfiguration _displayConfiguration;
         private List<GroupedSectionViewModel> _sections;
+        private Timer _connectionStateUpdater;
 
         #endregion
 
@@ -77,6 +79,23 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         #endregion
 
         #region Commands
+
+        #region Command "UpdateSettingsCommand"
+
+        public ICommand UpdateSettingsCommand { get; private set; }
+
+        public void UpdateSettingsCommand_Execute(object parmeter)
+        {
+            InitializeSettings();
+            OnPropertyChanged("Sections");
+        }
+
+        public bool UpdateSettingsCommand_CanExecute(object parameter)
+        {
+            return IsConnected;
+        }
+
+        #endregion
 
         #region Command "SaveChangesCommand"
 
@@ -145,6 +164,12 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             InitializeSettings();
 
             SaveChangesCommand = new SaveSettingsTaskCommand(this);
+            UpdateSettingsCommand = new RelayCommand(UpdateSettingsCommand_Execute, UpdateSettingsCommand_CanExecute);
+
+            _connectionStateUpdater = new Timer();
+            _connectionStateUpdater.Interval = 1.5 * 1000;
+            _connectionStateUpdater.Elapsed += _connectionStateUpdater_Elapsed;
+            _connectionStateUpdater.Start();
         }
 
         #endregion
@@ -271,6 +296,26 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             all.AddRange(_sections);
             all.AddRange(_sections.SelectMany(s => s.Children));
             return all;
+        }
+
+        void _connectionStateUpdater_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+                {
+                    IsConnected = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                IsConnected = false;
+            }
+            App.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                OnPropertyChanged("IsConnected");
+                CommandManager.InvalidateRequerySuggested();
+            }));
         }
 
         #endregion

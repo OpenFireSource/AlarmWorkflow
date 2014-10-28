@@ -350,6 +350,9 @@
   <ItemGroup>
     <Resource Include="Images\dynamicsetting_16.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\refresh.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy "$(ProjectDir)Data\*" "$(TargetDir)\*" /IYS</PostBuildEvent>
