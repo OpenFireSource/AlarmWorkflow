@@ -82,6 +82,9 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Command "UpdateSettingsCommand"
 
+        /// <summary>
+        /// The UpdateSettingsCommand command.
+        /// </summary>
         public ICommand UpdateSettingsCommand { get; private set; }
 
         public void UpdateSettingsCommand_Execute(object parmeter)
