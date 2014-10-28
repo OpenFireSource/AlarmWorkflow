@@ -5,7 +5,8 @@
 ------------------------
 
 Generelles
-
+  
+  * Die Einstellungen können im Konfigurationsmanager nun ohne einen Neustart geladen/aktualisiert werden. Nützlich v.a. wenn der Service noch nicht gestartet war, wenn der Konfigurationseditor gestartet wurde.
   * Der Service wird nun über die Anwendung "AlarmWorkflow.Backend.Service.exe" (de-) installiert, gestartet und gestoppt.
     Weiterhin wird der Status dort direkt angezeigt. Die entsprechende Funktionalität wurde aus dem Konfigurationseditor entfernt.
     Die Anwendung muss als Administrator gestartet werden, damit die Funktionalität verfügbar ist.

@@ -13,11 +13,20 @@
 
         <Separator />
 
+        <Button Command="{Binding UpdateSettingsCommand}" ToolTip="Versucht die Einstellungen erneut zu laden. Ermöglicht die Einstellungen nach einem ggf. durchgeführten Servicestart zu laden." >
+            <StackPanel Orientation="Horizontal">
+                <Image Source="../Images/refresh.png" Width="16" Height="16" />
+                <TextBlock Margin="0,0,2,0" Text="Einstellungen neuladen" FontWeight="Bold" />
+            </StackPanel>
+        </Button>
+        
+        <Separator />
+
         <Button Content="Benutzerdatenverzeichnis öffnen" Command="{Binding OpenAppDataDirectoryCommand}" ToolTip="Öffnet das Benutzerdatenverzeichnis." />
 
         <Separator />
 
-        <Menu Margin="0, 1.5, 0, 0" Style="{x:Null}">
+        <Menu Style="{x:Null}">
             <MenuItem Header="_Tools">
                 <MenuItem Header="_Ausdrucksformat-Tester öffnen..." Command="{Binding OpenObjectExpressionTesterCommand}" />
             </MenuItem>

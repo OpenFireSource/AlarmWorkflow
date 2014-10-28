@@ -17,7 +17,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.ServiceModel;
 using System.Windows.Data;
@@ -29,6 +28,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.Configuration.Views;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using System.Timers;
 
 namespace AlarmWorkflow.Windows.Configuration.ViewModels
 {
@@ -44,6 +44,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         private SettingsDisplayConfiguration _displayConfiguration;
         private List<GroupedSectionViewModel> _sections;
+        private Timer _connectionStateUpdater;
 
         #endregion
 
@@ -60,23 +61,30 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         {
             get { return _sections; }
         }
-        /// <summary>
-        /// Gets whether or not the configuration editor running from the current location is configured
-        /// as a server; that is, the backend configuration has an address specified like "localhost" or any starting with "127".
-        /// </summary>
-        public bool IsConfiguredAsServer { get; private set; }
-        /// <summary>
-        /// Gets whether or not the configuration editor running from the current location is configured
-        /// as a client. This is the negated value from <see cref="IsConfiguredAsServer"/> and exists for convenience.
-        /// </summary>
-        public bool IsConfiguredAsClient
-        {
-            get { return !IsConfiguredAsServer; }
-        }
 
         #endregion
 
         #region Commands
+
+        #region Command "UpdateSettingsCommand"
+
+        /// <summary>
+        /// The UpdateSettingsCommand command.
+        /// </summary>
+        public ICommand UpdateSettingsCommand { get; private set; }
+
+        public void UpdateSettingsCommand_Execute(object parmeter)
+        {
+            InitializeSettings();
+            OnPropertyChanged("Sections");
+        }
+
+        public bool UpdateSettingsCommand_CanExecute(object parameter)
+        {
+            return IsConnected;
+        }
+
+        #endregion
 
         #region Command "SaveChangesCommand"
 
@@ -140,37 +148,20 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         public MainViewModel()
         {
-            IsConfiguredAsServer = CheckIsConfiguredAsServer();
-
             InitializeSettings();
 
             SaveChangesCommand = new SaveSettingsTaskCommand(this);
+            UpdateSettingsCommand = new RelayCommand(UpdateSettingsCommand_Execute, UpdateSettingsCommand_CanExecute);
+
+            _connectionStateUpdater = new Timer();
+            _connectionStateUpdater.Interval = 1.5 * 1000;
+            _connectionStateUpdater.Elapsed += _connectionStateUpdater_Elapsed;
+            _connectionStateUpdater.Start();
         }
 
         #endregion
 
         #region Methods
-
-        private bool CheckIsConfiguredAsServer()
-        {
-            try
-            {
-                string address = ServiceFactory.BackendConfigurator.Get("ServerHostAddress");
-                if (!string.IsNullOrWhiteSpace(address))
-                {
-                    address = address.Trim().ToLowerInvariant();
-                    return (address == "localhost") || address.StartsWith("127");
-                }
-                return false;
-            }
-            catch (FileNotFoundException ex)
-            {
-                Logger.Instance.LogException(this, ex);
-                UIUtilities.ShowWarning(ex.Message);
-
-                return false;
-            }
-        }
 
         private void InitializeSettings()
         {
@@ -271,6 +262,26 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             all.AddRange(_sections);
             all.AddRange(_sections.SelectMany(s => s.Children));
             return all;
+        }
+
+        void _connectionStateUpdater_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            try
+            {
+                using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
+                {
+                    IsConnected = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                IsConnected = false;
+            }
+            App.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                OnPropertyChanged("IsConnected");
+                CommandManager.InvalidateRequerySuggested();
+            }));
         }
 
         #endregion
