@@ -3,17 +3,17 @@
   <Identifier Name="FaxAlarmSource" DisplayText="Fax" Order="-5000" Parent="Alarmquelle">
 
     <Setting Name="FaxPath" DisplayText="Faxeingang-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
-             Description="Verzeichnis, in dem die Windows-Faxkonsole die Faxe ablegt." />
+             Description="Verzeichnis, in dem die Windows-Faxkonsole die Faxe ablegt." IsDynamic="true"/>
     <Setting Name="ArchivePath" DisplayText="Archiv-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
-             Description="Verzeichnis für verarbeitete Faxe." />
+             Description="Verzeichnis für verarbeitete Faxe." IsDynamic="true"/>
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
-             Description="Verzeichnis für analysierte Faxe." />
+             Description="Verzeichnis für analysierte Faxe." IsDynamic="true"/>
 
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
-             Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen."/>
+             Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen." IsDynamic="true"/>
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
-             Description="Welcher Parser die Informationen aus dem Fax auswertet." />
+             Description="Welcher Parser die Informationen aus dem Fax auswertet." IsDynamic="true"/>
 
     <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
              Description="Nur Faxe mit min. einem dieser Worte werden ausgewertet. Wird vor der Blacklist ausgewertet." />
