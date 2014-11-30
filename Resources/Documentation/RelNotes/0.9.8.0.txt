@@ -7,3 +7,5 @@
 Generelles
 
   * [AlarmSourceJob] Seiten werden auf die Seitengröße skaliert, sodass keine Inhalte mehr abgeschnitten werden.
+  * [FaxAlarmSource] Einige Einstellungen werden nun auch dynamisch geändert.
+  

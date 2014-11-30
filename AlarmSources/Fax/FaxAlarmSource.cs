@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -267,6 +268,25 @@ namespace AlarmWorkflow.AlarmSource.Fax
             return lines.Any(l => whitelist.Any(kw => l.Contains(kw)));
         }
 
+        private void InitializeFaxPaths()
+        {
+            _faxPath = new DirectoryInfo(_configuration.FaxPath);
+            _archivePath = new DirectoryInfo(_configuration.ArchivePath);
+            _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
+
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingArchivedFaxDirectory, _archivePath.FullName);
+
+            EnsureDirectoriesExist();
+        }
+
+        private void InitializeParser()
+        {
+            _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingParserTrace, _parser.GetType().FullName);
+        }
+
         #endregion
 
         #region IAlarmSource Members
@@ -289,29 +309,15 @@ namespace AlarmWorkflow.AlarmSource.Fax
         void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
             _configuration = new FaxConfiguration(serviceProvider);
+            _configuration.PropertyChanged += _configuration_PropertyChanged;
 
-            _faxPath = new DirectoryInfo(_configuration.FaxPath);
-            _archivePath = new DirectoryInfo(_configuration.ArchivePath);
-            _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
-
+            InitializeFaxPaths();
             InitializeOcrSoftware();
             InitializeParser();
         }
 
-        private void InitializeParser()
-        {
-            _parser = ExportedTypeLibrary.Import<IParser>(_configuration.AlarmFaxParserAlias);
-            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingParserTrace, _parser.GetType().FullName);
-        }
-
         void IAlarmSource.RunThread()
         {
-            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
-            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);
-            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingArchivedFaxDirectory, _archivePath.FullName);
-
-            EnsureDirectoriesExist();
-
             while (true)
             {
                 FileInfo[] files = _faxPath.GetFiles("*.tif", SearchOption.TopDirectoryOnly);
@@ -333,10 +339,31 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #endregion
 
+        #region Event-Handler
+
+        private void _configuration_PropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            switch (args.PropertyName)
+            {
+                case "AlarmfaxParser":
+                    InitializeParser();
+                    break;
+                case "OCR.Path":
+                    AssertCustomOcrPathExist();
+                    break;
+                case "FaxPaths":
+                    InitializeFaxPaths();
+                    break;
+            }
+        }
+
+        #endregion
+
         #region IDisposable Members
 
         void IDisposable.Dispose()
         {
+            _configuration.PropertyChanged -= _configuration_PropertyChanged;
             _configuration.Dispose();
             _configuration = null;
         }
