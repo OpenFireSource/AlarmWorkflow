@@ -41,9 +41,13 @@ namespace AlarmWorkflow.Website.Reports.Areas.Display.Controllers
         /// </summary>
         /// <returns></returns>
         [CustomHandleError()]
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-            return View();
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                return View();
+            }
+            return View(id);
         }
 
         /// <summary>
