@@ -7,6 +7,6 @@
 Generelles
 
   * [AlarmSourceJob] Seiten werden auf die Seitengröße skaliert, sodass keine Inhalte mehr abgeschnitten werden.
-  * [Website] Es können neue Alarmseiten erstellt werden. Diese können unter C:\inetpub\wwwroot\Areas\Display\Views\Alarm erstellt werden. Der Dateiname (ohne cshtml) dient zur Identifizierung. http://localhost/Display/Alarm/Index/**NAME** kann als Aufruf verwendet werden.
   * [FaxAlarmSource] Einige Einstellungen werden nun auch dynamisch geändert.
+  * [Website] Ausgelagert in eigenes Projekt, nun zu finden unter https://github.com/OpenFireSource/AlarmWorkflow-Website.
   
