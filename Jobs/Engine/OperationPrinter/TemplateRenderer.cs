@@ -70,7 +70,10 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
             foreach (string line in File.ReadAllLines(templateFile))
             {
-                sb.AppendLine(ObjectFormatter.ToString(to, line));
+                if (!string.IsNullOrWhiteSpace(line))
+                {
+                    sb.AppendLine(ObjectFormatter.ToString(to, line));
+                }
             }
 
             return sb.ToString();
