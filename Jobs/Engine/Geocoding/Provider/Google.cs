@@ -43,9 +43,12 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
 
         GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
-            string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.ToString()));
-
-            WebRequest request = WebRequest.Create(queryAdress);
+            string queryAddress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.ToString()));
+            if (!string.IsNullOrWhiteSpace(address.ZipCode))
+            {
+                queryAddress = string.Format("{0}&components=postal_code:{1}|country:DE", queryAddress, address.ZipCode);
+            }
+            WebRequest request = WebRequest.Create(queryAddress);
 
             using (WebResponse response = request.GetResponse())
             {
