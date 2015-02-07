@@ -1,0 +1,10 @@
+﻿<SettingsDisplayConfiguration>
+
+  <Identifier Name="WakeOnLanJob" DisplayText="WakeOnLan" Parent="Aufgaben">
+
+    <Setting Name="MacAddressConfiguration" DisplayText="Anzeigenkonfiguration" Category="Erweitert" Editor="StringArrayTypeEditor"
+             Description="Die Liste aller MacAdressen (ein Eintrag pro Zeile)." />
+    
+  </Identifier>
+
+</SettingsDisplayConfiguration>

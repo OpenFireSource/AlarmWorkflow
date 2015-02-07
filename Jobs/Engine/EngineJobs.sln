@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms", "Sms\Sms.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mailing", "Mailing\Mailing.csproj", "{AD86EEB7-1991-44C6-94C9-48381A33D63A}"
@@ -20,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationFileExporter", "OperationFileExporter\OperationFileExporter.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geocoding", "Geocoding\Geocoding.csproj", "{EB1691B7-C2CD-4C20-9105-95965BBF3E07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WakeOnLan", "WakeOnLan\WakeOnLan.csproj", "{45753175-803C-4224-B95D-9D843D819CE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,10 @@ Global
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45753175-803C-4224-B95D-9D843D819CE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45753175-803C-4224-B95D-9D843D819CE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45753175-803C-4224-B95D-9D843D819CE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45753175-803C-4224-B95D-9D843D819CE9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

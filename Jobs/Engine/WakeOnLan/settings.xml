@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="WakeOnLanJob">
+
+  <!-- MacAddress configuration -->
+  <Setting Name="MacAddressConfiguration" Type="System.String">
+    <![CDATA[-- One Mac-Address per line
+00:11:22:33:44:55]]>
+  </Setting>
+
+</SettingsConfiguration>
