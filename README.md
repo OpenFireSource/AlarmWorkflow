@@ -7,7 +7,7 @@ Open-Source, extensible application which analyzes an alarm fax and takes custom
 This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See License.txt for further information.
 
 > AlarmWorkflow - Alarmfax processing and task scheduling application
-> Copyright (C) 2012 - 2014	The AlarmWorkflow-Team
+> Copyright (C) 2012 - 2015	The AlarmWorkflow-Team
 >
 > This program is free software: you can redistribute it and/or modify
 > it under the terms of the GNU General Public License as published by
@@ -36,9 +36,9 @@ The AlarmWorkflow-project makes use of the following libraries:
     
     Some icons taken from the Windows 7 Icon Pack
     http://download.chip.eu/de/Windows-7-Icon-Pack_4962481.html
-	
-	Some icons taken and adapted from Smallicons 
-	http://smallicons.net/
+    
+    Some icons taken and adapted from Smallicons 
+    http://smallicons.net/
 
 Furthermore, AlarmWorkflow uses the following applications:
 
