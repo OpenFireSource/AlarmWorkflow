@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
+namespace AlarmWorkflow.BackendService.Dispositioning.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UIWidgets.Resources.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.BackendService.Dispositioning.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,20 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while applying the filtered resources. Using fallback method and applying all resources. ähnelt.
+        ///   Looks up a localized string similar to The given resource is already dispositioned!.
         /// </summary>
-        internal static string ErrorWhileApplyingFilteredResourcesUsingFallbackNow {
+        internal static string DispatchNotPossibleEntryAlreadyExists {
             get {
-                return ResourceManager.GetString("ErrorWhileApplyingFilteredResourcesUsingFallbackNow", resourceCulture);
+                return ResourceManager.GetString("DispatchNotPossibleEntryAlreadyExists", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Zeigt die alarmierten Fahrzeuge an. ähnelt.
+        ///   Looks up a localized string similar to The given resource isn&apos;t dispositioned!.
         /// </summary>
-        internal static string ExportUIWidgetDescription {
+        internal static string RecallNotPossibleEntryDoesNotExist {
             get {
-                return ResourceManager.GetString("ExportUIWidgetDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fahrzeuge ähnelt.
-        /// </summary>
-        internal static string ExportUIWidgetDisplayName {
-            get {
-                return ResourceManager.GetString("ExportUIWidgetDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An unexpected error has occurred while trying to download the resource image file. Please see log for further information. ähnelt.
-        /// </summary>
-        internal static string LoadIconAsyncGenericErrorOccurred {
-            get {
-                return ResourceManager.GetString("LoadIconAsyncGenericErrorOccurred", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Neither the operationresource nor the emkresource was set. This is not allowed! ähnelt.
-        /// </summary>
-        internal static string NoResourceGiven {
-            get {
-                return ResourceManager.GetString("NoResourceGiven", resourceCulture);
+                return ResourceManager.GetString("RecallNotPossibleEntryDoesNotExist", resourceCulture);
             }
         }
     }

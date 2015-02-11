@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
+namespace AlarmWorkflow.Tools.Dispatching.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Windows.UIWidgets.Resources.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AlarmWorkflow.Tools.Dispatching.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,51 +57,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An error occurred while applying the filtered resources. Using fallback method and applying all resources. ähnelt.
-        /// </summary>
-        internal static string ErrorWhileApplyingFilteredResourcesUsingFallbackNow {
-            get {
-                return ResourceManager.GetString("ErrorWhileApplyingFilteredResourcesUsingFallbackNow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Zeigt die alarmierten Fahrzeuge an. ähnelt.
-        /// </summary>
-        internal static string ExportUIWidgetDescription {
-            get {
-                return ResourceManager.GetString("ExportUIWidgetDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Fahrzeuge ähnelt.
-        /// </summary>
-        internal static string ExportUIWidgetDisplayName {
-            get {
-                return ResourceManager.GetString("ExportUIWidgetDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die An unexpected error has occurred while trying to download the resource image file. Please see log for further information. ähnelt.
-        /// </summary>
-        internal static string LoadIconAsyncGenericErrorOccurred {
-            get {
-                return ResourceManager.GetString("LoadIconAsyncGenericErrorOccurred", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Neither the operationresource nor the emkresource was set. This is not allowed! ähnelt.
-        /// </summary>
-        internal static string NoResourceGiven {
-            get {
-                return ResourceManager.GetString("NoResourceGiven", resourceCulture);
             }
         }
     }

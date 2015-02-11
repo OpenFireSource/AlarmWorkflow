@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,19 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorWhileApplyingFilteredResourcesUsingFallbackNow" xml:space="preserve">
-    <value>An error occurred while applying the filtered resources. Using fallback method and applying all resources.</value>
+  <data name="DispatchNotPossibleEntryAlreadyExists" xml:space="preserve">
+    <value>The given resource is already dispositioned!</value>
   </data>
-  <data name="ExportUIWidgetDescription" xml:space="preserve">
-    <value>Zeigt die alarmierten Fahrzeuge an.</value>
-  </data>
-  <data name="ExportUIWidgetDisplayName" xml:space="preserve">
-    <value>Fahrzeuge</value>
-  </data>
-  <data name="LoadIconAsyncGenericErrorOccurred" xml:space="preserve">
-    <value>An unexpected error has occurred while trying to download the resource image file. Please see log for further information.</value>
-  </data>
-  <data name="NoResourceGiven" xml:space="preserve">
-    <value>Neither the operationresource nor the emkresource was set. This is not allowed!</value>
+  <data name="RecallNotPossibleEntryDoesNotExist" xml:space="preserve">
+    <value>The given resource isn't dispositioned!</value>
   </data>
 </root>

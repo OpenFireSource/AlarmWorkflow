@@ -21,4 +21,6 @@ msbuild Configuration\Configuration.sln /p:Configuration=Debug /verbosity:minima
 msbuild Jobs\Engine\EngineJobs.sln /p:Configuration=Debug /verbosity:minimal
 msbuild Jobs\WindowsUI\WindowsUIJobs.sln /p:Configuration=Debug /verbosity:minimal
 
+msbuild Tools\Tools.sln /p:Configuration=Debug /verbosity:minimal
+
 pause

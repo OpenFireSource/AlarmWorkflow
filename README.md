@@ -36,6 +36,9 @@ The AlarmWorkflow-project makes use of the following libraries:
     
     Some icons taken from the Windows 7 Icon Pack
     http://download.chip.eu/de/Windows-7-Icon-Pack_4962481.html
+	
+	Some icons taken and adapted from Smallicons 
+	http://smallicons.net/
 
 Furthermore, AlarmWorkflow uses the following applications:
 

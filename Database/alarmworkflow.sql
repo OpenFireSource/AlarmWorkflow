@@ -2,6 +2,9 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+-- -----------------------------------------------------
+-- Schema alarmworkflow
+-- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `alarmworkflow` DEFAULT CHARACTER SET latin1 ;
 USE `alarmworkflow` ;
 
@@ -78,6 +81,26 @@ CREATE TABLE IF NOT EXISTS `alarmworkflow`.`usersetting` (
   `name` VARCHAR(100) NOT NULL,
   `value` LONGTEXT NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `alarmworkflow`.`dispresource`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `alarmworkflow`.`dispresource` ;
+
+CREATE TABLE IF NOT EXISTS `alarmworkflow`.`dispresource` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `operation_id` INT(11) NOT NULL,
+  `timestamp` DATETIME NOT NULL,
+  `emkresourceid` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_dispresource_operation1_idx` (`operation_id` ASC),
+  CONSTRAINT `fk_dispresource_operation1`
+    FOREIGN KEY (`operation_id`)
+    REFERENCES `alarmworkflow`.`operation` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
