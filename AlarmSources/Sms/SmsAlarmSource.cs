@@ -57,13 +57,13 @@ namespace AlarmWorkflow.AlarmSource.Sms
                 message = reader.ReadElementContentAsString();
             }
 
-            alarmText = _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>().ReplaceInString(alarmText);
+            message = _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>().ReplaceInString(message);
 
             Operation operation = null;
 
             try
             {
-                operation = _parser.Parse(new[] { alarmText });
+                operation = _parser.Parse(new[] { message });
             }
             catch (Exception ex)
             {
