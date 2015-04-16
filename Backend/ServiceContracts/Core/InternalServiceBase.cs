@@ -70,6 +70,17 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Core
         {
         }
 
+        /// <summary>
+        /// Adds a new service to the internal service provider.
+        /// The service is then globally available via the <see cref="ServiceProvider"/> property.
+        /// </summary>
+        /// <param name="type">The type of the service to add.</param>
+        /// <param name="serviceInstance">The service instance to add.</param>
+        protected void AddInternalService(Type type, object serviceInstance)
+        {
+            ServiceInternalProvider.Instance.AddService(type, serviceInstance);
+        }
+
         #endregion
 
         #region IInternalService Members
