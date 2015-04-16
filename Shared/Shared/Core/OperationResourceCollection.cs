@@ -223,7 +223,7 @@ namespace AlarmWorkflow.Shared.Core
                     string macroText = match.Value;
                     string propertyName = macroText.Substring(1, macroText.Length - 2);
 
-                    string propertyValue = "(No value)";
+                    string propertyValue = "";
                     object rawValue = null;
 
                     PropertyInfo property = resource.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);

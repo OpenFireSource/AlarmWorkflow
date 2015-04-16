@@ -6,4 +6,5 @@
 
 Generelles
 
+  * Der Ausdruck "(no value)" wird nicht mehr ausgegeben, wenn in einem Fahrzeugeintrag ein Wert nicht gefunden wurde.
   * -
