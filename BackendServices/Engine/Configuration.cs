@@ -20,5 +20,7 @@ namespace AlarmWorkflow.BackendService.Engine
     class Configuration
     {
         internal ReadOnlyCollection<string> EnabledAlarmSources { get; set; }
+        internal ReadOnlyCollection<string> GlobalWhitelist { get; set; }
+        internal ReadOnlyCollection<string> GlobalBlacklist { get; set; }
     }
 }

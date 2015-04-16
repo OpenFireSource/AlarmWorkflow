@@ -5,11 +5,4 @@
   <Setting Name="AnalysisPath" Type="System.String" IsNull="False">C:\Fax\Analysis\</Setting>
   <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">NoParser</Setting>
-  <Setting Name="FaxWhitelist" Type="System.String">
-    <![CDATA[]]>
-  </Setting>
-  <Setting Name="FaxBlacklist" Type="System.String" IsNull="False">
-    <![CDATA[Testfax
-Test]]>
-  </Setting>
 </SettingsConfiguration>

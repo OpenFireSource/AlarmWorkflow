@@ -144,12 +144,6 @@
   <data name="ExportTesseractOcrDisplayName" xml:space="preserve">
     <value>Tesseract</value>
   </data>
-  <data name="FaxIsNotOnWhitelist" xml:space="preserve">
-    <value>The fax is not whitelisted and won't be processed any further.</value>
-  </data>
-  <data name="FaxIsOnBlacklist" xml:space="preserve">
-    <value>The fax is blacklisted. Parsing is skipped.</value>
-  </data>
   <data name="InitializeUsingOcrSoftware" xml:space="preserve">
     <value>Using OCR software '{0}'.</value>
   </data>

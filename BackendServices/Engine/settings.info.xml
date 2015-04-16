@@ -7,5 +7,10 @@
              Description="Welche Alarmquellen aktiviert sind. Alarmquellen warten auf eingehende Alarme." />
     <Setting Name="IgnoreOperationsWithSameOperationNumber" DisplayText="Mehrfache Alarme mit gleicher Einsatznr. unterbinden" Category="Erweitert" IsDynamic="true"
              Description="Verhindert, dass ein Alarm, dessen Einsatznr. (z.B. durch Tests) bereits existiert, alle Routinen erneut ausführt." />
+
+    <Setting Name="GlobalWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor"
+             Description="Nur Faxe/Mails/SMS mit min. einem dieser Worte werden ausgewertet. Trennung durch Leerzeile oder Semikolon. Wird vor der Blacklist ausgewertet." />
+    <Setting Name="GlobalBlacklist" DisplayText="Blacklist" Category="Black/Whitelist" Editor="StringArrayTypeEditor"
+             Description="Faxe/Mails/SMS mit einem oder mehreren dieser Worte werden nicht ausgewertet. Trennung durch Leerzeile oder Semikolon. Wird nach der Whitelist ausgewertet." />
   </Identifier>
 </SettingsDisplayConfiguration>

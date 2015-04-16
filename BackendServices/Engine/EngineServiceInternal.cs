@@ -13,6 +13,7 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Collections.ObjectModel;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.BackendService.EngineContracts;
@@ -56,6 +57,8 @@ namespace AlarmWorkflow.BackendService.Engine
 
             Configuration configuration = LoadConfiguration(settings);
 
+            this.AddInternalService(typeof(IAlarmFilter), new AlarmFilter() { Configuration = configuration });
+
             _engine = new AlarmWorkflowEngine(configuration, this.ServiceProvider, settings);
             _engine.Start();
         }
@@ -64,7 +67,19 @@ namespace AlarmWorkflow.BackendService.Engine
         {
             Configuration configuration = new Configuration();
             configuration.EnabledAlarmSources = new ReadOnlyCollection<string>(settings.GetSetting(SettingKeys.AlarmSourcesConfigurationKey).GetValue<ExportConfiguration>().GetEnabledExports());
+            configuration.GlobalWhitelist = new ReadOnlyCollection<string>(GetSplit(settings.GetSetting(SettingKeys.GlobalWhitelistKey).GetValue<string>()));
+            configuration.GlobalBlacklist = new ReadOnlyCollection<string>(GetSplit(settings.GetSetting(SettingKeys.GlobalBlacklistKey).GetValue<string>()));
             return configuration;
+        }
+
+        private static string[] GetSplit(string input)
+        {
+            if (input == null)
+            {
+                return new string[0];
+            }
+
+            return input.Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>

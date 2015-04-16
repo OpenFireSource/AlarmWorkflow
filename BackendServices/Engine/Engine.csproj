@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlarmFilter.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="AlarmWorkflowEngine.cs" />
     <Compile Include="EngineServiceInternal.cs" />

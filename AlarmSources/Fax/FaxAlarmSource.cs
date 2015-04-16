@@ -49,6 +49,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #region Fields
 
+        private IServiceProvider _serviceProvider;
         private FaxConfiguration _configuration;
 
         private DirectoryInfo _faxPath;
@@ -180,15 +181,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                 string[] lines = analyzedLines.ToArray();
 
-                if (!IsOnWhitelist(lines))
+                if (!_serviceProvider.GetService<IAlarmFilter>().QueryAcceptSource(string.Join(" ", lines)))
                 {
-                    Logger.Instance.LogFormat(LogType.Info, this, Properties.Resources.FaxIsNotOnWhitelist);
-                    return;
-                }
-
-                if (IsOnBlacklist(lines))
-                {
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.FaxIsOnBlacklist);
                     return;
                 }
 
@@ -252,22 +246,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             }
         }
 
-        private bool IsOnBlacklist(string[] lines)
-        {
-            return lines.Any(l => _configuration.FaxBlacklist.Any(kw => l.Contains(kw)));
-        }
-
-        private bool IsOnWhitelist(string[] lines)
-        {
-            IEnumerable<string> whitelist = _configuration.FaxWhitelist;
-            if (!whitelist.Any())
-            {
-                return true;
-            }
-
-            return lines.Any(l => whitelist.Any(kw => l.Contains(kw)));
-        }
-
         private void InitializeFaxPaths()
         {
             _faxPath = new DirectoryInfo(_configuration.FaxPath);
@@ -310,6 +288,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             _configuration = new FaxConfiguration(serviceProvider);
             _configuration.PropertyChanged += _configuration_PropertyChanged;
+
+            _serviceProvider = serviceProvider;
 
             InitializeFaxPaths();
             InitializeOcrSoftware();

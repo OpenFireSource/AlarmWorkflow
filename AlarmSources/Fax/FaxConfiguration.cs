@@ -16,7 +16,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
@@ -25,7 +24,7 @@ using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
-    internal sealed class FaxConfiguration : DisposableObject, INotifyPropertyChanged
+    sealed class FaxConfiguration : DisposableObject, INotifyPropertyChanged
     {
         #region Constants
 
@@ -66,16 +65,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             get { return _settings.GetSetting(FaxSettingKeys.AlarmFaxParserAlias).GetValue<string>(); }
         }
 
-        internal IEnumerable<string> FaxBlacklist
-        {
-            get { return GetSplit(_settings.GetSetting(FaxSettingKeys.FaxBlacklist).GetValue<string>()); }
-        }
-
-        internal IEnumerable<string> FaxWhitelist
-        {
-            get { return GetSplit(_settings.GetSetting(FaxSettingKeys.FaxWhitelist).GetValue<string>()); }
-        }
-
         internal ReplaceDictionary ReplaceDictionary
         {
             get { return _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>(); }
@@ -97,11 +86,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #endregion
 
-        #region Event-Handler
+        #region Methods
 
         private void _settings_SettingChanged(object sender, SettingChangedEventArgs e)
         {
             List<string> changedKeys = new List<string>();
+
             foreach (SettingKey key in e.Keys)
             {
                 if (key.Equals(FaxSettingKeys.AlarmFaxParserAlias))
@@ -122,21 +112,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
             {
                 OnPropertyChanged(key);
             }
-
-        }
-
-        #endregion
-
-        #region Methods
-
-        private static string[] GetSplit(string input)
-        {
-            if (input == null)
-            {
-                return new string[0];
-            }
-
-            return input.Split(new[] { '\n', ';' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         /// <summary>
@@ -149,9 +124,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
         }
 
         #endregion
-        
+
         #region INotifyPropertyChanged Members
-        
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged(string propertyName)
@@ -162,7 +137,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-        
+
         #endregion
     }
 }

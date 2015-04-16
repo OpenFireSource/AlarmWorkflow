@@ -213,4 +213,10 @@
   <data name="NewAlarmIgnoringAlreadyPresentOperation" xml:space="preserve">
     <value>The operation with number '{0}' was ignored because it is already present and the setting specified to skip operations that already exist.</value>
   </data>
+  <data name="SourceIsNotOnWhitelist" xml:space="preserve">
+    <value>The incoming text from the alarm source contained not whitelisted words and won't be processed any further.</value>
+  </data>
+  <data name="SourceIsOnBlacklist" xml:space="preserve">
+    <value>The incoming text from the alarm source contained blacklisted words. Processing is skipped.</value>
+  </data>
 </root>

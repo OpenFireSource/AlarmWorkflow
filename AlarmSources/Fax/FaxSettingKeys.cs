@@ -21,8 +21,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
     {
         private const string Identifier = "FaxAlarmSource";
 
-        internal static readonly SettingKey FaxBlacklist = SettingKey.Create(Identifier, "FaxBlacklist");
-        internal static readonly SettingKey FaxWhitelist = SettingKey.Create(Identifier, "FaxWhitelist");
         internal static readonly SettingKey FaxPath = SettingKey.Create(Identifier, "FaxPath");
         internal static readonly SettingKey ArchivePath = SettingKey.Create(Identifier, "ArchivePath");
         internal static readonly SettingKey AnalysisPath = SettingKey.Create(Identifier, "AnalysisPath");

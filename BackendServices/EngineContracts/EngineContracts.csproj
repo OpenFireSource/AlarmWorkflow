@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmSourceEventArgs.cs" />
+    <Compile Include="IAlarmFilter.cs" />
     <Compile Include="IAlarmSource.cs" />
     <Compile Include="IJob.cs" />
     <Compile Include="IJobContext.cs" />

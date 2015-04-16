@@ -15,11 +15,6 @@
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." IsDynamic="true"/>
 
-    <Setting Name="FaxWhitelist" DisplayText="Whitelist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
-             Description="Nur Faxe mit min. einem dieser Worte werden ausgewertet. Wird vor der Blacklist ausgewertet." />
-    <Setting Name="FaxBlacklist" DisplayText="Blacklist" Category="Black/Whitelist" Editor="StringArrayTypeEditor" IsDynamic="true"
-             Description="Faxe mit einem oder mehreren dieser Worte werden nicht ausgewertet." />
-
   </Identifier>
 
 </SettingsDisplayConfiguration>

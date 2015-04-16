@@ -142,24 +142,6 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The fax is not whitelisted and won&apos;t be processed any further..
-        /// </summary>
-        internal static string FaxIsNotOnWhitelist {
-            get {
-                return ResourceManager.GetString("FaxIsNotOnWhitelist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The fax is blacklisted. Parsing is skipped..
-        /// </summary>
-        internal static string FaxIsOnBlacklist {
-            get {
-                return ResourceManager.GetString("FaxIsOnBlacklist", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Using OCR software &apos;{0}&apos;..
         /// </summary>
         internal static string InitializeUsingOcrSoftware {

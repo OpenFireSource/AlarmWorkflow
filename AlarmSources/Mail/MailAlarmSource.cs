@@ -40,6 +40,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #region Fields
 
+        private IServiceProvider _serviceProvider;
         private MailConfiguration _configuration;
 
         private IParser _mailParser;
@@ -66,6 +67,8 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
+
             _configuration = new MailConfiguration(serviceProvider);
 
             _mailParser = ExportedTypeLibrary.Import<IParser>(_configuration.ParserAlias);
@@ -148,6 +151,11 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 string[] lines = (_configuration.AnalyzeAttachment) ? AnalyzeAttachment(message) : AnalyzeBody(message);
                 if (lines != null)
                 {
+                    if (!_serviceProvider.GetService<IAlarmFilter>().QueryAcceptSource(string.Join(" ", lines)))
+                    {
+                        return;
+                    }
+
                     Operation operation = _mailParser.Parse(lines);
                     OnNewAlarm(operation);
                 }

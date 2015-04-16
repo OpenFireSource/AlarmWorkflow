@@ -347,5 +347,23 @@ namespace AlarmWorkflow.BackendService.Engine.Properties {
                 return ResourceManager.GetString("SettingsJobDisabled", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The incoming text from the alarm source contained not whitelisted words and won&apos;t be processed any further..
+        /// </summary>
+        internal static string SourceIsNotOnWhitelist {
+            get {
+                return ResourceManager.GetString("SourceIsNotOnWhitelist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The incoming text from the alarm source contained blacklisted words. Processing is skipped..
+        /// </summary>
+        internal static string SourceIsOnBlacklist {
+            get {
+                return ResourceManager.GetString("SourceIsOnBlacklist", resourceCulture);
+            }
+        }
     }
 }
