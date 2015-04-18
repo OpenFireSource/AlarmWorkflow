@@ -6,6 +6,7 @@
 
 Generelles
 
+  * Wichtig: Ab einschließlich dieser Version unterstützt AlarmWorkflow nur Windows 7 SP1 und höher (.Net Framework 4.5.1)!
   * Der Ausdruck "(no value)" wird nicht mehr ausgegeben, wenn in einem Fahrzeugeintrag ein Wert nicht gefunden wurde.
   * Es gibt nun eine globale Black/Whitelist, die für alle Alarmquellen (Fax, E-Mail, SMS) gilt.
     Vor dem Aufspielen der neuen Version bitte ggf. die alten Werte sichern.

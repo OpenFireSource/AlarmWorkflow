@@ -128,7 +128,7 @@ namespace AlarmWorkflow.BackendService.Settings.Data
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -147,7 +147,7 @@ namespace AlarmWorkflow.BackendService.Settings.Data
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
+                    _Id = StructuralObject.SetValidValue(value, "Id");
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -172,7 +172,7 @@ namespace AlarmWorkflow.BackendService.Settings.Data
             {
                 OnIdentifierChanging(value);
                 ReportPropertyChanging("Identifier");
-                _Identifier = StructuralObject.SetValidValue(value, false);
+                _Identifier = StructuralObject.SetValidValue(value, false, "Identifier");
                 ReportPropertyChanged("Identifier");
                 OnIdentifierChanged();
             }
@@ -196,7 +196,7 @@ namespace AlarmWorkflow.BackendService.Settings.Data
             {
                 OnNameChanging(value);
                 ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
+                _Name = StructuralObject.SetValidValue(value, false, "Name");
                 ReportPropertyChanged("Name");
                 OnNameChanged();
             }
@@ -220,7 +220,7 @@ namespace AlarmWorkflow.BackendService.Settings.Data
             {
                 OnValueChanging(value);
                 ReportPropertyChanging("Value");
-                _Value = StructuralObject.SetValidValue(value, true);
+                _Value = StructuralObject.SetValidValue(value, true, "Value");
                 ReportPropertyChanged("Value");
                 OnValueChanged();
             }
@@ -231,10 +231,8 @@ namespace AlarmWorkflow.BackendService.Settings.Data
 
         #endregion
 
-    
     }
 
     #endregion
 
-    
 }

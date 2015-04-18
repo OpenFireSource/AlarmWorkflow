@@ -130,7 +130,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -149,7 +149,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
+                    _Id = StructuralObject.SetValidValue(value, "Id");
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -174,7 +174,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
             {
                 OnOperation_IdChanging(value);
                 ReportPropertyChanging("Operation_Id");
-                _Operation_Id = StructuralObject.SetValidValue(value);
+                _Operation_Id = StructuralObject.SetValidValue(value, "Operation_Id");
                 ReportPropertyChanged("Operation_Id");
                 OnOperation_IdChanged();
             }
@@ -198,7 +198,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
             {
                 OnTimestampChanging(value);
                 ReportPropertyChanging("Timestamp");
-                _Timestamp = StructuralObject.SetValidValue(value);
+                _Timestamp = StructuralObject.SetValidValue(value, "Timestamp");
                 ReportPropertyChanged("Timestamp");
                 OnTimestampChanged();
             }
@@ -222,7 +222,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
             {
                 OnEmkResourceIdChanging(value);
                 ReportPropertyChanging("EmkResourceId");
-                _EmkResourceId = StructuralObject.SetValidValue(value, false);
+                _EmkResourceId = StructuralObject.SetValidValue(value, false, "EmkResourceId");
                 ReportPropertyChanged("EmkResourceId");
                 OnEmkResourceIdChanged();
             }
@@ -233,10 +233,8 @@ namespace AlarmWorkflow.BackendService.Dispositioning.Data
 
         #endregion
 
-    
     }
 
     #endregion
 
-    
 }

@@ -162,7 +162,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -181,7 +181,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
+                    _Id = StructuralObject.SetValidValue(value, "Id");
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -206,7 +206,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnIsAcknowledgedChanging(value);
                 ReportPropertyChanging("IsAcknowledged");
-                _IsAcknowledged = StructuralObject.SetValidValue(value);
+                _IsAcknowledged = StructuralObject.SetValidValue(value, "IsAcknowledged");
                 ReportPropertyChanged("IsAcknowledged");
                 OnIsAcknowledgedChanged();
             }
@@ -230,7 +230,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnTimestampIncomeChanging(value);
                 ReportPropertyChanging("TimestampIncome");
-                _TimestampIncome = StructuralObject.SetValidValue(value);
+                _TimestampIncome = StructuralObject.SetValidValue(value, "TimestampIncome");
                 ReportPropertyChanged("TimestampIncome");
                 OnTimestampIncomeChanged();
             }
@@ -254,7 +254,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnTimestampAlarmChanging(value);
                 ReportPropertyChanging("TimestampAlarm");
-                _TimestampAlarm = StructuralObject.SetValidValue(value);
+                _TimestampAlarm = StructuralObject.SetValidValue(value, "TimestampAlarm");
                 ReportPropertyChanged("TimestampAlarm");
                 OnTimestampAlarmChanged();
             }
@@ -278,7 +278,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnMessengerChanging(value);
                 ReportPropertyChanging("Messenger");
-                _Messenger = StructuralObject.SetValidValue(value, true);
+                _Messenger = StructuralObject.SetValidValue(value, true, "Messenger");
                 ReportPropertyChanged("Messenger");
                 OnMessengerChanged();
             }
@@ -302,7 +302,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnCommentChanging(value);
                 ReportPropertyChanging("Comment");
-                _Comment = StructuralObject.SetValidValue(value, true);
+                _Comment = StructuralObject.SetValidValue(value, true, "Comment");
                 ReportPropertyChanged("Comment");
                 OnCommentChanged();
             }
@@ -326,7 +326,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnPlanChanging(value);
                 ReportPropertyChanging("Plan");
-                _Plan = StructuralObject.SetValidValue(value, true);
+                _Plan = StructuralObject.SetValidValue(value, true, "Plan");
                 ReportPropertyChanged("Plan");
                 OnPlanChanged();
             }
@@ -350,7 +350,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnPictureChanging(value);
                 ReportPropertyChanging("Picture");
-                _Picture = StructuralObject.SetValidValue(value, true);
+                _Picture = StructuralObject.SetValidValue(value, true, "Picture");
                 ReportPropertyChanged("Picture");
                 OnPictureChanged();
             }
@@ -374,7 +374,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnPriorityChanging(value);
                 ReportPropertyChanging("Priority");
-                _Priority = StructuralObject.SetValidValue(value, true);
+                _Priority = StructuralObject.SetValidValue(value, true, "Priority");
                 ReportPropertyChanged("Priority");
                 OnPriorityChanged();
             }
@@ -398,7 +398,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortStreetChanging(value);
                 ReportPropertyChanging("EinsatzortStreet");
-                _EinsatzortStreet = StructuralObject.SetValidValue(value, true);
+                _EinsatzortStreet = StructuralObject.SetValidValue(value, true, "EinsatzortStreet");
                 ReportPropertyChanged("EinsatzortStreet");
                 OnEinsatzortStreetChanged();
             }
@@ -422,7 +422,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortStreetNumberChanging(value);
                 ReportPropertyChanging("EinsatzortStreetNumber");
-                _EinsatzortStreetNumber = StructuralObject.SetValidValue(value, true);
+                _EinsatzortStreetNumber = StructuralObject.SetValidValue(value, true, "EinsatzortStreetNumber");
                 ReportPropertyChanged("EinsatzortStreetNumber");
                 OnEinsatzortStreetNumberChanged();
             }
@@ -446,7 +446,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortZipCodeChanging(value);
                 ReportPropertyChanging("EinsatzortZipCode");
-                _EinsatzortZipCode = StructuralObject.SetValidValue(value, true);
+                _EinsatzortZipCode = StructuralObject.SetValidValue(value, true, "EinsatzortZipCode");
                 ReportPropertyChanged("EinsatzortZipCode");
                 OnEinsatzortZipCodeChanged();
             }
@@ -470,7 +470,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortCityChanging(value);
                 ReportPropertyChanging("EinsatzortCity");
-                _EinsatzortCity = StructuralObject.SetValidValue(value, true);
+                _EinsatzortCity = StructuralObject.SetValidValue(value, true, "EinsatzortCity");
                 ReportPropertyChanged("EinsatzortCity");
                 OnEinsatzortCityChanged();
             }
@@ -494,7 +494,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortLocationChanging(value);
                 ReportPropertyChanging("EinsatzortLocation");
-                _EinsatzortLocation = StructuralObject.SetValidValue(value, true);
+                _EinsatzortLocation = StructuralObject.SetValidValue(value, true, "EinsatzortLocation");
                 ReportPropertyChanged("EinsatzortLocation");
                 OnEinsatzortLocationChanged();
             }
@@ -518,7 +518,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortPropertyChanging(value);
                 ReportPropertyChanging("EinsatzortProperty");
-                _EinsatzortProperty = StructuralObject.SetValidValue(value, true);
+                _EinsatzortProperty = StructuralObject.SetValidValue(value, true, "EinsatzortProperty");
                 ReportPropertyChanged("EinsatzortProperty");
                 OnEinsatzortPropertyChanged();
             }
@@ -542,7 +542,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortLatLngChanging(value);
                 ReportPropertyChanging("EinsatzortLatLng");
-                _EinsatzortLatLng = StructuralObject.SetValidValue(value, true);
+                _EinsatzortLatLng = StructuralObject.SetValidValue(value, true, "EinsatzortLatLng");
                 ReportPropertyChanged("EinsatzortLatLng");
                 OnEinsatzortLatLngChanged();
             }
@@ -566,7 +566,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortStreetChanging(value);
                 ReportPropertyChanging("ZielortStreet");
-                _ZielortStreet = StructuralObject.SetValidValue(value, true);
+                _ZielortStreet = StructuralObject.SetValidValue(value, true, "ZielortStreet");
                 ReportPropertyChanged("ZielortStreet");
                 OnZielortStreetChanged();
             }
@@ -590,7 +590,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortStreetNumberChanging(value);
                 ReportPropertyChanging("ZielortStreetNumber");
-                _ZielortStreetNumber = StructuralObject.SetValidValue(value, true);
+                _ZielortStreetNumber = StructuralObject.SetValidValue(value, true, "ZielortStreetNumber");
                 ReportPropertyChanged("ZielortStreetNumber");
                 OnZielortStreetNumberChanged();
             }
@@ -614,7 +614,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortZipCodeChanging(value);
                 ReportPropertyChanging("ZielortZipCode");
-                _ZielortZipCode = StructuralObject.SetValidValue(value, true);
+                _ZielortZipCode = StructuralObject.SetValidValue(value, true, "ZielortZipCode");
                 ReportPropertyChanged("ZielortZipCode");
                 OnZielortZipCodeChanged();
             }
@@ -638,7 +638,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortCityChanging(value);
                 ReportPropertyChanging("ZielortCity");
-                _ZielortCity = StructuralObject.SetValidValue(value, true);
+                _ZielortCity = StructuralObject.SetValidValue(value, true, "ZielortCity");
                 ReportPropertyChanged("ZielortCity");
                 OnZielortCityChanged();
             }
@@ -662,7 +662,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortLocationChanging(value);
                 ReportPropertyChanging("ZielortLocation");
-                _ZielortLocation = StructuralObject.SetValidValue(value, true);
+                _ZielortLocation = StructuralObject.SetValidValue(value, true, "ZielortLocation");
                 ReportPropertyChanged("ZielortLocation");
                 OnZielortLocationChanged();
             }
@@ -686,7 +686,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortPropertyChanging(value);
                 ReportPropertyChanging("ZielortProperty");
-                _ZielortProperty = StructuralObject.SetValidValue(value, true);
+                _ZielortProperty = StructuralObject.SetValidValue(value, true, "ZielortProperty");
                 ReportPropertyChanged("ZielortProperty");
                 OnZielortPropertyChanged();
             }
@@ -710,7 +710,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortLatLngChanging(value);
                 ReportPropertyChanging("ZielortLatLng");
-                _ZielortLatLng = StructuralObject.SetValidValue(value, true);
+                _ZielortLatLng = StructuralObject.SetValidValue(value, true, "ZielortLatLng");
                 ReportPropertyChanged("ZielortLatLng");
                 OnZielortLatLngChanged();
             }
@@ -734,7 +734,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnLoopsCsvChanging(value);
                 ReportPropertyChanging("LoopsCsv");
-                _LoopsCsv = StructuralObject.SetValidValue(value, true);
+                _LoopsCsv = StructuralObject.SetValidValue(value, true, "LoopsCsv");
                 ReportPropertyChanged("LoopsCsv");
                 OnLoopsCsvChanged();
             }
@@ -758,7 +758,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnCustomDataJsonChanging(value);
                 ReportPropertyChanging("CustomDataJson");
-                _CustomDataJson = StructuralObject.SetValidValue(value, true);
+                _CustomDataJson = StructuralObject.SetValidValue(value, true, "CustomDataJson");
                 ReportPropertyChanged("CustomDataJson");
                 OnCustomDataJsonChanged();
             }
@@ -782,7 +782,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnOperationNumberChanging(value);
                 ReportPropertyChanging("OperationNumber");
-                _OperationNumber = StructuralObject.SetValidValue(value, true);
+                _OperationNumber = StructuralObject.SetValidValue(value, true, "OperationNumber");
                 ReportPropertyChanged("OperationNumber");
                 OnOperationNumberChanged();
             }
@@ -806,7 +806,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnOperationGuidChanging(value);
                 ReportPropertyChanging("OperationGuid");
-                _OperationGuid = StructuralObject.SetValidValue(value);
+                _OperationGuid = StructuralObject.SetValidValue(value, "OperationGuid");
                 ReportPropertyChanged("OperationGuid");
                 OnOperationGuidChanged();
             }
@@ -830,7 +830,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEinsatzortIntersectionChanging(value);
                 ReportPropertyChanging("EinsatzortIntersection");
-                _EinsatzortIntersection = StructuralObject.SetValidValue(value, true);
+                _EinsatzortIntersection = StructuralObject.SetValidValue(value, true, "EinsatzortIntersection");
                 ReportPropertyChanged("EinsatzortIntersection");
                 OnEinsatzortIntersectionChanged();
             }
@@ -854,7 +854,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnZielortIntersectionChanging(value);
                 ReportPropertyChanging("ZielortIntersection");
-                _ZielortIntersection = StructuralObject.SetValidValue(value, true);
+                _ZielortIntersection = StructuralObject.SetValidValue(value, true, "ZielortIntersection");
                 ReportPropertyChanged("ZielortIntersection");
                 OnZielortIntersectionChanged();
             }
@@ -878,7 +878,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordChanging(value);
                 ReportPropertyChanging("Keyword");
-                _Keyword = StructuralObject.SetValidValue(value, true);
+                _Keyword = StructuralObject.SetValidValue(value, true, "Keyword");
                 ReportPropertyChanged("Keyword");
                 OnKeywordChanged();
             }
@@ -902,7 +902,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordBChanging(value);
                 ReportPropertyChanging("KeywordB");
-                _KeywordB = StructuralObject.SetValidValue(value, true);
+                _KeywordB = StructuralObject.SetValidValue(value, true, "KeywordB");
                 ReportPropertyChanged("KeywordB");
                 OnKeywordBChanged();
             }
@@ -926,7 +926,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordRChanging(value);
                 ReportPropertyChanging("KeywordR");
-                _KeywordR = StructuralObject.SetValidValue(value, true);
+                _KeywordR = StructuralObject.SetValidValue(value, true, "KeywordR");
                 ReportPropertyChanged("KeywordR");
                 OnKeywordRChanged();
             }
@@ -950,7 +950,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordSChanging(value);
                 ReportPropertyChanging("KeywordS");
-                _KeywordS = StructuralObject.SetValidValue(value, true);
+                _KeywordS = StructuralObject.SetValidValue(value, true, "KeywordS");
                 ReportPropertyChanged("KeywordS");
                 OnKeywordSChanged();
             }
@@ -974,7 +974,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordTChanging(value);
                 ReportPropertyChanging("KeywordT");
-                _KeywordT = StructuralObject.SetValidValue(value, true);
+                _KeywordT = StructuralObject.SetValidValue(value, true, "KeywordT");
                 ReportPropertyChanged("KeywordT");
                 OnKeywordTChanged();
             }
@@ -998,7 +998,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnKeywordMiscChanging(value);
                 ReportPropertyChanging("KeywordMisc");
-                _KeywordMisc = StructuralObject.SetValidValue(value, true);
+                _KeywordMisc = StructuralObject.SetValidValue(value, true, "KeywordMisc");
                 ReportPropertyChanged("KeywordMisc");
                 OnKeywordMiscChanged();
             }
@@ -1009,7 +1009,6 @@ namespace AlarmWorkflow.BackendService.Management.Data
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1063,7 +1062,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1082,7 +1081,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
                 {
                     OnIdChanging(value);
                     ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
+                    _Id = StructuralObject.SetValidValue(value, "Id");
                     ReportPropertyChanged("Id");
                     OnIdChanged();
                 }
@@ -1107,7 +1106,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnOperation_IdChanging(value);
                 ReportPropertyChanging("Operation_Id");
-                _Operation_Id = StructuralObject.SetValidValue(value);
+                _Operation_Id = StructuralObject.SetValidValue(value, "Operation_Id");
                 ReportPropertyChanged("Operation_Id");
                 OnOperation_IdChanged();
             }
@@ -1131,7 +1130,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnTimestampChanging(value);
                 ReportPropertyChanging("Timestamp");
-                _Timestamp = StructuralObject.SetValidValue(value, true);
+                _Timestamp = StructuralObject.SetValidValue(value, true, "Timestamp");
                 ReportPropertyChanged("Timestamp");
                 OnTimestampChanged();
             }
@@ -1155,7 +1154,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnFullNameChanging(value);
                 ReportPropertyChanging("FullName");
-                _FullName = StructuralObject.SetValidValue(value, true);
+                _FullName = StructuralObject.SetValidValue(value, true, "FullName");
                 ReportPropertyChanged("FullName");
                 OnFullNameChanged();
             }
@@ -1179,7 +1178,7 @@ namespace AlarmWorkflow.BackendService.Management.Data
             {
                 OnEquipmentCsvChanging(value);
                 ReportPropertyChanging("EquipmentCsv");
-                _EquipmentCsv = StructuralObject.SetValidValue(value, true);
+                _EquipmentCsv = StructuralObject.SetValidValue(value, true, "EquipmentCsv");
                 ReportPropertyChanged("EquipmentCsv");
                 OnEquipmentCsvChanged();
             }
@@ -1190,7 +1189,6 @@ namespace AlarmWorkflow.BackendService.Management.Data
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1237,5 +1235,4 @@ namespace AlarmWorkflow.BackendService.Management.Data
 
     #endregion
 
-    
 }

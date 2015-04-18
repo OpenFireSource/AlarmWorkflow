@@ -67,5 +67,4 @@ namespace AlarmWorkflow.BackendService.System.Data
 
     #endregion
 
-    
 }

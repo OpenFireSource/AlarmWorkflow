@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AlarmWorkflowModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="AlarmWorkflowModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="AlarmWorkflowModelStoreContainer">
-          <EntitySet Name="operation" EntityType="AlarmWorkflowModel.Store.operation" store:Type="Tables" Schema="alarmworkflow" />
-          <EntitySet Name="operationresource" EntityType="AlarmWorkflowModel.Store.operationresource" store:Type="Tables" Schema="alarmworkflow" />
+          <EntitySet Name="operation" EntityType="AlarmWorkflowModel.Store.operation" store:Type="Tables" Schema="alarmworkflow" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="operationresource" EntityType="AlarmWorkflowModel.Store.operationresource" store:Type="Tables" Schema="alarmworkflow" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="fk_{99BC450F-214E-4A06-8714-CA527129047D}" Association="AlarmWorkflowModel.Store.fk_{99BC450F-214E-4A06-8714-CA527129047D}">
             <End Role="operation" EntitySet="operation" />
             <End Role="operationresource" EntitySet="operationresource" />
@@ -78,8 +78,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="OperationManagementEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="AlarmWorkflowModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="OperationManagementEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="Operations" EntityType="AlarmWorkflowModel.OperationData" />
           <EntitySet Name="OperationResources" EntityType="AlarmWorkflowModel.OperationResourceData" />
           <AssociationSet Name="operationresource_ibfk_1" Association="AlarmWorkflowModel.operationresource_ibfk_1">
@@ -91,7 +91,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
           <Property Type="DateTime" Name="TimestampIncome" Nullable="false" />
           <Property Type="DateTime" Name="TimestampAlarm" Nullable="false" />
@@ -132,7 +132,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="Operation_Id" Nullable="false" />
           <Property Type="String" Name="Timestamp" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="FullName" MaxLength="200" FixedLength="false" Unicode="false" />
@@ -155,7 +155,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AlarmWorkflowModelStoreContainer" CdmEntityContainer="OperationManagementEntities">
           <EntitySetMapping Name="Operations">
             <EntityTypeMapping TypeName="AlarmWorkflowModel.OperationData">
@@ -214,7 +214,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
@@ -232,7 +232,7 @@
       <Diagram Name="Entities" ZoomLevel="90">
         <EntityTypeShape EntityType="AlarmWorkflowModel.OperationData" Width="1.5" PointX="0.5" PointY="0.5" Height="5.8653369140625" />
         <EntityTypeShape EntityType="AlarmWorkflowModel.OperationResourceData" Width="1.5" PointX="2.625" PointY="0.5" Height="1.9210009765625" />
-        <AssociationConnector Association="AlarmWorkflowModel.operationresource_ibfk_1" >
+        <AssociationConnector Association="AlarmWorkflowModel.operationresource_ibfk_1">
           <ConnectorPoint PointX="2" PointY="1.4605004882812502" />
           <ConnectorPoint PointX="2.625" PointY="1.4605004882812502" />
         </AssociationConnector>
