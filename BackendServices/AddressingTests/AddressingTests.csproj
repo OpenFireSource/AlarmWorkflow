@@ -53,11 +53,11 @@
     <Compile Include="TestCases\FilteringTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlarmWorkflow.BackendService.AddressingContracts\AlarmWorkflow.BackendService.AddressingContracts.csproj">
+    <ProjectReference Include="..\AddressingContracts\AddressingContracts.csproj">
       <Project>{E831EFFA-1B9B-4250-9BB6-4841DCD95E85}</Project>
       <Name>AlarmWorkflow.BackendService.AddressingContracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AlarmWorkflow.BackendService.Addressing\AlarmWorkflow.BackendService.Addressing.csproj">
+    <ProjectReference Include="..\Addressing\Addressing.csproj">
       <Project>{4C08F812-B3F2-46B3-92C2-D589BD8FB488}</Project>
       <Name>AlarmWorkflow.BackendService.Addressing</Name>
     </ProjectReference>
