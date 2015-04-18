@@ -4,11 +4,14 @@
 
 ## Entwicklungsumgebung
 
-Eine Entwicklungsumgebung ist notwendig, damit Sie den Quellcode von AlarmWorkflow kompilieren können. Im Projekt wird **Microsoft Visual Studio 2010** verwendet.
-Hiervon gibt es eine sog. **Express**-Version, welche nicht alle Features der Vollversion bietet, aber kostenlos ist und im Regelfall mehr als ausreicht.
-Sie können dieses unter http://www.visualstudio.com/downloads/download-visual-studio-vs#DownloadFamilies_4 in der Version **Visual C-Sharp 2010 Express** herunterladen.
+Eine Entwicklungsumgebung ist notwendig, damit Sie den Quellcode von AlarmWorkflow kompilieren können. Im Projekt wird **Microsoft Visual Studio 2013** verwendet.
+Hiervon gibt es eine sog. **Community Edition**, welche alle Features der Vollversion bietet und für Open Source-Projekte generell kostenlos ist 
 
-Das von AlarmWorkflow benötigte **Microsoft .Net Framework 4.0** wird automatisch mitinstalliert, falls es noch nicht installiert ist.
+Sie können dieses unter https://www.visualstudio.com/products/visual-studio-community-vs beziehen.
+
+Das von AlarmWorkflow benötigte **Microsoft .Net Framework 4.5.1** wird automatisch mitinstalliert, falls es noch nicht installiert ist.
+
+**Hinweis**: Während des Buildvorgangs werden Komponenten von Dritten heruntergeladen (z. B. log4net). Stellen Sie sicher, dass zumindest beim ersten Buildvorgang eine Internetverbindung besteht!
 
 ## Sourcecode
 
