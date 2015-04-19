@@ -36,6 +36,17 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
         /// <param name="printAction">The printing action. Must not be null.</param>
         public static void Print(PrintingQueue queue, PrintDelegate printAction)
         {
+            Print(queue, printAction, null);
+        }
+
+        /// <summary>
+        /// Executes a printing operation using a specific <see cref="PrintingQueue"/> and action.
+        /// </summary>
+        /// <param name="queue">The printing queue to use. Must not be null.</param>
+        /// <param name="printAction">The printing action. Must not be null.</param>
+        /// <param name="state">An optional, initial user state to hand over to the delegate.</param>
+        public static void Print(PrintingQueue queue, PrintDelegate printAction, object state)
+        {
             Assertions.AssertNotNull(queue, "queue");
             Assertions.AssertNotNull(printAction, "printAction");
 
@@ -79,7 +90,7 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
                 PrintTask task = new PrintTask();
                 try
                 {
-                    task.Print(doc, printAction);
+                    task.Print(doc, printAction, state);
                 }
                 catch (Exception ex)
                 {
@@ -122,13 +133,10 @@ namespace AlarmWorkflow.Shared.Specialized.Printing
 
             #region Methods
 
-            /// <summary>
-            /// Executes the print task using the given document and action.
-            /// </summary>
-            /// <param name="doc"></param>
-            /// <param name="printAction"></param>
-            internal void Print(PrintDocument doc, PrintDelegate printAction)
+            internal void Print(PrintDocument doc, PrintDelegate printAction, object state)
             {
+                _state = state;
+
                 _printAction = printAction;
 
                 doc.PrintPage += doc_PrintPage;
