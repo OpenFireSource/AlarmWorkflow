@@ -36,9 +36,6 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private ISettingsServiceInternal _settings;
 
-        // FIXME: This should not be an instance-variable. In worst case, it could be overwritten with a new operation, if it is fast enough.
-        private Operation _operation;
-
         #endregion
 
         #region Methods
@@ -95,14 +92,15 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     continue;
                 }
 
-                _operation = operation;
-                PrintWithQueue(pq, _operation);
+                PrintWithQueue(pq, operation);
             }
         }
 
         private void PrintWithQueue(PrintingQueue pq, Operation operation)
         {
-            Thread printThread = new Thread(() => GdiPrinter.Print(pq, GdiPrinterPrintAction));
+            Operation op = operation;
+
+            Thread printThread = new Thread(() => GdiPrinter.Print(pq, GdiPrinterPrintAction, op));
             // STA needed because of the use of WebBrowser (WinForms).
             printThread.SetApartmentState(ApartmentState.STA);
             printThread.Start();
@@ -126,7 +124,13 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     return false;
                 }
 
-                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), _operation, templateFile, renderBounds);
+                Operation operation = state as Operation;
+                if (operation == null)
+                {
+                    return false;
+                }
+
+                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds);
                 state = renderedImage;
             }
 
