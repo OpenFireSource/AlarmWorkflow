@@ -30,9 +30,9 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-          <Property Type="String" Name="Identifier" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Name" Nullable="false" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Value" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Identifier" Nullable="false" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Value" MaxLength="1073741823" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

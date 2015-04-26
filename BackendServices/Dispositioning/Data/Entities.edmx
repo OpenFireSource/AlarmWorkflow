@@ -32,7 +32,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Name="Operation_Id" Type="Int32" Nullable="false" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" />
-          <Property Name="EmkResourceId" Type="String" Nullable="false" MaxLength="1073741823" Unicode="false" FixedLength="false" />
+          <Property Name="EmkResourceId" Type="String" Nullable="false" MaxLength="1073741823" FixedLength="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>

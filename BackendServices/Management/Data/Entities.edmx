@@ -95,38 +95,38 @@
           <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
           <Property Type="DateTime" Name="TimestampIncome" Nullable="false" />
           <Property Type="DateTime" Name="TimestampAlarm" Nullable="false" />
-          <Property Type="String" Name="Messenger" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Comment" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Plan" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Picture" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Priority" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortStreet" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortStreetNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortZipCode" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortCity" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortLocation" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortProperty" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortLatLng" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortStreet" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortStreetNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortZipCode" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortCity" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortLocation" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortProperty" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortLatLng" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LoopsCsv" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CustomDataJson" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="OperationNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Messenger" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Comment" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Plan" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Picture" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="Priority" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortStreet" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortStreetNumber" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortZipCode" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortCity" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortLocation" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortProperty" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="EinsatzortLatLng" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortStreet" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortStreetNumber" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortZipCode" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortCity" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortLocation" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortProperty" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortLatLng" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="LoopsCsv" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="CustomDataJson" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="OperationNumber" MaxLength="1073741823" FixedLength="false" />
           <Property Type="Guid" Name="OperationGuid" Nullable="false" />
-          <Property Type="String" Name="EinsatzortIntersection" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortIntersection" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortIntersection" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="ZielortIntersection" MaxLength="1073741823" FixedLength="false" />
           <NavigationProperty Name="OperationResources" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="OperationData" ToRole="operationresource" />
-          <Property Type="String" Name="Keyword" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordB" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordR" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordS" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordT" MaxLength="1073741823" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordMisc" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Keyword" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="KeywordB" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="KeywordR" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="KeywordS" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="KeywordT" MaxLength="1073741823" FixedLength="false" />
+          <Property Type="String" Name="KeywordMisc" MaxLength="1073741823" FixedLength="false" />
         </EntityType>
         <EntityType Name="OperationResourceData">
           <Key>
@@ -134,9 +134,9 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
           <Property Type="Int32" Name="Operation_Id" Nullable="false" />
-          <Property Type="String" Name="Timestamp" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="FullName" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EquipmentCsv" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Timestamp" MaxLength="50" FixedLength="false" />
+          <Property Type="String" Name="FullName" MaxLength="200" FixedLength="false" />
+          <Property Type="String" Name="EquipmentCsv" MaxLength="1073741823" FixedLength="false" />
           <NavigationProperty Name="Operation" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="operationresource" ToRole="OperationData" />
         </EntityType>
         <Association Name="operationresource_ibfk_1">
