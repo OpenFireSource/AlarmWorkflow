@@ -8,6 +8,7 @@ ALTER TABLE `operation` MODIFY `picture` LONGTEXT;
 ALTER TABLE `operation` MODIFY `priority` LONGTEXT;
 ALTER TABLE `operation` MODIFY `einsatzortstreet` LONGTEXT;
 ALTER TABLE `operation` MODIFY `einsatzortstreetnumber` LONGTEXT;
+ALTER TABLE `operation` MODIFY `einsatzortzipcode` LONGTEXT;
 ALTER TABLE `operation` MODIFY `einsatzortcity` LONGTEXT;
 ALTER TABLE `operation` MODIFY `einsatzortintersection` LONGTEXT;
 ALTER TABLE `operation` MODIFY `einsatzortlocation` LONGTEXT;
