@@ -38,3 +38,11 @@ ALTER TABLE `usersetting` MODIFY `identifier` LONGTEXT;
 ALTER TABLE `usersetting` MODIFY `name` LONGTEXT;
 
 ALTER TABLE `dispresource` MODIFY `emkresourceid` LONGTEXT;
+
+-- Set unicode for all database objects
+ALTER SCHEMA `alarmworkflow` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+
+ALTER TABLE `operation` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `operationresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `usersetting` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `dispresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

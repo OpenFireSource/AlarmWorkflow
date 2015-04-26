@@ -20,6 +20,12 @@ Anhänge
 
 Bitte dieses SQL-Skript auf der Datenbank ausführen.
 
+Wichtige Information! Dieses Skript führt die folgenden Operationen durch:
+- Änderung der Textspalten auf unbegrenzte Länge, damit auch sehr lange Texte durchgehend unterstützt werden können.
+- Änderung der Charsets auf UTF8, da öfters Unicode-Zeichen eingefügt werden, welche vorher nicht immer eingefügt werden konnten.
+
+Es empfiehlt sich, *vor* dem Ausführen dieses Skripts die Datenbank zu sichern und diese im Fehlerfall wiederherzustellen.
+
   USE `alarmworkflow`;
   
   ALTER TABLE `operation` MODIFY `operationnumber` LONGTEXT;
@@ -60,3 +66,11 @@ Bitte dieses SQL-Skript auf der Datenbank ausführen.
   ALTER TABLE `usersetting` MODIFY `name` LONGTEXT;
   
   ALTER TABLE `dispresource` MODIFY `emkresourceid` LONGTEXT;
+  
+  -- Set unicode for all database objects
+  ALTER SCHEMA `alarmworkflow` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
+  
+  ALTER TABLE `operation` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  ALTER TABLE `operationresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  ALTER TABLE `usersetting` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+  ALTER TABLE `dispresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
