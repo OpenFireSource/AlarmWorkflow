@@ -20,37 +20,37 @@
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="acknowledged" Type="bit" Nullable="false" />
           <Property Name="operationguid" Type="guid" Nullable="false" />
-          <Property Name="operationnumber" Type="varchar" MaxLength="100" />
+          <Property Name="operationnumber" Type="longtext" />
           <Property Name="timestampincome" Type="datetime" Nullable="false" />
           <Property Name="timestampalarm" Type="datetime" Nullable="false" />
-          <Property Name="messenger" Type="varchar" MaxLength="200" />
-          <Property Name="comment" Type="varchar" />
-          <Property Name="plan" Type="varchar" />
-          <Property Name="picture" Type="varchar" />
-          <Property Name="priority" Type="varchar" MaxLength="100" />
-          <Property Name="einsatzortstreet" Type="varchar" MaxLength="100" />
-          <Property Name="einsatzortstreetnumber" Type="varchar" MaxLength="100" />
-          <Property Name="einsatzortzipcode" Type="varchar" MaxLength="100" />
-          <Property Name="einsatzortcity" Type="varchar" MaxLength="100" />
-          <Property Name="einsatzortintersection" Type="varchar" MaxLength="200" />
-          <Property Name="einsatzortlocation" Type="varchar" MaxLength="200" />
-          <Property Name="einsatzortproperty" Type="varchar" MaxLength="200" />
-          <Property Name="einsatzortlatlng" Type="varchar" MaxLength="200" />
-          <Property Name="zielortstreet" Type="varchar" MaxLength="100" />
-          <Property Name="zielortstreetnumber" Type="varchar" MaxLength="100" />
-          <Property Name="zielortzipcode" Type="varchar" MaxLength="100" />
-          <Property Name="zielortcity" Type="varchar" MaxLength="100" />
-          <Property Name="zielortintersection" Type="varchar" MaxLength="200" />
-          <Property Name="zielortlocation" Type="varchar" MaxLength="200" />
-          <Property Name="zielortproperty" Type="varchar" MaxLength="200" />
-          <Property Name="zielortlatlng" Type="varchar" MaxLength="200" />
-          <Property Name="keyword" Type="varchar" MaxLength="100" />
-          <Property Name="keywordmisc" Type="varchar" MaxLength="100" />
-          <Property Name="keywordb" Type="varchar" MaxLength="100" />
-          <Property Name="keywordr" Type="varchar" MaxLength="100" />
-          <Property Name="keywords" Type="varchar" MaxLength="100" />
-          <Property Name="keywordt" Type="varchar" MaxLength="100" />
-          <Property Name="loopscsv" Type="varchar" MaxLength="300" />
+          <Property Name="messenger" Type="longtext" />
+          <Property Name="comment" Type="longtext" />
+          <Property Name="plan" Type="longtext" />
+          <Property Name="picture" Type="longtext" />
+          <Property Name="priority" Type="longtext" />
+          <Property Name="einsatzortstreet" Type="longtext" />
+          <Property Name="einsatzortstreetnumber" Type="longtext" />
+          <Property Name="einsatzortzipcode" Type="longtext" />
+          <Property Name="einsatzortcity" Type="longtext" />
+          <Property Name="einsatzortintersection" Type="longtext" />
+          <Property Name="einsatzortlocation" Type="longtext" />
+          <Property Name="einsatzortproperty" Type="longtext" />
+          <Property Name="einsatzortlatlng" Type="longtext" />
+          <Property Name="zielortstreet" Type="longtext" />
+          <Property Name="zielortstreetnumber" Type="longtext" />
+          <Property Name="zielortzipcode" Type="longtext" />
+          <Property Name="zielortcity" Type="longtext" />
+          <Property Name="zielortintersection" Type="longtext" />
+          <Property Name="zielortlocation" Type="longtext" />
+          <Property Name="zielortproperty" Type="longtext" />
+          <Property Name="zielortlatlng" Type="longtext" />
+          <Property Name="keyword" Type="longtext" />
+          <Property Name="keywordmisc" Type="longtext" />
+          <Property Name="keywordb" Type="longtext" />
+          <Property Name="keywordr" Type="longtext" />
+          <Property Name="keywords" Type="longtext" />
+          <Property Name="keywordt" Type="longtext" />
+          <Property Name="loopscsv" Type="longtext" />
           <Property Name="customdatajson" Type="longtext" />
         </EntityType>
         <EntityType Name="operationresource">
@@ -59,9 +59,9 @@
           </Key>
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="operation_id" Type="int" Nullable="false" />
-          <Property Name="timestamp" Type="varchar" MaxLength="50" />
-          <Property Name="fullname" Type="varchar" MaxLength="200" />
-          <Property Name="equipmentcsv" Type="text" />
+          <Property Name="timestamp" Type="longtext" />
+          <Property Name="fullname" Type="longtext" />
+          <Property Name="equipmentcsv" Type="longtext" />
         </EntityType>
         <Association Name="fk_{99BC450F-214E-4A06-8714-CA527129047D}">
           <End Role="operation" Type="AlarmWorkflowModel.Store.operation" Multiplicity="1" />
@@ -95,38 +95,38 @@
           <Property Type="Boolean" Name="IsAcknowledged" Nullable="false" />
           <Property Type="DateTime" Name="TimestampIncome" Nullable="false" />
           <Property Type="DateTime" Name="TimestampAlarm" Nullable="false" />
-          <Property Type="String" Name="Messenger" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Comment" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Plan" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Picture" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Priority" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortStreet" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortStreetNumber" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortZipCode" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortCity" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortLocation" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortProperty" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="EinsatzortLatLng" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortStreet" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortStreetNumber" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortZipCode" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortCity" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortLocation" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortProperty" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortLatLng" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="LoopsCsv" MaxLength="300" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="CustomDataJson" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="OperationNumber" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Messenger" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Comment" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Plan" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Picture" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Priority" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortStreet" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortStreetNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortZipCode" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortCity" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortLocation" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortProperty" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortLatLng" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortStreet" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortStreetNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortZipCode" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortCity" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortLocation" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortProperty" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortLatLng" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LoopsCsv" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="CustomDataJson" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="OperationNumber" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Type="Guid" Name="OperationGuid" Nullable="false" />
-          <Property Type="String" Name="EinsatzortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="ZielortIntersection" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="EinsatzortIntersection" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZielortIntersection" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="OperationResources" Relationship="AlarmWorkflowModel.operationresource_ibfk_1" FromRole="OperationData" ToRole="operationresource" />
-          <Property Type="String" Name="Keyword" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordB" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordR" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordS" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordT" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="KeywordMisc" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Keyword" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordB" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordR" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordS" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordT" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="KeywordMisc" MaxLength="1073741823" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="OperationResourceData">
           <Key>

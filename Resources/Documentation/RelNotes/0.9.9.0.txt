@@ -7,6 +7,55 @@
 Generelles
 
   * Wichtig: Ab einschließlich dieser Version unterstützt AlarmWorkflow nur Windows 7 SP1 und höher (.Net Framework 4.5.1)!
+  * Die Text-Datenbankspalten sind nun nicht mehr limitiert auf eine maximale Anzahl Zeichen. Bitte Anhang #1 beachten.
   * Der Ausdruck "(no value)" wird nicht mehr ausgegeben, wenn in einem Fahrzeugeintrag ein Wert nicht gefunden wurde.
   * Es gibt nun eine globale Black/Whitelist, die für alle Alarmquellen (Fax, E-Mail, SMS) gilt.
     Vor dem Aufspielen der neuen Version bitte ggf. die alten Werte sichern.
+
+Anhänge
+-------
+
+#1
+--
+
+Bitte dieses SQL-Skript auf der Datenbank ausführen.
+
+  USE `alarmworkflow`;
+  
+  ALTER TABLE `operation` MODIFY `operationnumber` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `messenger` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `comment` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `plan` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `picture` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `priority` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortstreet` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortstreetnumber` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortcity` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortintersection` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortlocation` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortproperty` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `einsatzortlatlng` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortstreet` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortstreetnumber` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortzipcode` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortcity` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortintersection` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortlocation` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortproperty` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `zielortlatlng` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keyword` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keywordmisc` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keywordb` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keywordr` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keywords` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `keywordt` LONGTEXT;
+  ALTER TABLE `operation` MODIFY `loopscsv` LONGTEXT;
+  
+  ALTER TABLE `operationresource` MODIFY `timestamp` LONGTEXT;
+  ALTER TABLE `operationresource` MODIFY `fullname` LONGTEXT;
+  ALTER TABLE `operationresource` MODIFY `equipmentcsv` LONGTEXT;
+  
+  ALTER TABLE `usersetting` MODIFY `identifier` LONGTEXT;
+  ALTER TABLE `usersetting` MODIFY `name` LONGTEXT;
+  
+  ALTER TABLE `dispresource` MODIFY `emkresourceid` LONGTEXT;
