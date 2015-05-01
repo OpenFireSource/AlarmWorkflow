@@ -123,6 +123,9 @@
   <data name="ErrorProwl" xml:space="preserve">
     <value>While executing the notifications for Prowl an unexpected error occured: {0}.</value>
   </data>
+  <data name="ErrorPushalot" xml:space="preserve">
+    <value>While executing the notifications for Pushalot an unexpected error occured: {0}.</value>
+  </data>
   <data name="ExportJobDescription" xml:space="preserve">
     <value>Versendet Push-Nachrichten mittels verschiedener Anbieter.</value>
   </data>
