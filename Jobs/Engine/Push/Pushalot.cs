@@ -26,7 +26,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.PushJob
 {
-    public static class Pushalot
+    static class Pushalot
     {
         #region Constants
 
