@@ -77,6 +77,15 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
                 return ResourceManager.GetString("ErrorProwl", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to While executing the notifications for Pushalot an unexpected error occured: {0}..
+        /// </summary>
+	internal static string ErrorPushalot {
+            get {
+                return ResourceManager.GetString("ErrorPushalot", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Versendet Push-Nachrichten mittels verschiedener Anbieter..
