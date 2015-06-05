@@ -52,8 +52,7 @@ namespace AlarmWorkflow.Job.OperationFileExporter
             doc.Root.Add(CreateXElementSafe("Strasse", operation.Einsatzort.Street));
             doc.Root.Add(CreateXElementSafe("Hausnummer", operation.Einsatzort.StreetNumber));
             doc.Root.Add(CreateXElementSafe("Objekt", operation.Einsatzort.Property));
-            doc.Root.Add(CreateXElementSafe("GK_X", operation.Einsatzort.GeoLongitude));
-            doc.Root.Add(CreateXElementSafe("GK_Y", operation.Einsatzort.GeoLatitude));
+            doc.Root.Add(CreateXElementSafe("WGS", "#" + operation.Einsatzort.GeoLongitude + "#" + operation.Einsatzort.GeoLatitude + "#"));
             doc.Root.Add(CreateXElementSafe("Meldender", operation.Messenger));
             doc.Root.Add(CreateXElementSafe("Bemerkung", operation.Comment));
             doc.Root.Add(CreateXElementSafe("Zusatzinformationen", operation.Picture));
