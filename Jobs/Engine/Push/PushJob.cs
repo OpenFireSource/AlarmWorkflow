@@ -75,6 +75,7 @@ namespace AlarmWorkflow.Job.PushJob
 
             Task.Factory.StartNew(() => SendToProwl(operation, message, header));
             Task.Factory.StartNew(() => SendToNotifyMyAndroid(operation, message, header));
+            Task.Factory.StartNew(() => SendToPushalot(operation, message, header));
         }
 
         bool IJob.IsAsync
@@ -110,6 +111,24 @@ namespace AlarmWorkflow.Job.PushJob
             catch (Exception ex)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorNMA, ex.Message);
+                Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        private void SendToPushalot(Operation operation, string message, string header)
+        {
+            try
+            {
+                IEnumerable<string> recipients = GetRecipientApiKeysFor(operation, "Pushalot");
+
+                if (recipients.Any())
+                {
+                    Pushalot.SendNotifications(recipients, ApplicationName, header, message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorPushalot, ex.Message);
                 Logger.Instance.LogException(this, ex);
             }
         }
