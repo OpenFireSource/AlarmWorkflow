@@ -11,3 +11,4 @@ Generelles
   * Es gibt nun eine globale Black/Whitelist, die für alle Alarmquellen (Fax, E-Mail, SMS) gilt.
     Vor dem Aufspielen der neuen Version bitte ggf. die alten Werte sichern.
   * Zu den vorhandenen Push Diensten ist Pushalot hinzugekommen. -> https://pushalot.com/
+  * Einsatzinformationen - Export schreibt die Koordinaten nun in das richtige Feld.
