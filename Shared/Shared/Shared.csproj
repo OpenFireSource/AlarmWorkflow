@@ -43,6 +43,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jint">
+      <HintPath>..\packages\Jint.2.5.0\lib\portable-net40+sl50+win+wpa81+wp80\Jint.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -95,6 +98,7 @@
     <Compile Include="ObjectExpressions\Scripting\CSharpScriptEngine.cs" />
     <Compile Include="ObjectExpressions\Scripting\IScriptEngine.cs" />
     <Compile Include="ObjectExpressions\Scripting\IScriptEngineFactory.cs" />
+    <Compile Include="ObjectExpressions\Scripting\JavaScriptEngine.cs" />
     <Compile Include="ObjectExpressions\Scripting\ScriptEngineBase.cs" />
     <Compile Include="ObjectExpressions\Scripting\ScriptEngineFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

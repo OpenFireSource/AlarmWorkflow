@@ -22,6 +22,7 @@ namespace AlarmWorkflow.Shared.ObjectExpressions.Scripting
         #region Constants
 
         private const string IdCSharp = "cs";
+        private const string IdJavaScript = "js";
 
         #endregion
 
@@ -40,6 +41,10 @@ namespace AlarmWorkflow.Shared.ObjectExpressions.Scripting
             if (id.Equals(IdCSharp, StringComparison.OrdinalIgnoreCase))
             {
                 return new CSharpScriptEngine();
+            }
+            else if (id.Equals(IdJavaScript, StringComparison.OrdinalIgnoreCase))
+            {
+                return new JavaScriptEngine();
             }
 
             return null;
