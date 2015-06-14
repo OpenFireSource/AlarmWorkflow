@@ -104,7 +104,23 @@ namespace AlarmWorkflow.Shared.ObjectExpressions.Scripting
 
         object IScriptEngine.Execute(string source, object[] args)
         {
-            return Execute(source, args);
+            /* A note on the exception handling:
+             * - Rethrow CustomScriptExecutionException, because they are already the right exception type.
+             * - However any other exception must be wrapped.
+             */
+
+            try
+            {
+                return Execute(source, args);
+            }
+            catch (CustomScriptExecutionException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomScriptExecutionException(ex, CustomScriptExecutionException.Reason.ScriptInvocationException);
+            }
         }
 
         #endregion
