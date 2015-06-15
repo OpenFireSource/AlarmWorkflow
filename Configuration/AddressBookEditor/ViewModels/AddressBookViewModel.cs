@@ -15,11 +15,13 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
+using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
-using AlarmWorkflow.BackendService.AddressingContracts;
 
 namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
 {
@@ -44,7 +46,6 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
             get { return CompileAddressBookFromViewModel(); }
             private set { SetAddressBookAndUpdateViewModel(value); }
         }
-
 
         private void SetAddressBookAndUpdateViewModel(AddressBook addressBook)
         {
@@ -127,8 +128,6 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
             return addressBook;
         }
 
-
-
         /// <summary>
         /// Gets the collection of entries to display in the UI.
         /// </summary>
@@ -204,6 +203,22 @@ namespace AlarmWorkflow.Windows.Configuration.AddressBookEditor.ViewModels
         public AddressBookViewModel(AddressBook addressBook)
         {
             AddressBookEditWrapper = addressBook;
+
+            EnableLiveShaping();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void EnableLiveShaping()
+        {
+            ICollectionView cvs = CollectionViewSource.GetDefaultView(this.Entries);
+            cvs.SortDescriptions.Add(new SortDescription("LastName", ListSortDirection.Ascending));
+            cvs.SortDescriptions.Add(new SortDescription("FirstName", ListSortDirection.Ascending));
+
+            ICollectionViewLiveShaping cvsls = (ICollectionViewLiveShaping)cvs;
+            cvsls.IsLiveSorting = true;
         }
 
         #endregion
