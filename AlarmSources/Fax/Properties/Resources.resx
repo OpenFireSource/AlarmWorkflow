@@ -195,4 +195,10 @@
   <data name="UsingParserTrace" xml:space="preserve">
     <value>Using parser '{0}'.</value>
   </data>
+  <data name="GhostscriptConvert" xml:space="preserve">
+    <value>Ghostscript convert '{0}' to tiff</value>
+  </data>
+  <data name="GhostscriptConvertError" xml:space="preserve">
+    <value>Error using Ghostscript. Maybe it's not installed.</value>
+  </data>
 </root>
