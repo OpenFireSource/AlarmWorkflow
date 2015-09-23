@@ -29,6 +29,9 @@ The AlarmWorkflow-project makes use of the following libraries:
     S22.Imap by smiley22
     https://github.com/smiley22/S22.Imap
     
+	Ghostscript.NET by jhabjan
+	https://github.com/jhabjan/Ghostscript.NET
+	
     AvalonDock
     http://avalondock.codeplex.com/
     
