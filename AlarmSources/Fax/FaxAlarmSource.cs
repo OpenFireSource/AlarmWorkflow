@@ -27,6 +27,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Specialized;
+using Ghostscript.NET;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
@@ -130,6 +131,39 @@ namespace AlarmWorkflow.AlarmSource.Fax
             {
                 Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.ErrorCreatingRequiredDirectory);
             }
+        }
+
+        private void ProcessNewPdf(FileInfo file)
+        {
+            string tiffFilePath = Path.Combine(file.DirectoryName, "convert.tif");
+            Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.GhostscriptConvert, file.FullName);
+
+            try {
+                //Convert to tiff
+                GhostscriptImageDevice dev = new GhostscriptImageDevice();
+                dev.Device = "tiffgray";
+                dev.GraphicsAlphaBits = GhostscriptImageDeviceAlphaBits.V_4;
+                dev.TextAlphaBits = GhostscriptImageDeviceAlphaBits.V_4;
+                dev.Resolution = 300;
+                dev.InputFiles.Add(file.FullName);
+                dev.OutputPath = tiffFilePath;
+                dev.Process();
+            } catch(GhostscriptException ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.GhostscriptConvertError);
+                Logger.Instance.LogException(this, ex);
+
+                string archivedFilePath = Path.Combine(_archivePath.FullName, file.Name);
+                MoveFileTo(file, archivedFilePath);
+
+                return;
+            }
+
+            //Process new Image
+            ProcessNewImage(new FileInfo(tiffFilePath));
+
+            //Delete old pdf
+            file.Delete();
         }
 
         private void ProcessNewImage(FileInfo file)
@@ -300,14 +334,24 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             while (true)
             {
-                FileInfo[] files = _faxPath.GetFiles("*.tif", SearchOption.TopDirectoryOnly);
-                if (files.Length > 0)
+                //.tif or .pdf
+                var files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                    .Where(_ => _.Name.EndsWith(".tif") || _.Name.EndsWith(".pdf"));
+
+                if (files.Count() > 0)
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Count());
 
                     foreach (FileInfo file in files)
                     {
-                        ProcessNewImage(file);
+                        if(file.Extension == ".pdf")
+                        {
+                            ProcessNewPdf(file);
+                        }
+                        else
+                        {
+                            ProcessNewImage(file);
+                        }
                     }
 
                     Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
