@@ -24,6 +24,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         internal static readonly SettingKey FaxPath = SettingKey.Create(Identifier, "FaxPath");
         internal static readonly SettingKey ArchivePath = SettingKey.Create(Identifier, "ArchivePath");
         internal static readonly SettingKey AnalysisPath = SettingKey.Create(Identifier, "AnalysisPath");
+        internal static readonly SettingKey AnalyzedFileNameFormat = SettingKey.Create(Identifier, "AnalyzedFileNameFormat");
         internal static readonly SettingKey AlarmFaxParserAlias = SettingKey.Create(Identifier, "AlarmfaxParser");
         internal static readonly SettingKey OcrPath = SettingKey.Create(Identifier, "OCR.Path");
     }

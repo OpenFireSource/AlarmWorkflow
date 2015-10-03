@@ -9,6 +9,9 @@
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis für analysierte Faxe." IsDynamic="true"/>
 
+    <Setting Name="AnalyzedFileNameFormat" DisplayText="Format der analysierten Datei" Category="Verzeichnisse"
+             Description="Ausgabeformat des Dateinamen, nachdem diese analysiert wurde. Wird mit der aktuellen Zeit geparst." IsDynamic="true" />
+    
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
              Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen." IsDynamic="true"/>
 

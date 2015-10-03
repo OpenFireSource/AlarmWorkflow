@@ -41,7 +41,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
         #region Constants
 
         private const int ErrorRetryCount = 10;
-        private const string AnalyzedFileNameFormat = "yyyyMMddHHmmssffff";
         private const string ArchivedFilePathExtension = ".tif";
         private const int MoveFileAttemptDelayMs = 200;
         private const int RoutineIntervalMs = 2000;
@@ -56,6 +55,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
+
+        private string _analyzedFileNameFormat;
 
         private IOcrSoftware _ocrSoftware;
         private IParser _parser;
@@ -167,7 +168,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             EnsureDirectoriesExist();
 
-            string analyseFileName = DateTime.Now.ToString(AnalyzedFileNameFormat);
+            string analyseFileName = DateTime.Now.ToString(_analyzedFileNameFormat);
             string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ArchivedFilePathExtension);
 
             MoveFileTo(file, archivedFilePath);
@@ -282,6 +283,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _faxPath = new DirectoryInfo(_configuration.FaxPath);
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
+
+            _analyzedFileNameFormat = _configuration.AnalyzedFileNameFormat;
 
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);
