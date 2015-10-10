@@ -15,6 +15,7 @@ Generelles
   * Einsatzinformationen - Export schreibt die Koordinaten nun in das richtige Feld.
   * ConfEd: Im Adressbuch sind die Einträge nun nach Nachname/Vorname sortiert.
   * Als benutzerdefinierte Objektausdrücke sind nun auch Skripte in JavaScript möglich, siehe Anhang #2.
+  * Die Faxauswertung erkennt nun auch PDF-Dateien.
 
 Anhänge
 -------
