@@ -185,21 +185,28 @@ namespace AlarmWorkflow.Job.MailingJob
 
         private void AttachImage(IJobContext context, MailMessage message)
         {
-            if (context.Parameters.Keys.Contains("ImagePath"))
+            if (context.Parameters.Keys.Contains("ArchivedFilePath"))
             {
-                string imagePath = (string)context.Parameters["ImagePath"];
-                if (!string.IsNullOrWhiteSpace(imagePath))
+                string filePath = (string)context.Parameters["ArchivedFilePath"];
+                if (!string.IsNullOrWhiteSpace(filePath))
                 {
-                    if (File.Exists(imagePath))
+                    if (File.Exists(filePath))
                     {
-                        string[] splitFiles = Helpers.ConvertTiffToJpegAndSplit(imagePath);
-                        Stream stream = Helpers.CombineBitmap(splitFiles).ToStream(ImageFormat.Jpeg);
-
-                        message.Attachments.Add(new Attachment(stream, ImageAttachmentFileName));
-
-                        foreach (string s in splitFiles)
+                        if(Path.GetExtension(filePath) == ".tif")
                         {
-                            File.Delete(s);
+                            string[] splitFiles = Helpers.ConvertTiffToJpegAndSplit(filePath);
+                            Stream stream = Helpers.CombineBitmap(splitFiles).ToStream(ImageFormat.Jpeg);
+
+                            message.Attachments.Add(new Attachment(stream, ImageAttachmentFileName));
+
+                            foreach (string s in splitFiles)
+                            {
+                                File.Delete(s);
+                            }
+                        }
+                        else 
+                        {
+                            message.Attachments.Add(new Attachment(filePath));
                         }
                     }
                 }

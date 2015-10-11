@@ -27,6 +27,8 @@ using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Specialized.Printing;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
 
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 {
@@ -44,21 +46,19 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         private void PrintFaxes(IJobContext context, Operation operation)
         {
-            if (!context.Parameters.ContainsKey("ArchivedFilePath") || !context.Parameters.ContainsKey("ImagePath"))
+            if (!context.Parameters.ContainsKey("ArchivedFilePath"))
             {
                 Logger.Instance.LogFormat(LogType.Trace, this, Resources.NoPrintingPossible);
                 return;
             }
 
-            FileInfo sourceImageFile = new FileInfo((string)context.Parameters["ImagePath"]);
-            if (!sourceImageFile.Exists)
+            FileInfo archivedFile = new FileInfo((string)context.Parameters["ArchivedFilePath"]);
+            if (!archivedFile.Exists)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, sourceImageFile.FullName);
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, archivedFile.FullName);
                 return;
             }
-
-            string imagePath = (string)context.Parameters["ImagePath"];
-
+            
             foreach (string queueName in _settings.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
             {
                 var queues = _settings.GetSetting(SettingKeys.PrintingQueuesConfiguration).GetValue<PrintingQueuesConfiguration>();
@@ -69,7 +69,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 }
 
                 PrintFaxTask task = new PrintFaxTask();
-                task.ImagePath = imagePath;
+                task.ArchivedFile = archivedFile.FullName;
                 task.Print(pq);
             }
         }
@@ -123,11 +123,25 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         {
             private IList<Image> _pages;
 
-            internal string ImagePath { private get; set; }
+            internal string ArchivedFile { private get; set; }
 
             internal void Print(PrintingQueue queue)
             {
-                _pages = SplitMultipageTiff(ImagePath);
+                switch (Path.GetExtension(ArchivedFile))
+                {
+                    case ".pdf":
+                        _pages = ExtractPdfImages(ArchivedFile);
+                        break;
+                        
+                    case ".tif":
+                        _pages = SplitMultipageTiff(ArchivedFile);
+                        break;
+                        
+                    default:
+                        Logger.Instance.LogFormat(LogType.Error, this, Resources.ArchivedFileWrongFormat, ArchivedFile);
+                        return;
+                }
+                
 
                 ThreadPool.QueueUserWorkItem(w => GdiPrinter.Print(queue, GdiPrinterPrintAction));
             }
@@ -173,6 +187,20 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 return images;
             }
 
+            private static IList<Image> ExtractPdfImages(string pdfFileName)
+            {
+                List<Image> images = new List<Image>();
+
+                using (PdfDocument document = PdfReader.Open(pdfFileName, PdfDocumentOpenMode.Import))
+                {
+                    foreach (Image image in document.GetImages())
+                    {
+                        images.Add((Image)image.Clone());
+                    }
+                }
+
+                return images;
+            }
         }
 
         #endregion

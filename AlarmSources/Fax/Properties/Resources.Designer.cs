@@ -79,6 +79,15 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Convert analysed image &apos;{0}&apos; to PDF-Document.
+        /// </summary>
+        internal static string ConvertImageToPdf {
+            get {
+                return ResourceManager.GetString("ConvertImageToPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created required directory &apos;{0}&apos;..
         /// </summary>
         internal static string CreatedRequiredDirectory {

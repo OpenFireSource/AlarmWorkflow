@@ -56,6 +56,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
+        private bool _convertToPdf;
 
         private IOcrSoftware _ocrSoftware;
         private IParser _parser;
@@ -232,9 +233,20 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
 
                 IDictionary<string, object> ctxParameters = new Dictionary<string, object>();
-                ctxParameters[ContextParameterKeys.ArchivedFilePath] = archivedFilePath;
-                ctxParameters[ContextParameterKeys.ImagePath] = file.FullName;
 
+                if(_convertToPdf)
+                {
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ConvertImageToPdf, archivedFilePath);
+                    string pdfPath = Tiff2Pdf.Convert(archivedFilePath);
+                    ctxParameters[ContextParameterKeys.ArchivedFilePath] = pdfPath;
+                    File.Delete(archivedFilePath);
+                }
+                else
+                {
+                    ctxParameters[ContextParameterKeys.ArchivedFilePath] = archivedFilePath;
+                    ctxParameters[ContextParameterKeys.ImagePath] = file.FullName;
+                }
+                
                 AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
                 args.Parameters = ctxParameters;
 
@@ -282,6 +294,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _faxPath = new DirectoryInfo(_configuration.FaxPath);
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
+            _convertToPdf = _configuration.ConvertToPdf;
 
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);
