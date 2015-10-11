@@ -55,6 +55,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
             get { return _settings.GetSetting(FaxSettingKeys.AnalysisPath).GetValue<string>(); }
         }
 
+        internal string AnalyzedFileNameFormat
+        {
+            get { return _settings.GetSetting(FaxSettingKeys.AnalyzedFileNameFormat).GetValue<string>(); }
+        }
+
         internal string OCRSoftwarePath
         {
             get { return _settings.GetSetting(FaxSettingKeys.OcrPath).GetValue<string>(); }
@@ -102,7 +107,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 {
                     changedKeys.Add("OCR.Path");
                 }
-                else if ((key.Equals(FaxSettingKeys.FaxPath) || key.Equals(FaxSettingKeys.AnalysisPath) || key.Equals(FaxSettingKeys.ArchivePath)) && !changedKeys.Contains("FaxPaths"))
+                else if ((key.Equals(FaxSettingKeys.FaxPath) || key.Equals(FaxSettingKeys.AnalysisPath) || key.Equals(FaxSettingKeys.ArchivePath) || key.Equals(FaxSettingKeys.AnalyzedFileNameFormat)) 
+                     && !changedKeys.Contains("FaxPaths"))
                 {
                     changedKeys.Add("FaxPaths");
                 }
