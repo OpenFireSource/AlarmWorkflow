@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="FinishOperation" xml:space="preserve">
+    <value>Einsatz beenden</value>
+  </data>
+  <data name="FinishOperationText" xml:space="preserve">
+    <value>Möchten Sie den derzeitigen Einsatz wirklich beenden?</value>
+  </data>
 </root>

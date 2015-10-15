@@ -29,6 +29,7 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.UIContracts;
 using AlarmWorkflow.Windows.UIContracts.ViewModels;
+using System.Windows;
 
 namespace AlarmWorkflow.Tools.Dispatching
 {
@@ -69,6 +70,26 @@ namespace AlarmWorkflow.Tools.Dispatching
         /// The command assigned to the resource buttons.
         /// </summary>
         public ICommand DispatchCommand { get; set; }
+
+        /// <summary>
+        /// The command finish the current operation
+        /// </summary>
+        public ICommand OperationFinishedCommand { get; set; }
+
+        private void OperationFinishedCommand_Execute(object param)
+        {
+            if (CurrentOperation == null)
+            {
+                return;
+            }
+
+            MessageBoxResult messageBoxResult = MessageBox.Show(Properties.Resources.FinishOperationText, Properties.Resources.FinishOperation, System.Windows.MessageBoxButton.YesNo);
+            if(messageBoxResult == MessageBoxResult.Yes)
+            {
+                _operationService.Instance.AcknowledgeOperation(CurrentOperation.Id);
+            }
+        }
+
 
         private void DispatchCommand_Execute(object param)
         {
