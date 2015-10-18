@@ -29,9 +29,9 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// </summary>
         public Operation Operation { get; set; }
         /// <summary>
-        /// Gets/sets the full file path of the route image file.
+        /// Gets/sets the full file path of the map image file.
         /// </summary>
-        public string RouteImageFilePath { get; set; }
+        public string MapImageFilePath { get; set; }
 
         #endregion
     }

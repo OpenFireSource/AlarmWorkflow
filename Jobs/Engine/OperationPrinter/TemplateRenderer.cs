@@ -21,6 +21,8 @@ using System.Windows.Forms;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.ObjectExpressions;
+using AlarmWorkflow.Job.OperationPrinter.Properties;
+using System.Drawing.Imaging;
 
 namespace AlarmWorkflow.Job.OperationPrinter
 {
@@ -38,19 +40,24 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// <param name="operation">The operation to render.</param>
         /// <param name="templateFile">The HTML template file to use for layouting.</param>
         /// <param name="size">The maximum size of the created image.</param>
+        /// <param name="useOFM">Use OFM instead Google Maps</param>
         /// <returns></returns>
-        internal static Image RenderOperation(PropertyLocation source, Operation operation, string templateFile, Size size)
+        internal static Image RenderOperation(PropertyLocation source, Operation operation, string templateFile, Size size, bool useOFM)
         {
             TemplateObject to = new TemplateObject();
             to.Operation = operation;
-            to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(source, operation.Einsatzort);
-
+            
+            if(useOFM)
+                to.MapImageFilePath = GetOFMImageFilePath(operation.Einsatzort);
+            else
+                to.MapImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(source, operation.Einsatzort);
+            
             Image image = null;
             try
             {
                 string html = CreateHtml(templateFile, to);
 
-                image = RenderOperationWithBrowser(to, html, size);
+                image = RenderOperationWithBrowser(html, size);
             }
             catch (Exception ex)
             {
@@ -58,10 +65,42 @@ namespace AlarmWorkflow.Job.OperationPrinter
             }
             finally
             {
-                TryDeleteRouteImageFile(to);
+                TryDeleteMapImageFile(to);
             }
 
             return image;
+        }
+
+        private static string GetOFMImageFilePath(PropertyLocation location)
+        {
+            string file = "OperationPrintOFMHelper.htm";
+            string tmpFile = Path.GetTempFileName();
+            Size size = new Size(800, 800);
+
+            try
+            {
+                if (!File.Exists(file))
+                {
+                    Logger.Instance.LogFormat(LogType.Error, typeof(TemplateRenderer), Resources.OperationPrintTemplateNotFoundError, file);
+                    return null;
+                }
+
+                string html = File.ReadAllText(file)
+                    .Replace("{MapSize.Width}", size.Width.ToString())
+                    .Replace("{MapSize.Height}", size.Height.ToString())
+                    .Replace("{Location.GeoLatitude}", location.GeoLatitude)
+                    .Replace("{Location.GeoLongitude}", location.GeoLongitude);
+                
+                Image image = RenderOperationWithBrowser(html, size);
+                image.Save(tmpFile, ImageFormat.Png);
+
+                return tmpFile;
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogException(typeof(TemplateRenderer), ex);
+                return null;
+            }
         }
 
         private static string CreateHtml(string templateFile, TemplateObject to)
@@ -78,8 +117,8 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
             return sb.ToString();
         }
-
-        private static Image RenderOperationWithBrowser(TemplateObject to, string htmlToRender, Size size)
+        
+        private static Image RenderOperationWithBrowser(string htmlToRender, Size size)
         {
             using (WebBrowser w = new WebBrowser())
             {
@@ -115,13 +154,13 @@ namespace AlarmWorkflow.Job.OperationPrinter
             }
         }
 
-        private static void TryDeleteRouteImageFile(TemplateObject to)
+        private static void TryDeleteMapImageFile(TemplateObject to)
         {
             try
             {
-                if (File.Exists(to.RouteImageFilePath))
+                if (File.Exists(to.MapImageFilePath))
                 {
-                    File.Delete(to.RouteImageFilePath);
+                    File.Delete(to.MapImageFilePath);
                 }
             }
             catch (Exception ex)
