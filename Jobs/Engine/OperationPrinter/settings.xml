@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <SettingsConfiguration Version="1" Identifier="OperationPrinterJob">
   <Setting Name="TemplateFile" Type="System.String">OperationPrintTemplate.htm</Setting>
+  <Setting Name="UseOFM" Type="System.Boolean">false</Setting>
   <Setting Name="PrintingQueueNames" Type="System.String" IsNull="True"></Setting>
 </SettingsConfiguration>

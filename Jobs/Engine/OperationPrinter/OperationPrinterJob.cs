@@ -110,6 +110,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private bool GdiPrinterPrintAction(int pageIndex, Graphics graphics, Rectangle marginBounds, Rectangle pageBounds, PageSettings pageSettings, ref object state)
         {
+            bool useOFM = _settings.GetSetting(SettingKeysJob.UseOFM).GetValue<bool>();
             pageSettings.Landscape = false;
 
             Image renderedImage = state as Image;
@@ -130,7 +131,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     return false;
                 }
 
-                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds);
+                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds, useOFM);
                 state = renderedImage;
             }
 
