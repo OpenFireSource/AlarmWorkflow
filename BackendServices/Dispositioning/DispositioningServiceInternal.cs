@@ -15,21 +15,16 @@
 
 using System;
 using System.Linq;
+using AlarmWorkflow.Backend.Data;
+using AlarmWorkflow.Backend.Data.Types;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
-using AlarmWorkflow.Backend.ServiceContracts.Data;
-using AlarmWorkflow.BackendService.Dispositioning.Data;
 using AlarmWorkflow.BackendService.DispositioningContracts;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.BackendService.Dispositioning
 {
     class DispositioningServiceInternal : InternalServiceBase, IDispositioningServiceInternal
     {
-        #region Constants
-
-        private const string EdmxPath = "Data.Entities";
-
-        #endregion
-
         #region IDispositioningServiceInternal Members
 
         /// <summary>
@@ -48,12 +43,13 @@ namespace AlarmWorkflow.BackendService.Dispositioning
 
         string[] IDispositioningServiceInternal.GetDispatchedResources(int operationId)
         {
-            lock (SyncRoot)
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                using (var entities = EntityFrameworkHelper.CreateContext<DispositioningEntities>(EdmxPath))
-                {
-                    return entities.DispResources.Where(_ => _.Operation_Id == operationId).Select(_ => _.EmkResourceId).ToArray();
-                }
+                return work.For<DispositionedResourceData>()
+                    .Query
+                    .Where(_ => _.OperationId == operationId)
+                    .Select(_ => _.EmkResourceId)
+                    .ToArray();
             }
         }
 
@@ -61,21 +57,24 @@ namespace AlarmWorkflow.BackendService.Dispositioning
         {
             lock (SyncRoot)
             {
-                using (var entities = EntityFrameworkHelper.CreateContext<DispositioningEntities>(EdmxPath))
+                using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
                 {
-                    bool exists = entities.DispResources.Any(_ => _.Operation_Id == operationId && _.EmkResourceId == emkResourceId);
+                    var repository = work.For<DispositionedResourceData>();
+
+                    bool exists = repository.Query.Any(_ => _.OperationId == operationId && _.EmkResourceId == emkResourceId);
                     if (exists)
                     {
                         throw new InvalidOperationException(Properties.Resources.DispatchNotPossibleEntryAlreadyExists);
                     }
 
-                    DispResourceData data = new DispResourceData();
-                    data.Operation_Id = operationId;
+                    DispositionedResourceData data = repository.Create();
+                    data.OperationId = operationId;
                     data.EmkResourceId = emkResourceId;
                     data.Timestamp = DateTime.Now;
 
-                    entities.DispResources.AddObject(data);
-                    entities.SaveChanges();
+                    repository.Insert(data);
+
+                    work.Commit();
                 }
             }
 
@@ -87,16 +86,19 @@ namespace AlarmWorkflow.BackendService.Dispositioning
         {
             lock (SyncRoot)
             {
-                using (var entities = EntityFrameworkHelper.CreateContext<DispositioningEntities>(EdmxPath))
+                using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
                 {
-                    DispResourceData exists = entities.DispResources.SingleOrDefault(_ => _.Operation_Id == operationId && _.EmkResourceId == emkResourceId);
+                    var repository = work.For<DispositionedResourceData>();
+
+                    DispositionedResourceData exists = repository.Query.SingleOrDefault(_ => _.OperationId == operationId && _.EmkResourceId == emkResourceId);
                     if (exists == null)
                     {
                         throw new InvalidOperationException(Properties.Resources.RecallNotPossibleEntryDoesNotExist);
                     }
 
-                    entities.DispResources.DeleteObject(exists);
-                    entities.SaveChanges();
+                    repository.Delete(exists);
+
+                    work.Commit();
                 }
             }
 

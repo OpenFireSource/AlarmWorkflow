@@ -13,37 +13,29 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Backend.ServiceContracts.Core;
-using AlarmWorkflow.BackendService.System.Data;
-using AlarmWorkflow.BackendService.SystemContracts;
+using AlarmWorkflow.Backend.Data.Types;
 
-namespace AlarmWorkflow.BackendService.System
+namespace AlarmWorkflow.Backend.Data.Configurations
 {
-    class SystemServiceInternal : InternalServiceBase, ISystemServiceInternal
+    class SettingConfiguration : ConfigurationBase<SettingData>
     {
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SystemServiceInternal"/> class.
-        /// </summary>
-        public SystemServiceInternal()
+        public SettingConfiguration()
             : base()
         {
+            Property(s => s.Identifier).IsRequired().HasColumnName("identifier");
+            Property(s => s.Name).IsRequired().HasColumnName("name");
+            Property(s => s.Value).HasColumnName("value");
         }
 
         #endregion
 
         #region Methods
 
-        /// <summary>
-        /// Overridden to ensure that a connection to the database can be established.
-        /// Waits as long as a connection becomes available so that further flow can execute as intended.
-        /// </summary>
-        protected override void InitializeOverride()
+        protected override string GetTableName()
         {
-            base.InitializeOverride();
-
-            DatabaseChecker.EnsureReachable(ServiceProvider);
+            return "usersetting";
         }
 
         #endregion

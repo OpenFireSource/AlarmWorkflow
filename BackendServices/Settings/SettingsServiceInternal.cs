@@ -15,11 +15,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
+using AlarmWorkflow.Backend.Data;
+using AlarmWorkflow.Backend.Data.Types;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
-using AlarmWorkflow.Backend.ServiceContracts.Data;
-using AlarmWorkflow.BackendService.Settings.Data;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -29,12 +28,6 @@ namespace AlarmWorkflow.BackendService.Settings
 {
     class SettingsServiceInternal : InternalServiceBase, ISettingsServiceInternal
     {
-        #region Constants
-
-        private const string EdmxPath = "Data.Entities";
-
-        #endregion
-
         #region Fields
 
         private SettingsCollection _settings;
@@ -57,7 +50,6 @@ namespace AlarmWorkflow.BackendService.Settings
 
         /// <summary>
         /// When overridden in a derived class, allows for a custom initialization procedure.
-        /// At this point, the <see cref="P:AlarmWorkflow.Backend.ServiceContracts.Core.BackendServiceBase.ServiceProvider"/> has already been set.
         /// </summary>
         protected override void InitializeOverride()
         {
@@ -104,15 +96,15 @@ namespace AlarmWorkflow.BackendService.Settings
             return item;
         }
 
-        private static void ApplySettingValue(string identifier, string name, SettingItem item)
+        private void ApplySettingValue(string identifier, string name, SettingItem item)
         {
-            using (SettingsEntities entities = EntityFrameworkHelper.CreateContext<SettingsEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                UserSettingData userData = entities.GetUserSettingData(identifier, name);
+                SettingData setting = work.For<SettingData>().Query.FirstOrDefault(_ => _.Identifier == identifier && _.Name == name);
 
-                if (userData != null)
+                if (setting != null)
                 {
-                    item.ApplyUserValue(userData.Value);
+                    item.ApplyUserValue(setting.Value);
                 }
             }
         }
@@ -142,8 +134,8 @@ namespace AlarmWorkflow.BackendService.Settings
             {
                 SettingKey key = SettingKey.Create(identifier, name);
 
-                List<KeyValuePair<SettingKey, SettingItem>> settings = new List<KeyValuePair<SettingKey, SettingItem>>();
-                settings.Add(new KeyValuePair<SettingKey, SettingItem>(key, value));
+                Dictionary<SettingKey, SettingItem> settings = new Dictionary<SettingKey, SettingItem>();
+                settings.Add(key, value);
 
                 savedSettings = SaveSettings(settings);
             }
@@ -158,8 +150,10 @@ namespace AlarmWorkflow.BackendService.Settings
         {
             List<SettingKey> keys = new List<SettingKey>();
 
-            using (SettingsEntities entities = EntityFrameworkHelper.CreateContext<SettingsEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
+                IRepository<SettingData> repository = work.For<SettingData>();
+
                 foreach (var pair in values)
                 {
                     SettingKey key = pair.Key;
@@ -167,47 +161,41 @@ namespace AlarmWorkflow.BackendService.Settings
 
                     try
                     {
-                        if (AddOrUpdateSetting(entities, key, value))
+                        if (AddOrUpdateSetting(repository, key, value))
                         {
                             keys.Add(key);
                         }
                     }
-                    catch (ConstraintException ex)
-                    {
-                        Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SettingAddOrUpdateConstraintError, key);
-                        Logger.Instance.LogException(this, ex);
-                    }
-                    catch (DataException ex)
+                    catch (Exception ex)
                     {
                         Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.SettingAddOrUpdateError, key);
                         Logger.Instance.LogException(this, ex);
                     }
                 }
 
-                if (keys.Count > 0)
-                {
-                    entities.SaveChanges();
-                }
+                work.Commit();
             }
 
             return keys;
         }
 
-        private static bool AddOrUpdateSetting(SettingsEntities entities, SettingKey key, IProxyType<string> value)
+        private static bool AddOrUpdateSetting(IRepository<SettingData> repository, SettingKey key, IProxyType<string> value)
         {
-            UserSettingData userSetting = entities.GetUserSettingData(key.Identifier, key.Name);
-            if (userSetting == null)
+            SettingData setting = repository.Query.FirstOrDefault(_ => _.Identifier == key.Identifier && _.Name == key.Name);
+
+            if (setting == null)
             {
-                userSetting = new UserSettingData();
-                userSetting.Identifier = key.Identifier;
-                userSetting.Name = key.Name;
-                entities.UserSettings.AddObject(userSetting);
+                setting = new SettingData();
+                setting.Identifier = key.Identifier;
+                setting.Name = key.Name;
+
+                repository.Insert(setting);
             }
 
             string valueToPersist = value.ProxiedValue;
-            if (!string.Equals(userSetting.Value, valueToPersist, StringComparison.Ordinal))
+            if (!string.Equals(setting.Value, valueToPersist, StringComparison.Ordinal))
             {
-                userSetting.Value = valueToPersist;
+                setting.Value = valueToPersist;
 
                 return true;
             }

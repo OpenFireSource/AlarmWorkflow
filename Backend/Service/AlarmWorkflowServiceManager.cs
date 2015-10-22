@@ -23,6 +23,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Security;
+using AlarmWorkflow.Backend.Data;
 using AlarmWorkflow.Backend.Service.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
@@ -70,6 +71,8 @@ namespace AlarmWorkflow.Backend.Service
             try
             {
                 ServiceFactory.EndPointResolver = new AnyInterfaceEndPointResolver();
+
+                ServiceInternalProvider.Instance.AddService(typeof(IDataContextFactory), new DataContextFactory());
 
                 HostAllServices();
 
@@ -152,7 +155,7 @@ namespace AlarmWorkflow.Backend.Service
             string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
             // Configure the ServiceHost to be a Per-Session service.
             ServiceHost host = new ServiceHost(serviceLocation.ServiceType);
-            
+
             if (File.Exists(path))
             {
                 X509Certificate2 certificate = new X509Certificate2(path, password);
