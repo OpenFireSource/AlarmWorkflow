@@ -30,51 +30,82 @@
         </Label>
 
         <ScrollViewer>
-            <ItemsControl ItemsSource="{Binding Resources}">
-                <ItemsControl.Style>
-                    <Style TargetType="ItemsControl">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentOperation}" Value="{x:Null}">
-                                <Setter Property="Visibility" Value="Hidden"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ItemsControl.Style>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Padding="15" Margin="5" FontWeight="Bold" FontSize="20" Content="{Binding EmkResourceItem.DisplayName}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.DispatchCommand}" CommandParameter="{Binding EmkResourceItem.Id}" IsEnabled="{Binding IsManualDispatchAllowed}" Focusable="False" Cursor="Hand">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsDispatched}" Value="True">
-                                            <Setter Property="Background" Value="Orange"></Setter>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding IsManualDispatchAllowed}" Value="False">
-                                            <Setter Property="Background" Value="Red"></Setter>
-                                        </DataTrigger>
-                                    </Style.Triggers>
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Resources}">
+                    <ItemsControl.Style>
+                        <Style TargetType="ItemsControl">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentOperation}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Padding="15" Margin="5" FontWeight="Bold" FontSize="20" Content="{Binding EmkResourceItem.DisplayName}" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ItemsControl}}, Path=DataContext.DispatchCommand}" CommandParameter="{Binding EmkResourceItem.Id}" IsEnabled="{Binding IsManualDispatchAllowed}" Focusable="False" Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDispatched}" Value="True">
+                                                <Setter Property="Background" Value="Orange"></Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding IsManualDispatchAllowed}" Value="False">
+                                                <Setter Property="Background" Value="Red"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
 
-                                    <Setter Property="Background" Value="LightGreen"></Setter>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Border Name="Border"  BorderThickness="2" Padding="{TemplateBinding Padding}" BorderBrush="DarkGray" CornerRadius="3" Background="{TemplateBinding Background}">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                        <Setter Property="Background" Value="LightGreen"></Setter>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="Button">
+                                                    <Border Name="Border"  BorderThickness="2" Padding="{TemplateBinding Padding}" BorderBrush="DarkGray" CornerRadius="3" Background="{TemplateBinding Background}">
+                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!-- Add Exit Button -->
+
+                <Button Padding="15" Margin="5" FontWeight="Bold" FontSize="20" Content="Einsatz erledigt!" Command="{Binding OperationFinishedCommand}" Focusable="False" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding CurrentOperation}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+
+                            <Setter Property="Background" Value="DarkOrange"></Setter>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border Name="Border"  BorderThickness="2" Padding="{TemplateBinding Padding}" BorderBrush="Red" CornerRadius="3" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </Window>
