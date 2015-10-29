@@ -8,6 +8,8 @@
              Description="Verzeichnis für verarbeitete Faxe." IsDynamic="true"/>
     <Setting Name="AnalysisPath" DisplayText="Analyse-Verzeichnis" Category="Verzeichnisse" Editor="DirectoryTypeEditor"
              Description="Verzeichnis für analysierte Faxe." IsDynamic="true"/>
+    <Setting Name="ConvertToPdf" DisplayText="Konvertieren zu PDF" Category="Verzeichnisse" IsDynamic="true"
+             Description="Gibt an ob das analysierte Fax in eine PDF-Datei umgewandelt werden soll."/>
 
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
              Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen." IsDynamic="true"/>

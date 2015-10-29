@@ -201,4 +201,7 @@
   <data name="GhostscriptConvertError" xml:space="preserve">
     <value>Error using Ghostscript. Maybe it's not installed.</value>
   </data>
+  <data name="ConvertImageToPdf" xml:space="preserve">
+    <value>Convert analysed image '{0}' to PDF-Document</value>
+  </data>
 </root>

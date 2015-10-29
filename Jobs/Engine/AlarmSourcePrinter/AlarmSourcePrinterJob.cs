@@ -27,6 +27,8 @@ using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Specialized.Printing;
+using AlarmWorkflow.Shared.Specialized.Pdf;
+using AlarmWorkflow.Shared.Specialized.Tiff;
 
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 {
@@ -44,20 +46,18 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
         private void PrintFaxes(IJobContext context, Operation operation)
         {
-            if (!context.Parameters.ContainsKey("ArchivedFilePath") || !context.Parameters.ContainsKey("ImagePath"))
+            if (!context.Parameters.ContainsKey("ArchivedFilePath"))
             {
                 Logger.Instance.LogFormat(LogType.Trace, this, Resources.NoPrintingPossible);
                 return;
             }
 
-            FileInfo sourceImageFile = new FileInfo((string)context.Parameters["ImagePath"]);
-            if (!sourceImageFile.Exists)
+            FileInfo archivedFile = new FileInfo((string)context.Parameters["ArchivedFilePath"]);
+            if (!archivedFile.Exists)
             {
-                Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, sourceImageFile.FullName);
+                Logger.Instance.LogFormat(LogType.Error, this, Resources.FileNotFound, archivedFile.FullName);
                 return;
             }
-
-            string imagePath = (string)context.Parameters["ImagePath"];
 
             foreach (string queueName in _settings.GetSetting("AlarmSourcePrinterJob", "PrintingQueueNames").GetStringArray())
             {
@@ -69,7 +69,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
                 }
 
                 PrintFaxTask task = new PrintFaxTask();
-                task.ImagePath = imagePath;
+                task.ArchivedFile = archivedFile.FullName;
                 task.Print(pq);
             }
         }
@@ -123,11 +123,25 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
         {
             private IList<Image> _pages;
 
-            internal string ImagePath { private get; set; }
+            internal string ArchivedFile { private get; set; }
 
             internal void Print(PrintingQueue queue)
             {
-                _pages = SplitMultipageTiff(ImagePath);
+                switch (Path.GetExtension(ArchivedFile))
+                {
+                    case ".pdf":
+                        _pages = PdfHelper.ExtractImages(ArchivedFile);
+                        break;
+
+                    case ".tif":
+                        _pages = TiffHelper.SplitMultipage(ArchivedFile);
+                        break;
+
+                    default:
+                        Logger.Instance.LogFormat(LogType.Error, this, Resources.ArchivedFileWrongFormat, ArchivedFile);
+                        return;
+                }
+
 
                 ThreadPool.QueueUserWorkItem(w => GdiPrinter.Print(queue, GdiPrinterPrintAction));
             }
@@ -148,31 +162,6 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 
                 return pageIndex < _pages.Count;
             }
-
-            private static IList<Image> SplitMultipageTiff(string tiffFileName)
-            {
-                List<Image> images = new List<Image>();
-
-                using (Image tiffImage = Image.FromFile(tiffFileName))
-                {
-                    Guid objGuid = tiffImage.FrameDimensionsList[0];
-                    FrameDimension dimension = new FrameDimension(objGuid);
-                    int noOfPages = tiffImage.GetFrameCount(dimension);
-
-                    foreach (Guid guid in tiffImage.FrameDimensionsList)
-                    {
-                        for (int index = 0; index < noOfPages; index++)
-                        {
-                            FrameDimension currentFrame = new FrameDimension(guid);
-                            tiffImage.SelectActiveFrame(currentFrame, index);
-                            images.Add((Image)tiffImage.Clone());
-                        }
-                    }
-                }
-
-                return images;
-            }
-
         }
 
         #endregion

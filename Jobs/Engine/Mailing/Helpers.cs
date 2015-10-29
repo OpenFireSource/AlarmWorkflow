@@ -39,35 +39,7 @@ namespace AlarmWorkflow.Job.MailingJob
             stream.Position = 0;
             return stream;
         }
-
-        internal static string[] ConvertTiffToJpegAndSplit(string fileName)
-        {
-            using (Image imageFile = Image.FromFile(fileName))
-            {
-                FrameDimension frameDimensions = new FrameDimension(imageFile.FrameDimensionsList[0]);
-                int frameNum = imageFile.GetFrameCount(frameDimensions);
-                string[] jpegPaths = new string[frameNum];
-
-                for (int frame = 0; frame < frameNum; frame++)
-                {
-                    imageFile.SelectActiveFrame(frameDimensions, frame);
-                    using (Bitmap bmp = new Bitmap(imageFile))
-                    {
-                        string tempFileName = Path.GetTempFileName();
-
-                        FileInfo fileInfo = new FileInfo(tempFileName);
-                        fileInfo.Attributes = FileAttributes.Temporary;
-
-                        jpegPaths[frame] = tempFileName;
-
-                        bmp.Save(jpegPaths[frame], ImageFormat.Jpeg);
-                    }
-                }
-
-                return jpegPaths;
-            }
-        }
-
+        
         internal static Bitmap CombineBitmap(string[] files)
         {
             List<Bitmap> images = new List<Bitmap>();

@@ -153,4 +153,8 @@
   <data name="ExportJobDisplayName" xml:space="preserve">
     <value>Alarmquellendruck</value>
   </data>
+  <data name="ArchivedFileWrongFormat" xml:space="preserve">
+    <value>The archived file '{0}' has no printable format</value>
+    <comment> </comment>
+  </data>
 </root>

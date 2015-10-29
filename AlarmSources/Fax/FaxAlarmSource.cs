@@ -27,7 +27,8 @@ using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
 using AlarmWorkflow.Shared.Specialized;
-using Ghostscript.NET;
+using AlarmWorkflow.Shared.Specialized.Pdf;
+using AlarmWorkflow.Shared.Specialized.Tiff;
 
 namespace AlarmWorkflow.AlarmSource.Fax
 {
@@ -56,6 +57,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         private DirectoryInfo _faxPath;
         private DirectoryInfo _archivePath;
         private DirectoryInfo _analysisPath;
+        private bool _convertToPdf;
 
         private IOcrSoftware _ocrSoftware;
         private IParser _parser;
@@ -140,20 +142,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
             try
             {
-                GhostscriptImageDevice dev = new GhostscriptImageDevice();
-                dev.Device = "tiffgray";
-                dev.GraphicsAlphaBits = GhostscriptImageDeviceAlphaBits.V_4;
-                dev.TextAlphaBits = GhostscriptImageDeviceAlphaBits.V_4;
-                dev.Resolution = 300;
-                dev.InputFiles.Add(file.FullName);
-                dev.OutputPath = tiffFilePath;
-                dev.Process();
-                
+                PdfHelper.ConvertToTiff(file.FullName, tiffFilePath);
                 ProcessNewImage(new FileInfo(tiffFilePath));
-                
                 file.Delete();
             }
-            catch (GhostscriptException ex)
+            catch (PdfConvertException ex)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.GhostscriptConvertError);
                 Logger.Instance.LogException(this, ex);
@@ -232,9 +225,20 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
 
                 IDictionary<string, object> ctxParameters = new Dictionary<string, object>();
-                ctxParameters[ContextParameterKeys.ArchivedFilePath] = archivedFilePath;
-                ctxParameters[ContextParameterKeys.ImagePath] = file.FullName;
 
+                if(_convertToPdf)
+                {
+                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ConvertImageToPdf, archivedFilePath);
+                    string pdfPath = TiffHelper.ConvertToPdf(archivedFilePath);
+                    ctxParameters[ContextParameterKeys.ArchivedFilePath] = pdfPath;
+                    File.Delete(archivedFilePath);
+                }
+                else
+                {
+                    ctxParameters[ContextParameterKeys.ArchivedFilePath] = archivedFilePath;
+                    ctxParameters[ContextParameterKeys.ImagePath] = file.FullName;
+                }
+                
                 AlarmSourceEventArgs args = new AlarmSourceEventArgs(operation);
                 args.Parameters = ctxParameters;
 
@@ -282,6 +286,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             _faxPath = new DirectoryInfo(_configuration.FaxPath);
             _archivePath = new DirectoryInfo(_configuration.ArchivePath);
             _analysisPath = new DirectoryInfo(_configuration.AnalysisPath);
+            _convertToPdf = _configuration.ConvertToPdf;
 
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingIncomingFaxDirectory, _faxPath.FullName);
             Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.UsingAnalyzedFaxDirectory, _analysisPath.FullName);

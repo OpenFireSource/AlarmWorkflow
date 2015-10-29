@@ -43,11 +43,31 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BitMiracle.LibTiff.NET, Version=2.3.642.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\BitMiracle.LibTiff.NET.2.3.642.0\lib\net20\BitMiracle.LibTiff.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ghostscript.NET, Version=1.2.0.0, Culture=neutral, PublicKeyToken=f85051de34525b59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ghostscript.NET.1.2.0\lib\net40\Ghostscript.NET.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Jint">
       <HintPath>..\packages\Jint.2.5.0\lib\portable-net40+sl50+win+wpa81+wp80\Jint.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.32.3057.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.32.3057.0\lib\net20\PdfSharp.Charting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PDFSharp.Extensions, Version=0.1.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFSharp.Extensions.0.1.2.2\lib\net40\PDFSharp.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -111,6 +131,9 @@
     <Compile Include="Settings\IStringSettingConvertible.cs" />
     <Compile Include="Settings\SettingKey.cs" />
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
+    <Compile Include="Specialized\Pdf\PdfConvertException.cs" />
+    <Compile Include="Specialized\Pdf\PdfHelper.cs" />
+    <Compile Include="Specialized\Tiff\TiffHelper.cs" />
     <Compile Include="Specialized\Printing\GdiPrinter.cs" />
     <Compile Include="Specialized\Printing\PrintingQueueCollection.cs" />
     <Compile Include="Specialized\Printing\PrintingQueue.cs" />
