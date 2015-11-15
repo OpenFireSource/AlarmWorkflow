@@ -14,6 +14,7 @@ Generelles
   * Zu den vorhandenen Push Diensten ist Pushalot hinzugekommen. -> https://pushalot.com/
   * Einsatzinformationen - Export schreibt die Koordinaten nun in das richtige Feld.
   * ConfEd: Im Adressbuch sind die Einträge nun nach Nachname/Vorname sortiert.
+  * Neues / anderes Mail Framework
 
 Anhänge
 -------

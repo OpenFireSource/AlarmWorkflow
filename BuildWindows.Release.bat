@@ -8,10 +8,6 @@ rem -------------------------------------------------
 SET build=C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe
 
 echo -------------------------------------------------
-echo Build submodules...
-%build% externals\S22.Imap\S22.Imap.sln /p:Configuration=Release /verbosity:minimal
-
-echo -------------------------------------------------
 echo Build Shared...
 %build% Shared\Shared.sln /p:Configuration=Release /verbosity:minimal
 

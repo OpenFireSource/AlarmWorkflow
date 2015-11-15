@@ -26,8 +26,8 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See Lic
 
 The AlarmWorkflow-project makes use of the following libraries:
 
-    S22.Imap by smiley22
-    https://github.com/smiley22/S22.Imap
+    MailKit by jstedfast
+    https://github.com/jstedfast/MailKit
     
     AvalonDock
     http://avalondock.codeplex.com/
