@@ -88,6 +88,10 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{0d70923d-e061-469a-b0ab-e4f549e49eb4}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj">
       <Project>{842432FD-D1D8-41DA-B142-DC71A9111D30}</Project>
       <Name>AlarmWorkflow.Backend.ServiceContracts</Name>

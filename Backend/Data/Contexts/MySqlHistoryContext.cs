@@ -13,22 +13,23 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Backend.ServiceContracts.Core;
-using AlarmWorkflow.BackendService.System.Data;
-using AlarmWorkflow.BackendService.SystemContracts;
+using System.Data.Common;
+using System.Data.Entity;
+using System.Data.Entity.Migrations.History;
 
-namespace AlarmWorkflow.BackendService.System
+namespace AlarmWorkflow.Backend.Data.Contexts
 {
-    class SystemServiceInternal : InternalServiceBase, ISystemServiceInternal
+    /// <summary>
+    /// Required class to support EF for MySQL.
+    /// </summary>
+    class MySqlHistoryContext : HistoryContext
     {
         #region Constructors
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SystemServiceInternal"/> class.
-        /// </summary>
-        public SystemServiceInternal()
-            : base()
+        internal MySqlHistoryContext(DbConnection connection, string defaultSchema)
+            : base(connection, defaultSchema)
         {
+
         }
 
         #endregion
@@ -36,14 +37,15 @@ namespace AlarmWorkflow.BackendService.System
         #region Methods
 
         /// <summary>
-        /// Overridden to ensure that a connection to the database can be established.
-        /// Waits as long as a connection becomes available so that further flow can execute as intended.
+        /// Overridden. Downsizes some columns which are too large for MySQL...
         /// </summary>
-        protected override void InitializeOverride()
+        /// <param name="modelBuilder"></param>
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.InitializeOverride();
+            base.OnModelCreating(modelBuilder);
 
-            DatabaseChecker.EnsureReachable(ServiceProvider);
+            modelBuilder.Entity<HistoryRow>().Property(h => h.MigrationId).HasMaxLength(100).IsRequired();
+            modelBuilder.Entity<HistoryRow>().Property(h => h.ContextKey).HasMaxLength(200).IsRequired();
         }
 
         #endregion

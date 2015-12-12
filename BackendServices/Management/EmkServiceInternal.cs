@@ -26,12 +26,6 @@ namespace AlarmWorkflow.BackendService.Management
 {
     class EmkServiceInternal : InternalServiceBase, IEmkServiceInternal
     {
-        #region Constants
-
-        private const string EdmxPath = "Data.EmkEntities";
-
-        #endregion
-
         #region Fields
 
         private EmkResourceCollection _emkResources;

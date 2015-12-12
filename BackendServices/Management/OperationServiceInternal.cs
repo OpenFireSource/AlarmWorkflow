@@ -16,9 +16,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AlarmWorkflow.Backend.Data;
+using AlarmWorkflow.Backend.Data.Types;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
-using AlarmWorkflow.Backend.ServiceContracts.Data;
-using AlarmWorkflow.BackendService.Management.Data;
 using AlarmWorkflow.BackendService.ManagementContracts;
 using AlarmWorkflow.Shared.Core;
 
@@ -26,12 +26,6 @@ namespace AlarmWorkflow.BackendService.Management
 {
     class OperationServiceInternal : InternalServiceBase, IOperationServiceInternal
     {
-        #region Constants
-
-        private const string EdmxPath = "Data.Entities";
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -57,9 +51,9 @@ namespace AlarmWorkflow.BackendService.Management
                 return false;
             }
 
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                return entities.Operations.Any(item => item.OperationNumber == operationNumber);
+                return work.For<OperationData>().Query.Any(item => item.OperationNumber == operationNumber);
             }
         }
 
@@ -67,9 +61,9 @@ namespace AlarmWorkflow.BackendService.Management
         {
             List<int> operations = new List<int>();
 
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                foreach (OperationData data in entities.Operations.OrderByDescending(o => o.TimestampIncome))
+                foreach (OperationData data in work.For<OperationData>().Query.OrderByDescending(o => o.IncomeAt))
                 {
                     // If we only want non-acknowledged ones
                     if (onlyNonAcknowledged && data.IsAcknowledged)
@@ -77,7 +71,7 @@ namespace AlarmWorkflow.BackendService.Management
                         continue;
                     }
                     // If we shall ignore the age, or obey the maximum age...
-                    if (maxAge > 0 && (DateTime.Now - data.TimestampIncome).TotalMinutes > maxAge)
+                    if (maxAge > 0 && (DateTime.Now - data.IncomeAt).TotalMinutes > maxAge)
                     {
                         continue;
                     }
@@ -99,9 +93,9 @@ namespace AlarmWorkflow.BackendService.Management
         {
             List<Operation> operations = new List<Operation>();
 
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                OperationData data = entities.Operations.FirstOrDefault(d => d.Id == operationId);
+                OperationData data = work.For<OperationData>().Query.FirstOrDefault(d => d.Id == operationId);
                 if (data == null)
                 {
                     return null;
@@ -113,16 +107,17 @@ namespace AlarmWorkflow.BackendService.Management
 
         void IOperationServiceInternal.AcknowledgeOperation(int operationId)
         {
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                OperationData data = entities.Operations.FirstOrDefault(d => d.Id == operationId);
+                OperationData data = work.For<OperationData>().Query.FirstOrDefault(d => d.Id == operationId);
                 if (data == null || data.IsAcknowledged)
                 {
                     return;
                 }
 
                 data.IsAcknowledged = true;
-                entities.SaveChanges();
+
+                work.Commit();
             }
 
             var copy = OperationAcknowledged;
@@ -134,15 +129,18 @@ namespace AlarmWorkflow.BackendService.Management
 
         Operation IOperationServiceInternal.StoreOperation(Operation operation)
         {
-            using (OperationManagementEntities entities = EntityFrameworkHelper.CreateContext<OperationManagementEntities>(EdmxPath))
+            using (IUnitOfWork work = ServiceProvider.GetService<IDataContextFactory>().Get().Create())
             {
-                OperationData data = new OperationData(operation);
-                entities.Operations.AddObject(data);
-                entities.SaveChanges();
+                OperationData data = operation.ToData();
+
+                work.For<OperationData>().Insert(data);
+
+                work.Commit();
 
                 operation.Id = data.Id;
-                return operation;
             }
+
+            return operation;
         }
 
         #endregion

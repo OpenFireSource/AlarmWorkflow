@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Globalization;
 using System.Text;
 
 namespace AlarmWorkflow.Shared.Core
@@ -62,6 +63,26 @@ namespace AlarmWorkflow.Shared.Core
         /// Gets/sets the name of the property (company, site, house etc.).
         /// </summary>
         public string Property { get; set; }
+        /// <summary>
+        /// Gets the latitude and longitude as a semicolon-separated string,
+        /// or sets the values of <see cref="GeoLatitude"/> and <see cref="GeoLongitude"/> from a semicolon-separated string.
+        /// </summary>
+        public string GeoLatLng
+        {
+            get { return string.Format(CultureInfo.InvariantCulture, "{0};{1}", GeoLatitude, GeoLongitude); }
+            set
+            {
+                string[] latlng = new string[2];
+
+                if (value != null)
+                {
+                    latlng = value.Split(';');
+                }
+
+                GeoLatitude = latlng[0];
+                GeoLongitude = latlng[1];
+            }
+        }
 
         /// <summary>
         /// Gets whether or not this instance represents a meaningful geographic location.
