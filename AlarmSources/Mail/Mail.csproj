@@ -48,11 +48,22 @@
     <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
       <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
-    <Reference Include="S22.Imap">
-      <HintPath>..\..\externals\S22.Imap\bin\Release v4.0\S22.Imap.dll</HintPath>
+    <Reference Include="BouncyCastle, Version=1.8.5769.15083, Culture=neutral, PublicKeyToken=eec3120e64a3fcba, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.1.2.14.0\lib\net45\BouncyCastle.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MailKit, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
+      <HintPath>..\packages\MailKit.1.2.13\lib\net45\MailKit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="MimeKit, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
+      <HintPath>..\packages\MimeKit.1.2.14.0\lib\net45\MimeKit.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
@@ -76,6 +87,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
