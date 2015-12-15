@@ -15,6 +15,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -24,7 +25,10 @@ using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using S22.Imap;
+using MailKit;
+using MailKit.Net.Imap;
+using MailKit.Search;
+using MimeKit;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
@@ -114,22 +118,22 @@ namespace AlarmWorkflow.AlarmSource.Mail
         {
             try
             {
-                using (ImapClient imapClient = new ImapClient(_configuration.ServerName, _configuration.Port, _configuration.SSL, null, _configuration.Encoding))
+                using (ImapClient imapClient = new ImapClient())
                 {
-                    imapClient.Login(_configuration.UserName, _configuration.Password, AuthMethod.Login);
+                    imapClient.Connect(_configuration.ServerName, _configuration.Port, _configuration.SSL);
+                    imapClient.AuthenticationMechanisms.Remove("XOAUTH2");
 
-                    IEnumerable<uint> uids = imapClient.Search(SearchCondition.Unseen());
-                    foreach (MailMessage msg in uids.Select(uid => imapClient.GetMessage(uid)))
+                    imapClient.Authenticate(_configuration.UserName, _configuration.Password);
+
+                    IMailFolder inbox = imapClient.Inbox;
+                    inbox.Open(FolderAccess.ReadWrite);
+                    foreach (UniqueId msgUid in inbox.Search(SearchQuery.NotSeen))
                     {
-                        try
-                        {
-                            ProcessMail(msg);
-                        }
-                        catch (Exception ex)
-                        {
-                            Logger.Instance.LogException(this, ex);
-                        }
+                        MimeMessage msg = inbox.GetMessage(msgUid);
+                        ProcessMail(msg);
+                        inbox.SetFlags(msgUid, MessageFlags.Seen, true);
                     }
+
                 }
             }
             catch (Exception ex)
@@ -139,12 +143,12 @@ namespace AlarmWorkflow.AlarmSource.Mail
             }
         }
 
-        private void ProcessMail(MailMessage message)
+        private void ProcessMail(MimeMessage message)
         {
             Logger.Instance.LogFormat(LogType.Trace, this, Resources.ReceivedMailInfo, message.From, message.Subject);
 
             bool isSubjectMatch = message.Subject.ToLower().Contains(_configuration.MailSubject.ToLower());
-            bool isMessageMatch = message.From.Address.ToLower().Contains(_configuration.MailSender.ToLower());
+            bool isMessageMatch = message.From.Mailboxes.Any(x => x.Address.ToLower().Contains(_configuration.MailSender.ToLower()));
 
             if (isSubjectMatch && isMessageMatch)
             {
@@ -166,9 +170,9 @@ namespace AlarmWorkflow.AlarmSource.Mail
             }
         }
 
-        private string[] AnalyzeAttachment(MailMessage message)
-        {
-            Attachment attachment = message.Attachments.FirstOrDefault(att => string.Equals(att.Name, _configuration.AttachmentName, StringComparison.InvariantCultureIgnoreCase));
+        private string[] AnalyzeAttachment(MimeMessage message)
+        { 
+            MimeEntity attachment = message.Attachments.FirstOrDefault(att => string.Equals(((MimePart) att).FileName, _configuration.AttachmentName, StringComparison.InvariantCultureIgnoreCase));
             if (attachment != null)
             {
                 return GetLinesFromAttachment(attachment);
@@ -178,10 +182,14 @@ namespace AlarmWorkflow.AlarmSource.Mail
             return null;
         }
 
-        private string[] GetLinesFromAttachment(Attachment attachment)
+        private string[] GetLinesFromAttachment(MimeEntity attachment)
         {
-            byte[] buffer = new byte[attachment.ContentStream.Length];
-            attachment.ContentStream.Read(buffer, 0, buffer.Length);
+            byte[] buffer;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                ((MimePart) attachment).ContentObject.DecodeTo(stream);
+                buffer = stream.GetBuffer();
+            }
 
             string content = GetContentWithEncoding(buffer);
             return content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries);
@@ -193,9 +201,13 @@ namespace AlarmWorkflow.AlarmSource.Mail
             return encodingToUse.GetString(buffer);
         }
 
-        private string[] AnalyzeBody(MailMessage message)
+        private string[] AnalyzeBody(MimeMessage message)
         {
-            return message.Body.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries);
+            if (string.IsNullOrEmpty(message.HtmlBody))
+            {
+                return message.TextBody.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries);
+            }
+            return message.HtmlBody.Split(new[] { "\r\n", "\n", "<br>" }, StringSplitOptions.RemoveEmptyEntries);
         }
 
         #endregion
