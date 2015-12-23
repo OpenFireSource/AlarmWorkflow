@@ -98,7 +98,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
-                html = Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLatitude).Replace("{1}", _operation.Einsatzort.GeoLongitude);
+                html = Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLongitudeString).Replace("{1}", _operation.Einsatzort.GeoLongitudeString);
             }
             else
             {

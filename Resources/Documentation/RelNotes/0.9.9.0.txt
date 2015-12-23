@@ -17,6 +17,7 @@ Generelles
   * Als benutzerdefinierte Objektausdrücke sind nun auch Skripte in JavaScript möglich, siehe Anhang #2.
   * Die Faxauswertung erkennt nun auch PDF-Dateien.
   * DispatchTool unterstützt nun das Quittieren empfangener Alarme.
+  * Koordinaten werden intern mit einem besser geeigneten Datentyp verarbeitet
 
 Mail Alarmquelle:
   * Verwendet neue Library MailKit
