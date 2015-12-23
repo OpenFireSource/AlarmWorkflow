@@ -12,10 +12,6 @@ echo Restoring .nuget Packages
 .nuget\NuGet.exe restore AlarmSources\AlarmSources.sln
 
 echo -------------------------------------------------
-echo Build submodules...
-%build% externals\S22.Imap\S22.Imap.sln /p:Configuration=Release /verbosity:minimal
-
-echo -------------------------------------------------
 echo Build Shared...
 %build% Shared\Shared.sln /p:Configuration=Release /verbosity:minimal
 
