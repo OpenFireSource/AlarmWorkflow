@@ -18,6 +18,9 @@ Generelles
   * Die Faxauswertung erkennt nun auch PDF-Dateien.
   * DispatchTool unterstützt nun das Quittieren empfangener Alarme.
 
+Mail Alarmquelle:
+  * Verwendet neue Library MailKit
+
 Anhänge
 -------
 
