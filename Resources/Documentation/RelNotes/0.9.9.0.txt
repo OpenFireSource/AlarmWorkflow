@@ -6,7 +6,7 @@
 
 Generelles
 
-  * Wichtig: Ab einschließlich dieser Version unterstützt AlarmWorkflow nur Windows 7 SP1 und höher (.Net Framework 4.5.1)!
+  * Wichtig: Ab einschließlich dieser Version unterstützt AlarmWorkflow nur Windows 7 SP1 und höher (.Net Framework 4.6)!
   * Die Text-Datenbankspalten sind nun nicht mehr limitiert auf eine maximale Anzahl Zeichen. Bitte Anhang #1 beachten.
   * Der Ausdruck "(no value)" wird nicht mehr ausgegeben, wenn in einem Fahrzeugeintrag ein Wert nicht gefunden wurde.
   * Es gibt nun eine globale Black/Whitelist, die für alle Alarmquellen (Fax, E-Mail, SMS) gilt.
