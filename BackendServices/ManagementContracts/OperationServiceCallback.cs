@@ -15,6 +15,7 @@
 
 using System;
 using System.ServiceModel;
+using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.BackendService.ManagementContracts
@@ -32,6 +33,11 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// </summary>
         public event Action<int> OperationAcknowledged;
 
+        /// <summary>
+        /// Occures when an new operation was added.
+        /// </summary>
+        public event Action<Operation> NewOperation;
+
         #endregion
 
         #region IOperationServiceCallback Members
@@ -44,6 +50,23 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
                 if (copy != null)
                 {
                     copy(id);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Callback methods shall always have a no-throw guarantee!
+                Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        void IOperationServiceCallback.OnNewOperation(Operation op)
+        {
+            try
+            {
+                var copy = NewOperation;
+                if (copy != null)
+                {
+                    copy(op);
                 }
             }
             catch (Exception ex)

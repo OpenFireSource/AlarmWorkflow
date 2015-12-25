@@ -16,9 +16,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
@@ -40,7 +42,7 @@ namespace AlarmWorkflow.Tools.Dispatching
 
         private WrappedService<IDispositioningService> _dispositioningService;
         private WrappedService<IOperationService> _operationService;
-
+        private static readonly object _lock = new object();
         #endregion
 
         #region Properties
@@ -84,7 +86,7 @@ namespace AlarmWorkflow.Tools.Dispatching
             }
 
             MessageBoxResult messageBoxResult = MessageBox.Show(Properties.Resources.FinishOperationText, Properties.Resources.FinishOperation, System.Windows.MessageBoxButton.YesNo);
-            if(messageBoxResult == MessageBoxResult.Yes)
+            if (messageBoxResult == MessageBoxResult.Yes)
             {
                 _operationService.Instance.AcknowledgeOperation(CurrentOperation.Id);
             }
@@ -141,7 +143,10 @@ namespace AlarmWorkflow.Tools.Dispatching
                 Error = true;
             }
 
-            Task.Factory.StartNew(Update);
+            if (!Error)
+            {
+                Task.Factory.StartNew(UpdateCore);
+            }
 
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(Constants.OfpInterval);
@@ -179,7 +184,14 @@ namespace AlarmWorkflow.Tools.Dispatching
         {
             try
             {
-                UpdateCore();
+                if (Error)
+                {
+                    UpdateCore();
+                }
+                else
+                {
+                    _operationService.Instance.Ping();
+                }
             }
             catch (Exception ex)
             {
@@ -188,7 +200,7 @@ namespace AlarmWorkflow.Tools.Dispatching
                 {
                     CurrentOperation = null;
                     Error = true;
-                    App.Current.Dispatcher.Invoke((Action)Resources.Clear);
+                    Application.Current.Dispatcher.Invoke(Resources.Clear);
                 }
                 else
                 {
@@ -197,12 +209,12 @@ namespace AlarmWorkflow.Tools.Dispatching
                 }
             }
 
-            App.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 OnPropertyChanged("Error");
                 OnPropertyChanged("Resources");
                 OnPropertyChanged("CurrentOperation");
-            }));
+            });
         }
 
         private void UpdateCore()
@@ -215,7 +227,7 @@ namespace AlarmWorkflow.Tools.Dispatching
             IList<int> operationIds = _operationService.Instance.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, 1);
             if (operationIds.Count == 0)
             {
-                App.Current.Dispatcher.Invoke((Action)Resources.Clear);
+                Application.Current.Dispatcher.Invoke(Resources.Clear);
                 CurrentOperation = null;
                 OnPropertyChanged("CurrentOperation");
                 return;
@@ -228,30 +240,39 @@ namespace AlarmWorkflow.Tools.Dispatching
             {
                 return;
             }
-
             CurrentOperation = _operationService.Instance.GetOperationById(operationId);
-            App.Current.Dispatcher.Invoke((Action)Resources.Clear);
 
-            using (var service = ServiceFactory.GetServiceWrapper<IEmkService>())
+            HandleOperation();
+        }
+
+        private void HandleOperation()
+        {
+            lock (_lock)
             {
-                List<EmkResource> emkResources = service.Instance.GetAllResources().Where(x => x.IsActive).ToList();
-                IList<OperationResource> alarmedResources = service.Instance.GetFilteredResources(CurrentOperation.Resources);
-                foreach (EmkResource emkResource in emkResources)
+                Application.Current.Dispatcher.Invoke(() =>
                 {
-                    ResourceItem resourceItem = new ResourceItem(emkResource);
-                    resourceItem.IsManualDispatchAllowed = !alarmedResources.Any(x => emkResource.IsMatch(x));
+                    Resources.Clear();
+                    using (var service = ServiceFactory.GetServiceWrapper<IEmkService>())
+                    {
+                        List<EmkResource> emkResources = service.Instance.GetAllResources().Where(x => x.IsActive).ToList();
+                        IList<OperationResource> alarmedResources = service.Instance.GetFilteredResources(CurrentOperation.Resources);
+                        foreach (EmkResource emkResource in emkResources)
+                        {
+                            ResourceItem resourceItem = new ResourceItem(emkResource) {IsManualDispatchAllowed = !alarmedResources.Any(x => emkResource.IsMatch(x))};
 
-                    App.Current.Dispatcher.Invoke((Action)(() => Resources.Add(resourceItem)));
-                }
-            }
+                            Resources.Add(resourceItem);
+                        }
+                    }
 
-            string[] dispatchedResources = _dispositioningService.Instance.GetDispatchedResources(CurrentOperation.Id);
-            foreach (ResourceItem item in Resources)
-            {
-                if (dispatchedResources.Contains(item.EmkResourceItem.Id))
-                {
-                    item.IsDispatched = true;
-                }
+                    string[] dispatchedResources = _dispositioningService.Instance.GetDispatchedResources(CurrentOperation.Id);
+                    foreach (ResourceItem item in Resources)
+                    {
+                        if (dispatchedResources.Contains(item.EmkResourceItem.Id))
+                        {
+                            item.IsDispatched = true;
+                        }
+                    }
+                });
             }
         }
 
@@ -325,11 +346,21 @@ namespace AlarmWorkflow.Tools.Dispatching
 
             CurrentOperation = null;
 
-            App.Current.Dispatcher.Invoke((Action)(() =>
+            Application.Current.Dispatcher.Invoke(() =>
             {
                 Resources.Clear();
+                UpdateCore();
                 OnPropertyChanged("CurrentOperation");
-            }));
+            });
+        }
+
+        void IOperationServiceCallback.OnNewOperation(Operation op)
+        {
+            CurrentOperation = op;
+            HandleOperation();
+
+            OnPropertyChanged("CurrentOperation");
+            OnPropertyChanged("Resources");
         }
 
         #endregion

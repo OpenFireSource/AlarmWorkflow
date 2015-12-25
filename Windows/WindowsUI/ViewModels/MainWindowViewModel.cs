@@ -52,10 +52,8 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         private OperationViewModel _selectedEvent;
 
-        private Timer _servicePollingTimer;
         private IOperationService _service;
         private bool _isMissingServiceConnectionHintVisible;
-        private Timer _switchTimer;
 
         private readonly object TimerLock = new object();
 
@@ -164,15 +162,15 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             InitializeOperationViewer();
 
             _mainWindow = mainWindow;
-            _servicePollingTimer = new Timer(Constants.OfpInterval);
-            _servicePollingTimer.Elapsed += ServicePollingTimer_Elapsed;
-            _servicePollingTimer.Start();
+            Timer servicePollingTimer = new Timer(Constants.OfpInterval);
+            servicePollingTimer.Elapsed += ServicePollingTimer_Elapsed;
+            servicePollingTimer.Start();
 
             if (App.GetApp().Configuration.SwitchAlarms)
             {
-                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime * 1000);
-                _switchTimer.Elapsed += _switchTimer_Elapsed;
-                _switchTimer.Start();
+                Timer switchTimer = new Timer(App.GetApp().Configuration.SwitchTime * 1000);
+                switchTimer.Elapsed += _switchTimer_Elapsed;
+                switchTimer.Start();
             }
         }
 
@@ -327,14 +325,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             if (AvailableEvents.Count > 1)
             {
                 int current = AvailableEvents.IndexOf(SelectedEvent);
-                if (current == AvailableEvents.Count - 1)
-                {
-                    SelectedEvent = AvailableEvents[0];
-                }
-                else
-                {
-                    SelectedEvent = AvailableEvents[current + 1];
-                }
+                SelectedEvent = current == AvailableEvents.Count - 1 ? AvailableEvents[0] : AvailableEvents[current + 1];
 
                 UpdateSelectedEventProperties();
             }
@@ -344,7 +335,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             lock (TimerLock)
             {
-                App.Current.Dispatcher.Invoke(() => GoToNextAlarm());
+                Application.Current.Dispatcher.Invoke(GoToNextAlarm);
             }
         }
 
@@ -364,35 +355,39 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                 if (_service == null || IsMissingServiceConnectionHintVisible)
                 {
                     _service = ServiceFactory.GetCallbackServiceInstance<IOperationService>(this);
-                }
 
-                IList<int> operations = _service.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, Constants.OfpLimitAmount);
+                    IList<int> operations = _service.GetOperationIds(Constants.OfpMaxAge, Constants.OfpOnlyNonAcknowledged, Constants.OfpLimitAmount);
 
-                IsMissingServiceConnectionHintVisible = false;
+                    IsMissingServiceConnectionHintVisible = false;
 
-                App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
+                    Application.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
 
-                if (operations.Count > 0)
-                {
-                    foreach (int operationId in operations)
+                    if (operations.Count > 0)
                     {
-                        if (ContainsEvent(operationId))
+                        foreach (int operationId in operations)
                         {
-                            continue;
-                        }
+                            if (ContainsEvent(operationId))
+                            {
+                                continue;
+                            }
 
-                        Operation operation = _service.GetOperationById(operationId);
+                            Operation operation = _service.GetOperationById(operationId);
 
-                        if (ShouldAutomaticallyAcknowledgeOperation(operation))
-                        {
-                            _service.AcknowledgeOperation(operation.Id);
-                        }
-                        else
-                        {
-                            App.Current.Dispatcher.Invoke(() => PushEvent(operation));
+                            if (ShouldAutomaticallyAcknowledgeOperation(operation))
+                            {
+                                _service.AcknowledgeOperation(operation.Id);
+                            }
+                            else
+                            {
+                                Application.Current.Dispatcher.Invoke(() => PushEvent(operation));
+                            }
                         }
                     }
                 }
+
+                _service.Ping();
+
+               
             }
             catch (CommunicationObjectFaultedException)
             {
@@ -452,7 +447,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     continue;
                 }
 
-                App.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
+                Application.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
             }
         }
 
@@ -462,7 +457,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         void IOperationServiceCallback.OnOperationAcknowledged(int id)
         {
-            App.Current.Dispatcher.BeginInvoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 OperationViewModel operation = AvailableEvents.Find(item => item.Operation.Id == id);
                 if (operation != null)
@@ -471,6 +466,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     Logger.Instance.LogFormat(LogType.Info, this, Resources.AcknowledgedOperation, operation.Operation.Id);
                 }
             });
+        }
+
+        void IOperationServiceCallback.OnNewOperation(Operation op)
+        {
+            Application.Current.Dispatcher.Invoke(() => PushEvent(op));
         }
 
         #endregion

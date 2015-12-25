@@ -44,6 +44,11 @@ namespace AlarmWorkflow.BackendService.Management
         /// </summary>
         public event Action<int> OperationAcknowledged;
 
+        /// <summary>
+        /// Raised when an operation was added.
+        /// </summary>
+        public event Action<Operation> NewOperation;
+
         bool IOperationServiceInternal.ExistsOperation(string operationNumber)
         {
             if (string.IsNullOrWhiteSpace(operationNumber))
@@ -140,6 +145,11 @@ namespace AlarmWorkflow.BackendService.Management
                 operation.Id = data.Id;
             }
 
+            var copy = NewOperation;
+            if (copy != null)
+            {
+                copy(operation);
+            }
             return operation;
         }
 
