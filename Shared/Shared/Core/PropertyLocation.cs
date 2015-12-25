@@ -25,12 +25,6 @@ namespace AlarmWorkflow.Shared.Core
     [Serializable()]
     public sealed class PropertyLocation : IEquatable<PropertyLocation>
     {
-        #region Fields
-
-        private NumberFormatInfo _nfi = new NumberFormatInfo { NumberDecimalSeparator = "." };
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -70,14 +64,14 @@ namespace AlarmWorkflow.Shared.Core
         /// </summary>
         public string GeoLatitudeString
         {
-            get { return GeoLatitude.HasValue ? GeoLatitude.Value.ToString(_nfi) : string.Empty; }
+            get { return GeoLatitude.HasValue ? GeoLatitude.Value.ToString(CultureInfo.InvariantCulture) : string.Empty; }
         }
         /// <summary>
         ///  Gets the longitude of the location in a string with a "."
         /// </summary>
         public string GeoLongitudeString
         {
-            get { return GeoLongitude.HasValue ? GeoLongitude.Value.ToString(_nfi) : string.Empty; }
+            get { return GeoLongitude.HasValue ? GeoLongitude.Value.ToString(CultureInfo.InvariantCulture) : string.Empty; }
         }
         /// <summary>
         /// Gets/sets the name of the property (company, site, house etc.).
@@ -102,8 +96,8 @@ namespace AlarmWorkflow.Shared.Core
                     latlng = value.Split(';');
                 }
 
-                GeoLatitude = Convert.ToDouble(latlng[0], _nfi);
-                GeoLongitude = Convert.ToDouble(latlng[1], _nfi);
+                GeoLatitude = Convert.ToDouble(latlng[0], CultureInfo.InvariantCulture);
+                GeoLongitude = Convert.ToDouble(latlng[1], CultureInfo.InvariantCulture);
             }
         }
 
