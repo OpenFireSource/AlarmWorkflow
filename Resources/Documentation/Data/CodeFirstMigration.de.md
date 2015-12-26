@@ -7,8 +7,10 @@ Konkret bedeutet das, dass auf Entity Framework Code First gewechselt wurde, wel
 Für den Anwender bedeutet das, dass die bestehende Datenbank umgestellt werden muss.
 Die nachfolgende Anleitung beschreibt die Vorgehensweise.
 
-Es wird davon ausgegangen, dass der Leser Grundkenntnisse von **MySQL Workbench** oder **phpMyAdmin** besitzt.
-Diese Anleitung basiert auf der Verwendung von **MySQL Workbench**, müsste aber auch mit **phpMyAdmin** zu erledigen sein.
+Es wird davon ausgegangen, dass der Leser Grundkenntnisse von **HeidiSQL**, **MySQL Workbench** oder **phpMyAdmin** besitzt.
+Diese Anleitung basiert auf der Verwendung von **MySQL Workbench**, und **HeidiSQL** müsste aber auch mit **phpMyAdmin** zu erledigen sein.
+
+**Wichtiger Hinweis:** Bitte beachten Sie, dass für Datenverlust in keiner Weise Haftung übernommen wird! Im Zweifel wechseln Sie bitte zurück auf die vorherige Version und/oder fragen im Forum nach.
 
 # Umstellung der Datenbank
 
@@ -48,3 +50,15 @@ In der neuen Datenbank müssen folgende Schritte für jede Tabelle ausführen:
 1. Kontextmenü aufrufen und "Select rows" wählen (im Deutschen ggf. anders)
 2. Im sich öffnenden Dokument nun auf den Ordner neben "**Export/Import**" (2. Symbol) und die exportierte Datei auswählen
 3. Der Importvorgang kann ein paar Sekunden dauern. Nach Abschluss ist der aktiv gewordene Button "Apply" zu betätigen und das Fenster zu bestätigen.
+
+Alternativ kann es auch mit **HeidiSQL** folgendermaßen bewerkstelligt werden:
+
+1. Starten von **HeidiSQL** und Anmeldung am Server
+2. Navigation zu "alarmworkflow", Rechtsklick, "Datenbank SQL Export"
+3. Im Dialog "Tabellen Werkzeuge" folgende Einstellungen festlegen:
+4. "Daten": "DELETE+ INSERT (truncate existing data)"
+5. "Ausgabe": "Database"
+6. "Datenbank": "alarmworkflow_ng"
+7. Auf "Exportieren" klicken. Die Daten sollten dann in die neue Datenbank kopiert worden sein.
+
+**Hinweis:** Falls beim Export etwas nicht ordnungsgemäß funktioniert, haben Sie einerseits noch Ihr Backup, außerdem befinden sich Ihre Daten noch in der Ursprungsdatenbank.
