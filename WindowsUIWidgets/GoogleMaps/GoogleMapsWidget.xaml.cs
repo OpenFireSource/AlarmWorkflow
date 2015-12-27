@@ -174,7 +174,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 String variables =
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
                     "var zoomOnAddress = false;" +
-                    "var dest = new google.maps.LatLng(" + _operation.Einsatzort.GeoLatitude + "," + _operation.Einsatzort.GeoLongitude + ");" +
+                    "var dest = new google.maps.LatLng(" + _operation.Einsatzort.GeoLatitudeString + "," + _operation.Einsatzort.GeoLongitudeString + ");" +
                     "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
                     _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
                     "var Home = '" + _configuration.Home + "';" +
