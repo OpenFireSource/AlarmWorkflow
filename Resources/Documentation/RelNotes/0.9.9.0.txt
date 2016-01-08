@@ -4,10 +4,14 @@
 Änderungen seit v0.9.8.0
 ------------------------
 
+Datenbank
+
+  * Ab dieser Version wird ein neuer Mechanismus zum Zugriff auf die Datenbank verwendet.
+    Zur Migration der Daten bitte Anhang #1 beachten!
+
 Generelles
 
   * Wichtig: Ab einschließlich dieser Version unterstützt AlarmWorkflow nur Windows 7 SP1 und höher (.Net Framework 4.6)!
-  * Die Text-Datenbankspalten sind nun nicht mehr limitiert auf eine maximale Anzahl Zeichen. Bitte Anhang #1 beachten.
   * Der Ausdruck "(no value)" wird nicht mehr ausgegeben, wenn in einem Fahrzeugeintrag ein Wert nicht gefunden wurde.
   * Es gibt nun eine globale Black/Whitelist, die für alle Alarmquellen (Fax, E-Mail, SMS) gilt.
     Vor dem Aufspielen der neuen Version bitte ggf. die alten Werte sichern.
@@ -28,62 +32,13 @@ Anhänge
 #1
 --
 
-Bitte dieses SQL-Skript auf der Datenbank ausführen.
+Beginnend mit der Version v0.9.9.0 hat sich - codeseitig - der Zugriff auf die Datenbank geändert.
 
-Wichtige Information! Dieses Skript führt die folgenden Operationen durch:
-- Änderung der Textspalten auf unbegrenzte Länge, damit auch sehr lange Texte durchgehend unterstützt werden können.
-- Änderung der Charsets auf UTF8, da öfters Unicode-Zeichen eingefügt werden, welche vorher nicht immer eingefügt werden konnten.
+Konkret bedeutet das, dass auf Entity Framework Code First gewechselt wurde, welches einiges an Erleichterung für künftige Datenbankaktualisierungen bringen wird.
 
-Es empfiehlt sich, *vor* dem Ausführen dieses Skripts die Datenbank zu sichern und diese im Fehlerfall wiederherzustellen.
+Bitte das folgende Dokument durchlesen, wenn bereits Daten vorhanden sind, um diese ggf. zu migrieren.
 
-  USE `alarmworkflow`;
-  
-  ALTER TABLE `operation` MODIFY `operationnumber` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `messenger` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `comment` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `plan` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `picture` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `priority` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortstreet` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortstreetnumber` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortzipcode` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortcity` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortintersection` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortlocation` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortproperty` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `einsatzortlatlng` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortstreet` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortstreetnumber` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortzipcode` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortcity` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortintersection` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortlocation` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortproperty` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `zielortlatlng` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keyword` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keywordmisc` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keywordb` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keywordr` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keywords` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `keywordt` LONGTEXT;
-  ALTER TABLE `operation` MODIFY `loopscsv` LONGTEXT;
-  
-  ALTER TABLE `operationresource` MODIFY `timestamp` LONGTEXT;
-  ALTER TABLE `operationresource` MODIFY `fullname` LONGTEXT;
-  ALTER TABLE `operationresource` MODIFY `equipmentcsv` LONGTEXT;
-  
-  ALTER TABLE `usersetting` MODIFY `identifier` LONGTEXT;
-  ALTER TABLE `usersetting` MODIFY `name` LONGTEXT;
-  
-  ALTER TABLE `dispresource` MODIFY `emkresourceid` LONGTEXT;
-  
-  -- Set unicode for all database objects
-  ALTER SCHEMA `alarmworkflow` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_unicode_ci;
-  
-  ALTER TABLE `operation` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-  ALTER TABLE `operationresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-  ALTER TABLE `usersetting` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-  ALTER TABLE `dispresource` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+https://github.com/OpenFireSource/AlarmWorkflow/blob/next/Resources/Documentation/Data/CodeFirstMigration.de.md
 
 #2
 --
