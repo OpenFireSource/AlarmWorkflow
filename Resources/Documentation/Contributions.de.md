@@ -9,7 +9,7 @@ Hiervon gibt es eine sog. **Community Edition**, welche alle Features der Vollve
 
 Sie können dieses unter https://www.visualstudio.com/products/visual-studio-community-vs beziehen.
 
-Das von AlarmWorkflow benötigte **Microsoft .Net Framework 4.5.1** wird automatisch mitinstalliert, falls es noch nicht installiert ist.
+Das von AlarmWorkflow benötigte **Microsoft .Net Framework 4.6** wird automatisch mitinstalliert, falls es noch nicht installiert ist.
 
 **Hinweis**: Während des Buildvorgangs werden Komponenten von Dritten heruntergeladen (z. B. log4net). Stellen Sie sicher, dass zumindest beim ersten Buildvorgang eine Internetverbindung besteht!
 
@@ -26,38 +26,20 @@ Die Programmierrichtlinien befinden sich in der Datei *CodingGuidelines.de.md*.
 Es ist erwünscht, dass Programmierkundige zu AlarmWorkflow beitragen! Hierfür geht ihr bitte den unter Git üblichen Weg der **Pull requests**.
 Informationen dazu gibt es unter: https://help.github.com/articles/using-pull-requests
 
-### Submodules
-
-In Git gibt es die Möglichkeit, externe Repositories einzubeziehen, ohne sie voll integrieren zu müssen. Dies nennt sich "submodule".
-
-Wenn Sie das Repository bereits geklont haben, müssen Sie sich das externe Repository klonen:
-- Navigieren Sie in Ihr "AlarmWorkflow" Repository
-- Klicken Sie rechts in den Ordner und öffnen das Kontextmenü
-- Klicken Sie auf "TortoiseGit --> Submodule update..."
-- Wählen Sie "OK"
-- Die submodules werden nun geklont und befinden sich danach in Ihrem Repository.
-
-Wenn Sie sich das Repository neu klonen, müssen Sie folgendes beachten:
-- Im "Clone"-Dialog von TortoiseGit: Wählen Sie **recursive** aus
-- Per Shell: Hängen Sie den Parameter **--recursive** an
-
-Je nach verwendeter Sprache von TortoiseGit heißt der Punkt u. U. anders als hier angegeben.
-
-Wenn die submodules sich ändern, müssen Sie Ihr lokales Repository ebenfalls aktualisieren. Dies funktioniert analog zum ersteren Fall oben.
-
 # Anforderungen an Patches und Pull Requests
 
-## Coding guidelines
-Ein Code style ist zwingend erforderlich, damit der Code immer einheitlich und leserlich bleibt. Ein guter, einheitlicher Code Style hilft allen Beteiligten und vor allem auch Neulingen, sich schnell zurechtzufinden, da man immer davon ausgehen kann, dass der Code stets uniform aussieht.
+## Coding Guidelines
+Ein Code Style ist zwingend erforderlich, damit der Code immer einheitlich und leserlich bleibt. Ein guter, einheitlicher Code Style hilft allen Beteiligten und vor allem auch Neulingen, sich schnell zurechtzufinden, da man immer davon ausgehen kann, dass der Code stets uniform aussieht.
 
 Hierzu sind die Coding Guidelines zu beachten und von Zeit zu Zeit zu besuchen, falls es zu Änderungen kam.
 Siehe dazu die Datei *CodingGuidelines.de.md*.
 
-## Contribution guidelines
+## Contribution Guidelines
 Es werden gewisse Standards vorgegeben, an die sich Beiträge zu halten haben, damit die Codebasis eine konsistente Qualität behalten kann.
 
 ## Codequalität
-Zwingende Voraussetzung ist die Einhaltung der Coding guidelines (s.o.). Beiträge, welche diese nicht erfüllen, werden abgelehnt und müssen nachgebessert werden.
+Zwingende Voraussetzung ist die Einhaltung der Coding Guidelines (s.o.). Beiträge, welche diese nicht erfüllen, werden abgelehnt und müssen nachgebessert werden.
+Dies hat den nüchternen Hintergrund der Wartbarkeit. Einheitlicher Code ist besser wartbar, kaschiert im besten Falle keine Fehler und ist leichter zu verstehen.
 
 ## Source branch
 Als source branch, also der Zweig, auf dem eure Commits basieren, soll der Zweig "next" dienen.
@@ -66,7 +48,7 @@ Dies soll allerdings **nicht** bedeuten, dass **next** als "Spielwiese" zu betra
 
 ## Commit-Umfang
 Es ist immer vorzuziehen, einen Commit als "atomare Einheit" zu handhaben. Das bedeutet:
-Keine Vermischung von zwei oder mehr Themengebieten, die unabhängig voneinander sind (dies ist im Regelfall möglich, kann aber auch seltene Ausnahmen geben)
+Keine Vermischung von zwei oder mehr Themengebieten, die unabhängig voneinander sind. Dies ist im Regelfall möglich, kann aber auch seltene Ausnahmen geben. Diese sind dann idealerweise im Commit-Kommentar zu begründen.
 
 ## Commit-Nachrichten
 Ein Commit ist grundsätzlich analog zu folgendem Beispiel aufzubauen:
@@ -77,11 +59,8 @@ Ein Commit ist grundsätzlich analog zu folgendem Beispiel aufzubauen:
 >
 > Längere Ausführung, was der Commit macht. Eine Beschreibung ist besonders bei größeren Commits zu verfassen!
 
-## Patches vs. Pull Requests
-Bei kleineren Änderungen sind Patches zu bevorzugen, wohingegen größere Arbeiten per PR geteilt werden sollten.
-
 ## PR-Commits
-Es ist Usus, einen PR erst dann zu pushen, wenn alle enthaltenen Commits auch wirklich sinnvoll sind. Dies ist z.B. bei folgendem PR nicht der Fall:
+Es ist Usus und erleichtert es den Entwicklern, wenn Beitragende einen PR erst dann pushen, wenn alle enthaltenen Commits auch wirklich sinnvoll sind. Dies ist z.B. bei folgendem PR **nicht** der Fall:
 
 > 5: Habe dies hinzugefügt
 > 4: Habe einen Buchstaben geändert
