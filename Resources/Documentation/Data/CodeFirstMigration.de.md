@@ -1,14 +1,16 @@
-# Migration der Datenbank auf Version v0.9.9.0
+# Migration der Datenbank auf Version v1.0
 
-Beginnend mit der Version v0.9.9.0 hat sich - Codeseitig - der Zugriff auf die Datenbank geändert.
+Dieses Dokument betrifft nur Nutzer, die AlarmWorkflow bereits vor der v1.0 im Einsatz hatten, und ihre Daten migrieren möchten.
 
-Konkret bedeutet das, dass auf Entity Framework Code First gewechselt wurde, welches einiges an Erleichterung für künftige Datenbankaktualisierungen bringen wird.
+Beginnend mit der Version v1.0 hat sich - Codeseitig - der Zugriff auf die Datenbank geändert.
+
+Konkret bedeutet das, dass auf Entity Framework Code First gewechselt wurde, welches einiges an Erleichterung für künftige Datenbankaktualisierungen bringen wird, u.a. automatische Updates der Datenbankstruktur ohne Interaktion des Nutzers.
 
 Für den Anwender bedeutet das, dass die bestehende Datenbank umgestellt werden muss.
 Die nachfolgende Anleitung beschreibt die Vorgehensweise.
 
 Es wird davon ausgegangen, dass der Leser Grundkenntnisse von **HeidiSQL**, **MySQL Workbench** oder **phpMyAdmin** besitzt.
-Diese Anleitung basiert auf der Verwendung von **MySQL Workbench**, und **HeidiSQL** müsste aber auch mit **phpMyAdmin** zu erledigen sein.
+Diese Anleitung basiert auf der Verwendung von **HeidiSQL** und **MySQL Workbench**, dürfte aber auch mit **phpMyAdmin** zu erledigen sein.
 
 **Wichtiger Hinweis:** Bitte beachten Sie, dass für Datenverlust in keiner Weise Haftung übernommen wird! Im Zweifel wechseln Sie bitte zurück auf die vorherige Version und/oder fragen im Forum nach.
 
@@ -37,7 +39,17 @@ Die neue Datenbankstruktur wird automatisch durch den Code angelegt. Hierzu ist 
 
 Sehr wahrscheinlich sind bereits Daten vorhanden, die am besten übernommen werden sollten.
 
-Dies gelingt sehr einfach mit **MySQL Workbench** in folgenden Schritten:
+Dies gelingt sehr einfach mit **HeidiSQL** in folgenden Schritten:
+
+1. Starten von **HeidiSQL** und Anmeldung am Server
+2. Navigation zu "alarmworkflow", Rechtsklick, "Datenbank SQL Export"
+3. Im Dialog "Tabellen Werkzeuge" folgende Einstellungen festlegen:
+4. "Daten": "DELETE+ INSERT (truncate existing data)"
+5. "Ausgabe": "Database"
+6. "Datenbank": "alarmworkflow_ng"
+7. Auf "Exportieren" klicken. Die Daten sollten dann in die neue Datenbank kopiert worden sein.
+
+Alternativ kann es auch mit **MySQL Workbench** folgendermaßen bewerkstelligt werden:
 
 1. Starten der Anwendung und Anmeldung am Server
 2. Navigieren zu "alarmworkflow" -> "operation" (die bestehende Datenbank)
@@ -50,15 +62,5 @@ In der neuen Datenbank müssen folgende Schritte für jede Tabelle ausführen:
 1. Kontextmenü aufrufen und "Select rows" wählen (im Deutschen ggf. anders)
 2. Im sich öffnenden Dokument nun auf den Ordner neben "**Export/Import**" (2. Symbol) und die exportierte Datei auswählen
 3. Der Importvorgang kann ein paar Sekunden dauern. Nach Abschluss ist der aktiv gewordene Button "Apply" zu betätigen und das Fenster zu bestätigen.
-
-Alternativ kann es auch mit **HeidiSQL** folgendermaßen bewerkstelligt werden:
-
-1. Starten von **HeidiSQL** und Anmeldung am Server
-2. Navigation zu "alarmworkflow", Rechtsklick, "Datenbank SQL Export"
-3. Im Dialog "Tabellen Werkzeuge" folgende Einstellungen festlegen:
-4. "Daten": "DELETE+ INSERT (truncate existing data)"
-5. "Ausgabe": "Database"
-6. "Datenbank": "alarmworkflow_ng"
-7. Auf "Exportieren" klicken. Die Daten sollten dann in die neue Datenbank kopiert worden sein.
 
 **Hinweis:** Falls beim Export etwas nicht ordnungsgemäß funktioniert, haben Sie einerseits noch Ihr Backup, außerdem befinden sich Ihre Daten noch in der Ursprungsdatenbank.
