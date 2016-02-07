@@ -1,4 +1,4 @@
-﻿AlarmWorkflow v0.9.9.0 Release Notes
+﻿AlarmWorkflow v1.0.0.0 Release Notes
 ====================================
 
 Änderungen seit v0.9.8.0
@@ -32,13 +32,13 @@ Anhänge
 #1
 --
 
-Beginnend mit der Version v0.9.9.0 hat sich - codeseitig - der Zugriff auf die Datenbank geändert.
+Beginnend mit der Version v1.0.0.0 hat sich - codeseitig - der Zugriff auf die Datenbank geändert.
 
 Konkret bedeutet das, dass auf Entity Framework Code First gewechselt wurde, welches einiges an Erleichterung für künftige Datenbankaktualisierungen bringen wird.
 
 Bitte das folgende Dokument durchlesen, wenn bereits Daten vorhanden sind, um diese ggf. zu migrieren.
 
-https://github.com/OpenFireSource/AlarmWorkflow/blob/next/Resources/Documentation/Data/CodeFirstMigration.de.md
+https://github.com/OpenFireSource/AlarmWorkflow/blob/master/Resources/Documentation/Data/CodeFirstMigration.de.md
 
 #2
 --
