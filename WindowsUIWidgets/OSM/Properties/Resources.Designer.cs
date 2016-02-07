@@ -82,15 +82,13 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM.Properties {
         ///   Looks up a localized string similar to &lt;!doctype html&gt;
         ///&lt;html lang=&quot;de&quot; style=&quot;height:100%; width: 100%;&quot;&gt;
         ///	&lt;head&gt;
-        ///		&lt;meta charset=&quot;utf-8&quot; /&gt;
+        ///		&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; &gt;
         ///		&lt;script src=&quot;http://code.jquery.com/jquery-1.11.0.min.js&quot;&gt;&lt;/script&gt;
         ///		&lt;script src=&quot;http://code.jquery.com/jquery-migrate-1.2.1.min.js&quot;&gt;&lt;/script&gt;
         ///		&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css&quot; /&gt;
         ///		&lt;script src=&quot;http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js&quot;&gt;&lt;/script&gt;
         ///		&lt;script&gt;
-        ///		$(document).ready(function() {
-        ///			var osm = L.map(&apos;oosm&apos;);
-        ///			L.tileLayer(&apos;ht [rest of string was truncated]&quot;;.
+        ///		$(document).ready(functio [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string HTMLTemplate {
             get {

@@ -14,14 +14,9 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Web;
 using System.Windows;
-using System.Xml.XPath;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
 namespace AlarmWorkflow.Windows.UIWidgets.OSM
@@ -98,7 +93,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
-                html = Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLongitudeString).Replace("{1}", _operation.Einsatzort.GeoLongitudeString);
+                html = Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLatitudeString).Replace("{1}", _operation.Einsatzort.GeoLongitudeString);
             }
             else
             {

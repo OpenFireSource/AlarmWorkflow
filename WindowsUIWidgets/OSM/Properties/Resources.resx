@@ -127,7 +127,7 @@
     <value>&lt;!doctype html&gt;
 &lt;html lang="de" style="height:100%; width: 100%;"&gt;
 	&lt;head&gt;
-		&lt;meta charset="utf-8" /&gt;
+		&lt;meta charset="utf-8" /&gt;&lt;meta http-equiv="X-UA-Compatible" content="IE=edge" &gt;
 		&lt;script src="http://code.jquery.com/jquery-1.11.0.min.js"&gt;&lt;/script&gt;
 		&lt;script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"&gt;&lt;/script&gt;
 		&lt;link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" /&gt;

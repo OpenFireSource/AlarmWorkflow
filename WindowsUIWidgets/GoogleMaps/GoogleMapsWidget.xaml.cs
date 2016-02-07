@@ -88,19 +88,19 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                          "}";
 
         private const string BeginnHead = "<!DOCTYPE html>" +
-                                          "<html><head>" +
+                                          "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" >" +
                                           "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" +
                                           "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /><style type=\"text/css\">" +
                                           "html { height: 100% } body { height: 100%; margin: 0; padding: 0 } #map_canvas { height: 100% }" +
                                           "</style><script type=\"text/javascript\"" +
-                                          "src=\"https://maps.googleapis.com/maps/api/js?sensor=true\"></script>" +
+                                          "src=\"https://maps.googleapis.com/maps/api/js\"></script>" +
                                           "<script type=\"text/javascript\">" +
                                           "var directionsService = new google.maps.DirectionsService();" +
                                           "var directionsDisplay = new google.maps.DirectionsRenderer();" +
                                           "var map;" +
                                           "var maxZoomService = new google.maps.MaxZoomService();" +
                                           "var geocoder = new google.maps.Geocoder();" +
-                                          "function initialize() {";
+                                          "function initialize() { window.onerror = function(){return true;};";
 
         private const string EndHead = "</script>" +
                                        "</head>";
@@ -118,6 +118,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             InitializeComponent();
             _googleFile = Path.Combine(Path.GetTempPath(), "google.html");
             _configuration = new MapConfiguration();
+            
         }
 
         #endregion Constructors

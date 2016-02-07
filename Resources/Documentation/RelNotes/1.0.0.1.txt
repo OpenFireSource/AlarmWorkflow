@@ -1,0 +1,10 @@
+﻿AlarmWorkflow v1.0.0.1 Release Notes
+====================================
+
+Änderungen seit v1.0.01
+------------------------
+
+Gelöste Probleme
+----------------
+
+  * OSM und Google Widgets in der GUI funktionieren wieder.
