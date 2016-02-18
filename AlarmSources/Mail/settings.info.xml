@@ -6,7 +6,7 @@
     <Setting Name="CodePage" DisplayText="Zeichensatztabelle‎" Category="Konto" IsDynamic="true"
              Description="Gibt die zu verwendende Zeichensatztabelle(Codepage) an. Nähere Informationen entnehmen Sie bitte dem Handbuch." />
     <Setting Name="UserName" DisplayText="Benutzername" Category="Konto" IsDynamic="true" />
-    <Setting Name="Password" DisplayText="Passwort" Category="Konto" IsDynamic="true" />
+    <Setting Name="Password" DisplayText="Passwort" Category="Konto" IsDynamic="true" EditorParameter="Password" />
 
     <Setting Name="MailSubject" DisplayText="Betreff" Category="E-Mail" IsDynamic="true" />
     <Setting Name="MailSender" DisplayText="Absender (Mailadresse)" Category="E-Mail" IsDynamic="true" />
