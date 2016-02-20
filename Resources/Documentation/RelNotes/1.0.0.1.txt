@@ -4,6 +4,11 @@
 Änderungen seit v1.0.01
 ------------------------
 
+Generelles
+----------
+
+  * Im Konfigurationseditor werden Passwörter nun versteckt, damit sie nicht mehr auslesbar sind.
+
 Gelöste Probleme
 ----------------
 

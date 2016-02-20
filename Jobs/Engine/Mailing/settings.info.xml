@@ -3,7 +3,7 @@
     <Setting Name="HostName" DisplayText="Hostname" Category="Server" />
     <Setting Name="UseSsl" DisplayText="SSL benutzen" Category="Server" />
     <Setting Name="UserName" DisplayText="Benutzername" Category="Server" />
-    <Setting Name="Password" DisplayText="Passwort" Category="Server" />
+    <Setting Name="Password" DisplayText="Passwort" Category="Server" EditorParameter="Password" />
     <Setting Name="Authenticate" DisplayText="Authentifizierung benutzen" Category="Server" />
     <Setting Name="Port" DisplayText="Port" Category="Server"
              EditorParameter="1;65535" />
