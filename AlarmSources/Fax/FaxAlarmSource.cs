@@ -333,7 +333,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
             {
                 //.tif or .pdf
                 FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
-                            .Where(_ => _.Name.EndsWith(".tif") || _.Name.EndsWith(".pdf"))
+                            .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
                             .ToArray();
 
                 if (files.Length > 0)

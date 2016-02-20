@@ -1,7 +1,7 @@
-﻿AlarmWorkflow v1.0.0.1 Release Notes
+﻿AlarmWorkflow v1.0.1.0 Release Notes
 ====================================
 
-Änderungen seit v1.0.01
+Änderungen seit v1.0.0.0
 ------------------------
 
 Generelles
@@ -13,3 +13,4 @@ Gelöste Probleme
 ----------------
 
   * OSM und Google Widgets in der GUI funktionieren wieder.
+  * Fax Alarmquelle erkennt Dateien CaseInsensetive.
