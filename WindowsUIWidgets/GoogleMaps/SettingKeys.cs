@@ -24,6 +24,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         internal static readonly SettingKey Route = SettingKey.Create("GoogleMapsWidget", "Route");
         internal static readonly SettingKey ZoomControl = SettingKey.Create("GoogleMapsWidget", "ZoomControl");
         internal static readonly SettingKey ZoomLevel = SettingKey.Create("GoogleMapsWidget", "ZoomLevel");
+        internal static readonly SettingKey ZoomOnAddress = SettingKey.Create("GoogleMapsWidget", "ZoomOnAddress");
         internal static readonly SettingKey MapType = SettingKey.Create("GoogleMapsWidget", "MapType");
     }
 }

@@ -2,6 +2,7 @@
 
 <SettingsConfiguration Version="1" Identifier="GoogleMapsWidget">
   <Setting Name="ZoomControl" Type="System.Boolean">false</Setting>
+  <Setting Name="ZoomOnAddress" Type="System.Boolean">false</Setting>
   <Setting Name="Route" Type="System.Boolean">false</Setting>
   <Setting Name="Tilt" Type="System.Boolean">false</Setting>
   <Setting Name="Traffic" Type="System.Boolean">false</Setting>

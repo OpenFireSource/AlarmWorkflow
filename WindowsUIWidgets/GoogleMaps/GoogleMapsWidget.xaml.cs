@@ -33,7 +33,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         #region Fields
 
         private readonly MapConfiguration _configuration;
-        private readonly String _googleFile;
+        private readonly string _googleFile;
         private Operation _operation;
 
         #endregion Fields
@@ -58,7 +58,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                        "trafficLayer.setMap(map);";
 
         private const string Showroute = "directionsDisplay.setMap(map);" +
-                                         "calcRoute(Home, address, zoomOnAddress, ZoomLevel);";
+                                         "calcRoute(home, dest, zoomOnAddress, ZoomLevel);";
 
         private const string RouteFunc = "function calcRoute(start, end, isZoom, ZoomLevel) {" +
                                          "var request = {" +
@@ -70,16 +70,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                          "if (status == google.maps.DirectionsStatus.OK) {" +
                                          "directionsDisplay.setDirections(result);" +
                                          "if (isZoom){" +
-                                         "geocoder.geocode( { 'address': end}, function(results, status) {" +
-                                         "if (status == google.maps.GeocoderStatus.OK) {" +
-                                         "var coor = results[0].geometry.location;" +
-                                         "map.setCenter(coor);" +
-                                         "maxZoomService.getMaxZoomAtLatLng(coor, function(response) {" +
+                                         "maxZoomService.getMaxZoomAtLatLng(end, function(response) {" +
                                          "if (response.status == google.maps.MaxZoomStatus.OK) {" +
                                          "var zoom = Math.round(response.zoom * ZoomLevel);" +
                                          "map.setZoom(zoom);" +
-                                         "}" +
-                                         "});" +
+                                         "map.setCenter(end);" +
                                          "}" +
                                          "});" +
                                          "}" +
@@ -92,8 +87,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                           "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" +
                                           "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /><style type=\"text/css\">" +
                                           "html { height: 100% } body { height: 100%; margin: 0; padding: 0 } #map_canvas { height: 100% }" +
-                                          "</style><script type=\"text/javascript\"" +
-                                          "src=\"https://maps.googleapis.com/maps/api/js\"></script>" +
+                                          "</style><script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js\"></script>" +
                                           "<script type=\"text/javascript\">" +
                                           "var directionsService = new google.maps.DirectionsService();" +
                                           "var directionsDisplay = new google.maps.DirectionsRenderer();" +
@@ -118,7 +112,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             InitializeComponent();
             _googleFile = Path.Combine(Path.GetTempPath(), "google.html");
             _configuration = new MapConfiguration();
-            
+
         }
 
         #endregion Constructors
@@ -152,7 +146,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 return;
             }
             _operation = operation;
-            String html = BuildHtml();
+            string html = BuildHtml();
             File.WriteAllText(_googleFile, html);
             _webBrowser.Navigate(_googleFile);
         }
@@ -163,7 +157,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         private string BuildHtml()
         {
-            string html;
             if (_operation != null)
             {
                 StringBuilder builder = new StringBuilder();
@@ -171,14 +164,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
-
-                String variables =
+                string variables =
                     "directionsDisplay = new google.maps.DirectionsRenderer();" +
-                    "var zoomOnAddress = false;" +
+                    "var zoomOnAddress = " + _configuration.ZoomOnAddress.ToString().ToLower() + ";" +
                     "var dest = new google.maps.LatLng(" + _operation.Einsatzort.GeoLatitudeString + "," + _operation.Einsatzort.GeoLongitudeString + ");" +
-                    "var address = '" + _operation.Einsatzort.Street + " " + _operation.Einsatzort.StreetNumber + " " +
-                    _operation.Einsatzort.ZipCode + " " + _operation.Einsatzort.City + "';" +
-                    "var Home = '" + _configuration.Home + "';" +
+                    "var home = '" + _configuration.Home + "';" +
                     "var ZoomLevel =" + (_configuration.ZoomLevel / 100.0D).ToString(CultureInfo.InvariantCulture) + ";" +
                     "var mapType = google.maps.MapTypeId." + _configuration.Maptype + ";" +
                     "var mapOptions = {" +
@@ -211,16 +201,13 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 }
                 builder.AppendLine(EndHead);
                 builder.AppendLine(Body);
-                html = builder.ToString();
+                return builder.ToString();
+               
             }
 
-            else
-            {
-                html = "";
-            }
-            return html;
+            return string.Empty;
         }
-       
+
         #endregion Methods
     }
 }

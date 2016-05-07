@@ -60,7 +60,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
                 return;
             }
             _operation = operation;
-            String html = BuildHtml();
+            string html = BuildHtml();
             File.WriteAllText(_osmFile, html);
             _webBrowser.Navigate(_osmFile);
         }
@@ -86,21 +86,15 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
 
         private string BuildHtml()
         {
-            string html;
             if (_operation != null)
             {
                 if (!_operation.Einsatzort.HasGeoCoordinates)
                 {
                     return "<h2>Konnte Geocodes fuer Zielort nicht bestimmen! Ggf. ist der Geocoding Job nicht aktiv?</h2>";
                 }
-                html = Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLatitudeString).Replace("{1}", _operation.Einsatzort.GeoLongitudeString);
+                return Properties.Resources.HTMLTemplate.Replace("{0}", _operation.Einsatzort.GeoLatitudeString).Replace("{1}", _operation.Einsatzort.GeoLongitudeString);
             }
-            else
-            {
-                html = "";
-
-            }
-            return html;
+            return string.Empty;
 
         }
 

@@ -30,6 +30,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                 Route = service.Instance.GetSetting(SettingKeys.Route).GetValue<bool>();
                 ZoomControl = service.Instance.GetSetting(SettingKeys.ZoomControl).GetValue<bool>();
                 ZoomLevel = service.Instance.GetSetting(SettingKeys.ZoomLevel).GetValue<int>();
+                ZoomOnAddress = service.Instance.GetSetting(SettingKeys.ZoomOnAddress).GetValue<bool>();
                 Home = service.Instance.GetSetting(SharedSettingKeys.FDStreet).GetValue<string>() + " " +
                        service.Instance.GetSetting(SharedSettingKeys.FDStreetNumber).GetValue<string>() + " " +
                        service.Instance.GetSetting(SharedSettingKeys.FDZipCode).GetValue<string>() + " " +
@@ -46,6 +47,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         internal bool Route { get; private set; }
 
         internal bool ZoomControl { get; private set; }
+        internal bool ZoomOnAddress { get; private set; }
 
         internal bool RouteDescription { get; private set; }
 

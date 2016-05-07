@@ -1,11 +1,12 @@
 ﻿<SettingsDisplayConfiguration>
 
   <Identifier Name="GoogleMapsWidget" DisplayText="Google-Maps (UI-Widget)" Parent="CustomOperationViewer">
-    <Setting Name="MapType" DisplayText="MapType" Category="Generell" Editor="DropDownTypeEditor" EditorParameter="Straße;Hybrid;Terrain;Satellit" />
-    <Setting Name="ZoomControl" DisplayText="ZoomControl" Category="Generell" />
-    <Setting Name="Route" DisplayText="Route" Category="Generell" />
-    <Setting Name="Tilt" DisplayText="Tilt" Category="Generell" />
-    <Setting Name="Traffic" DisplayText="Traffic" Category="Generell" />
-    <Setting Name="ZoomLevel" DisplayText="ZoomLevel" Category="Generell" />
+    <Setting Name="MapType" DisplayText="Kartentyp" Category="Generell" Editor="DropDownTypeEditor" EditorParameter="Straße;Hybrid;Terrain;Satellit" />
+    <Setting Name="ZoomControl" DisplayText="Zoomsteuerung anzeigen" Category="Generell" />
+    <Setting Name="Route" DisplayText="Route anzeigen" Category="Generell" />
+    <Setting Name="Tilt" DisplayText="45° Winkel" Category="Generell" />
+    <Setting Name="Traffic" DisplayText="Verkehr" Category="Generell" />
+    <Setting Name="ZoomOnAddress" DisplayText="Auf Ziel zentrieren" Category="Generell" />
+    <Setting Name="ZoomLevel" DisplayText="Zoomlevel" Category="Generell" />
   </Identifier>
 </SettingsDisplayConfiguration>
