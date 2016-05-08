@@ -29,6 +29,10 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// Raised when an operation was acknowledged.
         /// </summary>
         event Action<int> OperationAcknowledged;
+        /// <summary>
+        /// Raised when an new operation was added.
+        /// </summary>
+        event Action<Operation> NewOperation;
 
         /// <summary>
         /// Determines whether or not an <see cref="Operation"/> with the specified operation number does already exist.

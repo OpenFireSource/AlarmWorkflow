@@ -39,6 +39,7 @@ namespace AlarmWorkflow.BackendService.Management
         /// </summary>
         public OperationService()
         {
+            InternalService.NewOperation += InternalService_NewOperation;
             InternalService.OperationAcknowledged += InternalService_OperationAcknowledged;
         }
 
@@ -54,6 +55,15 @@ namespace AlarmWorkflow.BackendService.Management
             base.DisposeCore();
 
             InternalService.OperationAcknowledged -= InternalService_OperationAcknowledged;
+            InternalService.NewOperation -= InternalService_NewOperation;
+        }
+
+        private void InternalService_NewOperation(Operation obj)
+        {
+            if (Callback != null)
+            {
+                Callback.OnNewOperation(obj);
+            }
         }
 
         private void InternalService_OperationAcknowledged(int id)

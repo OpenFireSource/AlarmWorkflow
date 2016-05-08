@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.ServiceModel;
+using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.BackendService.ManagementContracts
 {
@@ -22,6 +23,12 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
     /// </summary>
     public interface IOperationServiceCallback
     {
+        /// <summary>
+        /// Called when an new operation gets added.
+        /// </summary>
+        /// <param name="op">The operation that was added.</param>
+        [OperationContract(IsOneWay = true)]
+        void OnNewOperation(Operation op);
         /// <summary>
         /// Called when an operation was acknowledged.
         /// </summary>
