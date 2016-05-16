@@ -460,6 +460,16 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         #region IOperationServiceCallback Members
 
+        void IOperationServiceCallback.OnNewOperation(Operation op)
+        {
+            //Actually this should not occure. Only for safety.
+            if (ContainsEvent(op.Id))
+            {
+                return;
+            }
+            App.Current.Dispatcher.BeginInvoke(() => PushEvent(op));
+        }
+
         void IOperationServiceCallback.OnOperationAcknowledged(int id)
         {
             App.Current.Dispatcher.BeginInvoke(() =>
