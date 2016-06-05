@@ -142,6 +142,16 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to access fax source directory &apos;{0}&apos;
+        ///{1}.
+        /// </summary>
+        internal static string FaxDirAccessError {
+            get {
+                return ResourceManager.GetString("FaxDirAccessError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ghostscript convert &apos;{0}&apos; to tiff.
         /// </summary>
         internal static string GhostscriptConvert {

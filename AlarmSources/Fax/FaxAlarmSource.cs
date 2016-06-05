@@ -1,15 +1,15 @@
 ﻿// This file is part of AlarmWorkflow.
-// 
+//
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AlarmWorkflow is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -148,9 +148,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 dev.InputFiles.Add(file.FullName);
                 dev.OutputPath = tiffFilePath;
                 dev.Process();
-                
+
                 ProcessNewImage(new FileInfo(tiffFilePath));
-                
+
                 file.Delete();
             }
             catch (GhostscriptException ex)
@@ -331,28 +331,35 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             while (true)
             {
-                //.tif or .pdf
-                FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
-                            .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
-                            .ToArray();
-
-                if (files.Length > 0)
+                try
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
+                    //.tif or .pdf
+                    FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                                .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+                                .ToArray();
 
-                    foreach (FileInfo file in files)
+                    if (files.Length > 0)
                     {
-                        if(file.Extension == ".pdf")
-                        {
-                            ProcessNewPdf(file);
-                        }
-                        else
-                        {
-                            ProcessNewImage(file);
-                        }
-                    }
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
 
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
+                        foreach (FileInfo file in files)
+                        {
+                            if(file.Extension == ".pdf")
+                            {
+                                ProcessNewPdf(file);
+                            }
+                            else
+                            {
+                                ProcessNewImage(file);
+                            }
+                        }
+
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
                 }
 
                 Thread.Sleep(RoutineIntervalMs);
