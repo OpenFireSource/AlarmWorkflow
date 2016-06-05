@@ -1,15 +1,15 @@
 ﻿// This file is part of AlarmWorkflow.
-// 
+//
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AlarmWorkflow is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -35,6 +35,7 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         private const string ConfigKeyCertificate = "Certificate";
         private const string ConfigKeyCertificatePassword = "Certificate.Password";
         private const string ConfigKeyServerNetTcpPort = "Server.NetTcpPort";
+        private const string ConfigKeyServerWebHttpPort = "Server.WebHttpPort";
 
         private const string ServicesPath = "alarmworkflow/services";
 
@@ -176,7 +177,8 @@ namespace AlarmWorkflow.Backend.ServiceContracts.Communication
         {
             switch (binding.Scheme)
             {
-                case "net.tcp": return int.Parse(BackendConfigurator.Get(ConfigKeyServerNetTcpPort));
+                case "net.tcp" : return int.Parse(BackendConfigurator.Get(ConfigKeyServerNetTcpPort));
+                case "http": return int.Parse(BackendConfigurator.Get(ConfigKeyServerWebHttpPort));
                 default:
                     throw new NotSupportedException(string.Format(Properties.Resources.InvalidSupportedBindingValue, binding.Name));
             }

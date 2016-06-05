@@ -1,20 +1,21 @@
 ﻿// This file is part of AlarmWorkflow.
-// 
+//
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AlarmWorkflow is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 using AlarmWorkflow.Shared.ObjectExpressions;
 
@@ -24,6 +25,7 @@ namespace AlarmWorkflow.Shared.Core
     /// Represents an operation, which was created by analyzing and parsing an incoming alarmfax.
     /// </summary>
     [Serializable()]
+    [DataContract]
     public sealed class Operation : IEquatable<Operation>, IFormattable
     {
         #region Constants
@@ -40,75 +42,92 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets/sets the unique Id of this operation.
         /// </summary>
+        [DataMember]
         public int Id { get; set; }
         /// <summary>
         /// Gets/sets the guid of this operation that is globally unique.
         /// </summary>
+        [DataMember]
         public Guid OperationGuid { get; set; }
         /// <summary>
         /// Gets/sets the timestamp of when the operation materialized ("incoming" timestamp).
         /// For the actual alarm timestamp, use the property <see cref="P:Timestamp"/>.
         /// </summary>
+        [DataMember]
         public DateTime TimestampIncome { get; set; }
         /// <summary>
         /// Gets/sets the date and time of the actual alarm.
         /// </summary>
+        [DataMember]
         public DateTime Timestamp { get; set; }
         /// <summary>
         /// Gets or sets the Einsatznummer object.
         /// </summary>
+        [DataMember]
         public string OperationNumber { get; set; }
         /// <summary>
         /// Gets or sets the Mitteiler object.
         /// </summary>
+        [DataMember]
         public string Messenger { get; set; }
         /// <summary>
         /// Gets/sets the priority of this operation.
         /// </summary>
+        [DataMember]
         public string Priority { get; set; }
         /// <summary>
         /// Gets/sets the "Einsatzort" (place of action).
         /// Usually this location contains the destination spot.
         /// </summary>
+        [DataMember]
         public PropertyLocation Einsatzort { get; set; }
         /// <summary>
         /// Gets/sets the "Zielort" (destination location).
         /// This is usually empty.
         /// </summary>
+        [DataMember]
         public PropertyLocation Zielort { get; set; }
         /// <summary>
         /// Gets/sets the comment text. Usually this contains the result from the "Bemerkung" or "Hinweis" (etc.)-sections.
         /// </summary>
+        [DataMember]
         public string Comment { get; set; }
         /// <summary>
         /// Gets the Meldebild object.
         /// </summary>
+        [DataMember]
         public string Picture { get; set; }
         /// <summary>
         /// Gets the Einsatzplan object.
         /// </summary>
+        [DataMember]
         public string OperationPlan { get; set; }
         /// <summary>
         /// Gets/sets the keywords for this operation.
         /// </summary>
+        [DataMember]
         public OperationKeywords Keywords { get; set; }
         /// <summary>
         /// Gets/sets the list of all resources requested by the call center.
         /// </summary>
+        [DataMember]
         public OperationResourceCollection Resources { get; set; }
         /// <summary>
         /// Gets/sets the custom data for this operation.
         /// </summary>
+        [DataMember]
         public IDictionary<string, object> CustomData { get; set; }
         /// <summary>
         /// Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
         /// If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
         /// either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
         /// </summary>
+        [DataMember]
         public bool IsAcknowledged { get; set; }
         /// <summary>
         /// Gets/sets the loop information that is associated with this operation.
         /// </summary>
+        [DataMember]
         public OperationLoopCollection Loops { get; set; }
 
         #endregion

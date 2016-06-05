@@ -1,15 +1,15 @@
 ﻿// This file is part of AlarmWorkflow.
-// 
+//
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AlarmWorkflow is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -21,7 +21,6 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
 using System.ServiceModel.Security;
 using AlarmWorkflow.Backend.Data;
 using AlarmWorkflow.Backend.Service.Communication;
@@ -154,7 +153,7 @@ namespace AlarmWorkflow.Backend.Service
             string path = ServiceFactory.BackendConfigurator.Get("Certificate");
             string password = ServiceFactory.BackendConfigurator.Get("Certificate.Password");
             // Configure the ServiceHost to be a Per-Session service.
-            ServiceHost host = new ServiceHost(serviceLocation.ServiceType);
+            ServiceHost host = ServiceBindingCache.GetServiceHost(serviceLocation.ServiceType);
 
             if (File.Exists(path))
             {
@@ -163,11 +162,9 @@ namespace AlarmWorkflow.Backend.Service
                 host.Credentials.ClientCertificate.Authentication.CertificateValidationMode = X509CertificateValidationMode.Custom;
                 host.Credentials.ClientCertificate.Authentication.CustomCertificateValidator = new CertificateValidator(certificate.Thumbprint);
             }
-
             Binding binding = ServiceBindingCache.GetBindingForContractType(serviceLocation.ContractType);
             EndpointAddress address = ServiceFactory.GetEndpointAddress(serviceLocation.ContractType, binding);
-            ServiceEndpoint endpoint = host.AddServiceEndpoint(serviceLocation.ContractType, binding, address.Uri);
-
+            host.AddServiceEndpoint(serviceLocation.ContractType, binding, address.Uri);
             _hostedExposedServices.Add(host);
 
             host.Open();

@@ -1,20 +1,21 @@
 ﻿// This file is part of AlarmWorkflow.
-// 
+//
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // AlarmWorkflow is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace AlarmWorkflow.Shared.Core
 {
@@ -22,6 +23,7 @@ namespace AlarmWorkflow.Shared.Core
     /// Contains the keywords ("stichwörter") for an operation.
     /// </summary>
     [Serializable()]
+    [DataContract]
     public sealed class OperationKeywords
     {
         #region Properties
@@ -29,26 +31,32 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets/sets the "Stichwort" (generic keyword), direct or equivalent.
         /// </summary>
+        [DataMember]
         public string Keyword { get; set; }
         /// <summary>
         /// Gets/sets the B/R/S/T/etc. keyword for sources that don't distinguish between them.
         /// </summary>
+        [DataMember]
         public string EmergencyKeyword { get; set; }
         /// <summary>
         /// Gets/sets the "Stichwort B" (specific keyword), direct or equivalent.
         /// </summary>
+        [DataMember]
         public string B { get; set; }
         /// <summary>
         /// Gets/sets the "Stichwort R" (specific keyword), direct or equivalent.
         /// </summary>
+        [DataMember]
         public string R { get; set; }
         /// <summary>
         /// Gets/sets the "Stichwort S" (specific keyword), direct or equivalent.
         /// </summary>
+        [DataMember]
         public string S { get; set; }
         /// <summary>
         /// Gets/sets the "Stichwort T" (specific keyword), direct or equivalent.
         /// </summary>
+        [DataMember]
         public string T { get; set; }
 
         #endregion
