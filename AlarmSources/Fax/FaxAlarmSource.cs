@@ -333,31 +333,31 @@ namespace AlarmWorkflow.AlarmSource.Fax
             {
                 try
                 {
-                //.tif or .pdf
-                FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
-                            .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
-                            .ToArray();
+                    //.tif or .pdf
+                    FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                                .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+                                .ToArray();
 
-                if (files.Length > 0)
-                {
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
-
-                    foreach (FileInfo file in files)
+                    if (files.Length > 0)
                     {
-                        if(file.Extension == ".pdf")
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
+
+                        foreach (FileInfo file in files)
                         {
-                            ProcessNewPdf(file);
+                            if(file.Extension == ".pdf")
+                            {
+                                ProcessNewPdf(file);
+                            }
+                            else
+                            {
+                                ProcessNewImage(file);
+                            }
                         }
-                        else
-                        {
-                            ProcessNewImage(file);
-                        }
+
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
                     }
 
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
-                }
-
-                Thread.Sleep(RoutineIntervalMs);
+                    Thread.Sleep(RoutineIntervalMs);
                 }
                 catch(Exception ex)
                 {
