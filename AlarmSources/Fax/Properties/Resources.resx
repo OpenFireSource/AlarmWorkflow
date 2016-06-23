@@ -201,4 +201,8 @@
   <data name="GhostscriptConvertError" xml:space="preserve">
     <value>Error using Ghostscript. Maybe it's not installed.</value>
   </data>
+  <data name="FaxDirAccessError" xml:space="preserve">
+    <value>Unable to access fax source directory '{0}'
+{1}</value>
+  </data>
 </root>

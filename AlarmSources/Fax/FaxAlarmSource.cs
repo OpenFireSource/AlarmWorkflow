@@ -331,6 +331,8 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             while (true)
             {
+                try
+                {
                 //.tif or .pdf
                 FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
                             .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
@@ -356,6 +358,11 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 }
 
                 Thread.Sleep(RoutineIntervalMs);
+                }
+                catch(Exception ex)
+                {
+                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
+                }
             }
         }
 
