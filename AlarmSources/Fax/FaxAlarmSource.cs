@@ -331,6 +331,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
         {
             while (true)
             {
+                var intervalLogger = new ExceptionIntervalLogger(TimeSpan.FromMinutes(10));
                 try
                 {
                     //.tif or .pdf
@@ -357,11 +358,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
                         Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
                     }
 
+                    intervalLogger.ResetExceptionCollection();
                     Thread.Sleep(RoutineIntervalMs);
                 }
                 catch(Exception ex)
                 {
-                    Logger.Instance.LogFormat(LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
+                    intervalLogger.LogFormat(ex, LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
                 }
             }
         }
