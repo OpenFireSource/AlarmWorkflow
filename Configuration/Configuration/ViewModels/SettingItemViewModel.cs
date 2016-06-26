@@ -37,7 +37,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <summary>
         /// Gets the actual setting item containing the value.
         /// </summary>
-        public SettingItem Setting { get; private set; }
+        public ISettingItem Setting { get; private set; }
         /// <summary>
         /// Gets the type editor for this setting item.
         /// </summary>
@@ -127,7 +127,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// </summary>
         /// <param name="info"></param>
         /// <param name="setting"></param>
-        public SettingItemViewModel(SettingInfo info, SettingItem setting)
+        public SettingItemViewModel(SettingInfo info, ISettingItem setting)
         {
             Assertions.AssertNotNull(info, "info");
             Assertions.AssertNotNull(setting, "setting");

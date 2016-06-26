@@ -22,7 +22,7 @@ namespace AlarmWorkflow.BackendService.FileTransferContracts
     /// <summary>
     /// Defines methods for a service that provides constrained access to files on the server.
     /// </summary>
-    [ServiceContract()]
+    [ServiceContract]
     public interface IFileTransferService : IExposedService
     {
         /// <summary>
@@ -31,7 +31,7 @@ namespace AlarmWorkflow.BackendService.FileTransferContracts
         /// <param name="path">The path of the file to return its checksum. Must not be null.</param>
         /// <returns>The computed checksum (as a hex-formatted string) from the requested file.</returns>
         /// <exception cref="System.IO.FileNotFoundException">The file did not exist.</exception>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         string GetFileChecksum(string path);
         /// <summary>
@@ -40,7 +40,7 @@ namespace AlarmWorkflow.BackendService.FileTransferContracts
         /// <param name="path">The path of the file to return. Must not be null.</param>
         /// <returns>The file contents as a stream.</returns>
         /// <exception cref="System.IO.FileNotFoundException">The file did not exist.</exception>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         Stream GetFileStream(string path);
     }

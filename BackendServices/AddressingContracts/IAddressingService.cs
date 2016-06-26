@@ -22,14 +22,14 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
     /// <summary>
     /// Defines the methods that the addressing service offers.
     /// </summary>
-    [ServiceContract()]
+    [ServiceContract]
     public interface IAddressingService : IExposedService
     {
         /// <summary>
         /// Returns a list containing all address book entries.
         /// </summary>
         /// <returns>A list containing all address book entries.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         IList<AddressBookEntry> GetAllEntries();
     }

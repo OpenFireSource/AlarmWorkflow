@@ -20,7 +20,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Represents an exception that is thrown when a setting identifier was not found.
     /// </summary>
-    [Serializable()]
+    [Serializable]
     public class SettingIdentifierNotFoundException : Exception
     {
         #region Properties

@@ -29,15 +29,9 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://nominatim.openstreetmap.org/search?format=xml&street{0}&city={1}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://nominatim.openstreetmap.org/search?format=xml&street{0}&city={1}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return false; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => false;
 
         string IGeoCoder.ApiKey { get; set; }
 

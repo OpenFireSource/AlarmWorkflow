@@ -21,7 +21,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Provides information about the settings, to be used in UIs or anyone who needs it.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public sealed class SettingsDisplayConfiguration
     {
         #region Properties
@@ -29,7 +29,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Gets a collection of all registered identifiers.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public List<IdentifierInfo> Identifiers { get; private set; }
 
         #endregion

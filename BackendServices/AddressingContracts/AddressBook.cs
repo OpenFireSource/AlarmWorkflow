@@ -29,7 +29,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
     /// Represents an address book, which stores information about people and can be used
     /// within jobs for personalized behavior.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public sealed class AddressBook : IStringSettingConvertible
     {
         #region Fields
@@ -43,7 +43,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
         /// <summary>
         /// Gets/sets the list of entries.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public IList<AddressBookEntry> Entries { get; set; }
 
         #endregion

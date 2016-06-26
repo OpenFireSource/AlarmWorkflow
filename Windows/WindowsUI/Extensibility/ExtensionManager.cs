@@ -131,7 +131,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                 catch (Exception ex)
                 {
                     // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                    Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing the asynchronous UI-job '{0}'!", job.GetType().Name));
+                    Logger.Instance.LogFormat(LogType.Warning, this, $"An error occurred while processing the asynchronous UI-job '{job.GetType().Name}'!");
                     Logger.Instance.LogException(this, ex);
                 }
             });
@@ -147,7 +147,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
             catch (Exception ex)
             {
                 // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing UI-job '{0}'!", job.GetType().Name));
+                Logger.Instance.LogFormat(LogType.Warning, this, $"An error occurred while processing UI-job '{job.GetType().Name}'!");
                 Logger.Instance.LogException(this, ex);
             }
         }
@@ -183,7 +183,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
                 catch (Exception ex)
                 {
                     // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                    Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing the asynchronous UI-job '{0}'!", job.GetType().Name));
+                    Logger.Instance.LogFormat(LogType.Warning, this, $"An error occurred while processing the asynchronous UI-job '{job.GetType().Name}'!");
                     Logger.Instance.LogException(this, ex);
                 }
             });
@@ -199,7 +199,7 @@ namespace AlarmWorkflow.Windows.UI.Extensibility
             catch (Exception ex)
             {
                 // Be careful when processing the jobs, we don't want a malicious job to terminate the process!
-                Logger.Instance.LogFormat(LogType.Warning, this, string.Format("An error occurred while processing UI-job '{0}'!", job.GetType().Name));
+                Logger.Instance.LogFormat(LogType.Warning, this, $"An error occurred while processing UI-job '{job.GetType().Name}'!");
                 Logger.Instance.LogException(this, ex);
             }
         }

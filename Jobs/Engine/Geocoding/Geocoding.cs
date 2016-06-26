@@ -83,10 +83,7 @@ namespace AlarmWorkflow.Job.Geocoding
             }
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

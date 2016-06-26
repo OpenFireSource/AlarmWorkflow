@@ -23,7 +23,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
     /// <summary>
     /// Provides a reference implementation of the <see cref="IOperationServiceCallback"/> interface.
     /// </summary>
-    [CallbackBehavior()]
+    [CallbackBehavior]
     public class OperationServiceCallback : IOperationServiceCallback
     {
         #region Events

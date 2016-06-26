@@ -22,7 +22,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Display configuration for a single setting.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     [DebuggerDisplay("Name = {Name}, Category = {Category}")]
     public class SettingInfo
     {
@@ -31,42 +31,42 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Gets/sets the identifier that this setting is associated with.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Identifier { get; set; }
         /// <summary>
         /// Gets/sets the name of the setting.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Name { get; set; }
         /// <summary>
         /// Gets/sets the category of the setting.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Category { get; set; }
         /// <summary>
         /// Gets/sets the display text of the setting. If there is no display text, the Name will be used.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string DisplayText { get; set; }
         /// <summary>
         /// Gets/sets the description of the setting.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Description { get; set; }
         /// <summary>
         /// Gets/sets the order of the setting.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public int Order { get; set; }
         /// <summary>
         /// Gets/sets the name of the editor of the setting. If this is empty, the default editor will be used.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Editor { get; set; }
         /// <summary>
         /// Gets/sets an optional parameter for the editor of the setting.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string EditorParameter { get; set; }
         /// <summary>
         /// Gets/sets whether or not changes made to this setting will be dynamically fetched and applied again by the consumer.
@@ -76,7 +76,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// The consumer in this context is the component that has specified the setting in the first place.
         /// If this property is set to true, then any change made will be applied immediately, or at least at the next-best occassion.
         /// If this property is set to false, then any change requires the entire service to be restarted.</remarks>
-        [DataMember()]
+        [DataMember]
         public bool IsDynamic { get; set; }
 
         #endregion

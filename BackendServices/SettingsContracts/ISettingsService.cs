@@ -41,7 +41,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// -or- null, if there was no setting by this name within the configuration defined by <paramref name="key"/>.</returns>
         [OperationContract()]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
-        SettingItem GetSetting(SettingKey key);
+        ISettingItem GetSetting(SettingKey key);
         /// <summary>
         /// Sets the given setting to a new value.
         /// </summary>
@@ -49,13 +49,13 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <param name="value">The new value of the setting.</param>
         [OperationContract()]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
-        void SetSetting(SettingKey key, SettingItem value);
+        void SetSetting(SettingKey key, ISettingItem value);
         /// <summary>
         /// Sets the values of multiple settings in one batch.
         /// </summary>
         /// <param name="values">The values of the settings to set.</param>
         [OperationContract()]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
-        void SetSettings(ICollection<KeyValuePair<SettingKey, SettingItem>> values);
+        void SetSettings(ICollection<KeyValuePair<SettingKey, ISettingItem>> values);
     }
 }

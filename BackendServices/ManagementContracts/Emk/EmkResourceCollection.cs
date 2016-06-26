@@ -26,7 +26,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
     /// <summary>
     /// Represents a collection of <see cref="EmkResource"/> instances.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public sealed class EmkResourceCollection : Collection<EmkResource>, IStringSettingConvertible, ICloneable
     {
         #region Constructors

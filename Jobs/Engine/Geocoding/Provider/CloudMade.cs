@@ -29,15 +29,9 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://beta.geocoding.cloudmade.com/v3/{0}/api/geo.location.search.2?source=OSM&q={1}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://beta.geocoding.cloudmade.com/v3/{0}/api/geo.location.search.2?source=OSM&q={1}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return true; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => true;
 
         string IGeoCoder.ApiKey { get; set; }
 

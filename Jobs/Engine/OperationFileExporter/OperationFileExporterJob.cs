@@ -112,10 +112,7 @@ namespace AlarmWorkflow.Job.OperationFileExporter
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

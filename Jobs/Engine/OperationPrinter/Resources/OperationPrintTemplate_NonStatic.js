@@ -135,7 +135,6 @@ function execute() {
                 setTimeout(function () {
                     setReady();
                 }, 5000);
-
             });
         });
 

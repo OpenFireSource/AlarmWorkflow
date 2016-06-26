@@ -418,7 +418,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
                 foreach (SettingInfo info in identifier.Settings)
                 {
-                    SettingItem setting = settings.GetSetting(info.CreateSettingKey());
+                    ISettingItem setting = settings.GetSetting(info.CreateSettingKey());
                     svm.Add(info, setting);
                 }
             }

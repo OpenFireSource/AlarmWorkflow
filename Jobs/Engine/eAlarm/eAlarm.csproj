@@ -88,7 +88,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Mailing\Mailing.csproj">
       <Project>{AD86EEB7-1991-44C6-94C9-48381A33D63A}</Project>
-      <Name>AlarmWorkflow.Job.MailingJob</Name>
+      <Name>Mailing</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

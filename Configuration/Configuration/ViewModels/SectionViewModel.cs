@@ -88,7 +88,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
 
         #region Methods
 
-        internal void Add(SettingInfo info, SettingItem setting)
+        internal void Add(SettingInfo info, ISettingItem setting)
         {
             string categoryText = GetCategoryText(info.Category);
 

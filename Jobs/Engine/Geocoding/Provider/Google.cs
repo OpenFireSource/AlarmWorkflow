@@ -29,15 +29,9 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return false; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => false;
 
         string IGeoCoder.ApiKey { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25402.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms", "Sms\Sms.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"
 EndProject
@@ -22,6 +22,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationFileExporter", "OperationFileExporter\OperationFileExporter.csproj", "{A3330855-6E0C-4A51-98C1-D6FC7848CCE0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geocoding", "Geocoding\Geocoding.csproj", "{EB1691B7-C2CD-4C20-9105-95965BBF3E07}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test and Tools", "Test and Tools", "{528D2D19-3752-47CC-A9A7-CB8CA8CAB656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationPrinter.Tool", "OperationPrinter.Tool\OperationPrinter.Tool.csproj", "{E28CF343-660C-48BB-9D34-07BB23F662B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,8 +73,15 @@ Global
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EB1691B7-C2CD-4C20-9105-95965BBF3E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E28CF343-660C-48BB-9D34-07BB23F662B2} = {528D2D19-3752-47CC-A9A7-CB8CA8CAB656}
 	EndGlobalSection
 EndGlobal

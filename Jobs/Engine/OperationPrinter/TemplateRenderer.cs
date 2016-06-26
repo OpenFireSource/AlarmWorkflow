@@ -36,7 +36,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
         #region Constants
 
         private const int WebBrowserAfterCompleteGracePeriodMs = 500;
-        private static readonly bool KeepTempHtmlAfterFinish = false;
+        private static readonly bool KeepTempHtmlAfterFinish;
 
         #endregion
 

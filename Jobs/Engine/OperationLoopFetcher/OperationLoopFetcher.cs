@@ -119,10 +119,7 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

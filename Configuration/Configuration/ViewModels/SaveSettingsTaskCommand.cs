@@ -69,7 +69,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
         /// <param name="parameter">An optional parameter for the command.</param>
         protected override void Execute(object parameter)
         {
-            List<Dictionary<SettingKey, SettingItem>> settings = new List<Dictionary<SettingKey, SettingItem>>();
+            List<Dictionary<SettingKey, ISettingItem>> settings = new List<Dictionary<SettingKey, ISettingItem>>();
             int iFailedSettings = 0;
 
             App.Current.Dispatcher.Invoke((Action)(() =>
@@ -82,7 +82,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
                         continue;
                     }
 
-                    Dictionary<SettingKey, SettingItem> sectionSettings = new Dictionary<SettingKey, SettingItem>();
+                    Dictionary<SettingKey, ISettingItem> sectionSettings = new Dictionary<SettingKey, ISettingItem>();
                     settings.Add(sectionSettings);
 
                     foreach (CategoryViewModel cvm in svm.CategoryItems)
@@ -135,7 +135,7 @@ namespace AlarmWorkflow.Windows.Configuration.ViewModels
             MessageBox.Show(boxMessage, Properties.Resources.SettingSaveFinished_Title, MessageBoxButton.OK, boxImage);
         }
 
-        private int SaveSettingItems(List<Dictionary<SettingKey, SettingItem>> settings)
+        private int SaveSettingItems(List<Dictionary<SettingKey, ISettingItem>> settings)
         {
             int failedSaves = 0;
 

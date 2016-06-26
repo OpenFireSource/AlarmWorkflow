@@ -24,7 +24,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
     /// <summary>
     /// Represents a person within the address book.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     [DebuggerDisplay("Name = {FirstName},{LastName}")]
     public sealed class AddressBookEntry : IEquatable<AddressBookEntry>
     {
@@ -33,17 +33,17 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
         /// <summary>
         /// Gets/sets the person's first name.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string FirstName { get; set; }
         /// <summary>
         /// Gets/sets the person's last name.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string LastName { get; set; }
         /// <summary>
         /// Gets/sets the dictionary containing custom data, which is specific by provider.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public IList<EntryDataItem> Data { get; set; }
 
         #endregion

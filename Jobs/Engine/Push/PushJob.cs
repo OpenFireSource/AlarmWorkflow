@@ -78,10 +78,7 @@ namespace AlarmWorkflow.Job.PushJob
             Task.Factory.StartNew(() => SendToPushalot(operation, message, header));
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

@@ -22,7 +22,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
     /// See documentation for further information.
     /// </summary>
     /// <remarks>This is a generalized way to talk any push-notification-consumer, including (but not limited to): Prowl, Growl etc.</remarks>
-    [DataContract()]
+    [DataContract]
     public class PushEntryObject
     {
         #region Constants
@@ -48,12 +48,12 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
         /// <summary>
         /// Gets/sets the name of the consumer of push notifications.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Consumer { get; set; }
         /// <summary>
         /// Gets/sets the API-key of the recipient.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string RecipientApiKey { get; set; }
 
         #endregion

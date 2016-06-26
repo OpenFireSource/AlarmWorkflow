@@ -1,11 +1,24 @@
 ﻿body {
+    width: 21cm;
+    height: 29.7cm;
+    padding: 0.3cm;
+    font-family: Verdana, 'Lucida Sans Unicode', sans-serif;
+}
+
+tr, td, table {
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 2px;
 }
 
 #content {
-    min-width: 500px;
     width: 100%;
 }
 
 #route {
-    height: 400px;
+    height: 550px;
+    padding: 0px;
 }

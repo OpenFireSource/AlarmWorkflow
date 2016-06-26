@@ -24,14 +24,14 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
     /// <summary>
     /// Defines operations for the resource management service.
     /// </summary>
-    [ServiceContract()]
+    [ServiceContract]
     public interface IEmkService : IExposedService
     {
         /// <summary>
         /// Returns all resources that are configured.
         /// </summary>
         /// <returns>All resources that are configured.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         IList<EmkResource> GetAllResources();
         /// <summary>
@@ -39,7 +39,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// </summary>
         /// <param name="resources">The source list of resources that shall be filtered.</param>
         /// <returns>A filtered list of <see cref="OperationResource"/>s that has been filtered according to the configured EMK.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         IList<OperationResource> GetFilteredResources(IList<OperationResource> resources);
     }

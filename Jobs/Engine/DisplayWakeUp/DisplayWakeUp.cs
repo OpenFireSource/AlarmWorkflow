@@ -151,11 +151,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             }
         }
 
-        bool IJob.IsAsync
-        {
-            // This job is sync, because the asynchronity is done in the wrapper class
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

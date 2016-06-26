@@ -212,10 +212,7 @@ namespace AlarmWorkflow.Job.MailingJob
             return recipients.Select(ri => ri.Item2).ToList();
         }
 
-        bool IJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IJob.IsAsync => true;
 
         #endregion
 

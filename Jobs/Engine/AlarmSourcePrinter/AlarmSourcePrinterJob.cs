@@ -101,10 +101,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IJob.IsAsync => true;
 
         #endregion
 

@@ -1,0 +1,17 @@
+﻿AlarmWorkflow v1.0.2.0 Release Notes
+====================================
+
+Änderungen seit v1.0.1.0
+------------------------
+
+Generelles
+----------
+
+  * Neuer Einsatzdrucker. Verwendet JavaScript zur Generierung der Route. Leichtere Anpassbarkeit durch Nutzer & Höhere Performance, falls Route nicht gewünscht/benötigt.
+  * Quellcode Optimierungen
+  * Test Tool für Einsatzdrucker. Druckt einen "Test"-Einsatz auf dem Standarddrucker um das Layout testen zu können.
+
+Gelöste Probleme
+----------------
+
+  * Speicherung/Lesen von Geokoordinaten
