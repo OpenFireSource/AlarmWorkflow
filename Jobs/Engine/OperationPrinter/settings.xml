@@ -2,4 +2,5 @@
 <SettingsConfiguration Version="1" Identifier="OperationPrinterJob">
   <Setting Name="TemplateFile" Type="System.String">OperationPrintTemplate.htm</Setting>
   <Setting Name="PrintingQueueNames" Type="System.String" IsNull="True"></Setting>
+  <Setting Name="ScriptTimeout" Type="System.Int32">10</Setting>
 </SettingsConfiguration>

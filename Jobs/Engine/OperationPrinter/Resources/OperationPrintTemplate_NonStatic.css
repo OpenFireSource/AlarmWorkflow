@@ -1,0 +1,11 @@
+﻿body {
+}
+
+#content {
+    min-width: 500px;
+    width: 100%;
+}
+
+#route {
+    height: 400px;
+}

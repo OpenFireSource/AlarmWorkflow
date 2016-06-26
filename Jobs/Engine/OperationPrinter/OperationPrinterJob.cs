@@ -130,7 +130,10 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     return false;
                 }
 
-                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds);
+                int timeoutSeconds = _settings.GetSetting(SettingKeysJob.ScriptTimeout).GetValue<int>();
+                TimeSpan timeout = TimeSpan.FromSeconds(timeoutSeconds);
+
+                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds, timeout);
                 state = renderedImage;
             }
 

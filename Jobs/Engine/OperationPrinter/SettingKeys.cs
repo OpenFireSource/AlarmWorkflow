@@ -21,5 +21,6 @@ namespace AlarmWorkflow.Job.OperationPrinter
     {
         internal static readonly SettingKey TemplateFile = SettingKey.Create("OperationPrinterJob", "TemplateFile");
         internal static readonly SettingKey PrintingQueueNames = SettingKey.Create("OperationPrinterJob", "PrintingQueueNames");
+        internal static readonly SettingKey ScriptTimeout = SettingKey.Create("OperationPrinterJob", "ScriptTimeout");
     }
 }

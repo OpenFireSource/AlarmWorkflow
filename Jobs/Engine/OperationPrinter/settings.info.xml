@@ -4,5 +4,7 @@
              Description="Die Vorlagendatei, die zum Drucken verwendet wird." IsDynamic="true" />
     <Setting Name="PrintingQueueNames" DisplayText="Druckerwege" Category="Druck" Editor="PrintingQueueNamesTypeEditor"
              Description="Die Druckerwege, auf denen gedruckt werden soll." IsDynamic="true" />
+    <Setting Name="ScriptTimeout" DisplayText="Max. Scriptwartezeit" Category="Erweitert" Editor="DurationTypeEditor" EditorParameter="Min=1;Max=120;Scale=Seconds"
+             Description="Bestimmt die max. Zeitdauer, die ein Skript ausgeführt werden kann, bevor der Vorgang abgebrochen wird. Sollte nicht zu hoch gesetzt werden." />
   </Identifier>
 </SettingsDisplayConfiguration>
