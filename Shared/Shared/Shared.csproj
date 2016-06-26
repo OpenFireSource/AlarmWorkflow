@@ -68,6 +68,7 @@
     <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
     <Compile Include="Core\IProxyType.cs" />
     <Compile Include="Core\OptionStringHelper.cs" />
+    <Compile Include="Diagnostics\ExceptionIntervallLogger.cs" />
     <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
     <Compile Include="Extensibility\IParser.cs" />
     <Compile Include="ObjectExpressions\CustomScriptExecutionException.cs" />
