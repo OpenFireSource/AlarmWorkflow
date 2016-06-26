@@ -329,9 +329,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         void IAlarmSource.RunThread()
         {
-            var intervalLogger = new ExceptionIntervalLogger(TimeSpan.FromMinutes(10));
             while (true)
             {
+                var intervalLogger = new ExceptionIntervalLogger(TimeSpan.FromMinutes(10));
                 try
                 {
                     //.tif or .pdf

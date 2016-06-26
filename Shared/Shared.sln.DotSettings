@@ -1,6 +1,0 @@
-﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A4EE9AD70682464A832C0CC804F246A9/AbsolutePath/@EntryValue">C:\Dev\temp\alarmworkflow.DotSettings</s:String>
-	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A4EE9AD70682464A832C0CC804F246A9/RelativePath/@EntryValue">..\..\..\..\temp\alarmworkflow.DotSettings</s:String>
-	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=A4EE9AD70682464A832C0CC804F246A9/@KeyIndexDefined">True</s:Boolean>
-	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA4EE9AD70682464A832C0CC804F246A9/@KeyIndexDefined">True</s:Boolean>
-	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=FileA4EE9AD70682464A832C0CC804F246A9/RelativePriority/@EntryValue">1</s:Double></wpf:ResourceDictionary>
