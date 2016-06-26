@@ -25,6 +25,7 @@ using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
+using AlarmWorkflow.Shared.Specialized;
 using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
@@ -90,11 +91,7 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         private void OnNewAlarm(Operation operation)
         {
-            var copy = NewAlarm;
-            if (copy != null)
-            {
-                copy(this, new AlarmSourceEventArgs(operation));
-            }
+            NewAlarm?.Invoke(this, new AlarmSourceEventArgs(operation));
         }
 
         #endregion
@@ -155,12 +152,15 @@ namespace AlarmWorkflow.AlarmSource.Mail
                 string[] lines = (_configuration.AnalyzeAttachment) ? AnalyzeAttachment(message) : AnalyzeBody(message);
                 if (lines != null)
                 {
-                    if (!_serviceProvider.GetService<IAlarmFilter>().QueryAcceptSource(string.Join(" ", lines)))
+                    
+                    ReplaceDictionary replDict = _configuration.ReplaceDictionary;
+
+                    string[] analyzedLines = lines.Select(preParsedLine => replDict.ReplaceInString(preParsedLine)).ToArray();
+                    if (!_serviceProvider.GetService<IAlarmFilter>().QueryAcceptSource(string.Join(" ", analyzedLines)))
                     {
                         return;
                     }
-
-                    Operation operation = _mailParser.Parse(lines);
+                    Operation operation = _mailParser.Parse(analyzedLines);
                     OnNewAlarm(operation);
                 }
             }

@@ -17,7 +17,9 @@ using System;
 using System.IO;
 using System.Text;
 using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
+using AlarmWorkflow.Shared.Specialized;
 
 namespace AlarmWorkflow.AlarmSource.Mail
 {
@@ -31,52 +33,29 @@ namespace AlarmWorkflow.AlarmSource.Mail
 
         #region Properties
 
-        internal string ServerName
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "ServerName").GetValue<string>(); }
-        }
-        internal int Port
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "Port").GetValue<int>(); }
-        }
-        internal string UserName
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "UserName").GetValue<string>(); }
-        }
-        internal string Password
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "Password").GetValue<string>(); }
-        }
-        internal bool SSL
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "SSL").GetValue<bool>(); }
-        }
+        internal string ServerName => _settings.GetSetting("MailAlarmSource", "ServerName").GetValue<string>();
 
-        internal string MailSubject
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "MailSubject").GetValue<string>(); }
-        }
-        internal string MailSender
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "MailSender").GetValue<string>(); }
-        }
+        internal int Port => _settings.GetSetting("MailAlarmSource", "Port").GetValue<int>();
 
-        internal bool AnalyzeAttachment
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>(); }
-        }
-        internal string AttachmentName
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>(); }
-        }
-        internal string ParserAlias
-        {
-            get { return _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>(); }
-        }
-        internal Encoding Encoding
-        {
-            get { return GetEncodingFromSettings(); }
-        }
+        internal string UserName => _settings.GetSetting("MailAlarmSource", "UserName").GetValue<string>();
+
+        internal string Password => _settings.GetSetting("MailAlarmSource", "Password").GetValue<string>();
+
+        internal bool SSL => _settings.GetSetting("MailAlarmSource", "SSL").GetValue<bool>();
+
+        internal string MailSubject => _settings.GetSetting("MailAlarmSource", "MailSubject").GetValue<string>();
+
+        internal string MailSender => _settings.GetSetting("MailAlarmSource", "MailSender").GetValue<string>();
+
+        internal bool AnalyzeAttachment => _settings.GetSetting("MailAlarmSource", "AnalyseAttachment").GetValue<bool>();
+
+        internal string AttachmentName => _settings.GetSetting("MailAlarmSource", "AttachmentName").GetValue<string>();
+
+        internal ReplaceDictionary ReplaceDictionary => _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>();
+
+        internal string ParserAlias => _settings.GetSetting("MailAlarmSource", "MailParser").GetValue<string>();
+
+        internal Encoding Encoding => GetEncodingFromSettings();
 
         #endregion
 
