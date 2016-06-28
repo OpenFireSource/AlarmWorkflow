@@ -42,25 +42,25 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <param name="name">The name of the setting within the configuration defined by <paramref name="identifier"/>.</param>
         /// <returns>The setting by its name.
         /// -or- null, if there was no setting by this name within the configuration defined by <paramref name="identifier"/>.</returns>
-        ISettingItem GetSetting(string identifier, string name);
+        SettingItem GetSetting(string identifier, string name);
         /// <summary>
         /// Returns a specific setting by its parental identifier and name.
         /// </summary>
         /// <param name="key">The <see cref="SettingKey"/>-instance describing the identifier and name of the setting to get.</param>
         /// <returns>The setting by its name.
         /// -or- null, if there was no setting by this name within the configuration defined by <paramref name="key"/>.</returns>
-        ISettingItem GetSetting(SettingKey key);
+        SettingItem GetSetting(SettingKey key);
         /// <summary>
         /// Sets the given setting to a new value.
         /// </summary>
         /// <param name="identifier">The identifier of the setting. This is used to distinguish between the different setting configurations available.</param>
         /// <param name="name">The name of the setting within the configuration defined by <paramref name="identifier"/>.</param>
         /// <param name="value">The new value of the setting.</param>
-        void SetSetting(string identifier, string name, ISettingItem value);
+        void SetSetting(string identifier, string name, SettingItem value);
         /// <summary>
         /// Sets the values of multiple settings in one batch.
         /// </summary>
         /// <param name="values">The values of the settings to set.</param>
-        void SetSettings(IEnumerable<KeyValuePair<SettingKey, ISettingItem>> values);
+        void SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values);
     }
 }

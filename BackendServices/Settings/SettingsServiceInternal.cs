@@ -77,7 +77,7 @@ namespace AlarmWorkflow.BackendService.Settings
             return _settings.SettingsDisplayConfiguration;
         }
 
-        ISettingItem ISettingsServiceInternal.GetSetting(string identifier, string name)
+        SettingItem ISettingsServiceInternal.GetSetting(string identifier, string name)
         {
             Assertions.AssertNotEmpty(identifier, "identifier");
             Assertions.AssertNotEmpty(name, "name");
@@ -105,7 +105,7 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        ISettingItem ISettingsServiceInternal.GetSetting(SettingKey key)
+        SettingItem ISettingsServiceInternal.GetSetting(SettingKey key)
         {
             Assertions.AssertNotNull(key, "key");
 
@@ -119,7 +119,7 @@ namespace AlarmWorkflow.BackendService.Settings
             return item;
         }
 
-        void ISettingsServiceInternal.SetSetting(string identifier, string name, ISettingItem value)
+        void ISettingsServiceInternal.SetSetting(string identifier, string name, SettingItem value)
         {
             Assertions.AssertNotEmpty(identifier, "identifier");
             Assertions.AssertNotEmpty(name, "name");
@@ -130,7 +130,7 @@ namespace AlarmWorkflow.BackendService.Settings
             {
                 SettingKey key = SettingKey.Create(identifier, name);
 
-                Dictionary<SettingKey, ISettingItem> settings = new Dictionary<SettingKey, ISettingItem>();
+                Dictionary<SettingKey, SettingItem> settings = new Dictionary<SettingKey, SettingItem>();
                 settings.Add(key, value);
 
                 savedSettings = SaveSettings(settings);
@@ -142,7 +142,7 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        private IList<SettingKey> SaveSettings(IEnumerable<KeyValuePair<SettingKey, ISettingItem>> values)
+        private IList<SettingKey> SaveSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
         {
             List<SettingKey> keys = new List<SettingKey>();
 
@@ -199,7 +199,7 @@ namespace AlarmWorkflow.BackendService.Settings
             return false;
         }
 
-        void ISettingsServiceInternal.SetSettings(IEnumerable<KeyValuePair<SettingKey, ISettingItem>> values)
+        void ISettingsServiceInternal.SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
         {
             Assertions.AssertNotNull(values, "values");
 

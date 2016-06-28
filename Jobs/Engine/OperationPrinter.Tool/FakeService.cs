@@ -69,38 +69,43 @@ namespace AlarmWorkflow.Job.OperationPrinter.Tool
             return null;
         }
 
-        public ISettingItem GetSetting(string identifier, string name)
+        public SettingItem GetSetting(string identifier, string name)
         {
             return GetSetting(SettingKey.Create(identifier, name));
         }
 
-        public ISettingItem GetSetting(SettingKey key)
+        public SettingItem GetSetting(SettingKey key)
         {
             Console.WriteLine($"Requested setting {key.Identifier}.{key.Name}.");
             if (key.Name == "PrintingQueueNames")
             {
-                return new FakeItem { Identifier = key.Identifier, Name = key.Name, Value = _defaultPrinter, SettingType = typeof(string) };
+                return new SettingItem(key.Identifier, key.Name, _defaultPrinter, typeof(string));
             }
             if (key.Name == "PrintingQueuesConfiguration")
             {
-                return new FakeItem { Identifier = key.Identifier, Name = key.Name, Value = new PrintingQueuesConfiguration { Entries = { new PrintingQueue { Name = _defaultPrinter, IsEnabled = true, CopyCount = 1, PrinterName = _defaultPrinter } } }, SettingType = typeof(PrintingQueuesConfiguration) };
+                var setting = new PrintingQueuesConfiguration
+                {
+                    Entries = {new PrintingQueue {Name = _defaultPrinter, IsEnabled = true, CopyCount = 1, PrinterName = _defaultPrinter}}
+                };
+                
+                return new SettingItem(key.Identifier, key.Name, (setting as IStringSettingConvertible).ConvertBack(), typeof(PrintingQueuesConfiguration)) ;
             }
             if (key.Name == "TemplateFile")
             {
-                return new FakeItem { Identifier = key.Identifier, Name = key.Name, Value = Path.GetFullPath(@"Resources\OperationPrintTemplate_NonStatic.htm"), SettingType = typeof(string) };
+                return new SettingItem(key.Identifier, key.Name, Path.GetFullPath(@"Resources\OperationPrintTemplate_NonStatic.htm"), typeof(string));
             }
             if (key.Name == "ScriptTimeout")
             {
-                return new FakeItem { Identifier = key.Identifier, Name = key.Name, Value = 60, SettingType = typeof(int) };
+                return new SettingItem(key.Identifier, key.Name, "60", typeof(int));
             }
-            return new FakeItem();
+            return null;
         }
 
-        public void SetSetting(string identifier, string name, ISettingItem value)
+        public void SetSetting(string identifier, string name, SettingItem value)
         {
         }
 
-        public void SetSettings(IEnumerable<KeyValuePair<SettingKey, ISettingItem>> values)
+        public void SetSettings(IEnumerable<KeyValuePair<SettingKey, SettingItem>> values)
         {
         }
 

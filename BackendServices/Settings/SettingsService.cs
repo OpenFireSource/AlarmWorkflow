@@ -70,7 +70,7 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        ISettingItem ISettingsService.GetSetting(SettingKey key)
+        SettingItem ISettingsService.GetSetting(SettingKey key)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        void ISettingsService.SetSetting(SettingKey key, ISettingItem value)
+        void ISettingsService.SetSetting(SettingKey key,SettingItem value)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        void ISettingsService.SetSettings(ICollection<KeyValuePair<SettingKey, ISettingItem>> values)
+        void ISettingsService.SetSettings(ICollection<KeyValuePair<SettingKey, SettingItem>> values)
         {
             try
             {

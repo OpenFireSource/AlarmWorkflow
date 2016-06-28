@@ -26,7 +26,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// </summary>
     [DataContract()]
     [DebuggerDisplay("Name = {Name}, Value = {Value} (is user defined = {IsUserValue}, is default = {IsDefault})")]
-    public sealed class SettingItem :  ISettingItem
+    public sealed class SettingItem :  IProxyType<string>
     {
         #region Fields
 
@@ -104,7 +104,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <param name="name">The name of this setting.</param>
         /// <param name="defaultValue">The default value of this setting.</param>
         /// <param name="type">The type of the setting.</param>
-        internal SettingItem(string identifier, string name, string defaultValue, Type type)
+        public SettingItem(string identifier, string name, string defaultValue, Type type)
             : this()
         {
             Assertions.AssertNotEmpty(identifier, "identifier");

@@ -27,7 +27,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// by splitting the string at their newline-characters.
         /// </summary>
         /// <returns>The value of this setting as a string array.</returns>
-        public static string[] GetStringArray(this ISettingItem setting)
+        public static string[] GetStringArray(this SettingItem setting)
         {
             string full = setting.GetValue<string>();
             // For some reason, when saving a setting in the editor,
