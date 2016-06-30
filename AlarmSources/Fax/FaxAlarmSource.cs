@@ -329,33 +329,41 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         void IAlarmSource.RunThread()
         {
+            var intervalLogger = new ExceptionIntervalLogger(TimeSpan.FromMinutes(10));
             while (true)
             {
-                //.tif or .pdf
-                FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
-                            .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
-                            .ToArray();
-
-                if (files.Length > 0)
+                try
                 {
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
+                    //.tif or .pdf
+                    FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
+                                .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+                                .ToArray();
 
-                    foreach (FileInfo file in files)
+                    if (files.Length > 0)
                     {
-                        if(file.Extension == ".pdf")
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.BeginProcessingFaxes, files.Length);
+
+                        foreach (FileInfo file in files)
                         {
-                            ProcessNewPdf(file);
+                            if(file.Extension == ".pdf")
+                            {
+                                ProcessNewPdf(file);
+                            }
+                            else
+                            {
+                                ProcessNewImage(file);
+                            }
                         }
-                        else
-                        {
-                            ProcessNewImage(file);
-                        }
+
+                        Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
                     }
-
-                    Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.ProcessingFaxesComplete);
+                    intervalLogger.ResetExceptionCollection();
+                    Thread.Sleep(RoutineIntervalMs);
                 }
-
-                Thread.Sleep(RoutineIntervalMs);
+                catch(Exception ex)
+                {
+                    intervalLogger.LogFormat(ex, LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
+                }
             }
         }
 
