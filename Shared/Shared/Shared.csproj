@@ -116,6 +116,7 @@
     <Compile Include="SettingKeys.cs" />
     <Compile Include="Settings\IStringSettingConvertible.cs" />
     <Compile Include="Settings\SettingKey.cs" />
+    <Compile Include="Settings\SettingKeyComparer.cs" />
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
     <Compile Include="Specialized\Printing\GdiPrinter.cs" />
     <Compile Include="Specialized\Printing\PrintingQueueCollection.cs" />

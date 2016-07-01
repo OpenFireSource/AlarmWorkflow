@@ -11,6 +11,8 @@ Generelles
   * Quellcode Optimierungen
   * Test Tool für Einsatzdrucker. Druckt einen "Test"-Einsatz auf dem Standarddrucker um das Layout testen zu können.
   * Korrekturwörterbuch für E-Mail Alarmquelle
+  * Optimierungen bei Druckerauswahl
+  * Möglichkeit zur Selektion von bereits auf dem System installierten Druckern
 
 Gelöste Probleme
 ----------------

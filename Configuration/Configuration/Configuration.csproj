@@ -43,6 +43,10 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="AlarmWorkflow.BackendService.PrintingContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\AlarmWorkflow.BackendService.PrintingContracts.dll</HintPath>
+    </Reference>
     <Reference Include="AlarmWorkflow.Shared">
       <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
     </Reference>
@@ -134,6 +138,10 @@
       <DependentUpon>PrintingQueuesEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="TypeEditors\Specialized\Printing\PrintingQueuesEditorViewModel.cs" />
+    <Compile Include="TypeEditors\Specialized\Printing\SystemPrintingQueues.xaml.cs">
+      <DependentUpon>SystemPrintingQueues.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TypeEditors\Specialized\Printing\SystemPrintingQueuesViewModel.cs" />
     <Compile Include="TypeEditors\StringArrayTypeEditor.xaml.cs">
       <DependentUpon>StringArrayTypeEditor.xaml</DependentUpon>
     </Compile>
@@ -249,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TypeEditors\Specialized\Printing\PrintingQueuesEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TypeEditors\Specialized\Printing\SystemPrintingQueues.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

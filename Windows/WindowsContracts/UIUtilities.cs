@@ -94,5 +94,29 @@ namespace AlarmWorkflow.Windows.UIContracts
                 UIUtilities.ShowWarning(Resources.CopyToClipboardFailedMessage);
             }
         }
+
+        /// <summary>
+        /// A bindable property for closing a view from the viewmodel
+        /// </summary>
+        public static readonly DependencyProperty DialogResultProperty = DependencyProperty.RegisterAttached("DialogResult", typeof(bool?), typeof(UIUtilities), new PropertyMetadata(DialogResultChanged));
+
+        private static void DialogResultChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var window = d as Window;
+            if (window != null && (bool?) e.NewValue == true)
+            {
+                window.Close();
+            }
+        }
+
+        /// <summary>
+        /// Sets the dialog result property
+        /// </summary>
+        /// <param name="target">The target window</param>
+        /// <param name="value">The value</param>
+        public static void SetDialogResult(Window target, bool? value)
+        {
+            target.SetValue(DialogResultProperty, value);
+        }
     }
 }
