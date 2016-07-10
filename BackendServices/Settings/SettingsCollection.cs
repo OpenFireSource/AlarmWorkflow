@@ -48,10 +48,7 @@ namespace AlarmWorkflow.BackendService.Settings
         /// Gets the <see cref="SettingsDisplayConfiguration"/>.
         /// </summary>
         /// <returns></returns>
-        public SettingsDisplayConfiguration SettingsDisplayConfiguration
-        {
-            get { return _displayConfiguration; }
-        }
+        public SettingsDisplayConfiguration SettingsDisplayConfiguration => _displayConfiguration;
 
         #endregion
 

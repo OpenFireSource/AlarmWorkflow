@@ -59,12 +59,12 @@ namespace AlarmWorkflow.BackendService.Engine
 
         private bool IsOnBlacklist(string source)
         {
-            return this.Configuration.GlobalBlacklist.Any(kw => source.Contains(kw));
+            return Configuration.GlobalBlacklist.Any(kw => source.Contains(kw));
         }
 
         private bool IsOnWhitelist(string source)
         {
-            IEnumerable<string> whitelist = this.Configuration.GlobalWhitelist;
+            IEnumerable<string> whitelist = Configuration.GlobalWhitelist;
             if (!whitelist.Any())
             {
                 return true;

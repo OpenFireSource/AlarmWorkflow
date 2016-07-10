@@ -58,10 +58,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         /// Gets the generated identifier for this resource.
         /// The identifier is a concatenation of <see cref="SiteAlias"/> and <see cref="ResourceAlias"/>.
         /// </summary>
-        public string Id
-        {
-            get { return string.Format("{0}.{1}", SiteAlias, ResourceAlias); }
-        }
+        public string Id => string.Format("{0}.{1}", SiteAlias, ResourceAlias);
 
         #endregion
 
@@ -72,7 +69,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         /// </summary>
         public EmkResource()
         {
-            this.IsActive = true;
+            IsActive = true;
         }
 
         #endregion
@@ -111,8 +108,8 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
                 return false;
             }
 
-            return this.SiteAlias == other.SiteAlias
-                && this.ResourceAlias == other.ResourceAlias;
+            return SiteAlias == other.SiteAlias
+                && ResourceAlias == other.ResourceAlias;
         }
 
         #endregion

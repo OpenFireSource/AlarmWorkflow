@@ -50,7 +50,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         public SettingNotFoundException(string settingName)
             : base(string.Format(Properties.Resources.SettingNotFoundExceptionMessage, settingName))
         {
-            this.SettingName = settingName;
+            SettingName = settingName;
         }
 
         #endregion

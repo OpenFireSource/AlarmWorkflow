@@ -53,13 +53,13 @@ namespace AlarmWorkflow.BackendService.Engine
         {
             base.OnStart();
 
-            ISettingsServiceInternal settings = this.ServiceProvider.GetService<ISettingsServiceInternal>();
+            ISettingsServiceInternal settings = ServiceProvider.GetService<ISettingsServiceInternal>();
 
             Configuration configuration = LoadConfiguration(settings);
 
-            this.AddInternalService(typeof(IAlarmFilter), new AlarmFilter() { Configuration = configuration });
+            AddInternalService(typeof(IAlarmFilter), new AlarmFilter() { Configuration = configuration });
 
-            _engine = new AlarmWorkflowEngine(configuration, this.ServiceProvider, settings);
+            _engine = new AlarmWorkflowEngine(configuration, ServiceProvider, settings);
             _engine.Start();
         }
 

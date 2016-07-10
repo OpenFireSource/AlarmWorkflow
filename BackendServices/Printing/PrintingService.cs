@@ -33,7 +33,7 @@ namespace AlarmWorkflow.BackendService.Printing
         {
             try
             {
-                return this.ServiceProvider.GetService<IPrintingServiceInternal>().GetPrinters();
+                return ServiceProvider.GetService<IPrintingServiceInternal>().GetPrinters();
             }
             catch (Exception ex)
             {

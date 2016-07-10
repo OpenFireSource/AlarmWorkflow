@@ -158,7 +158,7 @@ namespace AlarmWorkflow.BackendService.Engine
             }
             catch (Exception ex)
             {
-                string message = (job.IsAsync) ? Properties.Resources.JobExecuteAsyncFailed : Properties.Resources.JobExecuteSyncFailed;
+                string message = (job.IsAsync) ? Resources.JobExecuteAsyncFailed : Resources.JobExecuteSyncFailed;
 
                 Logger.Instance.LogFormat(LogType.Warning, this, string.Format(message, job.GetType().Name));
                 Logger.Instance.LogException(this, ex);

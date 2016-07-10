@@ -42,7 +42,7 @@ namespace AlarmWorkflow.BackendService.Addressing
         {
             try
             {
-                return this.ServiceProvider.GetService<IAddressingServiceInternal>().GetAllEntries();
+                return ServiceProvider.GetService<IAddressingServiceInternal>().GetAllEntries();
             }
             catch (Exception ex)
             {

@@ -72,7 +72,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
         /// <returns>An enumerable containing all data items of this entry that are of the specified type.</returns>
         public IEnumerable<TCustomData> GetDataItems<TCustomData>(string type)
         {
-            IEnumerable<EntryDataItem> matching = this.Data.Where(d => d.Identifier == type);
+            IEnumerable<EntryDataItem> matching = Data.Where(d => d.Identifier == type);
             foreach (EntryDataItem eo in matching.Where(i => i.IsEnabled))
             {
                 yield return (TCustomData)eo.Data;
@@ -95,8 +95,8 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
             {
                 return false;
             }
-            return (this.FirstName == other.FirstName)
-                && (this.LastName == other.LastName);
+            return (FirstName == other.FirstName)
+                && (LastName == other.LastName);
         }
 
         #endregion

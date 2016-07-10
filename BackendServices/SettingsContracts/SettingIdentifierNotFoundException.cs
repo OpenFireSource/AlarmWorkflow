@@ -50,7 +50,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         public SettingIdentifierNotFoundException(string identifierName)
             : base(string.Format(Properties.Resources.SettingIdentifierNotFoundExceptionMessage, identifierName))
         {
-            this.IdentifierName = identifierName;
+            IdentifierName = identifierName;
         }
 
         #endregion

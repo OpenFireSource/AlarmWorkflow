@@ -35,10 +35,7 @@ namespace AlarmWorkflow.BackendService.Addressing
 
         #region Properties
 
-        private ISettingsServiceInternal SettingsService
-        {
-            get { return ServiceProvider.GetService<ISettingsServiceInternal>(); }
-        }
+        private ISettingsServiceInternal SettingsService => ServiceProvider.GetService<ISettingsServiceInternal>();
 
         #endregion
 

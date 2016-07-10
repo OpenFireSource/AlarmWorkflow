@@ -25,10 +25,7 @@ namespace AlarmWorkflow.BackendService.Management
     {
         #region Properties
 
-        private IOperationServiceInternal InternalService
-        {
-            get { return ServiceProvider.GetService<IOperationServiceInternal>(); }
-        }
+        private IOperationServiceInternal InternalService => ServiceProvider.GetService<IOperationServiceInternal>();
 
         #endregion
 
@@ -60,18 +57,12 @@ namespace AlarmWorkflow.BackendService.Management
 
         private void InternalService_NewOperation(Operation obj)
         {
-            if (Callback != null)
-            {
-                Callback.OnNewOperation(obj);
-            }
+            Callback?.OnNewOperation(obj);
         }
 
         private void InternalService_OperationAcknowledged(int id)
         {
-            if (Callback != null)
-            {
-                Callback.OnOperationAcknowledged(id);
-            }
+            Callback?.OnOperationAcknowledged(id);
         }
 
         #endregion

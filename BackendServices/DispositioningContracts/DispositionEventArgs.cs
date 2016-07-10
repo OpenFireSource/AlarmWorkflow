@@ -65,9 +65,9 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
                 throw new ArgumentOutOfRangeException("action");
             }
 
-            this.OperationId = operationId;
-            this.EmkResourceId = emkResourceId;
-            this.Action = action;
+            OperationId = operationId;
+            EmkResourceId = emkResourceId;
+            Action = action;
         }
 
         #endregion
