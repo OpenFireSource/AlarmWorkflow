@@ -4,5 +4,8 @@
              Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
     <Setting Name="Header" DisplayText="Betreff" Category="Nachricht" IsDynamic="true" />
+
+    <Setting Name="PushoverApiKey" DisplayText="Api-Key" Category="Pushover" 
+             Description="Der API-Key wird von Pushover benötigt. Genaueres hierzu entnehmen Sie bitte der Dokumentation von Pushover." IsDynamic="true" />
   </Identifier>
 </SettingsDisplayConfiguration>
