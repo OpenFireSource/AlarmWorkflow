@@ -67,6 +67,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Pushover.cs" />
     <Compile Include="SettingKeysJob.cs" />
   </ItemGroup>
   <ItemGroup>

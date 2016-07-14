@@ -13,6 +13,7 @@ Generelles
   * Korrekturwörterbuch für E-Mail Alarmquelle
   * Optimierungen bei Druckerauswahl
   * Möglichkeit zur Selektion von bereits auf dem System installierten Druckern
+  * Pushover als weitere Pushmöglichkeit hinzugefügt -> https://pushover.net
 
 Gelöste Probleme
 ----------------
