@@ -16,21 +16,33 @@
 using System.IO;
 using AlarmWorkflow.AlarmSource.Fax.Extensibility;
 using AlarmWorkflow.Shared.Core;
+using System;
 
 namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 {
     class TesseractOcrSoftware : IOcrSoftware
     {
+        #region Constants
+
+        private const string EnvTessdata = "TESSDATA_PREFIX";
+        
+        #endregion
+
         #region IOcrSoftware Members
 
         string[] IOcrSoftware.ProcessImage(OcrProcessOptions options)
         {
             using (ProcessWrapper proc = new ProcessWrapper())
             {
+                string tesseractPath = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
+                string tessdataPath = Path.Combine(tesseractPath, "tessdata");
+
+                Environment.SetEnvironmentVariable(EnvTessdata, tessdataPath);
+
                 // If there is no custom directory
                 if (string.IsNullOrEmpty(options.SoftwarePath))
                 {
-                    proc.WorkingDirectory = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
+                    proc.WorkingDirectory = tesseractPath;
                 }
                 else
                 {
