@@ -15,6 +15,7 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.Shared.Core;
 
@@ -24,9 +25,24 @@ namespace AlarmWorkflow.Job.OperationPrinter.Tool
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("".PadRight(16, '*'));
+            Console.WriteLine($"{Environment.NewLine}This tool is only for test purpose!{Environment.NewLine}It generates a 'test operation' and uses the the default printer for printing the template located under 'Resources\\OperationPrintTemplate_NonStatic.htm'{Environment.NewLine}{Environment.NewLine}");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($" --> Press 'enter' to continue. <-- {Environment.NewLine}");
+            Console.ResetColor();
+            Console.WriteLine("".PadRight(16, '*'));
+            ConsoleKeyInfo key = Console.ReadKey(false);
+
+            if (key.Key != ConsoleKey.Enter)
+            {
+                return;
+            }
+
+            Console.WriteLine($"Please be patient...{Environment.NewLine}Job is getting executed! It can take a few seconds until something happens.");
+
             IJob job = ExportedTypeLibrary.GetExports(typeof(IJob)).SingleOrDefault(x => x.Attribute.Alias == "OperationPrinterJob").CreateInstance<IJob>();
             job.Initialize(new FakeSettingsService());
-            FakeContext c = new FakeContext {Phase = JobPhase.AfterOperationStored};
+            FakeContext c = new FakeContext { Phase = JobPhase.AfterOperationStored };
             job.Execute(c, new Operation
             {
                 Comment = "Testeinsatz für die Feuerwehr Musterstadt",
@@ -46,10 +62,11 @@ namespace AlarmWorkflow.Job.OperationPrinter.Tool
                 TimestampIncome = DateTime.Now,
                 OperationPlan = "Plan 42",
                 Priority = "Prio 1",
-                Resources = {new OperationResource { FullName = "Entenhausen 11/1"},new OperationResource { FullName = "Musterstadt 40/1",RequestedEquipment = {"Geräteträger"},Timestamp = DateTime.Now.ToString("HH:mm:ss")} },
-                Keywords = new OperationKeywords { B ="B3",Keyword = "Brand Wohnhaus",EmergencyKeyword = "Brand Person in Gefahr"}
-               
+                Resources = { new OperationResource { FullName = "Entenhausen 11/1" }, new OperationResource { FullName = "Musterstadt 40/1", RequestedEquipment = { "Geräteträger" }, Timestamp = DateTime.Now.ToString("HH:mm:ss") } },
+                Keywords = new OperationKeywords { B = "B3", Keyword = "Brand Wohnhaus", EmergencyKeyword = "Brand Person in Gefahr" }
+
             });
+            Thread.Sleep(1000);
         }
     }
 }
