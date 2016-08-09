@@ -33,7 +33,7 @@ The AlarmWorkflow-project makes use of the following libraries:
 	https://github.com/jhabjan/Ghostscript.NET
 	
     AvalonDock
-    http://avalondock.codeplex.com/
+    http://avalondock.codeplex.com/ & http://wpftoolkit.codeplex.com/
     
     Some icons by Microsoft, taken from the Visual Studio Image Libraries
     

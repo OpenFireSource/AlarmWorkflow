@@ -13,8 +13,11 @@ Generelles
   * Korrekturwörterbuch für E-Mail Alarmquelle
   * Optimierungen bei Druckerauswahl
   * Möglichkeit zur Selektion von bereits auf dem System installierten Druckern
+  * Alarmtext Widget nun flexibler und dynamischer.
+  * Avalon Dock Upgrade
 
 Gelöste Probleme
 ----------------
 
   * Speicherung/Lesen von Geokoordinaten
+  * Laden von alten Layouts in der UI

@@ -12,7 +12,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:OperationView}">
-            <views:ContentAlarmsAvailableControl/>
+            <views:ContentAlarmsAvailableControl DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
         </DataTemplate>
     </Window.Resources>
     <Grid>

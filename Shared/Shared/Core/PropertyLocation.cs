@@ -95,6 +95,8 @@ namespace AlarmWorkflow.Shared.Core
                     return;
                 string[] latlng = new string[2];
                 latlng = value.Split(';');
+                if(string.IsNullOrWhiteSpace(latlng[0])|| string.IsNullOrWhiteSpace(latlng[1]))
+                    return;
                 GeoLatitude = Convert.ToDouble(latlng[0], CultureInfo.InvariantCulture);
                 GeoLongitude = Convert.ToDouble(latlng[1], CultureInfo.InvariantCulture);
             }

@@ -77,11 +77,10 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
             if (File.Exists(_layoutFile))
             {
-                IEnumerable<string> ids = GetIdentifiersInFile();
-
-                bool everthingFound = _widgetManager.Widgets
-                    .Select(widget => ids.Any(id => string.Equals(id, widget.ContentGuid, StringComparison.OrdinalIgnoreCase)))
-                    .All(found => found);
+                List<string> ids = GetIdentifiersInFile().ToList();
+                List<string> widgets = _widgetManager.Widgets
+                    .Select(widget => widget.ContentGuid).ToList();
+                bool everthingFound = (ids.Count == widgets.Count) && !widgets.Except(ids).Any();
 
                 if (everthingFound)
                 {
@@ -108,6 +107,7 @@ namespace AlarmWorkflow.Windows.CustomViewer.Views
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
+            _widgetManager.CloseWidgets();
             XmlLayoutSerializer serializer = new XmlLayoutSerializer(dockingManager);
 
             using (XmlTextWriter writer = new XmlTextWriter(_layoutFile, Encoding.UTF8))

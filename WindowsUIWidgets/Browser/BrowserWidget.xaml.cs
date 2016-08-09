@@ -50,6 +50,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Browser
 
         #region IUWidget Members
 
+        void IUIWidget.Close()
+        {
+        }
+
         bool IUIWidget.Initialize()
         {
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
@@ -65,20 +69,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.Browser
             _webbrowser.Navigate(url);
         }
 
-        UIElement IUIWidget.UIElement
-        {
-            get { return this; }
-        }
+        UIElement IUIWidget.UIElement => this;
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "CDF33773-BE09-41A4-896F-173180495147"; }
-        }
+        string IUIWidget.ContentGuid => "CDF33773-BE09-41A4-896F-173180495147";
 
-        string IUIWidget.Title
-        {
-            get { return "Browser"; }
-        }
+        string IUIWidget.Title => "Browser";
 
         #endregion
     }

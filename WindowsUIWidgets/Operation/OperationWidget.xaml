@@ -3,14 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:operation="clr-namespace:AlarmWorkflow.Windows.UIWidgets.Operation"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-
-    <StackPanel  HorizontalAlignment="Stretch" Name="stackPanel1" VerticalAlignment="Center">
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineOne" Text="(n/A)" FontSize="36" />
-        <Separator Height="2" VerticalAlignment="Stretch" />
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineTwo" Text="(n/A)" FontSize="24" />
-        <Separator Height="2" VerticalAlignment="Stretch" />
-        <TextBlock TextWrapping="Wrap" TextAlignment="Center" Name="LineThree" Text="(n/A)" FontSize="18" />
-    </StackPanel>
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Text="{Binding LineOne}" FontSize="{Binding FontSizeOne}"></TextBlock>
+        <Separator Height="3" Grid.Row="1" Margin="5,0" HorizontalAlignment="Stretch"/>
+        <TextBlock Text="{Binding LineTwo}" FontSize="{Binding FontSizeTwo}" Grid.Row="2"></TextBlock>
+        <Separator Height="3" Grid.Row="3" Margin="5,0" HorizontalAlignment="Stretch"/>
+        <TextBlock Text="{Binding LineThree}" FontSize="{Binding FontSizeThree}" Grid.Row="4" ></TextBlock>
+    </Grid>
 </UserControl>

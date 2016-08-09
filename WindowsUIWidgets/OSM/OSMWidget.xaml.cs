@@ -48,6 +48,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
 
         #region IUIWidget Members
 
+        void IUIWidget.Close()
+        {
+        }
+
         bool IUIWidget.Initialize()
         {
             return true;
@@ -65,20 +69,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.OSM
             _webBrowser.Navigate(_osmFile);
         }
 
-        UIElement IUIWidget.UIElement
-        {
-            get { return this; }
-        }
+        UIElement IUIWidget.UIElement => this;
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "E70E128B-6A6C-4B9F-9D5A-83360BC52F8C"; }
-        }
+        string IUIWidget.ContentGuid => "E70E128B-6A6C-4B9F-9D5A-83360BC52F8C";
 
-        string IUIWidget.Title
-        {
-            get { return "OSM-MAP"; }
-        }
+        string IUIWidget.Title => "OSM-MAP";
 
         #endregion
 

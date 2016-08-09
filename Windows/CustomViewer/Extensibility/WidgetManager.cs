@@ -53,6 +53,13 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         #endregion
 
         #region Methods
+        internal void CloseWidgets()
+        {
+            foreach (var uiWidget in Widgets)
+            {
+                uiWidget.Close();
+            }
+        }
 
         internal IEnumerable<ILayoutPanelElement> GetInitializedViews()
         {
@@ -113,5 +120,6 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         }
 
         #endregion
+
     }
 }
