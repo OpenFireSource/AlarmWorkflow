@@ -49,6 +49,10 @@
     <Reference Include="AlarmWorkflow.Windows.CustomViewer">
       <HintPath>..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Windows.UIContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Engine", "Engine\Engine.csproj", "{7504D66B-21FE-423A-BD35-F7D4B1DEC810}"
 EndProject
@@ -32,6 +32,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dispositioning", "Dispositioning\Dispositioning.csproj", "{CE87D793-DFAB-4496-ABB2-2648CE1EA2BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Printing", "Printing\Printing.csproj", "{56F8EB6E-A372-4FF1-A7E7-5BA191373807}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256F334F-D344-4FCC-BDBD-1BF489F40828} = {256F334F-D344-4FCC-BDBD-1BF489F40828}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintingContracts", "PrintingContracts\PrintingContracts.csproj", "{256F334F-D344-4FCC-BDBD-1BF489F40828}"
 EndProject
