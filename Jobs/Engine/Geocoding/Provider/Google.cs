@@ -23,9 +23,9 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("Google", typeof(IGeoCoder))]
+    [Export(nameof(Google), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportGoogleDisplayName", Description = "ExportGoogleDescription")]
-    class Google : IGeoCoder
+    internal class Google : IGeoCoder
     {
         #region IGeoCoder Members
 

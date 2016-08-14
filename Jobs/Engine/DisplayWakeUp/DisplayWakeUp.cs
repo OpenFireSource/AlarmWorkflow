@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     /// <summary>
     /// Implements a Job, that turn on an Display/Monitor which is connected to a PowerAdapter.
     /// </summary>
-    [Export("DisplayWakeUpJob", typeof(IJob))]
+    [Export(nameof(DisplayWakeUpJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class DisplayWakeUp : IJob
     {

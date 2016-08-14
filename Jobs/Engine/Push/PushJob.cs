@@ -26,7 +26,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.PushJob
 {
-    [Export("PushJob", typeof(IJob))]
+    [Export(nameof(PushJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class PushJob : IJob
     {

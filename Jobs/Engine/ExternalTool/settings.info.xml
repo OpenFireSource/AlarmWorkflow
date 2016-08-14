@@ -1,0 +1,5 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="ExternalTool" DisplayText="Externe Tools starten" Parent="Aufgaben">
+      <Setting Name="ExternalTool" DisplayText="Externe Tools bei Alarmeingang ausführen (pro Zeile 1)" Category="Allgemein"  Description="Gibt die Anwendungen an, welche ausgeführt werden sobald ein neuer Einsatz eingegangen ist." Editor="StringArrayTypeEditor" IsDynamic="true" />
+  </Identifier>
+</SettingsDisplayConfiguration>

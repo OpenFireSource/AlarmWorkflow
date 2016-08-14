@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25402.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms", "Sms\Sms.csproj", "{1CBE9FB3-A3F1-4E30-A330-386A58FE51D0}"
 EndProject
@@ -26,6 +26,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test and Tools", "Test and Tools", "{528D2D19-3752-47CC-A9A7-CB8CA8CAB656}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OperationPrinter.Tool", "OperationPrinter.Tool\OperationPrinter.Tool.csproj", "{E28CF343-660C-48BB-9D34-07BB23F662B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geocoding.Test", "Geocoding.Test\Geocoding.Test.csproj", "{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalTool", "ExternalTool\ExternalTool.csproj", "{08E9C3C0-B1CF-4E6F-8BF1-46BA799E8D48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,11 +81,20 @@ Global
 		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E28CF343-660C-48BB-9D34-07BB23F662B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08E9C3C0-B1CF-4E6F-8BF1-46BA799E8D48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08E9C3C0-B1CF-4E6F-8BF1-46BA799E8D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08E9C3C0-B1CF-4E6F-8BF1-46BA799E8D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08E9C3C0-B1CF-4E6F-8BF1-46BA799E8D48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E28CF343-660C-48BB-9D34-07BB23F662B2} = {528D2D19-3752-47CC-A9A7-CB8CA8CAB656}
+		{CD82FA31-F7A7-43C6-A6C4-EB4AEB270828} = {528D2D19-3752-47CC-A9A7-CB8CA8CAB656}
 	EndGlobalSection
 EndGlobal

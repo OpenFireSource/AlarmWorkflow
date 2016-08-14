@@ -15,6 +15,8 @@ Generelles
   * Möglichkeit zur Selektion von bereits auf dem System installierten Druckern
   * Setzen der Environment-Variable "TESSDATA_PREFIX" auf das AlarmWorkflow Verzeichnis (Sprachdatei des Projektes wird allen Tesseract Versionen verwendet).  * Alarmtext Widget nun flexibler und dynamischer.
   * Avalon Dock Upgrade
+  * Neuer Job zum Ausführen von Programmen bei Alarmeingang auf dem Server
+  
 Gelöste Probleme
 ----------------
 

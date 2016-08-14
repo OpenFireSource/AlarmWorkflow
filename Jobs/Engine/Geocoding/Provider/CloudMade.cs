@@ -23,9 +23,9 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("CloudMade", typeof(IGeoCoder))]
+    [Export(nameof(CloudMade), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportCloudMadeDisplayName", Description = "ExportCloudMadeDescription")]
-    class CloudMade : IGeoCoder
+    internal class CloudMade : IGeoCoder
     {
         #region IGeoCoder Members
 

@@ -23,9 +23,9 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("MapQuest", typeof(IGeoCoder))]
+    [Export(nameof(MapQuest), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportMapQuestDisplayName", Description = "ExportMapQuestDescription")]
-    class MapQuest : IGeoCoder
+    internal class MapQuest : IGeoCoder
     {
         #region IGeoCoder Members
 

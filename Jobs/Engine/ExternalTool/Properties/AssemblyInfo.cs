@@ -13,30 +13,30 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using AlarmWorkflow.Shared.Core;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
-// die mit einer Assembly verknüpft sind.
-[assembly: AssemblyTitle("AlarmWorkflow.Job.Geocoding")]
+// die einer Assembly zugeordnet sind.
+[assembly: AssemblyTitle("AlarmWorkflow.Job.ExternalTool")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The AlarmWorkflow-Team")]
-[assembly: AssemblyProduct("AlarmWorkflow.Job.Geocoding")]
+[assembly: AssemblyProduct("AlarmWorkflow.Job.ExternalTool")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
-// für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
-// COM zugreifen müssen, legen Sie das ComVisible-Attribut für diesen Typ auf "true" fest.
+// für COM-Komponenten.  Wenn Sie auf einen Typ in dieser Assembly von 
+// COM aus zugreifen müssen, sollten Sie das ComVisible-Attribut für diesen Typ auf "True" festlegen.
 [assembly: ComVisible(false)]
 
 // Die folgende GUID bestimmt die ID der Typbibliothek, wenn dieses Projekt für COM verfügbar gemacht wird
-[assembly: Guid("bd7e9918-c3fc-4d97-926f-372528f50815")]
+[assembly: Guid("08e9c3c0-b1cf-4e6f-8bf1-46ba799e8d48")]
 
 // Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
 //
@@ -48,8 +48,5 @@ using AlarmWorkflow.Shared.Core;
 // Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
 // übernehmen, indem Sie "*" eingeben:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
-
-[assembly: AlarmWorkflowPackage()]
-[assembly: InternalsVisibleTo("AlarmWorkflow.Job.Geocoding.Test")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

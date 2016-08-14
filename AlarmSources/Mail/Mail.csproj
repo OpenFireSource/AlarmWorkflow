@@ -48,17 +48,14 @@
     <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
       <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
     </Reference>
-    <Reference Include="BouncyCastle, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
-      <HintPath>..\packages\MimeKit.1.2.22\lib\net45\BouncyCastle.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="MailKit, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
-      <HintPath>..\packages\MailKit.1.2.21\lib\net451\MailKit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MailKit">
+      <HintPath>..\packages\MailKit.1.4.1\lib\net451\MailKit.dll</HintPath>
     </Reference>
-    <Reference Include="MimeKit, Version=1.2.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
-      <HintPath>..\packages\MimeKit.1.2.22\lib\net45\MimeKit.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="MimeKit">
+      <HintPath>..\packages\MimeKit.1.4.1\lib\net451\MimeKit.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

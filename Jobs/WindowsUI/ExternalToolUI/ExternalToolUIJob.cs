@@ -25,7 +25,7 @@ using AlarmWorkflow.Windows.UIContracts.Extensibility;
 
 namespace AlarmWorkflow.Windows.ExternalToolUIJob
 {
-    [Export("ExternalToolUIJob", typeof(IUIJob))]
+    [Export(nameof(ExternalToolUIJob), typeof(IUIJob))]
     class ExternalToolUIJob : IUIJob
     {
         #region IUIJob Members
@@ -35,10 +35,7 @@ namespace AlarmWorkflow.Windows.ExternalToolUIJob
             return true;
         }
 
-        bool IUIJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IUIJob.IsAsync => true;
 
         void IUIJob.OnNewOperation(IOperationViewer operationViewer, Operation operation)
         {
@@ -52,7 +49,7 @@ namespace AlarmWorkflow.Windows.ExternalToolUIJob
             {
                 try
                 {
-                    Task.Factory.StartNew(() => Starter.StartProgramTask(program, this));
+                    Task.Factory.StartNew(() => ProgramStarter.StartProgramTask(program, this));
                 }
                 catch (Exception ex)
                 {

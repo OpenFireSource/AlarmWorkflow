@@ -120,10 +120,4 @@
   <data name="CreatingProgramFailed" xml:space="preserve">
     <value>Starting the program '{0}'  has failed. Please see log for further information.</value>
   </data>
-  <data name="ProgramNotSupported" xml:space="preserve">
-    <value>The program '{0}' is not supported. Supported program extensions are: {1}.</value>
-  </data>
-  <data name="ProgramStartFailed" xml:space="preserve">
-    <value>Could not start program '{0}'. If this program requires user interaction, it is not usable by this job.</value>
-  </data>
 </root>

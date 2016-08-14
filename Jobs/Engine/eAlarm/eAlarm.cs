@@ -34,7 +34,7 @@ namespace AlarmWorkflow.Job.eAlarm
     /// <summary>
     /// Implements a Job that send notifications to the Android App eAlarm.
     /// </summary>
-    [Export("eAlarm", typeof(IJob))]
+    [Export(nameof(eAlarm), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class eAlarm : IJob
     {
