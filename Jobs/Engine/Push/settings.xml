@@ -2,4 +2,5 @@
 <SettingsConfiguration Version="1" Identifier="PushJob">
   <Setting Name="MessageContent" Type="System.String">Ort: {Einsatzort}, {Picture}; {Comment}</Setting>
   <Setting Name="Header" Type="System.String">Feuerwehralarm</Setting>
+  <Setting Name="PushoverApiKey" Type="System.String"></Setting>
 </SettingsConfiguration>

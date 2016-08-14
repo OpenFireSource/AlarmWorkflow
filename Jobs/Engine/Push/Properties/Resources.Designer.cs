@@ -88,6 +88,15 @@ namespace AlarmWorkflow.Job.PushJob.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to While executing the notifications for Pushover an unexpected error occured: {0}..
+        /// </summary>
+        internal static string ErrorPushover {
+            get {
+                return ResourceManager.GetString("ErrorPushover", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Versendet Push-Nachrichten mittels verschiedener Anbieter..
         /// </summary>
         internal static string ExportJobDescription {
