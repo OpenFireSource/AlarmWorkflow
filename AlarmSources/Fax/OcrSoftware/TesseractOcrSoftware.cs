@@ -37,11 +37,10 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
             using (ProcessWrapper proc = new ProcessWrapper())
             {
                 string tesseractPath = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
-                string tessdataPath = Path.Combine(tesseractPath, "tessdata");
 
                 try
                 {
-                    Environment.SetEnvironmentVariable(EnvTessdata, tessdataPath);
+                    Environment.SetEnvironmentVariable(EnvTessdata, tesseractPath);
                 }
                 catch (Exception ex)
                 {
