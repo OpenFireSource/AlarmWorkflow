@@ -61,6 +61,33 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alarm-App Response (Code {0}):{1}.
+        /// </summary>
+        internal static string DebugGetResponse {
+            get {
+                return ResourceManager.GetString("DebugGetResponse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Message: {1}.
+        /// </summary>
+        internal static string DebugSendMessage {
+            get {
+                return ResourceManager.GetString("DebugSendMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Cloud Messaging Service was not found!.
+        /// </summary>
+        internal static string ErrorMessagingServiceNotFound {
+            get {
+                return ResourceManager.GetString("ErrorMessagingServiceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error while sending eAlarm notification! The error code was &apos;{0}&apos;..
         /// </summary>
         internal static string ErrorSendingNotification {
@@ -70,7 +97,7 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kommuniziert mit der eAlarm-Android App..
+        ///   Looks up a localized string similar to Kommuniziert mit der eAlarm/fAlarm-Android App..
         /// </summary>
         internal static string ExportJobDescription {
             get {
@@ -79,20 +106,11 @@ namespace AlarmWorkflow.Job.eAlarm.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to eAlarm.
+        ///   Looks up a localized string similar to eAlarm/fAlarm.
         /// </summary>
         internal static string ExportJobDisplayName {
             get {
                 return ResourceManager.GetString("ExportJobDisplayName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Received no result from GCM server!.
-        /// </summary>
-        internal static string SendGcmNotificationNoResult {
-            get {
-                return ResourceManager.GetString("SendGcmNotificationNoResult", resourceCulture);
             }
         }
     }
