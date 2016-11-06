@@ -21,7 +21,6 @@ using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using System.Web.Script.Serialization;
 using AlarmWorkflow.BackendService.AddressingContracts;
 using AlarmWorkflow.BackendService.AddressingContracts.EntryObjects;
 using AlarmWorkflow.BackendService.EngineContracts;
@@ -40,7 +39,8 @@ namespace AlarmWorkflow.Job.eAlarm
     {
         #region Constants
 
-        private const string ApiKey = "AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0";
+        private const string GcmApiKey = "AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0";
+        private const string FcmApiKey = "AIzaSyB4CKxUDeYC7lU-p0pLsJSJ1kcVRv6AHWk";
 
         #endregion
 
@@ -48,6 +48,12 @@ namespace AlarmWorkflow.Job.eAlarm
 
         private ISettingsServiceInternal _settings;
         private IAddressingServiceInternal _addressing;
+
+        #endregion
+
+        #region Enums
+
+        private enum CloudMessagingService { GCM, FCM }
 
         #endregion
 
@@ -78,10 +84,13 @@ namespace AlarmWorkflow.Job.eAlarm
             {
                 return;
             }
-
+            
             string body = operation.ToString(_settings.GetSetting("eAlarm", "text").GetValue<string>());
             string header = operation.ToString(_settings.GetSetting("eAlarm", "header").GetValue<string>());
             string location = operation.Einsatzort.ToString();
+            string latlng = operation.Einsatzort.GeoLatLng;
+            string timestamp = operation.Timestamp.ToString("s");
+            string key = operation.OperationGuid.ToString();
 
             bool encryption = _settings.GetSetting("eAlarm", "Encryption").GetValue<bool>();
             if (encryption)
@@ -91,25 +100,42 @@ namespace AlarmWorkflow.Job.eAlarm
                 body = Helper.Encrypt(body, encryptionKey);
                 header = Helper.Encrypt(header, encryptionKey);
                 location = Helper.Encrypt(location, encryptionKey);
+                latlng = Helper.Encrypt(latlng, encryptionKey);
+                timestamp = Helper.Encrypt(timestamp, encryptionKey);
+                key = Helper.Encrypt(key, encryptionKey);
             }
-
-            string[] to = GetRecipients(operation).Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm").Select(pushEntryObject => pushEntryObject.RecipientApiKey).ToArray();
 
             Content content = new Content()
             {
-                registration_ids = to,
                 data = new Content.Data()
-               {
-                   awf_title = header,
-                   awf_message = body,
-                   awf_location = location
-               }
+                {
+                    awf_key = key,
+                    awf_title = header,
+                    awf_message = body,
+                    awf_location = location,
+                    awf_latlng = latlng,
+                    awf_timestamp = timestamp
+                }
             };
 
-            string message = new JavaScriptSerializer().Serialize(content);
-
+            //Send to eAlarm
+            content.registration_ids = GetRecipients(operation)
+                .Where(pushEntryObject => pushEntryObject.Consumer == "eAlarm")
+                .Select(pushEntryObject => pushEntryObject.RecipientApiKey)
+                .ToArray();
             HttpStatusCode result = 0;
-            if (!SendGcmNotification(ApiKey, message, ref result))
+            if (!SendNotification(CloudMessagingService.GCM, content, ref result))
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorSendingNotification, result);
+            }
+
+            //Send to fAlarm
+            content.registration_ids = GetRecipients(operation)
+                .Where(pushEntryObject => pushEntryObject.Consumer == "fAlarm")
+                .Select(pushEntryObject => pushEntryObject.RecipientApiKey)
+                .ToArray();
+            result = 0;
+            if (!SendNotification(CloudMessagingService.FCM, content, ref result))
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorSendingNotification, result);
             }
@@ -127,13 +153,35 @@ namespace AlarmWorkflow.Job.eAlarm
 
         #region Methods
 
-        private bool SendGcmNotification(string apiKey, string postData, ref HttpStatusCode result)
+        private bool SendNotification(CloudMessagingService service, Content content, ref HttpStatusCode result)
         {
+            if (content.registration_ids.Length == 0)
+                return true;
+
+            string message = Json.Serialize(content);
+            byte[] byteArray = Encoding.UTF8.GetBytes(message);
+            string url = string.Empty, apiKey = string.Empty;
+
+            switch (service)
+            {
+                case CloudMessagingService.GCM:
+                    url = "https://android.googleapis.com/gcm/send";
+                    apiKey = GcmApiKey;
+                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "eAlarm", message);
+                    break;
+                case CloudMessagingService.FCM:
+                    url = "https://fcm.googleapis.com/fcm/send";
+                    apiKey = FcmApiKey;
+                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "fAlarm", message);
+                    break;
+                default:
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorMessagingServiceNotFound);
+                    return false;
+            }
+
             ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
 
-            byte[] byteArray = Encoding.UTF8.GetBytes(postData);
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://android.googleapis.com/gcm/send");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Post;
             request.KeepAlive = false;
             request.ContentType = "application/json";
@@ -150,6 +198,11 @@ namespace AlarmWorkflow.Job.eAlarm
                 using (WebResponse response = request.GetResponse())
                 {
                     HttpStatusCode responseCode = ((HttpWebResponse)response).StatusCode;
+                    
+                    StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                    String responseString = reader.ReadToEnd();
+
+                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugGetResponse, responseCode, responseString);
 
                     if (responseCode != HttpStatusCode.OK)
                     {

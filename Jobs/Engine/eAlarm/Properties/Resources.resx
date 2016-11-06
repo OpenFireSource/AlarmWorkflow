@@ -117,16 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DebugGetResponse" xml:space="preserve">
+    <value>Alarm-App Response (Code {0}):{1}</value>
+  </data>
+  <data name="DebugSendMessage" xml:space="preserve">
+    <value>{0} Message: {1}</value>
+  </data>
+  <data name="ErrorMessagingServiceNotFound" xml:space="preserve">
+    <value>The Cloud Messaging Service was not found!</value>
+  </data>
   <data name="ErrorSendingNotification" xml:space="preserve">
     <value>Error while sending eAlarm notification! The error code was '{0}'.</value>
   </data>
   <data name="ExportJobDescription" xml:space="preserve">
-    <value>Kommuniziert mit der eAlarm-Android App.</value>
+    <value>Kommuniziert mit der eAlarm/fAlarm-Android App.</value>
   </data>
   <data name="ExportJobDisplayName" xml:space="preserve">
-    <value>eAlarm</value>
-  </data>
-  <data name="SendGcmNotificationNoResult" xml:space="preserve">
-    <value>Received no result from GCM server!</value>
+    <value>eAlarm/fAlarm</value>
   </data>
 </root>
