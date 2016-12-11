@@ -14,15 +14,9 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.Xml;
 using AlarmWorkflow.BackendService.EngineContracts;
 using AlarmWorkflow.BackendService.SettingsContracts;
-using AlarmWorkflow.Shared;
 using AlarmWorkflow.Shared.Core;
-using AlarmWorkflow.Shared.Diagnostics;
-using AlarmWorkflow.Shared.Extensibility;
-using AlarmWorkflow.Shared.Specialized;
 using AlarmWorkflow.AlarmSource.Network.Server;
 
 namespace AlarmWorkflow.AlarmSource.Network
@@ -34,9 +28,7 @@ namespace AlarmWorkflow.AlarmSource.Network
 
         #region Fields
 
-        private IServiceProvider _serviceProvider;
         private ISettingsServiceInternal _settings;
-
         private AlarmServer _server;
 
         #endregion
@@ -45,7 +37,6 @@ namespace AlarmWorkflow.AlarmSource.Network
 
         void IAlarmSource.Initialize(IServiceProvider serviceProvider)
         {
-            _serviceProvider = serviceProvider;
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
 
             int outputPort = _settings.GetSetting(NetworkSettingKeys.OutputPort).GetValue<int>();
@@ -73,10 +64,7 @@ namespace AlarmWorkflow.AlarmSource.Network
         private void OnNewAlarm(AlarmSourceEventArgs e)
         {
             var copy = NewAlarm;
-            if (copy != null)
-            {
-                copy(this, e);
-            }
+            copy?.Invoke(this, e);
         }
 
         void IAlarmSource.RunThread()
@@ -90,11 +78,11 @@ namespace AlarmWorkflow.AlarmSource.Network
 
         void IDisposable.Dispose()
         {
-            if(_server.IsRunning)
+            if (_server.IsRunning)
             {
                 _server.Stop();
             }
-            
+
             _settings = null;
         }
 

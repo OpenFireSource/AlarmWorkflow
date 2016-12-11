@@ -61,14 +61,18 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
                 throw new ArgumentNullException("parent");
             }
 
-            HandleAlarmClient handleAlarmClient = new HandleAlarmClient();
-            handleAlarmClient._clientSocket = clientSocket;
-            handleAlarmClient._parent = parent;
+            HandleAlarmClient handleAlarmClient = new HandleAlarmClient
+            {
+                _clientSocket = clientSocket,
+                _parent = parent
+            };
 
-            Thread ctThread = new Thread(handleAlarmClient.ReceiveThread);
-            ctThread.Name = Properties.Resources.NetworkParserError;
-            ctThread.Priority = ThreadPriority.BelowNormal;
-            ctThread.IsBackground = true;
+            Thread ctThread = new Thread(handleAlarmClient.ReceiveThread)
+            {
+                Name = Properties.Resources.NetworkAlarmClientThreadName,
+                Priority = ThreadPriority.BelowNormal,
+                IsBackground = true
+            };
             ctThread.Start();
         }
 
@@ -92,13 +96,13 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
                     _parent.PushIncomingAlarm(operation);
                 }
             }
-
             catch (Exception ex)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NetworkParserError, ex);
                 Logger.Instance.LogException(this, ex);
             }
         }
+
         #endregion
 
     }

@@ -15,12 +15,8 @@
 
 using AlarmWorkflow.Shared.Diagnostics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlarmWorkflow.AlarmSource.Network.Server
 {
@@ -28,7 +24,7 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
     {
 
         #region Properties
-        
+
         public bool IsRunning { get; private set; }
 
         #endregion
@@ -36,10 +32,11 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
         #region Fields
 
         private readonly NetworkAlarmSource _parent;
-        private TcpListener _serverSocket;
+        private readonly TcpListener _serverSocket;
+        private readonly int _listenPort;
+
         private TcpClient _clientSocket;
-        private int _listenPort;
-		
+
         #endregion
 
         #region Constructors
@@ -70,14 +67,17 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
                 Logger.Instance.LogException(this, ex);
             }
 
-            while (true)
+            if (IsRunning)
             {
                 try
                 {
-                    _clientSocket = _serverSocket.AcceptTcpClient();
-                    HandleAlarmClient.StartClient(_clientSocket, _parent);
+                    while (true)
+                    {
+                        _clientSocket = _serverSocket.AcceptTcpClient();
+                        HandleAlarmClient.StartClient(_clientSocket, _parent);
+                    }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NetworkError, ex);
                     Logger.Instance.LogException(this, ex);
@@ -87,11 +87,7 @@ namespace AlarmWorkflow.AlarmSource.Network.Server
 
         internal void Stop()
         {
-            if (_clientSocket != null)
-            {
-                _clientSocket.Close();
-            }
-
+            _clientSocket?.Close();
             _serverSocket.Stop();
             IsRunning = false;
         }
