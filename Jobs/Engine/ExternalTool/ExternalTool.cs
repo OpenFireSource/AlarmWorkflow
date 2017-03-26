@@ -41,7 +41,7 @@ namespace AlarmWorkflow.Job.ExternalTool
         public bool Initialize(IServiceProvider serviceProvider)
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
-            return false;
+            return true;
         }
 
         public void Execute(IJobContext context, Operation operation)
