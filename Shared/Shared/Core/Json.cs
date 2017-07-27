@@ -28,20 +28,36 @@ namespace AlarmWorkflow.Shared.Core
         /// Serializes the given object instance into its appropriate JSON-representation.
         /// </summary>
         /// <param name="value">The object to serialize.</param>
+        /// <param name="ignoreNullValue">Ignore all null values in the object.</param>
         /// <returns>A string containing the JSON-serialized object instance.</returns>
-        public static string Serialize(object value)
+        public static string Serialize(object value, bool ignoreNullValue = false)
         {
-            return JsonConvert.SerializeObject(value);
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            if (ignoreNullValue)
+            {
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                settings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            }
+
+            return JsonConvert.SerializeObject(value, settings);
         }
 
         /// <summary>
         /// Deserializes the given JSON-string back into an object.
         /// </summary>
         /// <param name="value">The JSON-string to deserialize.</param>
-        /// <returns></returns>
-        public static object Deserialize(string value)
+        /// <param name="ignoreNullValue">Ignore all null values in the object.</param>
+        /// <returns>The deserialized object instance.</returns>
+        public static T Deserialize<T>(string value, bool ignoreNullValue = false)
         {
-            return JsonConvert.DeserializeObject(value);
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            if (ignoreNullValue)
+            {
+                settings.NullValueHandling = NullValueHandling.Ignore;
+                settings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            }
+
+            return JsonConvert.DeserializeObject<T>(value, settings);
         }
 
         #endregion
