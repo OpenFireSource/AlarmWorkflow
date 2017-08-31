@@ -20,7 +20,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
     /// <summary>
     /// Represents a "Phone" entry in the address book.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public class MobilePhoneEntryObject
     {
         #region Constants
@@ -37,7 +37,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
         /// <summary>
         /// Gets/sets the phone number represented by this entry object.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string PhoneNumber { get; set; }
 
         #endregion

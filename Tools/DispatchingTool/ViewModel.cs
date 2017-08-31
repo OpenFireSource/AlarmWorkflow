@@ -312,6 +312,16 @@ namespace AlarmWorkflow.Tools.Dispatching
 
         #region IOperationServiceCallback Members
 
+        public void OnNewOperation(Operation op)
+        {
+            App.Current.Dispatcher.Invoke((Action)(() =>
+            {
+                CurrentOperation = op;
+                Resources.Clear();
+                OnPropertyChanged("CurrentOperation");
+            }));
+        }
+
         /// <summary>
         /// Called when an operation was acknowledged.
         /// </summary>

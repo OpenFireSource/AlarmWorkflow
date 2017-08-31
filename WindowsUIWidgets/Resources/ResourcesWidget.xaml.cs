@@ -49,6 +49,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
 
         #region IUIWidget Members
 
+        void IUIWidget.Close()
+        {
+        }
+
         bool IUIWidget.Initialize()
         {
             return true;
@@ -59,20 +63,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.Resources
             _model.OperationChanged(operation);
         }
 
-        UIElement IUIWidget.UIElement
-        {
-            get { return this; }
-        }
+        UIElement IUIWidget.UIElement => this;
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "E4E4AA8C-A00B-4087-AF06-9D81143DB23D"; }
-        }
+        string IUIWidget.ContentGuid => "E4E4AA8C-A00B-4087-AF06-9D81143DB23D";
 
-        string IUIWidget.Title
-        {
-            get { return "Fahrzeuge"; }
-        }
+        string IUIWidget.Title => "Fahrzeuge";
 
         #endregion
     }

@@ -24,7 +24,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Provides a reference implementation of the <see cref="ISettingsServiceCallback"/> interface.
     /// </summary>
-    [CallbackBehavior()]
+    [CallbackBehavior]
     public class SettingsServiceCallback : ISettingsServiceCallback
     {
         #region Events

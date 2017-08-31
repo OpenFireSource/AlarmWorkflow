@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.ServiceModel;
 using AlarmWorkflow.Backend.ServiceContracts.Core;
 using AlarmWorkflow.Shared.Settings;

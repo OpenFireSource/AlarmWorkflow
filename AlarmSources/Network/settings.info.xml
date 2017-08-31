@@ -1,0 +1,5 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="NetworkAlarmSource" DisplayText="Netzwerk" Parent="Alarmquelle">
+    <Setting Name="OutputPort" DisplayText="Port" Category="Server" EditorParameter="1;65535" IsDynamic="false" />
+  </Identifier>
+</SettingsDisplayConfiguration>

@@ -23,7 +23,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
     /// <summary>
     /// Represents a "Mail" entry in the address book.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public class MailAddressEntryObject
     {
         #region Constants
@@ -40,12 +40,12 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
         /// <summary>
         /// Gets/sets the mail address of this object.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public MailAddress Address { get; set; }
         /// <summary>
         /// Gets/sets the destined receipt type for mails sent to this address.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public ReceiptType Type { get; set; }
 
         #endregion

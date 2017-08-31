@@ -26,7 +26,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
     /// <summary>
     /// Represents a collection of <see cref="EmkResource"/> instances.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public sealed class EmkResourceCollection : Collection<EmkResource>, IStringSettingConvertible, ICloneable
     {
         #region Constructors
@@ -80,7 +80,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
                 resource.IconFileName = item.TryGetAttributeValue("IconFileName", null);
                 resource.IsActive = item.TryGetAttributeValue("IsActive", true);
 
-                this.Add(resource);
+                Add(resource);
             }
         }
 
@@ -110,7 +110,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         object ICloneable.Clone()
         {
             EmkResourceCollection clone = new EmkResourceCollection();
-            clone.AddRange(this.Items);
+            clone.AddRange(Items);
             return clone;
         }
 

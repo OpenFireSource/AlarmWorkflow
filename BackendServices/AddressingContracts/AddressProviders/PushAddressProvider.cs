@@ -24,10 +24,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.AddressProviders
     {
         #region IAddressProvider Members
 
-        string IAddressProvider.AddressType
-        {
-            get { return PushEntryObject.TypeId; }
-        }
+        string IAddressProvider.AddressType => PushEntryObject.TypeId;
 
         object IAddressProvider.Convert(XElement element)
         {

@@ -30,7 +30,7 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
         /// <param name="operationId">The ID of the operation to get all dispatched resource IDs.</param>
         /// <returns>A string array containing resource IDs of all resources dispatched for the given operation.
         /// -or- an empty array, if there were no dispatched resources.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         string[] GetDispatchedResources(int operationId);
         /// <summary>
@@ -38,7 +38,7 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
         /// </summary>
         /// <param name="operationId">The ID of the operation affected.</param>
         /// <param name="emkResourceId">The ID of the EMK resource to disposition.</param>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         void Dispatch(int operationId, string emkResourceId);
         /// <summary>
@@ -49,7 +49,7 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
         /// of the affected operation.</remarks>
         /// <param name="operationId">The ID of the operation affected.</param>
         /// <param name="emkResourceId">The ID of the EMK resource to recall.</param>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         void Recall(int operationId, string emkResourceId);
     }

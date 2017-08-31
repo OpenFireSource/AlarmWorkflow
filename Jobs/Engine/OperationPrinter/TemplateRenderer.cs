@@ -14,9 +14,13 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows.Forms;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
@@ -29,6 +33,22 @@ namespace AlarmWorkflow.Job.OperationPrinter
     /// </summary>
     static class TemplateRenderer
     {
+        #region Constants
+
+        private const int WebBrowserAfterCompleteGracePeriodMs = 500;
+        private static readonly bool KeepTempHtmlAfterFinish;
+
+        #endregion
+
+        #region Constructors
+
+        static TemplateRenderer()
+        {
+            KeepTempHtmlAfterFinish = Debugger.IsAttached;
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -38,19 +58,28 @@ namespace AlarmWorkflow.Job.OperationPrinter
         /// <param name="operation">The operation to render.</param>
         /// <param name="templateFile">The HTML template file to use for layouting.</param>
         /// <param name="size">The maximum size of the created image.</param>
+        /// <param name="timeout">The timeout to use for executing the script. The script will be terminated if it exceeds the duration.</param>
         /// <returns></returns>
-        internal static Image RenderOperation(PropertyLocation source, Operation operation, string templateFile, Size size)
+        internal static Image RenderOperation(PropertyLocation source, Operation operation, string templateFile, Size size, TimeSpan timeout)
         {
-            TemplateObject to = new TemplateObject();
-            to.Operation = operation;
-            to.RouteImageFilePath = RoutePlanHelper.GetRouteAsStoredFile(source, operation.Einsatzort);
-
             Image image = null;
+
+            string tempFilePath = GetTemporaryHtmlFilePath(operation, templateFile);
+            FileInfo fi = new FileInfo(tempFilePath);
+
             try
             {
-                string html = CreateHtml(templateFile, to);
+                string html = CreateHtml(templateFile, source, operation);
 
-                image = RenderOperationWithBrowser(to, html, size);
+                using (FileStream stream = fi.Create())
+                {
+                    fi.Attributes = FileAttributes.Temporary;
+
+                    byte[] content = Encoding.Default.GetBytes(html);
+                    stream.Write(content, 0, content.Length);
+                }
+
+                image = RenderOperationWithBrowser(fi, size, timeout);
             }
             catch (Exception ex)
             {
@@ -58,41 +87,89 @@ namespace AlarmWorkflow.Job.OperationPrinter
             }
             finally
             {
-                TryDeleteRouteImageFile(to);
+                if (!KeepTempHtmlAfterFinish)
+                {
+                    fi.Delete();
+                }
             }
 
             return image;
         }
 
-        private static string CreateHtml(string templateFile, TemplateObject to)
+        private static string GetTemporaryHtmlFilePath(Operation operation, string templateFile)
+        {
+            return Path.ChangeExtension(templateFile, operation.Id.ToString() + ".htm");
+        }
+
+        private static string CreateHtml(string templateFile, PropertyLocation source, Operation operation)
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (string line in File.ReadAllLines(templateFile))
+            IEnumerable<string> lines = File.ReadAllLines(templateFile).Where(_ => !string.IsNullOrWhiteSpace(_));
+
+            foreach (string item in lines)
             {
-                if (!string.IsNullOrWhiteSpace(line))
+                string line = item;
+
+                /* Replace some special lines we might expect...
+                 */
+                if (line.Contains("var var_awSource = null"))
                 {
-                    sb.AppendLine(ObjectFormatter.ToString(to, line));
+                    line = string.Format("var var_awSource = {0};", Json.Serialize(source));
                 }
+                else if (line.Contains("var var_awOperation = null"))
+                {
+                    line = string.Format("var var_awOperation = {0};", Json.Serialize(operation));
+                }
+                else
+                {
+                    line = ObjectFormatter.ToString(operation, line);
+                }
+
+                sb.AppendLine(line);
             }
 
             return sb.ToString();
         }
 
-        private static Image RenderOperationWithBrowser(TemplateObject to, string htmlToRender, Size size)
+        private static Image RenderOperationWithBrowser(FileInfo file, Size size, TimeSpan timeout)
         {
+            ScriptingObject obj = new ScriptingObject();
+
             using (WebBrowser w = new WebBrowser())
             {
                 w.AllowNavigation = true;
                 w.ScrollBarsEnabled = false;
                 w.ScriptErrorsSuppressed = true;
 
-                w.DocumentText = htmlToRender;
+                w.ObjectForScripting = obj;
+                w.Navigate(file.FullName);
 
-                while (w.ReadyState != WebBrowserReadyState.Complete)
+                Stopwatch s = Stopwatch.StartNew();
+
+                while (true)
                 {
+                    if (w.ReadyState == WebBrowserReadyState.Complete && obj.IsClientSideScriptReady)
+                    {
+                        /* Hint: It appears that if we exit right here, the browser isn't quite finished with drawing yet.
+                         * Adding a little grace period followed by a DoEvents() seems to work reliably.
+                         */
+                        Thread.Sleep(WebBrowserAfterCompleteGracePeriodMs);
+                        Application.DoEvents();
+
+                        break;
+                    }
+
+                    if (s.ElapsedTicks >= (long)timeout.Ticks)
+                    {
+                        Logger.Instance.LogFormat(LogType.Warning, typeof(TemplateRenderer), "Exceeded timeout for rendering template! The template may not be complete.");
+                        break;
+                    }
+
                     // Pump the message queue for the web browser.
                     Application.DoEvents();
+
+                    Thread.Sleep(1);
                 }
 
                 // Set the size of the WebBrowser control
@@ -112,21 +189,6 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     w.DrawToBitmap(bitmap, new Rectangle(0, 0, w.Width, w.Height));
                     return (Image)bitmap.Clone();
                 }
-            }
-        }
-
-        private static void TryDeleteRouteImageFile(TemplateObject to)
-        {
-            try
-            {
-                if (File.Exists(to.RouteImageFilePath))
-                {
-                    File.Delete(to.RouteImageFilePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance.LogException(typeof(TemplateRenderer), ex);
             }
         }
 

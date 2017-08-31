@@ -46,5 +46,9 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         /// </summary>
         /// <param name="operation">The <see cref="Operation" /> that was selected and is now being displayed.</param>
         void OnOperationChange(Operation operation);
+        /// <summary>
+        /// Called if the UI gets closed. Some widgets could save settings/...
+        /// </summary>
+        void Close();
     }
 }

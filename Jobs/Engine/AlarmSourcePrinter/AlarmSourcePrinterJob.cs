@@ -30,7 +30,7 @@ using AlarmWorkflow.Shared.Specialized.Printing;
 
 namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
 {
-    [Export("AlarmSourcePrinterJob", typeof(IJob))]
+    [Export(nameof(AlarmSourcePrinterJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class AlarmSourcePrinterJob : IJob
     {
@@ -101,10 +101,7 @@ namespace AlarmWorkflow.Job.AlarmSourcePrinterJob
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IJob.IsAsync => true;
 
         #endregion
 

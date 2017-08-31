@@ -13,26 +13,20 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Shared.Core;
+using System.Collections.Generic;
+using AlarmWorkflow.Backend.ServiceContracts.Core;
 
-namespace AlarmWorkflow.Job.OperationPrinter
+namespace AlarmWorkflow.BackendService.PrintingContracts
 {
     /// <summary>
-    /// Template-Object used when formatting the HTML-page.
+    /// Defines the service interface for the printing service.
     /// </summary>
-    sealed class TemplateObject
+    public interface IPrintingServiceInternal: IInternalService
     {
-        #region Properties
-
         /// <summary>
-        /// Gets/sets the operation that is printed.
+        /// Gets an IEnumerable of printer names of installed printers on this system
         /// </summary>
-        public Operation Operation { get; set; }
-        /// <summary>
-        /// Gets/sets the full file path of the route image file.
-        /// </summary>
-        public string RouteImageFilePath { get; set; }
-
-        #endregion
+        /// <returns>A collection of printer names</returns>
+        IEnumerable<string> GetPrinters();
     }
 }

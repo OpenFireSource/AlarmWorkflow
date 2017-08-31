@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
     /// <summary>
     /// Implements a Job, that turn on an Display/Monitor which is connected to a PowerAdapter.
     /// </summary>
-    [Export("DisplayWakeUpJob", typeof(IJob))]
+    [Export(nameof(DisplayWakeUpJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class DisplayWakeUp : IJob
     {
@@ -151,11 +151,7 @@ namespace AlarmWorkflow.Job.DisplayWakeUpJob
             }
         }
 
-        bool IJob.IsAsync
-        {
-            // This job is sync, because the asynchronity is done in the wrapper class
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

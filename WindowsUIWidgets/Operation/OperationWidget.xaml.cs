@@ -15,8 +15,6 @@
 
 using System;
 using System.Windows;
-using AlarmWorkflow.Backend.ServiceContracts.Communication;
-using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Windows.CustomViewer.Extensibility;
 
@@ -32,9 +30,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         #region Fields
 
-        private string _expressionLineOne;
-        private string _expressionLineTwo;
-        private string _expressionLineThree;
+        private readonly ViewModel _dataContext;
 
         #endregion
 
@@ -43,6 +39,8 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
         public OperationWidget()
         {
             InitializeComponent();
+            _dataContext = new ViewModel();
+            DataContext = _dataContext;
         }
 
         #endregion
@@ -51,68 +49,26 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         bool IUIWidget.Initialize()
         {
-            using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
-            {
-                _expressionLineOne = service.Instance.GetSetting(SettingKeys.LineOne).GetValue<string>();
-                _expressionLineTwo = service.Instance.GetSetting(SettingKeys.LineTwo).GetValue<string>();
-                _expressionLineThree = service.Instance.GetSetting(SettingKeys.LineThree).GetValue<string>();
-            }
-            return true;
+            return _dataContext.Initialize();
         }
 
         void IUIWidget.OnOperationChange(Shared.Core.Operation operation)
         {
-            string lineOne = FormatLine(_expressionLineOne, operation);
-            string lineTwo = FormatLine(_expressionLineTwo, operation);
-            string lineThree = FormatLine(_expressionLineThree, operation);
-            LineOne.Inlines.Clear();
-            LineTwo.Inlines.Clear();
-            LineThree.Inlines.Clear();
-
-            LineOne.Inlines.Add(Helper.Execute(lineOne));
-            LineTwo.Inlines.Add(Helper.Execute(lineTwo));
-            LineThree.Inlines.Add(Helper.Execute(lineThree));
+            _dataContext.OnOperationChange(operation);
         }
 
-
-        UIElement IUIWidget.UIElement
+        void IUIWidget.Close()
         {
-            get { return this; }
+            _dataContext.Dispose();
         }
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "b0b2c2c1-c5c6-4495-ab42-d50329babc32"; }
-        }
 
-        string IUIWidget.Title
-        {
-            get { return "Alarmtext"; }
-        }
+        UIElement IUIWidget.UIElement => this;
+
+        string IUIWidget.ContentGuid => "b0b2c2c1-c5c6-4495-ab42-d50329babc32";
+
+        string IUIWidget.Title => "Alarmtext";
 
         #endregion
-
-        #region Methods
-
-        private string FormatLine(string expression, Shared.Core.Operation operation)
-        {
-            if (!string.IsNullOrWhiteSpace(expression))
-            {
-                try
-                {
-                    return operation != null ? operation.ToString(expression) : "(n/A)";
-                }
-                catch (AssertionFailedException)
-                {
-                    // This exception may occure if the format of the value is broken or other problems with the format exist...
-                    return string.Empty;
-                }
-            }
-
-            return string.Empty;
-        }
-
-        #endregion
-
     }
 }

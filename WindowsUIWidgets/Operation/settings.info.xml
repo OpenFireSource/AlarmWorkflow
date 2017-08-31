@@ -1,8 +1,11 @@
 ﻿<SettingsDisplayConfiguration>
 
   <Identifier Name="OperationWidget" DisplayText="Alarmtext (UI-Widget)" Parent="CustomOperationViewer">
-    <Setting Name="LineOne" DisplayText="1. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="LineTwo" DisplayText="2. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="LineThree" DisplayText="3. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting IsDynamic="true" Name="LineOne" DisplayText="Text 1. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting IsDynamic="true" Name="SizeOne" DisplayText="Schriftgröße 1. Zeile" Category="Generell"/>
+    <Setting IsDynamic="true" Name="LineTwo" DisplayText="Text 2. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting IsDynamic="true" Name="SizeTwo" DisplayText="Schriftgröße 2. Zeile" Category="Generell"/>
+    <Setting IsDynamic="true" Name="LineThree" DisplayText="Text 3. Zeile" Category="Generell" Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+    <Setting IsDynamic="true" Name="SizeThree" DisplayText="Schriftgröße 3. Zeile" Category="Generell"/>
   </Identifier>
 </SettingsDisplayConfiguration>

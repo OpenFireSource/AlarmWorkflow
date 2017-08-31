@@ -78,9 +78,12 @@
     </ApplicationDefinition>
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Extensibility\ExtensionManager.cs" />
+    <Compile Include="Models\IdleView.cs" />
+    <Compile Include="Models\OperationView.cs" />
     <Compile Include="Models\UIConfiguration.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Models\UISettingKeys.cs" />
+    <Compile Include="Models\ViewType.cs" />
     <Compile Include="ViewModels\OperationViewModel.cs" />
     <Compile Include="Views\DummyOperationViewer.xaml.cs">
       <DependentUpon>DummyOperationViewer.xaml</DependentUpon>

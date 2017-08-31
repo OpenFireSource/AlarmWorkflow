@@ -40,35 +40,17 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         #region Properties
 
-        internal string FaxPath
-        {
-            get { return _settings.GetSetting(FaxSettingKeys.FaxPath).GetValue<string>(); }
-        }
+        internal string FaxPath => _settings.GetSetting(FaxSettingKeys.FaxPath).GetValue<string>();
 
-        internal string ArchivePath
-        {
-            get { return _settings.GetSetting(FaxSettingKeys.ArchivePath).GetValue<string>(); }
-        }
+        internal string ArchivePath => _settings.GetSetting(FaxSettingKeys.ArchivePath).GetValue<string>();
 
-        internal string AnalysisPath
-        {
-            get { return _settings.GetSetting(FaxSettingKeys.AnalysisPath).GetValue<string>(); }
-        }
+        internal string AnalysisPath => _settings.GetSetting(FaxSettingKeys.AnalysisPath).GetValue<string>();
 
-        internal string OCRSoftwarePath
-        {
-            get { return _settings.GetSetting(FaxSettingKeys.OcrPath).GetValue<string>(); }
-        }
+        internal string OCRSoftwarePath => _settings.GetSetting(FaxSettingKeys.OcrPath).GetValue<string>();
 
-        internal string AlarmFaxParserAlias
-        {
-            get { return _settings.GetSetting(FaxSettingKeys.AlarmFaxParserAlias).GetValue<string>(); }
-        }
+        internal string AlarmFaxParserAlias => _settings.GetSetting(FaxSettingKeys.AlarmFaxParserAlias).GetValue<string>();
 
-        internal ReplaceDictionary ReplaceDictionary
-        {
-            get { return _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>(); }
-        }
+        internal ReplaceDictionary ReplaceDictionary => _settings.GetSetting(SettingKeys.ReplaceDictionary).GetValue<ReplaceDictionary>();
 
         #endregion
 

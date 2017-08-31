@@ -31,7 +31,7 @@ namespace AlarmWorkflow.BackendService.Management
         {
             try
             {
-                return this.ServiceProvider.GetService<IEmkServiceInternal>().GetAllResources().ToList();
+                return ServiceProvider.GetService<IEmkServiceInternal>().GetAllResources().ToList();
             }
             catch (Exception ex)
             {
@@ -43,7 +43,7 @@ namespace AlarmWorkflow.BackendService.Management
         {
             try
             {
-                return this.ServiceProvider.GetService<IEmkServiceInternal>().GetFilteredResources(resources).ToList();
+                return ServiceProvider.GetService<IEmkServiceInternal>().GetFilteredResources(resources).ToList();
             }
             catch (Exception ex)
             {

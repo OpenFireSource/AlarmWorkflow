@@ -32,7 +32,7 @@ namespace AlarmWorkflow.BackendService.Settings
         /// </summary>
         public SettingsService()
         {
-            this.ServiceProvider.GetService<ISettingsServiceInternal>().SettingChanged += SettingsService_SettingChanged;
+            ServiceProvider.GetService<ISettingsServiceInternal>().SettingChanged += SettingsService_SettingChanged;
         }
 
         #endregion
@@ -46,12 +46,12 @@ namespace AlarmWorkflow.BackendService.Settings
         {
             base.DisposeCore();
 
-            this.ServiceProvider.GetService<ISettingsServiceInternal>().SettingChanged -= SettingsService_SettingChanged;
+            ServiceProvider.GetService<ISettingsServiceInternal>().SettingChanged -= SettingsService_SettingChanged;
         }
 
         private void SettingsService_SettingChanged(object sender, SettingChangedEventArgs e)
         {
-            this.Callback.OnSettingChanged(e.Keys.ToList());
+            Callback.OnSettingChanged(e.Keys.ToList());
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace AlarmWorkflow.BackendService.Settings
         {
             try
             {
-                return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetDisplayConfiguration();
+                return ServiceProvider.GetService<ISettingsServiceInternal>().GetDisplayConfiguration();
             }
             catch (Exception ex)
             {
@@ -74,7 +74,7 @@ namespace AlarmWorkflow.BackendService.Settings
         {
             try
             {
-                return this.ServiceProvider.GetService<ISettingsServiceInternal>().GetSetting(key);
+                return ServiceProvider.GetService<ISettingsServiceInternal>().GetSetting(key);
             }
             catch (Exception ex)
             {
@@ -82,11 +82,11 @@ namespace AlarmWorkflow.BackendService.Settings
             }
         }
 
-        void ISettingsService.SetSetting(SettingKey key, SettingItem value)
+        void ISettingsService.SetSetting(SettingKey key,SettingItem value)
         {
             try
             {
-                this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSetting(key.Identifier, key.Name, value);
+                ServiceProvider.GetService<ISettingsServiceInternal>().SetSetting(key.Identifier, key.Name, value);
             }
             catch (Exception ex)
             {
@@ -98,7 +98,7 @@ namespace AlarmWorkflow.BackendService.Settings
         {
             try
             {
-                this.ServiceProvider.GetService<ISettingsServiceInternal>().SetSettings(values);
+                ServiceProvider.GetService<ISettingsServiceInternal>().SetSettings(values);
             }
             catch (Exception ex)
             {

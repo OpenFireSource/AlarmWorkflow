@@ -16,6 +16,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace AlarmWorkflow.Shared.Core
@@ -96,16 +97,7 @@ namespace AlarmWorkflow.Shared.Core
         private static bool ImplementsInterface(Type type, Type interfaceType)
         {
             Type[] interfaces = type.GetInterfaces();
-            for (int j = 0; j < interfaces.Length; j++)
-            {
-                Type iface = interfaces[j];
-
-                if (iface == interfaceType)
-                {
-                    return true;
-                }
-            }
-            return false;
+            return interfaces.Any(iface => iface == interfaceType);
         }
 
         private static ExportedType GetExport(string alias, Type interfaceType)
@@ -153,12 +145,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns></returns>
         public static List<T> ImportAll<T>()
         {
-            List<T> list = new List<T>();
-            foreach (var item in GetExports(typeof(T)))
-            {
-                list.Add(item.CreateInstance<T>());
-            }
-            return list;
+            return GetExports(typeof (T)).Select(item => item.CreateInstance<T>()).ToList();
         }
 
         /// <summary>
@@ -168,15 +155,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns></returns>
         public static List<ExportedType> GetExports(Type interfaceType)
         {
-            List<ExportedType> exports = new List<ExportedType>();
-            foreach (ExportedType export in _exports)
-            {
-                if (ImplementsInterface(export.Type, interfaceType))
-                {
-                    exports.Add(export);
-                }
-            }
-            return exports;
+            return _exports.Where(export => ImplementsInterface(export.Type, interfaceType)).ToList();
         }
 
         /// <summary>

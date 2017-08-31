@@ -20,7 +20,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Represents an exception that is thrown when a setting with a specific name was not found.
     /// </summary>
-    [Serializable()]
+    [Serializable]
     public class SettingNotFoundException : Exception
     {
         #region Properties
@@ -50,7 +50,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         public SettingNotFoundException(string settingName)
             : base(string.Format(Properties.Resources.SettingNotFoundExceptionMessage, settingName))
         {
-            this.SettingName = settingName;
+            SettingName = settingName;
         }
 
         #endregion

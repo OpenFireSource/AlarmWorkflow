@@ -23,21 +23,15 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("Google", typeof(IGeoCoder))]
+    [Export(nameof(Google), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportGoogleDisplayName", Description = "ExportGoogleDescription")]
-    class Google : IGeoCoder
+    internal class Google : IGeoCoder
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return false; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => false;
 
         string IGeoCoder.ApiKey { get; set; }
 

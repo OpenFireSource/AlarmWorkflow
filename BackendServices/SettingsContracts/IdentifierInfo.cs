@@ -22,7 +22,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// <summary>
     /// Display configuration for an identifier section.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     [DebuggerDisplay("Name = {Name}, Settings count = {Settings.Count}")]
     public class IdentifierInfo
     {
@@ -31,34 +31,34 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Gets/sets the name of the identifier section.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Name { get; set; }
         /// <summary>
         /// Gets/sets the display text of the identifier section. If there is none, the Name will be used.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string DisplayText { get; set; }
         /// <summary>
         /// Gets/sets the description of the identifier section.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Description { get; set; }
         /// <summary>
         /// Gets/sets the order of the identifier section.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public int Order { get; set; }
         /// <summary>
         /// Gets/sets the identifier of the parent section.
         /// Use null for no parent section.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Parent { get; set; }
 
         /// <summary>
         /// Gets/sets the settings that are contained in this identifier section.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public List<SettingInfo> Settings { get; private set; }
 
         #endregion

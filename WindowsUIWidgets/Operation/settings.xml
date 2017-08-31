@@ -4,4 +4,7 @@
   <Setting Name="LineOne" Type="System.String">{Einsatzort}</Setting>
   <Setting Name="LineTwo" Type="System.String">{Picture} {Comment}</Setting>
   <Setting Name="LineThree" Type="System.String">{Keywords}</Setting>
+  <Setting Name="SizeOne" Type="System.Int32">32</Setting>
+  <Setting Name="SizeTwo" Type="System.Int32">32</Setting>
+  <Setting Name="SizeThree" Type="System.Int32">32</Setting>
 </SettingsConfiguration>

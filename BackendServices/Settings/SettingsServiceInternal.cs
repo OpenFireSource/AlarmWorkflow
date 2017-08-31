@@ -60,11 +60,7 @@ namespace AlarmWorkflow.BackendService.Settings
 
         private void OnSettingChanged(SettingChangedEventArgs e)
         {
-            var copy = SettingChanged;
-            if (copy != null)
-            {
-                copy(this, e);
-            }
+            SettingChanged?.Invoke(this, e);
         }
 
         #endregion

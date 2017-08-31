@@ -28,7 +28,7 @@ using AlarmWorkflow.Shared.Specialized.Printing;
 
 namespace AlarmWorkflow.Job.OperationPrinter
 {
-    [Export("OperationPrinterJob", typeof(IJob))]
+    [Export(nameof(OperationPrinterJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class OperationPrinterJob : IJob
     {
@@ -59,13 +59,14 @@ namespace AlarmWorkflow.Job.OperationPrinter
 
         private PropertyLocation GetSourceLocation()
         {
-            return new PropertyLocation()
+            PropertyLocation loc = new PropertyLocation()
             {
                 Street = _settings.GetSetting(SettingKeys.FDStreet).GetValue<string>(),
                 StreetNumber = _settings.GetSetting(SettingKeys.FDStreetNumber).GetValue<string>(),
                 City = _settings.GetSetting(SettingKeys.FDCity).GetValue<string>(),
                 ZipCode = _settings.GetSetting(SettingKeys.FDZipCode).GetValue<string>(),
             };
+            return loc;
         }
 
         #endregion
@@ -130,7 +131,10 @@ namespace AlarmWorkflow.Job.OperationPrinter
                     return false;
                 }
 
-                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds);
+                int timeoutSeconds = _settings.GetSetting(SettingKeysJob.ScriptTimeout).GetValue<int>();
+                TimeSpan timeout = TimeSpan.FromSeconds(timeoutSeconds);
+
+                renderedImage = TemplateRenderer.RenderOperation(GetSourceLocation(), operation, templateFile, renderBounds, timeout);
                 state = renderedImage;
             }
 
@@ -151,10 +155,7 @@ namespace AlarmWorkflow.Job.OperationPrinter
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IJob.IsAsync => true;
 
         #endregion
 

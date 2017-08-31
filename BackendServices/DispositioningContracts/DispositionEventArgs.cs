@@ -21,7 +21,7 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
     /// <summary>
     /// Contains data about a dispositioning event.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public class DispositionEventArgs : EventArgs
     {
         #region Properties
@@ -29,17 +29,17 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
         /// <summary>
         /// Gets the ID of the operation affected.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public int OperationId { get; private set; }
         /// <summary>
         /// Gets the ID of the EMK resource to dispatch or recall.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string EmkResourceId { get; private set; }
         /// <summary>
         /// Gets the type of the action (dispatch/recall) that is executed.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public ActionType Action { get; private set; }
 
         #endregion
@@ -65,9 +65,9 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
                 throw new ArgumentOutOfRangeException("action");
             }
 
-            this.OperationId = operationId;
-            this.EmkResourceId = emkResourceId;
-            this.Action = action;
+            OperationId = operationId;
+            EmkResourceId = emkResourceId;
+            Action = action;
         }
 
         #endregion

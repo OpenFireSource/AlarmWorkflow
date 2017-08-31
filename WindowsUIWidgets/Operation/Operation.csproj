@@ -49,6 +49,10 @@
     <Reference Include="AlarmWorkflow.Windows.CustomViewer">
       <HintPath>..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
     </Reference>
+    <Reference Include="AlarmWorkflow.Windows.UIContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -58,7 +62,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper.cs" />
     <Compile Include="OperationWidget.xaml.cs">
       <DependentUpon>OperationWidget.xaml</DependentUpon>
     </Compile>
@@ -69,6 +72,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SettingKeys.cs" />
+    <Compile Include="ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="OperationWidget.xaml">

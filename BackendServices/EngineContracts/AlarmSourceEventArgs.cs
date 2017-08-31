@@ -47,8 +47,8 @@ namespace AlarmWorkflow.BackendService.EngineContracts
         public AlarmSourceEventArgs(Operation operation)
             : base()
         {
-            this.Operation = operation;
-            this.Parameters = new Dictionary<string, object>();
+            Operation = operation;
+            Parameters = new Dictionary<string, object>();
         }
 
         #endregion

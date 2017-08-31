@@ -19,8 +19,14 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 {
     static class SettingKeys
     {
-        internal static readonly SettingKey LineOne = SettingKey.Create("OperationWidget", "LineOne");
-        internal static readonly SettingKey LineTwo = SettingKey.Create("OperationWidget", "LineTwo");
-        internal static readonly SettingKey LineThree = SettingKey.Create("OperationWidget", "LineThree");
+        internal const string Identifier = "OperationWidget";
+
+        internal static readonly SettingKey LineOne = SettingKey.Create(Identifier, "LineOne");
+        internal static readonly SettingKey LineTwo = SettingKey.Create(Identifier, "LineTwo");
+        internal static readonly SettingKey LineThree = SettingKey.Create(Identifier, "LineThree");
+
+        internal static readonly SettingKey SizeOne = SettingKey.Create(Identifier, "SizeOne");
+        internal static readonly SettingKey SizeTwo = SettingKey.Create(Identifier, "SizeTwo");
+        internal static readonly SettingKey SizeThree = SettingKey.Create(Identifier, "SizeThree");
     }
 }

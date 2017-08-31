@@ -23,27 +23,22 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("OpenStreetMap", typeof(IGeoCoder))]
+    [Export(nameof(OpenStreetMap), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportOpenStreetMapDisplayName", Description = "ExportOpenStreetMapDescription")]
-    class OpenStreetMap : IGeoCoder
+    internal class OpenStreetMap : IGeoCoder
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://nominatim.openstreetmap.org/search?format=xml&street{0}&city={1}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://nominatim.openstreetmap.org/search?format=xml&q={0}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return false; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => false;
 
         string IGeoCoder.ApiKey { get; set; }
 
         GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
-            string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.Street + " " + address.StreetNumber), HttpUtility.UrlEncode(address.City));
+            //This format is required by osm --> StreetNumber before Street is the advice from OSM.
+            string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.StreetNumber + " " + address.Street + " " + address.ZipCode + " " + address.City));
 
             WebRequest request = WebRequest.Create(queryAdress);
             using (WebResponse response = request.GetResponse())

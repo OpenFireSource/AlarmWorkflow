@@ -23,21 +23,15 @@ using AlarmWorkflow.Shared.Core;
 
 namespace AlarmWorkflow.Job.Geocoding.Provider
 {
-    [Export("MapQuest", typeof(IGeoCoder))]
+    [Export(nameof(MapQuest), typeof(IGeoCoder))]
     [Information(DisplayName = "ExportMapQuestDisplayName", Description = "ExportMapQuestDescription")]
-    class MapQuest : IGeoCoder
+    internal class MapQuest : IGeoCoder
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern
-        {
-            get { return "http://www.mapquestapi.com/geocoding/v1/address?outFormat=xml&key={0}&location={1}"; }
-        }
+        string IGeoCoder.UrlPattern => "http://www.mapquestapi.com/geocoding/v1/address?outFormat=xml&key={0}&location={1}";
 
-        bool IGeoCoder.IsApiKeyRequired
-        {
-            get { return true; }
-        }
+        bool IGeoCoder.IsApiKeyRequired => true;
 
         string IGeoCoder.ApiKey { get; set; }
 

@@ -55,12 +55,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <returns>The names of all enabled exports.</returns>
         public IList<string> GetEnabledExports()
         {
-            List<string> exports = new List<string>();
-            foreach (var export in Exports.Where(exp => exp.IsEnabled))
-            {
-                exports.Add(export.Name);
-            }
-            return exports;
+            return Exports.Where(exp => exp.IsEnabled).Select(export => export.Name).ToList();
         }
 
         /// <summary>
@@ -87,9 +82,11 @@ namespace AlarmWorkflow.Shared.Core
 
             foreach (var exportE in doc.Root.Elements("Export"))
             {
-                ExportEntry evm = new ExportEntry();
-                evm.Name = exportE.Attribute("Name").Value;
-                evm.IsEnabled = bool.Parse(exportE.Attribute("IsEnabled").Value);
+                ExportEntry evm = new ExportEntry
+                {
+                    Name = exportE.Attribute("Name").Value,
+                    IsEnabled = bool.Parse(exportE.Attribute("IsEnabled").Value)
+                };
                 Exports.Add(evm);
             }
         }

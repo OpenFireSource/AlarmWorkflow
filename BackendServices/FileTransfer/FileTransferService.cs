@@ -29,7 +29,7 @@ namespace AlarmWorkflow.BackendService.FileTransfer
         {
             try
             {
-                return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileChecksum(path);
+                return ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileChecksum(path);
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@ namespace AlarmWorkflow.BackendService.FileTransfer
         {
             try
             {
-                return this.ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileStream(path);
+                return ServiceProvider.GetService<IFileTransferServiceInternal>().GetFileStream(path);
             }
             catch (Exception ex)
             {

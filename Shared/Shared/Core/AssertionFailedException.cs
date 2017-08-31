@@ -37,10 +37,7 @@ namespace AlarmWorkflow.Shared.Core
         /// <summary>
         /// Gets the message describing this exception.
         /// </summary>
-        public override string Message
-        {
-            get { return GetExceptionMessage(Assertion, AffectedParameterNames); }
-        }
+        public override string Message => GetExceptionMessage(Assertion, AffectedParameterNames);
 
         #endregion
 

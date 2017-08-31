@@ -119,25 +119,20 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 
         #region IUIWidget Members
 
+        void IUIWidget.Close()
+        {
+        }
+
         bool IUIWidget.Initialize()
         {
             return true;
         }
 
-        UIElement IUIWidget.UIElement
-        {
-            get { return this; }
-        }
+        UIElement IUIWidget.UIElement => this;
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "9203FBB1-1464-4D7F-8B59-BDB8847B361C"; }
-        }
+        string IUIWidget.ContentGuid => "9203FBB1-1464-4D7F-8B59-BDB8847B361C";
 
-        string IUIWidget.Title
-        {
-            get { return "Google Maps"; }
-        }
+        string IUIWidget.Title => "Google Maps";
 
         void IUIWidget.OnOperationChange(Operation operation)
         {

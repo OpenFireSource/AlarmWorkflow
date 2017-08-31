@@ -27,10 +27,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.AddressProviders
     {
         #region IAddressProvider Members
 
-        string IAddressProvider.AddressType
-        {
-            get { return MobilePhoneEntryObject.TypeId; }
-        }
+        string IAddressProvider.AddressType => MobilePhoneEntryObject.TypeId;
 
         object IAddressProvider.Convert(XElement element)
         {

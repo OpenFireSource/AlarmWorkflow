@@ -22,7 +22,7 @@ namespace AlarmWorkflow.BackendService.DispositioningContracts
     /// <summary>
     /// Provides a reference implementation of the <see cref="IDispositioningServiceCallback"/> interface.
     /// </summary>
-    [CallbackBehavior()]
+    [CallbackBehavior]
     public class DispositioningServiceCallback : IDispositioningServiceCallback
     {
         #region Events

@@ -157,6 +157,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
 
         #region IUIWidget Member
 
+        void IUIWidget.Close()
+        {
+        }
+
         bool IUIWidget.Initialize()
         {
             return true;
@@ -180,20 +184,11 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             }
         }
 
-        UIElement IUIWidget.UIElement
-        {
-            get { return this; }
-        }
+        UIElement IUIWidget.UIElement => this;
 
-        string IUIWidget.ContentGuid
-        {
-            get { return "F059039A-B0CF-41FE-9E17-33261E423308"; }
-        }
+        string IUIWidget.ContentGuid => "F059039A-B0CF-41FE-9E17-33261E423308";
 
-        string IUIWidget.Title
-        {
-            get { return "Uhr"; }
-        }
+        string IUIWidget.Title => "Uhr";
 
         #endregion IUIWidget Member
 

@@ -1,0 +1,33 @@
+﻿<Window x:Class="AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing.SystemPrintingQueues"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing"
+        xmlns:uiContracts="clr-namespace:AlarmWorkflow.Windows.UIContracts;assembly=AlarmWorkflow.Windows.UIContracts"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d" uiContracts:UIUtilities.DialogResult="{Binding Close}"
+        Title="Windows Drucker" Height="300" Width="300">
+    <Window.DataContext>
+        <local:SystemPrintingQueuesViewModel></local:SystemPrintingQueuesViewModel>
+    </Window.DataContext>
+    <Window.Resources>
+        <system:Boolean x:Key="True">True</system:Boolean>
+        <system:Boolean x:Key="False">False</system:Boolean>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="3" Grid.ColumnSpan="2" TextWrapping="Wrap">Auf dem lokalen System verfügbare Drucker:<LineBreak/><Italic FontSize="9">Es ist möglich das Sie nur einen Teil der Drucker sehen. Der AlarmWorkflow Service läuft mit anderen Rechten und sieht daher andere Drucker.</Italic></TextBlock>
+        <ListBox Margin="3" Grid.Row="1" ItemsSource="{Binding Printers}" SelectedItem="{Binding Selection}" SelectionMode="Single" Grid.ColumnSpan="2"></ListBox>
+        <Button  Margin="3" Grid.Row="2" Command="{Binding CloseCommand}" CommandParameter="{StaticResource False}">Abbrechen</Button>
+        <Button  Margin="3" Grid.Row="2" Grid.Column="1" Command="{Binding CloseCommand}" CommandParameter="{StaticResource True}" Grid.ColumnSpan="2">Ok</Button>
+    </Grid>
+</Window>

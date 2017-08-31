@@ -14,6 +14,7 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using AlarmWorkflow.Shared.Core;
 
@@ -51,3 +52,4 @@ using AlarmWorkflow.Shared.Core;
 [assembly: AssemblyFileVersion("1.0.1.0")]
 
 [assembly: AlarmWorkflowPackage()]
+[assembly: InternalsVisibleTo("AlarmWorkflow.Job.Geocoding.Test")]

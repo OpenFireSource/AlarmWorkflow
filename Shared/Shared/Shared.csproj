@@ -43,12 +43,15 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jint, Version=2.7.1.0, Culture=neutral, PublicKeyToken=2e92ba9c8d81157f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jint.2.8\lib\portable-net40+sl50+win+WindowsPhoneApp81+wp80\Jint.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Jint">
+      <HintPath>..\packages\Jint.2.9.1\lib\portable-net40+sl50+win+WindowsPhoneApp81+wp80\Jint.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -61,6 +64,7 @@
     <Compile Include="Core\AssertionFailedException.cs" />
     <Compile Include="Core\Assertions.cs" />
     <Compile Include="Core\AssertionType.cs" />
+    <Compile Include="Core\Json.cs" />
     <Compile Include="Core\ProcessWrapper.cs" />
     <Compile Include="Core\CsvHelper.cs" />
     <Compile Include="Core\DisposableObject.cs" />
@@ -68,6 +72,7 @@
     <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
     <Compile Include="Core\IProxyType.cs" />
     <Compile Include="Core\OptionStringHelper.cs" />
+    <Compile Include="Core\ProgramStarter.cs" />
     <Compile Include="Diagnostics\ExceptionIntervallLogger.cs" />
     <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
     <Compile Include="Extensibility\IParser.cs" />
@@ -112,6 +117,7 @@
     <Compile Include="SettingKeys.cs" />
     <Compile Include="Settings\IStringSettingConvertible.cs" />
     <Compile Include="Settings\SettingKey.cs" />
+    <Compile Include="Settings\SettingKeyComparer.cs" />
     <Compile Include="Settings\StringSettingConvertibleTools.cs" />
     <Compile Include="Specialized\Printing\GdiPrinter.cs" />
     <Compile Include="Specialized\Printing\PrintingQueueCollection.cs" />

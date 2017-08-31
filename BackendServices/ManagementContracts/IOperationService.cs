@@ -35,7 +35,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// <param name="onlyNonAcknowledged">Whether or not only to fetch non-acknowledged "new" operations.</param>
         /// <param name="limitAmount">The amount of operations to retrieve. Higher limits may take longer to fetch. Use 0 (zero) for no limit.</param>
         /// <returns>A list containing the Identifiers of all operations using a predefined set of filter criteria.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         IList<int> GetOperationIds(int maxAge, bool onlyNonAcknowledged, int limitAmount);
         /// <summary>
@@ -43,7 +43,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// </summary>
         /// <param name="operationId">The Id of the operation to get.</param>
         /// <returns>An Operation by its Id. If there is no operation with the given id, null is returned.</returns>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         Operation GetOperationById(int operationId);
         /// <summary>
@@ -51,7 +51,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts
         /// Setting an operation to be acknowledged will not cause it to be displayed in the UIs (an acknowledged operation is "done").
         /// </summary>
         /// <param name="operationId">The Id of the Operation to set to "acknowledged".</param>
-        [OperationContract()]
+        [OperationContract]
         [FaultContract(typeof(AlarmWorkflowFaultDetails))]
         void AcknowledgeOperation(int operationId);
     }

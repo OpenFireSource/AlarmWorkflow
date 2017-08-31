@@ -20,7 +20,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
     /// <summary>
     /// Represents a "Loop" entry in the address book.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public class LoopEntryObject
     {
         #region Constants
@@ -37,7 +37,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts.EntryObjects
         /// <summary>
         /// Gets/sets the loop code represented by this entry object.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Loop { get; set; }
 
         #endregion

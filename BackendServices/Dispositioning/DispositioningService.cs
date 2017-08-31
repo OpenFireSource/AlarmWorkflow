@@ -24,10 +24,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning
     {
         #region Properties
 
-        private IDispositioningServiceInternal InternalService
-        {
-            get { return ServiceProvider.GetService<IDispositioningServiceInternal>(); }
-        }
+        private IDispositioningServiceInternal InternalService => ServiceProvider.GetService<IDispositioningServiceInternal>();
 
         #endregion
 
@@ -71,7 +68,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning
         {
             try
             {
-                return this.InternalService.GetDispatchedResources(operationId);
+                return InternalService.GetDispatchedResources(operationId);
             }
             catch (Exception ex)
             {
@@ -83,7 +80,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning
         {
             try
             {
-                this.InternalService.Dispatch(operationId, emkResourceId);
+                InternalService.Dispatch(operationId, emkResourceId);
             }
             catch (Exception ex)
             {
@@ -95,7 +92,7 @@ namespace AlarmWorkflow.BackendService.Dispositioning
         {
             try
             {
-                this.InternalService.Recall(operationId, emkResourceId);
+                InternalService.Recall(operationId, emkResourceId);
             }
             catch (Exception ex)
             {

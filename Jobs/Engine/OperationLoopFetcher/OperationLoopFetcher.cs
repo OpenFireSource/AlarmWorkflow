@@ -27,7 +27,7 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
     /// Represents a job that runs right after an operation has surfaced. It has the intention to supply loop information to the operation so that it can be further used in the application.
     /// The loop information is gathered by various devices.
     /// </summary>
-    [Export("OperationLoopFetcher", typeof(IJob))]
+    [Export(nameof(OperationLoopFetcher), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class OperationLoopFetcher : IJob
     {
@@ -119,10 +119,7 @@ namespace AlarmWorkflow.Job.OperationLoopFetcher
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

@@ -24,7 +24,7 @@ namespace AlarmWorkflow.Job.Geocoding
     /// <summary>
     /// A job doing geocoding based on the given provider. The job is executed only when no coordinates are already defined.
     /// </summary>
-    [Export("Geocoding", typeof(IJob))]
+    [Export(nameof(Geocoding), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class Geocoding : IJob
     {
@@ -83,10 +83,7 @@ namespace AlarmWorkflow.Job.Geocoding
             }
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 

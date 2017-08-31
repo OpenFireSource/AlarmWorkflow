@@ -393,13 +393,7 @@ namespace AlarmWorkflow.Shared.Core
         public static string[] Trim(string[] lines)
         {
             List<string> nl = new List<string>(lines.Length);
-            foreach (string item in lines)
-            {
-                if (!string.IsNullOrEmpty(item))
-                {
-                    nl.Add(item);
-                }
-            }
+            nl.AddRange(lines.Where(item => !string.IsNullOrEmpty(item)));
             return nl.ToArray();
         }
 

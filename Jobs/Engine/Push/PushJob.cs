@@ -26,7 +26,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.PushJob
 {
-    [Export("PushJob", typeof(IJob))]
+    [Export(nameof(PushJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class PushJob : IJob
     {
@@ -76,12 +76,10 @@ namespace AlarmWorkflow.Job.PushJob
             Task.Factory.StartNew(() => SendToProwl(operation, message, header));
             Task.Factory.StartNew(() => SendToNotifyMyAndroid(operation, message, header));
             Task.Factory.StartNew(() => SendToPushalot(operation, message, header));
+            Task.Factory.StartNew(() => SendToPushover(operation, message, header));
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 
@@ -147,6 +145,30 @@ namespace AlarmWorkflow.Job.PushJob
             catch (Exception ex)
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorProwl, ex.Message);
+                Logger.Instance.LogException(this, ex);
+            }
+        }
+
+        private void SendToPushover(Operation operation, string message, string header)
+        {
+            try
+            {
+                IEnumerable<string> recipients = GetRecipientApiKeysFor(operation, "Pushover");
+                string apiKey = _settings.GetSetting(SettingKeysJob.PushoverApiKey).GetValue<string>();
+
+                if (recipients.Any())
+                {
+                    if (String.IsNullOrEmpty(apiKey))
+                    {
+                        throw new ArgumentException("No Api-Key for Pushover");
+                    }
+
+                    Pushover.SendNotifications(recipients, apiKey, header, message);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorPushover, ex.Message);
                 Logger.Instance.LogException(this, ex);
             }
         }

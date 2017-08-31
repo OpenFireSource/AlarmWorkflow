@@ -233,6 +233,15 @@ namespace AlarmWorkflow.AlarmSource.Fax.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error set tesseract environment variable: {0}.
+        /// </summary>
+        internal static string OcrSoftwareTesseractError {
+            get {
+                return ResourceManager.GetString("OcrSoftwareTesseractError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operation parsed in &apos;{0}&apos; milliseconds..
         /// </summary>
         internal static string ParsingOperationCompleted {

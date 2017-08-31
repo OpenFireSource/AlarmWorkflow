@@ -33,6 +33,11 @@ namespace AlarmWorkflow.Job.eAlarm
         public string[] registration_ids;
 
         /// <summary>
+        /// Priority of the message
+        /// </summary>
+        public string priority;
+
+        /// <summary>
         /// The transferred operationdata.
         /// </summary>
         public class Data
@@ -43,6 +48,11 @@ namespace AlarmWorkflow.Job.eAlarm
             public string awf_location;
 
             /// <summary>
+            /// The latitude and longitude as a semicolon-separated string. (Required by the geocoding part of the mobile app).
+            /// </summary>
+            public string awf_latlng;
+
+            /// <summary>
             /// The content of the message.
             /// </summary>
             public string awf_message;
@@ -51,6 +61,21 @@ namespace AlarmWorkflow.Job.eAlarm
             /// The title of the message.
             /// </summary>
             public string awf_title;
+
+            /// <summary>
+            /// The title of the message.
+            /// </summary>
+            public string awf_key;
+
+            /// <summary>
+            /// The timestamp of the operation.
+            /// </summary>
+            public string awf_timestamp;
+        }
+
+        public Content()
+        {
+            priority = "high";
         }
     }
 }

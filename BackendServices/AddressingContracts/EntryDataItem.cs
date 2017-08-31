@@ -21,7 +21,7 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
     /// <summary>
     /// An object that is a part of an <see cref="AddressBookEntry"/>.
     /// </summary>
-    [DataContract()]
+    [DataContract]
     [KnownType(typeof(LoopEntryObject))]
     [KnownType(typeof(MailAddressEntryObject))]
     [KnownType(typeof(MobilePhoneEntryObject))]
@@ -33,17 +33,17 @@ namespace AlarmWorkflow.BackendService.AddressingContracts
         /// <summary>
         /// Gets/sets the identifier of the object.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string Identifier { get; set; }
         /// <summary>
         /// Gets/sets whether this entry data item is enabled.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public bool IsEnabled { get; set; }
         /// <summary>
         /// Gets/sets the data object that is represented by this instance.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public object Data { get; set; }
 
         #endregion

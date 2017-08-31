@@ -28,7 +28,7 @@ namespace AlarmWorkflow.Job.SmsJob
     /// <summary>
     /// Implements a Job, that sends SMS with different sms services.
     /// </summary>
-    [Export("SmsJob", typeof(IJob))]
+    [Export(nameof(SmsJob), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     sealed class SmsJob : IJob
     {
@@ -125,10 +125,7 @@ namespace AlarmWorkflow.Job.SmsJob
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return true; }
-        }
+        bool IJob.IsAsync => true;
 
         #endregion
 

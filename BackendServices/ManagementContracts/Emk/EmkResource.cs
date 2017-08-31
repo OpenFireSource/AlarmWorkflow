@@ -23,7 +23,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
     /// Represents a single resource of a fire department.
     /// EMK is an abbreviation for "EinsatzMittelKonfiguration".
     /// </summary>
-    [DataContract()]
+    [DataContract]
     public sealed class EmkResource : IEquatable<EmkResource>
     {
         #region Properties
@@ -31,37 +31,34 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         /// <summary>
         /// Gets/sets the site abbreviation that the underlying fire department is named in the alarm source.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string SiteAlias { get; set; }
         /// <summary>
         /// Gets/sets the name or identifier of the vehicle etc. that is used to identify it in the alarm source.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string ResourceAlias { get; set; }
         /// <summary>
         /// Gets/sets the name of this resource to use when displaying it.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string DisplayName { get; set; }
         /// <summary>
         /// Gets/sets the image path to a server-side icon file.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public string IconFileName { get; set; }
         /// <summary>
         /// Gets/sets whether or not this resource shall be taken into consideration when executing a query.
         /// </summary>
-        [DataMember()]
+        [DataMember]
         public bool IsActive { get; set; }
 
         /// <summary>
         /// Gets the generated identifier for this resource.
         /// The identifier is a concatenation of <see cref="SiteAlias"/> and <see cref="ResourceAlias"/>.
         /// </summary>
-        public string Id
-        {
-            get { return string.Format("{0}.{1}", SiteAlias, ResourceAlias); }
-        }
+        public string Id => string.Format("{0}.{1}", SiteAlias, ResourceAlias);
 
         #endregion
 
@@ -72,7 +69,7 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
         /// </summary>
         public EmkResource()
         {
-            this.IsActive = true;
+            IsActive = true;
         }
 
         #endregion
@@ -111,8 +108,8 @@ namespace AlarmWorkflow.BackendService.ManagementContracts.Emk
                 return false;
             }
 
-            return this.SiteAlias == other.SiteAlias
-                && this.ResourceAlias == other.ResourceAlias;
+            return SiteAlias == other.SiteAlias
+                && ResourceAlias == other.ResourceAlias;
         }
 
         #endregion

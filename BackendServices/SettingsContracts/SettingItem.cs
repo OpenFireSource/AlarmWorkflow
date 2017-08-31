@@ -26,7 +26,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
     /// </summary>
     [DataContract()]
     [DebuggerDisplay("Name = {Name}, Value = {Value} (is user defined = {IsUserValue}, is default = {IsDefault})")]
-    public sealed class SettingItem : IProxyType<string>
+    public sealed class SettingItem :  IProxyType<string>
     {
         #region Fields
 
@@ -63,10 +63,8 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <summary>
         /// Gets whether or not the value of this setting is the default value.
         /// </summary>
-        public bool IsDefault
-        {
-            get { return string.Equals(_valueSerialized, _defaultValueSerialized, StringComparison.Ordinal); }
-        }
+        public bool IsDefault => string.Equals(_valueSerialized, _defaultValueSerialized, StringComparison.Ordinal);
+
         /// <summary>
         /// Gets whether or not this setting represents a user-set value.
         /// </summary>
@@ -106,16 +104,16 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <param name="name">The name of this setting.</param>
         /// <param name="defaultValue">The default value of this setting.</param>
         /// <param name="type">The type of the setting.</param>
-        internal SettingItem(string identifier, string name, string defaultValue, Type type)
+        public SettingItem(string identifier, string name, string defaultValue, Type type)
             : this()
         {
             Assertions.AssertNotEmpty(identifier, "identifier");
             Assertions.AssertNotEmpty(name, "name");
             Assertions.AssertNotNull(type, "type");
 
-            this.Identifier = identifier;
-            this.Name = name;
-            this.SettingType = type;
+            Identifier = identifier;
+            Name = name;
+            SettingType = type;
             _defaultValueSerialized = defaultValue;
         }
 
@@ -129,10 +127,10 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
             {
                 if (!IsUserValue)
                 {
-                    return StringSettingConvertibleTools.ConvertFromSetting(this.SettingType, _defaultValueSerialized);
+                    return StringSettingConvertibleTools.ConvertFromSetting(SettingType, _defaultValueSerialized);
                 }
 
-                _value = StringSettingConvertibleTools.ConvertFromSetting(this.SettingType, _valueSerialized);
+                _value = StringSettingConvertibleTools.ConvertFromSetting(SettingType, _valueSerialized);
                 _valueCached = true;
             }
             return _value;
@@ -156,7 +154,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
             {
                 return;
             }
-            if (value == this.Value)
+            if (value == Value)
             {
                 return;
             }
@@ -185,7 +183,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         internal void ApplyUserValue(string value)
         {
             SetSerializedValueAndInvalidateCache(value);
-            this.IsUserValue = true;
+            IsUserValue = true;
         }
 
         /// <summary>
@@ -212,7 +210,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
         /// <returns>A string containing the identifier and the name of this setting in its universal format.</returns>
         public override string ToString()
         {
-            return this.Identifier + "." + this.Name;
+            return $"{Identifier}.{Name}";
         }
 
         #endregion

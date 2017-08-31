@@ -73,8 +73,8 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         {
             PrintingQueue evmNew = new PrintingQueue();
 
-            this.Entries.Add(evmNew);
-            this.SelectedEntry = evmNew;
+            Entries.Add(evmNew);
+            SelectedEntry = evmNew;
         }
 
         #endregion
@@ -98,8 +98,33 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
                 return;
             }
 
-            this.Entries.Remove(this.SelectedEntry);
-            this.SelectedEntry = null;
+            Entries.Remove(SelectedEntry);
+            SelectedEntry = null;
+        }
+
+        #endregion
+
+        #region Command "ImportEntryCommand"
+
+        public ICommand ImportEntryCommand { get; private set; }
+
+        private void ImportEntryCommand_Execute(object parameter)
+        {
+            SystemPrintingQueues dialog = new SystemPrintingQueues();
+            dialog.ShowDialog();
+            var dataModel = (dialog.DataContext as SystemPrintingQueuesViewModel);
+            if (dataModel == null || !dataModel.Ok)
+            {
+                return;
+            }
+            var item = dataModel.Selection;
+            PrintingQueue evmNew = new PrintingQueue
+            {
+                PrinterName = item,
+                Name = item
+            };
+            Entries.Add(evmNew);
+            SelectedEntry = evmNew;
         }
 
         #endregion
@@ -123,14 +148,14 @@ namespace AlarmWorkflow.Windows.Configuration.TypeEditors.Specialized.Printing
         private PrintingQueuesConfiguration Compile()
         {
             PrintingQueuesConfiguration tmp = new PrintingQueuesConfiguration();
-            tmp.Entries.AddRange(this.Entries);
+            tmp.Entries.AddRange(Entries);
 
             return tmp;
         }
 
         private void SetFrom(PrintingQueuesConfiguration value)
         {
-            this.Entries.AddRange(value.Entries);
+            Entries.AddRange(value.Entries);
         }
 
         #endregion

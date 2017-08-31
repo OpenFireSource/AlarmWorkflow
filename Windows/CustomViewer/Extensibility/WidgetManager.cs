@@ -20,7 +20,7 @@ using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
-using AvalonDock.Layout;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
 {
@@ -53,6 +53,13 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         #endregion
 
         #region Methods
+        internal void CloseWidgets()
+        {
+            foreach (var uiWidget in Widgets)
+            {
+                uiWidget.Close();
+            }
+        }
 
         internal IEnumerable<ILayoutPanelElement> GetInitializedViews()
         {
@@ -113,5 +120,6 @@ namespace AlarmWorkflow.Windows.CustomViewer.Extensibility
         }
 
         #endregion
+
     }
 }

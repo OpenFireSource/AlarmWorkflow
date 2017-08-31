@@ -32,7 +32,7 @@ namespace AlarmWorkflow.BackendService.SettingsContracts
             string full = setting.GetValue<string>();
             // For some reason, when saving a setting in the editor,
             // it will insert a "\n" instead of the "\r\n" so we need to make sure that both are covered!
-            return full.Split(new string[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            return full.Split(new[] { Environment.NewLine, "\n" }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

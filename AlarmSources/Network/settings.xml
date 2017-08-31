@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="NetworkAlarmSource">
+  <Setting Name="OutputPort" Type="System.Int32">8112</Setting>
+</SettingsConfiguration>

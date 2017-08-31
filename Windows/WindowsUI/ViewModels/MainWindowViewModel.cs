@@ -58,6 +58,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         private Timer _switchTimer;
 
         private readonly object TimerLock = new object();
+        private ViewType _viewType;
 
         #endregion
 
@@ -149,6 +150,22 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             }
         }
 
+        public ViewType ViewType
+        {
+            get
+            {
+                if (_viewType is IdleView && HasDisplayableEvents)
+                {
+                    _viewType = new OperationView();
+                }
+                else if(_viewType is OperationView && !HasDisplayableEvents)
+                {
+                    _viewType = new IdleView();
+                }
+                return _viewType;
+            }
+        }
+
         #endregion
 
         #region Constructors
@@ -170,10 +187,11 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
             if (App.GetApp().Configuration.SwitchAlarms)
             {
-                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime * 1000);
+                _switchTimer = new Timer(App.GetApp().Configuration.SwitchTime*1000);
                 _switchTimer.Elapsed += _switchTimer_Elapsed;
                 _switchTimer.Start();
             }
+            _viewType = new IdleView();
         }
 
         #endregion
@@ -264,6 +282,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
             OnPropertyChanged("AvailableEvents");
             OnPropertyChanged("AreMultipleEventsPresent");
             OnPropertyChanged("HasDisplayableEvents");
+            OnPropertyChanged("ViewType");
         }
 
         private void UpdateSelectedEventProperties()
@@ -344,7 +363,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
         {
             lock (TimerLock)
             {
-                App.Current.Dispatcher.Invoke(() => GoToNextAlarm());
+                Application.Current.Dispatcher.Invoke(() => GoToNextAlarm());
             }
         }
 
@@ -370,7 +389,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
                 IsMissingServiceConnectionHintVisible = false;
 
-                App.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
+                Application.Current.Dispatcher.Invoke(() => DeleteOldOperations(operations));
 
                 if (operations.Count > 0)
                 {
@@ -389,7 +408,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                         }
                         else
                         {
-                            App.Current.Dispatcher.Invoke(() => PushEvent(operation));
+                            Application.Current.Dispatcher.Invoke(() => PushEvent(operation));
                         }
                     }
                 }
@@ -452,7 +471,7 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
                     continue;
                 }
 
-                App.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
+                Application.Current.Dispatcher.Invoke(() => AcknowledgeOperationAndGoToFirst(item));
             }
         }
 
@@ -460,9 +479,19 @@ namespace AlarmWorkflow.Windows.UI.ViewModels
 
         #region IOperationServiceCallback Members
 
+        void IOperationServiceCallback.OnNewOperation(Operation op)
+        {
+            //Actually this should not occure. Only for safety.
+            if (ContainsEvent(op.Id))
+            {
+                return;
+            }
+            Application.Current.Dispatcher.BeginInvoke(() => PushEvent(op));
+        }
+
         void IOperationServiceCallback.OnOperationAcknowledged(int id)
         {
-            App.Current.Dispatcher.BeginInvoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 OperationViewModel operation = AvailableEvents.Find(item => item.Operation.Id == id);
                 if (operation != null)

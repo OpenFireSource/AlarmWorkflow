@@ -51,13 +51,11 @@ namespace AlarmWorkflow.Windows.UI.Windows
             InitializeComponent();
 
             _viewModel = new MainWindowViewModel(this);
-            _viewModel.PropertyChanged += new PropertyChangedEventHandler(_viewModel_PropertyChanged);
             this.DataContext = _viewModel;
 
             this.Loaded += Window_Loaded;
 
             SetWindowPosition();
-            SetContent(false);
         }
 
         #endregion
@@ -99,28 +97,6 @@ namespace AlarmWorkflow.Windows.UI.Windows
             Rectangle rectangle = Helper.GetWindowRect(this);
             Properties.Settings.Default.WindowPosition = rectangle;
             Properties.Settings.Default.WindowMaximized = this.WindowState == System.Windows.WindowState.Maximized;
-        }
-
-        private void SetContent(bool alarmsAvailable)
-        {
-            if (alarmsAvailable)
-            {
-                if (this.content.Content is ContentAlarmsAvailableControl)
-                {
-                    return;
-                }
-
-                this.content.Content = new ContentAlarmsAvailableControl();
-            }
-            else
-            {
-                if (this.content.Content is ContentNoAlarmsControl)
-                {
-                    return;
-                }
-
-                this.content.Content = new ContentNoAlarmsControl();
-            }
         }
 
         internal void SetFullscreen(bool value)
@@ -213,14 +189,6 @@ namespace AlarmWorkflow.Windows.UI.Windows
             {
                 SetFullscreen(!_isFullscreen);
                 e.Handled = true;
-            }
-        }
-
-        private void _viewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "HasDisplayableEvents")
-            {
-                SetContent(_viewModel.HasDisplayableEvents);
             }
         }
 

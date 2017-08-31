@@ -47,7 +47,7 @@ namespace AlarmWorkflow.BackendService.Settings
         /// <param name="settings">The settings.</param>
         internal SettingsConfigurationFile(string identifier, IEnumerable<SettingItem> settings)
         {
-            this.Identifier = identifier;
+            Identifier = identifier;
 
             _settings = new Dictionary<string, SettingItem>();
             foreach (SettingItem item in settings)

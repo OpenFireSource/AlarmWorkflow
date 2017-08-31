@@ -23,7 +23,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 
 namespace AlarmWorkflow.Job.OperationFileExporter
 {
-    [Export("OperationFileExporter", typeof(IJob))]
+    [Export(nameof(OperationFileExporter), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
     class OperationFileExporter : IJob
     {
@@ -112,10 +112,7 @@ namespace AlarmWorkflow.Job.OperationFileExporter
             return true;
         }
 
-        bool IJob.IsAsync
-        {
-            get { return false; }
-        }
+        bool IJob.IsAsync => false;
 
         #endregion
 
