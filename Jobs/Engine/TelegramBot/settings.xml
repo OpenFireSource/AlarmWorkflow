@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SettingsConfiguration Version="1" Identifier="TelegramBotJob">
+  <Setting Name="ApiKey" Type="System.String"></Setting>
+  <Setting Name="UserKey" Type="System.String"></Setting>
+  <Setting Name="AdminKey" Type="System.String"></Setting>
+  <Setting Name="MessageFormat" Type="System.String">Ort: {Einsatzort}, {Picture}; {Comment}</Setting>
+  
+  <Setting Name="Chats" Type="System.String"></Setting>
+</SettingsConfiguration>

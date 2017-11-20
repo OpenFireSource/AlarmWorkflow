@@ -1,0 +1,10 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="TelegramBotJob" DisplayText="TelegramBot" Parent="Aufgaben">
+    <Setting Name="ApiKey" DisplayText="API-Key" Category="Zugangsdaten" IsDynamic="true" />
+    <Setting Name="AdminKey" DisplayText="Admin-Key" Category="Bot Sicherheit" IsDynamic="true" Description="ein sicheres Passwort zum anmelden der Admins. Darf keine Leerzeichen enthalten!" />
+    <Setting Name="UserKey" DisplayText="User-Key" Category="Bot Sicherheit" IsDynamic="true" Description="ein sicheres Passwort zum anmelden der Benutzer. Darf keine Leerzeichen enthalten!" />
+
+    <Setting Name="MessageFormat" DisplayText="Format" Description="Das Format der Nachricht." Category="Nachricht" IsDynamic="true"
+             Editor="ObjectExpressionTypeEditor" EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
+  </Identifier>
+</SettingsDisplayConfiguration>
