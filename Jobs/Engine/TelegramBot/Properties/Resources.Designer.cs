@@ -124,6 +124,24 @@ namespace AlarmWorkflow.Job.TelegramBotJob.Properties {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Listet alle vorhandenen Benutzer auf. ähnelt.
+        /// </summary>
+        internal static string ExportListUsersCommandDescription {
+            get {
+                return ResourceManager.GetString("ExportListUsersCommandDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die /listusers ähnelt.
+        /// </summary>
+        internal static string ExportListUsersCommandDisplayName {
+            get {
+                return ResourceManager.GetString("ExportListUsersCommandDisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Diser Befehl ist zum anmelden am Bot mit dem angegeben Schlüssel ähnelt.
         /// </summary>
         internal static string ExportLoginCommandDescription {

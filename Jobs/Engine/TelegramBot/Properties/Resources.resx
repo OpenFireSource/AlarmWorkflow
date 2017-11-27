@@ -138,6 +138,12 @@
   <data name="ExportJobDisplayName" xml:space="preserve">
     <value>Telegram-Bot</value>
   </data>
+  <data name="ExportListUsersCommandDescription" xml:space="preserve">
+    <value>Listet alle vorhandenen Benutzer auf.</value>
+  </data>
+  <data name="ExportListUsersCommandDisplayName" xml:space="preserve">
+    <value>/listusers</value>
+  </data>
   <data name="ExportLoginCommandDescription" xml:space="preserve">
     <value>Diser Befehl ist zum anmelden am Bot mit dem angegeben Schlüssel</value>
   </data>

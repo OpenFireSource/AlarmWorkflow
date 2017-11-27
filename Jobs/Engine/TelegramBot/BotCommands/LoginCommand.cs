@@ -41,7 +41,7 @@ namespace AlarmWorkflow.Job.TelegramBotJob.BotCommands
                 foreach (Chat chat in Job.Chats.Where(x => x.Admin))
                 {
                     Console.WriteLine(e.Message.Chat.Id);
-                    Job.Bot.SendTextMessageAsync(chat.ChatId, $"Der Benutzer \"{e.Message.Chat.FirstName} {e.Message.Chat.FirstName}\" hat sicher angemeldet. Soll dieser aktiviert werden?\r\n\r\n" +
+                    Job.Bot.SendTextMessageAsync(chat.ChatId, (string.IsNullOrWhiteSpace(e.Message.Chat.Title) ? "Der Benutzer \""+ e.Message.Chat.FirstName + " " + e.Message.Chat.LastName : "Die Gruppe \"" + e.Message.Chat.Title) + "\" hat sich angemeldet. Soll dieser/diese aktiviert werden?\r\n\r\n" +
                                                               $"/accept{e.Message.Chat.Id.ToString("D").Replace("-", "_")}\r\n\r\n" +
                                                               $"/remove{e.Message.Chat.Id.ToString("D").Replace("-", "_")}");
                 }

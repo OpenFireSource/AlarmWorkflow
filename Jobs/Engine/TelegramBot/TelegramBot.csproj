@@ -130,6 +130,7 @@
   <ItemGroup>
     <Compile Include="BotCommands\AcceptCommand.cs" />
     <Compile Include="BotCommands\BotCommand.cs" />
+    <Compile Include="BotCommands\ListUsersCommand.cs" />
     <Compile Include="BotCommands\LogoutCommand.cs" />
     <Compile Include="BotCommands\LoginCommand.cs" />
     <Compile Include="BotCommands\RemoveCommand.cs" />
