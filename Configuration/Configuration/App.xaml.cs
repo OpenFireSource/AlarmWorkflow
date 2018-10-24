@@ -16,6 +16,8 @@
 using System.Windows;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Diagnostics.Reports;
+using AlarmWorkflow.Windows.Configuration.Properties;
+using AutoUpdaterDotNET;
 
 namespace AlarmWorkflow.Windows.Configuration
 {
@@ -39,6 +41,21 @@ namespace AlarmWorkflow.Windows.Configuration
         {
             Logger.Instance.Initialize(ComponentName);
             ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(ComponentName);
+
+            ConfigureAutoUpdate();
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void ConfigureAutoUpdate()
+        {
+            AutoUpdater.OpenDownloadPage = true;
+            AutoUpdater.ReportErrors = false;
+            AutoUpdater.AppTitle = "AlarmWorkflow";
+
+            AutoUpdater.Start(Settings.Default.AutoUpdateURL);
         }
 
         #endregion
