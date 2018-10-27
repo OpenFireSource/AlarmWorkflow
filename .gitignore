@@ -20,3 +20,4 @@ TestResults
 # Folders
 /Build/Config
 packages
+/AlarmSources/.vs/AlarmSources/v15/Server/sqlite3
