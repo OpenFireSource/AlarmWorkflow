@@ -1,41 +1,23 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FDDD6A8B-8B81-4C2B-8D5E-FE82DEF0D9D1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlarmWorkflow.Windows.UIContracts</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.UIContracts</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net46</TargetFramework>
+    <AssemblyTitle>AlarmWorkflow.Windows.UIContracts</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Windows.UIContracts</Product>
+    <Copyright>Copyright ©  2012</Copyright>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <OutputPath>..\..\Build\</OutputPath>
+    <DocumentationFile>..\..\Build\AlarmWorkflow.Windows.UIContracts.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Windows.UIContracts.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Windows.UIContracts.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AlarmWorkflow.Shared">
@@ -43,46 +25,30 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\DateTimeUtcToLocalConverter.cs" />
-    <Compile Include="Converters\NullToVisibilityConverter.cs" />
-    <Compile Include="Extensibility\IOperationViewer.cs" />
-    <Compile Include="Extensibility\IUIJob.cs" />
-    <Compile Include="Extensibility\IIdleUIJob.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UIUtilities.cs" />
-    <Compile Include="ViewModels\BackgroundTaskCommand.cs" />
-    <Compile Include="ViewModels\BackgroundTaskState.cs" />
-    <Compile Include="ViewModels\CheckedItem.cs" />
-    <Compile Include="ViewModels\CommandHelper.cs" />
-    <Compile Include="ViewModels\RelayCommand.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Remove="ViewModels/ViewModelBase.cs" />
+    <Compile Remove="ViewModels/CommandHelper.cs" />
+    <Compile Remove="ViewModels/RelayCommand.cs" />
+    <Compile Remove="ViewModels/BackgroundTaskCommand.cs" />
+    <Compile Remove="ViewModels/BackgroundTaskState.cs" />
+    <Compile Remove="ViewModels/CheckedItem.cs" />
+    <Compile Remove="Converters/NullToVisibilityConverter.cs" />
+    <Compile Remove="Converters/DateTimeUtcToLocalConverter.cs" />
+    <Compile Remove="Properties/AssemblyInfo.cs" />
+    <Compile Remove="Properties/Resources.Designer.cs" />
+    <Compile Remove="Extensibility/IOperationViewer.cs" />
+    <Compile Remove="Extensibility/IUIJob.cs" />
+    <Compile Remove="Extensibility/IIdleUIJob.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -1,131 +1,38 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{88F5EA65-BD60-4D58-89A4-36FCBE35C4EE}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlarmWorkflow.Shared</RootNamespace>
     <AssemblyName>AlarmWorkflow.Shared</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net46</TargetFramework>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
+    <AssemblyTitle>AlarmWorkflow.Shared</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Shared</Product>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\Build\AlarmWorkflow.Shared.XML</DocumentationFile>
+    <OutputPath>..\..\Build\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Shared.XML</DocumentationFile>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Shared.XML</DocumentationFile>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jint">
-      <HintPath>..\packages\Jint.2.9.1\lib\portable-net40+sl50+win+WindowsPhoneApp81+wp80\Jint.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <PackageReference Include="Jint" Version="2.9.1" />
+    <PackageReference Include="log4net" Version="2.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\AssertionFailedException.cs" />
-    <Compile Include="Core\Assertions.cs" />
-    <Compile Include="Core\AssertionType.cs" />
-    <Compile Include="Core\Json.cs" />
-    <Compile Include="Core\ProcessWrapper.cs" />
-    <Compile Include="Core\CsvHelper.cs" />
-    <Compile Include="Core\DisposableObject.cs" />
-    <Compile Include="Core\ExportConfiguration.cs" />
-    <Compile Include="Core\AlarmWorkflowPackageAttribute.cs" />
-    <Compile Include="Core\IProxyType.cs" />
-    <Compile Include="Core\OptionStringHelper.cs" />
-    <Compile Include="Core\ProgramStarter.cs" />
-    <Compile Include="Diagnostics\ExceptionIntervallLogger.cs" />
-    <Compile Include="Diagnostics\Reports\ExceptionDetail.cs" />
-    <Compile Include="Extensibility\IParser.cs" />
-    <Compile Include="ObjectExpressions\CustomScriptExecutionException.cs" />
-    <Compile Include="ObjectExpressions\ExpressionException.cs" />
-    <Compile Include="ObjectExpressions\ExpressionNotSupportedException.cs" />
-    <Compile Include="ObjectExpressions\ExtendedObjectExpressionFormatter.cs" />
-    <Compile Include="ObjectExpressions\IObjectExpressionFormatter.cs" />
-    <Compile Include="ObjectExpressions\ObjectExpressionTools.cs" />
-    <Compile Include="ObjectExpressions\ObjectFormatter.cs" />
-    <Compile Include="Core\InformationAttribute.cs" />
-    <Compile Include="ObjectExpressions\ObjectFormatterOptions.cs" />
-    <Compile Include="Core\OperationLoopCollection.cs" />
-    <Compile Include="Core\Operation.cs" />
-    <Compile Include="Core\OperationKeywords.cs" />
-    <Compile Include="Core\OperationResourceCollection.cs" />
-    <Compile Include="Core\PropertyLocation.cs" />
-    <Compile Include="Core\OperationResource.cs" />
-    <Compile Include="Core\ServiceProvider.cs" />
-    <Compile Include="Diagnostics\LogEntry.cs" />
-    <Compile Include="Diagnostics\Logger.cs" />
-    <Compile Include="Diagnostics\LogType.cs" />
-    <Compile Include="Core\ExportAttribute.cs" />
-    <Compile Include="Core\ExportedType.cs" />
-    <Compile Include="Core\ExportedTypeLibrary.cs" />
-    <Compile Include="Core\Utilities.cs" />
-    <Compile Include="ObjectExpressions\ObjectExpressionFormatter.cs" />
-    <Compile Include="ObjectExpressions\ExpressionResolver.cs" />
-    <Compile Include="ObjectExpressions\ResolveExpressionResult.cs" />
-    <Compile Include="ObjectExpressions\Scripting\CSharpScriptEngine.cs" />
-    <Compile Include="ObjectExpressions\Scripting\IScriptEngine.cs" />
-    <Compile Include="ObjectExpressions\Scripting\IScriptEngineFactory.cs" />
-    <Compile Include="ObjectExpressions\Scripting\JavaScriptEngine.cs" />
-    <Compile Include="ObjectExpressions\Scripting\ScriptEngineBase.cs" />
-    <Compile Include="ObjectExpressions\Scripting\ScriptEngineFactory.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SettingKeys.cs" />
-    <Compile Include="Settings\IStringSettingConvertible.cs" />
-    <Compile Include="Settings\SettingKey.cs" />
-    <Compile Include="Settings\SettingKeyComparer.cs" />
-    <Compile Include="Settings\StringSettingConvertibleTools.cs" />
-    <Compile Include="Specialized\Printing\GdiPrinter.cs" />
-    <Compile Include="Specialized\Printing\PrintingQueueCollection.cs" />
-    <Compile Include="Specialized\Printing\PrintingQueue.cs" />
-    <Compile Include="Specialized\Printing\PrintingQueuesConfiguration.cs" />
-    <Compile Include="Specialized\ReplaceDictionary.cs" />
-    <Compile Include="Diagnostics\Reports\ErrorReport.cs" />
-    <Compile Include="Diagnostics\Reports\ErrorReportManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
@@ -133,7 +40,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -145,14 +52,65 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Remove="Settings/IStringSettingConvertible.cs" />
+    <Compile Remove="Settings/SettingKey.cs" />
+    <Compile Remove="Settings/SettingKeyComparer.cs" />
+    <Compile Remove="Settings/StringSettingConvertibleTools.cs" />
+    <Compile Remove="ObjectExpressions/ExpressionException.cs" />
+    <Compile Remove="ObjectExpressions/ObjectFormatter.cs" />
+    <Compile Remove="ObjectExpressions/CustomScriptExecutionException.cs" />
+    <Compile Remove="ObjectExpressions/ResolveExpressionResult.cs" />
+    <Compile Remove="ObjectExpressions/ObjectExpressionTools.cs" />
+    <Compile Remove="ObjectExpressions/ObjectExpressionFormatter.cs" />
+    <Compile Remove="ObjectExpressions/IObjectExpressionFormatter.cs" />
+    <Compile Remove="ObjectExpressions/ExpressionNotSupportedException.cs" />
+    <Compile Remove="ObjectExpressions/ExpressionResolver.cs" />
+    <Compile Remove="ObjectExpressions/ExtendedObjectExpressionFormatter.cs" />
+    <Compile Remove="ObjectExpressions/ObjectFormatterOptions.cs" />
+    <Compile Remove="Core/OperationKeywords.cs" />
+    <Compile Remove="Core/PropertyLocation.cs" />
+    <Compile Remove="Core/OptionStringHelper.cs" />
+    <Compile Remove="Core/OperationLoopCollection.cs" />
+    <Compile Remove="Core/Assertions.cs" />
+    <Compile Remove="Core/OperationResource.cs" />
+    <Compile Remove="Core/ExportAttribute.cs" />
+    <Compile Remove="Core/Operation.cs" />
+    <Compile Remove="Core/AlarmWorkflowPackageAttribute.cs" />
+    <Compile Remove="Core/ExportedTypeLibrary.cs" />
+    <Compile Remove="Core/InformationAttribute.cs" />
+    <Compile Remove="Core/CsvHelper.cs" />
+    <Compile Remove="Core/ExportConfiguration.cs" />
+    <Compile Remove="Core/Utilities.cs" />
+    <Compile Remove="Core/OperationResourceCollection.cs" />
+    <Compile Remove="Core/Json.cs" />
+    <Compile Remove="Core/AssertionFailedException.cs" />
+    <Compile Remove="Core/IProxyType.cs" />
+    <Compile Remove="Core/ProcessWrapper.cs" />
+    <Compile Remove="Core/ExportedType.cs" />
+    <Compile Remove="Core/ProgramStarter.cs" />
+    <Compile Remove="Core/DisposableObject.cs" />
+    <Compile Remove="Core/ServiceProvider.cs" />
+    <Compile Remove="Core/AssertionType.cs" />
+    <Compile Remove="Specialized/ReplaceDictionary.cs" />
+    <Compile Remove="Properties/AssemblyInfo.cs" />
+    <Compile Remove="Properties/Resources.Designer.cs" />
+    <Compile Remove="Diagnostics/LogEntry.cs" />
+    <Compile Remove="Diagnostics/LogType.cs" />
+    <Compile Remove="Diagnostics/Logger.cs" />
+    <Compile Remove="Diagnostics/ExceptionIntervallLogger.cs" />
+    <Compile Remove="Extensibility/IParser.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/JavaScriptEngine.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/IScriptEngine.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/IScriptEngineFactory.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/CSharpScriptEngine.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/ScriptEngineFactory.cs" />
+    <Compile Remove="ObjectExpressions/Scripting/ScriptEngineBase.cs" />
+    <Compile Remove="Specialized/Printing/PrintingQueuesConfiguration.cs" />
+    <Compile Remove="Specialized/Printing/PrintingQueueCollection.cs" />
+    <Compile Remove="Specialized/Printing/PrintingQueue.cs" />
+    <Compile Remove="Specialized/Printing/GdiPrinter.cs" />
+    <Compile Remove="Diagnostics/Reports/ErrorReport.cs" />
+    <Compile Remove="Diagnostics/Reports/ErrorReportManager.cs" />
+    <Compile Remove="Diagnostics/Reports/ExceptionDetail.cs" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

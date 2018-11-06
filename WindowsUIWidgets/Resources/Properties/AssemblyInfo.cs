@@ -1,4 +1,4 @@
-// This file is part of AlarmWorkflow.
+ï»¿// This file is part of AlarmWorkflow.
 // 
 // AlarmWorkflow is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -19,23 +19,14 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Windows;
 
-// Allgemeine Informationen über eine Assembly werden über die folgenden 
-// Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
-// die mit einer Assembly verknüpft sind.
+// Allgemeine Informationen ï¿½ber eine Assembly werden ï¿½ber die folgenden 
+// Attribute gesteuert. ï¿½ndern Sie diese Attributwerte, um die Informationen zu ï¿½ndern,
+// die mit einer Assembly verknï¿½pft sind.
 using AlarmWorkflow.Shared.Core;
 
-[assembly: AssemblyTitle("AlarmWorkflow.Windows.UIWidgets.Resources")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("The AlarmWorkflow-Team")]
-[assembly: AssemblyProduct("AlarmWorkflow.Windows.UIWidgets.Resources")]
-[assembly: AssemblyCopyright("")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
-// für COM-Komponenten.  Wenn Sie auf einen Typ in dieser Assembly von 
-// COM zugreifen müssen, legen Sie das ComVisible-Attribut für diesen Typ auf "true" fest.
+// fï¿½r COM-Komponenten.  Wenn Sie auf einen Typ in dieser Assembly von 
+// COM zugreifen mï¿½ssen, legen Sie das ComVisible-Attribut fï¿½r diesen Typ auf "true" fest.
 [assembly: ComVisible(false)]
 
 //Um mit dem Erstellen lokalisierbarer Anwendungen zu beginnen, legen Sie 
@@ -43,32 +34,18 @@ using AlarmWorkflow.Shared.Core;
 //in einer <PropertyGroup> fest.  Wenn Sie in den Quelldateien beispielsweise Deutsch
 //(Deutschland) verwenden, legen Sie <UICulture> auf \"de-DE\" fest.  Heben Sie dann die Auskommentierung
 //des nachstehenden NeutralResourceLanguage-Attributs auf.  Aktualisieren Sie "en-US" in der nachstehenden Zeile,
-//sodass es mit der UICulture-Einstellung in der Projektdatei übereinstimmt.
+//sodass es mit der UICulture-Einstellung in der Projektdatei ï¿½bereinstimmt.
 
 //[assembly: NeutralResourcesLanguage("en-US", UltimateResourceFallbackLocation.Satellite)]
 
 
 [assembly:ThemeInfo(
-    ResourceDictionaryLocation.None, //Speicherort der designspezifischen Ressourcenwörterbücher
+    ResourceDictionaryLocation.None, //Speicherort der designspezifischen Ressourcenwï¿½rterbï¿½cher
                              //(wird verwendet, wenn eine Ressource auf der Seite 
-                             // oder in den Anwendungsressourcen-Wörterbüchern nicht gefunden werden kann.)
-    ResourceDictionaryLocation.SourceAssembly //Speicherort des generischen Ressourcenwörterbuchs
+                             // oder in den Anwendungsressourcen-Wï¿½rterbï¿½chern nicht gefunden werden kann.)
+    ResourceDictionaryLocation.SourceAssembly //Speicherort des generischen Ressourcenwï¿½rterbuchs
                                       //(wird verwendet, wenn eine Ressource auf der Seite, in der Anwendung oder einem 
-                                      // designspezifischen Ressourcenwörterbuch nicht gefunden werden kann.)
+                                      // designspezifischen Ressourcenwï¿½rterbuch nicht gefunden werden kann.)
 )]
-
-
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
-//      Hauptversion
-//      Nebenversion 
-//      Buildnummer
-//      Revision
-//
-// Sie können alle Werte angeben oder die standardmäßigen Build- und Revisionsnummern 
-// übernehmen, indem Sie "*" eingeben:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
 
 [assembly: AlarmWorkflowPackage()]
