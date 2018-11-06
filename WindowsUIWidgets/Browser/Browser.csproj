@@ -3,7 +3,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.UIWidgets.Browser</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.UIWidgets.Browser</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Windows.UIWidgets.Browser</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Windows.UIWidgets.Browser</Product>

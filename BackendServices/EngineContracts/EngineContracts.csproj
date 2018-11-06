@@ -3,7 +3,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.BackendService.EngineContracts</RootNamespace>
     <AssemblyName>AlarmWorkflow.BackendService.EngineContracts</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.BackendService.EngineContracts</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.BackendService.EngineContracts</Product>

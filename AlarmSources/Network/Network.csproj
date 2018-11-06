@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.AlarmSource.Network</RootNamespace>
     <AssemblyName>AlarmWorkflow.AlarmSource.Network</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.AlarmSource.Network</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.AlarmSource.Network</Product>

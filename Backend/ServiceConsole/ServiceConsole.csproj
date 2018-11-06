@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>AlarmWorkflow.Backend.ServiceConsole</RootNamespace>
     <AssemblyName>AlarmWorkflow.Backend.ServiceConsole</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Backend.ServiceConsole</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Backend.ServiceConsole</Product>

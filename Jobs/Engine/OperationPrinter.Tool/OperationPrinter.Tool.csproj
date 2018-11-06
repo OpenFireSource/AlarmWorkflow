@@ -3,7 +3,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>AlarmWorkflow.Job.OperationPrinter.Tool</RootNamespace>
     <AssemblyName>AlarmWorkflow.Job.OperationPrinter.Tool</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <AssemblyTitle>AlarmWorkflow.Job.OperationPrinter.Tool</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>

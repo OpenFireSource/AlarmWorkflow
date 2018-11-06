@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.Job.ExternalTool</RootNamespace>
     <AssemblyName>AlarmWorkflow.Job.ExternalTool</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Job.ExternalTool</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Job.ExternalTool</Product>

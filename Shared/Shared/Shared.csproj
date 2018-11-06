@@ -3,7 +3,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Shared</RootNamespace>
     <AssemblyName>AlarmWorkflow.Shared</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <AssemblyTitle>AlarmWorkflow.Shared</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>

@@ -3,7 +3,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.Configuration.AddressBookEditor</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.Configuration.AddressBookEditor</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Windows.Configuration.AddressBookEditor</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Windows.Configuration.AddressBookEditor</Product>

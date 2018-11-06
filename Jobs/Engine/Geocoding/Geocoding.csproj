@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.Job.Geocoding</RootNamespace>
     <AssemblyName>AlarmWorkflow.Job.Geocoding</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Job.Geocoding</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Job.Geocoding</Product>

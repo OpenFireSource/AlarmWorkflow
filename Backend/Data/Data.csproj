@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.Backend.Data</RootNamespace>
     <AssemblyName>AlarmWorkflow.Backend.Data</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Backend.Data</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Backend.Data</Product>

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.BackendService.PrintingContracts</RootNamespace>
     <AssemblyName>AlarmWorkflow.BackendService.PrintingContracts</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>PrintingContracts</AssemblyTitle>
     <Product>PrintingContracts</Product>
     <Copyright>Copyright ©  2016</Copyright>

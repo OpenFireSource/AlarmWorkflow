@@ -2,7 +2,7 @@
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.BackendService.Printing</RootNamespace>
     <AssemblyName>AlarmWorkflow.BackendService.Printing</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>Printing</AssemblyTitle>
     <Product>Printing</Product>
     <Copyright>Copyright ©  2016</Copyright>

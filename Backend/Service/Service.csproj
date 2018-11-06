@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AlarmWorkflow.Backend.Service</RootNamespace>
     <AssemblyName>AlarmWorkflow.Backend.Service</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <AssemblyTitle>AlarmWorkflow.Backend.Service</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Backend.Service</Product>

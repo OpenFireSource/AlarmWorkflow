@@ -4,7 +4,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>AlarmWorkflow.Windows.Configuration</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.Configuration</AssemblyName>
-    <TargetFramework>net46</TargetFramework>
+    <TargetFramework>net47</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AssemblyTitle>AlarmWorkflow.Windows.Configuration</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
