@@ -33,6 +33,12 @@
     <ProjectReference Include="..\Addressing\Addressing.csproj" />
   </ItemGroup>
   <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AddressingContracts\AddressingContracts.csproj" />
+    <ProjectReference Include="..\Addressing\Addressing.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="TestLists\AddressingTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

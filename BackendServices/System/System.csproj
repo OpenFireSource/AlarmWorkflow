@@ -44,4 +44,7 @@
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SystemContracts\SystemContracts.csproj" />
+  </ItemGroup>
 </Project>

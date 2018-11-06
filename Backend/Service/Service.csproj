@@ -69,4 +69,8 @@
     <Compile Remove="Properties/Resources.Designer.cs" />
     <Compile Remove="Communication/AnyInterfaceEndPointResolver.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
+  </ItemGroup>
 </Project>

@@ -77,4 +77,7 @@
     <Compile Remove="Data/IUnitOfWork.cs" />
     <Compile Remove="Data/IRepository.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
+  </ItemGroup>
 </Project>
