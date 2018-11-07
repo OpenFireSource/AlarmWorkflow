@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.Job.Geocoding.Test</RootNamespace>
     <AssemblyName>AlarmWorkflow.Job.Geocoding.Test</AssemblyName>
@@ -27,13 +27,10 @@
     <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Job.Geocoding, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Job.Geocoding.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared, Version=1.0.1.0, Culture=neutral, PublicKeyToken=null" />
+    <Compile Remove="Properties/AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
+    <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Geocoding\Geocoding.csproj" />
   </ItemGroup>
 </Project>

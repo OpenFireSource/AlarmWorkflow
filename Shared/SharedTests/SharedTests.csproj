@@ -18,19 +18,27 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\BasicExtendedScriptTest.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_CompilationFailed.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncNotFound.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig1.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig2.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_InvokeFailed.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\Err_NotExOneType.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\OperationScriptTest.cs" />
+    <Compile Remove="TestData\Shared\ObjectExpressionsTests\Scripts\SecondPassScriptTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.11" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="AlarmWorkflow.Parser.Library">
       <HintPath>..\..\Build\AlarmWorkflow.Parser.Library.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-  </ItemGroup>
+  <ProjectReference Include="..\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\BasicExtendedScriptTest.cs" />
     <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_CompilationFailed.cs" />
@@ -43,6 +51,15 @@
     <Content Include="TestData\Shared\ObjectExpressionsTests\Scripts\OperationScriptTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\BasicExtendedScriptTest.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_CompilationFailed.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncNotFound.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig1.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_FuncWrongSig2.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_InvokeFailed.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\Err_NotExOneType.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\OperationScriptTest.cs" />
+    <None Include="TestData\Shared\ObjectExpressionsTests\Scripts\SecondPassScriptTest.cs" />
     <None Include="TestLists\CoreTests.orderedtest">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -97,4 +114,5 @@
     <Compile Remove="TestData/Shared/ObjectExpressionsTests/Scripts/Err_FuncNotFound.cs" />
     <Compile Remove="TestData/Shared/ObjectExpressionsTests/Scripts/Err_InvokeFailed.cs" />
   </ItemGroup>
+</Project>
 </Project>

@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AlarmWorkflow.Windows.UIContracts</name>
+    </assembly>
+    <members>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Converters.DateTimeUtcToLocalConverter">
+            <summary>
+            Custom <see cref="T:System.Windows.Data.IValueConverter"/> that converts a <see cref="T:System.DateTime"/> from UTC to local time.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Converters.NullToVisibilityConverter">
+            <summary>
+            Custom <see cref="T:System.Windows.Data.IValueConverter"/> that takes any <see cref="T:System.Object"/> and interprets a null-value as either <see cref="F:System.Windows.Visibility.Visible"/> or <see cref="F:System.Windows.Visibility.Collapsed"/>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Converters.NullToVisibilityConverter.NullVisibility">
+            <summary>
+            Gets/sets which <see cref="T:System.Windows.Visibility"/> to use for a null-value.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Converters.NullToVisibilityConverter.NotNullVisibility">
+            <summary>
+            Gets/sets which <see cref="T:System.Windows.Visibility"/> to use for a not-null-value.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Extensibility.IIdleUIJob">
+            <summary>
+            Defines a means for a job that runs on UI-side after a new <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> has come in.
+            This is the UI-side equivalent to the "IJob"-interface of the AlarmWorkflowEngine.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Extensibility.IIdleUIJob.IsAsync">
+            <summary>
+            Returns whether or not this job is executed asynchronously.
+            This should be set to true for longer-running tasks.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IIdleUIJob.Initialize">
+            <summary>
+            Initializes this job prior to its first use.
+            </summary>
+            <returns>The result of the initialization. Jobs that return false won't be called.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IIdleUIJob.Run">
+            <summary>
+            Runs the job-logic on the new operation.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer">
+            <summary>
+            Defines a means for a type that provides a parser-specific frontend for an Operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer.Visual">
+            <summary>
+            Gets the <see cref="T:System.Windows.FrameworkElement"/> which is used to represent the operation.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer.OnNewOperation(AlarmWorkflow.Shared.Core.Operation)">
+            <summary>
+            Called when a new operation is coming in, prior to it <see cref="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer.OnOperationChanged(AlarmWorkflow.Shared.Core.Operation)"/> being called.
+            </summary>
+            <param name="operation">The new operation that is about being changed over to.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer.OnOperationChanged(AlarmWorkflow.Shared.Core.Operation)">
+            <summary>
+            Called when the selected operation has changed and we need to display the given one.
+            </summary>
+            <param name="operation">The <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> that was selected and is now being displayed.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob">
+            <summary>
+            Defines a means for a job that runs on UI-side after a new <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> has come in.
+            This is the UI-side equivalent to the "IJob"-interface of the AlarmWorkflowEngine.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob.IsAsync">
+            <summary>
+            Returns whether or not this job is executed asynchronously.
+            This should be set to true for longer-running tasks.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob.Initialize">
+            <summary>
+            Initializes this job prior to its first use.
+            </summary>
+            <returns>The result of the initialization. Jobs that return false won't be called.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.Extensibility.IUIJob.OnNewOperation(AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer,AlarmWorkflow.Shared.Core.Operation)">
+            <summary>
+            Runs the job-logic on the new operation.
+            </summary>
+            <param name="operationViewer">The instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.Extensibility.IOperationViewer"/> on which this job runs.</param>
+            <param name="operation">The operation that has come in.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ClientExtensions">
+            <summary>
+            Provides extensions for the UI.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ClientExtensions.GetPackUri(System.Object,System.String)">
+            <summary>
+            Returns the Uri using the calling assembly and the given path.
+            </summary>
+            <param name="source">The instance that this method is called on. Used to infer assembly name for resource retrieval.</param>
+            <param name="path">The path. This is the text that follows the "component/" text.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ClientExtensions.GetPackUri(System.String,System.String)">
+            <summary>
+            Returns the Uri using the given application name and the given path.
+            </summary>
+            <param name="applicationName">The application name. This is the name of the assembly.</param>
+            <param name="path">The path. This is the text that follows the "component/" text.</param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Properties.Resources.CopyToClipboardDoneMessage">
+            <summary>
+              Looks up a localized string similar to Die Daten wurden in die Zwischenablage kopiert..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Properties.Resources.CopyToClipboardFailedMessage">
+            <summary>
+              Looks up a localized string similar to Konnte nicht auf die Zwischenablage zugreifen. Möglicherweise greift aktuell ein anderes Programm darauf zu. Bitte versuchen Sie es in ein paar Sekunden erneut..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.Properties.Resources.WireupCommandPropertyFailed">
+            <summary>
+              Looks up a localized string similar to Could not wireup command property &apos;{0}&apos; because it had no correspoding &apos;void {0}_Execute(object parameter)&apos; method..
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.UIUtilities">
+            <summary>
+            Provides helper functionality for UI development.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.UIUtilities.DateTimeFormatGermany">
+            <summary>
+            Defines the format that should be used for german formatting of <see cref="T:System.DateTime"/> instances.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.ConfirmMessageBox(System.Windows.MessageBoxImage,System.String,System.Object[])">
+            <summary>
+            Brings up a message box and asks for confirmation.
+            </summary>
+            <param name="icon">The icon for the message box.</param>
+            <param name="format">The text to display.</param>
+            <param name="args">The arguments.</param>
+            <returns>true if the user has confirmed the message box, otherwise false.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.ShowWarning(System.String,System.Object[])">
+            <summary>
+            Brings up a message box with "warning" content.
+            </summary>
+            <param name="format">The text to display.</param>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.ShowInfo(System.String,System.Object[])">
+            <summary>
+            Brings up a message box with "information" content.
+            </summary>
+            <param name="format">The text to display.</param>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.ShowError(System.String,System.Object[])">
+            <summary>
+            Brings up a message box with "error" content.
+            </summary>
+            <param name="format">The text to display.</param>
+            <param name="args">The arguments.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.CopyToClipboardInteractive(System.String)">
+            <summary>
+            Copies some text to the clipboard and gives the user feedback on success or failure.
+            </summary>
+            <param name="text">The text to copy to the clipboard.</param>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.UIUtilities.DialogResultProperty">
+            <summary>
+            A bindable property for closing a view from the viewmodel
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.UIUtilities.SetDialogResult(System.Windows.Window,System.Nullable{System.Boolean})">
+            <summary>
+            Sets the dialog result property
+            </summary>
+            <param name="target">The target window</param>
+            <param name="value">The value</param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand">
+            <summary>
+            Represents a command which triggers a long-running operation and notifies consumers about the progress.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.State">
+            <summary>
+            Gets the state of the underlying task.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.Progress">
+            <summary>
+            Gets the progress of the underlying task.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.ProgressText">
+            <summary>
+            Gets some text describing the current progress in more detail.
+            This can be used for displaying in a statusbar or such.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.TaskJoinTimeout">
+            <summary>
+            Gets/sets the timeout to use when exiting the underlying task.
+            This timeout should not be set too high.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.IgnoreExceptionDuringExecute">
+            <summary>
+            Gets/sets whether an exception that was thrown during Execute() should be swallowed or re-thrown.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.IsCancelRequested">
+            <summary>
+            Gets whether or not the operation should be canceled at the next-best occassion.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.Parameters">
+            <summary>
+            Gets a dictionary that can be used to store command-specific data or return values for later use.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.IsRunning">
+            <summary>
+            Determines whether or not the underlying task is currently in progress.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand"/> class
+            and uses an STA-thread that runs in the background.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.#ctor(System.Boolean,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand"/> class with advanced options.
+            </summary>
+            <param name="isSTAThread">Whether or not the underlying thread shall be marked as being an STA thread instead of an MTA thread.</param>
+            <param name="isBackgroundThread">Whether or not the underlying thread shall be declared as a background thread.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.OnPropertyChangedDispatched(System.String)">
+            <summary>
+            Raises the <see cref="E:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.PropertyChanged"/>-event within the safe execution of the current app's dispatcher.
+            The property changes are dispatched using BeginInvoke().
+            </summary>
+            <param name="propertyName">The name of the property that has changed.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.SetProgressText(System.String,System.Object[])">
+            <summary>
+            Convenience method to update the <see cref="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.ProgressText"/> with some specific text.
+            </summary>
+            <param name="format"></param>
+            <param name="args"></param>
+        </member>
+        <member name="E:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.PropertyChanged">
+            <summary>
+            Raised when a property on this object has a new value.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.Execute(System.Object)">
+            <summary>
+            Performs the work to be done in a background thread.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.CanExecute(System.Object)">
+            <summary>
+            Determines whether or not this command can be executed.
+            The base implementation returns the negated result from <see cref="P:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand.IsRunning"/>.
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskState">
+            <summary>
+            Specifies the states in which a task inside a <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskCommand"/> can be.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskState.Unstarted">
+            <summary>
+            The task has not been started yet.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskState.Running">
+            <summary>
+            The task is currently running.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskState.Completed">
+            <summary>
+            The task has successfully completed.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Windows.UIContracts.ViewModels.BackgroundTaskState.Faulted">
+            <summary>
+            The task has prematurely ended due to an exception.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedStringItem">
+            <summary>
+            Provides a checked item that uses a string as the "value" type.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedStringItem.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedStringItem"/> class.
+            </summary>
+            <param name="value">The initial value to set.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1">
+            <summary>
+            Provides a data class that holds a boolean value (representing "selected" state) and a custom value.
+            </summary>
+            <typeparam name="T">The type to use.</typeparam>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.IsChecked">
+            <summary>
+            Gets/sets whether this item is checked/selected.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.Value">
+            <summary>
+            Gets/sets the value of this item.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.Tag">
+            <summary>
+            Gets/sets an optional tag for information that can be applied to this instance.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1"/> class.
+            </summary>
+            <param name="value">The initial value to set.</param>
+        </member>
+        <member name="E:AlarmWorkflow.Windows.UIContracts.ViewModels.CheckedItem`1.PropertyChanged">
+            <summary>
+            See base implementation.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.CommandHelper">
+            <summary>
+            Provides helper methods for working with commands.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CommandHelper.WireupRelayCommands(System.Object)">
+            <summary>
+            Automatically wires up relay commands.
+            Performs this operation by searching for public properties of type "ICommand" and for methods which have "PROPERTYNAME_Execute" or "PROPERTYNAME_CanExecute".
+            </summary>
+            <param name="instance">The instance to wire up.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CommandHelper.WireupRelayCommands(System.Type,System.Object)">
+            <summary>
+            Automatically wires up relay commands.
+            Performs this operation by searching for public properties of type "ICommand" and for methods which have "PROPERTYNAME_Execute" or "PROPERTYNAME_CanExecute".
+            </summary>
+            <param name="type">The type to retrieve the methods and properties of. This is usually the type from <paramref name="instance"/>.</param>
+            <param name="instance">The instance to wire up.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CommandHelper.UnwireRelayCommands(System.Object)">
+            <summary>
+            Un-wires all previously wired up commands (by <see cref="M:AlarmWorkflow.Windows.UIContracts.ViewModels.CommandHelper.WireupRelayCommands(System.Object)"/>) so they can be garbage-collected.
+            </summary>
+            <param name="instance">The instance with wired-up commands.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.RelayCommand">
+            <summary>
+            Provides an implementation of the ICommand interface which allows for delegated commanding.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.RelayCommand.#ctor(System.Action{System.Object})">
+            <summary>
+            A relay command with only an execute handler.
+            </summary>
+            <param name="execute">The method to execute.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.RelayCommand.#ctor(System.Action{System.Object},System.Func{System.Object,System.Boolean})">
+            <summary>
+            A relay command with an execute and can-execute handler.
+            </summary>
+            <param name="execute">The method to execute.</param>
+            <param name="canExecute">The method that evaluates whether or not this command can be executed.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.RelayCommand.CanExecute(System.Object)">
+            <summary>
+            Whether or not this command can execute.
+            </summary>
+            <param name="parameter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.RelayCommand.Execute(System.Object)">
+            <summary>
+            Executes the command.
+            </summary>
+            <param name="parameter"></param>
+        </member>
+        <member name="T:AlarmWorkflow.Windows.UIContracts.ViewModels.ViewModelBase">
+            <summary>
+            ViewModel base class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.ViewModelBase.#ctor">
+            <summary>
+            Initializes a new instance of the ViewModelBase class.
+            </summary>
+        </member>
+        <member name="E:AlarmWorkflow.Windows.UIContracts.ViewModels.ViewModelBase.PropertyChanged">
+            <summary>
+            Raised when the value of a property has changed.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.ViewModelBase.OnPropertyChanged(System.String)">
+            <summary>
+            Manually raises the PropertyChanged event for the given property.
+            </summary>
+            <param name="propertyName">The name of the property to raise this event for.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Windows.UIContracts.ViewModels.ViewModelBase.DisposeCore">
+            <summary>
+            Called when this viewmodel shall perform cleanup work prior to it being disposed.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">Thrown if the model was already disposed.</exception>
+        </member>
+    </members>
+</doc>

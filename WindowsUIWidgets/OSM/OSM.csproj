@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.UIWidgets.OSM</RootNamespace>
@@ -44,4 +44,11 @@
     <Compile Remove="Properties/Settings.Designer.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
+    <Reference Include="System.Web"/>
+    <Reference Include="System.Xaml"/>
+    <Reference Include="WindowsBase"/>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj"/></ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Backend.ServiceContracts</RootNamespace>
@@ -19,16 +19,13 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-  </ItemGroup>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,5 +69,10 @@
     <Compile Remove="ServiceDefinition/BackendServiceLocation.cs" />
     <Compile Remove="Communication/EndPointResolvers/RedirectableEndPointResolver.cs" />
     <Compile Remove="Communication/EndPointResolvers/LocalhostEndPointResolver.cs" />
+  </ItemGroup>
+</Project>
+    <None Update="Backend.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

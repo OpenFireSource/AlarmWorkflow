@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.Configuration.AddressBookEditor</RootNamespace>
@@ -18,24 +18,12 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.AddressingContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.AddressingContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Windows.UIContracts.dll">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
-    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="WindowsBase" />
-  </ItemGroup>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\BackendServices\AddressingContracts\AddressingContracts.csproj" /><ProjectReference Include="..\..\Windows\WindowsContracts\WindowsContracts.csproj" /></ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ConfigurationContracts\ConfigurationContracts.csproj" />
   </ItemGroup>
@@ -113,4 +101,5 @@
     <Compile Remove="Validation/MailAddressValidationRule.cs" />
     <Compile Remove="Validation/MobilePhoneValidationRule.cs" />
   </ItemGroup>
+</Project>
 </Project>

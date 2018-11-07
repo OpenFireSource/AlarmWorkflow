@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.UIContracts</RootNamespace>
@@ -7,7 +7,7 @@
     <AssemblyTitle>AlarmWorkflow.Windows.UIContracts</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Windows.UIContracts</Product>
-    <Copyright>Copyright ©  2012</Copyright>
+    <Copyright>Copyright &#169;  2012</Copyright>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
     <FileVersion>1.0.1.0</FileVersion>
     <OutputPath>..\..\Build\</OutputPath>
@@ -20,15 +20,12 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+    <Reference Include="System.Xaml"/>
+    <Reference Include="Microsoft.CSharp"/>
+    <Reference Include="WindowsBase"/>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -51,4 +48,5 @@
     <Compile Remove="Extensibility/IUIJob.cs" />
     <Compile Remove="Extensibility/IIdleUIJob.cs" />
   </ItemGroup>
+</Project>
 </Project>

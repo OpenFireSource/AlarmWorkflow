@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.BackendService.PrintingContracts</RootNamespace>
     <AssemblyName>AlarmWorkflow.BackendService.PrintingContracts</AssemblyName>
@@ -16,10 +16,9 @@
     <DocumentationFile>bin\$(Configuration)\AlarmWorkflow.BackendService.PrintingContracts.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -28,4 +27,5 @@
   <ItemGroup>
     <Compile Remove="Properties/AssemblyInfo.cs" />
   </ItemGroup>
+</Project>
 </Project>

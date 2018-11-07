@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <OutputType>WinExe</OutputType>
@@ -14,7 +14,6 @@
     <OutputPath>..\..\Build\</OutputPath>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Data\*" "$(TargetDir)\*" /IYS</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugType>full</DebugType>
@@ -25,29 +24,8 @@
   <PropertyGroup>
     <ApplicationIcon>Configuration.ico</ApplicationIcon>
   </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)Data\*" "$(TargetDir)\*" /IYS</PostBuildEvent>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.BackendService.PrintingContracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.PrintingContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Windows.UIContracts.dll">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceProcess" />
@@ -67,6 +45,12 @@
     <Resource Include="Images\Info_16.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BackendServices\ManagementContracts\ManagementContracts.csproj" />
+    <ProjectReference Include="..\..\BackendServices\PrintingContracts\PrintingContracts.csproj" />
+    <ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" />
+    <ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" />
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+    <ProjectReference Include="..\..\Windows\WindowsContracts\WindowsContracts.csproj" />
     <ProjectReference Include="..\ConfigurationContracts\ConfigurationContracts.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -148,4 +132,5 @@
     <Compile Remove="TypeEditors/Specialized/Printing/SystemPrintingQueuesViewModel.cs" />
     <Compile Remove="TypeEditors/Specialized/Emk/EmkTypeEditor.xaml.cs" />
   </ItemGroup>
+</Project>
 </Project>

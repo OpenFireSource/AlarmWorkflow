@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <OutputType>WinExe</OutputType>
@@ -16,7 +16,7 @@
     <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject/>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Images\UI.ico</ApplicationIcon>
@@ -28,25 +28,13 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml" />
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
-  </ItemGroup>
+    <Reference Include="System.ServiceModel"/>
+    <Reference Include="System.Windows.Forms"/>
+    <Reference Include="System.Xaml"/>
+    <Reference Include="WindowsBase"/>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\ManagementContracts\ManagementContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/></ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
       <SubType>Designer</SubType>
@@ -58,10 +46,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsContracts\WindowsContracts.csproj" />
+    <ProjectReference Include="..\WindowsContracts\WindowsContracts.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\UI.ico" />
+    <Resource Include="Images\UI.ico"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="App.xaml.cs" />
@@ -83,4 +71,5 @@
     <Compile Remove="Views/ContentNoAlarmsControl.xaml.cs" />
     <Compile Remove="Views/ContentAlarmsAvailableControl.xaml.cs" />
   </ItemGroup>
+</Project>
 </Project>

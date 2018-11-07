@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Windows.ConfigurationContracts</RootNamespace>
@@ -13,7 +13,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
-    <DocumentationFile />
+    <DocumentationFile/>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,4 +32,11 @@
   <ItemGroup>
     <Compile Remove="Properties/AssemblyInfo.cs" />
   </ItemGroup>
+</Project>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+    <Reference Include="System.Xaml"/>
+    <Reference Include="Microsoft.CSharp"/>
+    <Reference Include="WindowsBase"/>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
 </Project>

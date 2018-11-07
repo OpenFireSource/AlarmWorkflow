@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.AlarmSource.Sms</RootNamespace>
@@ -18,20 +18,8 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+    <Reference Include="Microsoft.CSharp"/>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\EngineContracts\EngineContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -40,10 +28,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml" />
+    <EmbeddedResource Include="settings.info.xml"/>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.xml" />
+    <EmbeddedResource Include="settings.xml"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Server/AlarmServer.cs" />
@@ -51,4 +39,5 @@
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
 </Project>

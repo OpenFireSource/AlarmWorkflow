@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <OutputType>Exe</OutputType>
@@ -22,10 +22,7 @@
     <ApplicationIcon>ServiceConsole.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -34,13 +31,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Service\Service.csproj" />
+    <ProjectReference Include="..\Service\Service.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ServiceConsole.ico" />
+    <Content Include="ServiceConsole.ico"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
 </Project>

@@ -15,22 +15,6 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.EngineContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
@@ -42,6 +26,10 @@
     <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
+    <ProjectReference Include="..\..\..\BackendServices\EngineContracts\EngineContracts.csproj" />
+    <ProjectReference Include="..\..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" />
+    <ProjectReference Include="..\..\..\Backend\ServiceConsole\ServiceConsole.csproj" />
+    <ProjectReference Include="..\..\..\Backend\ServiceContracts\ServiceContracts.csproj" />
+    <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
+<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
   <PropertyGroup>
     <RootNamespace>AlarmWorkflow.Windows.UIWidgets.Resources</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.UIWidgets.Resources</AssemblyName>
@@ -19,27 +19,6 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.Dispositioning">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.Dispositioning.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.DispositioningContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.DispositioningContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.FileTransferContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.FileTransferContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Windows.CustomViewer">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
-    </Reference>
     <Reference Include="AlarmWorkflow.Windows.UIContracts">
       <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
     </Reference>
@@ -53,4 +32,10 @@
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
+    <Reference Include="System.Xaml"/>
+    <Reference Include="WindowsBase"/>
+    <Reference Include="PresentationCore"/>
+    <Reference Include="PresentationFramework"/>
+  <ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\Dispositioning\Dispositioning.csproj"/><ProjectReference Include="..\..\BackendServices\DispositioningContracts\DispositioningContracts.csproj"/><ProjectReference Include="..\..\BackendServices\FileTransferContracts\FileTransferContracts.csproj"/><ProjectReference Include="..\..\BackendServices\ManagementContracts\ManagementContracts.csproj"/><ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj"/></ItemGroup>
 </Project>

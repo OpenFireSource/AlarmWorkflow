@@ -19,19 +19,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\..\Build/AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\..\BackendServices\EngineContracts\EngineContracts.csproj" /><ProjectReference Include="..\..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -45,9 +33,5 @@
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml" />
     <EmbeddedResource Include="settings.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
 </Project>

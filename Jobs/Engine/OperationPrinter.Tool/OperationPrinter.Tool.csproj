@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <RootNamespace>AlarmWorkflow.Job.OperationPrinter.Tool</RootNamespace>
@@ -19,27 +19,12 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.EngineContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.EngineContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Job.OperationPrinter">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Job.OperationPrinter.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Printing" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Net.Http" />
-  </ItemGroup>
+    <Reference Include="System.Printing"/>
+    <Reference Include="System.Data.DataSetExtensions"/>
+    <Reference Include="Microsoft.CSharp"/>
+    <Reference Include="System.Net.Http"/>
+  <ProjectReference Include="..\..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\..\BackendServices\EngineContracts\EngineContracts.csproj"/><ProjectReference Include="..\..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\OperationPrinter\OperationPrinter.csproj"/><ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
   <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
+    <Compile Remove="Properties/AssemblyInfo.cs"/>
   </ItemGroup>
 </Project>

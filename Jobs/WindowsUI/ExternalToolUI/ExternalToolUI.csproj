@@ -18,20 +18,8 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Windows.UIContracts">
-      <HintPath>..\..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+  <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /><ProjectReference Include="..\..\..\Windows\WindowsContracts\WindowsContracts.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -51,4 +39,5 @@
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
 </Project>

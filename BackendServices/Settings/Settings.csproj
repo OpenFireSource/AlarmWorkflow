@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.BackendService.Settings</RootNamespace>
@@ -18,19 +18,10 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.Data">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Security" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+    <Reference Include="System.Security"/>
+    <Reference Include="System.ServiceModel"/>
+    <Reference Include="Microsoft.CSharp"/>
+  <ProjectReference Include="..\..\Backend\Data\Data.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -46,7 +37,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SettingsContracts\SettingsContracts.csproj" />
+    <ProjectReference Include="..\SettingsContracts\SettingsContracts.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\settings.info.xsd">
@@ -60,4 +51,5 @@
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
 </Project>

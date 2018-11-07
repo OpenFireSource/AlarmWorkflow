@@ -1,0 +1,2644 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AlarmWorkflow.Shared</name>
+    </assembly>
+    <members>
+        <member name="T:AlarmWorkflow.Shared.Core.AlarmWorkflowPackageAttribute">
+            <summary>
+            Specifies the package information for packages used in the AlarmWorfklow-ecosystem.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.AlarmWorkflowPackageAttribute.TryGetAttribute(System.Reflection.Assembly,AlarmWorkflow.Shared.Core.AlarmWorkflowPackageAttribute@)">
+            <summary>
+            Searches for the <see cref="T:AlarmWorkflowPackageAttribute"/> defined in the given assembly.
+            </summary>
+            <param name="assembly">The assembly to search in.</param>
+            <param name="attribute">If the attribute was defined in the assembly, contains it as the result.</param>
+            <returns>Whether or not the attribute was specified in the assembly.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.AssertionFailedException">
+            <summary>
+            Represents the exception that occurs if an assertion has failed.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.AssertionFailedException.Assertion">
+            <summary>
+            Gets the type of the assertion.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.AssertionFailedException.AffectedParameterNames">
+            <summary>
+            Gets the affected parameter names.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.AssertionFailedException.Message">
+            <summary>
+            Gets the message describing this exception.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.AssertionFailedException.#ctor(AlarmWorkflow.Shared.Core.AssertionType,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException"/> class.
+            </summary>
+            <param name="assertion">Type of the assertion.</param>
+            <param name="affectedParameterNames">The affected parameter names.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.AssertionFailedException.#ctor(System.String,AlarmWorkflow.Shared.Core.AssertionType,System.String[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException"/> class.
+            </summary>
+            <param name="message">The message to display if the assertion has failed.</param>
+            <param name="assertion">Type of the assertion.</param>
+            <param name="affectedParameterNames">The affected parameter names.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.Assertions">
+            <summary>
+            Defines methods that can be used to assert cases; may be used as extensions.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Assertions.AssertNotNull(System.Object,System.String)">
+            <summary>
+            Asserts that a given variable is not null, and raises an exception if it is.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="name">The name of the value.</param>
+            <exception cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException">Raised if the <paramref name="value"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Assertions.AssertNotNull(System.Object,System.String,System.String)">
+            <summary>
+            Asserts that a given variable is not null, and raises an exception if it is.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="name">The name of the value.</param>
+            <param name="message">The message to display.</param>
+            <exception cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException">Raised if the <paramref name="value"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Assertions.AssertNotEmpty(System.String,System.String)">
+            <summary>
+            Asserts that a given string is not empty, and raises an exception if it is.
+            </summary>
+            <param name="value">The string-value to check.</param>
+            <param name="name">The name of the value.</param>
+            <exception cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException">Raised if the <paramref name="value"/> is <c>null</c> or empty.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Assertions.AssertNotEmpty(System.String,System.String,System.String)">
+            <summary>
+            Asserts that a given string is not empty, and raises an exception if it is.
+            </summary>
+            <param name="value">The string-value to check.</param>
+            <param name="name">The name of the value.</param>
+            <param name="message">The message to display.</param>
+            <exception cref="T:AlarmWorkflow.Shared.Core.AssertionFailedException">Raised if the <paramref name="value"/> is <c>null</c> or empty.</exception>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.AssertionType">
+            <summary>
+            Specifies the supported types of assertions.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.AssertionType.Invalid">
+            <summary>
+            Enumeration default value.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.AssertionType.AssertNotNull">
+            <summary>
+            Asserts that a value is not null.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.AssertionType.AssertNotEmpty">
+            <summary>
+            Asserts that a string value is not empty.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.CsvHelper">
+            <summary>
+            Provides helper methods that deal with CSV (comma-separated value).
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.CsvHelper.SeparatorChar">
+            <summary>
+            Defines the default char to be used within CSV.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.CsvHelper.ToCsvLine(System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Takes an enumerable containing custom objects, turns each into its string-representation and generates a single CSV-line from it.
+            See documentation for further information.
+            </summary>
+            <remarks>If any of the string-representations in the <paramref name="values"/>-enumerable contains the separator char
+            as defined by <see cref="F:AlarmWorkflow.Shared.Core.CsvHelper.SeparatorChar"/>, then all 'columns' are wrapped within two quotiation marks to allow safe reparsing.</remarks>
+            <param name="values">The enumerable containing the objects to use.</param>
+            <returns>A single CSV-line generated from the <paramref name="values"/>.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.CsvHelper.FromCsvLine(System.String)">
+            <summary>
+            Parses the given CSV-formatted line and returns the columns from it. Also takes quotation marks into consideration.
+            </summary>
+            <param name="csv">The CSV-formatted line.</param>
+            <returns>An enumerable containing the parsed columns of the CSV line.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.DisposableObject">
+            <summary>
+            Represents an object that is disposable, and that throws an exception if it is used after it has been disposed.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.DisposableObject.IsDisposed">
+            <summary>
+            Returns whether or not this instance has been disposed and is no longer usable.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.DisposableObject.AssertNotDisposed">
+            <summary>
+            Checks if this object is not disposed, and throws an exception if it is.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">The object has been disposed.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.DisposableObject.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.DisposableObject.DisposeCore">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ExportAttribute">
+            <summary>
+            Provides export-metadata, such as alias etc.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportAttribute.Alias">
+            <summary>
+            Gets the exported alias of this type.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportAttribute.Type">
+            <summary>
+            Gets the interface type that this exports.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportAttribute.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.ExportAttribute"/> class.
+            </summary>
+            <param name="alias">The exported alias of this type.</param>
+            <param name="exportedType">The type that is exported.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportAttribute.#ctor(System.Type,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.ExportAttribute"/> class.
+            </summary>
+            <param name="type">The type, used to infer the alias automatically.</param>
+            <param name="exportedType">Type of the exported.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ExportConfiguration">
+            <summary>
+            Configures which exports for a given type shall be enabled.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportConfiguration.Exports">
+            <summary>
+            Gets the list of configured exports.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.ExportConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportConfiguration.GetEnabledExports">
+            <summary>
+            Enumerates through all configured exports and returns the names of all enabled exports.
+            </summary>
+            <returns>The names of all enabled exports.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportConfiguration.ToXml">
+            <summary>
+            Creates the XML-representation of the current instance.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ExportConfiguration.ExportEntry">
+            <summary>
+            Configures one export.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportConfiguration.ExportEntry.Name">
+            <summary>
+            Gets/sets the name (alias) of the export.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportConfiguration.ExportEntry.IsEnabled">
+            <summary>
+            Gets/sets whether or not this export is enabled.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ExportedType">
+            <summary>
+            Represents one type that had an <see cref="T:AlarmWorkflow.Shared.Core.ExportAttribute"/> applied to it.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportedType.Attribute">
+            <summary>
+            Gets the attribute that specifies the export.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ExportedType.Type">
+            <summary>
+            Gets the type that is exported.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedType.#ctor(AlarmWorkflow.Shared.Core.ExportAttribute,System.Type)">
+            <summary>
+            Initializes a new instance of the ExportedType struct.
+            </summary>
+            <param name="attribute">The attribute that specifies the export.</param>
+            <param name="type">The type that is exported.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedType.CreateInstance``1">
+            <summary>
+            Creates an instance of this type.
+            </summary>
+            <typeparam name="T">The expected type.</typeparam>
+            <returns>An instance of this type.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ExportedTypeLibrary">
+            <summary>
+            Provides access to types exported with the <see cref="T:ExportAttribute"/>.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.Initialize">
+            <summary>
+            Initializes the exported types library.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.Import``1">
+            <summary>
+            Searches the first exported occurrence of the given type and creates an instance of it.
+            </summary>
+            <typeparam name="T">The type of the exported interface to get the first export of.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.Import``1(System.String)">
+            <summary>
+            Imports the exported type with the given alias and type and creates an instance of it.
+            </summary>
+            <typeparam name="T">The type of the exported interface to get the export of.</typeparam>
+            <param name="alias">The alias of the export to get.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.ImportAll``1">
+            <summary>
+            Imports all selected exports and creates instances out of them.
+            </summary>
+            <typeparam name="T">The type of the exported interface to get the export of.</typeparam>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.GetExports(System.Type)">
+            <summary>
+            Returns a list containing all types that export the desired interface.
+            </summary>
+            <param name="interfaceType">The interface type to get all exports for.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ExportedTypeLibrary.GetExportAlias(System.Type)">
+            <summary>
+            Makes an inverse search to find out the alias for a specific type.
+            </summary>
+            <param name="type">The type to get the alias for. Must not be null.</param>
+            <returns>A string representing the alias for the given type.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.InformationAttribute">
+            <summary>
+            Provides custom information about any program element.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.InformationAttribute.DisplayName">
+            <summary>
+            Gets/sets the display-friendly name of this program element.
+            This may be the name of a resource defined in the assembly's main resources.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.InformationAttribute.Description">
+            <summary>
+            Gets/sets a description of this program element.
+            This may be the name of a resource defined in the assembly's main resources.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.InformationAttribute.Tag">
+            <summary>
+            Gets/sets a custom object that can be used as a tag value, or any other custom data value.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.InformationAttribute.GetDisplayName(System.Type)">
+            <summary>
+            Returns the display name of the given type, or the type name itself if no <see cref="T:AlarmWorkflow.Shared.Core.InformationAttribute"/> was specified.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.InformationAttribute.GetDescription(System.Type)">
+            <summary>
+            Returns the description of the given type, or nothing if no <see cref="T:AlarmWorkflow.Shared.Core.InformationAttribute"/> was specified.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.InformationAttribute.GetTag(System.Type)">
+            <summary>
+            Returns the tag of the given type, or nothing if no <see cref="T:AlarmWorkflow.Shared.Core.InformationAttribute"/> was specified.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.IProxyType`1">
+            <summary>
+            Defines a property for a type that produces or consumes a different type.
+            This allows for types that "enrich" other types by wrapping them and providing convenience features,
+            while still being compliant to the type they are proxying.
+            </summary>
+            <typeparam name="TRealType">The underlying type that is proxied.</typeparam>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.IProxyType`1.ProxiedValue">
+            <summary>
+            Gets/sets the value proxied by this instance.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.Json">
+            <summary>
+            Provides functionality to work with JSON (JavaScript Object Notation).
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Json.Serialize(System.Object,System.Boolean)">
+            <summary>
+            Serializes the given object instance into its appropriate JSON-representation.
+            </summary>
+            <param name="value">The object to serialize.</param>
+            <param name="ignoreNullValue">Ignore all null values in the object.</param>
+            <returns>A string containing the JSON-serialized object instance.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Json.Deserialize``1(System.String,System.Boolean)">
+            <summary>
+            Deserializes the given JSON-string back into an object.
+            </summary>
+            <param name="value">The JSON-string to deserialize.</param>
+            <param name="ignoreNullValue">Ignore all null values in the object.</param>
+            <returns>The deserialized object instance.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.Operation">
+            <summary>
+            Represents an operation, which was created by analyzing and parsing an incoming alarmfax.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.Operation.DefaultAcknowledgingTimespan">
+            <summary>
+            Defines the default timespan after which new operations/alarms are set to "acknowledged". See "IsAcknowledged"-property for further information.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Id">
+            <summary>
+            Gets/sets the unique Id of this operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.OperationGuid">
+            <summary>
+            Gets/sets the guid of this operation that is globally unique.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.TimestampIncome">
+            <summary>
+            Gets/sets the timestamp of when the operation materialized ("incoming" timestamp).
+            For the actual alarm timestamp, use the property <see cref="P:Timestamp"/>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Timestamp">
+            <summary>
+            Gets/sets the date and time of the actual alarm.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.OperationNumber">
+            <summary>
+            Gets or sets the Einsatznummer object.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Messenger">
+            <summary>
+            Gets or sets the Mitteiler object.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Priority">
+            <summary>
+            Gets/sets the priority of this operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Einsatzort">
+            <summary>
+            Gets/sets the "Einsatzort" (place of action).
+            Usually this location contains the destination spot.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Zielort">
+            <summary>
+            Gets/sets the "Zielort" (destination location).
+            This is usually empty.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Comment">
+            <summary>
+            Gets/sets the comment text. Usually this contains the result from the "Bemerkung" or "Hinweis" (etc.)-sections.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Picture">
+            <summary>
+            Gets the Meldebild object.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.OperationPlan">
+            <summary>
+            Gets the Einsatzplan object.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Keywords">
+            <summary>
+            Gets/sets the keywords for this operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Resources">
+            <summary>
+            Gets/sets the list of all resources requested by the call center.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.CustomData">
+            <summary>
+            Gets/sets the custom data for this operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.IsAcknowledged">
+            <summary>
+            Gets/sets whether or not this operation is acknowledged, that means that this operation is no longer necessary to be displayed in the UI as "fresh".
+            If this is set to "false" then this operation will always been shown in the UI. By default, an operation is set to "acknowledged"
+            either if the user manually acknowledges it or after a defined timespan (usually 8 hours).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.Operation.Loops">
+            <summary>
+            Gets/sets the loop information that is associated with this operation.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> class and sets the value of the <see cref="P:TimestampIncome"/>-property to <see cref="P:DateTime.Now"/>.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.GetCustomData``1(System.String)">
+            <summary>
+            Looks up the custom data with the given name, returns the value if it was found, or returns a default value if not found.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="name"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.GetDestinationLocation">
+            <summary>
+            Gets the location information as a <see cref="T:AlarmWorkflow.Shared.Core.PropertyLocation"/>-object.
+            </summary>
+            <returns>The location information as a <see cref="T:AlarmWorkflow.Shared.Core.PropertyLocation"/>-object.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. </returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+            <exception cref="T:System.NullReferenceException">
+            The <paramref name="obj"/>-parameter is null.
+              </exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.ToString">
+            <summary>
+            Returns a string representation of the current operation similar to:
+            "(OperationNumber) Timestamp, Location". For a custom formatting check out <see cref="M:ToString(string)"/>.
+            </summary>
+            <returns>A string representation of the current operation.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.Equals(AlarmWorkflow.Shared.Core.Operation)">
+            <summary>
+            Determines whether the specified <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> is equal to this instance.
+            Two <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> are considered equal if they have the same <see cref="P:Id"/>.
+            </summary>
+            <param name="other">The <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.ToString(System.String)">
+            <summary>
+            Converts the value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object to its equivalent string representation
+            using the specified format.
+            </summary>
+            <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+            If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+            If it wasn't found there either, a default string is printed.</param>
+            <returns>A string representation of value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object as specified by format.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Converts the value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object to its equivalent string representation
+            using the specified format and culture-specific format information.
+            </summary>
+            <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+            If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+            If it wasn't found there either, a default string is printed.</param>
+            <param name="formatProvider">The format provider to use for formatting.</param>
+            <returns>A string representation of value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object as specified by format and provider.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Operation.ToString(System.String,AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions,System.IFormatProvider)">
+            <summary>
+            Converts the value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object to its equivalent string representation
+            using the specified format and culture-specific format information.
+            </summary>
+            <param name="format">The format string. May contain the names of the properties to print enclosed in curly braces like '{<see cref="P:OperationNumber"/>}'.
+            If a given property could not be found on the top-level, then it is looked after in the CustomData dictionary.
+            If it wasn't found there either, a default string is printed.</param>
+            <param name="options">Options to use for controlling formatting.</param>
+            <param name="formatProvider">The format provider to use for formatting.</param>
+            <returns>A string representation of value of the current <see cref="T:AlarmWorkflow.Shared.Core.Operation"/> object as specified by format and provider.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OperationKeywords">
+            <summary>
+            Contains the keywords ("stichwörter") for an operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.Keyword">
+            <summary>
+            Gets/sets the "Stichwort" (generic keyword), direct or equivalent.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.EmergencyKeyword">
+            <summary>
+            Gets/sets the B/R/S/T/etc. keyword for sources that don't distinguish between them.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.B">
+            <summary>
+            Gets/sets the "Stichwort B" (specific keyword), direct or equivalent.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.R">
+            <summary>
+            Gets/sets the "Stichwort R" (specific keyword), direct or equivalent.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.S">
+            <summary>
+            Gets/sets the "Stichwort S" (specific keyword), direct or equivalent.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationKeywords.T">
+            <summary>
+            Gets/sets the "Stichwort T" (specific keyword), direct or equivalent.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationKeywords.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that contains all set keywords separated by commas.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that contains all set keywords separated by commas.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OperationLoopCollection">
+            <summary>
+            Represents a strongly-typed collection that holds loop information from an Operation.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OperationLoopCollection.LoopSeparator">
+            <summary>
+            Defines the separator used when joining loops together to a string.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.OperationLoopCollection"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.OperationLoopCollection"/> class,
+            and adds all loops in the given, separated list to this collection.
+            </summary>
+            <param name="loops">A string representing a separated list of loops, that may have been created by <see cref="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.ToString"/>.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.InsertItem(System.Int32,System.String)">
+            <summary>
+            Overridden to avoid adding the same loop if already existing. It also doesn't add an item if it is null or empty.
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.SetItem(System.Int32,System.String)">
+            <summary>
+            Overridden to avoid adding the same loop if already existing. It also doesn't add an item if it is null or empty.
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationLoopCollection.ToString">
+            <summary>
+            Returns all loop items, joined together to a string.
+            </summary>
+            <returns>All loop items joined together to a string.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OperationResource">
+            <summary>
+            Represents a resource, which was was requested by the call center.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationResource.FullName">
+            <summary>
+            Gets/sets the name of the resource. Usually this represents a vehicle.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationResource.Timestamp">
+            <summary>
+            Gets/sets the timestamp of the request. May be empty.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.OperationResource.RequestedEquipment">
+            <summary>
+            Gets/sets any equipment that is explicitely requested. May be empty.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResource.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/> class.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OperationResourceCollection">
+            <summary>
+            Represents a collection that holds many <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/>s and is displayable as a string.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OperationResourceCollection.SingleLineFormatString">
+            <summary>
+            Defines the format string that is used to format this instance as a single line.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OperationResourceCollection.ThreeLinesFormatString">
+            <summary>
+            Defines the format string that is used to format this instance using three lines per resource.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.OperationResourceCollection"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.InsertItem(System.Int32,AlarmWorkflow.Shared.Core.OperationResource)">
+            <summary>
+            Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.RemoveItem(System.Int32)">
+            <summary>
+            Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
+            </summary>
+            <param name="index"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.SetItem(System.Int32,AlarmWorkflow.Shared.Core.OperationResource)">
+            <summary>
+            Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
+            </summary>
+            <param name="index"></param>
+            <param name="item"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.ClearItems">
+            <summary>
+            Overridden to invalidate the ToString-cache so that it gets recreated to reflect the instance.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.AddResource(System.String)">
+            <summary>
+            Adds a new resource with the given name.
+            </summary>
+            <param name="fullName">The full name of the resource.</param>
+            <returns>The <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/> that was added if it didn't exist.
+            -or- the <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/> that existed under the given name.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.AddEquipment(System.String,System.String)">
+            <summary>
+            Adds a new equipment entry to the given resource (creates it if it does not exist yet) and returns the updated OperationResource.
+            </summary>
+            <param name="fullName">The full name of the resource to add the equipment to.</param>
+            <param name="requestedEquipmentText">The text of the equipment to add.</param>
+            <returns>The <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/> that was added if it didn't exist.
+            -or- the <see cref="T:AlarmWorkflow.Shared.Core.OperationResource"/> that existed under the given name.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToString">
+            <summary>
+            Creates and returns a string that contains all resources and their equipment in one line.
+            </summary>
+            <remarks>This method caches the initially created string. To update it, you must call the other methods or add/clear/delete items.</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToString(AlarmWorkflow.Shared.Core.OperationResourceCollection.ToStringStyle)">
+            <summary>
+            Creates and returns a string that contains all resources and their equipment in a predefined format.
+            </summary>
+            <param name="style">The style determining how the output will look like.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToString(System.String,System.IFormatProvider)">
+            <summary>
+            Creates and returns a string that contains all resources and their equipment in a custom format.
+            See documentation for further information and formatting options.
+            </summary>
+            <remarks>The <paramref name="format"/>-parameter specifies the format to use for one resource and its equipment.
+            </remarks>
+            <param name="format">The custom format, which is used to format a single resource and its equpiment.</param>
+            <param name="formatProvider">Not used.</param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentNullException">The format-parameter was null or empty.</exception>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToStringStyle">
+            <summary>
+            Specifies the way the ToString-representation is created.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToStringStyle.SingleLine">
+            <summary>
+            Puts all resources and their requested equipment in one long line.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OperationResourceCollection.ToStringStyle.ThreeLinesPerResource">
+            <summary>
+            Creates three lines per resource.
+            See documentation for further information.
+            </summary>
+            <remarks>
+            1. line contains the name of the resource.
+            2. line contains the timestamp
+            3. line contains all requested equipments of that resource, splitted by a comma.
+            </remarks>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.OptionStringHelper">
+            <summary>
+            Provides helper methods that deal with option strings, that is, a string that consists of options in "option=value;option=value..." format.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OptionStringHelper.PairSeparatorChar">
+            <summary>
+            Defines the character that separates the pairs from each other.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Core.OptionStringHelper.PairInnerDelimiterChar">
+            <summary>
+            Defines the character that separates the key from the value within a pair.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.OptionStringHelper.GetAsPairs(System.String)">
+            <summary>
+            Parses the option string and returns all options and values as a dictionary.
+            See documentation for further information.
+            </summary>
+            <remarks>The option string shall be in a format similar to <c>key=value;key=value</c>.
+            If an inner pair is in invalid form, it will be skipped.</remarks>
+            <param name="optionString">The option string.</param>
+            <returns>A dictionary containing the keys and pairs from the <paramref name="optionString"/>.
+            Returns an empty dictionary if the <paramref name="optionString"/> was either null or empty.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ProcessWrapper">
+            <summary>
+            Represents a wrapper around a <see cref="T:System.Diagnostics.Process"/> that allows for convenient running a process and listening to its StdOut/StdErr to log them.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ProcessWrapper.WorkingDirectory">
+            <summary>
+            Gets or sets the working directory for the process to be started. 
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ProcessWrapper.FileName">
+            <summary>
+            Gets/Sets the name or path of the application to start.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ProcessWrapper.Arguments">
+            <summary>
+            Gets/Sets the arguments that have to be used when starting the given application.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ProcessWrapper.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Core.ProcessWrapper"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ProcessWrapper.Start">
+            <summary>
+            Starts the process, while reading the output and error events from the process.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">This instance has been disposed of and cannot be used anymore.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ProcessWrapper.StartAndWait">
+            <summary>
+            Starts the process and waits for completion, while reading the output and error events from the process.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">This instance has been disposed of and cannot be used anymore.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ProcessWrapper.DisposeCore">
+            <summary>
+            Overridden to cleanup the used process.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ProgramStarter">
+            <summary>
+            Provides the functionality to start an application including arguments/path in a single string.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ProgramStarter.StartProgramTask(System.String,System.Object)">
+            <summary>
+            Starts the program
+            </summary>
+            <param name="fileNameWithArguments">The filename including all arguments and the path.</param>
+            <param name="starter">The starting object. Required for logging.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.PropertyLocation">
+            <summary>
+            Defines the location of a property.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.Location">
+            <summary>
+            Gets/sets the location name.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.ZipCode">
+            <summary>
+            Gets/sets the zip code of the city.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.City">
+            <summary>
+            Gets/sets the city name.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.Street">
+            <summary>
+            Gets/sets the street. May contain the street number.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.StreetNumber">
+            <summary>
+            Gets/sets the street number. May be contained within the street.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.Intersection">
+            <summary>
+            Gets/sets a description of the "Intersection" (if provided by alarmsource).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLatitude">
+            <summary>
+            Gets/sets the latitude of the location (if provided by alarmsource).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLongitude">
+            <summary>
+            Gets/sets the longitude of the location (if provided by alarmsource).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLatitudeString">
+            <summary>
+            Gets the latitude of the location in a string with a "."
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLongitudeString">
+            <summary>
+             Gets the longitude of the location in a string with a "."
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.Property">
+            <summary>
+            Gets/sets the name of the property (company, site, house etc.).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLatLng">
+            <summary>
+            Gets the latitude and longitude as a semicolon-separated string,
+            or sets the values of <see cref="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLatitude"/> and <see cref="P:AlarmWorkflow.Shared.Core.PropertyLocation.GeoLongitude"/> from a semicolon-separated string.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.IsMeaningful">
+            <summary>
+            Gets whether or not this instance represents a meaningful geographic location.
+            This takes only ZipCode, City and Street into account. 
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.PropertyLocation.HasGeoCoordinates">
+            <summary>
+            Gets whether or not there are meaningful values for the geo coordinates (latitude and longitude) defined.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.PropertyLocation.ToString">
+            <summary>
+            Returns a string describing the property location like: "[[Street] [StreetNumber]], [ZipCode] [City]".
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.PropertyLocation.Equals(AlarmWorkflow.Shared.Core.PropertyLocation)">
+            <summary>
+            Returns whether or not this object and some other are equal.
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.ServiceProvider">
+            <summary>
+            Provides an application-wide point for services.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Core.ServiceProvider.Instance">
+            <summary>
+            (Singleton) Gets the current instance.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ServiceProvider.RemoveAllServices">
+            <summary>
+            Removes all services safely.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ServiceProvider.AddService(System.Type,System.Object)">
+            <summary>
+            Adds a new service.
+            </summary>
+            <param name="serviceType"></param>
+            <param name="serviceInstance"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ServiceProvider.RemoveService(System.Type)">
+            <summary>
+            Removes the given service.
+            </summary>
+            <param name="serviceType"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ServiceProvider.GetService(System.Type)">
+            <summary>
+            Returns the service from its type.
+            </summary>
+            <param name="serviceType"></param>
+            <returns>The service from its type.
+            -or- <c>null</c>, if the service did not exist.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.ServiceProvider.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Core.Utilities">
+            <summary>
+            Contains miscellaneous common functionality.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.Serialize(System.Object)">
+            <summary>
+            Serializes a graph into a byte-array using binary serialization.
+            </summary>
+            <param name="graph"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.Deserialize``1(System.Byte[])">
+            <summary>
+            Deserializes a binary-serialized object.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="buffer"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Xml.Linq.XElement,System.String,System.String)">
+            <summary>
+            Tries to get the element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Xml.Linq.XElement,System.String,System.Boolean)">
+            <summary>
+            Tries to get the bool element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Xml.Linq.XElement,System.String,System.Int32)">
+            <summary>
+            Tries to get the int element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Xml.Linq.XElement,System.String,System.Single)">
+            <summary>
+            Tries to get the float element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Xml.Linq.XElement,System.String,System.Double)">
+            <summary>
+            Tries to get the double element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetAttributeValue(System.Xml.Linq.XElement,System.String,System.String)">
+            <summary>
+            Tries to get the attribute value of an attribute from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the attribute value from.</param>
+            <param name="attributeName">The name of the attribute to get its value.</param>
+            <param name="defaultValue">The default value to return, if the attribute did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetAttributeValue(System.Xml.Linq.XElement,System.String,System.Boolean)">
+            <summary>
+            Tries to get the boolean element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="attributeName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetAttributeValue(System.Xml.Linq.XElement,System.String,System.Int32)">
+            <summary>
+            Tries to get the integer element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="attributeName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetAttributeValue(System.Xml.Linq.XElement,System.String,System.Single)">
+            <summary>
+            Tries to get the float element value of an element from the requested XElement.
+            </summary>
+            <param name="element">The XElement to get the element value from.</param>
+            <param name="attributeName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return, if the element did not exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.TryGetElementValue(System.Collections.Generic.IList{System.Xml.Linq.XElement},System.String,System.String)">
+            <summary>
+            Looks up whether or not an element with the given name exists in the list of elements and returns its value then.
+            </summary>
+            <param name="elements"></param>
+            <param name="elementName">The name of the element to get its value.</param>
+            <param name="defaultValue">The default value to return if the element didn't exist.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.IsXmlValid(System.Xml.Linq.XDocument,System.String)">
+            <summary>
+            Performs a check against a <see cref="T:System.Xml.Linq.XDocument"/> to see if the schema is valid.
+            </summary>
+            <param name="doc">The <see cref="T:System.Xml.Linq.XDocument"/> to check its schema.</param>
+            <param name="schema">The schema to use for validation.</param>
+            <returns>A boolean value indicating whether or not the schema of the given <see cref="T:System.Xml.Linq.XDocument"/> is valid, or not.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.ValidateXml(System.Xml.Linq.XDocument,System.String)">
+            <summary>
+            Performs a check against a <see cref="T:System.Xml.Linq.XDocument"/> to see if the schema is valid.
+            </summary>
+            <param name="doc">The <see cref="T:System.Xml.Linq.XDocument"/> to check its schema.</param>
+            <param name="schema">The schema to use for validation.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetEmbeddedResourceText(System.Reflection.Assembly,System.String)">
+            <summary>
+            Looks for a file with build action set to "Embedded resource" in a given assembly
+            and returns its contents as a string.
+            </summary>
+            <param name="assembly">The assembly to get the embedded resource from.</param>
+            <param name="resourceName">The resource name. This name is case-sensitive!</param>
+            <returns>The contents of the embedded resource file as a string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.ComputeMD5(System.IO.Stream)">
+            <summary>
+            Computes the MD5-checksum of a given stream.
+            </summary>
+            <param name="stream">The stream to compute its checksum from. Must not be null.</param>
+            <returns>The MD5-checksum of the given stream as a string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.ComputeSHA1(System.Byte[])">
+            <summary>
+            Computes the SHA1-checksum of a given buffer.
+            </summary>
+            <param name="buffer">The buffer to compute its checksum from. Must not be null.</param>
+            <returns>The SHA1-checksum of the given buffer as a string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetWorkingDirectory(System.Reflection.Assembly)">
+            <summary>
+            Returns the working directory of this assembly.
+            </summary>
+            <param name="assembly">The assembly.</param>
+            <returns>The working directory of this assembly.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetWorkingDirectory">
+            <summary>
+            Returns the working directory of this assembly.
+            </summary>
+            <returns>The working directory of this assembly.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.Trim(System.String[])">
+            <summary>
+            Trims all lines from the array, which means that lines with zero length will be omitted.
+            </summary>
+            <param name="lines"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetService``1(System.IServiceProvider)">
+            <summary>
+            Gets the service object of the specified type.
+            </summary>
+            <typeparam name="T">The type of the service to return.</typeparam>
+            <param name="serviceProvider">The <see cref="T:System.IServiceProvider"/>-instance to get the service from.</param>
+            <returns>The service object of the specified type.</returns>
+            <exception cref="T:System.InvalidOperationException">The specified service could not be found.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetLocalAppDataFolderPath">
+            <summary>
+            Returns the full path name of the directory that shall store all user-specific application data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetLocalAppDataFolderFileName(System.String)">
+            <summary>
+            Returns the full name of a file that is located within the directory that shall store all user-specific application data.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.Truncate(System.String,System.Int32)">
+            <summary>
+            Truncates the given string. Ensures a string has a maximum <paramref name="length"/> and cuts away following chars, adding ellipsis to the end.
+            </summary>
+            <param name="value">The string to truncate.</param>
+            <param name="length">The truncated length (including ellispis, if chosen).</param>
+            <returns>The truncated string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.Truncate(System.String,System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Truncates the given string. Ensures a string has a maximum <paramref name="length"/> and cuts away following chars,
+            optionally adding ellipsis to the end.
+            </summary>
+            <param name="value">The string to truncate.</param>
+            <param name="length">The truncated length (including ellispis, if chosen).</param>
+            <param name="leftAlign"><c>true</c> to align from the left (default) and add ellipsis to the right, <c>false</c> to invert.</param>
+            <param name="addEllipsis">Whether or not to add ellpsis to the truncated string. This only applies if the string is longer than the desired maximum length.</param>
+            <returns>The truncated string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.AddRange``1(System.Collections.Generic.ICollection{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Adds all items from the specified enumerable to the specified collection.
+            </summary>
+            <typeparam name="T">The type of the items.</typeparam>
+            <param name="collection">The collection to add all items to.</param>
+            <param name="enumerable">The enumerable containing the items to add.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.SafeGetValue``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            Tries to return the value from the given key, or returns a default value if not found.
+            </summary>
+            <typeparam name="TKey">The type of the key.</typeparam>
+            <typeparam name="TValue">The type of the value.</typeparam>
+            <param name="dictionary">The dictionary.</param>
+            <param name="key">The key to return the value from.</param>
+            <param name="defaultValue">The default value, if the key was not found.</param>
+            <returns>Returns the value from the given key, or returns a default value if not found.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Core.Utilities.GetResourceString(System.Type,System.String)">
+            <summary>
+            Retrieves the resource string of a resource specified in the assembly's main resources.
+            </summary>
+            <param name="sourceType">The type of which to infer the assembly's resources from.</param>
+            <param name="resourceName">The resource name to retrieve the string resource.</param>
+            <returns>The resource specified by the given name.
+            -or- null, if no resource with such name was found.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.ExceptionIntervalLogger">
+            <summary>
+            Writes Exception Loggs at a predetermined interval.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.ExceptionIntervalLogger.#ctor(System.TimeSpan)">
+            <summary>
+            Initializes the Exception Logger.
+            </summary>
+            <param name="logInterval">the interval how often a Exception should be logged</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.ExceptionIntervalLogger.LogException(System.Object,System.Exception)">
+            <summary>
+            Log a exception. The Logger decides to log or discard the exception.
+            </summary>
+            <param name="source">The component from which this type comes. The type name of the instance is used.</param>
+            <param name="ex">The exception.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.ExceptionIntervalLogger.LogFormat(System.Exception,AlarmWorkflow.Shared.Diagnostics.LogType,System.Object,System.String,System.Object[])">
+            <summary>
+            Ability to log the exception as formatted text.
+            </summary>
+            <param name="ex">The exception.</param>
+            <param name="type">The message type.</param>
+            <param name="source">The component from which this type comes. The type name of the instance is used.</param>
+            <param name="format">The text to use as the format string.</param>
+            <param name="arguments">The arguments to use for the format string.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.ExceptionIntervalLogger.ResetExceptionCollection">
+            <summary>
+            Reset the stored exception entries.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.LogEntry">
+            <summary>
+            Provides one single log entry.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.LogEntry.MessageType">
+            <summary>
+            Gets the <see cref="T:AlarmWorkflow.Shared.Diagnostics.LogType"/>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.LogEntry.Source">
+            <summary>
+            Gets the source that emitted the log entry.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.LogEntry.Message">
+            <summary>
+            Gets the message.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.LogEntry.Timestamp">
+            <summary>
+            Gets the time this entry occured.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.LogEntry.Exception">
+            <summary>
+            Gets/sets the exception, if this entry is an exception-entry.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.LogEntry.#ctor">
+            <summary>
+            Private constructor.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.LogEntry.#ctor(AlarmWorkflow.Shared.Diagnostics.LogType,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the CLogEntry class.
+            </summary>
+            <param name="messageType">The message type.</param>
+            <param name="source">The source that has emitted this log entry.</param>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.LogEntry.#ctor(AlarmWorkflow.Shared.Diagnostics.LogType,System.String,System.String,System.DateTime)">
+            <summary>
+            Initializes a new instance of the CLogEntry class.
+            </summary>
+            <param name="messageType">The message type.</param>
+            <param name="source">The source that has emitted this log entry.</param>
+            <param name="message">The message.</param>
+            <param name="timestamp">A custom <see cref="T:System.DateTime"/> defining the time stamp of this entry, if different.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.Logger">
+            <summary>
+            Represents the main logging facility.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Logger.Instance">
+            <summary>
+            Gets the singleton <see cref="T:Logger"/> instance.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Logger.#ctor">
+            <summary>
+            Initializes a new instance of the Logging class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Logger.LogException(System.Object,System.Exception)">
+            <summary>
+            Logs a <see cref="T:System.Exception"/>.
+            </summary>
+            <param name="source">The component from which this type comes. The type name of the instance is used.</param>
+            <param name="exception">The exception.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Logger.LogFormat(AlarmWorkflow.Shared.Diagnostics.LogType,System.Object,System.String,System.Object[])">
+            <summary>
+            Logs formatted text.
+            </summary>
+            <param name="type">The message type.</param>
+            <param name="source">The component from which this type comes. The type name of the instance is used.</param>
+            <param name="format">The text to use as the format string.</param>
+            <param name="arguments">The arguments to use for the format string.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Logger.Initialize(System.String)">
+            <summary>
+            Initializes the logger.
+            </summary>
+            <param name="logName">The name of the log. This will be used as the folder name of this log.</param>
+            <exception cref="T:System.InvalidOperationException">This instance is already initialized.</exception>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.LogType">
+            <summary>
+            The type of the logging message.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.None">
+            <summary>
+            Avoid using.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Debug">
+            <summary>
+            Log something on DEBUG Level (only when debug mode is true).
+            Also used on Exceptions, since they can't be logged on console.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Trace">
+            <summary>
+            Log something on TRACE level.
+            Usually done when something is extremely unimportant yet interesting for record (i.e. error reports).
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Info">
+            <summary>
+            Log something on INFO Level.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Warning">
+            <summary>
+            Log something on WARNING Level.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Error">
+            <summary>
+            Log something on ERROR Level.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Exception">
+            <summary>
+            Log something on EXCEPTION Level (only on Win32).
+            These are not supposed to be used manually!
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.LogType.Console">
+            <summary>
+            Message emitted by the console.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport">
+            <summary>
+            Represents an error report, which was created based on an exception that has occurred.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.ReportFileName">
+            <summary>
+            Gets the error report's file name on the disk.
+            See documentation for further information.
+            </summary>
+            <remarks>This is set by the <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager"/>. If this is not set (<c>null</c>) after creating the error via the manager,
+            then an error has occurred while trying to save the report to the disk.</remarks>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.Exception">
+            <summary>
+            Gets the <see cref="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.Exception"/>-instance that this error report is based on.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.Timestamp">
+            <summary>
+            Gets/sets the timestamp when this exception occurred.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.SourceComponentName">
+            <summary>
+            Gets/sets the name of the component where this error was created in.
+            See documentation for further information.
+            </summary>
+            <remarks>This should be set to allow easier investigation.
+            Possible values could be, for example, "Windows Service", "Windows UI", "Configuration".</remarks>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.IsTerminating">
+            <summary>
+            Gets whether the source exception has caused the CLR to terminate.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport"/> class.
+            </summary>
+            <param name="exception">The exception object to base this error report on. Must not be null.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.Serialize">
+            <summary>
+            Creates an XML-representation of this instance, ready to be saved to disk.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport.Deserialize(System.String)">
+            <summary>
+            Parses the given XML-representation and creates an <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport"/> off of it.
+            </summary>
+            <param name="xml">The XML-representation to convert.</param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager">
+            <summary>
+            Represents the main error report manager, which stores and manages <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport"/>s on the local system.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager.ErrorReportPath">
+            <summary>
+            Defines the path where the error reports are stored.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager.CreateErrorReport(System.Exception,System.String)">
+            <summary>
+            Creates a new error report based on the given exception.
+            </summary>
+            <param name="exception">The exception to base the <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport"/> on.</param>
+            <param name="componentName">The name of the component. Should be set to allow easier investigation.</param>
+            <returns>The created <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReport"/>. -or- null, if the exception parameter was null.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager.GetErrorReportsCount">
+            <summary>
+            Looks up and returns the amount of all (new) error report files in the report directory.
+            </summary>
+            <returns>The amount of all (new) error report files in the report directory. This returns 0 as well if the directory does currently not exist.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager.GetNewestReports(System.Nullable{System.TimeSpan},System.Int32)">
+            <summary>
+            Retrieves the newest reports in the error report-directory that match the given criteria.
+            Result set is ordered from newest report to oldest.
+            </summary>
+            <param name="maxAge">The maximum age of the reports. Use null to return all error reports.</param>
+            <param name="maxCount">The maximum amount of error reports to return. Use 0 (zero) or less to return all error reports.</param>
+            <returns>The newest reports in the error report-directory that match the given criteria.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ErrorReportManager.RegisterAppDomainUnhandledExceptionListener(System.String)">
+            <summary>
+            Attaches an event handler to the <see cref="E:AppDomain.CurrentDomain.UnhandledException"/> event,
+            which automatically creates error reports for each escalated exception.
+            </summary>
+            <param name="componentName">The default component name to use for each new error report. Must not be null or empty.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail">
+            <summary>
+            Represents the consolidated, serializable details of an <see cref="T:System.Exception"/>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.Type">
+            <summary>
+            Gets/sets the type of the underlying <see cref="T:System.Exception"/>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.Message">
+            <summary>
+            Gets/sets the exception's message.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.Source">
+            <summary>
+            Gets/sets the exception's source.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.StackTrace">
+            <summary>
+            Gets/sets the exception's stack trace.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.InnerException">
+            <summary>
+            Gets/sets the exception's inner exception (if present).
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail"/> class.
+            </summary>
+            <param name="exception">The exception object. Must not be null.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.Serialize">
+            <summary>
+            Creates an XML-representation of this instance, ready to be saved to disk.
+            </summary>
+            <returns>An <see cref="T:System.Xml.Linq.XElement"/> with the contents of this instance.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail.Deserialize(System.Xml.Linq.XElement)">
+            <summary>
+            Parses the given XML-representation and creates an <see cref="T:AlarmWorkflow.Shared.Diagnostics.Reports.ExceptionDetail"/> off of it.
+            </summary>
+            <param name="xml">The XML-representation to convert.</param>
+            <returns></returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Extensibility.IParser">
+            <summary>
+            Defines a parser which parses a string[].
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Extensibility.IParser.Parse(System.String[])">
+            <summary>
+            Parses the contents of the given lines into an <see cref="T:AlarmWorkflow.Shared.Core.Operation"/>-representation.
+            </summary>
+            <param name="lines">The line contents of the analysed file.</param>
+            <returns>The operation-instance that contains the data from the fax.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException">
+            <summary>
+            Represents an exception that occurred while executing a custom C# script.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.FailureReason">
+            <summary>
+            Gets the reason why compilation has failed.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.#ctor(AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException"/> class.
+            </summary>
+            <param name="reason">The reason why execution has failed.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.#ctor(System.Exception,AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException"/> class.
+            </summary>
+            <param name="innerException">The inner exception, if any.</param>
+            <param name="reason">The reason why execution has failed.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason">
+            <summary>
+            Defines the reason type of this exception.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.Undefined">
+            <summary>
+            An undefined error has occurred.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.ScriptFileNotFound">
+            <summary>
+            The script file wasn't found on disk.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.NotExactlyOneExportedTypeFound">
+            <summary>
+            Either zero or more than one exported (public) type was found in the script.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.CompilationFailed">
+            <summary>
+            Compilation of the script file has failed.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.ScriptFunctionNotFound">
+            <summary>
+            There was no method found, whose name matches the one looked after.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.ScriptFunctionMethodHasWrongSignature">
+            <summary>
+            The script function method has the wrong signature.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException.Reason.ScriptInvocationException">
+            <summary>
+            The script was successfully compiled, but an exception has occurred while invoking it.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException">
+            <summary>
+            Represents a specialized exception that is thrown in conjunction with processing expressions.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionException"/> class.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="innerException">The inner exception.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionNotSupportedException">
+            <summary>
+            Represents an exception that is thrown when an expression was in an invalid format, or pointed to a member in an unsupported way.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExpressionNotSupportedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionNotSupportedException"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExpressionNotSupportedException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionNotSupportedException"/> class.
+            </summary>
+            <param name="expression">The unsupported expression.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ExpressionResolver`1">
+            <summary>
+            Represents a method that gets called by <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1"/> if it couldn't resolve a specific path.
+            </summary>
+            <typeparam name="TInput">The type of the object that is in focus.</typeparam>
+            <param name="graph">The object that is in focus.</param>
+            <param name="expression">The expression that needs to be resolved.</param>
+            <returns>An instance of <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult"/> which represents the result from this operation.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1">
+            <summary>
+            Represents an <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1"/> that can use script files to format an object.
+            </summary>
+            <typeparam name="TInput">The type of the object to format.</typeparam>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.Error">
+            <summary>
+            Returns the last error that has occurred during compilation.
+            See documentation for further information.
+            </summary>
+            <remarks>This property will only have a value if compilation was performed and it failed.
+            In any other case this property will have no value. It is also resetted when ToString() is called again.</remarks>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.HasError">
+            <summary>
+            Determines whether or not an error has occurred so far.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.#ctor(AlarmWorkflow.Shared.ObjectExpressions.ExpressionResolver{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1"/> class
+            and optionally uses a custom callback to resolve expressions that could not be resolved automatically.
+            </summary>
+            <param name="resolver">The resolver that shall be used when an expression could not be resolved.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.ToString(`0,System.String)">
+            <summary>
+            Overridden to perform two passes: 1st pass invokes the custom scripts (if any), 2nd pass processes the results from the first pass.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces (expressions), like {Property}. Must not be empty.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ExtendedObjectExpressionFormatter`1.ProcessMacro(`0,System.String,System.String)">
+            <summary>
+            Overridden to process custom script expressions.
+            </summary>
+            <param name="graph">The object graph to use.</param>
+            <param name="macro">The macro, hopefully representing a custom script statement. If this is not the case, then the base method does the processing.</param>
+            <param name="expression">See base class.</param>
+            <returns>See base class.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.IObjectExpressionFormatter">
+            <summary>
+            Exposes the basic formatting mechanism of the object expression formatting types.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.IObjectExpressionFormatter.Options">
+            <summary>
+            Gets/sets the options that shall be used for formatting.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.IObjectExpressionFormatter.ToString(System.Object,System.String)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces (expressions), like {Property}. Must not be empty.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1">
+            <summary>
+            Provides a means to format any object using a user-defined string that consists of expressions.
+            See documentation for further information.
+            </summary>
+            <remarks>A user-defined string may be built like follows: <c>Id: {Id}, Comment: {Comment}, Location: {Einsatzort}</c>.
+            There is a possibility to define a custom resolving method, which gets called in case of one expression leading to no
+            resolvable property.</remarks>
+            <typeparam name="TInput">The type of the object to format.</typeparam>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.NullValueString">
+            <summary>
+            Represents the string that is inserted if a value is null. Only used if the corresponding option is specified.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.Options">
+            <summary>
+            Gets/sets the options that shall be used for formatting.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.#ctor(AlarmWorkflow.Shared.ObjectExpressions.ExpressionResolver{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1"/> class.
+            </summary>
+            <param name="resolver">The resolver that shall be used when an expression could not be resolved.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.ToString(`0,System.String)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces (expressions), like {Property}. Must not be empty.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.ProcessMacro(`0,System.String,System.String)">
+            <summary>
+            Processes a single macro and additionally tries to resolve its value using a custom callback function, if the property was not found.
+            </summary>
+            <param name="graph">The object graph to use.</param>
+            <param name="macro">The macro, including the leading and trailing designators.</param>
+            <param name="expression">The expression itself, without the leading and trailing designators.</param>
+            <returns>The value to be inserted in place of the macro.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.ToString``1(``0,System.String)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces, like {Property}. Must not be empty.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1.ToString``1(``0,System.String,AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces, like {Property}. Must not be empty.</param>
+            <param name="options">Controls the formatting process.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools">
+            <summary>
+            Provides tools that use an expression string to access properties from an object.
+            See documentation for further information.
+            </summary>
+            <remarks>An expression string is a string which "expresses" the path to a property of any given object graph.
+            If you have a type that exposes a property "CustomTypeA" which itself exposes a property "SomeProperty", then you can
+            express the path to "SomeProperty" as: "CustomTypeA.SomeProperty".</remarks>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.SetValueFromExpression(System.Object,System.String,System.Object)">
+            <summary>
+            Traverses the property graph of an object and sets a certain property to a given value.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="expression">The expression of the property to set. Must not be empty.</param>
+            <param name="value">The value to set.</param>
+            <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+            <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.TrySetValueFromExpression(System.Object,System.String,System.Object)">
+            <summary>
+            Traverses the property graph of an object and sets a certain property to a given value.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="expression">The expression of the property to set. Must not be empty.</param>
+            <param name="value">The value to set.</param>
+            <returns>Whether or not the value could be set. If this returns <c>false</c>, then the expression led to a nonexistent property.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.GetValueFromExpression(System.Object,System.String)">
+            <summary>
+            Traverses the property graph of an object and returns the value of a certain property.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="expression">The expression of the property to set. Must not be empty.</param>
+            <returns>The value of the property.</returns>
+            <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+            <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.TryGetValueFromExpression(System.Object,System.String,System.Object@)">
+            <summary>
+            Traverses the property graph of an object and returns the value of a certain property.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="expression">The expression of the property to set. Must not be empty.</param>
+            <param name="value">If the return value was <c>true</c>, then this contains the value of the property.</param>
+            <returns>Whether or not the value could be retrieved. If this returns <c>false</c>, then the expression led to a nonexistent property.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.GetPropertyFromExpression(System.Object,System.String,System.Boolean,System.Reflection.PropertyInfo@,System.Object@)">
+            <summary>
+            Traverses the property graph of an object and returns the property at the end of the expression.
+            </summary>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="expression">The expression of the property. Must not be empty.</param>
+            <param name="throwOnError">Whether or not to throw an exception if any property in the expression did not exist.</param>
+            <param name="property">If the return value is <c>true</c>, this parameter contains the property that was found.</param>
+            <param name="target">If the return value is <c>true</c>, this parameter contains the instance of the object on which the property was found.</param>
+            <returns>Whether or not the property could be retrieved. Returns false also in case of an error (if <paramref name="throwOnError"/> was set to false).</returns>
+            <exception cref="T:MissingFieldException">A certain property in the expression was not found.</exception>
+            <exception cref="T:ExpressionNotSupportedException">The expression was not supported.</exception>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.GetPropertyNames(System.Type)">
+            <summary>
+            Returns an array containing the names of all properties in the specified type, including children, with no disallowed property names and not requiring CanWrite.
+            </summary>
+            <param name="type">The type to get all properties from. Must not be null.</param>
+            <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.GetPropertyNames(System.Type,System.String[])">
+            <summary>
+            Returns an array containing the names of all properties in the specified type, including children, and not requiring CanWrite.
+            </summary>
+            <param name="type">The type to get all properties from. Must not be null.</param>
+            <param name="disallowedPropertyNames">An array containing the names of the properties that shall be ignored in the result.</param>
+            <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionTools.GetPropertyNames(System.Type,System.String[],System.Boolean)">
+            <summary>
+            Returns an array containing the names of all properties in the specified type, including children.
+            </summary>
+            <param name="type">The type to get all properties from. Must not be null.</param>
+            <param name="disallowedPropertyNames">An array containing the names of the properties that shall be ignored in the result.</param>
+            <param name="requireCanWrite">Whether or not only writeable properties are returned.</param>
+            <returns>An array containing the names of all properties in the specified type, including children.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatter">
+            <summary>
+            Provides tools to format an object's ToString()-representation.
+            See documentation for further information.
+            </summary>
+            <remarks>This class provides a basic wrapper around the more versatile class <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectExpressionFormatter`1"/></remarks>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatter.ToString``1(``0,System.String)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <typeparam name="T">The type of the object to format.</typeparam>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces, like {Property}. Must not be empty.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatter.ToString``1(``0,System.String,AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions)">
+            <summary>
+            Parses a string that tells how to format an object using macros within curly braces.
+            </summary>
+            <typeparam name="T">The type of the object to format.</typeparam>
+            <param name="graph">The object graph to use. Must not be null.</param>
+            <param name="format">The format string, using the property values in curly braces, like {Property}. Must not be empty.</param>
+            <param name="options">Controls the formatting process.</param>
+            <returns>The formatted string.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions">
+            <summary>
+            Specifies the options that can be used to alter the way the <see cref="T:ObjectFormatter" /> formats an object.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions.Default">
+            <summary>
+            Uses no options. This is the default value.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions.RemoveNewlines">
+            <summary>
+            Removes newline characters from the format string, resulting in one long line.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.ObjectFormatterOptions.InsertQuestionMarksForNullValues">
+            <summary>
+            Inserts a question mark '[?]' for any value that is <c>null</c>.
+            If this option is not specified, nothing is inserted (empty).
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult">
+            <summary>
+            Represents the results of a user-defined property resolving operation.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.Success">
+            <summary>
+            Gets/sets the status of resolving the property.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.ResolvedValue">
+            <summary>
+            Gets/sets the resolved value. The value is only considered if <see cref="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.Success"/> evaluates to <c>true</c>.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.ResolvedValueHasValue">
+            <summary>
+            Determines whether or not the <see cref="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.ResolvedValue"/> actually has a value after all.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.Fail">
+            <summary>
+            Returns a new instance of <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult"/> which indicates failure.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.ObjectExpressions.ResolveExpressionResult"/> class.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.Scripting.CSharpScriptEngine">
+            <summary>
+            Represents a script engine that executes user-written C# code.
+            See documentation for further information.
+            </summary>
+            <remarks><para>This class allows the user to write some code in C#, which is then compiled by this formatter and invoked when being used.
+            This has the advantage of letting the user define much complexer and more advanced statements instead of what the basic formatter offers.</para>
+            <para>The disadvantage of this however is a slight performance impact and writing complexer code is required.</para>
+            <para>See below for a simplified example showing the needed types and methods. Naming and visibility as shown in the example code is mandatory.</para>
+            <example><code>
+            // Class name may be anything. Important is that there is exactly one public, non-static type defined.
+            public class Script
+            {
+                // Method name has to be 'Function'. Other than that, you may define any additional (non-public) types or methods.
+                public static string Function(object graph)
+                {
+                    // Cast 'graph' to the type given to the formatter and perform some work.
+                    // Then, return the string like below.
+                    // The outcome of this function is then again processed by the underlying formatter,
+                    // so you may as well return: 'My value = {MyProperty}'.
+                    return "42";
+                }
+            }
+            </code></example>
+            <para>You may need to declare some using-statements. In principal these are allowed, however only a small subset of assemblies
+            is referenced by the in-memory compiler. A list of these include:
+            <list type="bullet">
+            <item>mscorlib.dll</item>
+            <item>System.dll</item>
+            <item>System.Core.dll</item>
+            <item>System.Xml.dll</item>
+            <item>System.Xml.Linq.dll</item>
+            <item>Additionally: The assembly in which the source object is declared</item>
+            </list></para></remarks>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.ObjectExpressions.Scripting.CSharpScriptEngine.StaticFunctionName">
+            <summary>
+            Defines the name of the static method that represents the custom script method that is invoked.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.ObjectExpressions.Scripting.JavaScriptEngine">
+            <summary>
+            Represents a script engine that executes user-written JavaScript code.
+            See documentation for further information.
+            </summary>
+            <remarks><para>This class allows the user to write some code in JavaScript, which is then compiled by this formatter and invoked when being used.
+            Writing a script in JavaScript has a number of advantages over writing a script in C#:
+            <list type="bullet">
+            <item>Simple syntax</item>
+            <item>Higher security (no access to the .NET library)</item>
+            <item>No caching needs to performed</item>
+            </list>
+            <example><code>
+            /* See below an example of a JavaScript script file.
+             */
+            function getResult(graph) {
+                return graph.Einsatzort.ZipCode;
+            }
+            
+            /* The global 'G' variable contains the 'graph' object which is to be formatted.
+             * When the script file concludes, the completion value is returned.
+             * You don't need to 'return' anything by yourself.
+             */
+            getResult(G);
+            </code></example>
+            </para><para>
+            Additional information:
+            <list type="bullet">
+            <item>jQuery is currently not explicitly supported. Plans to support jQuery exist.</item>
+            </list>
+            </para></remarks>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.ObjectExpressions.Scripting.ScriptEngineBase.SetValues">
+            <summary>
+            Gets a dictionary containing all values that the client has set.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.Scripting.ScriptEngineBase.Initialize(System.IServiceProvider)">
+            <summary>
+            When overridden in a derived class, performs some initialization work before the script engine is used.
+            </summary>
+            <param name="serviceProvider">The global service provider that may be used to query services.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.Scripting.ScriptEngineBase.Set(System.String,System.Object)">
+            <summary>
+            When overridden in a derived class, performs some work when a variable is assigned to the script.
+            The default implementation stores the value by its name in the <see cref="P:AlarmWorkflow.Shared.ObjectExpressions.Scripting.ScriptEngineBase.SetValues"/> dictionary.
+            </summary>
+            <param name="name"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.ObjectExpressions.Scripting.ScriptEngineBase.Execute(System.String,System.Object[])">
+            <summary>
+            When overridden in a derived class, executes the script file contents as presented in the <paramref name="source"/> parameter,
+            optionally making use of the provided arguments.
+            </summary>
+            <param name="source">The script file contents to execute.</param>
+            <param name="args">An optional array containing arguments to use when executing. May be empty.</param>
+            <returns>Any object representing the result returned from the script.</returns>
+            <exception cref="T:AlarmWorkflow.Shared.ObjectExpressions.CustomScriptExecutionException">An exception has occurred while executing the script.</exception>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.AssertionFailedExceptionNotEmpty">
+            <summary>
+              Looks up a localized string similar to The value &apos;{0}&apos; shall not be empty!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.AssertionFailedExceptionNotNull">
+            <summary>
+              Looks up a localized string similar to The value &apos;{0}&apos; shall not be null!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.AssertionFailedGenericMessage">
+            <summary>
+              Looks up a localized string similar to An assertion has failed.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptCompilationFinished">
+            <summary>
+              Looks up a localized string similar to Compilation process took {0} milliseconds..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptCompilationWithErrorsWarnings">
+            <summary>
+              Looks up a localized string similar to There were {0} errors/warnings during compilation of script &apos;{1}&apos;..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionCompilationFailed">
+            <summary>
+              Looks up a localized string similar to The compilation of the script has failed. Please see the log for information..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionMessage">
+            <summary>
+              Looks up a localized string similar to An error occurred while invoking the custom script..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionNotExactlyOneExportedTypeFound">
+            <summary>
+              Looks up a localized string similar to Either zero or more than one exported (public) type was found in the script. Valid scripts shall contain exactly one public, non-static type..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionScriptFileNotFound">
+            <summary>
+              Looks up a localized string similar to The script file was not found! Please check it exists..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionScriptFunctionMethodHasWrongSignature">
+            <summary>
+              Looks up a localized string similar to The script function has an invalid signature. The script function shall have the following signature: &apos;public static string Function(object graph)&apos;..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionScriptFunctionNotFound">
+            <summary>
+              Looks up a localized string similar to There was no script function found! The script function shall have the following signature: &apos;public static string Function(object graph)&apos;..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionScriptInvocationException">
+            <summary>
+              Looks up a localized string similar to An exception was thrown by the script; it did not finish sucessfully..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptExecutionExceptionUndefined">
+            <summary>
+              Looks up a localized string similar to (Undefined reason. This indicates an internal error. Please report.).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.CustomScriptInvocationFailed">
+            <summary>
+              Looks up a localized string similar to (Script file could not be executed because it contained errors. Please check the log file for details.).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ErrorWhileInvokingUserExpressionResolver">
+            <summary>
+              Looks up a localized string similar to An error occurred while invoking user-provided expression resolver. A default value will be used for this expression. Please see log for further information..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ExpressionNotSupportedExceptionMessage">
+            <summary>
+              Looks up a localized string similar to The expression &apos;{0}&apos; led to an unsupported member, thus it cannot be retrieved. Please revise this expression or remove it if not needed..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.FDResourceConfigurationParseError">
+            <summary>
+              Looks up a localized string similar to Could not parse setting value. Maybe it is ill-formed. The instance will have no items. See log for further information..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.FileNameMustBeAbsolute">
+            <summary>
+              Looks up a localized string similar to The file path must be in absolute format!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.FileNotExists">
+            <summary>
+              Looks up a localized string similar to The desired file {0} doesn&apos;t exist. The program will not be executed! Please check your configuration..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.GdiPrinterPrintingQueueIsNotValid">
+            <summary>
+              Looks up a localized string similar to The printing queue &apos;{0}&apos; is not valid. Printing will be canceled. Please check if PrintServer and PrinterName are properly configured..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.GdiPrinterPrintTaskException">
+            <summary>
+              Looks up a localized string similar to An exception occurred while printing using GDI..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintingDone">
+            <summary>
+              Looks up a localized string similar to Done printing of page {0}..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintingQueueCopyCountMustBeGreaterThanZero">
+            <summary>
+              Looks up a localized string similar to The copy count must be greater than zero!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintingQueueNameMustNotBeEmpty">
+            <summary>
+              Looks up a localized string similar to The printing queue must have a valid name!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintingQueueParseErrorCopyCountIsInvalid">
+            <summary>
+              Looks up a localized string similar to Encountered invalid copy count for printing queue &apos;{0}&apos;. Using default of &apos;{1}&apos; for this queue..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintingQueueParseErrorNameIsInvalid">
+            <summary>
+              Looks up a localized string similar to Ignoring printing queue with invalid name. Please check configuration!.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintIterationEnd">
+            <summary>
+              Looks up a localized string similar to Finished iteration..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintIterationStart">
+            <summary>
+              Looks up a localized string similar to Beginning print iteration {0}/{1}....
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.PrintTaskPrintPageException">
+            <summary>
+              Looks up a localized string similar to An error occurred while printing page &apos;{0}&apos;. The printing task will be aborted..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ProcessDataEvent">
+            <summary>
+              Looks up a localized string similar to Process data event: {0}.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ProcessErrorEvent">
+            <summary>
+              Looks up a localized string similar to Process error event: {0}.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ProcessWrapperStartError">
+            <summary>
+              Looks up a localized string similar to Could not start executable file &apos;{0}&apos; because of an exception. See log for further information..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ProgramFinished">
+            <summary>
+              Looks up a localized string similar to Program &apos;{0}&apos; has finished with exit code {1}..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ProgramStart">
+            <summary>
+              Looks up a localized string similar to Starting program &apos;{0}&apos; with arguments &apos;{1}&apos;....
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.ServiceProviderRegisteredService">
+            <summary>
+              Looks up a localized string similar to Registered service type &apos;{0}&apos; (instance type: {1})..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.SettingsManagerScanSettingsDisplayConfigurationFinished">
+            <summary>
+              Looks up a localized string similar to Finished scan of setting display configurations in {0} milliseconds..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.SettingsManagerScanSettingsFinished">
+            <summary>
+              Looks up a localized string similar to Finished scan of setting definitions in {0} milliseconds..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.SettingsManagerUserSettingsFileInvalid">
+            <summary>
+              Looks up a localized string similar to The user.settings is malformed! Personalized user settings cannot be loaded. Please review your file. If you are sure that you haven&apos;t done any custom modifications to this file, please contact the team..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.SettingsManagerUserSettingsFileLoaded">
+            <summary>
+              Looks up a localized string similar to User settings loaded..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.SettingsManagerUserSettingsFileSkip">
+            <summary>
+              Looks up a localized string similar to User settings file does not exist; skipping..
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Properties.Resources.UsedPrinterDoesNotSupportThatMuchCopies">
+            <summary>
+              Looks up a localized string similar to The selected printer does not support printing more than {0} copies natively (you requested: {1}). Using alternative method of printing copies..
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.SettingKeys">
+            <summary>
+            Represents the individual setting items in this assembly.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.FDName">
+            <summary>
+            Identifies the "FD.Name" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.FDCity">
+            <summary>
+            Identifies the "FD.City" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.FDZipCode">
+            <summary>
+            Identifies the "FD.ZipCode" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.FDStreet">
+            <summary>
+            Identifies the "FD.Street" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.FDStreetNumber">
+            <summary>
+            Identifies the "FD.StreetNumber" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.ReplaceDictionary">
+            <summary>
+            Identifies the "Replace Dictionary" setting.
+            </summary>
+        </member>
+        <member name="F:AlarmWorkflow.Shared.SettingKeys.PrintingQueuesConfiguration">
+            <summary>
+            Identifies the "Printing queues configuration" setting.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible">
+            <summary>
+            Defines a means for a type that can be converted from a setting value and back.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.IStringSettingConvertible.Convert(System.String)">
+            <summary>
+            Converts the value from the setting and applies it to this instance.
+            </summary>
+            <param name="settingValue">The value from the setting.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.IStringSettingConvertible.ConvertBack">
+            <summary>
+            Converts this instance back into the setting value.
+            </summary>
+            <returns>The string value for the setting.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Settings.SettingKey">
+            <summary>
+            Identifies a single setting by its identifier and setting name.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Settings.SettingKey.Identifier">
+            <summary>
+            Gets the identifier of the setting.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Settings.SettingKey.Name">
+            <summary>
+            Gets the name of the setting.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKey.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKey.Create(System.String,System.String)">
+            <summary>
+            Creates a new <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> instance.
+            </summary>
+            <param name="identifier">The identifier of the setting.</param>
+            <param name="name">The name of the setting.</param>
+            <returns>A new <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> instance.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKey.ToString">
+            <summary>
+            Returns a string that represents this instance of <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/>.
+            </summary>
+            <returns>A string that is similar to "Identifier.Name".</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKey.Equals(AlarmWorkflow.Shared.Settings.SettingKey)">
+            <summary>
+            Returns whether or not the given <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> instance is equal to the current instance.
+            </summary>
+            <param name="other">The other instance to check equality to this instance.</param>
+            <returns>Whether or not the given <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> instance is equal to the current instance.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Settings.SettingKeyComparer">
+            <summary>
+            Provides a comparer for <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/>s
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKeyComparer.Equals(AlarmWorkflow.Shared.Settings.SettingKey,AlarmWorkflow.Shared.Settings.SettingKey)">
+            <summary>
+            Determines whether the specified <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/>s are equal.
+            </summary>
+            <param name="x">The first <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> to compare.</param>
+            <param name="y">The second <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> to compare.</param>
+            <returns><c>true</c> if the specified objects are equal; otherwise,<c>false.</c></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.SettingKeyComparer.GetHashCode(AlarmWorkflow.Shared.Settings.SettingKey)">
+            <summary>
+            Returns a hash code for the specified <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/>.
+            </summary>
+            <param name="obj">The <see cref="T:AlarmWorkflow.Shared.Settings.SettingKey"/> for which a hash code is to be returned.</param>
+            <returns>A hash code for the specified object.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Settings.StringSettingConvertibleTools">
+            <summary>
+            Contains helper methods that are used for conversion of <see cref="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible"/>-objects.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.StringSettingConvertibleTools.ConvertFromSetting(System.Type,System.Object)">
+            <summary>
+            Takes an <see cref="T:System.Object"/> which represents the setting value and tries to return its really value
+            using a conversion to <see cref="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible"/>. If that failed then the value is returned as-is.
+            </summary>
+            <param name="type">The expected true type of the setting</param>
+            <param name="value">The setting value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.StringSettingConvertibleTools.ConvertFromSetting``1(System.Object)">
+            <summary>
+            Takes an <see cref="T:System.Object"/> which represents the setting value and tries to return its really value
+            using a conversion to <see cref="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible"/>. If that failed then the value is returned as-is.
+            </summary>
+            <typeparam name="T">The expected true type of the setting.</typeparam>
+            <param name="value">The setting value.</param>
+            <returns></returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Settings.StringSettingConvertibleTools.ConvertBack(System.Object,System.String@)">
+            <summary>
+            Tries to cast the value to <see cref="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible"/> and performs the ConvertBack()-method if successful.
+            Otherwise returns false and does nothing.
+            </summary>
+            <param name="value">The value to convert. May be of type <see cref="T:AlarmWorkflow.Shared.Settings.IStringSettingConvertible"/>.</param>
+            <param name="converted">If conversion succeeded, this parameter contains the converted value. Otherwise contains null.</param>
+            <returns>A boolean value indicating whether or not conversion was successful.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter">
+            <summary>
+            Represents a printer that uses GDI+ to print contents.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.Print(AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue,AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.PrintDelegate)">
+            <summary>
+            Executes a printing operation using a specific <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> and action.
+            </summary>
+            <param name="queue">The printing queue to use. Must not be null.</param>
+            <param name="printAction">The printing action. Must not be null.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.Print(AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue,AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.PrintDelegate,System.Object)">
+            <summary>
+            Executes a printing operation using a specific <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> and action.
+            </summary>
+            <param name="queue">The printing queue to use. Must not be null.</param>
+            <param name="printAction">The printing action. Must not be null.</param>
+            <param name="state">An optional, initial user state to hand over to the delegate.</param>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.PrintDelegate">
+            <summary>
+            Represents the delegate that is invoked until the return value returns <c>false</c>.
+            </summary>
+            <param name="pageIndex">The index of the page that is printed (one-based).</param>
+            <param name="graphics">The graphics for the page to print.</param>
+            <param name="marginBounds">The area between the margins.</param>
+            <param name="pageBounds">The total area of the paper.</param>
+            <param name="pageSettings">The <see cref="T:System.Drawing.Printing.PageSettings"/> for the page.</param>
+            <param name="state">A custom user state object. May be used to store correlation information across multiple pages.</param>
+            <returns>Whether or not there are still pages to be printed. Returns true if more, or false if no more pages are to be printed.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.PrintTask">
+            <summary>
+            Encapsulates one single GDI print task. Uses a custom <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.GdiPrinter.PrintDelegate"/> to print.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue">
+            <summary>
+            Represents a single configuration printing queue, that is a description of a printing task, determining how something is printed.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.Name">
+            <summary>
+            Gets/sets the name of the printing queue.
+            The names are case-insensitive.
+            </summary>
+            <exception cref="T:System.ArgumentException">Value is null or empty.</exception>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrintServer">
+            <summary>
+            Gets/sets the print server to use.
+            If this is null or empty, the local print server is used.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrinterName">
+            <summary>
+            Gets/sets the name of the printer to use.
+            If this is null or empty, the default printer for the specified <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrintServer"/> is used.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.CopyCount">
+            <summary>
+            Gets/sets the amount of copies to print.
+            </summary>
+            <exception cref="T:System.ArgumentOutOfRangeException">Value is less than 1.</exception>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.IsEnabled">
+            <summary>
+            Gets/sets whether or not this printing queue is enabled.
+            If a printing queue is disabled, no printing will be done.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.UseAlternativeCopyingMethod">
+            <summary>
+            Gets/sets whether the "alternative" method of printing multiple copies should be used.
+            See documentation for further information.
+            </summary>
+            <remarks>Enabling this option instructs the responsible printer to not use the driver's intended method,
+            but instead repeating the printing one copy at a time. This is to work around a possible bug in the OS or the drivers
+            that report a higher copy count than they can actually handle.</remarks>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.IsLocalPrintServer">
+            <summary>
+            Returns true if the configuration represents the localhost print server.
+            This is the case if there is no print server specified.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.IsDefaultPrinter">
+            <summary>
+            Returns true if the configuration represents the default printer for the print server.
+            This is the case if there is no printer name specified.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.IsValid">
+            <summary>
+            Returns whether or not this instance is properly configured.
+            See documentation for further information.
+            </summary>
+            <remarks>An instance is properly configured, if:
+            It is a local print server (no <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrintServer"/> specified) and <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrinterName"/> either has a value or not.
+            It is a remote print server (<see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrintServer"/> has a valid value, not empty), and <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrinterName"/> is specified (not empty).</remarks>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.GetPrinterName">
+            <summary>
+            Assembles and returns the printer name.
+            </summary>
+            <returns>If the <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrintServer"/>-property is set, it prefixes the printer in a format such as "\\(PrintServer)\",
+            so that the full name equals to "\\(PrintServer)\(PrinterName)". Otherwise, only <see cref="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.PrinterName"/> is returned.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns>
+              <c>true</c> if the specified <see cref="T:System.Object"/> is equal to this instance; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table.</returns>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue.Equals(AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue)">
+            <summary>
+            Returns whether or not this instance equals an other instance, value-wise.
+            Two <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/>-instances are considered equal if their names are equal (case-insensitive).
+            </summary>
+            <param name="other">The other instance to check for equality.</param>
+            <returns>Whether or not this instance equals an other instance, value-wise.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueueCollection">
+            <summary>
+            Represents a strongly-typed collection that manages <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/>-items.
+            </summary>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration">
+            <summary>
+            Stores configured <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/>s and manages them for convenient access.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration.Entries">
+            <summary>
+            Gets the collection of entries in this configuration.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueuesConfiguration.GetPrintingQueue(System.String)">
+            <summary>
+            Returns the <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> that is registered for the given name.
+            </summary>
+            <param name="name">The name of the <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> to return. Printing queue names are case-insensitive.</param>
+            <returns>The <see cref="T:AlarmWorkflow.Shared.Specialized.Printing.PrintingQueue"/> that is registered for the given name.
+            -or- null, if there was no printing queue registered for that name.</returns>
+        </member>
+        <member name="T:AlarmWorkflow.Shared.Specialized.ReplaceDictionary">
+            <summary>
+            Provides a dictionary that is used to fix "misspelled" or falsely recognized strings by replacing them with other, meaningful strings, if their initial intent is known.
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.ReplaceDictionary.Pairs">
+            <summary>
+            Gets/sets the key/value pairs (key is the source string, value is the replaced, real string used for it).
+            </summary>
+        </member>
+        <member name="P:AlarmWorkflow.Shared.Specialized.ReplaceDictionary.InterpretAsRegex">
+            <summary>
+            Gets/sets whether or not the key tokens are to be interpreted as regular expressions.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.ReplaceDictionary.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Specialized.ReplaceDictionary"/> class.
+            </summary>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.ReplaceDictionary.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:AlarmWorkflow.Shared.Specialized.ReplaceDictionary"/> class
+            and initializes it with the contents from an XML-file.
+            </summary>
+            <param name="xmlContent">Content of the XML to use for this instance.</param>
+        </member>
+        <member name="M:AlarmWorkflow.Shared.Specialized.ReplaceDictionary.ReplaceInString(System.String)">
+            <summary>
+            Replaces all known tokens in the given input string and returns it.
+            </summary>
+            <param name="input">The line to replace all known tokens in. If the string is null or empty, no processing is done.</param>
+            <returns>The string from <paramref name="input"/> with all tokens replaced.</returns>
+        </member>
+    </members>
+</doc>

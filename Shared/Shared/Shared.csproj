@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Shared</RootNamespace>
@@ -23,9 +23,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="2.9.1" />
-    <PackageReference Include="log4net" Version="2.0.5" />
-    <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
+    <PackageReference Include="Jint" Version="2.9.1"/>
+    <PackageReference Include="log4net" Version="2.0.5"/>
+    <PackageReference Include="Newtonsoft.Json" Version="8.0.3"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
@@ -113,4 +113,5 @@
     <Compile Remove="Diagnostics/Reports/ErrorReportManager.cs" />
     <Compile Remove="Diagnostics/Reports/ExceptionDetail.cs" />
   </ItemGroup>
+</Project>
 </Project>

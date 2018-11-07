@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.BackendService.Management</RootNamespace>
@@ -18,21 +18,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Backend.Data">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="Microsoft.CSharp" />
-  </ItemGroup>
+    <Reference Include="System.ServiceModel"/>
+    <Reference Include="Microsoft.CSharp"/>
+  <ProjectReference Include="..\..\Backend\Data\Data.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -41,7 +29,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ManagementContracts\ManagementContracts.csproj" />
+    <ProjectReference Include="..\ManagementContracts\ManagementContracts.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
@@ -49,10 +37,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml" />
+    <EmbeddedResource Include="settings.info.xml"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Properties/AssemblyInfo.cs" />
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
+</Project>
 </Project>
