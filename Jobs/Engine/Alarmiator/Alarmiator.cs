@@ -39,7 +39,6 @@ namespace AlarmWorkflow.Job.Alarmiator
     {
         #region Constants
 
-        //private const string GcmApiKey = "AIzaSyA5hhPTlYxJsEDniEoW8OgfxWyiUBEPiS0";
         private const string FcmApiKey = "AIzaSyD3AhR0yQSSGWou8SlKryaFm3pZikeo6r4";
 
         #endregion
@@ -109,6 +108,7 @@ namespace AlarmWorkflow.Job.Alarmiator
                 {
                     alert = opalert,
                     title = opalert,
+                    body = key + "\nEinsatzort: " + location,
                     sound = sound
                 },
                 data = new Content.Data()

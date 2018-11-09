@@ -50,12 +50,12 @@ namespace AlarmWorkflow.Job.Alarmiator
             public string title;
 
             /// <summary>
-            /// Representation of the alert title.
+            /// Representation of the alert body.
             /// </summary>
-            /// public string body;
+            public string body;
 
             /// <summary>
-            /// Representation of the alert title.
+            /// Representation of the alert sound.
             /// </summary>
             public string sound;
 
