@@ -84,8 +84,11 @@ namespace AlarmWorkflow.Job.eAlarm
             {
                 return;
             }
-            
-            string body = operation.ToString(_settings.GetSetting("eAlarm", "text").GetValue<string>());
+
+
+            // JDI: Added code to insert Line-Feeds for Ressources 
+            string body = operation.ToString(_settings.GetSetting("eAlarm", "text").GetValue<string>()).Replace("|", "\n");
+
             string header = operation.ToString(_settings.GetSetting("eAlarm", "header").GetValue<string>());
             string location = operation.Einsatzort.ToString();
             string latlng = operation.Einsatzort.GeoLatLng;

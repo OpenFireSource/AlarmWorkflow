@@ -130,9 +130,9 @@
     <value>Error while sending Alarmiator notification! The error code was '{0}'.</value>
   </data>
   <data name="ExportJobDescription" xml:space="preserve">
-    <value>Kommuniziert mit der Alarmiator/fAlarm-Android App.</value>
+    <value>Kommuniziert mit der ALARMiator iPhone App.</value>
   </data>
   <data name="ExportJobDisplayName" xml:space="preserve">
-    <value>Alarmiator/fAlarm</value>
+    <value>ALARMiator</value>
   </data>
 </root>

@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Jobs",
+    "\\AlarmSources",
+    "\\AlarmSources\\Fax",
+    "\\Build\\tesseract\\tessdata",
     "\\Jobs\\Engine"
   ],
-  "SelectedNode": "\\Jobs\\Engine\\EngineJobs.sln",
+  "SelectedNode": "\\AlarmSources\\AlarmSources.sln",
   "PreviewInSolutionExplorer": false
 }

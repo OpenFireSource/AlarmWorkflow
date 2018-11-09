@@ -31,7 +31,7 @@ using AlarmWorkflow.Shared.Diagnostics;
 namespace AlarmWorkflow.Job.Alarmiator
 { //
     /// <summary>
-    /// Implements a Job that send notifications to the Android App Alarmiator.
+    /// Implements a Job that send notifications to the iPhone App Alarmiator.
     /// </summary>
     [Export(nameof(Alarmiator), typeof(IJob))]
     [Information(DisplayName = "ExportJobDisplayName", Description = "ExportJobDescription")]
