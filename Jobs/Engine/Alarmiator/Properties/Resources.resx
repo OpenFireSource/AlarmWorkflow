@@ -121,10 +121,7 @@
     <value>Alarm-App Response (Code {0}):{1}</value>
   </data>
   <data name="DebugSendMessage" xml:space="preserve">
-    <value>{0} Message: {1}</value>
-  </data>
-  <data name="ErrorMessagingServiceNotFound" xml:space="preserve">
-    <value>The Cloud Messaging Service was not found!</value>
+    <value>ALARMiator Message: {0}</value>
   </data>
   <data name="ErrorSendingNotification" xml:space="preserve">
     <value>Error while sending Alarmiator notification! The error code was '{0}'.</value>

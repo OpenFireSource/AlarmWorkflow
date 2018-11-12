@@ -4,7 +4,5 @@
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared"/>
     <Setting Name="text" DisplayText="Text" Category="Generell" IsDynamic="true" Editor="ObjectExpressionTypeEditor"
              EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared" />
-    <Setting Name="Encryption" DisplayText="Verschlüsselung" IsDynamic="true" Category="Verschlüsselung"/>
-    <Setting Name="EncryptionKey" DisplayText="Passwort" IsDynamic="true" Category="Verschlüsselung" EditorParameter="Password"/>
   </Identifier>
 </SettingsDisplayConfiguration>

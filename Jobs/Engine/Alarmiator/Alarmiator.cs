@@ -41,6 +41,8 @@ namespace AlarmWorkflow.Job.Alarmiator
 
         private const string FcmApiKey = "AIzaSyD3AhR0yQSSGWou8SlKryaFm3pZikeo6r4";
 
+        private const string FcmUrl = "https://fcm.googleapis.com/fcm/send";
+
         #endregion
 
         #region Fields
@@ -49,24 +51,7 @@ namespace AlarmWorkflow.Job.Alarmiator
         private IAddressingServiceInternal _addressing;
 
         #endregion
-
-        #region Enums
-
-        private enum CloudMessagingService { GCM, FCM }
-
-        #endregion
-
-        #region Constructor
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Alarmiator" /> class.
-        /// </summary>
-        public Alarmiator()
-        {
-        }
-
-        #endregion
-
+       
         #region IJob Members
 
         bool IJob.Initialize(IServiceProvider serviceProvider)
@@ -83,37 +68,32 @@ namespace AlarmWorkflow.Job.Alarmiator
             {
                 return;
             }
-
-            // JDI: Added code to insert Line-Feeds for Ressources 
-            string body = operation.ToString(_settings.GetSetting("Alarmiator", "text").GetValue<string>()).Replace("|", "\n");
             
-            // JDI: Debug Output
-            // Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "ALARMiator", "Body: " + body);
-
             string header = operation.ToString(_settings.GetSetting("Alarmiator", "header").GetValue<string>());
+            string body = operation.ToString(_settings.GetSetting("Alarmiator", "text").GetValue<string>()).Replace("|", "\n");
+
             string location = operation.Einsatzort.ToString();
-            string latlng = operation.Einsatzort.GeoLatLng;
             string longitude = operation.Einsatzort.GeoLongitudeString;
             string latitude = operation.Einsatzort.GeoLatitudeString;
             string timestamp = operation.Timestamp.ToString("s");
             string key = operation.Keywords.ToString();
-            string opid = operation.OperationGuid.ToString();
-            string opalert = "EINSATZ " + _settings.GetSetting("Shared", "FD.Name").GetValue<string>();
+            string operationId = operation.OperationGuid.ToString();
+            string operationAlert = "EINSATZ " + _settings.GetSetting("Shared", "FD.Name").GetValue<string>();
             string sound = "Alarm.mp3";
             string operationTimestamp = operation.TimestampIncome.ToString("s");
 
-            Content content = new Content()
+            var content = new Content()
             {
                 notification = new Content.Notification()
                 {
-                    alert = opalert,
-                    title = opalert,
+                    alert = operationAlert,
+                    title = operationAlert,
                     body = key + "\nEinsatzort: " + location,
                     sound = sound
                 },
                 data = new Content.Data()
                 {
-                    opid = opid,
+                    opid = operationId,
                     opkeyword = header,
                     opdesc = body,
                     oplat = latitude,
@@ -130,19 +110,20 @@ namespace AlarmWorkflow.Job.Alarmiator
                 .Select(pushEntryObject => pushEntryObject.RecipientApiKey)
                 .ToArray();
 
-            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "ALARMiator", "Anzahl Empfänger: " + content.registration_ids.Length.ToString());
+            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, $"Receiver count: {content.registration_ids.Length}");
 
             HttpStatusCode result = 0;
-            if (!SendNotification(CloudMessagingService.FCM, content, ref result))
+            if (!SendNotification(content, ref result))
             {
                 Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorSendingNotification, result);
-            } else
+            }
+            else
             {
-                Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "ALARMiator", "Push to ALARMIATOR successfully sent!");
+                Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "Push to ALARMIATOR successfully sent!");
             }
         }
 
-        private IList<PushEntryObject> GetRecipients(Operation operation)
+        private IEnumerable<PushEntryObject> GetRecipients(Operation operation)
         {
             var recipients = _addressing.GetCustomObjectsFiltered<PushEntryObject>(PushEntryObject.TypeId, operation);
             return recipients.Select(ri => ri.Item2).ToList();
@@ -154,37 +135,26 @@ namespace AlarmWorkflow.Job.Alarmiator
 
         #region Methods
 
-        private bool SendNotification(CloudMessagingService service, Content content, ref HttpStatusCode result)
+        private bool SendNotification(Content content, ref HttpStatusCode result)
         {
             if (content.registration_ids.Length == 0)
                 return true;
 
             string message = Json.Serialize(content);
             byte[] byteArray = Encoding.UTF8.GetBytes(message);
-            string url = string.Empty, apiKey = string.Empty;
 
-            switch (service)
-            {
-                case CloudMessagingService.FCM:
-                    url = "https://fcm.googleapis.com/fcm/send";
-                    apiKey = FcmApiKey;
-                    Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "ALARMiator", message);
-                    break;
-                default:
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.ErrorMessagingServiceNotFound);
-                    return false;
-            }
+            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.DebugSendMessage, "ALARMiator", message);
 
             ServicePointManager.ServerCertificateValidationCallback += ValidateServerCertificate;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest request = (HttpWebRequest) WebRequest.Create(FcmUrl);
             request.Method = WebRequestMethods.Http.Post;
             request.KeepAlive = false;
             request.ContentType = "application/json";
-            request.Headers.Add(string.Format("Authorization: key={0}", apiKey));
+            request.Headers.Add($"Authorization: key={FcmApiKey}");
             request.ContentLength = byteArray.Length;
 
-            using (Stream dataStream = request.GetRequestStream())
+            using (var dataStream = request.GetRequestStream())
             {
                 dataStream.Write(byteArray, 0, byteArray.Length);
             }
@@ -193,8 +163,8 @@ namespace AlarmWorkflow.Job.Alarmiator
             {
                 using (WebResponse response = request.GetResponse())
                 {
-                    HttpStatusCode responseCode = ((HttpWebResponse)response).StatusCode;
-                    
+                    HttpStatusCode responseCode = ((HttpWebResponse) response).StatusCode;
+
                     StreamReader reader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
                     String responseString = reader.ReadToEnd();
 

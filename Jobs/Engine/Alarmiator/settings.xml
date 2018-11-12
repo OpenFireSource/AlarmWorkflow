@@ -18,6 +18,4 @@ Mitteiler: {Messenger}
 Fahrzeuge:
 {Resources}]]>
   </Setting>
-  <Setting Name="Encryption" Type="System.Boolean">False</Setting>
-  <Setting Name="EncryptionKey" Type="System.String"></Setting>
 </SettingsConfiguration>

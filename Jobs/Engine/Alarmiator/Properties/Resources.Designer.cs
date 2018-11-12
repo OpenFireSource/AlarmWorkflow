@@ -19,7 +19,7 @@ namespace AlarmWorkflow.Job.Alarmiator.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -70,20 +70,11 @@ namespace AlarmWorkflow.Job.Alarmiator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} Message: {1}.
+        ///   Looks up a localized string similar to ALARMiator Message: {0}.
         /// </summary>
         internal static string DebugSendMessage {
             get {
                 return ResourceManager.GetString("DebugSendMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Cloud Messaging Service was not found!.
-        /// </summary>
-        internal static string ErrorMessagingServiceNotFound {
-            get {
-                return ResourceManager.GetString("ErrorMessagingServiceNotFound", resourceCulture);
             }
         }
         
@@ -97,7 +88,7 @@ namespace AlarmWorkflow.Job.Alarmiator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Kommuniziert mit der Alarmiator/fAlarm-Android App..
+        ///   Looks up a localized string similar to Kommuniziert mit der ALARMiator iPhone App..
         /// </summary>
         internal static string ExportJobDescription {
             get {
@@ -106,7 +97,7 @@ namespace AlarmWorkflow.Job.Alarmiator.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Alarmiator/fAlarm.
+        ///   Looks up a localized string similar to ALARMiator.
         /// </summary>
         internal static string ExportJobDisplayName {
             get {
