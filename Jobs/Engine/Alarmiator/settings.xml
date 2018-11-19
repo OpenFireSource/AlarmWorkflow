@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<SettingsConfiguration Version="1" Identifier="Alarmiator">
+  <Setting Name="header" Type="System.String" IsNull="False">{Keywords.EmergencyKeyword} - {Keywords.Keyword}</Setting>
+  <Setting Name="text" Type="System.String" IsNull="False">
+    <![CDATA[Einsatz vom {Timestamp} (Einsatzzeitpunkt)
+Einsatznr.: {OperationNumber}
+Stichwörter: {Keywords}
+Hinweis: {Comment}
+Meldebild: {Picture}
+
+Einsatzort: {Einsatzort}
+Kreuzung: {Einsatzort.Intersection}
+Objekt: {Einsatzort.Property}
+
+Einsatzplan: {OperationPlan}
+Mitteiler: {Messenger}
+Fahrzeuge:
+{Resources}]]>
+  </Setting>
+</SettingsConfiguration>
