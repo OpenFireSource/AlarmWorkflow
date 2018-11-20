@@ -11,7 +11,7 @@ gen
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Folders
-/Build
+Build/
 
 # Created by https://www.gitignore.io/api/visualstudio
 # Edit at https://www.gitignore.io/?templates=visualstudio
