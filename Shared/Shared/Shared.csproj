@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.Shared</RootNamespace>
@@ -6,7 +6,7 @@
     <TargetFramework>net47</TargetFramework>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <AssemblyTitle>AlarmWorkflow.Shared</AssemblyTitle>
-    <Company>The AlarmWorkflow-Team</Company>
+    <Company>OpenFireSource</Company>
     <Product>AlarmWorkflow.Shared</Product>
     <NeutralLanguage>en-US</NeutralLanguage>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
@@ -14,6 +14,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <DocumentationFile>..\..\Build\AlarmWorkflow.Shared.XML</DocumentationFile>
     <OutputPath>..\..\Build\</OutputPath>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <PackageProjectUrl>http://openfiresoftware.de/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/OpenFireSource/AlarmWorkflow</RepositoryUrl>
+    <PackageLicenseUrl>https://github.com/OpenFireSource/AlarmWorkflow/blob/master/License.txt</PackageLicenseUrl>
+    <Authors>The AlarmWorkflow-Team</Authors>
+    <PackageTags>OpenFireSource, OpenFireSoftware, AlarmWorkflow</PackageTags>
+    <Description>The AlarmWorkflow.Share project to include functionality into submodules.</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -23,9 +31,9 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Jint" Version="2.9.1"/>
-    <PackageReference Include="log4net" Version="2.0.5"/>
-    <PackageReference Include="Newtonsoft.Json" Version="8.0.3"/>
+    <PackageReference Include="Jint" Version="2.9.1" />
+    <PackageReference Include="log4net" Version="2.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="8.0.3" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
