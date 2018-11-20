@@ -28,15 +28,9 @@
     <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="WindowsBase" />
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Properties/AssemblyInfo.cs" />
   </ItemGroup>
-</Project>
-    <Reference Include="PresentationCore"/>
-    <Reference Include="PresentationFramework"/>
-    <Reference Include="System.Xaml"/>
-    <Reference Include="Microsoft.CSharp"/>
-    <Reference Include="WindowsBase"/>
-  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
 </Project>

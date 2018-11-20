@@ -24,8 +24,4 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-  </ItemGroup>
-</Project>
 </Project>

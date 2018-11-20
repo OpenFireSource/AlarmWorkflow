@@ -29,19 +29,4 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="AddressProviders/PushAddressProvider.cs" />
-    <Compile Remove="AddressProviders/MobilePhoneAddressProvider.cs" />
-    <Compile Remove="AddressProviders/IAddressProvider.cs" />
-    <Compile Remove="AddressProviders/MailAddressProvider.cs" />
-    <Compile Remove="AddressProviders/LoopAddressProvider.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/IAddressFilter.cs" />
-    <Compile Remove="EntryObjects/MailAddressEntryObject.cs" />
-    <Compile Remove="EntryObjects/LoopEntryObject.cs" />
-    <Compile Remove="EntryObjects/MobilePhoneEntryObject.cs" />
-    <Compile Remove="EntryObjects/PushEntryObject.cs" />
-  </ItemGroup>
-</Project>
 </Project>

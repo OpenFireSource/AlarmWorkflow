@@ -57,19 +57,10 @@
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="AlarmWorkflowService.cs" />
-    <Compile Remove="AlarmWorkflowService.Designer.cs" />
-    <Compile Remove="ProjectInstaller.Designer.cs" />
-    <Compile Remove="ProjectInstaller.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Communication/AnyInterfaceEndPointResolver.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
   </ItemGroup>
-</Project>
+  <ItemGroup>
     <None Update="app.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

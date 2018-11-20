@@ -46,31 +46,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Core/ExposedServiceBase.cs" />
-    <Compile Remove="Core/IExposedService.cs" />
-    <Compile Remove="Core/AlarmWorkflowFaultDetails.cs" />
-    <Compile Remove="Core/ServiceInternalProvider.cs" />
-    <Compile Remove="Core/InternalServiceBase.cs" />
-    <Compile Remove="Core/ExposedCallbackServiceBase.cs" />
-    <Compile Remove="Core/CertificateValidator.cs" />
-    <Compile Remove="Core/IInternalService.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Communication/WrappedService.cs" />
-    <Compile Remove="Communication/IServiceLocator.cs" />
-    <Compile Remove="Communication/ServiceBindingCache.cs" />
-    <Compile Remove="Communication/IBackendConfigurator.cs" />
-    <Compile Remove="Communication/ConfigurableServiceLocator.cs" />
-    <Compile Remove="Communication/IEndPointResolver.cs" />
-    <Compile Remove="Communication/ServiceFactory.cs" />
-    <Compile Remove="Communication/BackendConfigurator.cs" />
-    <Compile Remove="ServiceDefinition/SupportedBinding.cs" />
-    <Compile Remove="ServiceDefinition/IBackendServiceLocation.cs" />
-    <Compile Remove="ServiceDefinition/BackendServiceLocation.cs" />
-    <Compile Remove="Communication/EndPointResolvers/RedirectableEndPointResolver.cs" />
-    <Compile Remove="Communication/EndPointResolvers/LocalhostEndPointResolver.cs" />
-  </ItemGroup>
-</Project>
     <None Update="Backend.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

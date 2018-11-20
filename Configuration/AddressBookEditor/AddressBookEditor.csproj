@@ -84,22 +84,4 @@
   <ItemGroup>
     <Resource Include="Images\AddressBook_16.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="AddressBookTypeEditorControl.xaml.cs" />
-    <Compile Remove="CustomDataEditors/CustomDataEditorCache.cs" />
-    <Compile Remove="CustomDataEditors/MailCustomDataEditor.xaml.cs" />
-    <Compile Remove="CustomDataEditors/PushCustomDataEditor.xaml.cs" />
-    <Compile Remove="CustomDataEditors/LoopCustomDataEditor.xaml.cs" />
-    <Compile Remove="CustomDataEditors/MobilePhoneCustomDataEditor.xaml.cs" />
-    <Compile Remove="ViewModels/EntryViewModel.cs" />
-    <Compile Remove="ViewModels/AddressBookViewModel.cs" />
-    <Compile Remove="ViewModels/EntryDataItemViewModel.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/ICustomDataEditor.cs" />
-    <Compile Remove="Views/AddressBookEditorControl.xaml.cs" />
-    <Compile Remove="Validation/MailAddressValidationRule.cs" />
-    <Compile Remove="Validation/MobilePhoneValidationRule.cs" />
-  </ItemGroup>
-</Project>
 </Project>

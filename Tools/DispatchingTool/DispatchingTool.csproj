@@ -39,12 +39,4 @@
   <ItemGroup>
     <Resource Include="logo_16.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="App.xaml.cs" />
-    <Compile Remove="MainWindow.xaml.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Settings.Designer.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-  </ItemGroup>
-</Project>
 </Project>

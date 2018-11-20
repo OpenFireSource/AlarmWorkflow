@@ -36,9 +36,4 @@
   <ItemGroup>
     <Content Include="ServiceConsole.ico"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-  </ItemGroup>
-</Project>
 </Project>

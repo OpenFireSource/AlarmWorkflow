@@ -50,10 +50,4 @@
   <ItemGroup>
     <EmbeddedResource Include="settings.info.xml"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="OperationWidget.xaml.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-  </ItemGroup>
-</Project>
 </Project>

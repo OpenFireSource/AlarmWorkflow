@@ -33,11 +33,4 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="GoogleMapsWidget.xaml.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Settings.Designer.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-  </ItemGroup>
-</Project>
 </Project>

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <ProductVersion>8.0.30703</ProductVersion>
     <RootNamespace>AlarmWorkflow.BackendService.System</RootNamespace>
@@ -18,9 +18,9 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp"/>
-    <Reference Include="System.Security"/>
-  <ProjectReference Include="..\..\Backend\Data\Data.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Security" />
+  <ProjectReference Include="..\..\Backend\Data\Data.csproj" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -29,14 +29,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SystemContracts\SystemContracts.csproj"/>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
+    <ProjectReference Include="..\SystemContracts\SystemContracts.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SystemContracts\SystemContracts.csproj" />
   </ItemGroup>
-</Project>
 </Project>

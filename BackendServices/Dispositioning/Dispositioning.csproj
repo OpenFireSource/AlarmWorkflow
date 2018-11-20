@@ -32,9 +32,4 @@
   <ItemGroup>
     <ProjectReference Include="..\DispositioningContracts\DispositioningContracts.csproj"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-  </ItemGroup>
-</Project>
 </Project>

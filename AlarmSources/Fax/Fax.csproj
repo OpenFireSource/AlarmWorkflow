@@ -37,13 +37,6 @@
     <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="OcrSoftware/TesseractOcrSoftware.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/OcrProcessOptions.cs" />
-    <Compile Remove="Extensibility/IOcrSoftware.cs" />
-  </ItemGroup>
-</Project>
     <None Update="tesseract\doc\AUTHORS">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

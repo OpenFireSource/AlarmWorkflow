@@ -33,20 +33,4 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="ViewModels/ViewModelBase.cs" />
-    <Compile Remove="ViewModels/CommandHelper.cs" />
-    <Compile Remove="ViewModels/RelayCommand.cs" />
-    <Compile Remove="ViewModels/BackgroundTaskCommand.cs" />
-    <Compile Remove="ViewModels/BackgroundTaskState.cs" />
-    <Compile Remove="ViewModels/CheckedItem.cs" />
-    <Compile Remove="Converters/NullToVisibilityConverter.cs" />
-    <Compile Remove="Converters/DateTimeUtcToLocalConverter.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/IOperationViewer.cs" />
-    <Compile Remove="Extensibility/IUIJob.cs" />
-    <Compile Remove="Extensibility/IIdleUIJob.cs" />
-  </ItemGroup>
-</Project>
 </Project>

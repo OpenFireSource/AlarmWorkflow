@@ -51,25 +51,4 @@
   <ItemGroup>
     <Resource Include="Images\UI.ico"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="App.xaml.cs" />
-    <Compile Remove="ViewModels/MainWindowViewModel.cs" />
-    <Compile Remove="ViewModels/OperationViewModel.cs" />
-    <Compile Remove="Models/OperationView.cs" />
-    <Compile Remove="Models/Constants.cs" />
-    <Compile Remove="Models/IdleView.cs" />
-    <Compile Remove="Models/UISettingKeys.cs" />
-    <Compile Remove="Models/ViewType.cs" />
-    <Compile Remove="Models/UIConfiguration.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Settings.Designer.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/ExtensionManager.cs" />
-    <Compile Remove="Windows/MainWindow.xaml.cs" />
-    <Compile Remove="Windows/AcknowledgeOperationWindow.xaml.cs" />
-    <Compile Remove="Views/DummyOperationViewer.xaml.cs" />
-    <Compile Remove="Views/ContentNoAlarmsControl.xaml.cs" />
-    <Compile Remove="Views/ContentAlarmsAvailableControl.xaml.cs" />
-  </ItemGroup>
-</Project>
 </Project>

@@ -45,36 +45,6 @@
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Configurations/OperationConfiguration.cs" />
-    <Compile Remove="Configurations/OperationResourceConfiguration.cs" />
-    <Compile Remove="Configurations/ConfigurationBase.cs" />
-    <Compile Remove="Configurations/SettingConfiguration.cs" />
-    <Compile Remove="Configurations/DispositionedResourceConfiguration.cs" />
-    <Compile Remove="Migrations/Configuration.cs" />
-    <Compile Remove="Migrations/201510221659525_Initial.Designer.cs" />
-    <Compile Remove="Migrations/201510221659525_Initial.cs" />
-    <Compile Remove="Types/SettingData.cs" />
-    <Compile Remove="Types/OperationData.cs" />
-    <Compile Remove="Types/EntityBase.cs" />
-    <Compile Remove="Types/OperationResourceData.cs" />
-    <Compile Remove="Types/DispositionedResourceData.cs" />
-    <Compile Remove="Contexts/MySqlHistoryContext.cs" />
-    <Compile Remove="Contexts/MainDataContext.cs" />
-    <Compile Remove="Contexts/ContextCreationOptions.cs" />
-    <Compile Remove="Contexts/MainDbContextInitializer.cs" />
-    <Compile Remove="Contexts/MainDbContext.cs" />
-    <Compile Remove="Contexts/MainDbContextConfiguration.cs" />
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Data/IDataContext.cs" />
-    <Compile Remove="Data/IDataContextFactory.cs" />
-    <Compile Remove="Data/Repository.cs" />
-    <Compile Remove="Data/DataContextFactory.cs" />
-    <Compile Remove="Data/IUnitOfWork.cs" />
-    <Compile Remove="Data/IRepository.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ServiceContracts\ServiceContracts.csproj" />
   </ItemGroup>
-</Project>
 </Project>

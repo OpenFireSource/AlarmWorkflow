@@ -52,12 +52,4 @@
   <ItemGroup>
     <ProjectReference Include="..\WindowsContracts\WindowsContracts.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Extensibility/WidgetManager.cs" />
-    <Compile Remove="Extensibility/IUIWidget.cs" />
-    <Compile Remove="Views/CustomOperationView.xaml.cs" />
-  </ItemGroup>
-</Project>
 </Project>

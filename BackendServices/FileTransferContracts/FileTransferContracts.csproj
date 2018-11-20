@@ -29,12 +29,4 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="Client/IFileCache.cs" />
-    <Compile Remove="Client/DefaultFileCache.cs" />
-    <Compile Remove="Client/FileTransferServiceClient.cs" />
-  </ItemGroup>
-</Project>
 </Project>

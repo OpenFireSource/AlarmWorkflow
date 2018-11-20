@@ -36,10 +36,4 @@
     <EmbeddedResource Include="settings.info.xml"/>
     <EmbeddedResource Include="settings.xml"/>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties/AssemblyInfo.cs" />
-    <Compile Remove="Properties/Resources.Designer.cs" />
-    <Compile Remove="AddressFilters/ByLoopAddressFilter.cs" />
-  </ItemGroup>
-</Project>
 </Project>
