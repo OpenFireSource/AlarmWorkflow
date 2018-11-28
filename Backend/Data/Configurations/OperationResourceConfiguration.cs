@@ -14,24 +14,25 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AlarmWorkflow.Backend.Data.Configurations
 {
+    // ReSharper disable once UnusedMember.Global
     class OperationResourceConfiguration : ConfigurationBase<OperationResourceData>
     {
-        #region Constructors
-
-        public OperationResourceConfiguration()
-        {
-            Property(or => or.OperationId).HasColumnName("operation_id").IsRequired();
-            Property(or => or.Timestamp).HasColumnName("timestamp");
-            Property(or => or.FullName).HasColumnName("fullname");
-            Property(or => or.Equipment).HasColumnName("equipmentcsv");
-        }
-
-        #endregion
-
         #region Methods
+
+        public override void Configure(EntityTypeBuilder<OperationResourceData> builder)
+        {
+            base.Configure(builder);
+
+            builder.Property(or => or.OperationId).HasColumnName("operation_id").IsRequired();
+            builder.Property(or => or.Timestamp).HasColumnName("timestamp");
+            builder.Property(or => or.FullName).HasColumnName("fullname");
+            builder.Property(or => or.Equipment).HasColumnName("equipmentcsv");
+        }
 
         protected override string GetTableName()
         {

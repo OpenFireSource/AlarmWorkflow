@@ -14,23 +14,24 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AlarmWorkflow.Backend.Data.Configurations
 {
+    // ReSharper disable once UnusedMember.Global
     class DispositionedResourceConfiguration : ConfigurationBase<DispositionedResourceData>
     {
-        #region Constructors
-
-        public DispositionedResourceConfiguration()
-        {
-            Property(dr => dr.OperationId).HasColumnName("operation_id").IsRequired();
-            Property(dr => dr.Timestamp).HasColumnName("timestamp").IsRequired();
-            Property(dr => dr.EmkResourceId).HasColumnName("emkresourceid").IsRequired();
-        }
-
-        #endregion
-
         #region Methods
+
+        public override void Configure(EntityTypeBuilder<DispositionedResourceData> builder)
+        {
+            base.Configure(builder);
+
+            builder.Property(dr => dr.OperationId).HasColumnName("operation_id").IsRequired();
+            builder.Property(dr => dr.Timestamp).HasColumnName("timestamp").IsRequired();
+            builder.Property(dr => dr.EmkResourceId).HasColumnName("emkresourceid").IsRequired();
+        }
 
         protected override string GetTableName()
         {
