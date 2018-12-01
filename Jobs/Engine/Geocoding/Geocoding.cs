@@ -35,11 +35,34 @@ namespace AlarmWorkflow.Job.Geocoding
 
         #endregion
 
+        #region Methods
+
+        private void InitializeProvider()
+        {
+            var providerName = _settings.GetSetting(SettingKeysJob.Provider).GetValue<string>();
+            _provider = ExportedTypeLibrary.Import<IGeoCoder>(providerName);
+            
+            Logger.Instance.LogFormat(LogType.Debug, this, Properties.Resources.UsingProviderTrace, providerName);
+
+            if (_provider.IsApiKeyRequired)
+            {
+                _provider.ApiKey = _settings.GetSetting(SettingKeysJob.ApiKey).GetValue<string>();
+
+                if (string.IsNullOrEmpty(_provider.ApiKey))
+                {
+                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.NoKeyForGeocodingService, providerName);
+                }
+            }
+        }
+
+        #endregion
+
         #region IDisposable Members
 
         void IDisposable.Dispose()
         {
-
+            _settings.Dispose();
+            _settings = null;
         }
 
         #endregion
@@ -49,13 +72,9 @@ namespace AlarmWorkflow.Job.Geocoding
         bool IJob.Initialize(IServiceProvider serviceProvider)
         {
             _settings = serviceProvider.GetService<ISettingsServiceInternal>();
-
-            _provider = ExportedTypeLibrary.Import<IGeoCoder>(_settings.GetSetting(SettingKeysJob.Provider).GetValue<string>());
-
-            if (_provider.IsApiKeyRequired)
-            {
-                _provider.ApiKey = _settings.GetSetting(SettingKeysJob.ApiKey).GetValue<string>();
-            }
+            _settings.SettingChanged += (sender, args) => InitializeProvider();
+            
+            InitializeProvider();
 
             return true;
         }

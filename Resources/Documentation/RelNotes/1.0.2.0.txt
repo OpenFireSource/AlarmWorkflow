@@ -18,9 +18,12 @@ Generelles
   * Neuer Job zum Ausführen von Programmen bei Alarmeingang auf dem Server  
   * Pushover als weitere Pushmöglichkeit hinzugefügt -> https://pushover.net
   * Als zusätliche Alarmquelle sind jetzt "Netzwerk-Alarme" verfürgbar
+  * Einstellungen von Geocoding-Provider sind ohne Neustart des Services verfügbar
 
 Gelöste Probleme
 ----------------
 
   * Speicherung/Lesen von Geokoordinaten
   * Laden von alten Layouts in der UI
+  * Geocoding-Provider CloudMate ist nicht länger verfügbar
+  * Geocoding-Provider Google und OpenStreetMap funktionieren wieder

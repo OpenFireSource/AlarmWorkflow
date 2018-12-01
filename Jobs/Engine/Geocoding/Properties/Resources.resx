@@ -150,4 +150,10 @@
   <data name="NoCoordinatesFoundByGeocodingService" xml:space="preserve">
     <value>The geocoding service has not returned any coordinates!</value>
   </data>
+  <data name="NoKeyForGeocodingService" xml:space="preserve">
+    <value>A key is required for the geocoding service '{0}'</value>
+  </data>
+  <data name="UsingProviderTrace" xml:space="preserve">
+    <value>Using geocode provider '{0}'</value>
+  </data>
 </root>

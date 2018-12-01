@@ -29,18 +29,18 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern => "http://maps.googleapis.com/maps/api/geocode/xml?sensor=false&address={0}";
+        string IGeoCoder.UrlPattern => "https://maps.googleapis.com/maps/api/geocode/xml?sensor=false&key={0}&address={1}";
 
-        bool IGeoCoder.IsApiKeyRequired => false;
+        bool IGeoCoder.IsApiKeyRequired => true;
 
         string IGeoCoder.ApiKey { get; set; }
 
         GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
-            string queryAddress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.ToString()));
+            string queryAddress = string.Format(((IGeoCoder)this).UrlPattern, ((IGeoCoder)this).ApiKey, HttpUtility.UrlEncode(address.ToString()));
             if (!string.IsNullOrWhiteSpace(address.ZipCode))
             {
-                queryAddress = string.Format("{0}&components=postal_code:{1}|country:DE", queryAddress, address.ZipCode);
+                queryAddress = $"{queryAddress}&components=postal_code:{address.ZipCode}|country:DE";
             }
             WebRequest request = WebRequest.Create(queryAddress);
 
