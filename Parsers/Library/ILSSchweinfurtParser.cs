@@ -19,8 +19,6 @@ using System.Text.RegularExpressions;
 using AlarmWorkflow.Shared.Core;
 using AlarmWorkflow.Shared.Diagnostics;
 using AlarmWorkflow.Shared.Extensibility;
-using System.Text.RegularExpressions;
-using System.Globalization;
 using AlarmWorkflow.Parser.Library.util;
 
 namespace AlarmWorkflow.Parser.Library

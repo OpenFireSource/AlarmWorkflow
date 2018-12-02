@@ -63,9 +63,6 @@
     <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Parser.Library">
-      <HintPath>..\..\Build\AlarmWorkflow.Parser.Library.dll</HintPath>
-    </Reference>
   <ProjectReference Include="..\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <None Include="TestLists\CoreTests.orderedtest">

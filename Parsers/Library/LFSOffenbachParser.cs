@@ -45,15 +45,12 @@ namespace AlarmWorkflow.Parser.Library
         Operation IParser.Parse(string[] lines)
         {
             Operation operation = new Operation();
-            CurrentSection section = CurrentSection.AAnfang;
             lines = Utilities.Trim(lines);
             foreach (var line in lines)
             {
-                string keyword;
-                string msg;
-                if (ParserUtility.StartsWithKeyword(line, _keywords, out keyword))
+                if (ParserUtility.StartsWithKeyword(line, _keywords, out var keyword))
                 {
-                    msg = ParserUtility.GetMessageText(line, keyword);
+                    var msg = ParserUtility.GetMessageText(line, keyword);
                     switch (keyword.ToUpperInvariant())
                     {
                         case "EINSATZNUMMER":
@@ -126,16 +123,6 @@ namespace AlarmWorkflow.Parser.Library
             }
 
             return operation;
-        }
-
-        #endregion
-
-        #region Nested types
-
-        private enum CurrentSection
-        {
-            AAnfang,
-            BEnde
         }
 
         #endregion
