@@ -20,6 +20,18 @@ Generelles
   * Als zusätliche Alarmquelle sind jetzt "Netzwerk-Alarme" verfürgbar
   * Einstellungen von Geocoding-Provider sind ohne Neustart des Services verfügbar
 
+Parser
+----------------
+Hinzugefügt:
+  * ILS Hochfranken
+
+Bearbeitet
+  * ILS FFB Abschnitt wird ausgelesen
+  * ILS Amberg: Zielort
+  * FEZ München Land, ILS Erding, Bayreuth, Straubing & FFB: Koordinaten werden ausgelesen
+  * ILS Straubing optimiert
+  * LFS Offenbach: Einsatzmittel werden ausgelesen
+
 Gelöste Probleme
 ----------------
 
