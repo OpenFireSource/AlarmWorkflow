@@ -29,7 +29,7 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     {
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern => "http://www.mapquestapi.com/geocoding/v1/address?outFormat=xml&key={0}&location={1}";
+        string IGeoCoder.UrlPattern => "https://www.mapquestapi.com/geocoding/v1/address?outFormat=xml&key={0}&location={1}";
 
         bool IGeoCoder.IsApiKeyRequired => true;
 
