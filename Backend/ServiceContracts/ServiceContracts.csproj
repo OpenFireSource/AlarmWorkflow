@@ -1,107 +1,53 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{842432FD-D1D8-41DA-B142-DC71A9111D30}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlarmWorkflow.Backend.ServiceContracts</RootNamespace>
     <AssemblyName>AlarmWorkflow.Backend.ServiceContracts</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <TargetFramework>net47</TargetFramework>
+    <AssemblyTitle>AlarmWorkflow.Backend.ServiceContracts</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Backend.ServiceContracts</Product>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <OutputPath>..\..\Build\</OutputPath>
+    <DocumentationFile>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DocumentationFile>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.XML</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.IdentityModel" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
-  </ItemGroup>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\BackendConfigurator.cs" />
-    <Compile Include="Communication\EndPointResolvers\RedirectableEndPointResolver.cs" />
-    <Compile Include="Communication\EndPointResolvers\LocalhostEndPointResolver.cs" />
-    <Compile Include="Communication\IEndPointResolver.cs" />
-    <Compile Include="Communication\ServiceBindingCache.cs" />
-    <Compile Include="Communication\ServiceFactory.cs" />
-    <Compile Include="Communication\WrappedService.cs" />
-    <Compile Include="Core\CertificateValidator.cs" />
-    <Compile Include="Core\ExposedCallbackServiceBase.cs" />
-    <Compile Include="Core\InternalServiceBase.cs" />
-    <Compile Include="Core\AlarmWorkflowFaultDetails.cs" />
-    <Compile Include="Core\ExposedServiceBase.cs" />
-    <Compile Include="Core\IInternalService.cs" />
-    <Compile Include="Core\IExposedService.cs" />
-    <Compile Include="Core\ServiceInternalProvider.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
+    <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="ServiceDefinition\BackendServiceLocation.cs" />
-    <Compile Include="Communication\IBackendConfigurator.cs" />
-    <Compile Include="ServiceDefinition\IBackendServiceLocation.cs" />
-    <Compile Include="ServiceDefinition\SupportedBinding.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
+    <EmbeddedResource Update="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Backend.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Resources\BackendServiceLocationSchema.xsd">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <None Update="Backend.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>
