@@ -13,10 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using AlarmWorkflow.Parser.Library;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AlarmWorkflow.Shared.Tests.Parsers
+namespace AlarmWorkflow.Parser.Library.Test
 {
     /// <summary>
     /// Tests the functionality of the ParserUtility

@@ -13,3 +13,5 @@ CALL RestorePackages.bat
 echo -------------------------------------------------
 echo Build AlarmWorkflow ...
 CALL %build% %root%\AlarmWorkflow.sln /p:Configuration=Debug /verbosity:minimal
+
+pause

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <RootNamespace>AlarmWorkflow.Parser.Library</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Parser.Library</AssemblyName>
+    <TargetFramework>net47</TargetFramework>
+    <AssemblyTitle>AlarmWorkflow.Parser.Library</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Parser.Library</Product>
+    <AssemblyVersion>0.9.8.0</AssemblyVersion>
+    <FileVersion>0.9.8.0</FileVersion>
+    <OutputPath>..\..\Build\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>

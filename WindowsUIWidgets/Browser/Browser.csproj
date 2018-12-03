@@ -19,11 +19,10 @@
     <OutputPath>bin\$(Configuration)\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PresentationCore"/>
-    <Reference Include="PresentationFramework"/>
-    <Reference Include="System.Xaml"/>
-    <Reference Include="WindowsBase"/>
-  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj"/></ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="BrowserWidget.xaml.cs">
       <DependentUpon>BrowserWidget.xaml</DependentUpon>
@@ -41,7 +40,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml"/>
+    <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
