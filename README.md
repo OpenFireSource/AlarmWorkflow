@@ -2,7 +2,12 @@
 
 Open-Source, extensible application which analyzes an alarm fax and takes customizable actions (displaying on a screen, sending out E-Mails or SMS etc).
 
-# License
+## Build Status
+| Stable | Development | Project |
+|--------|--------|--------|
+| [![Build status](https://ci.appveyor.com/api/projects/status/cmb2i57uio1biuqn/branch/master?svg=true)](https://ci.appveyor.com/project/ForrestFalcon/alarmworkflow-xitt2/branch/master) | [![Build status](https://ci.appveyor.com/api/projects/status/cmb2i57uio1biuqn/branch/next?svg=true)](https://ci.appveyor.com/project/ForrestFalcon/alarmworkflow-xitt2/branch/next) | [![Build status](https://ci.appveyor.com/api/projects/status/cmb2i57uio1biuqn?svg=true)](https://ci.appveyor.com/project/ForrestFalcon/alarmworkflow-xitt2) |
+
+## License
 
 This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See License.txt for further information.
 
@@ -22,15 +27,15 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE Version 3. See Lic
 > You should have received a copy of the GNU General Public License
 > along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Third-party-components
+## Third-party-components
 
 The AlarmWorkflow-project makes use of the following libraries:
 
     MailKit by jstedfast
     https://github.com/jstedfast/MailKit
     
-	Ghostscript.NET by jhabjan
-	https://github.com/jhabjan/Ghostscript.NET
+    Ghostscript.NET by jhabjan
+    https://github.com/jhabjan/Ghostscript.NET
 	
     AvalonDock
     http://avalondock.codeplex.com/ & http://wpftoolkit.codeplex.com/
