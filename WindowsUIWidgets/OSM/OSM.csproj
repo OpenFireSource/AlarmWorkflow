@@ -20,18 +20,6 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Windows.CustomViewer">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.CustomViewer.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
@@ -45,11 +33,11 @@
     <Compile Remove="Properties/Resources.Designer.cs" />
   </ItemGroup>
 <ItemGroup>
-    <Reference Include="System.Web"/>
-    <Reference Include="System.Xaml"/>
-    <Reference Include="WindowsBase"/>
-    <Reference Include="PresentationCore"/>
-    <Reference Include="PresentationFramework"/>
-  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj"/>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj" />
 </ItemGroup>
 </Project>

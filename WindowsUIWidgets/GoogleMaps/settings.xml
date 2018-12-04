@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <SettingsConfiguration Version="1" Identifier="GoogleMapsWidget">
+  <Setting Name="Key" Type="System.String" IsNull="False"></Setting>
   <Setting Name="ZoomControl" Type="System.Boolean">false</Setting>
   <Setting Name="ZoomOnAddress" Type="System.Boolean">false</Setting>
   <Setting Name="Route" Type="System.Boolean">false</Setting>

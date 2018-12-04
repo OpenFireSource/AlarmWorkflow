@@ -82,12 +82,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                                          "});" +
                                          "}";
 
-        private const string BeginnHead = "<!DOCTYPE html>" +
+        private const string BeginHead = "<!DOCTYPE html>" +
                                           "<html><head><meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" >" +
                                           "<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'>" +
                                           "<meta name=\"viewport\" content=\"initial-scale=1.0, user-scalable=no\" /><style type=\"text/css\">" +
                                           "html { height: 100% } body { height: 100%; margin: 0; padding: 0 } #map_canvas { height: 100% }" +
-                                          "</style><script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js\"></script>" +
+                                          "</style><script type=\"text/javascript\" src=\"https://maps.googleapis.com/maps/api/js?key={KEY}\"></script>" +
                                           "<script type=\"text/javascript\">" +
                                           "var directionsService = new google.maps.DirectionsService();" +
                                           "var directionsDisplay = new google.maps.DirectionsRenderer();" +
@@ -177,7 +177,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
                     "map = new google.maps.Map(document.getElementById(\"map_canvas\")," +
                     "mapOptions);";
 
-                builder.AppendLine(BeginnHead);
+                builder.AppendLine(BeginHead.Replace("{KEY}", _configuration.GoogleMapsKey));
                 builder.AppendLine(variables);
                 builder.AppendLine(_configuration.Route ? Showroute : CenterCoord);
                 if (_configuration.Tilt)

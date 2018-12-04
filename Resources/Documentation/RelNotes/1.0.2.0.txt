@@ -39,3 +39,4 @@ Gelöste Probleme
   * Laden von alten Layouts in der UI
   * Geocoding-Provider CloudMate ist nicht länger verfügbar
   * Geocoding-Provider Google und OpenStreetMap funktionieren wieder
+  * WindowsUI Google Maps funktioniert wieder (benötigt Key)

@@ -19,15 +19,11 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Windows.UIContracts, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\Build\AlarmWorkflow.Windows.UIContracts.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="PresentationCore"/>
-    <Reference Include="PresentationFramework"/>
-    <Reference Include="System.Xaml"/>
-    <Reference Include="WindowsBase"/>
-  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj"/><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj"/></ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /><ProjectReference Include="..\..\Windows\CustomViewer\CustomViewer.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="OperationWidget.xaml.cs">
       <DependentUpon>OperationWidget.xaml</DependentUpon>
@@ -45,9 +41,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.xml"/>
+    <EmbeddedResource Include="settings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml"/>
+    <EmbeddedResource Include="settings.info.xml" />
   </ItemGroup>
 </Project>
