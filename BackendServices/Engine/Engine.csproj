@@ -18,9 +18,13 @@
     <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System.ServiceModel"/>
-    <Reference Include="Microsoft.CSharp"/>
-  <ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj"/><ProjectReference Include="..\..\Shared\Shared\Shared.csproj"/></ItemGroup>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="Microsoft.CSharp" />
+    <ProjectReference Include="..\..\AlarmSources\Fax\Fax.csproj" />
+    <ProjectReference Include="..\..\AlarmSources\Mail\Mail.csproj" />
+    <ProjectReference Include="..\..\AlarmSources\Network\Network.csproj" />
+    <ProjectReference Include="..\..\AlarmSources\Sms\Sms.csproj" />
+  <ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -29,14 +33,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="settings.info.xml"/>
+    <EmbeddedResource Include="settings.info.xml" />
     <EmbeddedResource Include="settings.xml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EngineContracts\EngineContracts.csproj"/>
-    <ProjectReference Include="..\ManagementContracts\ManagementContracts.csproj"/>
-    <ProjectReference Include="..\SettingsContracts\SettingsContracts.csproj"/>
+    <ProjectReference Include="..\EngineContracts\EngineContracts.csproj" />
+    <ProjectReference Include="..\ManagementContracts\ManagementContracts.csproj" />
+    <ProjectReference Include="..\SettingsContracts\SettingsContracts.csproj" />
   </ItemGroup>
 </Project>
