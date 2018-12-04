@@ -19,6 +19,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
 {
     static class SettingKeys
     {
+        internal static readonly SettingKey GoogleMapsKey = SettingKey.Create("GoogleMapsWidget", "Key");
         internal static readonly SettingKey Traffic = SettingKey.Create("GoogleMapsWidget", "Traffic");
         internal static readonly SettingKey Tilt = SettingKey.Create("GoogleMapsWidget", "Tilt");
         internal static readonly SettingKey Route = SettingKey.Create("GoogleMapsWidget", "Route");
