@@ -308,11 +308,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         private void OnNewAlarm(AlarmSourceEventArgs args)
         {
-            var copy = NewAlarm;
-            if (copy != null)
-            {
-                copy(this, args);
-            }
+            NewAlarm?.Invoke(this, args);
         }
 
         void IAlarmSource.Initialize(IServiceProvider serviceProvider)
