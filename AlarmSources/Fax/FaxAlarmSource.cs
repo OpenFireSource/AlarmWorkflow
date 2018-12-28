@@ -42,7 +42,6 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
         private const int ErrorRetryCount = 10;
         private const string AnalyzedFileNameFormat = "yyyyMMddHHmmssffff";
-        private const string ArchivedFilePathExtension = ".tif";
         private const int MoveFileAttemptDelayMs = 200;
         private const int RoutineIntervalMs = 2000;
 
@@ -148,9 +147,9 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 dev.InputFiles.Add(file.FullName);
                 dev.OutputPath = tiffFilePath;
                 dev.Process();
-                
+
                 ProcessNewImage(new FileInfo(tiffFilePath));
-                
+
                 file.Delete();
             }
             catch (GhostscriptException ex)
@@ -168,17 +167,19 @@ namespace AlarmWorkflow.AlarmSource.Fax
             EnsureDirectoriesExist();
 
             string analyseFileName = DateTime.Now.ToString(AnalyzedFileNameFormat);
-            string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + ArchivedFilePathExtension);
+            string archivedFilePath = Path.Combine(_archivePath.FullName, analyseFileName + file.Extension);
 
             MoveFileTo(file, archivedFilePath);
 
             string[] parsedLines = null;
             try
             {
-                OcrProcessOptions options = new OcrProcessOptions();
-                options.SoftwarePath = _configuration.OCRSoftwarePath;
-                options.AnalyzedFileDestinationPath = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(file.FullName));
-                options.ImagePath = file.FullName;
+                OcrProcessOptions options = new OcrProcessOptions
+                {
+                    SoftwarePath = _configuration.OCRSoftwarePath,
+                    AnalyzedFileDestinationPath = Path.Combine(_analysisPath.FullName, Path.GetFileNameWithoutExtension(file.FullName)),
+                    ImagePath = file.FullName
+                };
 
                 Logger.Instance.LogFormat(LogType.Trace, this, Properties.Resources.OcrSoftwareParseBegin, file.FullName);
 
@@ -332,9 +333,12 @@ namespace AlarmWorkflow.AlarmSource.Fax
                 {
                     //.tif, .tiff or .pdf
                     FileInfo[] files = _faxPath.GetFiles("*.*", SearchOption.TopDirectoryOnly)
-                                .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase) 
-                                    || _.Name.EndsWith(".tiff", StringComparison.InvariantCultureIgnoreCase) 
-                                    || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
+                                .Where(_ => _.Name.EndsWith(".tif", StringComparison.InvariantCultureIgnoreCase)
+                                            || _.Name.EndsWith(".tiff", StringComparison.InvariantCultureIgnoreCase)
+                                            || _.Name.EndsWith(".jpg", StringComparison.InvariantCultureIgnoreCase)
+                                            || _.Name.EndsWith(".jpeg", StringComparison.InvariantCultureIgnoreCase)
+                                            || _.Name.EndsWith(".png", StringComparison.InvariantCultureIgnoreCase)
+                                            || _.Name.EndsWith(".pdf", StringComparison.InvariantCultureIgnoreCase))
                                 .ToArray();
 
                     if (files.Length > 0)
@@ -343,7 +347,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
 
                         foreach (FileInfo file in files)
                         {
-                            if(file.Extension == ".pdf")
+                            if (file.Extension == ".pdf")
                             {
                                 ProcessNewPdf(file);
                             }
@@ -358,7 +362,7 @@ namespace AlarmWorkflow.AlarmSource.Fax
                     intervalLogger.ResetExceptionCollection();
                     Thread.Sleep(RoutineIntervalMs);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     intervalLogger.LogFormat(ex, LogType.Warning, this, Properties.Resources.FaxDirAccessError, _faxPath.FullName, ex.ToString());
                 }
