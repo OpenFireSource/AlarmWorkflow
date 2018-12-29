@@ -19,6 +19,7 @@ Generelles
   * Pushover als weitere Pushmöglichkeit hinzugefügt -> https://pushover.net
   * Als zusätliche Alarmquelle sind jetzt "Netzwerk-Alarme" verfürgbar
   * Einstellungen von Geocoding-Provider sind ohne Neustart des Services verfügbar
+  * Fax-Alarmquelle parst auch jpg- und png-Dateien
 
 Parser
 ----------------
