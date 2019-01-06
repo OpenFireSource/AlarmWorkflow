@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <RootNamespace>AlarmWorkflow.Job.Divera</RootNamespace>
+    <AssemblyName>AlarmWorkflow.Job.Divera</AssemblyName>
+    <TargetFramework>net47</TargetFramework>
+    <AssemblyTitle>AlarmWorkflow.Job.Divera</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Job.Divera</Product>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <OutputPath>..\..\..\Build\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <ProjectReference Include="..\..\..\BackendServices\ManagementContracts\ManagementContracts.csproj" />
+  <ProjectReference Include="..\..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\..\BackendServices\EngineContracts\EngineContracts.csproj" /><ProjectReference Include="..\..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /></ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="settings.info.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="settings.xml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

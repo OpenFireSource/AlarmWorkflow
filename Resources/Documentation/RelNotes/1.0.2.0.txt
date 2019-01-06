@@ -20,6 +20,7 @@ Generelles
   * Als zusätliche Alarmquelle sind jetzt "Netzwerk-Alarme" verfürgbar
   * Einstellungen von Geocoding-Provider sind ohne Neustart des Services verfügbar
   * Fax-Alarmquelle parst auch jpg- und png-Dateien
+  * DIVERA 24/7 ist jetzt als Alarm-Job verfügbar
 
 Parser
 ----------------
