@@ -1,0 +1,12 @@
+﻿<SettingsDisplayConfiguration>
+  <Identifier Name="Divera" DisplayText="DIVERA 24/7" Parent="Aufgaben">
+    <Setting Name="key" DisplayText="Access-Key" Description="DIVERA 24/7 Access-Key kann unter Verwaltung -> Schnitstellen -> API abgerufen werden."
+             IsDynamic="true"/>
+    <Setting Name="type" DisplayText="Einsatzstichwort" Category="Generell" IsDynamic="true" Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared"
+             Description="Das Einsatzstichwort, auf 30 Zeichen begrenzt. Wird in der Push-Nachricht angezeigt."/>
+    <Setting Name="text" DisplayText="Text" Category="Generell" IsDynamic="true" Editor="ObjectExpressionTypeEditor"
+             EditorParameter="AlarmWorkflow.Shared.Core.Operation, AlarmWorkflow.Shared"
+             Description="Längerer Text mit Detailinformationen. Länge max. 1000 Zeichen"/>
+  </Identifier>
+</SettingsDisplayConfiguration>
