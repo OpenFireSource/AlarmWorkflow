@@ -4,7 +4,7 @@
     <RootNamespace>AlarmWorkflow.Job.Divera</RootNamespace>
     <AssemblyName>AlarmWorkflow.Job.Divera</AssemblyName>
     <TargetFramework>net47</TargetFramework>
-    <AssemblyTitle>AlarmWorkflow.Job.eAlarm</AssemblyTitle>
+    <AssemblyTitle>AlarmWorkflow.Job.Divera</AssemblyTitle>
     <Company>The AlarmWorkflow-Team</Company>
     <Product>AlarmWorkflow.Job.Divera</Product>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
