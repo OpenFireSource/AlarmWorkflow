@@ -1,39 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// This file is part of the GeoUtility by Steffen Habermehl.
+// 
+// GeoUtility is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// You should have received a copy of the GNU General Public License
+// along with GeoUtility.  If not, see <http://www.gnu.org/licenses/>.
 
-namespace AlarmWorkflow.Parser.Library.util
+using System;
+
+namespace AlarmWorkflow.Parser.Library.util.geo.Transform
 {
-    /// <summary>
-    /// This method is a copy from https://archive.codeplex.com/?p=geoutility
-    /// </summary>
-    internal class GeoTransformation
+    internal partial class Transformation
     {
-        #region ===================== Gauss-Krueger =====================
-
-        // Große Halbachse und Abplattung BESSEL
-        const double HALBACHSE = 6377397.155;
-        const double ABPLATTUNG = 3.342773182E-03;
-
-        // Polkrümmung
-        const double POL = HALBACHSE / (1 - ABPLATTUNG);
-
-        // Num. Exzentrizitäten
-        const double EXZENT = ((2 * ABPLATTUNG) - (ABPLATTUNG * ABPLATTUNG));
-        const double EXZENT2 = ((2 * ABPLATTUNG) - (ABPLATTUNG * ABPLATTUNG)) / ((1 - ABPLATTUNG) * (1 - ABPLATTUNG));
-        const double EXZENT4 = EXZENT2 * EXZENT2;
-        const double EXZENT6 = EXZENT4 * EXZENT2;
-        const double EXZENT8 = EXZENT4 * EXZENT4;
-
-        // Geographische Grenzen des Gauss-Krüger-Systems in Grad
-        const double MIN_OST = 5.0;
-        const double MAX_OST = 16.0;
-        const double MIN_NORD = 46.0;
-        const double MAX_NORD = 56.0;
-       
-        #endregion ===================== Gauss-Krueger =====================
 
         /// <summary><para>Die Funktion wandelt die Koordinaten eines <see cref="GeoUtility.GeoSystem.GaussKrueger"/>-Objektes 
         /// in Längen/Breiten-Koordinaten eines <see cref="GeoUtility.GeoSystem.Geographic"/>-Objekts im Potsdam-Datum um. 
@@ -49,8 +29,12 @@ namespace AlarmWorkflow.Parser.Library.util
         /// 
         /// <param name="gauss">Ein <see cref="GeoUtility.GeoSystem.GaussKrueger"/>-Objekt-</param>
         /// <returns>Ein <see cref="GeoUtility.GeoSystem.Geographic"/>-Objekt (<see cref="GeoUtility.GeoSystem.Helper.GeoDatum.Potsdam">Potsdam-Datum</see>).</returns>
-        internal static GeographicCoords GKPOD(double rechts, double hoch)
+        public static Geographic GKPOD(GaussKrueger gauss)
         {
+
+            double rechts = gauss.East;
+            double hoch = gauss.North;
+
             // Koeffizienten für Länge Meridianbogen
             double koeff0 = POL * (Math.PI / 180) * (1 - 3 * EXZENT2 / 4 + 45 * EXZENT4 / 64 - 175 * EXZENT6 / 256 + 11025 * EXZENT8 / 16384);
             double koeff2 = (180 / Math.PI) * (3 * EXZENT2 / 8 - 3 * EXZENT4 / 16 + 213 * EXZENT6 / 2048 - 255 * EXZENT8 / 4096);
@@ -108,11 +92,8 @@ namespace AlarmWorkflow.Parser.Library.util
                 throw new ArgumentException("ERROR_GK_OUT_OF_RANGE");
             }
 
-            return new GeographicCoords()
-            {
-                Longitude = geoLaenge,
-                Latitude =  geoBreite
-            };
+            return new Geographic(geoLaenge, geoBreite, GeoDatum.Potsdam);
         }
+
     }
 }
