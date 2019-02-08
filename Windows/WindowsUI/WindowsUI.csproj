@@ -1,21 +1,19 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="MSBuild.Sdk.Extras/1.6.47">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{71CBE492-F506-4BA2-8C81-F6F268E55E53}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AlarmWorkflow.Windows.UI</RootNamespace>
     <AssemblyName>AlarmWorkflow.Windows.UI</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <FileAlignment>512</FileAlignment>
+    <TargetFramework>net47</TargetFramework>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WarningLevel>4</WarningLevel>
+    <AssemblyTitle>AlarmWorkflow.Windows.UI</AssemblyTitle>
+    <Company>The AlarmWorkflow-Team</Company>
+    <Product>AlarmWorkflow.Windows.UI</Product>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <OutputPath>..\..\Build\</OutputPath>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <ExtrasEnableWpfProjectSetup>true</ExtrasEnableWpfProjectSetup>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -24,135 +22,19 @@
     <ApplicationIcon>Images\UI.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
-    <OutputPath>..\..\Build\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AlarmWorkflow.Shared">
-      <HintPath>..\..\Build\AlarmWorkflow.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.Backend.ServiceContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.Backend.ServiceContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.ManagementContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.ManagementContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="AlarmWorkflow.BackendService.SettingsContracts">
-      <HintPath>..\..\Build\AlarmWorkflow.BackendService.SettingsContracts.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Models\Constants.cs" />
-    <Compile Include="Extensibility\ExtensionManager.cs" />
-    <Compile Include="Models\IdleView.cs" />
-    <Compile Include="Models\OperationView.cs" />
-    <Compile Include="Models\UIConfiguration.cs" />
-    <Compile Include="Helper.cs" />
-    <Compile Include="Models\UISettingKeys.cs" />
-    <Compile Include="Models\ViewType.cs" />
-    <Compile Include="ViewModels\OperationViewModel.cs" />
-    <Compile Include="Views\DummyOperationViewer.xaml.cs">
-      <DependentUpon>DummyOperationViewer.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\AcknowledgeOperationWindow.xaml.cs">
-      <DependentUpon>AcknowledgeOperationWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ContentAlarmsAvailableControl.xaml.cs">
-      <DependentUpon>ContentAlarmsAvailableControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ContentNoAlarmsControl.xaml.cs">
-      <DependentUpon>ContentNoAlarmsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Properties\AssemblyInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="Views\DummyOperationViewer.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\AcknowledgeOperationWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ContentAlarmsAvailableControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ContentNoAlarmsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
+  <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /><ProjectReference Include="..\..\Backend\ServiceContracts\ServiceContracts.csproj" /><ProjectReference Include="..\..\BackendServices\ManagementContracts\ManagementContracts.csproj" /><ProjectReference Include="..\..\BackendServices\SettingsContracts\SettingsContracts.csproj" /></ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="settings.xml">
       <SubType>Designer</SubType>
@@ -164,20 +46,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowsContracts\WindowsContracts.csproj">
-      <Project>{FDDD6A8B-8B81-4C2B-8D5E-FE82DEF0D9D1}</Project>
-      <Name>AlarmWorkflow.Windows.UIContracts</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\WindowsUIWidgets\Browser\Browser.csproj" />
+    <ProjectReference Include="..\..\WindowsUIWidgets\Clock\Clock.csproj" />
+    <ProjectReference Include="..\..\WindowsUIWidgets\Operation\Operation.csproj" />
+    <ProjectReference Include="..\..\WindowsUIWidgets\OSM\OSM.csproj" />
+    <ProjectReference Include="..\..\WindowsUIWidgets\Resources\Resources.csproj" />
+    <ProjectReference Include="..\WindowsContracts\WindowsContracts.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\UI.ico" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

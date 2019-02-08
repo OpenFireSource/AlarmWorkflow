@@ -27,9 +27,15 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
     [Information(DisplayName = "ExportOpenStreetMapDisplayName", Description = "ExportOpenStreetMapDescription")]
     internal class OpenStreetMap : IGeoCoder
     {
+        #region Constants 
+
+        private const string UserAgent = "OpenFireSource/AlarmWorkflow";
+
+        #endregion
+
         #region IGeoCoder Members
 
-        string IGeoCoder.UrlPattern => "http://nominatim.openstreetmap.org/search?format=xml&q={0}";
+        string IGeoCoder.UrlPattern => "https://nominatim.openstreetmap.org/search?format=xml&q={0}";
 
         bool IGeoCoder.IsApiKeyRequired => false;
 
@@ -38,9 +44,10 @@ namespace AlarmWorkflow.Job.Geocoding.Provider
         GeocoderLocation IGeoCoder.Geocode(PropertyLocation address)
         {
             //This format is required by osm --> StreetNumber before Street is the advice from OSM.
-            string queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.StreetNumber + " " + address.Street + " " + address.ZipCode + " " + address.City));
+            var queryAdress = string.Format(((IGeoCoder)this).UrlPattern, HttpUtility.UrlEncode(address.StreetNumber + " " + address.Street + " " + address.ZipCode + " " + address.City));
 
-            WebRequest request = WebRequest.Create(queryAdress);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(queryAdress);
+            request.UserAgent = UserAgent;
             using (WebResponse response = request.GetResponse())
             {
                 using (Stream stream = response.GetResponseStream())

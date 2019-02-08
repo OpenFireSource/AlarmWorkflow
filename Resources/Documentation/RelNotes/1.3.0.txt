@@ -1,0 +1,18 @@
+﻿AlarmWorkflow v1.3.0 Release Notes
+====================================
+
+Änderungen seit v1.2.0
+------------------------
+
+Generelles
+----------
+
+
+Parser
+----------------
+Hinzugefügt:
+
+Bearbeitet
+
+Gelöste Probleme
+----------------

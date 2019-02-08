@@ -1,6 +1,7 @@
 ﻿<SettingsDisplayConfiguration>
 
   <Identifier Name="GoogleMapsWidget" DisplayText="Google-Maps (UI-Widget)" Parent="CustomOperationViewer">
+    <Setting Name="Key" DisplayText="Key"  Category="Generell" Description="Google-Maps Api Key (https://developers.google.com/maps/documentation/javascript/get-api-key)" />
     <Setting Name="MapType" DisplayText="Kartentyp" Category="Generell" Editor="DropDownTypeEditor" EditorParameter="Straße;Hybrid;Terrain;Satellit" />
     <Setting Name="ZoomControl" DisplayText="Zoomsteuerung anzeigen" Category="Generell" />
     <Setting Name="Route" DisplayText="Route anzeigen" Category="Generell" />

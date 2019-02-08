@@ -13,8 +13,10 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using AlarmWorkflow.Backend.ServiceContracts.Communication;
 using AlarmWorkflow.BackendService.SettingsContracts;
+using AlarmWorkflow.Shared.Settings;
 using SharedSettingKeys = AlarmWorkflow.Shared.SettingKeys;
 
 namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
@@ -25,6 +27,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
         {
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
+                GoogleMapsKey = service.Instance.GetSetting(SettingKeys.GoogleMapsKey).GetValue<string>();
                 Traffic = service.Instance.GetSetting(SettingKeys.Traffic).GetValue<bool>();
                 Tilt = service.Instance.GetSetting(SettingKeys.Tilt).GetValue<bool>();
                 Route = service.Instance.GetSetting(SettingKeys.Route).GetValue<bool>();
@@ -40,37 +43,37 @@ namespace AlarmWorkflow.Windows.UIWidgets.GoogleMaps
             }
         }
 
-        internal bool Traffic { get; private set; }
+        internal String GoogleMapsKey { get; }
 
-        internal bool Tilt { get; private set; }
+        internal bool Traffic { get; }
 
-        internal bool Route { get; private set; }
+        internal bool Tilt { get; }
 
-        internal bool ZoomControl { get; private set; }
-        internal bool ZoomOnAddress { get; private set; }
+        internal bool Route { get; }
 
-        internal bool RouteDescription { get; private set; }
+        internal bool ZoomControl { get; }
 
-        internal string Maptype { get; private set; }
+        internal bool ZoomOnAddress { get; }
 
-        internal string Home { get; private set; }
+        internal string Maptype { get; }
 
-        internal int ZoomLevel { get; private set; }
+        internal string Home { get; }
+
+        internal int ZoomLevel { get; }
 
         private string GetMapType(string settingValue)
         {
             switch (settingValue)
             {
-                case "Straße":
-                    return "ROADMAP";
                 case "Hybrid":
                     return "HYBRID";
                 case "Terrain":
                     return "TERRAIN";
                 case "Satellit":
                     return "SATELLITE";
+                default:
+                    return "ROADMAP";
             }
-            return "ROADMAP";
         }
     }
 }

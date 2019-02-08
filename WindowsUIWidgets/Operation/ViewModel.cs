@@ -32,9 +32,6 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
         private string _expressionLineOne;
         private string _expressionLineThree;
         private string _expressionLineTwo;
-        private string _lineTwo;
-        private string _lineOne;
-        private string _lineThree;
         private readonly int[] _fontSize = new int[3];
         private Shared.Core.Operation _operation;
 
@@ -42,9 +39,12 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         #region Properties
 
-        public string LineOne => _lineOne;
-        public string LineTwo => _lineTwo;
-        public string LineThree => _lineThree;
+        public string LineOne { get; private set; }
+
+        public string LineTwo { get; private set; }
+
+        public string LineThree { get; private set; }
+
         public int FontSizeOne => _fontSize[0];
         public int FontSizeTwo => _fontSize[1];
         public int FontSizeThree => _fontSize[2];
@@ -100,9 +100,9 @@ namespace AlarmWorkflow.Windows.UIWidgets.Operation
 
         private void SetValues()
         {
-            _lineOne = FormatLine(_expressionLineOne, _operation);
-            _lineTwo = FormatLine(_expressionLineTwo, _operation);
-            _lineThree = FormatLine(_expressionLineThree, _operation);
+            LineOne = FormatLine(_expressionLineOne, _operation);
+            LineTwo = FormatLine(_expressionLineTwo, _operation);
+            LineThree = FormatLine(_expressionLineThree, _operation);
             OnPropertyChanged(nameof(LineOne));
             OnPropertyChanged(nameof(LineTwo));
             OnPropertyChanged(nameof(LineThree));

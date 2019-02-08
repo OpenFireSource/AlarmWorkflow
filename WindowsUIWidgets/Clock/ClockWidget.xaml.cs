@@ -53,7 +53,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
         /// </summary>
         public SolidColorBrush ForeColor
         {
-            get { return _foreColor; }
+            get => _foreColor;
             set
             {
                 if (!Equals(value, _foreColor))
@@ -88,14 +88,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             using (var service = ServiceFactory.GetCallbackServiceWrapper<ISettingsService>(new SettingsServiceCallback()))
             {
                 object colorString = ColorConverter.ConvertFromString(service.Instance.GetSetting(SettingKeys.Color).GetValue<string>());
-                if (colorString != null)
-                {
-                    _color = new SolidColorBrush((Color)colorString);
-                }
-                else
-                {
-                    _color = new SolidColorBrush(Colors.Red);
-                }
+                _color = colorString != null ? new SolidColorBrush((Color) colorString) : new SolidColorBrush(Colors.Red);
 
                 _waitTimeSetting = service.Instance.GetSetting(SettingKeys.WaitTime).GetValue<int>();
                 _blink = service.Instance.GetSetting(SettingKeys.Blink).GetValue<bool>();
@@ -110,8 +103,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
             InitializeComponent();
 
             ForeColor = _black;
-            _clockTimer = new DispatcherTimer();
-            _clockTimer.Interval = TimeSpan.FromSeconds(0.5);
+            _clockTimer = new DispatcherTimer {Interval = TimeSpan.FromSeconds(0.5)};
             _clockTimer.Tick += ClockTimer_Tick;
         }
 
@@ -144,6 +136,7 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
                     ForeColor = _black;
                 }
             }
+
             UpdateProperties();
         }
 
@@ -174,8 +167,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
                 {
                     _clockTimer.Stop();
                 }
+
                 return;
             }
+
             _operation = operation;
 
             if (!_clockTimer.IsEnabled)
@@ -202,14 +197,10 @@ namespace AlarmWorkflow.Windows.UIWidgets.Clock
         /// <summary>
         /// Manually raises the PropertyChanged event for the given property.
         /// </summary>
-        /// <param name="propertyName">The name of the property to raise this event for.</param>
+        /// <param name="name">The name of the property to raise this event for.</param>
         protected void OnPropertyChanged(string name)
         {
-            var copy = PropertyChanged;
-            if (copy != null)
-            {
-                copy(this, new PropertyChangedEventArgs(name));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         #endregion
