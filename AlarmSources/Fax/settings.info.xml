@@ -10,7 +10,7 @@
              Description="Verzeichnis für analysierte Faxe." IsDynamic="true"/>
 
     <Setting Name="OCR.Path" DisplayText="Pfad (Verzeichnis)" Category="Tesseract OCR-Software" Editor="DirectoryTypeEditor"
-             Description="Wenn leer gelassen, wird das Standardverzeichnis (innerhalb des Programmverzeichnisses) genommen." IsDynamic="true"/>
+             Description="Gib hier den Pfad zum Tesseract-Verzeichnis an." IsDynamic="true"/>
 
     <Setting Name="AlarmfaxParser" DisplayText="Parser-Kennung" Category="Parser" Editor="ExportTypeEditor" EditorParameter="AlarmWorkflow.Shared.Extensibility.IParser, AlarmWorkflow.Shared"
              Description="Welcher Parser die Informationen aus dem Fax auswertet." IsDynamic="true"/>

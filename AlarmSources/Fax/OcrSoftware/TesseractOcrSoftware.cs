@@ -23,44 +23,18 @@ namespace AlarmWorkflow.AlarmSource.Fax.OcrSoftware
 {
     class TesseractOcrSoftware : IOcrSoftware
     {
-
-        #region Constants
-
-        private const string EnvTessdata = "TESSDATA_PREFIX";
-
-        #endregion
-
         #region IOcrSoftware Members
 
         string[] IOcrSoftware.ProcessImage(OcrProcessOptions options)
         {
+            string filename = "tesseract.exe";
+            string path = Path.Combine(options.SoftwarePath, filename);
+
             using (ProcessWrapper proc = new ProcessWrapper())
             {
-                string tesseractPath = Path.Combine(Utilities.GetWorkingDirectory(), "tesseract");
-
-                try
-                {
-                    Environment.SetEnvironmentVariable(EnvTessdata, tesseractPath);
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance.LogFormat(LogType.Error, this, Properties.Resources.OcrSoftwareTesseractError);
-                    Logger.Instance.LogException(this, ex);
-                }
-                
-                
-                // If there is no custom directory
-                if (string.IsNullOrEmpty(options.SoftwarePath))
-                {
-                    proc.WorkingDirectory = tesseractPath;
-                }
-                else
-                {
-                    proc.WorkingDirectory = options.SoftwarePath;
-                }
-
-                proc.FileName = Path.Combine(proc.WorkingDirectory, "tesseract.exe");
-                proc.Arguments = string.Format("\"{0}\" \"{1}\"  -psm 6 quiet", options.ImagePath, options.AnalyzedFileDestinationPath);
+                proc.WorkingDirectory = options.SoftwarePath;
+                proc.FileName = path;
+                proc.Arguments = string.Format("\"{0}\" \"{1}\" --tessdata-dir tessdata --psm 6 -l deu", options.ImagePath, options.AnalyzedFileDestinationPath);
 
                 proc.StartAndWait();
             }
