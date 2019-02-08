@@ -1,4 +1,4 @@
-﻿AlarmWorkflow v1.0.2.0 Release Notes
+﻿AlarmWorkflow v1.2.0 Release Notes
 ====================================
 
 Änderungen seit v1.0.1.0

@@ -47,8 +47,3 @@ The AlarmWorkflow-project makes use of the following libraries:
     
     Some icons taken and adapted from Smallicons 
     http://smallicons.net/
-
-Furthermore, AlarmWorkflow uses the following applications:
-
-    Tesseract OCR by Google
-    http://code.google.com/p/tesseract-ocr/
