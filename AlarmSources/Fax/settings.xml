@@ -3,6 +3,6 @@
   <Setting Name="FaxPath" Type="System.String" IsNull="False">C:\Fax</Setting>
   <Setting Name="ArchivePath" Type="System.String" IsNull="False">C:\Fax\Archive\</Setting>
   <Setting Name="AnalysisPath" Type="System.String" IsNull="False">C:\Fax\Analysis\</Setting>
-  <Setting Name="OCR.Path" Type="System.String" IsNull="False"></Setting>
+  <Setting Name="OCR.Path" Type="System.String" IsNull="False">C:\Program Files (x86)\Tesseract-OCR</Setting>
   <Setting Name="AlarmfaxParser" Type="System.String" IsNull="False">NoParser</Setting>
 </SettingsConfiguration>
