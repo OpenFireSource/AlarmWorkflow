@@ -26,23 +26,24 @@ namespace AlarmWorkflow.BackendService.Management
 
         internal static OperationData ToData(this Operation operation)
         {
-            OperationData data = new OperationData();
-
-            data.Guid = operation.OperationGuid;
-            data.IsAcknowledged = operation.IsAcknowledged;
-            data.OperationNumber = operation.OperationNumber;
-            data.IncomeAt = operation.TimestampIncome;
-            data.AlarmAt = operation.Timestamp;
-            data.Comment = operation.Comment;
-            data.Messenger = operation.Messenger;
-            data.Plan = operation.OperationPlan;
-            data.Picture = operation.Picture;
-            data.Priority = operation.Priority;
-            data.Loops = operation.Loops.ToString();
-            data.Einsatzort = operation.Einsatzort;
-            data.Zielort = operation.Zielort;
-            data.Keywords = operation.Keywords;
-            data.CustomData = JsonHelper.ToJson(operation.CustomData);
+            var data = new OperationData
+            {
+                Guid = operation.OperationGuid,
+                IsAcknowledged = operation.IsAcknowledged,
+                OperationNumber = operation.OperationNumber,
+                IncomeAt = operation.TimestampIncome,
+                AlarmAt = operation.Timestamp,
+                Comment = operation.Comment,
+                Messenger = operation.Messenger,
+                Plan = operation.OperationPlan,
+                Picture = operation.Picture,
+                Priority = operation.Priority,
+                Loops = operation.Loops.ToString(),
+                Einsatzort = operation.Einsatzort,
+                Zielort = operation.Zielort,
+                Keywords = operation.Keywords,
+                CustomData = JsonHelper.ToJson(operation.CustomData)
+            };
 
             foreach (OperationResource item in operation.Resources)
             {
@@ -54,7 +55,7 @@ namespace AlarmWorkflow.BackendService.Management
 
         internal static Operation ToOperation(this OperationData data)
         {
-            Operation operation = new Operation()
+            var operation = new Operation()
             {
                 Id = data.Id,
                 IsAcknowledged = data.IsAcknowledged,

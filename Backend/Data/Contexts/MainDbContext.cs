@@ -13,17 +13,14 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Concurrent;
-using System.Data.Common;
-using System.Data.Entity;
 using System.Diagnostics;
-using AlarmWorkflow.Shared.Core;
-using MySql.Data.MySqlClient;
+using System.Threading.Tasks;
 
 namespace AlarmWorkflow.Backend.Data.Contexts
 {
-    [DbConfigurationType(typeof(MainDbContextConfiguration))]
     class MainDbContext : DbContext, IUnitOfWork
     {
         #region Constants
@@ -44,17 +41,12 @@ namespace AlarmWorkflow.Backend.Data.Contexts
 
         #region Constructors
 
-        static MainDbContext()
-        {
-            Database.SetInitializer(new MainDbContextInitializer());
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MainDbContext"/> class
         /// creates a connection to either the local server (when EF uses it) or the configured server (otherwise) and owns it.
         /// </summary>
         public MainDbContext()
-            : base(CreateConnection(), true)
+            : base()
         {
             _workCache = new ConcurrentDictionary<string, object>();
         }
@@ -63,44 +55,36 @@ namespace AlarmWorkflow.Backend.Data.Contexts
 
         #region Methods
 
-        private static DbConnection CreateConnection()
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            /* Hint: The MainDbContext is currently hard-wired to use MySQL.
-             * However, with very little effort it is perfectly possible of using any EF provider (PostgreSQL, SQLite etc.).
-             */
-
-            return new MySqlConnection(CreateConnectionString());
-        }
-
-        private static string CreateConnectionString()
-        {
+            base.OnConfiguring(optionsBuilder);
+            
             try
             {
-                return ContextCreationOptions.CreateFromSettings().GetConnectionString();
+                var options = ContextCreationOptions.CreateFromSettings();
+                switch (options.Engine)
+                {
+                    case ContextCreationOptions.DatabaseEngine.MySQL:
+                        optionsBuilder.UseMySql(options.GetMySqlConnectionString());
+                        break;
+                    case ContextCreationOptions.DatabaseEngine.SQLite:
+                        optionsBuilder.UseSqlite(options.GetSQLiteConnectionString());
+                        break;
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("MainDbContext.CreateConnectionString() failed: {0}", ex.Message);
-            }
 
-            return FallbackConnectionString;
+                optionsBuilder.UseMySql(FallbackConnectionString);
+            }
         }
 
-        /// <summary>
-        /// Overridden.
-        /// </summary>
-        /// <param name="modelBuilder"></param>
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Configurations.AddFromAssembly(GetType().Assembly);
-
-            /* Hint: We have to ignore certain properties from being mapped to the database.
-             * In favor of a clean design, we will in future clean up the database schema, i.e. split the lat/lng column in two.
-             */
-            modelBuilder.ComplexType<PropertyLocation>().Ignore(pl => pl.GeoLatitude);
-            modelBuilder.ComplexType<PropertyLocation>().Ignore(pl => pl.GeoLongitude);
+            modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
         }
 
         #endregion
@@ -117,6 +101,11 @@ namespace AlarmWorkflow.Backend.Data.Contexts
         void IUnitOfWork.Commit()
         {
             SaveChanges();
+        }
+
+        public Task<int> CommitAsync()
+        {
+            return SaveChangesAsync();
         }
 
         #endregion

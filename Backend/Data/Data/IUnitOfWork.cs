@@ -15,6 +15,7 @@
 
 using System;
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace AlarmWorkflow.Backend.Data
 {
@@ -29,6 +30,8 @@ namespace AlarmWorkflow.Backend.Data
         /// <typeparam name="TEntity"></typeparam>
         /// <returns></returns>
         IRepository<TEntity> For<TEntity>() where TEntity : EntityBase, new();
+
+        DatabaseFacade Database { get; }
 
         /// <summary>
         /// Commits all changes and persists them to the data context.

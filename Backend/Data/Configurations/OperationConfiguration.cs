@@ -14,68 +14,64 @@
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AlarmWorkflow.Backend.Data.Configurations
 {
+    // ReSharper disable once UnusedMember.Global
     class OperationConfiguration : ConfigurationBase<OperationData>
     {
-        #region Constructors
+        #region Methods
 
-        public OperationConfiguration()
+        public override void Configure(EntityTypeBuilder<OperationData> builder)
         {
-            Property(o => o.IsAcknowledged).HasColumnName("acknowledged").IsRequired();
-            Property(o => o.Guid).HasColumnName("operationguid").IsRequired();
-            Property(o => o.OperationNumber).HasColumnName("operationnumber");
-            Property(o => o.IncomeAt).HasColumnName("timestampincome");
-            Property(o => o.AlarmAt).HasColumnName("timestampalarm");
-            Property(o => o.Messenger).HasColumnName("messenger");
-            Property(o => o.Comment).HasColumnName("comment");
-            Property(o => o.Plan).HasColumnName("plan");
-            Property(o => o.Picture).HasColumnName("picture");
-            Property(o => o.Priority).HasColumnName("priority");
+            base.Configure(builder);
 
-            Property(o => o.Einsatzort.Street).HasColumnName("einsatzortstreet");
-            Property(o => o.Einsatzort.StreetNumber).HasColumnName("einsatzortstreetnumber");
-            Property(o => o.Einsatzort.City).HasColumnName("einsatzortcity");
-            Property(o => o.Einsatzort.ZipCode).HasColumnName("einsatzortzipcode");
-            Property(o => o.Einsatzort.Intersection).HasColumnName("einsatzortintersection");
-            Property(o => o.Einsatzort.Property).HasColumnName("einsatzortproperty");
-            Property(o => o.Einsatzort.Location).HasColumnName("einsatzortlocation");
-            Property(o => o.Einsatzort.GeoLatLng).HasColumnName("einsatzortlatlng");
+            builder.Property(o => o.IsAcknowledged).HasColumnName("acknowledged").IsRequired();
+            builder.Property(o => o.Guid).HasColumnName("operationguid").IsRequired();
+            builder.Property(o => o.OperationNumber).HasColumnName("operationnumber");
+            builder.Property(o => o.IncomeAt).HasColumnName("timestampincome");
+            builder.Property(o => o.AlarmAt).HasColumnName("timestampalarm");
+            builder.Property(o => o.Messenger).HasColumnName("messenger");
+            builder.Property(o => o.Comment).HasColumnName("comment");
+            builder.Property(o => o.Plan).HasColumnName("plan");
+            builder.Property(o => o.Picture).HasColumnName("picture");
+            builder.Property(o => o.Priority).HasColumnName("priority");
 
-            Property(o => o.Zielort.Street).HasColumnName("zielortstreet");
-            Property(o => o.Zielort.StreetNumber).HasColumnName("zielortstreetnumber");
-            Property(o => o.Zielort.City).HasColumnName("zielortcity");
-            Property(o => o.Zielort.ZipCode).HasColumnName("zielortzipcode");
-            Property(o => o.Zielort.Intersection).HasColumnName("zielortintersection");
-            Property(o => o.Zielort.Property).HasColumnName("zielortproperty");
-            Property(o => o.Zielort.Location).HasColumnName("zielortlocation");
-            Property(o => o.Zielort.GeoLatLng).HasColumnName("zielortlatlng");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.Street).HasColumnName("einsatzortstreet");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.StreetNumber).HasColumnName("einsatzortstreetnumber");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.City).HasColumnName("einsatzortcity");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.ZipCode).HasColumnName("einsatzortzipcode");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.Intersection).HasColumnName("einsatzortintersection");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.Property).HasColumnName("einsatzortproperty");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.Location).HasColumnName("einsatzortlocation");
+            builder.OwnsOne(o => o.Einsatzort).Property(o => o.GeoLatLng).HasColumnName("einsatzortlatlng");
 
-            Property(o => o.Keywords.Keyword).HasColumnName("keyword");
-            Property(o => o.Keywords.EmergencyKeyword).HasColumnName("keywordmisc");
-            Property(o => o.Keywords.B).HasColumnName("keywordb");
-            Property(o => o.Keywords.R).HasColumnName("keywordr");
-            Property(o => o.Keywords.S).HasColumnName("keywords");
-            Property(o => o.Keywords.T).HasColumnName("keywordt");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.Street).HasColumnName("zielortstreet");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.StreetNumber).HasColumnName("zielortstreetnumber");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.City).HasColumnName("zielortcity");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.ZipCode).HasColumnName("zielortzipcode");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.Intersection).HasColumnName("zielortintersection");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.Property).HasColumnName("zielortproperty");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.Location).HasColumnName("zielortlocation");
+            builder.OwnsOne(o => o.Zielort).Property(o => o.GeoLatLng).HasColumnName("zielortlatlng");
 
-            Property(o => o.Loops).HasColumnName("loopscsv");
-            Property(o => o.CustomData).HasColumnName("customdatajson");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.Keyword).HasColumnName("keyword");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.EmergencyKeyword).HasColumnName("keywordmisc");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.B).HasColumnName("keywordb");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.R).HasColumnName("keywordr");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.S).HasColumnName("keywords");
+            builder.OwnsOne(o => o.Keywords).Property(o => o.T).HasColumnName("keywordt");
 
-            HasMany(o => o.Resources)
-                .WithRequired(r => r.Operation)
-                .HasForeignKey(r => r.OperationId)
-                .WillCascadeOnDelete();
+            builder.Property(o => o.Loops).HasColumnName("loopscsv");
+            builder.Property(o => o.CustomData).HasColumnName("customdatajson");
 
-            HasMany(o => o.DispositionedResources)
-                .WithRequired(dr => dr.Operation)
-                .HasForeignKey(dr => dr.OperationId)
-                .WillCascadeOnDelete();
+            builder.HasMany(o => o.Resources).WithOne(r => r.Operation).IsRequired().OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(o => o.DispositionedResources).WithOne(r => r.Operation).IsRequired().OnDelete(DeleteBehavior.Cascade);
         }
 
-        #endregion
-
-        #region Methods
 
         protected override string GetTableName()
         {

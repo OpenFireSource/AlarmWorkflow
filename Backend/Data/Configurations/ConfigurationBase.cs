@@ -13,9 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
+using System.Linq.Expressions;
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AlarmWorkflow.Backend.Data.Configurations
 {
@@ -23,34 +26,17 @@ namespace AlarmWorkflow.Backend.Data.Configurations
     /// Abstract base class for a entity type configuration.
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    abstract class ConfigurationBase<TEntity> : EntityTypeConfiguration<TEntity> where TEntity : EntityBase
+    abstract class ConfigurationBase<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : EntityBase
     {
-        #region Constructors
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConfigurationBase{TEntity}"/> class.
-        /// </summary>
-        protected ConfigurationBase()
-            : base()
-        {
-            ToTable(GetTableName());
-
-            MapKeys();
-        }
-
-        #endregion
-
         #region Methods
 
-        /// <summary>
-        /// Performs automatic mapping of the <see cref="EntityBase.Id"/> key.
-        /// </summary>
-        protected virtual void MapKeys()
+        public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {
-            HasKey(e => e.Id);
-            Property(e => e.Id).HasColumnName("id").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            builder.ToTable(GetTableName());
+            builder.HasKey(e => e.Id);
+            builder.Property(e => e.Id).HasColumnName("id").ValueGeneratedOnAdd();
         }
-
+        
         /// <summary>
         /// When overridden in a derived class, customizes the table name for the provided <typeparamref name="TEntity"/>.
         /// </summary>

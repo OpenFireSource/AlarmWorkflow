@@ -24,6 +24,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.ServiceProcess" />
+    <ProjectReference Include="..\..\BackendServices\System\System.csproj" />
   <ProjectReference Include="..\..\Shared\Shared\Shared.csproj" /></ItemGroup>
   <ItemGroup>
     <Compile Update="AlarmWorkflowService.cs">

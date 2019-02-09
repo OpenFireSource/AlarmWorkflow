@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with AlarmWorkflow.  If not, see <http://www.gnu.org/licenses/>.
 
-using System.Data.Entity;
 using System.Linq;
 using AlarmWorkflow.Backend.Data.Types;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlarmWorkflow.Backend.Data
 {
@@ -23,7 +23,7 @@ namespace AlarmWorkflow.Backend.Data
     {
         #region Fields
 
-        private DbContext _context;
+        private readonly DbContext _context;
 
         #endregion
 
@@ -38,19 +38,13 @@ namespace AlarmWorkflow.Backend.Data
 
         #region IRepository<TEntity> Members
 
-        IQueryable<TEntity> IRepository<TEntity>.Query
-        {
-            get { return _context.Set<TEntity>(); }
-        }
+        IQueryable<TEntity> IRepository<TEntity>.Query => _context.Set<TEntity>();
 
-        TEntity IRepository<TEntity>.Create()
-        {
-            return new TEntity();
-        }
+        TEntity IRepository<TEntity>.Create() => new TEntity();
 
         TEntity IRepository<TEntity>.Insert(TEntity entity)
         {
-            return _context.Set<TEntity>().Add(entity);
+            return _context.Set<TEntity>().Add(entity).Entity;
         }
 
         void IRepository<TEntity>.Delete(TEntity entity)
