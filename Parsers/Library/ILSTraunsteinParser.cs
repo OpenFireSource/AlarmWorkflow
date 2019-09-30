@@ -231,7 +231,8 @@ namespace AlarmWorkflow.Parser.Library
                                         break;
                                     case "STICHWORT B":
                                         operation.Keywords.B = ParserUtility.GetTextBetween(msg, null, "STICHWORT RD:");
-                                        operation.Keywords.R = ParserUtility.GetTextBetween(msg, "STICHWORT RD:");
+                                        operation.Keywords.R = ParserUtility.GetTextBetween(msg, "STICHWORT RD:", "STICHWORT ABC:");                                       
+                                        operation.CustomData["Stichwort ABC"] = ParserUtility.GetTextBetween(msg, "STICHWORT ABC:");
                                         break;
                                     case "STICHWORT SO":
                                         operation.Keywords.S = ParserUtility.GetTextBetween(msg, null, "STICHWORT TH:");
